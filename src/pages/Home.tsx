@@ -525,13 +525,16 @@ export default function Home() {
           {storySteps.map((step, idx) => (
             <motion.div
               key={step.eyebrow}
+              initial={false}
               animate={{
                 opacity: activeStoryStep === idx ? 1 : 0,
                 y: activeStoryStep === idx ? 0 : idx < activeStoryStep ? -34 : 34,
                 scale: activeStoryStep === idx ? 1 : 0.96,
               }}
               transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
+              className={`absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center transition-[visibility] duration-300 ${
+                activeStoryStep === idx ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+              }`}
               aria-hidden={activeStoryStep !== idx}
             >
               <span className={`${step.eyebrowClass} text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] md:tracking-[0.3em] font-bold mb-4 md:mb-6 block`}>
@@ -540,21 +543,23 @@ export default function Home() {
               <h2 className={`${step.titleClass} text-[clamp(2rem,9vw,3rem)] sm:text-5xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.1] max-w-4xl`}>
                 {step.title}
               </h2>
-              <motion.div
-                animate={{
-                  opacity: activeStoryStep === 2 && idx === 2 ? 1 : 0,
-                  y: activeStoryStep === 2 && idx === 2 ? 0 : 12,
-                  pointerEvents: activeStoryStep === 2 && idx === 2 ? 'auto' : 'none',
-                }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: activeStoryStep === 2 ? 0.15 : 0 }}
-                className="mt-8 md:mt-10 w-full max-w-[320px] md:max-w-none"
-              >
-                <Link to={p('/case-studies')} className="block md:inline-block">
-                  <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight md:h-14 md:w-auto md:px-8 md:text-xs md:tracking-widest">
-                    View Enterprise Case Studies
-                  </Button>
-                </Link>
-              </motion.div>
+              {idx === 2 && (
+                <motion.div
+                  initial={false}
+                  animate={{
+                    opacity: activeStoryStep === 2 ? 1 : 0,
+                    y: activeStoryStep === 2 ? 0 : 12,
+                  }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: activeStoryStep === 2 ? 0.15 : 0 }}
+                  className="mt-8 w-full max-w-[320px] md:mt-10 md:max-w-none"
+                >
+                  <Link to={p('/case-studies')} className="block md:inline-block">
+                    <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight md:h-14 md:w-auto md:px-8 md:text-xs md:tracking-widest">
+                      View Enterprise Case Studies
+                    </Button>
+                  </Link>
+                </motion.div>
+              )}
             </motion.div>
           ))}
 
