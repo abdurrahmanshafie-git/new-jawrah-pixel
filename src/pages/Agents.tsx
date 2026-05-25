@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { 
   ShieldCheck, 
   ArrowRight, 
@@ -271,15 +272,15 @@ Applicant Message: ${message || 'No extra notes.'}
 
         {/* HOW IT WORKS SECTION */}
         <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Execution Path</span>
             <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">How It Works</h2>
             <p className="text-sm text-brand-gray">
               A meticulously engineered partner flow — from simple business introduction to instant commission.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             {[
               {
                 step: '01',
@@ -302,7 +303,7 @@ Applicant Message: ${message || 'No extra notes.'}
                 desc: 'Earn high-tier payouts immediately upon first milestone completion. Track your progress live in our specialized workspace portal.'
               }
             ].map((item, idx) => (
-              <div 
+              <StaggerItem
                 key={idx} 
                 className="group p-4 sm:p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-cyan/20 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
               >
@@ -318,24 +319,24 @@ Applicant Message: ${message || 'No extra notes.'}
                   </p>
                 </div>
                 <div className="h-0.5 bg-brand-cyan/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left mt-4 sm:mt-6"></div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* COMMISSION TIERS SECTION */}
         <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Incentives Framework</span>
             <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Commission Tiers</h2>
             <p className="text-sm text-brand-gray">
               Engineered payouts tailored for connectors who identify serious digital modernization projects.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
             {tiers.map((tier, idx) => (
-              <div 
+              <StaggerItem
                 key={idx} 
                 className={`flex flex-col justify-between p-4 sm:p-8 rounded-2xl border ${tier.color} transition-all duration-300 relative group`}
               >
@@ -380,26 +381,26 @@ Applicant Message: ${message || 'No extra notes.'}
                     <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* WHO CAN JOIN SECTION */}
         <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Network Spectrum</span>
             <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Who Can Join</h2>
             <p className="text-sm text-brand-gray">
               Our network accommodates anyone with direct channel access to business clients ready for system modernization.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-2 gap-3 sm:gap-8">
             {targetGroups.map((group, idx) => {
               const Icon = group.icon;
               return (
-                <div 
+                <StaggerItem
                   key={idx}
                   className="p-4 sm:p-8 bg-white/[0.01] border border-white/5 hover:border-white/10 rounded-2xl transition-all duration-300 flex flex-col sm:flex-row items-start gap-3 sm:gap-5 group"
                 >
@@ -414,10 +415,10 @@ Applicant Message: ${message || 'No extra notes.'}
                       {group.description}
                     </p>
                   </div>
-                </div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* AGENT APPLICATION FORM SECTION */}
@@ -426,7 +427,7 @@ Applicant Message: ${message || 'No extra notes.'}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
             {/* Context block */}
-            <div className="lg:col-span-5 space-y-6">
+            <Reveal className="lg:col-span-5 space-y-6">
               <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold block">Apply To Network</span>
               <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight leading-tight">
                 Submit Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Partner Application</span>
@@ -449,10 +450,10 @@ Applicant Message: ${message || 'No extra notes.'}
                   <span>Interactive AI Proposal generators</span>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
             {/* Form card */}
-            <div className="lg:col-span-7 glass-card p-5 sm:p-8 rounded-2xl border border-white/10 relative overflow-hidden bg-white/[0.02]">
+            <Reveal delay={0.08} className="lg:col-span-7 glass-card p-5 sm:p-8 rounded-2xl border border-white/10 relative overflow-hidden bg-white/[0.02]">
               <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-brand-cyan/5 rounded-full blur-[60px] pointer-events-none"></div>
               
               {isSuccess ? (
@@ -577,7 +578,7 @@ Applicant Message: ${message || 'No extra notes.'}
 
                 </form>
               )}
-            </div>
+            </Reveal>
 
           </div>
 

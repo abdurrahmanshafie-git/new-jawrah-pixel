@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, Instagram, MessageCircle, Mail } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
+import { Reveal } from '@/components/ui/Reveal';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,7 @@ export function Footer() {
 
   return (
     <footer className="bg-brand-navy border-t border-white/5 pt-16 md:pt-20 pb-10 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+      <Reveal className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-8 mb-16">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to={p('/')} className="flex items-center mb-6 group inline-flex">
@@ -91,7 +92,7 @@ export function Footer() {
             <Link to={p("/terms")} className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

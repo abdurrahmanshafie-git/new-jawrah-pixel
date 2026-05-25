@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/Button';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 // Interactive FAQ Type
 interface FaqItem {
@@ -127,7 +128,7 @@ export default function Process() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         
         {/* HEADER */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-28">
+        <Reveal className="text-center max-w-3xl mx-auto mb-16 md:mb-28">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,7 +153,7 @@ export default function Process() {
           >
             Explore our world-class onboarding timeline — engineered for complete architectural transparency from design lock-in to final schema deploy.
           </motion.p>
-        </div>
+        </Reveal>
 
         {/* TIMELINE STEPS SECTIONS */}
         <div className="max-w-5xl mx-auto mb-32 relative">
@@ -224,7 +225,7 @@ export default function Process() {
         </div>
 
         {/* TRUST ACCREDITATION GUARANTEES */}
-        <div className="p-8 md:p-12 rounded-3xl border border-white/5 bg-white/[0.01] max-w-5xl mx-auto mb-32 relative overflow-hidden">
+        <Reveal className="p-8 md:p-12 rounded-3xl border border-white/5 bg-white/[0.01] max-w-5xl mx-auto mb-32 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-28 h-28 bg-brand-cyan/5 rounded-full blur-2xl"></div>
           
           <div className="grid grid-cols-3 gap-2 md:gap-8 text-center md:text-left">
@@ -258,11 +259,11 @@ export default function Process() {
               </p>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* SYSTEM CARE MONTHLY PLANS */}
         <div className="max-w-4xl mx-auto mb-32 space-y-12">
-          <div className="text-center space-y-4">
+          <Reveal className="text-center space-y-4">
             <span className="px-2.5 py-0.5 rounded bg-brand-blue/15 border border-brand-blue/25 text-brand-blue text-[10px] font-mono uppercase tracking-widest">
               MONTHLY RETAINER CARE OPTIONS
             </span>
@@ -272,11 +273,11 @@ export default function Process() {
             <p className="text-xs md:text-sm text-brand-gray max-w-md mx-auto font-light leading-relaxed">
               Ongoing performance audits, database security integrations, and small changes allocated monthly.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-8">
             {plans.map((plan) => (
-              <div key={plan.name} className={`glass-card p-4 sm:p-6 md:p-8 rounded-2xl border flex flex-col justify-between ${plan.glow}`}>
+              <StaggerItem key={plan.name} className={`glass-card p-4 sm:p-6 md:p-8 rounded-2xl border flex flex-col justify-between ${plan.glow}`}>
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <span className="text-[8px] sm:text-[9px] font-mono text-brand-cyan uppercase tracking-widest bg-brand-cyan/10 px-2 sm:px-2.5 py-0.5 rounded border border-brand-cyan/15">
@@ -312,27 +313,27 @@ export default function Process() {
                     </Button>
                   </Link>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* AGENCY ACCORDION FAQS */}
         <div className="max-w-3xl mx-auto mb-28 space-y-10">
-          <div className="text-center space-y-3">
+          <Reveal className="text-center space-y-3">
             <h2 className="text-2xl md:text-3xl font-display font-semibold uppercase text-white tracking-tight flex items-center justify-center gap-2">
               <FaqIcon size={22} className="text-brand-cyan" /> Frequently Asked Inquiries
             </h2>
             <p className="text-xs text-brand-gray font-light">
               General technical queries concerning workspace deliverables.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="space-y-3.5">
+          <StaggerContainer className="space-y-3.5">
             {faqs.map((faq, fIdx) => {
               const isOpen = openFaq === fIdx;
               return (
-                <div 
+                <StaggerItem
                   key={fIdx} 
                   className="glass-card rounded-2xl border-white/5 bg-white/[0.005] overflow-hidden"
                 >
@@ -359,14 +360,14 @@ export default function Process() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* BOTTOM METRICS INITIATION */}
-        <div className="text-center pt-12 border-t border-white/5">
+        <Reveal className="text-center pt-12 border-t border-white/5">
           <h3 className="text-2xl font-display font-medium text-white uppercase mb-4">Launch Live Blueprints</h3>
           <p className="text-xs text-brand-gray max-w-sm mx-auto mb-8 font-light">
             Have custom requirements outside routine retainers? Let's initialize a dedicated strategy scoping call.
@@ -383,7 +384,7 @@ export default function Process() {
               </span>
             </a>
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </div>

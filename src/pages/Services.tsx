@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { cn } from '@/lib/utils';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function Services() {
   const { config, services, pricingPlans, p } = useRegion();
@@ -42,7 +43,7 @@ export default function Services() {
       />
 
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-20 animate-fade-in">
+        <Reveal className="text-center max-w-3xl mx-auto mb-12 sm:mb-20">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,17 +67,13 @@ export default function Services() {
           >
             World-class digital systems, high-converting checkout flows, and luxury brand interfaces built natively for leading {config.countryName} enterprises. Unrivaled speed, uncompromising precision.
           </motion.p>
-        </div>
+        </Reveal>
 
         {/* Services mapping */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 mb-24">
-          {services.map((service, i) => (
-            <motion.div 
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 mb-24">
+          {services.map((service) => (
+            <StaggerItem
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
               className="glass-card p-5 sm:p-8 rounded-2xl flex flex-col h-full border-t border-white/10 hover:border-brand-blue/40 duration-300 transition-all"
             >
               <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
@@ -97,21 +94,21 @@ export default function Services() {
                   Inquire Now
                 </Button>
               </Link>
-            </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Maintenance Plans */}
         <div className="mt-24 md:mt-32">
-          <div className="text-center mb-10 md:mb-16 px-4">
+          <Reveal className="text-center mb-10 md:mb-16 px-4">
             <span className="text-[9px] sm:text-[10px] font-mono text-brand-cyan uppercase tracking-widest font-bold block mb-2">Ongoing Retainers</span>
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-medium uppercase tracking-tight text-white mb-3 sm:mb-4 leading-tight">Service Level Agreements</h2>
             <p className="text-brand-gray text-[10px] sm:text-sm font-light max-w-xl mx-auto leading-relaxed">Protect your high-traffic assets with our dedicated monthly engineering allocations. Priority technical care for {config.countryName} systems.</p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, i) => (
-              <div 
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
+            {pricingPlans.map((plan) => (
+              <StaggerItem
                 key={plan.name}
                 className={cn(
                   "glass-card p-5 sm:p-8 rounded-2xl border-white/5 flex flex-col justify-between h-full relative",
@@ -152,21 +149,20 @@ export default function Services() {
                     Select Plan
                   </Button>
                 </Link>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
 
           {config.id === 'pk' && (
-            <div className="mt-12 text-center max-w-md mx-auto p-4 rounded-xl border border-white/5 bg-slate-900/40 backdrop-blur-sm">
+            <Reveal className="mt-12 text-center max-w-md mx-auto p-4 rounded-xl border border-white/5 bg-slate-900/40 backdrop-blur-sm">
               <span className="text-[10px] tracking-widest text-brand-cyan uppercase font-semibold block mb-2">Flexible Pakistani Payments</span>
               <p className="text-xs text-brand-gray leading-relaxed">
                 We accept Easypaisa, JazzCash, secure bank transfers (IBAN updates provided at invoice lock), and installment billing structures.
               </p>
-            </div>
+            </Reveal>
           )}
         </div>
       </div>
     </div>
   );
 }
-

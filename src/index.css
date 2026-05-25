@@ -34,15 +34,17 @@ h1, h2, h3, h4, h5, h6 {
 .glass-card {
   border: 1px solid rgba(255, 255, 255, 0.05);
   background: linear-gradient(135deg, rgba(20, 20, 25, 0.4), rgba(0, 0, 0, 0.95));
+  background-size: 140% 140%;
   backdrop-filter: blur(16px);
   @apply shadow-[0_4px_30px_rgba(0,0,0,0.5)];
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-position 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .premium-grid-overlay {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.035) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: linear-gradient(to bottom, transparent, black 12%, black 72%, transparent);
 }
@@ -73,6 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .glass-card:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
+  background-position: 100% 100%;
   @apply shadow-[0_8px_40px_rgba(59,130,246,0.1)];
 }
 
@@ -92,6 +95,206 @@ h1, h2, h3, h4, h5, h6 {
   background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%), 
               radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
               #000000;
+}
+
+.premium-hero-stage {
+  isolation: isolate;
+}
+
+.premium-hero-stage::before,
+.premium-hero-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.premium-hero-stage::before {
+  background:
+    radial-gradient(circle at 20% 26%, rgba(6, 182, 212, 0.16), transparent 28%),
+    radial-gradient(circle at 82% 72%, rgba(59, 130, 246, 0.14), transparent 30%);
+  filter: blur(8px);
+  opacity: 0.62;
+  animation: premiumAuraDrift 16s ease-in-out infinite alternate;
+}
+
+.premium-hero-stage::after {
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.032) 1px, transparent 1px);
+  background-size: 86px 86px;
+  mask-image: radial-gradient(circle at 42% 46%, black, transparent 72%);
+  opacity: 0.34;
+}
+
+.premium-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle, rgba(6, 182, 212, 0.75) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(59, 130, 246, 0.62) 0 1px, transparent 1.8px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.45) 0 1px, transparent 1.5px);
+  background-position: 18% 34%, 56% 18%, 76% 58%;
+  background-size: 180px 180px, 240px 240px, 210px 210px;
+  mask-image: radial-gradient(circle at 44% 52%, black 0 34%, transparent 68%);
+  animation: premiumParticleDrift 18s linear infinite;
+}
+
+.premium-logo-aura {
+  position: relative;
+  filter: drop-shadow(0 0 28px rgba(6, 182, 212, 0.2));
+  animation: premiumLogoFloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.premium-logo-aura::before,
+.premium-logo-aura::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.premium-logo-aura::before {
+  border: 1px solid rgba(6, 182, 212, 0.16);
+  box-shadow: 0 0 45px rgba(6, 182, 212, 0.12), inset 0 0 35px rgba(59, 130, 246, 0.08);
+  animation: premiumBorderPulse 5.5s ease-in-out infinite;
+}
+
+.premium-logo-aura::after {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.18), transparent 62%);
+  filter: blur(18px);
+  opacity: 0.7;
+}
+
+.premium-button {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.premium-button::after {
+  content: "";
+  position: absolute;
+  inset: -45% -65%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28), transparent 70%);
+  transform: translate3d(-120%, 0, 0) rotate(12deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.premium-button:hover::after {
+  opacity: 1;
+  animation: premiumButtonShimmer 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-button:active {
+  transform: translate3d(0, 1px, 0) scale(0.985);
+}
+
+.premium-stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.22), transparent) top / 100% 1px no-repeat,
+    radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12), transparent 46%);
+  opacity: 0.55;
+}
+
+.premium-stat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent 18%, rgba(255, 255, 255, 0.035), transparent 56%);
+  transform: translate3d(-35%, 0, 0);
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-stat-card:hover::after {
+  opacity: 1;
+  transform: translate3d(35%, 0, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .premium-stat-card:hover,
+  .glass-card:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .premium-button:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+}
+
+@media (hover: none) {
+  .premium-stat-card:active,
+  .glass-card:active {
+    transform: scale(0.992);
+  }
+}
+
+@keyframes premiumAuraDrift {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(1.5%, 1%, 0) scale(1.04);
+  }
+}
+
+@keyframes premiumParticleDrift {
+  0% {
+    background-position: 18% 34%, 56% 18%, 76% 58%;
+  }
+  100% {
+    background-position: 22% 28%, 52% 24%, 72% 64%;
+  }
+}
+
+@keyframes premiumLogoFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes premiumBorderPulse {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.82;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes premiumButtonShimmer {
+  0% {
+    transform: translate3d(-120%, 0, 0) rotate(12deg);
+  }
+  100% {
+    transform: translate3d(120%, 0, 0) rotate(12deg);
+  }
 }
 
 .premium-gradient {
@@ -129,5 +332,34 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .premium-hero-stage::before {
+    opacity: 0.46;
+    filter: blur(14px);
+  }
+
+  .premium-hero-stage::after {
+    background-size: 64px 64px;
+    opacity: 0.22;
+  }
+
+  .premium-particles {
+    opacity: 0.38;
+    background-size: 160px 160px, 190px 190px, 180px 180px;
+    mask-image: radial-gradient(circle at 50% 50%, black 0 38%, transparent 68%);
+  }
+
+  .premium-logo-aura {
+    animation-duration: 8.5s;
+    filter: drop-shadow(0 0 18px rgba(6, 182, 212, 0.18));
+  }
+
+  .premium-stat-card:hover,
+  .glass-card:hover,
+  .premium-button:hover {
+    transform: translate3d(0, 0, 0);
   }
 }

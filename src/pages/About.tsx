@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { Logo } from '@/components/layout/Logo';
+import { StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function About() {
   const { config, p } = useRegion();
@@ -55,27 +56,22 @@ export default function About() {
           </motion.div>
 
           {/* Core Values Section for Mobile optimization */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-3 gap-3 mt-24 pt-12 border-t border-white/5"
-          >
+          <StaggerContainer className="grid grid-cols-3 gap-3 mt-24 pt-12 border-t border-white/5">
             {[
               { label: 'Precision', icon: '01' },
               { label: 'Elegance', icon: '02' },
               { label: 'Performance', icon: '03' }
             ].map((value) => (
-              <div key={value.label} className="text-center group">
+              <StaggerItem key={value.label} className="text-center group">
                 <div className="text-[10px] font-mono text-brand-cyan mb-1 opacity-50 group-hover:opacity-100 transition-opacity">
                   {value.icon}
                 </div>
                 <div className="text-[9px] sm:text-[11px] font-display uppercase tracking-widest text-white/70 group-hover:text-white transition-colors">
                   {value.label}
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </motion.div>
+          </StaggerContainer>
         </div>
       </div>
     </div>

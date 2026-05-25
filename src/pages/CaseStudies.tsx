@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function CaseStudies() {
   const { config, cases, p } = useRegion();
@@ -19,10 +20,10 @@ export default function CaseStudies() {
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl animate-fade-in">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         
         {/* HEADER SECTION */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-20 md:mb-28">
+        <Reveal className="text-center max-w-3xl mx-auto mb-12 sm:mb-20 md:mb-28">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -50,17 +51,13 @@ export default function CaseStudies() {
           >
             Discover our scalable systems, premium digital products, and high-converting luxury e-commerce boutiques. Engineered for exponential growth and maximum authority in {config.countryName}.
           </motion.p>
-        </div>
+        </Reveal>
 
         {/* PROJECTS GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 max-w-6xl mx-auto mb-20">
-          {cases.map((project, i) => (
-            <motion.div 
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 max-w-6xl mx-auto mb-20">
+          {cases.map((project) => (
+            <StaggerItem
               key={project.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
               className="group flex flex-col justify-between"
             >
               <Link to={p(`/case-studies/${project.slug}`)} className="block">
@@ -129,12 +126,12 @@ export default function CaseStudies() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Global CTA */}
-        <div className="mt-20 sm:mt-32 max-w-5xl mx-auto glass-card p-8 sm:p-10 md:p-12 rounded-3xl border border-white/5 relative bg-gradient-to-tr from-brand-blue/[0.02] to-transparent text-center flex flex-col items-center">
+        <Reveal className="mt-20 sm:mt-32 max-w-5xl mx-auto glass-card p-8 sm:p-10 md:p-12 rounded-3xl border border-white/5 relative bg-gradient-to-tr from-brand-blue/[0.02] to-transparent text-center flex flex-col items-center">
           <div className="absolute top-0 right-10 -translate-y-12 w-40 h-40 bg-brand-cyan/5 rounded-full blur-2xl"></div>
           <p className="text-brand-cyan text-[10px] sm:text-xs font-mono uppercase tracking-[0.3em] mb-4">Have an ambitious project concept?</p>
           <h2 className="text-xl sm:text-2xl md:text-4xl font-display font-semibold tracking-tight text-white max-w-xl mb-4 sm:mb-6 uppercase">Let's craft the next digital benchmark together</h2>
@@ -146,7 +143,7 @@ export default function CaseStudies() {
               Get Started
             </Button>
           </Link>
-        </div>
+        </Reveal>
         
       </div>
     </div>

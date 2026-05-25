@@ -7,7 +7,7 @@ import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { Logo } from '@/components/layout/Logo';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
-import { Reveal } from '@/components/ui/Reveal';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 const liveProjects = [
   {
@@ -162,7 +162,7 @@ export default function Home() {
       />
 
       {/* Cinematic Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
+      <section className="premium-hero-stage relative pt-24 pb-16 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-blue/15 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-brand-cyan/10 rounded-full blur-[150px] translate-x-1/2 translate-y-1/2"></div>
@@ -170,6 +170,7 @@ export default function Home() {
           {/* Mobile-only additional intense glow */}
           <div className="md:hidden absolute top-1/2 left-1/2 w-[350px] h-[400px] bg-brand-cyan/20 rounded-full blur-[110px] -translate-x-1/2 -translate-y-1/2 mix-blend-screen"></div>
         </div>
+        <div className="premium-particles"></div>
         
         <div className="container mx-auto px-4 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-start text-left overflow-visible md:overflow-hidden">
           <motion.div
@@ -222,7 +223,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-8 md:mb-12 self-center md:self-start"
+            className="premium-logo-aura mb-8 md:mb-12 self-center md:self-start"
           >
             <Logo size="xl" className="w-[180px] sm:w-[240px] md:w-[320px]" />
           </motion.div>
@@ -251,10 +252,11 @@ export default function Home() {
       {/* Authority Metrics Strip */}
       <section className="relative border-y border-white/5 bg-brand-black overflow-hidden">
         <div className="absolute inset-0 premium-grid-overlay opacity-40 pointer-events-none"></div>
+        <div className="absolute left-1/2 top-0 h-32 w-[70vw] -translate-x-1/2 rounded-full bg-brand-cyan/10 blur-[90px] pointer-events-none"></div>
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/5">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.05} className="p-5 sm:p-8 md:p-10">
+              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-5 sm:p-8 md:p-10">
                 <div className="text-2xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-2">
                   <AnimatedCounter
                     value={metric.value}
@@ -316,14 +318,10 @@ export default function Home() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 animate-fade-in">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {liveProjects.map((project, idx) => (
-              <motion.div
+              <StaggerItem
                 key={project.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-55px" }}
-                transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="glass-card overflow-hidden group rounded-2xl border border-white/5 bg-brand-navy/20 relative flex flex-col justify-between transition-all duration-500 hover:border-white/10 hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)] h-full"
               >
                 {/* Browser Mockup Header */}
@@ -398,9 +396,9 @@ export default function Home() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 
@@ -417,13 +415,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+          <StaggerContainer className="grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {servicesList.map((service, i) => (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              <StaggerItem
                 key={i} 
                 className="glass-card p-4 sm:p-6 md:p-10 rounded-2xl group cursor-default"
               >
@@ -432,9 +426,9 @@ export default function Home() {
                 </div>
                 <h4 className="text-xs sm:text-base md:text-xl font-display font-medium mb-2 md:mb-4 text-white group-hover:text-brand-cyan transition-colors duration-300">{service.title}</h4>
                 <p className="text-zinc-400 text-[10px] sm:text-xs md:text-base leading-relaxed font-light">{service.desc}</p>
-              </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 
@@ -532,8 +526,8 @@ export default function Home() {
                 scale: activeStoryStep === idx ? 1 : 0.96,
               }}
               transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center transition-[visibility] duration-300 ${
-                activeStoryStep === idx ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+              className={`absolute inset-0 flex flex-col items-center justify-center px-4 text-center transition-[visibility] duration-300 ${
+                activeStoryStep === idx ? 'visible z-20 pointer-events-auto' : 'invisible z-0 pointer-events-none'
               }`}
               aria-hidden={activeStoryStep !== idx}
             >
