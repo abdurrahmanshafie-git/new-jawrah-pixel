@@ -182,7 +182,7 @@ export default function CaseStudyDetail() {
         </div>
 
         {/* ENTERPRISE TRANSFORMATION SNAPSHOT */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-20 md:mb-28">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-20 md:mb-28">
           {transformationSummary.map((item, idx) => (
             <motion.div
               key={item.label}
@@ -190,17 +190,17 @@ export default function CaseStudyDetail() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.65, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-              className="interactive-lift rounded-2xl border border-white/10 bg-white/[0.025] p-5 md:p-6 hover:border-brand-cyan/30"
+              className="interactive-lift rounded-2xl border border-white/10 bg-white/[0.025] p-3.5 sm:p-5 md:p-6 hover:border-brand-cyan/30"
             >
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.22em] font-bold">
+              <div className="mb-3 sm:mb-5 flex items-center justify-between gap-2 sm:gap-3">
+                <span className="text-[8px] sm:text-[10px] font-mono text-brand-cyan uppercase tracking-[0.16em] sm:tracking-[0.22em] font-bold">
                   {item.label}
                 </span>
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand-cyan/20 bg-brand-cyan/10 text-brand-cyan">
+                <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg border border-brand-cyan/20 bg-brand-cyan/10 text-brand-cyan">
                   {item.icon}
                 </span>
               </div>
-              <p className="text-xs md:text-sm text-brand-silver leading-relaxed font-light">
+              <p className="text-[10px] sm:text-xs md:text-sm text-brand-silver leading-relaxed font-light">
                 {item.copy}
               </p>
             </motion.div>
@@ -222,7 +222,7 @@ export default function CaseStudyDetail() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 items-start">
               {/* Desktop Mockup */}
               {project.desktopImage && (
                 <motion.div 
@@ -231,6 +231,15 @@ export default function CaseStudyDetail() {
                   viewport={{ once: true }}
                   className="md:col-span-8 group"
                 >
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-brand-blue/25 bg-brand-blue/10 px-3 py-1 text-[9px] font-mono font-bold uppercase tracking-[0.18em] text-brand-blue">
+                      <Tv size={12} />
+                      Desktop
+                    </span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-brand-gray">
+                      Wide interface
+                    </span>
+                  </div>
                   <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 bg-brand-navy/30 aspect-[16/10] shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                     <img 
                       src={project.desktopImage} 
@@ -256,17 +265,31 @@ export default function CaseStudyDetail() {
                   transition={{ delay: 0.2 }}
                   className="md:col-span-4"
                 >
-                  <div className="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 bg-brand-navy/30 aspect-[9/16] shadow-[0_30px_60px_rgba(0,0,0,0.6)] group">
-                    <img 
-                      src={project.mobileImage} 
-                      alt={`${project.title} Mobile Showcase`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent pointer-events-none"></div>
+                  <div className="mb-3 flex items-center justify-between gap-3 md:justify-end">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-brand-cyan/25 bg-brand-cyan/10 px-3 py-1 text-[9px] font-mono font-bold uppercase tracking-[0.18em] text-brand-cyan md:order-2">
+                      <Smartphone size={12} />
+                      Mobile
+                    </span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-brand-gray md:order-1">
+                      Phone viewport
+                    </span>
                   </div>
-                  <div className="mt-4 flex items-center justify-end gap-3">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-brand-gray font-bold text-right">Mobile System View</span>
+                  <div className="mx-auto w-full max-w-[190px] sm:max-w-[220px] md:max-w-none">
+                    <div className="rounded-[2rem] border border-white/15 bg-black p-2 shadow-[0_30px_60px_rgba(0,0,0,0.6)] md:rounded-[2.5rem] md:p-3">
+                      <div className="relative overflow-hidden rounded-[1.55rem] border border-white/10 bg-brand-navy/30 aspect-[9/16] group md:rounded-[2rem]">
+                        <div className="absolute left-1/2 top-2 z-20 h-4 w-16 -translate-x-1/2 rounded-full bg-black/80 border border-white/10"></div>
+                        <img 
+                          src={project.mobileImage} 
+                          alt={`${project.title} Mobile Showcase`}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent pointer-events-none"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center gap-3 md:justify-end">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-brand-gray font-bold text-center md:text-right">Mobile System View</span>
                     <div className="h-[1px] w-8 bg-brand-cyan"></div>
                   </div>
                 </motion.div>

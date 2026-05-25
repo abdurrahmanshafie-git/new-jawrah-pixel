@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
@@ -70,17 +70,14 @@ export default function Home() {
     offset: ["start start", "end end"]
   });
 
-  const textOpacity1 = useTransform(scrollYProgress, [0, 0.2, 0.3, 0.4], [0, 1, 1, 0]);
-  const textY1 = useTransform(scrollYProgress, [0, 0.2, 0.4], [50, 0, -50]);
-
-  const textOpacity2 = useTransform(scrollYProgress, [0.4, 0.5, 0.6, 0.7], [0, 1, 1, 0]);
-  const textY2 = useTransform(scrollYProgress, [0.4, 0.5, 0.7], [50, 0, -50]);
-
-  const textOpacity3 = useTransform(scrollYProgress, [0.7, 0.8, 0.9, 1], [0, 1, 1, 0]);
-  const textY3 = useTransform(scrollYProgress, [0.7, 0.8, 1], [50, 0, -50]);
-
+  const [activeStoryStep, setActiveStoryStep] = useState(0);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.8]);
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    const nextStep = latest < 0.34 ? 0 : latest < 0.68 ? 1 : 2;
+    setActiveStoryStep((currentStep) => (currentStep === nextStep ? currentStep : nextStep));
+  });
 
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
@@ -94,7 +91,7 @@ export default function Home() {
   const authorityMetrics = [
     { value: 99, suffix: '/100', label: 'Performance-first delivery target', caption: 'Core Web Vitals, accessibility, and SEO treated as business assets.' },
     { value: 12, suffix: 'h', label: 'Executive response window', caption: 'Every serious brief receives a human architecture review within one working day.' },
-    { value: 5, suffix: 'M+', prefix: 'LKR ', label: 'Enterprise-ready budget ceiling', caption: 'Structured for premium engagements, retainers, and scalable client operations.' },
+    { value: 5, suffix: 'M+', prefix: `${config.currency} `, label: 'Enterprise-ready budget ceiling', caption: 'Structured for premium engagements, retainers, and scalable client operations.' },
     { value: 3, suffix: 'x', label: 'Portal ecosystem coverage', caption: 'Admin, agent, and client operating layers already built into the platform.' },
   ];
 
@@ -225,7 +222,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-8 md:mb-12 self-start"
+            className="mb-8 md:mb-12 self-center md:self-start"
           >
             <Logo size="xl" className="w-[180px] sm:w-[240px] md:w-[320px]" />
           </motion.div>
@@ -234,7 +231,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="grid max-w-xs sm:max-w-none grid-cols-1 sm:flex sm:flex-row gap-3 md:gap-6 w-full sm:w-auto items-center self-start"
+            className="grid max-w-xs sm:max-w-none grid-cols-1 sm:flex sm:flex-row gap-3 md:gap-6 w-full sm:w-auto items-center self-center md:self-start"
           >
             <Link to={p('/contact')} className="w-full sm:w-auto">
               <Button size="lg" className="w-full sm:w-auto h-12 md:h-14 px-4 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.12em] sm:tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(59,130,246,0.5)] md:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all duration-500 group luxury-glow py-2 leading-tight">
@@ -485,36 +482,8 @@ export default function Home() {
       </section>
 
       {/* Cinematic Storytelling Sequence */}
-      <section className="md:hidden relative overflow-hidden bg-brand-black border-y border-white/5 py-16">
-        <div className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-20"></div>
-        <div className="absolute inset-0 bg-brand-black/85"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid gap-10 text-center">
-            {storySteps.map((step, idx) => (
-              <Reveal key={step.eyebrow} delay={idx * 0.06}>
-                <div className="mx-auto max-w-sm">
-                  <span className={`${step.eyebrowClass} text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-4 block`}>
-                    {step.eyebrow}
-                  </span>
-                  <h2 className={`${step.titleClass} text-[clamp(1.9rem,8vw,2.45rem)] font-display font-medium uppercase tracking-tight leading-[1.12]`}>
-                    {step.title}
-                  </h2>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <div className="mt-10 flex justify-center">
-            <Link to={p('/case-studies')} className="w-full max-w-[320px]">
-              <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight">
-                View Enterprise Case Studies
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section ref={storyRef} className="hidden md:block relative h-[350vh] bg-brand-black">
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+      <section ref={storyRef} className="relative h-[260vh] md:h-[340vh] bg-brand-black">
+        <div className="sticky top-0 h-[100svh] min-h-[560px] w-full overflow-hidden flex items-center justify-center border-y border-white/5">
           
           {/* Dynamic Background */}
           <motion.div 
@@ -530,43 +499,64 @@ export default function Home() {
           {/* Vignette */}
           <div className="absolute inset-0 bg-radial-gradient from-transparent via-brand-black/50 to-brand-black"></div>
 
-          {/* Narrative Text 1 */}
-          <motion.div 
-            style={{ opacity: textOpacity1, y: textY1 }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
-          >
-            <span className="text-brand-cyan text-[10px] md:text-xs font-mono uppercase tracking-[0.3em] font-bold mb-4 md:mb-6 block">01 / The Standard</span>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-display font-medium text-white uppercase tracking-tight leading-[1.1] max-w-4xl">
-              We Don't Build <br/> Websites.
-            </h2>
-          </motion.div>
+          <div className="absolute top-24 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 md:top-28">
+            {storySteps.map((step, idx) => (
+              <button
+                key={step.eyebrow}
+                type="button"
+                onClick={() => {
+                  const section = storyRef.current;
+                  if (!section) return;
+                  const top = section.getBoundingClientRect().top + window.scrollY;
+                  const scrollable = section.offsetHeight - window.innerHeight;
+                  window.scrollTo({
+                    top: top + scrollable * (idx / (storySteps.length - 1)),
+                    behavior: 'smooth',
+                  });
+                }}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  activeStoryStep === idx ? 'w-10 bg-brand-cyan shadow-[0_0_16px_rgba(34,211,238,0.6)]' : 'w-4 bg-white/20 hover:bg-white/40'
+                }`}
+                aria-label={`View ${step.eyebrow}`}
+              />
+            ))}
+          </div>
 
-          {/* Narrative Text 2 */}
-          <motion.div 
-            style={{ opacity: textOpacity2, y: textY2 }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
-          >
-            <span className="text-brand-blue text-[10px] md:text-xs font-mono uppercase tracking-[0.3em] font-bold mb-4 md:mb-6 block">02 / The Asset</span>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-display font-medium text-white uppercase tracking-tight leading-[1.1] max-w-4xl">
-              We Architect <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Digital Monopolies.</span>
-            </h2>
-          </motion.div>
-
-          {/* Narrative Text 3 */}
-          <motion.div 
-            style={{ opacity: textOpacity3, y: textY3 }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20"
-          >
-            <span className="text-white text-[10px] md:text-xs font-mono uppercase tracking-[0.3em] font-bold mb-4 md:mb-6 block">03 / The Legacy</span>
-            <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-medium text-white uppercase tracking-tight leading-[1.1] max-w-3xl mb-8 md:mb-10">
-              Your Competition Will <br/> Feel The Difference.
-            </h2>
-            <Link to={p('/case-studies')}>
-              <Button size="lg" className="h-12 md:h-14 px-6 md:px-8 text-[10px] md:text-xs font-mono uppercase tracking-widest font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow">
-                View Enterprise Case Studies
-              </Button>
-            </Link>
-          </motion.div>
+          {storySteps.map((step, idx) => (
+            <motion.div
+              key={step.eyebrow}
+              animate={{
+                opacity: activeStoryStep === idx ? 1 : 0,
+                y: activeStoryStep === idx ? 0 : idx < activeStoryStep ? -34 : 34,
+                scale: activeStoryStep === idx ? 1 : 0.96,
+              }}
+              transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
+              aria-hidden={activeStoryStep !== idx}
+            >
+              <span className={`${step.eyebrowClass} text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] md:tracking-[0.3em] font-bold mb-4 md:mb-6 block`}>
+                {step.eyebrow}
+              </span>
+              <h2 className={`${step.titleClass} text-[clamp(2rem,9vw,3rem)] sm:text-5xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.1] max-w-4xl`}>
+                {step.title}
+              </h2>
+              <motion.div
+                animate={{
+                  opacity: activeStoryStep === 2 && idx === 2 ? 1 : 0,
+                  y: activeStoryStep === 2 && idx === 2 ? 0 : 12,
+                  pointerEvents: activeStoryStep === 2 && idx === 2 ? 'auto' : 'none',
+                }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: activeStoryStep === 2 ? 0.15 : 0 }}
+                className="mt-8 md:mt-10 w-full max-w-[320px] md:max-w-none"
+              >
+                <Link to={p('/case-studies')} className="block md:inline-block">
+                  <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight md:h-14 md:w-auto md:px-8 md:text-xs md:tracking-widest">
+                    View Enterprise Case Studies
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+          ))}
 
         </div>
       </section>
