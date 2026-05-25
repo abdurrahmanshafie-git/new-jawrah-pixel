@@ -1,3 +1,5 @@
+import { appEnv } from '@/lib/env';
+
 export interface RegionConfig {
   id: 'lk' | 'pk';
   countryName: string;
@@ -15,10 +17,10 @@ export interface RegionConfig {
   seoDescription: string;
 }
 
-const DEFAULT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'jawrahpixel@gmail.com';
-const DEFAULT_WHATSAPP = import.meta.env.VITE_CONTACT_WHATSAPP || '+94 76 273 7411';
+const DEFAULT_EMAIL = appEnv.contactEmail;
+const DEFAULT_WHATSAPP = appEnv.contactWhatsapp;
 const DEFAULT_WHATSAPP_LINK = `https://wa.me/${DEFAULT_WHATSAPP.replace(/[^0-9]/g, '')}`;
-const DEFAULT_INSTA_HANDLE = import.meta.env.VITE_CONTACT_INSTA || '@jawrahpixel';
+const DEFAULT_INSTA_HANDLE = appEnv.brandInstagram;
 const DEFAULT_INSTA_LINK = `https://instagram.com/${DEFAULT_INSTA_HANDLE.replace('@', '')}`;
 
 export const regions: Record<'lk' | 'pk', RegionConfig> = {
