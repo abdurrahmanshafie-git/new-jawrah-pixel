@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles } from 'lucide-react';
-import { motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
@@ -153,6 +153,7 @@ export default function Home() {
       titleClass: 'text-white',
     },
   ];
+  const activeStory = storySteps[activeStoryStep] ?? storySteps[0];
 
   return (
     <div className="flex flex-col min-h-screen bg-brand-black">
@@ -516,28 +517,22 @@ export default function Home() {
             ))}
           </div>
 
-          {storySteps.map((step, idx) => (
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              key={step.eyebrow}
-              initial={false}
-              animate={{
-                opacity: activeStoryStep === idx ? 1 : 0,
-                y: activeStoryStep === idx ? 0 : idx < activeStoryStep ? -34 : 34,
-                scale: activeStoryStep === idx ? 1 : 0.96,
-              }}
+              key={activeStory.eyebrow}
+              initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -22, filter: 'blur(8px)' }}
               transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
-              className={`absolute inset-0 flex flex-col items-center justify-center px-4 text-center transition-[visibility] duration-300 ${
-                activeStoryStep === idx ? 'visible z-20 pointer-events-auto' : 'invisible z-0 pointer-events-none'
-              }`}
-              aria-hidden={activeStoryStep !== idx}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center"
             >
-              <span className={`${step.eyebrowClass} text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] md:tracking-[0.3em] font-bold mb-4 md:mb-6 block`}>
-                {step.eyebrow}
+              <span className={`${activeStory.eyebrowClass} text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] md:tracking-[0.3em] font-bold mb-4 md:mb-6 block`}>
+                {activeStory.eyebrow}
               </span>
-              <h2 className={`${step.titleClass} text-[clamp(2rem,9vw,3rem)] sm:text-5xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.1] max-w-4xl`}>
-                {step.title}
+              <h2 className={`${activeStory.titleClass} story-headline-clean text-[clamp(2rem,9vw,3rem)] sm:text-5xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.1] max-w-4xl`}>
+                {activeStory.title}
               </h2>
-              {idx === 2 && (
+              {activeStoryStep === 2 && (
                 <motion.div
                   initial={false}
                   animate={{
@@ -555,7 +550,7 @@ export default function Home() {
                 </motion.div>
               )}
             </motion.div>
-          ))}
+          </AnimatePresence>
 
         </div>
       </section>
