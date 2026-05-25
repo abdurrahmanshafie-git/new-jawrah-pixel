@@ -14,7 +14,9 @@ import {
   Phone
 } from 'lucide-react';
 import { useRegion } from '@/hooks/useRegion';
-import { submitInquiry } from '@/lib/supabase/api';
+import { submitChatbotLead } from '@/lib/supabase/api';
+import { notifyInquiryReceived } from '@/lib/email/notifications';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
 
 interface Message {
   id: string;
@@ -66,6 +68,7 @@ export function JawrahBot() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isSavingLead, setIsSavingLead] = useState(false);
   
   // Lead Capture State
   const [flow, setFlow] = useState<BotFlow>('normal');
@@ -112,23 +115,37 @@ export function JawrahBot() {
   };
 
   const submitLeadToSupabase = async (data: LeadData) => {
+    if (isSavingLead) return;
+    setIsSavingLead(true);
+
     try {
-      const { error } = await submitInquiry({
-        full_name: data.name,
-        email: 'captured-via-bot@jawrahpixel.com', // Placeholder if email not asked
-        business_name: data.business_type,
-        service_interested: data.project_type,
-        budget_range: data.budget_range,
-        whatsapp: data.whatsapp,
-        message: `Lead captured via Jawrah-Bot. Interested in ${data.project_type} for ${data.business_type}. Budget: ${data.budget_range}.`,
-        inquiry_type: 'project',
-        status: 'new'
-      });
-      
-      if (error) throw error;
+      if (isSupabaseConfigured) {
+        const { error } = await submitChatbotLead({
+          name: data.name.trim(),
+          business_type: data.business_type,
+          country: data.country,
+          project_type: data.project_type,
+          budget_range: data.budget_range,
+          whatsapp: data.whatsapp,
+          message: `Lead captured via Jawrah-Bot for ${data.business_type}.`,
+          status: 'new',
+        });
+
+        if (error) throw error;
+
+        void notifyInquiryReceived({
+          fullName: data.name,
+          email: 'captured-via-bot@jawrahpixel.com',
+          service: data.project_type,
+        });
+      } else {
+        saveLeadToStorage(data);
+      }
     } catch (e) {
-      console.warn("Supabase lead capture failed, falling back to local storage:", e);
+      console.warn('Supabase lead capture failed, falling back to local storage:', e);
       saveLeadToStorage(data);
+    } finally {
+      setIsSavingLead(false);
     }
   };
 

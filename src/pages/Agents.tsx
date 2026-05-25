@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase/client';
+import { submitInquiry } from '@/lib/supabase/api';
+import { notifyInquiryReceived } from '@/lib/email/notifications';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { isValidEmail } from '@/lib/validation';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
@@ -48,11 +51,24 @@ export default function Agents() {
 
   const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMsg('');
+    setIsSuccess(false);
+
+    if (!name.trim() || !isValidEmail(email)) {
+      setErrorMsg('Enter your full name and a valid email address.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!isSupabaseConfigured) {
+      setErrorMsg('Application service is temporarily unavailable. Please email us directly.');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
-      // Compose a rich message detailing the agent application parameters
       const fullMessage = `
 --- AGENT NETWORK JET-START APPLICATION ---
 Location: ${location}
@@ -61,35 +77,39 @@ Sales / Marketing Experience: ${experience}
 Applicant Message: ${message || 'No extra notes.'}
       `.trim();
 
-      const { error } = await supabase
-        .from('inquiries')
-        .insert({
-          name: name,
-          email: email,
-          whatsapp: whatsapp,
-          project_type: 'Agent Application',
-          budget: 'Referral Program',
-          business_name: `Location: ${location}`,
-          message: fullMessage,
-          status: 'new',
-          region: config.id,
-          country: config.countryName,
-          currency: config.currency
-        });
+      const { error } = await submitInquiry({
+        full_name: name.trim(),
+        email: email.trim(),
+        whatsapp: whatsapp.trim() || null,
+        business_name: `Agent Application — ${location}`,
+        service_interested: 'Agent Application',
+        inquiry_type: 'collaboration',
+        budget_range: 'Referral Program',
+        message: fullMessage,
+        country: config.countryName,
+        region: config.id,
+        source_page: config.id,
+        status: 'new',
+      });
 
       if (error) throw error;
-      
+
+      void notifyInquiryReceived({
+        fullName: name.trim(),
+        email: email.trim(),
+        service: 'Agent Application',
+      });
+
       setIsSuccess(true);
-      // Clean up form
       setName('');
       setEmail('');
       setWhatsapp('');
       setProfileLink('');
       setExperience('');
       setMessage('');
-    } catch (err: any) {
-      console.error('Error submitting application:', err);
-      setErrorMsg(err.message || 'Failed to submit application. Please try again.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to submit application. Please try again.';
+      setErrorMsg(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -536,7 +556,7 @@ Applicant Message: ${message || 'No extra notes.'}
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">LinkedIn / Profile URL</label>
+                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">LinkedIn / social media url</label>
                       <Input 
                         type="url"
                         value={profileLink}

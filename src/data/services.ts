@@ -1,3 +1,5 @@
+import type { RegionCode } from '@/types';
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -131,6 +133,6 @@ export const pakistanServices: ServiceItem[] = [
   }
 ];
 
-export function getServicesForRegion(region: 'lk' | 'pk') {
-  return region === 'lk' ? sriLankaServices : pakistanServices;
+export function getServicesForRegion(region: RegionCode) {
+  return region === 'pk' ? pakistanServices : sriLankaServices;
 }

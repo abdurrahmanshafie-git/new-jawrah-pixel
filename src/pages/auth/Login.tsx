@@ -15,6 +15,8 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [recoverySent, setRecoverySent] = useState(false);
+  const [recoveryLoading, setRecoveryLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,10 +49,34 @@ export default function Login() {
       } else {
         navigate('/dashboard');
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to login');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to login';
+      setErrorMsg(message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordRecovery = async () => {
+    if (!email.trim()) {
+      setErrorMsg('Enter your email address to receive a recovery link.');
+      return;
+    }
+
+    setRecoveryLoading(true);
+    setErrorMsg('');
+    setRecoverySent(false);
+
+    try {
+      const redirectTo = `${window.location.origin}/login`;
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+      if (error) throw error;
+      setRecoverySent(true);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Could not send recovery email.';
+      setErrorMsg(message);
+    } finally {
+      setRecoveryLoading(false);
     }
   };
 
@@ -72,6 +98,12 @@ export default function Login() {
           <h1 className="text-2xl font-display font-bold text-white mb-2">Welcome Back</h1>
           <p className="text-brand-gray text-sm">Sign in to your client portal</p>
         </div>
+
+        {recoverySent && (
+          <div className="mb-6 p-3 bg-brand-cyan/10 border border-brand-cyan/20 rounded-md">
+            <p className="text-brand-cyan text-sm">Password recovery link sent. Check your inbox.</p>
+          </div>
+        )}
 
         {errorMsg && (
           <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-md flex items-center gap-3">
@@ -95,9 +127,14 @@ export default function Login() {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label className="text-sm text-brand-silver">Password</label>
-              <a href="#" className="text-xs text-brand-blue hover:text-brand-cyan transition-colors">
-                Forgot password?
-              </a>
+              <button
+                type="button"
+                onClick={handlePasswordRecovery}
+                disabled={recoveryLoading}
+                className="text-xs text-brand-blue hover:text-brand-cyan transition-colors disabled:opacity-50"
+              >
+                {recoveryLoading ? 'Sending...' : 'Forgot password?'}
+              </button>
             </div>
             <div className="relative">
               <Input

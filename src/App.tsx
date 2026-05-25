@@ -80,6 +80,20 @@ export default function App() {
               <Route path="/pk/terms" element={<Terms />} />
               <Route path="/pk/blog" element={<Blog />} />
 
+              {/* International version */}
+              <Route path="/int" element={<Home />} />
+              <Route path="/int/about" element={<About />} />
+              <Route path="/int/services" element={<Services />} />
+              <Route path="/int/process" element={<Process />} />
+              <Route path="/int/pricing" element={<Services />} />
+              <Route path="/int/case-studies" element={<CaseStudies />} />
+              <Route path="/int/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/int/contact" element={<Contact />} />
+              <Route path="/int/agents" element={<Agents />} />
+              <Route path="/int/privacy" element={<Privacy />} />
+              <Route path="/int/terms" element={<Terms />} />
+              <Route path="/int/blog" element={<Blog />} />
+
               {/* Fallback routes */}
               <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
               <Route path="/blog" element={<RegionalRedirect path="/blog" />} />

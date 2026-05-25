@@ -1,7 +1,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type UserRole = 'client' | 'admin' | 'agent';
-export type RegionCode = 'lk' | 'pk';
+export type RegionCode = 'lk' | 'pk' | 'int';
 
 export interface Database {
   public: {
@@ -170,13 +170,27 @@ export interface Database {
       invoices: {
         Row: {
           id: string;
-          client_id: string;
+          client_id: string | null;
+          guest_email: string | null;
+          guest_name: string | null;
           project_id: string | null;
           invoice_number: string;
           title: string;
           amount: number;
           currency: string;
           status: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          payment_status: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
+          payment_method:
+            | 'payhere'
+            | 'onepay'
+            | 'bank_transfer'
+            | 'easypaisa'
+            | 'jazzcash'
+            | 'stripe'
+            | 'wise'
+            | 'payoneer'
+            | null;
+          transaction_id: string | null;
           due_date: string | null;
           paid_at: string | null;
           created_at: string;
@@ -184,13 +198,27 @@ export interface Database {
         };
         Insert: {
           id?: string;
-          client_id: string;
+          client_id?: string | null;
+          guest_email?: string | null;
+          guest_name?: string | null;
           project_id?: string | null;
           invoice_number: string;
           title: string;
           amount: number;
           currency?: string;
           status?: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          payment_status?: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
+          payment_method?:
+            | 'payhere'
+            | 'onepay'
+            | 'bank_transfer'
+            | 'easypaisa'
+            | 'jazzcash'
+            | 'stripe'
+            | 'wise'
+            | 'payoneer'
+            | null;
+          transaction_id?: string | null;
           due_date?: string | null;
           paid_at?: string | null;
           created_at?: string;
@@ -348,6 +376,27 @@ export interface Database {
           updated_at?: string;
         };
         Update: Partial<Database['public']['Tables']['support_tickets']['Insert']>;
+      };
+      audit_events: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          action: string;
+          entity_table: string | null;
+          entity_id: string | null;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          actor_id?: string | null;
+          action: string;
+          entity_table?: string | null;
+          entity_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['audit_events']['Insert']>;
       };
       revision_requests: {
         Row: {

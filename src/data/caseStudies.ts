@@ -458,8 +458,11 @@ export const caseStudiesList: Record<'lk' | 'pk', CaseListItem[]> = {
   ]
 };
 
-export function getCaseStudiesForRegion(region: 'lk' | 'pk'): CaseListItem[] {
-  return caseStudiesList[region];
+import type { RegionCode } from '@/types';
+
+export function getCaseStudiesForRegion(region: RegionCode): CaseListItem[] {
+  if (region === 'pk') return caseStudiesList.pk;
+  return caseStudiesList.lk;
 }
 
 export function getCaseStudyDetails(slug: string): CaseDetails | null {

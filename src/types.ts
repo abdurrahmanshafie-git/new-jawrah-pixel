@@ -1,5 +1,5 @@
 export type Role = 'client' | 'admin' | 'agent';
-export type RegionCode = 'lk' | 'pk';
+export type RegionCode = 'lk' | 'pk' | 'int';
 
 export interface Profile {
   id: string;
@@ -16,20 +16,20 @@ export interface Profile {
 
 export interface Inquiry {
   id: string;
-  name: string;
+  full_name: string;
   email: string;
   whatsapp: string | null;
   business_name: string | null;
-  project_type: string;
-  budget: string | null;
-  preferred_date: string | null;
-  preferred_time: string | null;
+  service_interested: string;
+  inquiry_type: 'general' | 'project' | 'pricing' | 'collaboration' | 'support';
+  budget_range: string | null;
   message: string | null;
-  status: 'new' | 'contacted' | 'qualified' | 'rejected';
+  status: 'new' | 'contacted' | 'proposal_sent' | 'closed' | 'rejected';
+  assigned_to?: string | null;
+  notes?: string | null;
   region: RegionCode | null;
   country: string | null;
-  currency: string | null;
-  source: string | null;
+  source_page?: RegionCode | null;
   created_at: string;
   updated_at: string;
 }
@@ -39,16 +39,15 @@ export interface Booking {
   user_id: string | null;
   name: string;
   email: string;
+  phone?: string | null;
   whatsapp: string | null;
-  project_type: string;
-  budget: string | null;
+  country: string | null;
   preferred_date: string | null;
   preferred_time: string | null;
+  project_type: string;
   message: string | null;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   region: RegionCode | null;
-  country: string | null;
-  currency: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -58,11 +57,13 @@ export interface Project {
   client_id: string | null;
   title: string;
   service_type: string | null;
-  status: 'planning' | 'design' | 'development' | 'review' | 'completed' | 'ongoing';
-  budget: string | null;
+  price?: number | null;
+  status: 'new lead' | 'contacted' | 'proposal sent' | 'payment pending' | 'project active' | 'delivered' | 'maintenance';
+  budget?: string | null;
   deadline: string | null;
-  description: string | null;
+  description?: string | null;
   progress: number | null;
+  notes?: string | null;
   region: RegionCode | null;
   country: string | null;
   currency: string | null;

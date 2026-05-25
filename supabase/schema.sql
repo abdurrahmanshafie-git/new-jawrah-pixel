@@ -112,18 +112,41 @@ create table if not exists public.support_tickets (
 
 create table if not exists public.invoices (
   id uuid primary key default gen_random_uuid(),
-  client_id uuid not null references public.profiles(id) on delete cascade,
+  client_id uuid references public.profiles(id) on delete cascade,
+  guest_email text,
+  guest_name text,
   project_id uuid references public.projects(id) on delete set null,
   invoice_number text unique not null,
   title text not null,
   amount numeric(12, 2) not null check (amount >= 0),
   currency text not null default 'LKR',
   status text not null default 'draft' check (status in ('draft', 'sent', 'paid', 'overdue', 'void')),
+  payment_status text not null default 'unpaid' check (payment_status in ('unpaid', 'pending', 'processing', 'paid', 'failed', 'refunded', 'manual_review')),
+  payment_method text check (payment_method in ('payhere', 'onepay', 'bank_transfer', 'easypaisa', 'jazzcash', 'stripe', 'wise', 'payoneer')),
+  transaction_id text,
   due_date date,
   paid_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Idempotent upgrade for existing deployments
+alter table public.invoices add column if not exists payment_status text;
+alter table public.invoices add column if not exists payment_method text;
+alter table public.invoices add column if not exists transaction_id text;
+alter table public.invoices add column if not exists guest_email text;
+alter table public.invoices add column if not exists guest_name text;
+alter table public.invoices alter column client_id drop not null;
+
+update public.invoices
+set payment_status = case
+  when status = 'paid' then 'paid'
+  when status in ('sent', 'overdue') then 'pending'
+  else 'unpaid'
+end
+where payment_status is null;
+
+alter table public.invoices alter column payment_status set default 'unpaid';
 
 create table if not exists public.project_files (
   id uuid primary key default gen_random_uuid(),
@@ -391,7 +414,7 @@ create trigger touch_chatbot_leads_updated_at before update on public.chatbot_le
 grant usage on schema public to anon, authenticated;
 
 grant select, insert, update, delete on public.profiles to authenticated;
-grant insert on public.inquiries, public.bookings, public.newsletter_subscribers, public.chatbot_leads to anon, authenticated;
+grant insert on public.inquiries, public.bookings, public.newsletter_subscribers, public.chatbot_leads, public.invoices to anon, authenticated;
 grant select, update, delete on public.inquiries, public.bookings, public.chatbot_leads to authenticated;
 grant select, insert, update, delete on public.projects, public.project_milestones, public.revision_requests, public.support_tickets, public.invoices, public.project_files, public.notifications to authenticated;
 grant select on public.testimonials, public.blog_posts to anon, authenticated;
@@ -548,6 +571,26 @@ create policy "invoices_team_manage" on public.invoices
   for all to authenticated
   using (app_private.is_team())
   with check (app_private.is_team());
+
+drop policy if exists "invoices_client_insert_own" on public.invoices;
+create policy "invoices_client_insert_own" on public.invoices
+  for insert to authenticated
+  with check (client_id = (select auth.uid()));
+
+drop policy if exists "invoices_guest_deposit_insert" on public.invoices;
+create policy "invoices_guest_deposit_insert" on public.invoices
+  for insert to anon, authenticated
+  with check (
+    client_id is null
+    and guest_email is not null
+    and length(trim(guest_email)) > 0
+  );
+
+drop policy if exists "invoices_client_update_own" on public.invoices;
+create policy "invoices_client_update_own" on public.invoices
+  for update to authenticated
+  using (client_id = (select auth.uid()))
+  with check (client_id = (select auth.uid()));
 
 drop policy if exists "files_select_client_or_team" on public.project_files;
 create policy "files_select_client_or_team" on public.project_files

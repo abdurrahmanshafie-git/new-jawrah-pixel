@@ -295,7 +295,7 @@ Includes our custom Jawrah Pixel Care framework (LKR 35,000/mo package):
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-y-2 gap-x-6 text-sm text-brand-silver">
                               <div><span className="text-brand-gray">Email:</span> {inq.email}</div>
                               <div><span className="text-brand-gray">WhatsApp:</span> {inq.whatsapp || 'None'}</div>
-                              <div><span className="text-brand-gray">Budget limit:</span> {inq.budget || 'Custom'}</div>
+                              <div><span className="text-brand-gray">Budget range:</span> {inq.budget_range || 'Custom'}</div>
                             </div>
                             {inq.message && (
                               <div className="bg-white/5 p-4 rounded-xl border border-white/5 mt-4 text-sm text-brand-silver leading-relaxed">
@@ -423,7 +423,7 @@ Includes our custom Jawrah Pixel Care framework (LKR 35,000/mo package):
                             </div>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-brand-silver">
                               <div><span className="text-brand-gray block mb-1">SERVICE TYPE</span> <span className="font-semibold text-white">{project.service_type || 'Custom Engineering'}</span></div>
-                              <div><span className="text-brand-gray block mb-1">BUDGET SCALE</span> <span className="font-semibold text-white">{project.budget || 'Custom Frame'}</span></div>
+                              <div><span className="text-brand-gray block mb-1">ESTIMATED PRICE</span> <span className="font-semibold text-white">{project.price ? `${project.price.toLocaleString()}` : 'Custom Frame'}</span></div>
                               <div><span className="text-brand-gray block mb-1">DEADLINE</span> <span className="font-semibold text-brand-cyan">{project.deadline || 'Ongoing Care'}</span></div>
                               <div><span className="text-brand-gray block mb-1">PROJECT ID</span> <span className="font-mono text-xs">{project.id.slice(0, 8)}...</span></div>
                             </div>

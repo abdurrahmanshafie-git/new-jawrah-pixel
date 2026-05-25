@@ -1,3 +1,5 @@
+import type { RegionCode } from '@/types';
+
 export interface MaintenancePlan {
   name: string;
   price: string;
@@ -51,6 +53,7 @@ export const maintenancePlans: Record<'lk' | 'pk', MaintenancePlan[]> = {
   ]
 };
 
-export function getMaintenancePlans(region: 'lk' | 'pk'): MaintenancePlan[] {
+export function getMaintenancePlans(region: RegionCode): MaintenancePlan[] {
+  if (region === 'int') return maintenancePlans.lk;
   return maintenancePlans[region];
 }

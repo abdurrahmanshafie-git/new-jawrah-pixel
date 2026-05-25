@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { ShieldAlert } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Role } from '@/types';
@@ -26,7 +26,8 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
-  if (roles?.length && (!profile || !roles.includes(profile.role))) {
+  if (roles?.length && profile && !roles.includes(profile.role)) {
+    const home = getRoleHome(profile.role);
     return (
       <div className="min-h-screen bg-brand-black text-white flex items-center justify-center p-6">
         <div className="glass-card max-w-md rounded-2xl p-8 text-center">
@@ -37,12 +38,21 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
             Access Restricted
           </h1>
           <p className="text-sm leading-relaxed text-brand-gray mb-6">
-            This workspace is reserved for verified Jawrah Pixel operators. Your current role is routed to its secure portal.
+            This workspace requires {roles.join(' or ')} access. Your account role is {profile.role}.
           </p>
-          <Navigate to={getRoleHome(profile?.role)} replace />
+          <Link
+            to={home}
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-brand-cyan/15 border border-brand-cyan/30 text-brand-cyan text-xs font-mono uppercase tracking-widest hover:bg-brand-cyan/25 transition-colors"
+          >
+            Go to your portal
+          </Link>
         </div>
       </div>
     );
+  }
+
+  if (roles?.length && user && !profile) {
+    return <SleekLoader />;
   }
 
   return <>{children}</>;

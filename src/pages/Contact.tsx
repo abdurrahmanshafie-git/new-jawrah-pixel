@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { submitBooking, submitInquiry } from '@/lib/supabase/api';
+import { notifyBookingConfirmation, notifyInquiryReceived } from '@/lib/email/notifications';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { PaymentSuccessActions } from '@/components/payments/PaymentSuccessActions';
+import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
+import {
+  calculateDeposit,
+  estimateBookingService,
+  estimateFromBudget,
+  formatMoney,
+} from '@/lib/payments/amounts';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useForm as useRHForm } from 'react-hook-form';
@@ -69,6 +79,12 @@ export default function Contact() {
     notes: ''
   });
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [lastRfpService, setLastRfpService] = useState('');
+  const [lastRfpAmount, setLastRfpAmount] = useState(0);
+  const [lastRfpEmail, setLastRfpEmail] = useState('');
+  const [lastRfpName, setLastRfpName] = useState('');
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
 
   const budgetOptions = config.id === 'lk' ? [
     { value: 'Under LKR 200k', label: 'Under LKR 200,000' },
@@ -127,6 +143,71 @@ export default function Contact() {
   const watchedProjectType = watch('project_type');
   const watchedBudget = watch('budget');
 
+  const bookingEstimate = estimateBookingService(bookingForm.project_category, currentRegion);
+  const bookingAdvance = calculateDeposit(bookingEstimate, 10);
+
+  const openBookingPayment = async () => {
+    if (isSubmittingForm) return;
+    if (!bookingForm.name.trim() || !bookingForm.email.trim()) {
+      setErrorMsg('Enter your name and email before booking with deposit.');
+      return;
+    }
+    if (selectedDateIndex === null || !selectedTime) {
+      setErrorMsg('Select a briefing date and time before paying the advance.');
+      return;
+    }
+    if (!isSupabaseConfigured) {
+      setErrorMsg('Booking service is temporarily unavailable.');
+      return;
+    }
+
+    setIsSubmittingForm(true);
+    setErrorMsg('');
+
+    const selectedDate = businessDaysList[selectedDateIndex!];
+
+    try {
+      const { error } = await submitBooking({
+        name: bookingForm.name.trim(),
+        email: bookingForm.email.trim(),
+        whatsapp: bookingForm.whatsapp?.trim() || null,
+        phone: bookingForm.whatsapp?.trim() || null,
+        country: config.countryName,
+        project_type: bookingForm.project_category,
+        preferred_date: selectedDate.dateString,
+        preferred_time: `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`,
+        message: `[10% advance requested] Business: ${bookingForm.business_name || 'N/A'}. Notes: ${bookingForm.notes || 'None'}`,
+        region: currentRegion,
+        status: 'pending',
+      });
+
+      if (error) throw error;
+
+      void notifyBookingConfirmation({
+        name: bookingForm.name.trim(),
+        email: bookingForm.email.trim(),
+        date: selectedDate.dateString,
+        time: selectedTime,
+      });
+
+      setPaymentModalPayload({
+        serviceName: `${bookingForm.project_category} Strategy Briefing`,
+        totalAmount: bookingEstimate,
+        intent: 'booking_advance',
+        defaultPercent: 10,
+        lockPercent: true,
+        guestEmail: bookingForm.email.trim(),
+        guestName: bookingForm.name.trim(),
+      });
+      setPaymentModalOpen(true);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Could not reserve briefing slot.';
+      setErrorMsg(message);
+    } finally {
+      setIsSubmittingForm(false);
+    }
+  };
+
   // Multi-step RFP Next/Prev Navigation and Validation
   const handleNextStep = () => {
     if (rfpStep === 1 && !watchedProjectType) {
@@ -148,33 +229,50 @@ export default function Contact() {
 
   // Submit Interactive RFP Flow
   const onRfpSubmit = async (data: FormData) => {
+    if (isSubmittingForm) return;
     setIsSubmittingForm(true);
     setErrorMsg('');
     setSuccess(false);
 
+    if (!isSupabaseConfigured) {
+      setErrorMsg('Submission service is temporarily unavailable. Please email us directly.');
+      setIsSubmittingForm(false);
+      return;
+    }
+
     try {
       const { error } = await submitInquiry({
-          full_name: data.name,
-          email: data.email,
-          whatsapp: data.whatsapp || null,
-          business_name: data.business_name || null,
-          service_interested: data.project_type,
-          inquiry_type: 'project',
-          budget_range: data.budget,
-          message: `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`,
-          region: currentRegion,
-          source_page: currentRegion,
-          status: 'new'
+        full_name: data.name.trim(),
+        email: data.email.trim(),
+        whatsapp: data.whatsapp?.trim() || null,
+        business_name: data.business_name?.trim() || null,
+        service_interested: data.project_type,
+        inquiry_type: 'project',
+        budget_range: data.budget,
+        message: `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`,
+        region: currentRegion,
+        source_page: currentRegion,
+        status: 'new',
       });
 
       if (error) throw error;
+
+      void notifyInquiryReceived({
+        fullName: data.name.trim(),
+        email: data.email.trim(),
+        service: data.project_type,
+      });
+
+      setLastRfpService(data.project_type);
+      setLastRfpAmount(estimateFromBudget(data.budget, currentRegion));
+      setLastRfpEmail(data.email.trim());
+      setLastRfpName(data.name.trim());
       setSuccess(true);
       reset();
       setRfpStep(1);
-    } catch (err: any) {
-      console.warn("Real database submission failed, simulating offline fallback:", err);
-      // Fallback safely to keep luxury flow working
-      setSuccess(true);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to submit inquiry. Please try again.';
+      setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);
     }
@@ -183,6 +281,7 @@ export default function Contact() {
   // Submit VIP Consultation Calendar Booking
   const handleCalendarSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmittingForm) return;
     if (selectedDateIndex === null) {
       setErrorMsg('Please select a preferred briefing date on the calendar');
       return;
@@ -196,6 +295,11 @@ export default function Contact() {
       return;
     }
 
+    if (!isSupabaseConfigured) {
+      setErrorMsg('Booking service is temporarily unavailable. Please email us directly.');
+      return;
+    }
+
     setIsSubmittingForm(true);
     setErrorMsg('');
     setBookingSuccess(false);
@@ -203,35 +307,55 @@ export default function Contact() {
     const selectedDate = businessDaysList[selectedDateIndex];
 
     try {
-      const { error } = await submitBooking({
-          name: bookingForm.name,
-          email: bookingForm.email,
-          whatsapp: bookingForm.whatsapp || null,
-          phone: bookingForm.whatsapp || null,
-          country: config.countryName,
-          project_type: bookingForm.project_category,
-          preferred_date: selectedDate.dateString,
-          preferred_time: `${selectedTime} (${availableHoursList.find(h => h.time === selectedTime)?.zone})`,
-          message: `Business Name: ${bookingForm.business_name || 'Not stated'}. Client Notes: ${bookingForm.notes || 'None'}`,
-          region: currentRegion,
-          status: 'pending'
+      const { data, error } = await submitBooking({
+        name: bookingForm.name.trim(),
+        email: bookingForm.email.trim(),
+        whatsapp: bookingForm.whatsapp?.trim() || null,
+        phone: bookingForm.whatsapp?.trim() || null,
+        country: config.countryName,
+        project_type: bookingForm.project_category,
+        preferred_date: selectedDate.dateString,
+        preferred_time: `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`,
+        message: `Business Name: ${bookingForm.business_name || 'Not stated'}. Client Notes: ${bookingForm.notes || 'None'}`,
+        region: currentRegion,
+        status: 'pending',
       });
 
       if (error) throw error;
+
+      void notifyBookingConfirmation({
+        name: bookingForm.name.trim(),
+        email: bookingForm.email.trim(),
+        date: selectedDate.dateString,
+        time: selectedTime,
+      });
+
+      setPaymentModalPayload({
+        serviceName: `Strategy Booking: ${bookingForm.project_category}`,
+        totalAmount: bookingEstimate,
+        defaultPercent: 10,
+        intent: 'booking_advance',
+        lockPercent: true,
+        guestEmail: bookingForm.email.trim(),
+        guestName: bookingForm.name.trim(),
+        bookingId: (data as any)?.id,
+      });
+
       setBookingSuccess(true);
+      setPaymentModalOpen(true);
       setBookingForm({
         name: '',
         email: '',
         whatsapp: '',
         business_name: '',
         project_category: 'Web Design',
-        notes: ''
+        notes: '',
       });
       setSelectedDateIndex(null);
       setSelectedTime(null);
-    } catch (err: any) {
-      console.warn("Real calendar booking insertion failed, simulating success safely:", err);
-      setBookingSuccess(true);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to schedule briefing. Please try again.';
+      setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);
     }
@@ -392,6 +516,12 @@ export default function Contact() {
                       <p className="text-sm text-brand-gray max-w-md mx-auto font-light leading-relaxed">
                         We have successfully registered your project blueprint parameters. Our Lead Architect in {config.countryName} will evaluate the specifications and contact you on WhatsApp/Email within 12 hours.
                       </p>
+                      <PaymentSuccessActions
+                        serviceName={lastRfpService || 'Custom Project'}
+                        totalAmount={lastRfpAmount || estimateFromBudget('', currentRegion)}
+                        guestEmail={lastRfpEmail}
+                        guestName={lastRfpName}
+                      />
                       <Button onClick={() => setSuccess(false)} variant="outline" size="sm" className="font-mono text-xs uppercase tracking-widest mt-4">
                         Submit another brief
                       </Button>
@@ -761,9 +891,33 @@ export default function Contact() {
                         </div>
                       </div>
 
-                      <div className="pt-4 flex justify-end">
-                        <Button type="submit" disabled={isSubmittingForm} className="font-mono text-xs uppercase tracking-widest h-12 px-8 luxury-glow font-bold">
-                          {isSubmittingForm ? 'Securing Slot Calendar...' : 'Confirm Strategy Invitation'}
+                      <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-2">
+                        <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
+                          <span className="text-brand-gray">Estimated Project</span>
+                          <span className="text-white">{formatMoney(bookingEstimate, config.currency)}</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
+                          <span className="text-brand-gray">10% Strategy Slot Advance</span>
+                          <span className="text-brand-cyan font-bold">{formatMoney(bookingAdvance, config.currency)}</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-end">
+                        <Button
+                          type="button"
+                          disabled={isSubmittingForm}
+                          onClick={openBookingPayment}
+                          className="font-mono text-xs uppercase tracking-widest h-12 px-6 luxury-glow font-bold"
+                        >
+                          Book Slot & Pay 10% Advance
+                        </Button>
+                        <Button
+                          type="submit"
+                          disabled={isSubmittingForm}
+                          variant="outline"
+                          className="font-mono text-xs uppercase tracking-widest h-12 px-6 border-white/10"
+                        >
+                          {isSubmittingForm ? 'Securing Slot...' : 'Confirm Invitation Only'}
                         </Button>
                       </div>
 
@@ -778,6 +932,11 @@ export default function Contact() {
 
         </div>
       </div>
+      <PaymentModal
+        open={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        payload={paymentModalPayload}
+      />
     </div>
   );
 }

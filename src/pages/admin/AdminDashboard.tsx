@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { fetchDashboardAnalytics } from '@/lib/supabase/api';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Activity, 
@@ -45,7 +46,11 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [clients, setClients] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
+  const [chatbotLeads, setChatbotLeads] = useState<any[]>([]);
+  const [supportTickets, setSupportTickets] = useState<any[]>([]);
   const [analytics, setAnalytics] = useState<any>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   
   // Loading & Action states
   const [loading, setLoading] = useState(true);
@@ -82,25 +87,57 @@ export default function AdminDashboard() {
 
   const loadAllDashboardData = async () => {
     setLoading(true);
-    
+    setLoadError(null);
+
+    if (!isSupabaseConfigured) {
+      setLoadError('Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const [leadsRes, projectsRes, clientsRes, analyticsRes, bookingsRes] = await Promise.all([
-        supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
-        supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false }),
-        supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
-        fetchDashboardAnalytics(),
-        supabase.from('bookings').select('*').order('created_at', { ascending: false })
-      ]);
+      const [leadsRes, projectsRes, clientsRes, analyticsRes, bookingsRes, invoicesRes, chatbotRes, ticketsRes] =
+        await Promise.all([
+          supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
+          supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false }),
+          supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
+          fetchDashboardAnalytics(),
+          supabase.from('bookings').select('*').order('created_at', { ascending: false }),
+          supabase
+            .from('invoices')
+            .select('*, client:profiles(full_name, email)')
+            .order('created_at', { ascending: false }),
+          supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+          supabase
+            .from('support_tickets')
+            .select('*, client:profiles(full_name, email)')
+            .order('created_at', { ascending: false }),
+        ]);
 
-      if (leadsRes.data) setInquiries(leadsRes.data);
-      if (projectsRes.data) setProjects(projectsRes.data);
-      if (clientsRes.data) setClients(clientsRes.data);
-      if (analyticsRes) setAnalytics(analyticsRes);
-      if (bookingsRes.data) setBookings(bookingsRes.data);
+      const firstError =
+        leadsRes.error ||
+        projectsRes.error ||
+        clientsRes.error ||
+        bookingsRes.error ||
+        invoicesRes.error ||
+        chatbotRes.error ||
+        ticketsRes.error;
 
-    } catch (err: any) {
-      console.warn("Supabase load failed:", err.message);
-      showToast("Database sync failed. Check connection.", "error");
+      if (firstError) throw firstError;
+
+      setInquiries(leadsRes.data ?? []);
+      setProjects(projectsRes.data ?? []);
+      setClients(clientsRes.data ?? []);
+      setAnalytics(analyticsRes);
+      setBookings(bookingsRes.data ?? []);
+      setInvoices(invoicesRes.data ?? []);
+      setChatbotLeads(chatbotRes.data ?? []);
+      setSupportTickets(ticketsRes.data ?? []);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Database sync failed.';
+      console.warn('Supabase load failed:', message);
+      setLoadError(message);
+      showToast('Database sync failed. Check connection.', 'error');
     } finally {
       setLoading(false);
     }
@@ -189,6 +226,35 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleUpdateInvoicePayment = async (id: string, paymentStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('invoices')
+        .update({
+          payment_status: paymentStatus,
+          status: paymentStatus === 'paid' ? 'paid' : undefined,
+          paid_at: paymentStatus === 'paid' ? new Date().toISOString() : null,
+        })
+        .eq('id', id);
+      if (error) throw error;
+      showToast(`Invoice marked as ${paymentStatus}`);
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const handleUpdateChatbotStatus = async (id: string, nextStatus: string) => {
+    try {
+      const { error } = await supabase.from('chatbot_leads').update({ status: nextStatus }).eq('id', id);
+      if (error) throw error;
+      showToast(`Chatbot lead marked as ${nextStatus}`);
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
   const hasAdminRole = profile?.role === 'admin';
 
   return (
@@ -268,6 +334,9 @@ export default function AdminDashboard() {
               { id: 'bookings', label: 'Strategy Bookings', count: bookings.length, icon: Calendar },
               { id: 'clients', label: 'Client CRM', count: clients.length, icon: Users },
               { id: 'projects', label: 'Project Portfolio', count: projects.length, icon: Briefcase },
+              { id: 'invoices', label: 'Invoices & Payments', count: invoices.length, icon: DollarSign },
+              { id: 'chatbot', label: 'Chatbot Leads', count: chatbotLeads.length, icon: MessageSquare },
+              { id: 'support', label: 'Support Tickets', count: supportTickets.length, icon: ShieldAlert },
               { id: 'settings', label: 'System Settings', icon: Settings }
             ].map((tab) => {
               const Icon = tab.icon;
@@ -299,6 +368,12 @@ export default function AdminDashboard() {
           {/* MAIN DYNAMIC CMS CONTAINER */}
           <div className="lg:col-span-9 glass-card p-6 md:p-8 rounded-2xl relative bg-white/[0.01] border-white/10 min-h-[500px]">
             
+            {loadError && !loading && (
+              <div className="mb-6 p-4 rounded-xl border border-red-500/30 bg-red-500/5 text-red-300 text-xs font-mono uppercase tracking-wider">
+                {loadError}
+              </div>
+            )}
+
             {loading ? (
               <div className="py-24 flex flex-col items-center justify-center text-brand-cyan gap-4">
                 <Loader className="animate-spin" size={36} />
@@ -395,6 +470,11 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="space-y-4">
+                      {inquiries.filter((inq) => regionFilter === 'all' || inq.region === regionFilter).length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No inquiries yet for this filter.
+                        </p>
+                      )}
                       {inquiries
                         .filter(inq => regionFilter === 'all' || inq.region === regionFilter)
                         .map((inq) => (
@@ -445,6 +525,11 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {clients.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center col-span-full">
+                          No registered clients yet.
+                        </p>
+                      )}
                       {clients.map((client) => (
                         <div key={client.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex items-center gap-4">
                           <div className="w-12 h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan text-lg font-bold">
@@ -509,6 +594,13 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody>
+                          {projects.length === 0 && (
+                            <tr>
+                              <td colSpan={5} className="p-8 text-center text-xs text-brand-gray font-mono uppercase tracking-widest">
+                                No projects in portfolio yet.
+                              </td>
+                            </tr>
+                          )}
                           {projects.map((proj) => (
                             <tr key={proj.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                               <td className="p-4">
@@ -559,6 +651,11 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="space-y-4">
+                      {bookings.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No strategy bookings scheduled yet.
+                        </p>
+                      )}
                       {bookings.map((book) => (
                         <div key={book.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex flex-col sm:flex-row justify-between sm:items-center gap-6">
                           <div className="space-y-1">
@@ -592,7 +689,134 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* 6. SETTINGS TAB */}
+                {/* 6. INVOICES TAB */}
+                {activeTab === 'invoices' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Invoices & Payments</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Track billing status, payment methods, and transaction references.</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      {invoices.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No invoices issued yet.
+                        </p>
+                      )}
+                      {invoices.map((inv) => (
+                        <div key={inv.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex flex-col sm:flex-row justify-between gap-4">
+                          <div>
+                            <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">{inv.invoice_number}</span>
+                            <h3 className="text-sm font-bold text-white uppercase tracking-wider mt-1">{inv.title}</h3>
+                            <p className="text-[10px] text-brand-gray font-mono lowercase mt-1">
+                              {inv.client?.full_name || inv.guest_name || 'Guest'} ●{' '}
+                              {inv.client?.email || inv.guest_email || 'No email'}
+                            </p>
+                          </div>
+                          <div className="text-right space-y-1">
+                            <div className="text-xs font-mono text-brand-cyan">
+                              {inv.currency} {Number(inv.amount || 0).toLocaleString()}
+                            </div>
+                            <div className="text-[10px] font-mono uppercase text-brand-gray">
+                              Invoice: {inv.status} ● Payment: {inv.payment_status || 'unpaid'}
+                              {inv.payment_status === 'manual_review' ? ' (awaiting confirmation)' : ''}
+                            </div>
+                            <div className="text-[10px] font-mono text-brand-silver">
+                              {inv.payment_method || 'Not set'} {inv.transaction_id ? `● ${inv.transaction_id}` : ''}
+                            </div>
+                            <div className="flex flex-wrap gap-2 justify-end mt-2">
+                              {['pending', 'manual_review', 'paid'].map((st) => (
+                                <button
+                                  key={st}
+                                  type="button"
+                                  onClick={() => handleUpdateInvoicePayment(inv.id, st)}
+                                  className="px-2 py-0.5 rounded text-[8px] font-mono uppercase border border-white/10 text-brand-gray hover:text-brand-cyan"
+                                >
+                                  Mark {st.replace('_', ' ')}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 7. CHATBOT LEADS TAB */}
+                {activeTab === 'chatbot' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Chatbot Leads</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Leads captured from Jawrah-Bot conversations.</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      {chatbotLeads.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No chatbot leads captured yet.
+                        </p>
+                      )}
+                      {chatbotLeads.map((lead) => (
+                        <div key={lead.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl">
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {['new', 'contacted', 'qualified', 'archived'].map((st) => (
+                              <button
+                                key={st}
+                                onClick={() => handleUpdateChatbotStatus(lead.id, st)}
+                                className={`px-2 py-0.5 rounded text-[8px] font-mono uppercase border transition-all cursor-pointer ${
+                                  lead.status === st
+                                    ? 'bg-brand-cyan/20 border-brand-cyan/30 text-brand-cyan font-semibold'
+                                    : 'border-white/5 text-brand-gray hover:border-white/10'
+                                }`}
+                              >
+                                {st}
+                              </button>
+                            ))}
+                          </div>
+                          <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{lead.name}</h3>
+                          <p className="text-xs text-brand-silver mt-2">{lead.message || 'No message'}</p>
+                          <div className="flex flex-wrap gap-4 pt-2 text-[10px] font-mono text-brand-gray uppercase">
+                            <span>Business: {lead.business_type || 'N/A'}</span>
+                            <span>Project: {lead.project_type || 'N/A'}</span>
+                            <span>Budget: {lead.budget_range || 'N/A'}</span>
+                            <span>WhatsApp: {lead.whatsapp || 'N/A'}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 8. SUPPORT TICKETS TAB */}
+                {activeTab === 'support' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Support Tickets</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Client help desk requests from the portal.</p>
+                    </div>
+                    <div className="space-y-4">
+                      {supportTickets.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No support tickets logged yet.
+                        </p>
+                      )}
+                      {supportTickets.map((ticket) => (
+                        <div key={ticket.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl">
+                          <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{ticket.subject}</h3>
+                          <p className="text-xs text-brand-silver mt-2">{ticket.message}</p>
+                          <div className="flex flex-wrap gap-4 pt-2 text-[10px] font-mono text-brand-gray uppercase">
+                            <span>Client: {ticket.client?.full_name || 'N/A'}</span>
+                            <span>Status: {ticket.status}</span>
+                            <span>Priority: {ticket.priority}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 9. SETTINGS TAB */}
                 {activeTab === 'settings' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>

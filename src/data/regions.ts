@@ -1,7 +1,7 @@
 import { appEnv } from '@/lib/env';
 
 export interface RegionConfig {
-  id: 'lk' | 'pk';
+  id: 'lk' | 'pk' | 'int';
   countryName: string;
   currency: string;
   currencySymbol: string;
@@ -23,7 +23,7 @@ const DEFAULT_WHATSAPP_LINK = `https://wa.me/${DEFAULT_WHATSAPP.replace(/[^0-9]/
 const DEFAULT_INSTA_HANDLE = appEnv.brandInstagram;
 const DEFAULT_INSTA_LINK = `https://instagram.com/${DEFAULT_INSTA_HANDLE.replace('@', '')}`;
 
-export const regions: Record<'lk' | 'pk', RegionConfig> = {
+export const regions: Record<string, RegionConfig> = {
   lk: {
     id: 'lk',
     countryName: 'Sri Lanka',
@@ -34,24 +34,11 @@ export const regions: Record<'lk' | 'pk', RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
-    locations: [
-      'Colombo',
-      'Kandy',
-      'Galle',
-      'Negombo',
-      'Dehiwala',
-      'Wattala',
-      'Kurunegala',
-      'Jaffna'
-    ],
-    paymentDesc: 'Direct Bank Transfer / Local Gateway',
-    paymentMethods: [
-      'Bank Transfer (LKR local banks)',
-      'Credit & Debit Card Gateways',
-      'Custom Payment Link options'
-    ],
-    seoTitle: 'Jawrah Pixel Sri Lanka | Premium Web Design Agency',
-    seoDescription: 'Premium web design, ecommerce development, branding, SEO, dashboards and digital systems for Sri Lankan businesses.'
+    locations: ['Colombo Hub', 'Kandy Node', 'Galle Satellite'],
+    paymentDesc: 'LKR Bank Transfer & Card Payments',
+    paymentMethods: ['PayHere', 'OnePay', 'Bank Transfer', 'WhatsApp'],
+    seoTitle: 'Premium Web Design Agency in Sri Lanka | Jawrah Pixel',
+    seoDescription: 'Elite digital systems for Sri Lankan enterprises. Bespoke ecommerce, UI/UX architecture, and dashboard engineering.',
   },
   pk: {
     id: 'pk',
@@ -63,31 +50,33 @@ export const regions: Record<'lk' | 'pk', RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
-    locations: [
-      'Karachi',
-      'Lahore',
-      'Islamabad',
-      'Rawalpindi',
-      'Faisalabad',
-      'Multan',
-      'Sialkot',
-      'Hyderabad'
-    ],
-    paymentDesc: 'Bank Transfer / Easypaisa / JazzCash / Instalments',
-    paymentMethods: [
-      'Local Bank Transfer (IBAN support)',
-      'Easypaisa / JazzCash mobile accounts',
-      'Local Payment Gateway Integration (SadaPay, Nayapay, etc.)',
-      'Flexible Milestone/Installment Options'
-    ],
-    seoTitle: 'Jawrah Pixel Pakistan | Premium Web Design Agency',
-    seoDescription: 'Luxury websites, ecommerce platforms, branding, SEO, dashboards and custom digital systems for Pakistani businesses.'
+    locations: ['Lahore Hub', 'Karachi Node', 'Islamabad Satellite'],
+    paymentDesc: 'PKR Bank Transfer, Easypaisa & JazzCash',
+    paymentMethods: ['Easypaisa', 'JazzCash', 'Bank Transfer', 'WhatsApp'],
+    seoTitle: 'Elite Web Design Agency in Pakistan | Jawrah Pixel',
+    seoDescription: 'High-performance digital blueprints for Pakistani brands. Scaling ecommerce and corporate platforms in Lahore & Karachi.',
+  },
+  int: {
+    id: 'int',
+    countryName: 'International',
+    currency: 'USD',
+    currencySymbol: '$',
+    contactEmail: DEFAULT_EMAIL,
+    whatsappNumber: DEFAULT_WHATSAPP,
+    whatsappLink: DEFAULT_WHATSAPP_LINK,
+    instagramLink: DEFAULT_INSTA_LINK,
+    instagramHandle: DEFAULT_INSTA_HANDLE,
+    locations: ['London Node', 'Dubai Hub', 'Singapore Satellite'],
+    paymentDesc: 'USD Stripe, Wise & Payoneer',
+    paymentMethods: ['Stripe', 'Wise', 'Payoneer', 'WhatsApp'],
+    seoTitle: 'Global Premium Web Design Agency | Jawrah Pixel',
+    seoDescription: 'World-class digital systems and high-converting luxury interfaces built natively for leading global enterprises.',
   }
 };
 
-export function getRegionFromPathname(pathname: string): 'lk' | 'pk' {
-  const parts = pathname.split('/').filter(Boolean);
-  if (parts[0] === 'pk') return 'pk';
-  if (parts[0] === 'lk') return 'lk';
+export function getRegionFromPathname(pathname: string): string {
+  const firstSegment = pathname.split('/').filter(Boolean)[0];
+  if (firstSegment === 'pk') return 'pk';
+  if (firstSegment === 'int') return 'int';
   return 'lk';
 }

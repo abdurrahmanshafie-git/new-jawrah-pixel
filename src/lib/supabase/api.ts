@@ -41,9 +41,20 @@ export async function submitBooking(payload: Insert<'bookings'>) {
   return supabase.from('bookings').insert(payload).select('id').single();
 }
 
+export async function submitChatbotLead(payload: Insert<'chatbot_leads'>) {
+  ensureConfigured();
+
+  return supabase.from('chatbot_leads').insert(payload).select('id').single();
+}
+
 export async function fetchAdminLeads() {
   ensureConfigured();
   return supabase.from('inquiries').select('*').order('created_at', { ascending: false });
+}
+
+export async function fetchChatbotLeads() {
+  ensureConfigured();
+  return supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false });
 }
 
 export async function updateLeadStatus(id: string, status: Row<'inquiries'>['status']) {
@@ -51,22 +62,86 @@ export async function updateLeadStatus(id: string, status: Row<'inquiries'>['sta
   return supabase.from('inquiries').update({ status }).eq('id', id);
 }
 
+export async function updateChatbotLeadStatus(id: string, status: Row<'chatbot_leads'>['status']) {
+  ensureConfigured();
+  return supabase.from('chatbot_leads').update({ status }).eq('id', id);
+}
+
+export async function fetchAdminInvoices() {
+  ensureConfigured();
+  return supabase
+    .from('invoices')
+    .select('*, client:profiles(full_name, email), project:projects(title)')
+    .order('created_at', { ascending: false });
+}
+
+export async function updateInvoice(id: string, payload: Update<'invoices'>) {
+  ensureConfigured();
+  return supabase.from('invoices').update(payload).eq('id', id).select('id').single();
+}
+
+export type DepositInvoiceInput = {
+  client_id?: string | null;
+  guest_email?: string | null;
+  guest_name?: string | null;
+  project_id?: string | null;
+  invoice_number: string;
+  title: string;
+  amount: number;
+  currency: string;
+  status?: Insert<'invoices'>['status'];
+  payment_status?: Insert<'invoices'>['payment_status'];
+  payment_method?: Insert<'invoices'>['payment_method'];
+  transaction_id?: string | null;
+  due_date?: string | null;
+};
+
+export async function createDepositInvoice(payload: DepositInvoiceInput) {
+  ensureConfigured();
+
+  if (!payload.client_id && !payload.guest_email) {
+    throw new Error('A client account or guest email is required to create an invoice.');
+  }
+
+  return supabase
+    .from('invoices')
+    .insert({
+      client_id: payload.client_id ?? null,
+      guest_email: payload.guest_email ?? null,
+      guest_name: payload.guest_name ?? null,
+      project_id: payload.project_id ?? null,
+      invoice_number: payload.invoice_number,
+      title: payload.title,
+      amount: payload.amount,
+      currency: payload.currency,
+      status: payload.status ?? 'sent',
+      payment_status: payload.payment_status ?? 'pending',
+      payment_method: payload.payment_method ?? null,
+      transaction_id: payload.transaction_id ?? null,
+      due_date: payload.due_date ?? null,
+    })
+    .select('id, invoice_number')
+    .single();
+}
+
 export async function fetchDashboardAnalytics() {
   ensureConfigured();
-  
-  const [leads, inquiries, bookings, projects] = await Promise.all([
+
+  const [leads, bookings, projects, invoices] = await Promise.all([
     supabase.from('inquiries').select('status, created_at'),
-    supabase.from('inquiries').select('id', { count: 'exact' }),
-    supabase.from('bookings').select('id', { count: 'exact' }),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }),
     supabase.from('projects').select('status, price'),
+    supabase.from('invoices').select('status, payment_status, amount'),
   ]);
 
   const totalLeads = leads.data?.length || 0;
-  const newInquiries = leads.data?.filter(l => l.status === 'new').length || 0;
-  const activeProjects = projects.data?.filter(p => p.status === 'project active').length || 0;
-  const completedProjects = projects.data?.filter(p => p.status === 'delivered').length || 0;
-  
+  const newInquiries = leads.data?.filter((l) => l.status === 'new').length || 0;
+  const activeProjects = projects.data?.filter((p) => p.status === 'project active').length || 0;
+  const completedProjects = projects.data?.filter((p) => p.status === 'delivered').length || 0;
+
   const totalRevenue = projects.data?.reduce((acc, curr) => acc + (Number(curr.price) || 0), 0) || 0;
+  const paidInvoices =
+    invoices.data?.filter((inv) => inv.status === 'paid' || inv.payment_status === 'paid').length || 0;
 
   return {
     totalLeads,
@@ -74,11 +149,13 @@ export async function fetchDashboardAnalytics() {
     activeProjects,
     completedProjects,
     totalRevenue,
-    leadsByStatus: leads.data?.reduce((acc: any, curr) => {
+    paidInvoices,
+    totalBookings: bookings.count || 0,
+    leadsByStatus: leads.data?.reduce((acc: Record<string, number>, curr) => {
       acc[curr.status] = (acc[curr.status] || 0) + 1;
       return acc;
     }, {}),
-    rawProjects: projects.data
+    rawProjects: projects.data,
   };
 }
 
@@ -105,16 +182,22 @@ export async function fetchClients() {
 export async function fetchAdminWorkspace() {
   ensureConfigured();
 
-  const [projects, inquiries, bookings, testimonials, blogPosts, subscribers] = await Promise.all([
-    supabase.from('projects').select('*').order('created_at', { ascending: false }),
-    supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
-    supabase.from('bookings').select('*').order('created_at', { ascending: false }),
-    supabase.from('testimonials').select('*').order('created_at', { ascending: false }),
-    supabase.from('blog_posts').select('*').order('created_at', { ascending: false }),
-    supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
-  ]);
+  const [projects, inquiries, bookings, testimonials, blogPosts, subscribers, invoices, chatbotLeads] =
+    await Promise.all([
+      supabase.from('projects').select('*').order('created_at', { ascending: false }),
+      supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
+      supabase.from('bookings').select('*').order('created_at', { ascending: false }),
+      supabase.from('testimonials').select('*').order('created_at', { ascending: false }),
+      supabase.from('blog_posts').select('*').order('created_at', { ascending: false }),
+      supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
+      supabase
+        .from('invoices')
+        .select('*, client:profiles(full_name, email)')
+        .order('created_at', { ascending: false }),
+      supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+    ]);
 
-  return { projects, inquiries, bookings, testimonials, blogPosts, subscribers };
+  return { projects, inquiries, bookings, testimonials, blogPosts, subscribers, invoices, chatbotLeads };
 }
 
 export async function fetchClientWorkspace(userId: string) {
@@ -140,6 +223,34 @@ export async function fetchClientWorkspace(userId: string) {
     : { data: [], error: null };
 
   return { projects, bookings, revisionRequests, supportTickets, invoices, files, notifications, milestones };
+}
+
+export async function submitRevisionRequest(payload: Insert<'revision_requests'>) {
+  ensureConfigured();
+  return supabase.from('revision_requests').insert(payload).select('id').single();
+}
+
+export async function submitSupportTicket(payload: Insert<'support_tickets'>) {
+  ensureConfigured();
+  return supabase.from('support_tickets').insert(payload).select('id').single();
+}
+
+export async function recordAuditEvent(payload: Insert<'audit_events'>) {
+  ensureConfigured();
+  return supabase.from('audit_events').insert(payload);
+}
+
+export async function createNotification(payload: Insert<'notifications'>) {
+  ensureConfigured();
+  return supabase.from('notifications').insert(payload);
+}
+
+export async function fetchAdminSupportTickets() {
+  ensureConfigured();
+  return supabase
+    .from('support_tickets')
+    .select('*, client:profiles(full_name, email)')
+    .order('created_at', { ascending: false });
 }
 
 export async function updateRow<T extends 'inquiries' | 'bookings' | 'projects' | 'testimonials' | 'blog_posts'>(

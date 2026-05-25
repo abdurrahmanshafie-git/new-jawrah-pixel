@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { fetchClientWorkspace } from '@/lib/supabase/api';
+import { fetchClientWorkspace, submitRevisionRequest, submitSupportTicket } from '@/lib/supabase/api';
+import { notifySupportTicketCreated } from '@/lib/email/notifications';
+import { createUserNotification } from '@/lib/platform/notifications';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
+import { appEnv } from '@/lib/env';
+import { parsePriceAmount } from '@/lib/payments/amounts';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Loader, 
@@ -39,7 +45,10 @@ export default function ClientDashboard() {
   
   // Tab Controls
   const [activeTab, setActiveTab] = useState('overview');
-  const [sandboxMode, setSandboxMode] = useState(true);
+  const [sandboxMode, setSandboxMode] = useState(!isSupabaseConfigured);
+  const [isSubmittingRevision, setIsSubmittingRevision] = useState(false);
+  const [isSubmittingTicket, setIsSubmittingTicket] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   
   // Feedback Toasts
@@ -53,6 +62,8 @@ export default function ClientDashboard() {
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [meetings, setMeetings] = useState<any[]>([]);
+  const [milestones, setMilestones] = useState<any[]>([]);
+  const [paymentProofNote, setPaymentProofNote] = useState('');
 
   // Submissions state controllers
   const [newRevisionText, setNewRevisionText] = useState('');
@@ -74,6 +85,8 @@ export default function ClientDashboard() {
   // File Upload states
   const [dragActive, setDragActive] = useState(false);
   const [simUploadName, setSimUploadName] = useState('');
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
 
   // Toast dispatch utility
   const showToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
@@ -86,7 +99,7 @@ export default function ClientDashboard() {
 
   // Pre-seed mock datasets for accessible instant evaluators
   const INITIAL_MOCK_PROJECTS = [
-    { id: 'proj1', title: 'Shabnam Jewellers Flagship Store', service_type: 'Bespoke Ecommerce & UI Branding', status: 'development', progress: 68, budget: 'LKR 2,200,000', deadline: '2026-06-15', description: 'Heritage fine gold jewelry showcase with real-time appraisers.' }
+    { id: 'proj1', title: 'Shabnam Jewellers Flagship Store', service_type: 'Bespoke Ecommerce & UI Branding', status: 'development', progress: 68, price: 2200000, deadline: '2026-06-15', description: 'Heritage fine gold jewelry showcase with real-time appraisers.' }
   ];
 
   const INITIAL_MOCK_INVOICES = [
@@ -125,6 +138,13 @@ export default function ClientDashboard() {
 
   const loadPortalData = async () => {
     setLoading(true);
+    setPortalError(null);
+
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
     if (sandboxMode) {
       setProjects(INITIAL_MOCK_PROJECTS);
       setInvoices(INITIAL_MOCK_INVOICES);
@@ -138,10 +158,16 @@ export default function ClientDashboard() {
     }
 
     try {
-      // Fetch dynamic active database rows linked to current verified Auth User ID
-      if (user) {
-        const workspace = await fetchClientWorkspace(user.id);
-        if (!workspace.projects.error && workspace.projects.data) setProjects(workspace.projects.data);
+      const workspace = await fetchClientWorkspace(user.id);
+
+      const workspaceError =
+        workspace.projects.error ||
+        workspace.invoices.error ||
+        workspace.supportTickets.error;
+
+      if (workspaceError) throw workspaceError;
+
+      if (!workspace.projects.error && workspace.projects.data) setProjects(workspace.projects.data);
         if (!workspace.bookings.error && workspace.bookings.data) setMeetings(workspace.bookings.data);
         if (!workspace.revisionRequests.error && workspace.revisionRequests.data) {
           setRevisions(workspace.revisionRequests.data.map((item: any) => ({
@@ -157,14 +183,27 @@ export default function ClientDashboard() {
           })));
         }
         if (!workspace.invoices.error && workspace.invoices.data) {
-          setInvoices(workspace.invoices.data.map((item: any) => ({
-            ...item,
-            item: item.title,
-            amount: `${item.currency || profile?.currency || 'LKR'} ${Number(item.amount || 0).toLocaleString()}`,
-            rate: item.invoice_number,
-            status: item.status === 'paid' ? 'Paid' : item.status === 'sent' ? 'Pending' : item.status,
-            date: item.due_date || item.created_at?.split('T')[0],
-          })));
+          setInvoices(
+            workspace.invoices.data.map((item: any) => ({
+              ...item,
+              item: item.title,
+              amount: `${item.currency || profile?.currency || 'LKR'} ${Number(item.amount || 0).toLocaleString()}`,
+              amountNumeric: Number(item.amount || 0),
+              rate: item.invoice_number,
+              status:
+                item.payment_status === 'paid' || item.status === 'paid'
+                  ? 'Paid'
+                  : item.payment_status === 'manual_review'
+                    ? 'Manual Review'
+                    : item.payment_status === 'failed'
+                      ? 'Failed'
+                      : item.payment_status === 'pending' || item.status === 'sent'
+                        ? 'Pending'
+                        : item.status,
+              paymentStatus: item.payment_status,
+              date: item.due_date || item.created_at?.split('T')[0],
+            })),
+          );
         }
         if (!workspace.files.error && workspace.files.data) {
           setUploadedFiles(workspace.files.data.map((item: any) => ({
@@ -175,20 +214,27 @@ export default function ClientDashboard() {
             date: item.created_at?.split('T')[0],
           })));
         }
-        if (!workspace.notifications.error && workspace.notifications.data) {
-          setNotifications(workspace.notifications.data.map((item: any) => ({
-            ...item,
-            desc: item.body,
-            date: item.created_at?.split('T')[0],
-          })));
-        }
+      if (!workspace.notifications.error && workspace.notifications.data) {
+        setNotifications(workspace.notifications.data.map((item: any) => ({
+          ...item,
+          desc: item.body,
+          date: item.created_at?.split('T')[0],
+        })));
       }
+      if (!workspace.milestones.error && workspace.milestones.data) {
+        setMilestones(workspace.milestones.data);
+      }
+
       setLoading(false);
     } catch (err) {
-      console.warn("Real database fetching failed, continuing sandbox simulation:", err);
-      // Failover safely
-      setProjects(INITIAL_MOCK_PROJECTS);
-      setInvoices(INITIAL_MOCK_INVOICES);
+      const message = err instanceof Error ? err.message : 'Unable to load portal data.';
+      console.warn('Client portal fetch failed:', message);
+      setPortalError(message);
+      setProjects([]);
+      setInvoices([]);
+      setSupportTickets([]);
+      setRevisions([]);
+      setUploadedFiles([]);
       setLoading(false);
     }
   };
@@ -196,38 +242,130 @@ export default function ClientDashboard() {
   // SUBMIT REVISION REQUEST ACTIONS
   const handleSubmitRevision = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newRevisionText.trim()) return;
+    if (isSubmittingRevision || !newRevisionText.trim()) return;
 
-    const payload = {
-      id: 'rev_' + Date.now(),
-      project: newRevisionProject || (projects[0]?.title || 'Signature Project'),
-      detail: newRevisionText,
-      status: 'In Review',
-      date: new Date().toISOString().split('T')[0]
-    };
+    setIsSubmittingRevision(true);
 
-    setRevisions(prev => [payload, ...prev]);
-    showToast("Revision request logged. Our creative leads are reviewing details.");
-    setNewRevisionText('');
+    try {
+      if (!sandboxMode && user) {
+        const projectId = projects.find((p) => p.title === newRevisionProject)?.id ?? projects[0]?.id ?? null;
+        const { error } = await submitRevisionRequest({
+          client_id: user.id,
+          project_id: projectId,
+          detail: newRevisionText.trim(),
+          status: 'submitted',
+        });
+        if (error) throw error;
+        await loadPortalData();
+      } else {
+        const payload = {
+          id: 'rev_' + Date.now(),
+          project: newRevisionProject || (projects[0]?.title || 'Signature Project'),
+          detail: newRevisionText,
+          status: 'In Review',
+          date: new Date().toISOString().split('T')[0],
+        };
+        setRevisions((prev) => [payload, ...prev]);
+      }
+
+      showToast('Revision request logged. Our creative leads are reviewing details.');
+      setNewRevisionText('');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to submit revision.';
+      showToast(message, 'error');
+    } finally {
+      setIsSubmittingRevision(false);
+    }
   };
 
   // SUBMIT SUPPORT TICKET ACTIONS
   const handleSubmitTicket = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTicketSubject.trim() || !newTicketMessage.trim()) return;
+    if (isSubmittingTicket || !newTicketSubject.trim() || !newTicketMessage.trim()) return;
 
-    const payload = {
-      id: 'tick_' + Date.now(),
-      subject: newTicketSubject,
-      message: newTicketMessage,
-      status: 'open',
-      date: new Date().toISOString().split('T')[0]
-    };
+    setIsSubmittingTicket(true);
 
-    setSupportTickets(prev => [payload, ...prev]);
-    showToast("Support ticket registered in workspace queues.");
-    setNewTicketSubject('');
-    setNewTicketMessage('');
+    try {
+      if (!sandboxMode && user) {
+        const { error } = await submitSupportTicket({
+          client_id: user.id,
+          project_id: projects[0]?.id ?? null,
+          subject: newTicketSubject.trim(),
+          message: newTicketMessage.trim(),
+          status: 'open',
+          priority: 'normal',
+        });
+        if (error) throw error;
+        void notifySupportTicketCreated({ email: user.email ?? '', subject: newTicketSubject.trim() });
+        void createUserNotification({
+          userId: user.id,
+          title: 'Support ticket submitted',
+          body: newTicketSubject.trim(),
+        });
+        await loadPortalData();
+      } else {
+        const payload = {
+          id: 'tick_' + Date.now(),
+          subject: newTicketSubject,
+          message: newTicketMessage,
+          status: 'open',
+          date: new Date().toISOString().split('T')[0],
+        };
+        setSupportTickets((prev) => [payload, ...prev]);
+      }
+
+      showToast('Support ticket registered in workspace queues.');
+      setNewTicketSubject('');
+      setNewTicketMessage('');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to submit support ticket.';
+      showToast(message, 'error');
+    } finally {
+      setIsSubmittingTicket(false);
+    }
+  };
+
+  const openInvoicePayment = (
+    inv: {
+      id: string;
+      item?: string;
+      title?: string;
+      amountNumeric?: number;
+      currency?: string;
+      rate?: string;
+      invoice_number?: string;
+      amount?: string;
+    },
+    mode: 'full' | 'deposit',
+  ) => {
+    const lineAmount =
+      inv.amountNumeric ?? (parsePriceAmount(String(inv.amount || '')) || 0);
+
+    if (mode === 'full') {
+      setPaymentModalPayload({
+        serviceName: inv.item || inv.title || 'Invoice Payment',
+        totalAmount: lineAmount,
+        defaultPercent: 100,
+        intent: 'invoice',
+        lockPercent: true,
+        guestEmail: user?.email ?? undefined,
+        guestName: profile?.full_name ?? undefined,
+        existingInvoiceId: inv.id,
+        existingInvoiceNumber: inv.rate || inv.invoice_number,
+      });
+    } else {
+      const projectTotal = Number(projects[0]?.price) || lineAmount * 10;
+      setPaymentModalPayload({
+        serviceName: projects[0]?.title || inv.item || 'Project Deposit',
+        totalAmount: projectTotal,
+        defaultPercent: 10,
+        intent: 'advance_10',
+        lockPercent: true,
+        guestEmail: user?.email ?? undefined,
+        guestName: profile?.full_name ?? undefined,
+      });
+    }
+    setPaymentModalOpen(true);
   };
 
   // LIVE SHIELD CHAT RESPONSE SIMULATOR
@@ -339,6 +477,18 @@ export default function ClientDashboard() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+
+        {portalError && !sandboxMode && (
+          <div className="mb-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 text-amber-200 text-xs font-mono uppercase tracking-wider">
+            {portalError}
+          </div>
+        )}
+
+        {!sandboxMode && !loading && projects.length === 0 && (
+          <div className="mb-6 p-4 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan text-xs font-mono uppercase tracking-wider">
+            Onboarding: Your account is active. A project node will appear here once your scope is approved.
+          </div>
+        )}
         
         {/* UPPER TITLE HEADER BLOCK */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10 mb-8">
@@ -460,8 +610,8 @@ export default function ClientDashboard() {
                             </div>
 
                             <div className="text-right">
-                              <span className="text-[10px] font-mono text-brand-gray uppercase block">TARGET BUDGET</span>
-                              <span className="text-sm font-semibold text-brand-cyan">{proj.budget || 'Calculated project'}</span>
+                              <span className="text-[10px] font-mono text-brand-gray uppercase block">TARGET PRICE</span>
+                              <span className="text-sm font-semibold text-brand-cyan">{proj.price ? `${proj.price.toLocaleString()}` : 'Calculated project'}</span>
                             </div>
                           </div>
 
@@ -469,7 +619,7 @@ export default function ClientDashboard() {
                           <div className="space-y-2">
                             <div className="flex justify-between items-center text-xs font-mono text-brand-silver">
                               <span>ACTIVE SYSTEM PROGRESSIVE INTEGRATION</span>
-                              <span className="text-brand-cyan">{proj.progress || 50}% 완료</span>
+                              <span className="text-brand-cyan">{proj.progress || 0}% Complete</span>
                             </div>
                             <div className="w-full bg-white/5 rounded-full h-3">
                               <div 
@@ -480,27 +630,31 @@ export default function ClientDashboard() {
                           </div>
 
                           {/* Milestone Steps Timeline */}
-                          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-4 border-t border-white/5">
-                            {[
-                              { step: '01', title: 'DISCOVERY', desc: 'Requirements lock-in and layout grids approval.', active: true, done: true },
-                              { step: '02', title: 'DB SYNCS', desc: 'Secure Supabase table configurations and APIs mapping.', active: true, done: false },
-                              { step: '03', title: 'OPTIMIZATION', desc: 'Core Web vitals audit and performance caching.', active: false, done: false },
-                              { step: '04', title: 'FINAL DEPLOY', desc: 'CDN launching, meta schemes setup, and SSL validation.', active: false, done: false }
-                            ].map((ms, msIdx) => (
-                              <div key={msIdx} className={`p-4 rounded-xl border ${
-                                ms.done ? 'bg-brand-cyan/5 border-brand-cyan/20' :
-                                ms.active ? 'bg-brand-blue/5 border-brand-blue/20 animate-pulse' :
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-white/5">
+                            {(milestones.filter((m) => m.project_id === proj.id).length
+                              ? milestones.filter((m) => m.project_id === proj.id)
+                              : [
+                                  { id: 'ph1', title: 'Discovery', description: 'Scope lock-in pending.', status: 'queued' },
+                                  { id: 'ph2', title: 'Build', description: 'Development phase.', status: 'queued' },
+                                ]
+                            ).map((ms: any, msIdx: number) => {
+                              const done = ms.status === 'complete' || ms.status === 'approved';
+                              const active = ms.status === 'active' || ms.status === 'review';
+                              return (
+                              <div key={ms.id ?? msIdx} className={`p-4 rounded-xl border ${
+                                done ? 'bg-brand-cyan/5 border-brand-cyan/20' :
+                                active ? 'bg-brand-blue/5 border-brand-blue/20 animate-pulse' :
                                 'bg-white/[0.01] border-white/5'
                               }`}>
                                 <div className="flex justify-between items-center mb-2">
-                                  <span className="text-xs font-mono font-bold text-brand-gray">{ms.step}</span>
-                                  {ms.done && <CheckCircle size={14} className="text-brand-cyan" />}
-                                  {ms.active && !ms.done && <Clock size={14} className="text-brand-blue" />}
+                                  <span className="text-xs font-mono font-bold text-brand-gray">{String(msIdx + 1).padStart(2, '0')}</span>
+                                  {done && <CheckCircle size={14} className="text-brand-cyan" />}
+                                  {active && !done && <Clock size={14} className="text-brand-blue" />}
                                 </div>
-                                <h4 className={`text-xs font-semibold uppercase tracking-wider ${ms.active || ms.done ? 'text-white' : 'text-brand-gray'}`}>{ms.title}</h4>
-                                <p className="text-[10px] text-brand-gray font-light mt-1 leading-snug">{ms.desc}</p>
+                                <h4 className={`text-xs font-semibold uppercase tracking-wider ${active || done ? 'text-white' : 'text-brand-gray'}`}>{ms.title}</h4>
+                                <p className="text-[10px] text-brand-gray font-light mt-1 leading-snug">{ms.description || ms.desc || 'Milestone pending assignment.'}</p>
                               </div>
-                            ))}
+                            );})}
                           </div>
 
                         </div>
@@ -555,8 +709,12 @@ export default function ClientDashboard() {
                           />
                         </div>
 
-                        <Button type="submit" className="w-full text-xs font-mono uppercase tracking-widest h-10 select-none font-bold">
-                          Transmit Revision Request
+                        <Button
+                          type="submit"
+                          disabled={isSubmittingRevision}
+                          className="w-full text-xs font-mono uppercase tracking-widest h-10 select-none font-bold"
+                        >
+                          {isSubmittingRevision ? 'Sending...' : 'Transmit Revision Request'}
                         </Button>
                       </form>
 
@@ -664,6 +822,11 @@ export default function ClientDashboard() {
                     </div>
 
                     <div className="space-y-3.5">
+                      {invoices.length === 0 && (
+                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                          No invoices available yet. Your account manager will issue milestone billing here.
+                        </p>
+                      )}
                       {invoices.map((inv) => (
                         <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl flex items-center justify-between flex-wrap gap-4 hover:border-white/10 transition-colors">
                           <div className="space-y-1">
@@ -685,6 +848,25 @@ export default function ClientDashboard() {
                               {inv.status}
                             </span>
 
+                            {inv.status !== 'Paid' && (
+                              <div className="flex gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => openInvoicePayment(inv, 'full')}
+                                  className="px-2 py-1 rounded bg-brand-cyan/10 border border-brand-cyan/20 text-[9px] font-mono uppercase text-brand-cyan"
+                                >
+                                  Pay Now
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => openInvoicePayment(inv, 'deposit')}
+                                  className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[9px] font-mono uppercase text-brand-gray hover:text-white"
+                                >
+                                  Deposit
+                                </button>
+                              </div>
+                            )}
+
                             <button 
                               onClick={() => showToast(`Generated simulated receipt PDF for ${inv.id}`)}
                               className="p-1.5 rounded bg-white/5 text-brand-gray hover:text-white"
@@ -694,6 +876,50 @@ export default function ClientDashboard() {
                           </div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-3">
+                      <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold block">
+                        Upload Payment Proof (Placeholder)
+                      </span>
+                      <p className="text-[10px] text-brand-gray font-light">
+                        Reference your transfer receipt below, then confirm via WhatsApp. File vault upload connects when storage is enabled.
+                      </p>
+                      <Input
+                        value={paymentProofNote}
+                        onChange={(e) => setPaymentProofNote(e.target.value)}
+                        placeholder="e.g. HNB transfer ref #48291 — LKR 66,000"
+                        className="bg-black border-white/5 h-10 text-xs"
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          className="text-[10px] font-mono uppercase"
+                          onClick={() => {
+                            if (!paymentProofNote.trim()) {
+                              showToast('Add a payment reference first.', 'error');
+                              return;
+                            }
+                            showToast('Payment proof note saved for manual review.', 'success');
+                            setPaymentProofNote('');
+                          }}
+                        >
+                          Save Proof Reference
+                        </Button>
+                        <a
+                          href={`https://wa.me/${appEnv.contactWhatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                            paymentProofNote || 'Payment proof for Jawrah Pixel invoice',
+                          )}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <Button type="button" size="sm" className="text-[10px] font-mono uppercase">
+                            WhatsApp Payment Confirmation
+                          </Button>
+                        </a>
+                      </div>
                     </div>
 
                   </div>
@@ -736,8 +962,12 @@ export default function ClientDashboard() {
                           />
                         </div>
 
-                        <Button type="submit" className="w-full text-xs font-mono uppercase tracking-widest h-10 font-bold select-none">
-                          Lodge Work Ticket
+                        <Button
+                          type="submit"
+                          disabled={isSubmittingTicket}
+                          className="w-full text-xs font-mono uppercase tracking-widest h-10 font-bold select-none"
+                        >
+                          {isSubmittingTicket ? 'Sending...' : 'Lodge Work Ticket'}
                         </Button>
                       </form>
 
@@ -882,6 +1112,12 @@ export default function ClientDashboard() {
         </div>
 
       </div>
+
+      <PaymentModal
+        open={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        payload={paymentModalPayload}
+      />
     </div>
   );
 }

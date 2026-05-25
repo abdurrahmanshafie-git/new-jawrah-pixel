@@ -5,7 +5,7 @@ export const REGION_STORAGE_KEY = 'jawrah_region';
 const REGION_COOKIE_NAME = 'jawrah_region';
 
 export function isRegionCode(value: unknown): value is RegionCode {
-  return value === 'lk' || value === 'pk';
+  return value === 'lk' || value === 'pk' || value === 'int';
 }
 
 export function getRegionMeta(region: RegionCode): Pick<RegionConfig, 'countryName' | 'currency'> {

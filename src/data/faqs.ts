@@ -42,6 +42,9 @@ export const faqsData: Record<'lk' | 'pk', FaqItem[]> = {
   ]
 };
 
-export function getFaqsForRegion(region: 'lk' | 'pk'): FaqItem[] {
-  return faqsData[region];
+import type { RegionCode } from '@/types';
+
+export function getFaqsForRegion(region: RegionCode): FaqItem[] {
+  if (region === 'pk') return faqsData.pk;
+  return faqsData.lk;
 }

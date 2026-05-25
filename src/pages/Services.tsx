@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Shield, Sparkles, Code, Smartphone, Zap, Search, LayoutTemplate, Briefcase, Database, Server, ShoppingCart, Check } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Link } from 'react-router-dom';
+import { PaymentCTAGroup } from '@/components/payments/PaymentCTAGroup';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { cn } from '@/lib/utils';
@@ -89,8 +90,9 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
-              <Link to={p('/contact')}>
-                <Button variant="outline" className="w-full text-[10px] sm:text-sm h-9 sm:h-11 group hover:border-brand-blue">
+              <PaymentCTAGroup serviceName={service.title} priceLabel={service.price} compact />
+              <Link to={p('/contact')} className="block mt-2">
+                <Button variant="ghost" className="w-full text-[10px] sm:text-sm h-8 border border-white/5 text-brand-gray hover:text-white">
                   Inquire Now
                 </Button>
               </Link>
@@ -141,10 +143,17 @@ export default function Services() {
                     ))}
                   </ul>
                 </div>
-                <Link to={p('/contact')}>
-                  <Button 
-                    variant={plan.isRecommended ? "default" : "ghost"} 
-                    className={cn("w-full uppercase font-mono tracking-widest text-[9px] sm:text-[10px] font-bold h-9 sm:h-11", !plan.isRecommended ? "border border-white/10 hover:bg-white/5" : "luxury-glow")}
+                <PaymentCTAGroup
+                  serviceName={`${plan.name} SLA`}
+                  priceLabel={plan.price}
+                  compact
+                />
+                <Link to={p('/contact')} className="block mt-2">
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      'w-full uppercase font-mono tracking-widest text-[9px] sm:text-[10px] h-8 border border-white/5 text-brand-gray hover:text-white',
+                    )}
                   >
                     Select Plan
                   </Button>

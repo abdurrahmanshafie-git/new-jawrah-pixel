@@ -10,8 +10,10 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  authError: string | null;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
+  clearAuthError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,8 +21,10 @@ const AuthContext = createContext<AuthContextType>({
   profile: null,
   session: null,
   loading: true,
+  authError: null,
   signOut: async () => {},
   refreshProfile: async () => {},
+  clearAuthError: () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -28,34 +32,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        void fetchProfile(session.user.id);
-      } else {
+    let mounted = true;
+
+    const initSession = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        if (!mounted) return;
+
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+        if (data.session?.user) {
+          await fetchProfile(data.session.user.id);
+        } else {
+          setLoading(false);
+        }
+      } catch (err) {
+        if (!mounted) return;
+        const message = err instanceof Error ? err.message : 'Unable to restore session.';
+        setAuthError(message);
         setLoading(false);
       }
-    });
+    };
 
-    // Listen for auth changes
+    void initSession();
+
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        void fetchProfile(session.user.id);
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+      if (nextSession?.user) {
+        void fetchProfile(nextSession.user.id);
       } else {
         setProfile(null);
         setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchProfile = async (userId: string) => {
@@ -83,11 +104,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    setAuthError(null);
     await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+    setProfile(null);
   };
 
+  const clearAuthError = () => setAuthError(null);
+
   return (
-    <AuthContext.Provider value={{ user, profile, session, loading, signOut, refreshProfile }}>
+    <AuthContext.Provider
+      value={{ user, profile, session, loading, authError, signOut, refreshProfile, clearAuthError }}
+    >
       {children}
     </AuthContext.Provider>
   );

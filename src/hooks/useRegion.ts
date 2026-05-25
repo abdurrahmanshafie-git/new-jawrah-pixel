@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { regions, getRegionFromPathname, RegionConfig } from '../data/regions';
+import type { RegionCode } from '@/types';
 import { getServicesForRegion } from '../data/services';
 import { getCaseStudiesForRegion } from '../data/caseStudies';
 import { getMaintenancePlans } from '../data/pricing';
@@ -8,8 +9,8 @@ import { persistRegion } from '@/lib/region';
 
 export function useRegion() {
   const location = useLocation();
-  const currentRegion = getRegionFromPathname(location.pathname);
-  const config: RegionConfig = regions[currentRegion];
+  const currentRegion = getRegionFromPathname(location.pathname) as RegionCode;
+  const config: RegionConfig = regions[currentRegion] ?? regions.lk;
 
   return {
     currentRegion,
@@ -43,5 +44,6 @@ export function useRegion() {
       return `/${otherRegion}`;
     },
     persistRegion,
+    isInternational: currentRegion === 'int',
   };
 }
