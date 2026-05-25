@@ -69,6 +69,28 @@ export default function CaseStudyDetail() {
   const currentIndex = slugs.indexOf(project.slug);
   const nextSlug = slugs[(currentIndex + 1) % slugs.length];
   const nextProject = ALL_CASE_STUDIES[nextSlug];
+  const transformationSummary = [
+    {
+      label: 'Challenge',
+      icon: <Compass size={16} />,
+      copy: project.challenges[0],
+    },
+    {
+      label: 'Strategy',
+      icon: <Cpu size={16} />,
+      copy: project.solutions[0],
+    },
+    {
+      label: 'Business Impact',
+      icon: <Award size={16} />,
+      copy: `${project.results[0].val} ${project.results[0].metric.toLowerCase()} with measurable commercial lift after launch.`,
+    },
+    {
+      label: 'Mobile Optimization',
+      icon: <ShieldCheck size={16} />,
+      copy: project.mobileHighlights[0]?.desc || 'Responsive touch-first flows tuned for high-intent mobile visitors.',
+    },
+  ];
 
   return (
     <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden select-text">
@@ -157,6 +179,32 @@ export default function CaseStudyDetail() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* ENTERPRISE TRANSFORMATION SNAPSHOT */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-20 md:mb-28">
+          {transformationSummary.map((item, idx) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+              className="interactive-lift rounded-2xl border border-white/10 bg-white/[0.025] p-5 md:p-6 hover:border-brand-cyan/30"
+            >
+              <div className="mb-5 flex items-center justify-between gap-3">
+                <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.22em] font-bold">
+                  {item.label}
+                </span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand-cyan/20 bg-brand-cyan/10 text-brand-cyan">
+                  {item.icon}
+                </span>
+              </div>
+              <p className="text-xs md:text-sm text-brand-silver leading-relaxed font-light">
+                {item.copy}
+              </p>
+            </motion.div>
+          ))}
         </div>
         
         {/* VISUAL ARCHITECTURE SHOWCASE */}
@@ -593,7 +641,7 @@ export default function CaseStudyDetail() {
             </p>
           </div>
 
-          <Link to={`/case-studies/${nextProject.slug}`}>
+          <Link to={p(`/case-studies/${nextProject.slug}`)}>
             <Button size="sm" className="uppercase font-mono tracking-widest text-[10px] luxury-glow cursor-pointer">
               Explore Project <ChevronRight size={14} className="ml-1" />
             </Button>

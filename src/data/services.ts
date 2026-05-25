@@ -8,27 +8,27 @@ export interface ServiceItem {
 export const sriLankaServices: ServiceItem[] = [
   {
     id: "web-design",
-    title: "Web Design",
-    price: "from LKR 150,000",
-    features: ["Bespoke Visual Layouts", "Responsive Performance", "Speed & Security Optimization", "On-Page SEO Setup"]
+    title: "Signature Web Experience",
+    price: "from LKR 500,000",
+    features: ["Bespoke Art Direction", "Conversion-Led UX Architecture", "Core Web Vitals Engineering", "Technical SEO Foundation"]
   },
   {
     id: "ecommerce",
-    title: "Ecommerce Development",
-    price: "from LKR 350,000",
-    features: ["Custom Shopping Cart", "Local Payment Integrations", "Optimized Inventory Management", "Sales Reports & Analytics"]
+    title: "Luxury Commerce System",
+    price: "from LKR 950,000",
+    features: ["Premium Catalog Architecture", "Local Payment Integrations", "Inventory & Order Operations", "Conversion Analytics Layer"]
   },
   {
     id: "jewellery",
-    title: "Jewellery Websites",
-    price: "from LKR 300,000",
-    features: ["High-Ticket Visual Aesthetics", "Product Catalog Zoom Features", "Customer Consult Scheduling", "Certificate Verifiers"]
+    title: "Fine Jewellery Flagships",
+    price: "from LKR 850,000",
+    features: ["Macro Product Storytelling", "Appraisal & Catalog Systems", "Private Consultation Scheduling", "Certificate Verifier Flows"]
   },
   {
     id: "fashion",
-    title: "Fashion Brand Websites",
-    price: "from LKR 280,000",
-    features: ["Insta-Feed Feed Integration", "Size Selector Chart Guides", "Collection Showcases", "Dynamic Filtering & Sorting"]
+    title: "Fashion Brand Flagships",
+    price: "from LKR 750,000",
+    features: ["Editorial Collection Drops", "Size & Fit Guidance", "Cinematic Lookbook Sections", "Fast Filtering & Checkout Routing"]
   },
   {
     id: "restaurant",
@@ -56,9 +56,9 @@ export const sriLankaServices: ServiceItem[] = [
   },
   {
     id: "dashboards",
-    title: "Admin Dashboards",
-    price: "from LKR 300,000",
-    features: ["Custom Database Workspaces", "Interactive Analytics & Metrics", "Secure Multi-Auth Tiers", "Export/Import Pipeline Feeds"]
+    title: "Client OS & Admin Dashboards",
+    price: "from LKR 900,000",
+    features: ["Custom Database Workspaces", "Interactive Analytics & Metrics", "Secure Role-Based Access", "Export/Import Pipeline Feeds"]
   },
   {
     id: "maintenance",
@@ -71,21 +71,21 @@ export const sriLankaServices: ServiceItem[] = [
 export const pakistanServices: ServiceItem[] = [
   {
     id: "ecommerce-pk",
-    title: "Ecommerce Website Development Pakistan",
-    price: "from PKR 250,000",
-    features: ["Custom Interactive Architecture", "Easypaisa & JazzCash Integrated Checkout", "Optimized Mobile Flow Metrics", "Automated Billing & Reporting"]
+    title: "Luxury Commerce Pakistan",
+    price: "from PKR 850,000",
+    features: ["Custom Interactive Architecture", "Easypaisa & JazzCash Checkout", "Optimized Mobile Conversion", "Automated Billing & Reporting"]
   },
   {
     id: "jewellery-pk",
-    title: "Jewellery Website Design Pakistan",
-    price: "from PKR 250,000",
-    features: ["High-End Luxurious Detail Frames", "Premium Custom Order Configurator", "Secure Payment Protocols", "Private Showroom Scheduling"]
+    title: "Fine Jewellery Digital Flagship",
+    price: "from PKR 750,000",
+    features: ["High-End Detail Frames", "Custom Order Configurators", "Secure Payment Protocols", "Private Showroom Scheduling"]
   },
   {
     id: "fashion-pk",
-    title: "Fashion Brand Website Pakistan",
-    price: "from PKR 220,000",
-    features: ["Premium Seasonal Lookout Sync", "Interactive Catalog Filters", "Fast Load Speed over Local 4G", "Direct WhatsApp Checkout Hub"]
+    title: "Fashion Brand Flagship Pakistan",
+    price: "from PKR 650,000",
+    features: ["Premium Seasonal Drop Systems", "Interactive Catalog Filters", "Fast Local 4G Load Paths", "Direct WhatsApp Checkout Hub"]
   },
   {
     id: "travel-pk",
@@ -119,9 +119,9 @@ export const pakistanServices: ServiceItem[] = [
   },
   {
     id: "dashboards-pk",
-    title: "Admin Dashboards Pakistan",
-    price: "from PKR 350,000",
-    features: ["Full Database Integration", "Comprehensive Order Tracking Metrics", "Corporate CRM Interfaces", "Multi-Warehouse Inventory Control"]
+    title: "Client OS & Admin Dashboards",
+    price: "from PKR 950,000",
+    features: ["Full Database Integration", "Order & Delivery Intelligence", "Corporate CRM Interfaces", "Multi-Warehouse Inventory Control"]
   },
   {
     id: "maintenance-pk",

@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Globe, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -14,6 +14,7 @@ export function Navbar() {
   const location = useLocation();
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,12 +65,16 @@ export function Navbar() {
     <>
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b',
         scrolled
-          ? 'bg-brand-black/80 backdrop-blur-md border-white/10 py-3 md:py-4 h-16 md:h-20'
-          : 'bg-brand-black/40 backdrop-blur-md border-white/10 py-4 md:py-6 h-16 md:h-24'
+          ? 'bg-brand-black/85 backdrop-blur-xl border-white/10 py-3 md:py-4 h-16 md:h-20 shadow-[0_20px_50px_rgba(0,0,0,0.35)]'
+          : 'bg-brand-black/35 backdrop-blur-md border-white/10 py-4 md:py-6 h-16 md:h-24'
       )}
     >
+      <motion.div
+        className="absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-brand-cyan via-brand-blue to-transparent"
+        style={{ scaleX: scrollYProgress }}
+      />
       <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
         <div className="flex items-center justify-between">
           <Link to={`/${currentRegion}`} className="flex items-center group">

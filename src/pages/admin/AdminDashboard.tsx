@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
+import { fetchAdminWorkspace } from '@/lib/supabase/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Activity, 
@@ -170,24 +171,14 @@ export default function AdminDashboard() {
     }
 
     try {
-      // Attempt real Supabase Database Loads
-      const { data: projData, error: projErr } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-      if (!projErr && projData) setProjects(projData);
-
-      const { data: inqData, error: inqErr } = await supabase.from('inquiries').select('*').order('created_at', { ascending: false });
-      if (!inqErr && inqData) setInquiries(inqData);
-
-      const { data: bookData, error: bookErr } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
-      if (!bookErr && bookData) setBookings(bookData);
-
-      const { data: testData, error: testErr } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
-      if (!testErr && testData) setTestimonials(testData);
-
-      const { data: bldData, error: bldErr } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false });
-      if (!bldErr && bldData) setBlogs(bldData);
-
-      const { data: newsData, error: newsErr } = await supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false });
-      if (!newsErr && newsData) setNewsletters(newsData);
+      // Attempt real Supabase Database Loads through the centralized data gateway.
+      const workspace = await fetchAdminWorkspace();
+      if (!workspace.projects.error && workspace.projects.data) setProjects(workspace.projects.data);
+      if (!workspace.inquiries.error && workspace.inquiries.data) setInquiries(workspace.inquiries.data);
+      if (!workspace.bookings.error && workspace.bookings.data) setBookings(workspace.bookings.data);
+      if (!workspace.testimonials.error && workspace.testimonials.data) setTestimonials(workspace.testimonials.data);
+      if (!workspace.blogPosts.error && workspace.blogPosts.data) setBlogs(workspace.blogPosts.data);
+      if (!workspace.subscribers.error && workspace.subscribers.data) setNewsletters(workspace.subscribers.data);
 
     } catch (err: any) {
       console.warn("Supabase load fallback triggered:", err.message);

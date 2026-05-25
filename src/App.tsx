@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from './components/layout/Layouts';
 import { SleekLoader } from './components/ui/SleekLoader';
+import { RequireAuth } from './components/auth/RequireAuth';
 
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
@@ -85,17 +86,17 @@ export default function App() {
             <Route path="/signup" element={<SignUp />} />
 
             {/* Admin Routes */}
-            <Route element={<AdminLayout />}>
+            <Route element={<RequireAuth roles={['admin']}><AdminLayout /></RequireAuth>}>
               <Route path="/admin" element={<AdminDashboard />} />
             </Route>
 
             {/* Client Routes */}
-            <Route element={<ClientLayout />}>
+            <Route element={<RequireAuth roles={['client', 'admin']}><ClientLayout /></RequireAuth>}>
               <Route path="/dashboard" element={<ClientDashboard />} />
             </Route>
 
             {/* Agent Routes */}
-            <Route element={<AgentLayout />}>
+            <Route element={<RequireAuth roles={['agent', 'admin']}><AgentLayout /></RequireAuth>}>
               <Route path="/agent" element={<AgentDashboard />} />
             </Route>
           </Routes>

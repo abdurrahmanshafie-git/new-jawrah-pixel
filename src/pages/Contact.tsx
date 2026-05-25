@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { supabase } from '@/lib/supabase/client';
+import { submitBooking, submitInquiry } from '@/lib/supabase/api';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useForm as useRHForm } from 'react-hook-form';
@@ -153,8 +153,7 @@ export default function Contact() {
     setSuccess(false);
 
     try {
-      const { error } = await supabase.from('inquiries').insert([
-        {
+      const { error } = await submitInquiry({
           name: data.name,
           email: data.email,
           whatsapp: data.whatsapp || null,
@@ -165,9 +164,9 @@ export default function Contact() {
           region: currentRegion,
           country: config.countryName,
           currency: config.currency,
+          source: 'rfp_flow',
           status: 'new'
-        }
-      ]);
+      });
 
       if (error) throw error;
       setSuccess(true);
@@ -205,8 +204,7 @@ export default function Contact() {
     const selectedDate = businessDaysList[selectedDateIndex];
 
     try {
-      const { error } = await supabase.from('bookings').insert([
-        {
+      const { error } = await submitBooking({
           name: bookingForm.name,
           email: bookingForm.email,
           whatsapp: bookingForm.whatsapp || null,
@@ -219,8 +217,7 @@ export default function Contact() {
           country: config.countryName,
           currency: config.currency,
           status: 'pending'
-        }
-      ]);
+      });
 
       if (error) throw error;
       setBookingSuccess(true);

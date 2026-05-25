@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { getProfileRole } from '@/lib/supabase/api';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
@@ -13,6 +14,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,15 +29,14 @@ export default function Login() {
       if (error) throw error;
       
       // Fetch the role immediately to navigate to correct place
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .single();
+      const { data: profileData } = await getProfileRole(data.user.id);
+      const requestedPath = (location.state as { from?: string } | null)?.from;
         
-      if (profileData?.role === 'admin') {
+      if (requestedPath) {
+        navigate(requestedPath);
+      } else if (profileData && profileData.role === 'admin') {
         navigate('/admin');
-      } else if (profileData?.role === 'agent') {
+      } else if (profileData && profileData.role === 'agent') {
         navigate('/agent');
       } else {
         navigate('/dashboard');

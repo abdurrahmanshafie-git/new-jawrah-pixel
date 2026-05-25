@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
@@ -11,11 +11,9 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [role, setRole] = useState<'client' | 'agent'>('client');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +26,6 @@ export default function SignUp() {
         options: {
           data: {
             full_name: fullName,
-            role: role,
           }
         }
       });
@@ -92,32 +89,8 @@ export default function SignUp() {
                   placeholder="John Doe"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm text-brand-silver">I am registering as</label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setRole('client')}
-                    className={`py-2.5 px-4 rounded-lg border text-sm font-medium transition-all ${
-                      role === 'client'
-                        ? 'bg-brand-blue/20 border-brand-blue text-white shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                        : 'bg-white/5 border-white/10 text-brand-gray hover:text-white hover:border-white/20'
-                    }`}
-                  >
-                    Client
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRole('agent')}
-                    className={`py-2.5 px-4 rounded-lg border text-sm font-medium transition-all ${
-                      role === 'agent'
-                        ? 'bg-brand-cyan/20 border-brand-cyan text-white shadow-[0_0_15px_rgba(34,211,238,0.2)]'
-                        : 'bg-white/5 border-white/10 text-brand-gray hover:text-white hover:border-white/20'
-                    }`}
-                  >
-                    Agency Agent
-                  </button>
-                </div>
+              <div className="rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 p-4 text-xs leading-relaxed text-brand-silver">
+                New signups are provisioned as client accounts. Agent and admin roles are issued internally after verification.
               </div>
               <div className="space-y-2">
                 <label className="text-sm text-brand-silver">Email Address</label>

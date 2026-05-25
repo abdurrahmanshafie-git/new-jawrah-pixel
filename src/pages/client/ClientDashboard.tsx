@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase/client';
+import { fetchClientWorkspace } from '@/lib/supabase/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   Loader, 
@@ -140,11 +140,22 @@ export default function ClientDashboard() {
     try {
       // Fetch dynamic active database rows linked to current verified Auth User ID
       if (user) {
-        const { data: proj, error: projErr } = await supabase.from('projects').select('*').eq('client_id', user.id);
-        if (!projErr && proj) setProjects(proj);
-
-        const { data: inq, error: inqErr } = await supabase.from('bookings').select('*').eq('user_id', user.id);
-        if (!inqErr && inq) setMeetings(inq);
+        const workspace = await fetchClientWorkspace(user.id);
+        if (!workspace.projects.error && workspace.projects.data) setProjects(workspace.projects.data);
+        if (!workspace.bookings.error && workspace.bookings.data) setMeetings(workspace.bookings.data);
+        if (!workspace.revisionRequests.error && workspace.revisionRequests.data) {
+          setRevisions(workspace.revisionRequests.data.map((item: any) => ({
+            ...item,
+            project: item.project_id || 'Active project',
+            date: item.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
+          })));
+        }
+        if (!workspace.supportTickets.error && workspace.supportTickets.data) {
+          setSupportTickets(workspace.supportTickets.data.map((item: any) => ({
+            ...item,
+            date: item.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
+          })));
+        }
       }
 
       setInvoices(INITIAL_MOCK_INVOICES);

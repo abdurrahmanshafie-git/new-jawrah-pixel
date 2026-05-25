@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { appEnv, toAbsoluteUrl } from '@/lib/env';
 
 interface SEOProps {
   title: string;
@@ -13,7 +14,7 @@ interface SEOProps {
 export function SEO({
   title,
   description,
-  canonicalUrl = window.location.href,
+  canonicalUrl,
   ogType = 'website',
   ogImage = 'https://jawrahpixel.com/assets/og-image.jpg',
   schemaType,
@@ -22,6 +23,8 @@ export function SEO({
   useEffect(() => {
     // 1. Update Title
     const formattedTitle = title.includes('Jawrah Pixel') ? title : `${title} | Jawrah Pixel | Premium Digital Agency`;
+    const resolvedCanonical = canonicalUrl || `${appEnv.siteUrl}${window.location.pathname}`;
+    const resolvedOgImage = toAbsoluteUrl(ogImage);
     document.title = formattedTitle;
 
     // 2. Update Meta Description
@@ -40,20 +43,21 @@ export function SEO({
       linkCanonical.setAttribute('rel', 'canonical');
       document.head.appendChild(linkCanonical);
     }
-    linkCanonical.setAttribute('href', canonicalUrl);
+    linkCanonical.setAttribute('href', resolvedCanonical);
 
     // 4. Update OpenGraph Tags
     const ogTags = {
       'og:title': formattedTitle,
       'og:description': description,
-      'og:url': canonicalUrl,
+      'og:url': resolvedCanonical,
       'og:type': ogType,
-      'og:image': ogImage,
+      'og:image': resolvedOgImage,
       'og:site_name': 'Jawrah Pixel',
       'twitter:card': 'summary_large_image',
       'twitter:title': formattedTitle,
       'twitter:description': description,
-      'twitter:image': ogImage
+      'twitter:image': resolvedOgImage,
+      'theme-color': '#000000'
     };
 
     Object.entries(ogTags).forEach(([property, value]) => {
@@ -80,10 +84,10 @@ export function SEO({
           '@type': 'Organization',
           '@id': 'https://jawrahpixel.com/#organization',
           'name': 'Jawrah Pixel',
-          'url': 'https://jawrahpixel.com',
-          'logo': 'https://jawrahpixel.com/assets/logo.png',
-          'email': 'jawrahpixel@gmail.com',
-          'telephone': '+94762737411',
+          'url': appEnv.siteUrl,
+          'logo': toAbsoluteUrl('/assets/logo.png'),
+          'email': appEnv.contactEmail,
+          'telephone': appEnv.contactWhatsapp,
           'sameAs': [
             'https://www.instagram.com/jawrahpixel',
             'https://linkedin.com/company/jawrahpixel'
@@ -92,7 +96,7 @@ export function SEO({
         {
           '@type': 'WebSite',
           '@id': 'https://jawrahpixel.com/#website',
-          'url': 'https://jawrahpixel.com',
+          'url': appEnv.siteUrl,
           'name': 'Jawrah Pixel',
           'publisher': {
             '@id': 'https://jawrahpixel.com/#organization'

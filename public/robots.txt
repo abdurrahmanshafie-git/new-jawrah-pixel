@@ -3,7 +3,7 @@ Allow: /
 
 # Exclude dashboards or secure admin endpoints from search index
 Disallow: /admin/
-Disallow: /client/
+Disallow: /dashboard
 Disallow: /agent/
 Disallow: /login
 Disallow: /signup

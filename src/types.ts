@@ -1,4 +1,5 @@
 export type Role = 'client' | 'admin' | 'agent';
+export type RegionCode = 'lk' | 'pk';
 
 export interface Profile {
   id: string;
@@ -6,6 +7,9 @@ export interface Profile {
   email: string | null;
   role: Role;
   avatar_url: string | null;
+  region: RegionCode | null;
+  country: string | null;
+  currency: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -22,7 +26,12 @@ export interface Inquiry {
   preferred_time: string | null;
   message: string | null;
   status: 'new' | 'contacted' | 'qualified' | 'rejected';
+  region: RegionCode | null;
+  country: string | null;
+  currency: string | null;
+  source: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Booking {
@@ -37,7 +46,11 @@ export interface Booking {
   preferred_time: string | null;
   message: string | null;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  region: RegionCode | null;
+  country: string | null;
+  currency: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Project {
@@ -49,6 +62,10 @@ export interface Project {
   budget: string | null;
   deadline: string | null;
   description: string | null;
+  progress: number | null;
+  region: RegionCode | null;
+  country: string | null;
+  currency: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -61,6 +78,7 @@ export interface Testimonial {
   message: string;
   active: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export interface BlogPost {
@@ -71,6 +89,28 @@ export interface BlogPost {
   excerpt: string | null;
   content: string | null;
   published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SupportTicket {
+  id: string;
+  client_id: string;
+  project_id: string | null;
+  subject: string;
+  message: string;
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  priority: 'low' | 'normal' | 'high' | 'urgent';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface RevisionRequest {
+  id: string;
+  client_id: string;
+  project_id: string | null;
+  detail: string;
+  status: 'submitted' | 'in_review' | 'integrating' | 'completed';
   created_at: string;
   updated_at: string;
 }

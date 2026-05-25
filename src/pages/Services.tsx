@@ -14,15 +14,20 @@ export default function Services() {
     switch (id) {
       case "web-design":
         return <LayoutTemplate className="w-6 h-6 text-brand-blue" />;
-      case "ecommerce-development":
+      case "ecommerce":
+      case "ecommerce-pk":
         return <ShoppingCart className="w-6 h-6 text-brand-cyan" />;
-      case "jewellery-websites":
+      case "jewellery":
+      case "jewellery-pk":
         return <Sparkles className="w-6 h-6 text-brand-blue" />;
-      case "fashion-brands":
+      case "fashion":
+      case "fashion-pk":
         return <Briefcase className="w-6 h-6 text-brand-cyan" />;
-      case "admin-dashboards":
+      case "dashboards":
+      case "dashboards-pk":
         return <Server className="w-6 h-6 text-brand-blue" />;
-      case "seo-optimization":
+      case "seo":
+      case "seo-pk":
         return <Search className="w-6 h-6 text-brand-cyan" />;
       default:
         return <Database className="w-6 h-6 text-brand-cyan" />;
@@ -164,5 +169,4 @@ export default function Services() {
     </div>
   );
 }
-
 
