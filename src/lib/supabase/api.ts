@@ -41,10 +41,65 @@ export async function submitBooking(payload: Insert<'bookings'>) {
   return supabase.from('bookings').insert(payload).select('id').single();
 }
 
-export async function submitChatbotLead(payload: Insert<'chatbot_leads'>) {
+export async function fetchAdminLeads() {
   ensureConfigured();
+  return supabase.from('inquiries').select('*').order('created_at', { ascending: false });
+}
 
-  return supabase.from('chatbot_leads').insert(payload).select('id').single();
+export async function updateLeadStatus(id: string, status: Row<'inquiries'>['status']) {
+  ensureConfigured();
+  return supabase.from('inquiries').update({ status }).eq('id', id);
+}
+
+export async function fetchDashboardAnalytics() {
+  ensureConfigured();
+  
+  const [leads, inquiries, bookings, projects] = await Promise.all([
+    supabase.from('inquiries').select('status, created_at'),
+    supabase.from('inquiries').select('id', { count: 'exact' }),
+    supabase.from('bookings').select('id', { count: 'exact' }),
+    supabase.from('projects').select('status, price'),
+  ]);
+
+  const totalLeads = leads.data?.length || 0;
+  const newInquiries = leads.data?.filter(l => l.status === 'new').length || 0;
+  const activeProjects = projects.data?.filter(p => p.status === 'project active').length || 0;
+  const completedProjects = projects.data?.filter(p => p.status === 'delivered').length || 0;
+  
+  const totalRevenue = projects.data?.reduce((acc, curr) => acc + (Number(curr.price) || 0), 0) || 0;
+
+  return {
+    totalLeads,
+    newInquiries,
+    activeProjects,
+    completedProjects,
+    totalRevenue,
+    leadsByStatus: leads.data?.reduce((acc: any, curr) => {
+      acc[curr.status] = (acc[curr.status] || 0) + 1;
+      return acc;
+    }, {}),
+    rawProjects: projects.data
+  };
+}
+
+export async function createProject(payload: Insert<'projects'>) {
+  ensureConfigured();
+  return supabase.from('projects').insert(payload).select('id').single();
+}
+
+export async function fetchProjects() {
+  ensureConfigured();
+  return supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false });
+}
+
+export async function updateProject(id: string, payload: Update<'projects'>) {
+  ensureConfigured();
+  return supabase.from('projects').update(payload).eq('id', id);
+}
+
+export async function fetchClients() {
+  ensureConfigured();
+  return supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false });
 }
 
 export async function fetchAdminWorkspace() {

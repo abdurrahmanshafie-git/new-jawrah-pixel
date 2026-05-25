@@ -154,17 +154,16 @@ export default function Contact() {
 
     try {
       const { error } = await submitInquiry({
-          name: data.name,
+          full_name: data.name,
           email: data.email,
           whatsapp: data.whatsapp || null,
           business_name: data.business_name || null,
-          project_type: data.project_type,
-          budget: data.budget,
+          service_interested: data.project_type,
+          inquiry_type: 'project',
+          budget_range: data.budget,
           message: `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`,
           region: currentRegion,
-          country: config.countryName,
-          currency: config.currency,
-          source: 'rfp_flow',
+          source_page: currentRegion,
           status: 'new'
       });
 
@@ -208,14 +207,13 @@ export default function Contact() {
           name: bookingForm.name,
           email: bookingForm.email,
           whatsapp: bookingForm.whatsapp || null,
+          phone: bookingForm.whatsapp || null,
+          country: config.countryName,
           project_type: bookingForm.project_category,
-          budget: 'Strategy Briefing (Consultation)',
           preferred_date: selectedDate.dateString,
           preferred_time: `${selectedTime} (${availableHoursList.find(h => h.time === selectedTime)?.zone})`,
           message: `Business Name: ${bookingForm.business_name || 'Not stated'}. Client Notes: ${bookingForm.notes || 'None'}`,
           region: currentRegion,
-          country: config.countryName,
-          currency: config.currency,
           status: 'pending'
       });
 

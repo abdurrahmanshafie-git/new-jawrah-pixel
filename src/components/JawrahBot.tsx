@@ -14,7 +14,7 @@ import {
   Phone
 } from 'lucide-react';
 import { useRegion } from '@/hooks/useRegion';
-import { submitChatbotLead } from '@/lib/supabase/api';
+import { submitInquiry } from '@/lib/supabase/api';
 
 interface Message {
   id: string;
@@ -113,14 +113,16 @@ export function JawrahBot() {
 
   const submitLeadToSupabase = async (data: LeadData) => {
     try {
-      const { error } = await submitChatbotLead({
-        name: data.name,
-        business_type: data.business_type,
-        country: data.country,
-        project_type: data.project_type,
+      const { error } = await submitInquiry({
+        full_name: data.name,
+        email: 'captured-via-bot@jawrahpixel.com', // Placeholder if email not asked
+        business_name: data.business_type,
+        service_interested: data.project_type,
         budget_range: data.budget_range,
         whatsapp: data.whatsapp,
         message: `Lead captured via Jawrah-Bot. Interested in ${data.project_type} for ${data.business_type}. Budget: ${data.budget_range}.`,
+        inquiry_type: 'project',
+        status: 'new'
       });
       
       if (error) throw error;
