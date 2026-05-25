@@ -117,13 +117,13 @@ export function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <div className="md:hidden flex items-center gap-4">
+          <div className="md:hidden flex items-center gap-2 sm:gap-4">
             {renderRegionSwitcher()}
             <Link 
               to={user ? (profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent' : '/dashboard') : "/login"} 
               className="text-brand-gray hover:text-white p-1 transition-colors"
             >
-              <User size={20} />
+              <User size={18} className="sm:w-5 sm:h-5" />
             </Link>
             <button
               className="relative w-8 h-8 flex flex-col items-end justify-center gap-[5px] focus:outline-none z-[60] group"

@@ -64,7 +64,9 @@ export function estimateBookingService(projectType: string, region: RegionCode):
 }
 
 export function calculateDeposit(total: number, percent: DepositPercent): number {
-  return Math.round((total * percent) / 100);
+  const safeTotal = Math.max(0, Number(total) || 0);
+  const safePercent = Math.max(0, Math.min(100, Number(percent) || 0));
+  return Math.round((safeTotal * safePercent) / 100);
 }
 
 export function formatMoney(amount: number, currency: string): string {

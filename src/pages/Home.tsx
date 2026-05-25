@@ -255,9 +255,9 @@ export default function Home() {
         <div className="absolute inset-0 premium-grid-overlay opacity-40 pointer-events-none"></div>
         <div className="absolute left-1/2 top-0 h-32 w-[70vw] -translate-x-1/2 rounded-full bg-brand-cyan/10 blur-[90px] pointer-events-none"></div>
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/5">
+          <div className="grid grid-cols-1 min-[390px]:grid-cols-2 lg:grid-cols-4 divide-y min-[390px]:divide-y-0 lg:divide-y-0 divide-white/5 border-l border-white/5 lg:border-l-0">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-5 sm:p-8 md:p-10">
+              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-6 sm:p-8 md:p-10 border-r border-white/5 border-b min-[390px]:border-b-0 lg:border-b-0 last:border-b-0">
                 <div className="text-2xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-2">
                   <AnimatedCounter
                     value={metric.value}

@@ -155,7 +155,7 @@ export default function AdminDashboard() {
       title: projectTitle,
       service_type: projectServiceType,
       status: projectStatus,
-      price: projectPrice,
+      price: Math.max(0, Number(projectPrice) || 0),
       deadline: projectDeadline || null,
       notes: projectNotes,
       client_id: projectClientId || null,
@@ -327,7 +327,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* NAVIGATION CONTROL RAIL */}
-          <div className="lg:col-span-3 space-y-2">
+          <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
             {[
               { id: 'analytics', label: 'Analytics Console', icon: Activity },
               { id: 'leads', label: 'Leads (Inquiries)', count: inquiries.length, icon: FileText },
@@ -345,18 +345,18 @@ export default function AdminDashboard() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
+                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
                     isActive 
                       ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]' 
                       : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <Icon size={16} />
-                    {tab.label}
+                  <span className="flex items-center gap-2 sm:gap-3">
+                    <Icon size={14} className="sm:w-4 sm:h-4" />
+                    <span className="whitespace-nowrap">{tab.label}</span>
                   </span>
                   {tab.count !== undefined && (
-                    <span className={`px-2 py-0.5 rounded text-[10px] ${isActive ? 'bg-brand-cyan/20 text-brand-cyan' : 'bg-white/5 text-brand-silver'}`}>
+                    <span className={`ml-2 px-2 py-0.5 rounded text-[10px] ${isActive ? 'bg-brand-cyan/20 text-brand-cyan' : 'bg-white/5 text-brand-silver'}`}>
                       {tab.count}
                     </span>
                   )}
@@ -396,19 +396,19 @@ export default function AdminDashboard() {
                         { title: 'Total Leads', val: analytics?.totalLeads || 0, growth: '+12%', desc: 'Inquiries across regions', icon: FileText, color: 'text-brand-cyan' },
                         { title: 'Active Projects', val: analytics?.activeProjects || 0, growth: 'Stable', desc: 'Current dev operations', icon: Briefcase, color: 'text-brand-blue' },
                         { title: 'New Inquiries', val: analytics?.newInquiries || 0, growth: 'High', desc: 'Unprocessed opportunities', icon: MessageSquare, color: 'text-purple-400' },
-                        { title: 'Total Revenue', val: `${config.currency} ${(analytics?.totalRevenue || 0).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-emerald-400' }
+                        { title: 'Total Revenue', val: `${config.currencySymbol}${(analytics?.totalRevenue || 0).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-emerald-400' }
                       ].map((card, cIdx) => {
                         const Icon = card.icon;
                         return (
-                          <div key={cIdx} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl hover:border-white/10 transition-colors">
-                            <div className="flex justify-between items-start mb-3">
+                          <div key={cIdx} className="p-4 sm:p-5 bg-brand-black/60 border border-white/5 rounded-xl hover:border-white/10 transition-colors">
+                            <div className="flex justify-between items-start mb-2 sm:mb-3">
                               <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest">{card.title}</span>
                               <span className="px-1.5 py-0.5 rounded bg-white/5 text-[9px] font-mono text-brand-cyan">{card.growth}</span>
                             </div>
                             <div className="flex items-baseline gap-1.5 mb-1">
-                              <span className="text-2xl font-mono font-bold text-white tracking-tight">{card.val}</span>
+                              <span className="text-xl sm:text-2xl font-mono font-bold text-white tracking-tight">{card.val}</span>
                             </div>
-                            <p className="text-[10px] text-brand-gray font-light font-sans">{card.desc}</p>
+                            <p className="text-[9px] sm:text-[10px] text-brand-gray font-light font-sans">{card.desc}</p>
                           </div>
                         );
                       })}

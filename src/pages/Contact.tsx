@@ -761,7 +761,7 @@ export default function Contact() {
                         <p className="text-[10px] sm:text-xs text-brand-gray mb-4">Click below to locate an available date. Business days only.</p>
                         
                         {/* Custom visual calendar date slider */}
-                        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                        <div className="grid grid-cols-2 min-[400px]:grid-cols-3 sm:grid-cols-5 gap-2">
                           {businessDaysList.map((day, dIdx) => {
                             const isSelected = selectedDateIndex === dIdx;
                             return (

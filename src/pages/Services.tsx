@@ -71,11 +71,11 @@ export default function Services() {
         </Reveal>
 
         {/* Services mapping */}
-        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 mb-24">
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-24">
           {services.map((service) => (
             <StaggerItem
               key={service.title}
-              className="glass-card p-5 sm:p-8 rounded-2xl flex flex-col h-full border-t border-white/10 hover:border-brand-blue/40 duration-300 transition-all"
+              className="glass-card p-6 sm:p-8 rounded-2xl flex flex-col h-full border-t border-white/10 hover:border-brand-blue/40 duration-300 transition-all"
             >
               <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
                 {getServiceIcon(service.id)}
@@ -108,14 +108,14 @@ export default function Services() {
             <p className="text-brand-gray text-[10px] sm:text-sm font-light max-w-xl mx-auto leading-relaxed">Protect your high-traffic assets with our dedicated monthly engineering allocations. Priority technical care for {config.countryName} systems.</p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 max-w-5xl mx-auto">
             {pricingPlans.map((plan) => (
               <StaggerItem
                 key={plan.name}
                 className={cn(
-                  "glass-card p-5 sm:p-8 rounded-2xl border-white/5 flex flex-col justify-between h-full relative",
+                  "glass-card p-6 sm:p-8 rounded-2xl border-white/5 flex flex-col justify-between h-full relative",
                   plan.isRecommended 
-                    ? "border-brand-blue/30 glow-blue md:-translate-y-4 bg-brand-navy/80 z-10" 
+                    ? "border-brand-blue/30 glow-blue lg:-translate-y-4 bg-brand-navy/80 z-10" 
                     : ""
                 )}
               >

@@ -224,7 +224,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                     <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest block mb-2">
                       Payment Method
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {methods.map((m) => (
                         <button
                           key={m.id}
@@ -243,7 +243,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <Button
                       type="button"
                       variant="outline"

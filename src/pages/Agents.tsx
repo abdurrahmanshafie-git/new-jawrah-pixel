@@ -256,17 +256,17 @@ Applicant Message: ${message || 'No extra notes.'}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="grid grid-cols-3 md:flex md:flex-wrap items-center justify-center gap-2 md:gap-4 max-w-lg mx-auto md:max-w-none"
+            className="grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-wrap items-center justify-center gap-2 md:gap-4 max-w-xs sm:max-w-lg mx-auto md:max-w-none"
           >
-            <Link to="/signup">
-              <Button className="w-full md:w-auto px-1 md:px-8 h-10 md:h-14 uppercase tracking-widest md:tracking-wider text-[8px] sm:text-[9px] md:text-xs font-semibold select-none leading-tight py-1">
+            <Link to="/signup" className="w-full sm:w-auto">
+              <Button className="w-full md:w-auto px-4 md:px-8 h-10 md:h-14 uppercase tracking-widest md:tracking-wider text-[10px] sm:text-[9px] md:text-xs font-semibold select-none leading-tight py-1">
                 Create Account
               </Button>
             </Link>
             <Button 
               variant="outline" 
               onClick={() => scrollToSection('agent-application')}
-              className="w-full md:w-auto px-1 md:px-8 h-10 md:h-14 border-white/10 uppercase tracking-widest md:tracking-wider text-[8px] sm:text-[9px] md:text-xs transition-colors hover:bg-white/5 leading-tight py-1"
+              className="w-full sm:w-auto px-4 md:px-8 h-10 md:h-14 border-white/10 uppercase tracking-widest md:tracking-wider text-[10px] sm:text-[9px] md:text-xs transition-colors hover:bg-white/5 leading-tight py-1"
             >
               Apply Now
             </Button>
@@ -274,7 +274,7 @@ Applicant Message: ${message || 'No extra notes.'}
               href="https://wa.me/94762737411?text=Hello%20Jawrah%20Pixel%2C%20I%20want%20to%20apply%20to%20join%20the%20Agent%20Network." 
               target="_blank" 
               referrerPolicy="no-referrer"
-              className="w-full md:w-auto inline-flex items-center justify-center h-10 md:h-14 px-1 md:px-8 border border-[#25D366]/30 bg-[#25D366]/5 hover:bg-[#25D366]/10 text-white rounded-none md:rounded-sm font-medium tracking-widest md:tracking-wider uppercase text-[8px] sm:text-[9px] md:text-xs transition-colors text-center leading-tight py-1"
+              className="w-full sm:w-auto inline-flex items-center justify-center h-10 md:h-14 px-4 md:px-8 border border-[#25D366]/30 bg-[#25D366]/5 hover:bg-[#25D366]/10 text-white rounded-none md:rounded-sm font-medium tracking-widest md:tracking-wider uppercase text-[10px] sm:text-[9px] md:text-xs transition-colors text-center leading-tight py-1"
             >
               Contact WA
             </a>
@@ -300,7 +300,7 @@ Applicant Message: ${message || 'No extra notes.'}
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {[
               {
                 step: '01',
@@ -354,7 +354,7 @@ Applicant Message: ${message || 'No extra notes.'}
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
             {tiers.map((tier, idx) => (
               <StaggerItem
                 key={idx} 
@@ -416,7 +416,7 @@ Applicant Message: ${message || 'No extra notes.'}
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-2 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
             {targetGroups.map((group, idx) => {
               const Icon = group.icon;
               return (

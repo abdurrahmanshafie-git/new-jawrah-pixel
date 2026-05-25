@@ -77,7 +77,25 @@ export async function fetchAdminInvoices() {
 
 export async function updateInvoice(id: string, payload: Update<'invoices'>) {
   ensureConfigured();
-  return supabase.from('invoices').update(payload).eq('id', id).select('id').single();
+  
+  const updatePayload: Update<'invoices'> = { ...payload };
+  
+  if (payload.amount !== undefined) {
+    const safeAmount = Math.max(0, Number(payload.amount) || 0);
+    updatePayload.amount = Math.min(safeAmount, 9999999999.99);
+  }
+
+  const { data, error } = await supabase.from('invoices').update(updatePayload).eq('id', id).select('id').single();
+
+  if (error) {
+    console.error('[Supabase] Failed to update invoice:', {
+      error,
+      id,
+      payload: updatePayload
+    });
+  }
+
+  return { data, error };
 }
 
 export type DepositInvoiceInput = {
@@ -103,25 +121,43 @@ export async function createDepositInvoice(payload: DepositInvoiceInput) {
     throw new Error('A client account or guest email is required to create an invoice.');
   }
 
-  return supabase
+  // Sanitize amount to prevent numeric field overflow or NaN errors
+  const safeAmount = Math.max(0, Number(payload.amount) || 0);
+  
+  // Ensure amount doesn't exceed 10 billion (max for numeric(12,2))
+  const cappedAmount = Math.min(safeAmount, 9999999999.99);
+
+  const insertPayload = {
+    client_id: payload.client_id ?? null,
+    guest_email: payload.guest_email ?? null,
+    guest_name: payload.guest_name ?? null,
+    project_id: payload.project_id ?? null,
+    invoice_number: payload.invoice_number,
+    title: payload.title,
+    amount: cappedAmount,
+    currency: payload.currency,
+    status: payload.status ?? 'sent',
+    payment_status: payload.payment_status ?? 'pending',
+    payment_method: payload.payment_method ?? null,
+    transaction_id: payload.transaction_id ?? null,
+    due_date: payload.due_date ?? null,
+  };
+
+  const { data, error } = await supabase
     .from('invoices')
-    .insert({
-      client_id: payload.client_id ?? null,
-      guest_email: payload.guest_email ?? null,
-      guest_name: payload.guest_name ?? null,
-      project_id: payload.project_id ?? null,
-      invoice_number: payload.invoice_number,
-      title: payload.title,
-      amount: payload.amount,
-      currency: payload.currency,
-      status: payload.status ?? 'sent',
-      payment_status: payload.payment_status ?? 'pending',
-      payment_method: payload.payment_method ?? null,
-      transaction_id: payload.transaction_id ?? null,
-      due_date: payload.due_date ?? null,
-    })
+    .insert(insertPayload)
     .select('id, invoice_number')
     .single();
+
+  if (error) {
+    console.error('[Supabase] Failed to create invoice:', {
+      error,
+      payload: insertPayload,
+      originalAmount: payload.amount
+    });
+  }
+
+  return { data, error };
 }
 
 export async function fetchDashboardAnalytics() {
@@ -161,7 +197,27 @@ export async function fetchDashboardAnalytics() {
 
 export async function createProject(payload: Insert<'projects'>) {
   ensureConfigured();
-  return supabase.from('projects').insert(payload).select('id').single();
+  
+  // Sanitize price to prevent numeric field overflow
+  const safePrice = Math.max(0, Number(payload.price) || 0);
+  const cappedPrice = Math.min(safePrice, 9999999999.99);
+
+  const insertPayload = {
+    ...payload,
+    price: cappedPrice
+  };
+
+  const { data, error } = await supabase.from('projects').insert(insertPayload).select('id').single();
+
+  if (error) {
+    console.error('[Supabase] Failed to create project:', {
+      error,
+      payload: insertPayload,
+      originalPrice: payload.price
+    });
+  }
+
+  return { data, error };
 }
 
 export async function fetchProjects() {
@@ -171,7 +227,25 @@ export async function fetchProjects() {
 
 export async function updateProject(id: string, payload: Update<'projects'>) {
   ensureConfigured();
-  return supabase.from('projects').update(payload).eq('id', id);
+  
+  const updatePayload: Update<'projects'> = { ...payload };
+  
+  if (payload.price !== undefined) {
+    const safePrice = Math.max(0, Number(payload.price) || 0);
+    updatePayload.price = Math.min(safePrice, 9999999999.99);
+  }
+
+  const { data, error } = await supabase.from('projects').update(updatePayload).eq('id', id).select('id').single();
+
+  if (error) {
+    console.error('[Supabase] Failed to update project:', {
+      error,
+      id,
+      payload: updatePayload
+    });
+  }
+
+  return { data, error };
 }
 
 export async function fetchClients() {

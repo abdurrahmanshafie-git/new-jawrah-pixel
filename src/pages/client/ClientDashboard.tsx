@@ -338,8 +338,7 @@ export default function ClientDashboard() {
     },
     mode: 'full' | 'deposit',
   ) => {
-    const lineAmount =
-      inv.amountNumeric ?? (parsePriceAmount(String(inv.amount || '')) || 0);
+    const lineAmount = Math.max(0, inv.amountNumeric ?? (parsePriceAmount(String(inv.amount || '')) || 0));
 
     if (mode === 'full') {
       setPaymentModalPayload({
@@ -354,7 +353,8 @@ export default function ClientDashboard() {
         existingInvoiceNumber: inv.rate || inv.invoice_number,
       });
     } else {
-      const projectTotal = Number(projects[0]?.price) || lineAmount * 10;
+      const projectPrice = Number(projects[0]?.price);
+      const projectTotal = !isNaN(projectPrice) && projectPrice > 0 ? projectPrice : lineAmount * 10;
       setPaymentModalPayload({
         serviceName: projects[0]?.title || inv.item || 'Project Deposit',
         totalAmount: projectTotal,
@@ -540,7 +540,7 @@ export default function ClientDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT: COLLABORATION ROUTING LIST */}
-          <div className="lg:col-span-3 space-y-2">
+          <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
             {[
               { id: 'overview', label: 'Milestones Overview', icon: Activity },
               { id: 'revisions', label: 'Revision Requests', count: revisions.length, icon: Layers },
@@ -555,18 +555,18 @@ export default function ClientDashboard() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
+                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
                     isActive 
                       ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]' 
                       : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <Icon size={16} />
-                    {tab.label}
+                  <span className="flex items-center gap-2 sm:gap-3">
+                    <Icon size={14} className="sm:w-4 sm:h-4" />
+                    <span className="whitespace-nowrap">{tab.label}</span>
                   </span>
                   {tab.count !== undefined && (
-                    <span className={`px-2 py-0.5 rounded text-[10px] ${isActive ? 'bg-brand-cyan/20 text-brand-cyan' : 'bg-white/5 text-brand-silver'}`}>
+                    <span className={`ml-2 px-2 py-0.5 rounded text-[10px] ${isActive ? 'bg-brand-cyan/20 text-brand-cyan' : 'bg-white/5 text-brand-silver'}`}>
                       {tab.count}
                     </span>
                   )}

@@ -66,7 +66,7 @@ create table if not exists public.projects (
   client_id uuid references public.profiles(id) on delete cascade,
   title text not null,
   service_type text,
-  price numeric(12, 2) default 0,
+  price numeric(20, 2) default 0,
   deadline date,
   status text not null default 'project active' check (status in ('new lead', 'contacted', 'proposal sent', 'payment pending', 'project active', 'delivered', 'maintenance')),
   progress integer default 0 check (progress between 0 and 100),
@@ -118,7 +118,7 @@ create table if not exists public.invoices (
   project_id uuid references public.projects(id) on delete set null,
   invoice_number text unique not null,
   title text not null,
-  amount numeric(12, 2) not null check (amount >= 0),
+  amount numeric(20, 2) not null check (amount >= 0),
   currency text not null default 'LKR',
   status text not null default 'draft' check (status in ('draft', 'sent', 'paid', 'overdue', 'void')),
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid', 'pending', 'processing', 'paid', 'failed', 'refunded', 'manual_review')),
@@ -137,6 +137,8 @@ alter table public.invoices add column if not exists transaction_id text;
 alter table public.invoices add column if not exists guest_email text;
 alter table public.invoices add column if not exists guest_name text;
 alter table public.invoices alter column client_id drop not null;
+alter table public.invoices alter column amount type numeric(20, 2);
+alter table public.projects alter column price type numeric(20, 2);
 
 update public.invoices
 set payment_status = case
