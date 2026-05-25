@@ -1,21 +1,13 @@
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Globe, Layers, ArrowRightLeft } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
+import { persistRegion } from '@/lib/region';
 
 export default function CountrySelection() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedRegion = localStorage.getItem('jawrah_region');
-    if (savedRegion === 'lk' || savedRegion === 'pk') {
-      navigate(`/${savedRegion}`);
-    }
-  }, [navigate]);
-
   const handleSelectRegion = (region: 'lk' | 'pk') => {
-    localStorage.setItem('jawrah_region', region);
+    persistRegion(region);
   };
 
   return (

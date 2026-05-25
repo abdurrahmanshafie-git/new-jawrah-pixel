@@ -24,7 +24,7 @@ export async function getProfileRole(userId: string) {
 
   return supabase
     .from('profiles')
-    .select('role')
+    .select('role, region')
     .eq('id', userId)
     .single();
 }
@@ -65,14 +65,26 @@ export async function fetchAdminWorkspace() {
 export async function fetchClientWorkspace(userId: string) {
   ensureConfigured();
 
-  const [projects, bookings, revisionRequests, supportTickets] = await Promise.all([
+  const [projects, bookings, revisionRequests, supportTickets, invoices, files, notifications] = await Promise.all([
     supabase.from('projects').select('*').eq('client_id', userId).order('updated_at', { ascending: false }),
     supabase.from('bookings').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
     supabase.from('revision_requests').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
     supabase.from('support_tickets').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    supabase.from('invoices').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    supabase.from('project_files').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    supabase.from('notifications').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
   ]);
 
-  return { projects, bookings, revisionRequests, supportTickets };
+  const projectIds = projects.data?.map((project) => project.id) ?? [];
+  const milestones = projectIds.length
+    ? await supabase
+        .from('project_milestones')
+        .select('*')
+        .in('project_id', projectIds)
+        .order('sort_order', { ascending: true })
+    : { data: [], error: null };
+
+  return { projects, bookings, revisionRequests, supportTickets, invoices, files, notifications, milestones };
 }
 
 export async function updateRow<T extends 'inquiries' | 'bookings' | 'projects' | 'testimonials' | 'blog_posts'>(

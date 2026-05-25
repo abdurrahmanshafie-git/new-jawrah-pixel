@@ -1,22 +1,38 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { JawrahBot } from '../JawrahBot';
 import { Logo } from './Logo';
+import { RegionRouteGuard } from './RegionRouteGuard';
+import { useAuth } from '@/contexts/AuthContext';
+import { getSavedRegion, regionPath } from '@/lib/region';
 
 export function RootLayout() {
   const location = useLocation();
   const isCountrySelection = location.pathname === '/';
 
   return (
-    <div className="flex flex-col min-h-screen bg-brand-black">
-      {!isCountrySelection && <Navbar />}
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      {!isCountrySelection && <Footer />}
-      {!isCountrySelection && <JawrahBot />}
-    </div>
+    <RegionRouteGuard>
+      <div className="flex flex-col min-h-screen bg-brand-black">
+        {!isCountrySelection && <Navbar />}
+        <main className="flex-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
+        </main>
+        {!isCountrySelection && <Footer />}
+        {!isCountrySelection && <JawrahBot />}
+      </div>
+    </RegionRouteGuard>
   );
 }
 
@@ -41,6 +57,9 @@ export function AdminLayout() {
 }
 
 export function ClientLayout() {
+  const { profile } = useAuth();
+  const siteRegion = profile?.region ?? getSavedRegion() ?? 'lk';
+
    return (
     <div className="flex flex-col min-h-screen bg-brand-black">
       {/* Client header */}
@@ -51,7 +70,7 @@ export function ClientLayout() {
         </div>
         <div>
            {/* Back to main site link? */}
-           <a href="/" className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</a>
+           <Link to={regionPath(siteRegion)} className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</Link>
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
@@ -62,6 +81,9 @@ export function ClientLayout() {
 }
 
 export function AgentLayout() {
+  const { profile } = useAuth();
+  const siteRegion = profile?.region ?? getSavedRegion() ?? 'lk';
+
    return (
     <div className="flex flex-col min-h-screen bg-brand-black">
       {/* Agent header */}
@@ -71,7 +93,7 @@ export function AgentLayout() {
            <span className="text-white font-display font-medium text-sm">Agent Workspace</span>
         </div>
         <div>
-           <a href="/" className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</a>
+           <Link to={regionPath(siteRegion)} className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</Link>
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">

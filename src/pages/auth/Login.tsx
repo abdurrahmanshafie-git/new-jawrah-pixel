@@ -5,12 +5,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
+import { isRegionCode, persistRegion } from '@/lib/region';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
@@ -20,23 +22,27 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setErrorMsg('');
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim(),
         password,
       });
 
       if (error) throw error;
-      
-      // Fetch the role immediately to navigate to correct place
+
       const { data: profileData } = await getProfileRole(data.user.id);
+      if (isRegionCode(profileData?.region)) {
+        persistRegion(profileData.region);
+      }
+
       const requestedPath = (location.state as { from?: string } | null)?.from;
-        
+
       if (requestedPath) {
         navigate(requestedPath);
-      } else if (profileData && profileData.role === 'admin') {
+      } else if (profileData?.role === 'admin') {
         navigate('/admin');
-      } else if (profileData && profileData.role === 'agent') {
+      } else if (profileData?.role === 'agent') {
         navigate('/agent');
       } else {
         navigate('/dashboard');
@@ -53,8 +59,8 @@ export default function Login() {
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
         <div className="w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[100px]"></div>
       </div>
-      
-      <motion.div 
+
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md glass-card p-8 rounded-2xl relative z-10"
@@ -77,30 +83,46 @@ export default function Login() {
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
             <label className="text-sm text-brand-silver">Email Address</label>
-            <Input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
               placeholder="you@company.com"
             />
           </div>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label className="text-sm text-brand-silver">Password</label>
-              <a href="#" className="text-xs text-brand-blue hover:text-brand-cyan transition-colors">Forgot password?</a>
+              <a href="#" className="text-xs text-brand-blue hover:text-brand-cyan transition-colors">
+                Forgot password?
+              </a>
             </div>
-            <Input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                placeholder="Password"
+                className="pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((value) => !value)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gray transition-colors hover:text-brand-cyan"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
-          
-          <Button type="submit" className="w-full mt-4" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+
+          <Button type="submit" className="w-full mt-4 gap-2" disabled={loading}>
+            {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+            {loading ? 'Opening Secure Portal...' : 'Sign In'}
           </Button>
         </form>
 

@@ -42,6 +42,7 @@ export function Navbar() {
 
   const handleSwitchRegion = () => {
     localStorage.setItem('jawrah_region', nextRegion);
+    document.cookie = `jawrah_region=${nextRegion}; max-age=31536000; path=/; SameSite=Lax`;
   };
 
   const renderRegionSwitcher = () => (

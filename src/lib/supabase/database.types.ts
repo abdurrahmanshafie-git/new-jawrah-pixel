@@ -148,6 +148,106 @@ export interface Database {
         };
         Update: Partial<Database['public']['Tables']['projects']['Insert']>;
       };
+      project_milestones: {
+        Row: {
+          id: string;
+          project_id: string;
+          title: string;
+          description: string | null;
+          status: 'queued' | 'active' | 'review' | 'approved' | 'complete';
+          due_date: string | null;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          title: string;
+          description?: string | null;
+          status?: 'queued' | 'active' | 'review' | 'approved' | 'complete';
+          due_date?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['project_milestones']['Insert']>;
+      };
+      invoices: {
+        Row: {
+          id: string;
+          client_id: string;
+          project_id: string | null;
+          invoice_number: string;
+          title: string;
+          amount: number;
+          currency: string;
+          status: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          due_date: string | null;
+          paid_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          client_id: string;
+          project_id?: string | null;
+          invoice_number: string;
+          title: string;
+          amount: number;
+          currency?: string;
+          status?: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          due_date?: string | null;
+          paid_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['invoices']['Insert']>;
+      };
+      project_files: {
+        Row: {
+          id: string;
+          client_id: string;
+          project_id: string | null;
+          file_name: string;
+          storage_path: string;
+          mime_type: string | null;
+          size_bytes: number | null;
+          uploaded_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          client_id: string;
+          project_id?: string | null;
+          file_name: string;
+          storage_path: string;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          uploaded_by?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['project_files']['Insert']>;
+      };
+      notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          body: string | null;
+          read_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          body?: string | null;
+          read_at?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['notifications']['Insert']>;
+      };
       testimonials: {
         Row: {
           id: string;

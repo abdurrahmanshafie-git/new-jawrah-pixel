@@ -10,8 +10,8 @@ export function Footer() {
   return (
     <footer className="bg-brand-navy border-t border-white/5 pt-16 md:pt-20 pb-10 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-8 mb-16">
-          <div className="col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-8 mb-16">
+          <div className="sm:col-span-2 lg:col-span-1">
             <Link to={p('/')} className="flex items-center mb-6 group inline-flex">
               <Logo variant="full" size="md" />
             </Link>
@@ -68,11 +68,11 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-brand-gray">
               <li>
                 <span className="block text-white/50 mb-1 text-xs uppercase tracking-wider">Email</span>
-                <a href={`mailto:${config.contactEmail}`} className="hover:text-brand-cyan transition-colors">{config.contactEmail}</a>
+                <a href={`mailto:${config.contactEmail}`} className="hover:text-brand-cyan transition-colors break-all">{config.contactEmail}</a>
               </li>
               <li>
                 <span className="block text-white/50 mb-1 text-xs uppercase tracking-wider">Phone / WhatsApp</span>
-                <a href={config.whatsappLink} className="hover:text-brand-cyan transition-colors" target="_blank" rel="noreferrer">{config.whatsappNumber}</a>
+                <a href={config.whatsappLink} className="hover:text-brand-cyan transition-colors break-words" target="_blank" rel="noreferrer">{config.whatsappNumber}</a>
               </li>
               <li>
                 <span className="block text-white/50 mb-1 text-xs uppercase tracking-wider">Location</span>
@@ -82,11 +82,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-brand-gray/60 text-sm">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+          <p className="text-brand-gray/60 text-xs sm:text-sm">
             &copy; {currentYear} Jawrah Pixel. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm text-brand-gray/60">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-brand-gray/60">
             <Link to={p("/privacy")} className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to={p("/terms")} className="hover:text-white transition-colors">Terms of Service</Link>
           </div>

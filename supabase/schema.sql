@@ -16,9 +16,9 @@ create table if not exists public.profiles (
   email text,
   role text not null default 'client' check (role in ('client', 'admin', 'agent')),
   avatar_url text,
-  region text default 'lk' check (region in ('lk', 'pk')),
-  country text default 'Sri Lanka',
-  currency text default 'LKR',
+  region text check (region in ('lk', 'pk')),
+  country text,
+  currency text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -289,17 +289,43 @@ language plpgsql
 security definer
 set search_path = public, pg_temp
 as $$
+declare
+  selected_region text := new.raw_user_meta_data ->> 'region';
+  selected_country text;
+  selected_currency text;
 begin
-  insert into public.profiles (id, full_name, email, role)
+  if selected_region not in ('lk', 'pk') then
+    selected_region := null;
+  end if;
+
+  selected_country := case selected_region
+    when 'pk' then 'Pakistan'
+    when 'lk' then 'Sri Lanka'
+    else null
+  end;
+
+  selected_currency := case selected_region
+    when 'pk' then 'PKR'
+    when 'lk' then 'LKR'
+    else null
+  end;
+
+  insert into public.profiles (id, full_name, email, role, region, country, currency)
   values (
     new.id,
     new.raw_user_meta_data ->> 'full_name',
     new.email,
-    'client'
+    'client',
+    selected_region,
+    coalesce(new.raw_user_meta_data ->> 'country', selected_country),
+    coalesce(new.raw_user_meta_data ->> 'currency', selected_currency)
   )
   on conflict (id) do update
     set email = excluded.email,
         full_name = coalesce(excluded.full_name, public.profiles.full_name),
+        region = coalesce(excluded.region, public.profiles.region),
+        country = coalesce(excluded.country, public.profiles.country),
+        currency = coalesce(excluded.currency, public.profiles.currency),
         updated_at = now();
   return new;
 end;

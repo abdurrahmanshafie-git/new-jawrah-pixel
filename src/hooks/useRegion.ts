@@ -4,6 +4,7 @@ import { getServicesForRegion } from '../data/services';
 import { getCaseStudiesForRegion } from '../data/caseStudies';
 import { getMaintenancePlans } from '../data/pricing';
 import { getFaqsForRegion } from '../data/faqs';
+import { persistRegion } from '@/lib/region';
 
 export function useRegion() {
   const location = useLocation();
@@ -40,6 +41,7 @@ export function useRegion() {
       }
       
       return `/${otherRegion}`;
-    }
+    },
+    persistRegion,
   };
 }

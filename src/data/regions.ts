@@ -86,5 +86,6 @@ export const regions: Record<'lk' | 'pk', RegionConfig> = {
 export function getRegionFromPathname(pathname: string): 'lk' | 'pk' {
   const parts = pathname.split('/').filter(Boolean);
   if (parts[0] === 'pk') return 'pk';
-  return 'lk'; // default to Sri Lanka
+  if (parts[0] === 'lk') return 'lk';
+  return 'lk';
 }

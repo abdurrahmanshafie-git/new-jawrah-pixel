@@ -156,13 +156,33 @@ export default function ClientDashboard() {
             date: item.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
           })));
         }
+        if (!workspace.invoices.error && workspace.invoices.data) {
+          setInvoices(workspace.invoices.data.map((item: any) => ({
+            ...item,
+            item: item.title,
+            amount: `${item.currency || profile?.currency || 'LKR'} ${Number(item.amount || 0).toLocaleString()}`,
+            rate: item.invoice_number,
+            status: item.status === 'paid' ? 'Paid' : item.status === 'sent' ? 'Pending' : item.status,
+            date: item.due_date || item.created_at?.split('T')[0],
+          })));
+        }
+        if (!workspace.files.error && workspace.files.data) {
+          setUploadedFiles(workspace.files.data.map((item: any) => ({
+            ...item,
+            name: item.file_name,
+            size: item.size_bytes ? `${(item.size_bytes / 1024 / 1024).toFixed(1)} MB` : 'Vault file',
+            uploader: item.uploaded_by === user.id ? 'Client (You)' : 'Jawrah Team',
+            date: item.created_at?.split('T')[0],
+          })));
+        }
+        if (!workspace.notifications.error && workspace.notifications.data) {
+          setNotifications(workspace.notifications.data.map((item: any) => ({
+            ...item,
+            desc: item.body,
+            date: item.created_at?.split('T')[0],
+          })));
+        }
       }
-
-      setInvoices(INITIAL_MOCK_INVOICES);
-      setRevisions(INITIAL_MOCK_REVISIONS);
-      setSupportTickets(INITIAL_MOCK_TICKETS);
-      setUploadedFiles(INITIAL_MOCK_FILES);
-      setNotifications(INITIAL_MOCK_NOTIFICATIONS);
       setLoading(false);
     } catch (err) {
       console.warn("Real database fetching failed, continuing sandbox simulation:", err);

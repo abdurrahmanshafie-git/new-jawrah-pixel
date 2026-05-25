@@ -2,8 +2,11 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from './components/layout/Layouts';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 import { SleekLoader } from './components/ui/SleekLoader';
 import { RequireAuth } from './components/auth/RequireAuth';
+import { useAuth } from './contexts/AuthContext';
+import { getSavedRegion, isRegionCode, regionPath } from './lib/region';
 
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
@@ -28,10 +31,20 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const ClientDashboard = lazy(() => import('./pages/client/ClientDashboard'));
 const AgentDashboard = lazy(() => import('./pages/agent/AgentDashboard'));
 
+function RegionalRedirect({ path = '/' }: { path?: string }) {
+  const { user, profile, loading } = useAuth();
+
+  if (loading) return <SleekLoader />;
+
+  const region = user && isRegionCode(profile?.region) ? profile.region : getSavedRegion();
+  return <Navigate to={region ? regionPath(region, path) : '/'} replace />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Suspense fallback={<SleekLoader />}>
           <Routes>
             {/* Main Website */}
@@ -68,14 +81,14 @@ export default function App() {
               <Route path="/pk/blog" element={<Blog />} />
 
               {/* Fallback routes */}
-              <Route path="/pricing" element={<Navigate to="/lk/pricing" replace />} />
-              <Route path="/blog" element={<Navigate to="/lk/blog" replace />} />
-              <Route path="/about" element={<Navigate to="/lk/about" replace />} />
-              <Route path="/services" element={<Navigate to="/lk/services" replace />} />
-              <Route path="/process" element={<Navigate to="/lk/process" replace />} />
-              <Route path="/case-studies" element={<Navigate to="/lk/case-studies" replace />} />
-              <Route path="/contact" element={<Navigate to="/lk/contact" replace />} />
-              <Route path="/agents" element={<Navigate to="/lk/agents" replace />} />
+              <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
+              <Route path="/blog" element={<RegionalRedirect path="/blog" />} />
+              <Route path="/about" element={<RegionalRedirect path="/about" />} />
+              <Route path="/services" element={<RegionalRedirect path="/services" />} />
+              <Route path="/process" element={<RegionalRedirect path="/process" />} />
+              <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
+              <Route path="/contact" element={<RegionalRedirect path="/contact" />} />
+              <Route path="/agents" element={<RegionalRedirect path="/agents" />} />
               
               {/* Catch-all to root which redirects to region if exists */}
               <Route path="*" element={<Navigate to="/" replace />} />

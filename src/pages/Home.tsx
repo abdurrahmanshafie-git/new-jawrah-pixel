@@ -13,7 +13,7 @@ const liveProjects = [
   {
     title: "Zenvor Streetwear",
     category: "Luxury E-commerce Boutique",
-    desc: "An ultra-minimalist, cinematic shopping experience with hardware-accelerated layouts built for elite streetwear brands.",
+    desc: "A cinematic commerce flagship engineered to turn premium streetwear launches into fast, trusted, conversion-ready buying journeys.",
     image: "/assets/case-studies/zenvor/desktop.png",
     url: "https://zenvor.lk",
     slug: "zenvor",
@@ -23,7 +23,7 @@ const liveProjects = [
   {
     title: "Jawrah Pixel OS",
     category: "Internal Operations & Client CRM",
-    desc: "Our high-speed operational portal combining dynamic D3 charts, client proposal compilers, and Supabase security workflows.",
+    desc: "A secure agency operating layer for proposals, client workspaces, lead routing, and Supabase-backed delivery governance.",
     image: "/assets/case-studies/jawrah-pixel/desktop.png",
     url: "https://jawrah-pixel-itpe.vercel.app/",
     slug: "jawrah-pixel",
@@ -33,7 +33,7 @@ const liveProjects = [
   {
     title: "Velora Estates",
     category: "Premium Real Estate Portal",
-    desc: "A search-optimized digital catalog presenting multi-million dollar architectural property portfolios with smooth transitions.",
+    desc: "A high-trust property acquisition portal built to present architectural inventory, qualify buyers, and protect luxury brand perception.",
     image: "/assets/case-studies/velora/desktop.png",
     url: "https://real-estate-jawrah-project.netlify.app/",
     slug: "velora-estates",
@@ -43,7 +43,7 @@ const liveProjects = [
   {
     title: "Shabnam Jewellers",
     category: "Bespoke Jewelry E-commerce",
-    desc: "A luxury digital flagship displaying high-density heritage gold micro photography paired with an active asset appraisal engine.",
+    desc: "A heritage jewelry storefront shaped around product confidence, appraisal clarity, and premium mobile-first catalog discovery.",
     image: "/assets/case-studies/shabnam-jewellers/desktop.png",
     url: "https://shabnam-jawrah-project.netlify.app/",
     slug: "shabnam-jewellers",
@@ -53,7 +53,7 @@ const liveProjects = [
   {
     title: "AeroVista Travels",
     category: "Bespoke Tour Planner & Booking Engine",
-    desc: "A high-performance luxury flight scheduler and multi-city itinerary manager utilizing elite travel API memory-caches.",
+    desc: "A travel planning system designed to move visitors from inspiration to itinerary confidence through structured booking flows.",
     image: "/assets/case-studies/aero-vista/desktop.png",
     url: "https://aero-vista-jawrah-project.vercel.app/#home",
     slug: "aerovista-travels",
@@ -121,6 +121,42 @@ export default function Home() {
     },
   ];
 
+  const storySteps = [
+    {
+      eyebrow: '01 / The Standard',
+      eyebrowClass: 'text-brand-cyan',
+      title: (
+        <>
+          We Don't Build <br /> Websites.
+        </>
+      ),
+      titleClass: 'text-white',
+    },
+    {
+      eyebrow: '02 / The Asset',
+      eyebrowClass: 'text-brand-blue',
+      title: (
+        <>
+          We Architect <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">
+            Digital Monopolies.
+          </span>
+        </>
+      ),
+      titleClass: 'text-white',
+    },
+    {
+      eyebrow: '03 / The Legacy',
+      eyebrowClass: 'text-white',
+      title: (
+        <>
+          Your Competition Will <br /> Feel The Difference.
+        </>
+      ),
+      titleClass: 'text-white',
+    },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-brand-black">
       <SEO 
@@ -129,7 +165,7 @@ export default function Home() {
       />
 
       {/* Cinematic Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-40 overflow-hidden flex items-center min-h-[95vh] blue-gradient-bg">
+      <section className="relative pt-24 pb-16 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-blue/15 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-brand-cyan/10 rounded-full blur-[150px] translate-x-1/2 translate-y-1/2"></div>
@@ -138,12 +174,12 @@ export default function Home() {
           <div className="md:hidden absolute top-1/2 left-1/2 w-[350px] h-[400px] bg-brand-cyan/20 rounded-full blur-[110px] -translate-x-1/2 -translate-y-1/2 mix-blend-screen"></div>
         </div>
         
-        <div className="container mx-auto px-4 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-start text-left overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-start text-left overflow-visible md:overflow-hidden">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="inline-flex max-w-xs md:max-w-full items-center justify-start gap-2 mb-8 md:mb-8 px-3 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md self-start shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
+            className="inline-flex max-w-full md:max-w-full items-center justify-start gap-2 mb-7 md:mb-8 px-3 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md self-start shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
           >
             <span className="w-2 h-2 md:w-1.5 md:h-1.5 rounded-full bg-brand-cyan md:bg-brand-blue animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)] md:shadow-none"></span>
             <span className="text-zinc-200 md:text-zinc-300 text-[9px] min-[380px]:text-[10px] md:text-xs font-semibold tracking-[0.16em] min-[380px]:tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-normal text-left leading-relaxed">
@@ -157,7 +193,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden max-w-xs text-[clamp(2.05rem,8.2vw,3rem)] font-medium text-white tracking-tight leading-[1.08] mb-5 flex flex-col uppercase overflow-hidden"
+            className="md:hidden max-w-xs text-[clamp(2.05rem,8.2vw,3rem)] font-medium text-white tracking-tight leading-[1.12] mb-5 flex flex-col uppercase overflow-visible"
           >
             <span className="font-display tracking-tight text-white mb-1.5">Architecting</span>
             <span className="premium-gradient-brand text-[clamp(2.6rem,10vw,3.5rem)] font-bold italic pr-2 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">Digital</span>
@@ -179,7 +215,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[13px] sm:text-lg md:text-2xl text-zinc-300 md:text-zinc-400 max-w-xs sm:max-w-2xl md:max-w-3xl mb-8 md:mb-10 leading-relaxed font-light px-0 animate-fade-in"
+            className="text-[13px] sm:text-lg md:text-2xl text-zinc-300 md:text-zinc-400 max-w-xs sm:max-w-2xl md:max-w-3xl mb-7 md:mb-10 leading-relaxed font-light px-0 animate-fade-in"
           >
             Jawrah Pixel engineers premium digital experiences designed to elevate brand perception, establish market authority, and drive measurable revenue for ambitious enterprises in {config.countryName}.
           </motion.p>
@@ -189,7 +225,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-10 md:mb-12 self-start"
+            className="mb-8 md:mb-12 self-start"
           >
             <Logo size="xl" className="w-[180px] sm:w-[240px] md:w-[320px]" />
           </motion.div>
@@ -201,13 +237,13 @@ export default function Home() {
             className="grid max-w-xs sm:max-w-none grid-cols-1 sm:flex sm:flex-row gap-3 md:gap-6 w-full sm:w-auto items-center self-start"
           >
             <Link to={p('/contact')} className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-12 md:h-14 px-1 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.1em] sm:tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(59,130,246,0.5)] md:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all duration-500 group luxury-glow py-2 leading-tight">
+              <Button size="lg" className="w-full sm:w-auto h-12 md:h-14 px-4 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.12em] sm:tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(59,130,246,0.5)] md:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all duration-500 group luxury-glow py-2 leading-tight">
                 Initiate Project
                 <ArrowRight className="hidden sm:inline ml-3 group-hover:translate-x-1 transition-transform duration-300 w-3 h-3 md:w-[14px] md:h-[14px]" />
               </Button>
             </Link>
             <Link to={p('/case-studies')} className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 md:h-14 px-1 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.1em] sm:tracking-[0.2em] font-bold uppercase border-white/20 md:border-zinc-800 text-white md:text-zinc-300 hover:text-white hover:bg-zinc-900 transition-all duration-300 bg-white/5 md:bg-transparent py-2 leading-tight">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 md:h-14 px-4 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.12em] sm:tracking-[0.2em] font-bold uppercase border-white/20 md:border-zinc-800 text-white md:text-zinc-300 hover:text-white hover:bg-zinc-900 transition-all duration-300 bg-white/5 md:bg-transparent py-2 leading-tight">
                 Explore Work
               </Button>
             </Link>
@@ -384,7 +420,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+          <div className="grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {servicesList.map((service, i) => (
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -414,11 +450,11 @@ export default function Home() {
               <span className="text-[10px] md:text-xs font-mono text-brand-cyan uppercase tracking-[0.3em] font-bold block mb-4">
                 Built Like A Business OS
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.05] mb-6 text-balance">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.05] mb-6 text-balance">
                 Not a website. A scalable client acquisition and delivery ecosystem.
               </h2>
               <p className="text-sm sm:text-lg text-brand-gray font-light leading-relaxed mb-8">
-                Jawrah Pixel now connects premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, project tracking, support queues, and AI-ready automation paths.
+                Jawrah Pixel connects premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, project tracking, support queues, and automation-ready delivery paths.
               </p>
               <Link to={p('/process')}>
                 <Button variant="outline" className="h-12 px-6 text-[10px] font-mono uppercase tracking-[0.22em]">
@@ -449,7 +485,35 @@ export default function Home() {
       </section>
 
       {/* Cinematic Storytelling Sequence */}
-      <section ref={storyRef} className="relative h-[350vh] bg-brand-black">
+      <section className="md:hidden relative overflow-hidden bg-brand-black border-y border-white/5 py-16">
+        <div className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-brand-black/85"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid gap-10 text-center">
+            {storySteps.map((step, idx) => (
+              <Reveal key={step.eyebrow} delay={idx * 0.06}>
+                <div className="mx-auto max-w-sm">
+                  <span className={`${step.eyebrowClass} text-[10px] font-mono uppercase tracking-[0.22em] font-bold mb-4 block`}>
+                    {step.eyebrow}
+                  </span>
+                  <h2 className={`${step.titleClass} text-[clamp(1.9rem,8vw,2.45rem)] font-display font-medium uppercase tracking-tight leading-[1.12]`}>
+                    {step.title}
+                  </h2>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <div className="mt-10 flex justify-center">
+            <Link to={p('/case-studies')} className="w-full max-w-[320px]">
+              <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight">
+                View Enterprise Case Studies
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section ref={storyRef} className="hidden md:block relative h-[350vh] bg-brand-black">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
           {/* Dynamic Background */}
@@ -498,7 +562,7 @@ export default function Home() {
               Your Competition Will <br/> Feel The Difference.
             </h2>
             <Link to={p('/case-studies')}>
-              <Button size="lg" className="h-12 md:h-14 px-6 md:px-8 text-[10px] md:text-xs font-mono uppercase tracking-widest font-bold box-shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow">
+              <Button size="lg" className="h-12 md:h-14 px-6 md:px-8 text-[10px] md:text-xs font-mono uppercase tracking-widest font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow">
                 View Enterprise Case Studies
               </Button>
             </Link>
@@ -522,7 +586,7 @@ export default function Home() {
               Schedule a strategic consultation to discover how Jawrah Pixel can transform your brand's digital ecosystem and accelerate growth.
             </p>
             <Link to={p('/contact')}>
-              <Button className="h-12 md:h-16 px-8 md:px-10 text-[10px] md:text-xs font-mono uppercase tracking-widest font-bold shadow-[0_0_40px_rgba(59,130,246,0.3)] luxury-glow">
+              <Button className="h-12 md:h-16 w-full max-w-[320px] md:w-auto md:max-w-none px-4 md:px-10 text-[9px] md:text-xs font-mono uppercase tracking-[0.13em] md:tracking-widest font-bold shadow-[0_0_40px_rgba(59,130,246,0.3)] luxury-glow leading-tight">
                 Request a Consultation
               </Button>
             </Link>
