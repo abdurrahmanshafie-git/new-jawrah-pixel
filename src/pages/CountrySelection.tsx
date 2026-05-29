@@ -4,10 +4,36 @@ import { motion } from 'motion/react';
 import { ArrowRight, Globe, Layers, ArrowRightLeft } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { persistRegion } from '@/lib/region';
+import { REGION_OPTIONS } from '@/data/regions';
+import type { RegionCode } from '@/types';
 
 export default function CountrySelection() {
-  const handleSelectRegion = (region: 'lk' | 'pk') => {
+  const handleSelectRegion = (region: RegionCode) => {
     persistRegion(region);
+  };
+
+  const getRegionStyles = (region: RegionCode) => {
+    if (region === 'pk') {
+      return {
+        glow: 'bg-brand-cyan/10 group-hover:bg-brand-cyan/20',
+        border: 'group-hover:border-brand-cyan/40',
+        badge: 'bg-brand-cyan/10 border-brand-cyan/20 text-brand-cyan group-hover:bg-brand-cyan group-hover:text-brand-black shadow-[0_0_20px_rgba(6,182,212,0.1)]',
+      };
+    }
+
+    if (region === 'int') {
+      return {
+        glow: 'bg-white/10 group-hover:bg-white/15',
+        border: 'group-hover:border-white/25',
+        badge: 'bg-white/10 border-white/20 text-white group-hover:bg-white group-hover:text-brand-black shadow-[0_0_20px_rgba(255,255,255,0.08)]',
+      };
+    }
+
+    return {
+      glow: 'bg-brand-blue/10 group-hover:bg-brand-blue/20',
+      border: 'group-hover:border-brand-blue/40',
+      badge: 'bg-brand-blue/10 border-brand-blue/20 text-brand-blue group-hover:bg-brand-blue group-hover:text-white shadow-[0_0_20px_rgba(30,144,255,0.1)]',
+    };
   };
 
   return (
@@ -61,36 +87,29 @@ export default function CountrySelection() {
         </div>
 
         {/* Region Cards */}
-        <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-2xl w-full px-4">
-          {/* Card 1: Sri Lanka */}
-          <Link 
-            to="/lk" 
-            onClick={() => handleSelectRegion('lk')}
-            className="group relative flex flex-col items-center"
-          >
-            <div className="absolute inset-0 bg-brand-blue/10 rounded-2xl blur-2xl group-hover:bg-brand-blue/20 transition-all duration-500" />
-            <div className="relative w-full aspect-square md:aspect-auto md:h-48 glass-card border border-white/5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-500 group-hover:border-brand-blue/40 group-hover:translate-y-[-4px]">
-              <div className="w-16 h-16 rounded-2xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue font-display font-bold text-2xl group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(30,144,255,0.1)]">
-                LK
-              </div>
-              <span className="text-white text-xs md:text-sm font-display font-medium tracking-[0.2em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">Sri Lanka</span>
-            </div>
-          </Link>
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-3 gap-4 md:gap-8 max-w-4xl w-full px-4">
+          {REGION_OPTIONS.map((region) => {
+            const styles = getRegionStyles(region.id);
 
-          {/* Card 2: Pakistan */}
-          <Link 
-            to="/pk" 
-            onClick={() => handleSelectRegion('pk')}
-            className="group relative flex flex-col items-center"
-          >
-            <div className="absolute inset-0 bg-brand-cyan/10 rounded-2xl blur-2xl group-hover:bg-brand-cyan/20 transition-all duration-500" />
-            <div className="relative w-full aspect-square md:aspect-auto md:h-48 glass-card border border-white/5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-500 group-hover:border-brand-cyan/40 group-hover:translate-y-[-4px]">
-              <div className="w-16 h-16 rounded-2xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan font-display font-bold text-2xl group-hover:bg-brand-cyan group-hover:text-brand-black transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
-                PK
-              </div>
-              <span className="text-white text-xs md:text-sm font-display font-medium tracking-[0.2em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">Pakistan</span>
-            </div>
-          </Link>
+            return (
+              <Link
+                key={region.id}
+                to={region.path}
+                onClick={() => handleSelectRegion(region.id)}
+                className="group relative flex flex-col items-center"
+              >
+                <div className={`absolute inset-0 rounded-2xl blur-2xl transition-all duration-500 ${styles.glow}`} />
+                <div className={`relative w-full min-h-[164px] glass-card border border-white/5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-500 group-hover:translate-y-[-4px] sm:min-h-[180px] md:h-48 ${styles.border}`}>
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl border flex items-center justify-center font-display font-bold text-xl md:text-2xl transition-all duration-500 ${styles.badge}`}>
+                    {region.shortLabel}
+                  </div>
+                  <span className="text-white text-[10px] md:text-sm font-display font-medium tracking-[0.18em] md:tracking-[0.2em] uppercase opacity-60 group-hover:opacity-100 transition-opacity text-center px-2">
+                    {region.label}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </main>
 

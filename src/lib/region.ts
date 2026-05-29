@@ -1,11 +1,11 @@
-import { regions, type RegionConfig } from '@/data/regions';
+import { REGION_OPTIONS, regions, type RegionConfig } from '@/data/regions';
 import type { RegionCode } from '@/types';
 
 export const REGION_STORAGE_KEY = 'jawrah_region';
 const REGION_COOKIE_NAME = 'jawrah_region';
 
 export function isRegionCode(value: unknown): value is RegionCode {
-  return value === 'lk' || value === 'pk' || value === 'int';
+  return REGION_OPTIONS.some((region) => region.id === value);
 }
 
 export function getRegionMeta(region: RegionCode): Pick<RegionConfig, 'countryName' | 'currency'> {
@@ -43,6 +43,6 @@ export function persistRegion(region: RegionCode) {
 
 export function regionPath(region: RegionCode, pathname = '/') {
   const cleanPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  const strippedPath = cleanPath.replace(/^\/(lk|pk)(?=\/|$)/, '') || '/';
+  const strippedPath = cleanPath.replace(/^\/(lk|pk|int)(?=\/|$)/, '') || '/';
   return `/${region}${strippedPath === '/' ? '' : strippedPath}`;
 }

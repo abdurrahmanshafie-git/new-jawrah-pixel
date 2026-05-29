@@ -133,6 +133,58 @@ export const pakistanServices: ServiceItem[] = [
   }
 ];
 
+export const internationalServices: ServiceItem[] = [
+  {
+    id: "web-design-int",
+    title: "Premium Global Web Experience",
+    price: "from $500",
+    features: ["Bespoke Global Art Direction", "Conversion-Led UX Architecture", "Core Web Vitals Engineering", "International SEO Foundation"]
+  },
+  {
+    id: "ecommerce-int",
+    title: "International Commerce System",
+    price: "from $2,500",
+    features: ["Premium Catalog Architecture", "USD Checkout Readiness", "Inventory & Order Operations", "Conversion Analytics Layer"]
+  },
+  {
+    id: "ai-int",
+    title: "AI Integrations",
+    price: "from $1,000",
+    features: ["AI Assistant Workflows", "Automation Planning", "Internal Process Tools", "Secure API Integration Paths"]
+  },
+  {
+    id: "saas-int",
+    title: "SaaS UI & Product Systems",
+    price: "from $5,000",
+    features: ["Dashboard UX Architecture", "Component System Design", "Admin & Client Workspaces", "Scalable Product Interfaces"]
+  },
+  {
+    id: "branding-int",
+    title: "Global Branding & Identity",
+    price: "from $1,000",
+    features: ["Premium Identity Direction", "Luxury Color System Design", "Brand Guideline Standards", "Typographic Framework Sets"]
+  },
+  {
+    id: "seo-int",
+    title: "International SEO Optimization",
+    price: "from $500/month",
+    features: ["Technical SEO Auditing", "Search Architecture Planning", "Metadata & Schema Systems", "Monthly Performance Reports"]
+  },
+  {
+    id: "frontend-int",
+    title: "High-End Frontend Development",
+    price: "from $2,000",
+    features: ["React Interface Engineering", "Motion & Interaction Polish", "Responsive Component Systems", "Accessibility & Speed Tuning"]
+  },
+  {
+    id: "enterprise-int",
+    title: "Enterprise Digital Systems",
+    price: "Custom Quote",
+    features: ["Advanced Scope Discovery", "Bespoke Integrations", "Global Launch Support", "Long-Term Strategic Partnership"]
+  }
+];
+
 export function getServicesForRegion(region: RegionCode) {
+  if (region === 'int') return internationalServices;
   return region === 'pk' ? pakistanServices : sriLankaServices;
 }

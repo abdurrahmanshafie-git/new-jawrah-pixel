@@ -28,11 +28,24 @@ import {
 
 export default function Agents() {
   const { config, p } = useRegion();
+  const isInternational = config.id === 'int';
+  const initialLocation = isInternational ? 'Global Remote' : config.locations[0];
+  const seoTitle = isInternational ? 'Global Partner Network & USD Referral Program' : `Partner Network & Referral Program | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? 'Join the Jawrah Pixel global partner network. Refer international businesses, SaaS companies, luxury brands, and ecommerce teams for USD-based commission rewards.'
+    : `Join the Jawrah Pixel agent network in ${config.countryName}. Refer elite businesses, manage pipelines, and receive industry-leading 12% commission rewards.`;
+  const heroCopy = isInternational
+    ? 'Earn USD-based commissions by connecting international businesses with our premium websites, ecommerce platforms, SaaS dashboards, AI systems, brand identities, SEO strategy, and full-stack product implementation.'
+    : 'Earn substantial commissions by connecting businesses with our high-performance design formats, ecommerce stores, dashboards, custom branding, SEO foundations, and full-stack software implementation.';
+  const applicationCopy = isInternational
+    ? 'Connect your details, region, social links, and sales experience with us. Once received, our global relationship team will audit your application profile and contact you within 24-48 hours to complete authorization of your workspace portal setup.'
+    : 'Connect your details, location, social links, and sales experience with us. Once received, our regional relationship team will audit your application profile and contact you within 24-48 hours to complete authorization of your workspace portal setup.';
+  const agentWhatsappLink = `${config.whatsappLink}?text=${encodeURIComponent('Hello Jawrah Pixel, I want to apply to join the Global Partner Network.')}`;
   // Form state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
-  const [location, setLocation] = useState(config.locations[0]);
+  const [location, setLocation] = useState(initialLocation);
   const [profileLink, setProfileLink] = useState('');
   const [experience, setExperience] = useState('');
   const [message, setMessage] = useState('');
@@ -81,7 +94,7 @@ Applicant Message: ${message || 'No extra notes.'}
         full_name: name.trim(),
         email: email.trim(),
         whatsapp: whatsapp.trim() || null,
-        business_name: `Agent Application — ${location}`,
+        business_name: `Agent Application - ${location}`,
         service_interested: 'Agent Application',
         inquiry_type: 'collaboration',
         budget_range: 'Referral Program',
@@ -115,7 +128,35 @@ Applicant Message: ${message || 'No extra notes.'}
     }
   };
 
-  const tiers = config.id === 'lk' ? [
+  const tiers = isInternational ? [
+    {
+      level: 'Bronze Tier',
+      volume: 'Starter Global Projects',
+      budget: '$500 - $1,500',
+      rate: '10% Commission',
+      reward: 'Up to $150',
+      focus: 'Ideal for premium starter websites, landing pages, creator portfolios, and early brand systems.',
+      color: 'border-amber-700/30 text-amber-500 bg-amber-500/5'
+    },
+    {
+      level: 'Silver Tier',
+      volume: 'Growth Projects',
+      budget: '$2,000 - $5,000',
+      rate: '10% Commission',
+      reward: 'Up to $500',
+      focus: 'High-performance ecommerce platforms, SaaS interfaces, conversion systems, and international brand builds.',
+      color: 'border-slate-400/30 text-slate-300 bg-slate-300/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]'
+    },
+    {
+      level: 'Gold Tier',
+      volume: 'Premium Enterprise',
+      budget: '$5,000 - $15,000+',
+      rate: '12% Commission',
+      reward: '$600+ Unlimited',
+      focus: 'Scalable AI systems, complex SaaS products, luxury ecommerce ecosystems, and global brand platforms.',
+      color: 'border-brand-cyan/30 text-brand-cyan bg-brand-cyan/5 shadow-[0_0_25px_rgba(34,211,238,0.1)] font-bold'
+    }
+  ] : config.id === 'lk' ? [
     {
       level: 'Bronze Tier',
       volume: 'Standard Projects',
@@ -173,7 +214,14 @@ Applicant Message: ${message || 'No extra notes.'}
     }
   ];
 
-  const locationOptions = config.id === 'lk' ? [
+  const locationOptions = isInternational ? [
+    { value: 'Global Remote', label: 'Global Remote Collaboration' },
+    { value: 'North America', label: 'North America' },
+    { value: 'Europe', label: 'Europe' },
+    { value: 'Middle East', label: 'Middle East' },
+    { value: 'Asia Pacific', label: 'Asia-Pacific' },
+    { value: 'Other', label: 'Other International Region' }
+  ] : config.id === 'lk' ? [
     { value: 'Colombo', label: 'Colombo Hub (Sri Lanka)' },
     { value: 'Galle', label: 'Galle Hub (Sri Lanka)' },
     { value: 'Kandy', label: 'Kandy Hub (Sri Lanka)' },
@@ -211,8 +259,8 @@ Applicant Message: ${message || 'No extra notes.'}
   return (
     <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
       <SEO 
-        title={`Partner Network & Referral Program | ${config.countryName}`}
-        description={`Join the Jawrah Pixel agent network in ${config.countryName}. Refer elite businesses, manage pipelines, and receive industry-leading 12% commission rewards.`}
+        title={seoTitle}
+        description={seoDescription}
       />
       {/* Background radial overlays for luxury look */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
@@ -249,7 +297,7 @@ Applicant Message: ${message || 'No extra notes.'}
             transition={{ delay: 0.2, duration: 0.5 }}
             className="text-brand-gray text-base md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto"
           >
-            Earn substantial commissions by connecting businesses with our high-performance design formats, ecommerce stores, dashboards, custom branding, SEO foundations, and full-stack software implementation.
+            {heroCopy}
           </motion.p>
 
           <motion.div 
@@ -271,7 +319,7 @@ Applicant Message: ${message || 'No extra notes.'}
               Apply Now
             </Button>
             <a 
-              href="https://wa.me/94762737411?text=Hello%20Jawrah%20Pixel%2C%20I%20want%20to%20apply%20to%20join%20the%20Agent%20Network." 
+              href={agentWhatsappLink}
               target="_blank" 
               referrerPolicy="no-referrer"
               className="w-full sm:w-auto inline-flex items-center justify-center h-10 md:h-14 px-4 md:px-8 border border-[#25D366]/30 bg-[#25D366]/5 hover:bg-[#25D366]/10 text-white rounded-none md:rounded-sm font-medium tracking-widest md:tracking-wider uppercase text-[10px] sm:text-[9px] md:text-xs transition-colors text-center leading-tight py-1"
@@ -286,7 +334,7 @@ Applicant Message: ${message || 'No extra notes.'}
             transition={{ delay: 0.4 }}
             className="block text-xs font-mono uppercase tracking-widest text-brand-silver mt-6"
           >
-            ● Per confirmed project introduced by you to Jawrah Pixel.
+            Per confirmed project introduced by you to Jawrah Pixel.
           </motion.span>
         </div>
 
@@ -296,7 +344,7 @@ Applicant Message: ${message || 'No extra notes.'}
             <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Execution Path</span>
             <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">How It Works</h2>
             <p className="text-sm text-brand-gray">
-              A meticulously engineered partner flow — from simple business introduction to instant commission.
+              A meticulously engineered partner flow from simple business introduction to instant commission.
             </p>
           </Reveal>
 
@@ -453,7 +501,7 @@ Applicant Message: ${message || 'No extra notes.'}
                 Submit Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Partner Application</span>
               </h2>
               <p className="text-sm text-brand-gray leading-relaxed">
-                Connect your details, location, social links, and sales experience with us. Once received, our regional relationship team will audit your application profile and contact you within 24–48 hours to complete authorization of your workspace portal setup.
+                {applicationCopy}
               </p>
 
               <div className="space-y-4 pt-4">
@@ -511,7 +559,7 @@ Applicant Message: ${message || 'No extra notes.'}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        placeholder="e.g. Ruwan de Silva"
+                        placeholder={isInternational ? 'e.g. Sophia Morgan' : 'e.g. Ruwan de Silva'}
                         className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
                       />
                     </div>
@@ -523,7 +571,7 @@ Applicant Message: ${message || 'No extra notes.'}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        placeholder="e.g. ruwan@example.com"
+                        placeholder={isInternational ? 'e.g. sophia@example.com' : 'e.g. ruwan@example.com'}
                         className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
                       />
                     </div>
@@ -535,7 +583,7 @@ Applicant Message: ${message || 'No extra notes.'}
                         value={whatsapp}
                         onChange={(e) => setWhatsapp(e.target.value)}
                         required
-                        placeholder="e.g. +94762737411"
+                        placeholder={isInternational ? 'e.g. +1 555 014 8820' : 'e.g. +94762737411'}
                         className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
                       />
                     </div>

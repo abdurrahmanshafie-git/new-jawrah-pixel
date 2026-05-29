@@ -1,7 +1,8 @@
 import { appEnv } from '@/lib/env';
+import type { RegionCode } from '@/types';
 
 export interface RegionConfig {
-  id: 'lk' | 'pk' | 'int';
+  id: RegionCode;
   countryName: string;
   currency: string;
   currencySymbol: string;
@@ -23,7 +24,19 @@ const DEFAULT_WHATSAPP_LINK = `https://wa.me/${DEFAULT_WHATSAPP.replace(/[^0-9]/
 const DEFAULT_INSTA_HANDLE = appEnv.brandInstagram;
 const DEFAULT_INSTA_LINK = `https://instagram.com/${DEFAULT_INSTA_HANDLE.replace('@', '')}`;
 
-export const regions: Record<string, RegionConfig> = {
+export const REGION_OPTIONS: Array<{
+  id: RegionCode;
+  label: string;
+  shortLabel: string;
+  path: `/${RegionCode}`;
+  caption: string;
+}> = [
+  { id: 'lk', label: 'Sri Lanka', shortLabel: 'LK', path: '/lk', caption: 'LKR portal' },
+  { id: 'pk', label: 'Pakistan', shortLabel: 'PK', path: '/pk', caption: 'PKR portal' },
+  { id: 'int', label: 'International', shortLabel: 'INT', path: '/int', caption: 'USD global portal' },
+];
+
+export const regions: Record<RegionCode, RegionConfig> = {
   lk: {
     id: 'lk',
     countryName: 'Sri Lanka',
@@ -67,14 +80,14 @@ export const regions: Record<string, RegionConfig> = {
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
     locations: ['London Node', 'Dubai Hub', 'Singapore Satellite'],
-    paymentDesc: 'USD Stripe, Wise & Payoneer',
-    paymentMethods: ['Stripe', 'Wise', 'Payoneer', 'WhatsApp'],
-    seoTitle: 'Global Premium Web Design Agency | Jawrah Pixel',
-    seoDescription: 'World-class digital systems and high-converting luxury interfaces built natively for leading global enterprises.',
+    paymentDesc: 'USD PayPal, Wise, International Bank Transfer, Visa & Mastercard',
+    paymentMethods: ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'],
+    seoTitle: 'Jawrah Pixel International | Premium Web Design & Digital Solutions',
+    seoDescription: 'Premium websites, ecommerce, branding, SEO, and digital systems for international clients.',
   }
 };
 
-export function getRegionFromPathname(pathname: string): string {
+export function getRegionFromPathname(pathname: string): RegionCode {
   const firstSegment = pathname.split('/').filter(Boolean)[0];
   if (firstSegment === 'pk') return 'pk';
   if (firstSegment === 'int') return 'int';

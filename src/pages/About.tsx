@@ -7,13 +7,20 @@ import { Logo } from '@/components/layout/Logo';
 import { StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function About() {
-  const { config, p } = useRegion();
+  const { config, p, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'About Our Global Digital Studio | International' : `About Our Luxury Agency | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? "Learn about Jawrah Pixel's premium global design standards, high-converting React architectures, remote-first collaboration, and USD-ready international delivery."
+    : `Learn about Jawrah Pixel's elite design standards, high-converting React architectures, and operational presence in ${config.countryName}.`;
+  const aboutCopy = isInternational
+    ? "Jawrah Pixel is a premium remote-first digital agency serving international businesses, SaaS companies, luxury brands, ecommerce teams, creators, and AI startups worldwide. We partner with ambitious global clients to build websites, commerce platforms, brand systems, and operational products that feel expensive, load fast, and scale with confidence."
+    : `Jawrah Pixel is a premium web design and custom development agency serving ${config.countryName} with physical pipelines in ${config.locations.join(', ')}. We partner with luxury brands, corporates, and startups to build websites, e-commerce stores, and operational systems that look magnificent and perform at scale.`;
 
   return (
     <div className="pt-32 pb-24 min-h-[81vh] flex items-center">
       <SEO 
-        title={`About Our Luxury Agency | ${config.countryName}`}
-        description={`Learn about Jawrah Pixel's elite design standards, high-converting React architectures, and operational presence in ${config.countryName}.`}
+        title={seoTitle}
+        description={seoDescription}
       />
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -37,9 +44,7 @@ export default function About() {
             transition={{ delay: 0.1 }}
             className="text-brand-gray text-sm sm:text-lg mb-8 md:mb-10 leading-relaxed font-light"
           >
-            Jawrah Pixel is a premium web design and custom development agency serving {config.countryName} with physical pipelines in {config.locations.join(', ')}. 
-            We partner with luxury brands, corporates, and startups to build websites, e-commerce stores, 
-            and operational systems that look magnificent and perform at scale. 
+            {aboutCopy}
             <br/><br/>
             Our technology stack leverages Vite, React, Supabase, Tailwind CSS, and edge CDN architectures to deliver 
             world-class speed, security, and uptime.

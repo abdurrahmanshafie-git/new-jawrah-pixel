@@ -31,10 +31,12 @@ export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [activeMedia, setActiveMedia] = useState<'desktop' | 'mobile'>('desktop');
-  const { currentRegion, config, p } = useRegion();
+  const { currentRegion, config, p, cases } = useRegion();
   
   // Lookup case study data dynamically based on the active region configuration
-  const project = slug ? getCaseStudyDetails(slug) : null;
+  const rawProject = slug ? getCaseStudyDetails(slug) : null;
+  const visibleSlugs = cases.map((item) => item.slug);
+  const project = rawProject && visibleSlugs.includes(rawProject.slug) ? rawProject : null;
 
   useEffect(() => {
     // Scroll to top on load
@@ -65,10 +67,21 @@ export default function CaseStudyDetail() {
   }
 
   // Next project navigation
-  const slugs = Object.keys(ALL_CASE_STUDIES);
+  const slugs = visibleSlugs;
   const currentIndex = slugs.indexOf(project.slug);
   const nextSlug = slugs[(currentIndex + 1) % slugs.length];
   const nextProject = ALL_CASE_STUDIES[nextSlug];
+  const priceCurrency = project.budget.startsWith('$')
+    ? 'USD'
+    : project.budget.includes('PKR')
+      ? 'PKR'
+      : project.budget.includes('LKR')
+        ? 'LKR'
+        : config.currency;
+  const priceValue = project.budget.replace(/[^0-9.]/g, '') || '0';
+  const ctaCopy = currentRegion === 'int'
+    ? 'Explore your performance blueprint, system timeline, USD pricing, and remote-first launch workflow supported by our global strategy team.'
+    : 'Explore your performance blueprint, system timeline, pricing, and launch secure client hubs supported directly by our regional partners.';
   const transformationSummary = [
     {
       label: 'Challenge',
@@ -109,8 +122,8 @@ export default function CaseStudyDetail() {
           },
           'offers': {
             '@type': 'Offer',
-            'price': project.budget.replace('LKR ', '').replace(/,/g, ''),
-            'priceCurrency': 'LKR'
+            'price': priceValue,
+            'priceCurrency': priceCurrency
           }
         }}
       />
@@ -682,7 +695,7 @@ export default function CaseStudyDetail() {
               <span className="text-brand-cyan drop-shadow-[0_0_12px_rgba(34,211,238,0.3)]">Digital Flagship</span>
             </h2>
             <p className="text-[10px] sm:text-xs md:text-sm text-brand-silver leading-relaxed font-light max-w-md mx-auto">
-              Explore your performance blueprint, system timeline, pricing, and launch secure client hubs supported directly by our regional partners.
+              {ctaCopy}
             </p>
 
             <div className="pt-4 grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 justify-center">

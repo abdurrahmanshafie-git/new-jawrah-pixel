@@ -3,13 +3,17 @@ import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 
 export default function Privacy() {
-  const { config } = useRegion();
+  const { config, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'Global Privacy Policy' : `Privacy Policy | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? 'Privacy standards and data protection policies for international Jawrah Pixel clients and remote-first global projects.'
+    : `Privacy standards and data protection policies for Jawrah Pixel clients in ${config.countryName}.`;
 
   return (
     <div className="pt-32 pb-24 min-h-[81vh]">
       <SEO 
-        title={`Privacy Policy | ${config.countryName}`}
-        description={`Privacy standards and data protection policies for Jawrah Pixel clients in ${config.countryName}.`}
+        title={seoTitle}
+        description={seoDescription}
       />
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto">
@@ -24,6 +28,7 @@ export default function Privacy() {
           <div className="prose prose-invert max-w-none text-brand-gray space-y-6 text-sm md:text-base leading-relaxed">
             <p>
               At Jawrah Pixel, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and safeguard your personal information when you interact with our services.
+              For international clients, this includes remote-first project communication, global inquiry details, USD proposal information, and secure collaboration records.
             </p>
             
             <h2 className="text-xl text-white font-display mt-8 mb-4 uppercase tracking-wider">01. Information Collection</h2>

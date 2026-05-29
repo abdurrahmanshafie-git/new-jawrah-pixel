@@ -8,7 +8,7 @@ export interface MaintenancePlan {
   isRecommended?: boolean;
 }
 
-export const maintenancePlans: Record<'lk' | 'pk', MaintenancePlan[]> = {
+export const maintenancePlans: Record<RegionCode, MaintenancePlan[]> = {
   lk: [
     {
       name: "Basic Care",
@@ -50,10 +50,30 @@ export const maintenancePlans: Record<'lk' | 'pk', MaintenancePlan[]> = {
       period: "/mo",
       features: ["Dedicated account manager", "Custom SLAs", "Advanced analytics"]
     }
+  ],
+  int: [
+    {
+      name: "Global Care",
+      price: "$500+",
+      period: "/mo",
+      features: ["Core updates", "Uptime monitoring", "Monthly backups"]
+    },
+    {
+      name: "Growth Retainer",
+      price: "$1,500+",
+      period: "/mo",
+      features: ["Everything in Global Care", "Priority support", "Performance optimization", "Conversion-focused content updates"],
+      isRecommended: true
+    },
+    {
+      name: "Enterprise Partnership",
+      price: "Custom Quote",
+      period: "/mo",
+      features: ["Dedicated account manager", "Custom SLAs", "Advanced analytics", "International roadmap support"]
+    }
   ]
 };
 
 export function getMaintenancePlans(region: RegionCode): MaintenancePlan[] {
-  if (region === 'int') return maintenancePlans.lk;
   return maintenancePlans[region];
 }

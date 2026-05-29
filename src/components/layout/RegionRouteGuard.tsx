@@ -18,11 +18,27 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
 
   if (loading) return <SleekLoader />;
+  if (user && !profile) return <SleekLoader />;
+
+  const lockedClientRegion = user && profile?.role === 'client' ? profileRegion : null;
+
+  if (lockedClientRegion && pathRegion && pathRegion !== lockedClientRegion) {
+    persistRegion(lockedClientRegion);
+    return (
+      <Navigate
+        to={`${regionPath(lockedClientRegion, location.pathname)}${location.search}${location.hash}`}
+        replace
+      />
+    );
+  }
+
+  if (pathRegion) {
+    persistRegion(pathRegion);
+    return <>{children}</>;
+  }
 
   if (user) {
-    if (!profile) return <SleekLoader />;
-
-    const activeRegion = profileRegion ?? savedRegion;
+    const activeRegion = lockedClientRegion ?? profileRegion ?? savedRegion;
     if (activeRegion) {
       persistRegion(activeRegion);
 
@@ -30,9 +46,6 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
         return <Navigate to={`/${activeRegion}`} replace />;
       }
 
-      if (pathRegion && pathRegion !== activeRegion) {
-        return <Navigate to={regionPath(activeRegion, location.pathname)} replace />;
-      }
     }
 
     return <>{children}</>;
@@ -40,14 +53,6 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
 
   if (location.pathname === '/') {
     return savedRegion ? <Navigate to={`/${savedRegion}`} replace /> : <>{children}</>;
-  }
-
-  if (pathRegion && !savedRegion) {
-    return <Navigate to="/" replace />;
-  }
-
-  if (pathRegion && savedRegion && pathRegion !== savedRegion) {
-    return <Navigate to={regionPath(savedRegion, location.pathname)} replace />;
   }
 
   return <>{children}</>;

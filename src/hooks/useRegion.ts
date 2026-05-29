@@ -5,7 +5,7 @@ import { getServicesForRegion } from '../data/services';
 import { getCaseStudiesForRegion } from '../data/caseStudies';
 import { getMaintenancePlans } from '../data/pricing';
 import { getFaqsForRegion } from '../data/faqs';
-import { persistRegion } from '@/lib/region';
+import { persistRegion, regionPath } from '@/lib/region';
 
 export function useRegion() {
   const location = useLocation();
@@ -24,25 +24,8 @@ export function useRegion() {
       const cleanPath = path.startsWith('/') ? path : `/${path}`;
       return `/${currentRegion}${cleanPath === '/' ? '' : cleanPath}`;
     },
-    // Helper to switch the active pathname to the alternative country path
-    getSwitchUrl: () => {
-      const otherRegion = currentRegion === 'lk' ? 'pk' : 'lk';
-      const pathname = location.pathname;
-      
-      // If we are at /lk, return /pk
-      if (pathname === '/lk' || pathname === '/lk/') return '/pk';
-      if (pathname === '/pk' || pathname === '/pk/') return '/lk';
-      
-      // If we are at /lk/services, replace /lk/ with /pk/
-      if (pathname.startsWith('/lk/')) {
-        return pathname.replace('/lk/', '/pk/');
-      }
-      if (pathname.startsWith('/pk/')) {
-        return pathname.replace('/pk/', '/lk/');
-      }
-      
-      return `/${otherRegion}`;
-    },
+    // Helper to switch the active pathname to another region path
+    getSwitchUrl: (targetRegion: RegionCode) => regionPath(targetRegion, location.pathname),
     persistRegion,
     isInternational: currentRegion === 'int',
   };

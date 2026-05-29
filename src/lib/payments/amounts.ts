@@ -16,6 +16,13 @@ const BUDGET_ESTIMATES_PK: Record<string, number> = {
   'Over PKR 1.2M': 1_500_000,
 };
 
+const BUDGET_ESTIMATES_INT: Record<string, number> = {
+  '$500 - $1,000': 1_000,
+  '$1,000 - $3,000': 2_000,
+  '$3,000 - $10,000': 6_500,
+  '$10,000+': 12_000,
+};
+
 const BOOKING_SERVICE_ESTIMATES: Record<RegionCode, Record<string, number>> = {
   lk: {
     'Web Design': 500_000,
@@ -53,8 +60,7 @@ export function parsePriceAmount(priceLabel: string): number {
 export function estimateFromBudget(budgetRange: string | undefined, region: RegionCode): number {
   const defaults: Record<RegionCode, number> = { lk: 350_000, pk: 275_000, int: 8_000 };
   if (!budgetRange) return defaults[region];
-  const map = region === 'pk' ? BUDGET_ESTIMATES_PK : region === 'int' ? {} : BUDGET_ESTIMATES_LK;
-  if (region === 'int') return defaults.int;
+  const map = region === 'pk' ? BUDGET_ESTIMATES_PK : region === 'int' ? BUDGET_ESTIMATES_INT : BUDGET_ESTIMATES_LK;
   return map[budgetRange] ?? defaults[region];
 }
 
@@ -70,5 +76,6 @@ export function calculateDeposit(total: number, percent: DepositPercent): number
 }
 
 export function formatMoney(amount: number, currency: string): string {
+  if (currency === 'USD') return `$${amount.toLocaleString()}`;
   return `${currency} ${amount.toLocaleString()}`;
 }

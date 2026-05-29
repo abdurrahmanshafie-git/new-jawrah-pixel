@@ -186,7 +186,10 @@ export interface Database {
             | 'bank_transfer'
             | 'easypaisa'
             | 'jazzcash'
+            | 'paypal'
             | 'stripe'
+            | 'visa'
+            | 'mastercard'
             | 'wise'
             | 'payoneer'
             | null;
@@ -214,7 +217,10 @@ export interface Database {
             | 'bank_transfer'
             | 'easypaisa'
             | 'jazzcash'
+            | 'paypal'
             | 'stripe'
+            | 'visa'
+            | 'mastercard'
             | 'wise'
             | 'payoneer'
             | null;

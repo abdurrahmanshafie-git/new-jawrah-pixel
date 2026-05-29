@@ -11,6 +11,7 @@ import { getSavedRegion, isRegionCode, regionPath } from './lib/region';
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
 const Home = lazy(() => import('./pages/Home'));
+const International = lazy(() => import('./pages/International'));
 const About = lazy(() => import('./pages/About'));
 const Services = lazy(() => import('./pages/Services'));
 const Process = lazy(() => import('./pages/Process'));
@@ -81,7 +82,7 @@ export default function App() {
               <Route path="/pk/blog" element={<Blog />} />
 
               {/* International version */}
-              <Route path="/int" element={<Home />} />
+              <Route path="/int" element={<International />} />
               <Route path="/int/about" element={<About />} />
               <Route path="/int/services" element={<Services />} />
               <Route path="/int/process" element={<Process />} />

@@ -7,13 +7,21 @@ import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function CaseStudies() {
-  const { config, cases, p } = useRegion();
+  const { config, cases, p, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'Global Flagship Case Studies' : `Flagship Case Studies | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? "Explore Jawrah Pixel's premium global portfolio of USD-scoped websites, luxury ecommerce, AI platforms, SaaS interfaces, and brand systems."
+    : `Explore Jawrah Pixel's elite portfolio of premium web applications, luxury e-commerce boutiques, and bespoke operations dashboards in ${config.countryName}.`;
+  const headlineRegion = isInternational ? 'global brands' : config.countryName;
+  const introCopy = isInternational
+    ? 'Discover scalable systems, premium digital products, and high-converting luxury ecommerce experiences engineered for global businesses, SaaS teams, AI companies, and international brands.'
+    : `Discover our scalable systems, premium digital products, and high-converting luxury e-commerce boutiques. Engineered for exponential growth and maximum authority in ${config.countryName}.`;
 
   return (
     <div className="bg-brand-black text-white relative min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 font-sans overflow-hidden">
       <SEO 
-        title={`Flagship Case Studies | ${config.countryName}`} 
-        description={`Explore Jawrah Pixel's elite portfolio of premium web applications, luxury e-commerce boutiques, and bespoke operations dashboards in ${config.countryName}.`} 
+        title={seoTitle}
+        description={seoDescription}
       />
 
       {/* Radial Background Gradients */}
@@ -40,7 +48,7 @@ export default function CaseStudies() {
             className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight leading-[1.1] mb-4 sm:mb-6 uppercase"
           >
             Elite Portfolio <br/> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue drop-shadow-[0_0_12px_rgba(34,211,238,0.2)]">for {config.countryName}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue drop-shadow-[0_0_12px_rgba(34,211,238,0.2)]">for {headlineRegion}</span>
           </motion.h1>
 
           <motion.p 
@@ -49,7 +57,7 @@ export default function CaseStudies() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-brand-gray text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto leading-relaxed px-4 sm:px-0"
           >
-            Discover our scalable systems, premium digital products, and high-converting luxury e-commerce boutiques. Engineered for exponential growth and maximum authority in {config.countryName}.
+            {introCopy}
           </motion.p>
         </Reveal>
 

@@ -50,7 +50,7 @@ type FormData = {
 };
 
 export default function Contact() {
-  const { currentRegion, config, p } = useRegion();
+  const { currentRegion, config, p, isInternational } = useRegion();
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useRHForm<FormData>({
     defaultValues: {
       project_type: '',
@@ -86,7 +86,12 @@ export default function Contact() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
 
-  const budgetOptions = config.id === 'lk' ? [
+  const budgetOptions = isInternational ? [
+    { value: '$500 - $1,000', label: 'USD $500 - $1,000' },
+    { value: '$1,000 - $3,000', label: 'USD $1,000 - $3,000' },
+    { value: '$3,000 - $10,000', label: 'USD $3,000 - $10,000' },
+    { value: '$10,000+', label: 'USD $10,000+ (Enterprise)' }
+  ] : config.id === 'lk' ? [
     { value: 'Under LKR 200k', label: 'Under LKR 200,000' },
     { value: 'LKR 200k - 500k', label: 'LKR 200,000 - LKR 500k' },
     { value: 'LKR 500k - 1.5M', label: 'LKR 500,000 - LKR 1.5M' },
@@ -98,13 +103,25 @@ export default function Contact() {
     { value: 'Over PKR 1.2M', label: 'Over PKR 1,200,000 (Enterprise)' }
   ];
 
-  const projectTypeOptions = [
+  const projectTypeOptions = isInternational ? [
+    { id: 'Web Design', title: 'Premium Global Web Experience', desc: 'World-class websites for international businesses' },
+    { id: 'Ecommerce', title: 'International E-commerce', desc: 'USD-ready storefronts, premium checkout, global conversion' },
+    { id: 'Admin Dashboard', title: 'SaaS Interface / Custom CRM', desc: 'Scalable systems for remote-first global teams' },
+    { id: 'Branding', title: 'Global Branding & Strategy', desc: 'Premium identity, positioning, and conversion copy' },
+    { id: 'Other', title: 'Bespoke Technology Scope', desc: 'AI systems, integrations, and worldwide digital solutions' }
+  ] : [
     { id: 'Web Design', title: 'Premium Web Design', desc: 'Custom, blazing fast corporate systems' },
     { id: 'Ecommerce', title: 'Luxury E-commerce', desc: 'Secure checkout, appraisers, high conversions' },
     { id: 'Admin Dashboard', title: 'Bento Dashboard / Custom CRM', desc: 'Secure management with full Supabase integration' },
     { id: 'Branding', title: 'Elite Branding & Strategy', desc: 'Strategic copy, identity, positioning' },
     { id: 'Other', title: 'Special Dev Scope', desc: 'Bespoke systems, custom integrations' }
   ];
+
+  const internationalPaymentMethods = ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'];
+  const contactIntro = isInternational
+    ? 'Submit a premium global project brief or schedule a remote-first strategy consultation for websites, ecommerce platforms, AI systems, and worldwide digital solutions.'
+    : 'Submit an elite system briefing blueprint or lock in a direct strategic video consultation with our partners in Colombo, Dubai, and London.';
+  const successRegionLabel = isInternational ? 'global strategy team' : `Lead Architect in ${config.countryName}`;
 
   // Helper to generate the next 10 business days starting today
   const generateBusinessDays = () => {
@@ -133,11 +150,11 @@ export default function Contact() {
   const businessDaysList = generateBusinessDays();
 
   const availableHoursList = [
-    { time: '09:30 AM', zone: config.id === 'lk' ? 'IST' : 'PKT' },
-    { time: '11:00 AM', zone: config.id === 'lk' ? 'IST' : 'PKT' },
-    { time: '02:00 PM', zone: config.id === 'lk' ? 'IST' : 'PKT' },
-    { time: '03:30 PM', zone: config.id === 'lk' ? 'IST' : 'PKT' },
-    { time: '05:00 PM', zone: config.id === 'lk' ? 'IST' : 'PKT' }
+    { time: '09:30 AM', zone: isInternational ? 'UTC' : config.id === 'lk' ? 'IST' : 'PKT' },
+    { time: '11:00 AM', zone: isInternational ? 'UTC' : config.id === 'lk' ? 'IST' : 'PKT' },
+    { time: '02:00 PM', zone: isInternational ? 'UTC' : config.id === 'lk' ? 'IST' : 'PKT' },
+    { time: '03:30 PM', zone: isInternational ? 'UTC' : config.id === 'lk' ? 'IST' : 'PKT' },
+    { time: '05:00 PM', zone: isInternational ? 'UTC' : config.id === 'lk' ? 'IST' : 'PKT' }
   ];
 
   const watchedProjectType = watch('project_type');
@@ -364,8 +381,8 @@ export default function Contact() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 min-h-screen bg-brand-black text-white relative font-sans overflow-hidden">
       <SEO 
-        title={`Book elite strategy briefings | ${config.countryName}`}
-        description={`Submit brief requirements to Jawrah Pixel in ${config.countryName} or schedule live strategy video briefings with our regional architects.`}
+        title={isInternational ? 'Book International Strategy Briefings | Jawrah Pixel' : `Book elite strategy briefings | ${config.countryName}`}
+        description={isInternational ? 'Submit international project requirements to Jawrah Pixel or schedule remote-first strategy briefings for premium websites, ecommerce, branding, SEO, and digital systems.' : `Submit brief requirements to Jawrah Pixel in ${config.countryName} or schedule live strategy video briefings with our regional architects.`}
       />
 
       {/* Decorative luxury gradient lighting */}
@@ -396,27 +413,27 @@ export default function Contact() {
             transition={{ delay: 0.1 }}
             className="text-brand-gray text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto px-4"
           >
-            Submit an elite system briefing blueprint or lock in a direct strategic video consultation with our partners in Colombo, Dubai, and London.
+            {contactIntro}
           </motion.p>
         </div>
 
         {/* Global Hub Switcher Tabs */}
-        <div className="flex justify-center max-w-[280px] sm:max-w-md mx-auto mb-8 sm:mb-12 p-1 bg-white/[0.02] border border-white/10 rounded-xl relative">
+        <div className="flex justify-center max-w-[320px] sm:max-w-md mx-auto mb-10 sm:mb-16 p-1.5 bg-white/[0.03] border border-white/10 rounded-2xl relative shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
           <button
             onClick={() => { setActiveTab('rfp'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-lg text-[10px] sm:text-xs font-mono uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'rfp' ? 'bg-brand-cyan text-brand-black font-semibold shadow-xl' : 'text-brand-gray hover:text-white'
+            className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 sm:py-3.5 rounded-xl text-[11px] sm:text-xs font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+              activeTab === 'rfp' ? 'bg-brand-cyan text-brand-black font-bold shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'text-brand-gray hover:text-white'
             }`}
           >
-            <Settings size={12} className="sm:w-3.5 sm:h-3.5" /> Briefing
+            <Settings size={14} className="sm:w-4 sm:h-4" /> Briefing
           </button>
           <button
             onClick={() => { setActiveTab('calendar'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-lg text-[10px] sm:text-xs font-mono uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'calendar' ? 'bg-brand-cyan text-brand-black font-semibold shadow-xl' : 'text-brand-gray hover:text-white'
+            className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 sm:py-3.5 rounded-xl text-[11px] sm:text-xs font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+              activeTab === 'calendar' ? 'bg-brand-cyan text-brand-black font-bold shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'text-brand-gray hover:text-white'
             }`}
           >
-            <Calendar size={12} className="sm:w-3.5 sm:h-3.5" /> VIP Calendar
+            <Calendar size={14} className="sm:w-4 sm:h-4" /> VIP Calendar
           </button>
         </div>
 
@@ -463,6 +480,26 @@ export default function Contact() {
                 <Globe size={11} className="text-brand-cyan" /> Edge CDN routing: v12.0
               </div>
             </div>
+
+            {isInternational && (
+              <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-brand-cyan/[0.03] rounded-full blur-xl"></div>
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-brand-cyan/10 rounded-xl flex items-center justify-center text-brand-cyan mb-4 border border-brand-cyan/20">
+                  <CheckCircle size={16} />
+                </div>
+                <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-2">USD Payment Support</h3>
+                <p className="text-brand-gray text-[10px] sm:text-xs mb-4 font-light">
+                  International invoices for global clients, remote-first teams, SaaS companies, and premium global brands.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {internationalPaymentMethods.map((method) => (
+                    <span key={method} className="rounded-full border border-white/10 bg-brand-black/50 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.14em] text-brand-silver">
+                      {method}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
           </div>
 
@@ -514,7 +551,7 @@ export default function Contact() {
                       </div>
                       <h3 className="text-2xl font-display font-semibold uppercase text-white tracking-wider">System RFP Received</h3>
                       <p className="text-sm text-brand-gray max-w-md mx-auto font-light leading-relaxed">
-                        We have successfully registered your project blueprint parameters. Our Lead Architect in {config.countryName} will evaluate the specifications and contact you on WhatsApp/Email within 12 hours.
+                        We have successfully registered your project blueprint parameters. Our {successRegionLabel} will evaluate the specifications and contact you on WhatsApp/Email within 12 hours.
                       </p>
                       <PaymentSuccessActions
                         serviceName={lastRfpService || 'Custom Project'}
@@ -567,7 +604,7 @@ export default function Contact() {
                             <label className="text-xs font-mono text-brand-silver uppercase tracking-wider block">Key Business Goals & Objectives</label>
                             <Textarea 
                               {...register('goals')}
-                              placeholder="e.g. Expand retail gold collections globally, reduce page load shift under slow mobile nodes, improve overall visual brand value..."
+                              placeholder={isInternational ? "e.g. Launch worldwide digital solutions, improve SaaS conversion, prepare an AI-ready global customer experience..." : "e.g. Expand retail gold collections globally, reduce page load shift under slow mobile nodes, improve overall visual brand value..."}
                               className="bg-brand-navy/30 border-white/10 text-xs min-h-[100px]"
                             />
                           </div>
@@ -676,7 +713,7 @@ export default function Contact() {
                               <label className="text-xs font-mono text-brand-silver uppercase flex justify-between">
                                 WhatsApp Contact Phone
                               </label>
-                              <Input {...register('whatsapp')} placeholder="e.g. +94 76 273 7411" className="bg-brand-navy/20 border-white/10 text-xs" />
+                              <Input {...register('whatsapp')} placeholder={isInternational ? "e.g. +1 415 555 0198" : "e.g. +94 76 273 7411"} className="bg-brand-navy/20 border-white/10 text-xs" />
                             </div>
                             <div className="space-y-1.5">
                               <label className="text-xs font-mono text-brand-silver uppercase">Corporate Entity / Business Name</label>
@@ -711,7 +748,7 @@ export default function Contact() {
                             <label className="text-xs font-mono text-brand-silver uppercase block">Additional RFP Directives (Optional)</label>
                             <Textarea 
                               {...register('message')} 
-                              placeholder="Any secondary server API hooks instructions, payment structures routing requests, maintenance plans requirements..." 
+                              placeholder={isInternational ? "Any global payment requirements, SaaS workflow details, AI integrations, market launch priorities, or enterprise compliance notes..." : "Any secondary server API hooks instructions, payment structures routing requests, maintenance plans requirements..."} 
                               className="bg-brand-navy/20 border-white/10 text-xs min-h-[100px]"
                             />
                           </div>
@@ -848,7 +885,7 @@ export default function Contact() {
                             <Input 
                               value={bookingForm.whatsapp}
                               onChange={(e) => setBookingForm(prev => ({ ...prev, whatsapp: e.target.value }))}
-                              placeholder="e.g. +92 300 XXXXXXX" 
+                              placeholder={isInternational ? "e.g. +44 20 0000 0000" : "e.g. +92 300 XXXXXXX"} 
                               className="bg-brand-navy/20 border-white/10 text-xs text-white" 
                             />
                           </div>

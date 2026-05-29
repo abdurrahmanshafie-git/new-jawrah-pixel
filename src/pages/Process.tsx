@@ -29,7 +29,12 @@ interface FaqItem {
 
 export default function Process() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const { config, faqs, p } = useRegion();
+  const { config, faqs, p, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'Global Agency Workflow & USD Retainers' : `Agency Workflow & Trust Blueprints | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? "Learn about Jawrah Pixel's remote-first global development process, USD monthly retainers, international payment support, and performance guarantees for premium global brands."
+    : `Learn about Jawrah Pixel's elite development process, active monthly retainers, responsive ticketing FAQs, and performance guarantees for ${config.countryName} brands.`;
+  const whatsappLabel = isInternational ? 'WhatsApp Global' : `WhatsApp ${config.countryName}`;
 
   const steps = [
     { 
@@ -79,7 +84,7 @@ export default function Process() {
   const plans = [
     {
       name: "Strategic Care Plan",
-      price: config.id === 'lk' ? "LKR 75,000" : "PKR 75,000",
+      price: config.id === 'int' ? "$500+" : config.id === 'lk' ? "LKR 75,000" : "PKR 75,000",
       period: "Monthly retainer",
       desc: "Perfect for corporate publications, advisory channels, and blogs requiring security updates.",
       hours: "4 Engineering Hours / mo",
@@ -96,7 +101,7 @@ export default function Process() {
     },
     {
       name: "Enterprise Scaler Node",
-      price: config.id === 'lk' ? "LKR 165,000" : "PKR 165,000",
+      price: config.id === 'int' ? "$1,500+" : config.id === 'lk' ? "LKR 165,000" : "PKR 165,000",
       period: "Monthly retainer",
       desc: "Architected for high-frequency jewellery boutiques, spatial showrooms, and custom databases.",
       hours: "12 Engineering Hours / mo",
@@ -105,7 +110,7 @@ export default function Process() {
         "Bi-weekly performance optimizing checks",
         "6-Hour Priority SLA direct hotline",
         "Live error-monitoring (Sentry) integrations",
-        "Stripe payment hooks validations",
+        config.id === 'int' ? "Visa and Mastercard payment rail validations" : "Stripe payment hooks validations",
         "SEO trends monitoring & indexing push"
       ],
       badge: "Most Popular",
@@ -117,8 +122,8 @@ export default function Process() {
   return (
     <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
       <SEO 
-        title={`Agency Workflow & Trust Blueprints | ${config.countryName}`} 
-        description={`Learn about Jawrah Pixel's elite development process, active monthly retainers, responsive ticketing FAQs, and performance guarantees for ${config.countryName} brands.`} 
+        title={seoTitle}
+        description={seoDescription}
       />
 
       {/* Background Ambitions */}
@@ -151,7 +156,7 @@ export default function Process() {
             transition={{ delay: 0.1 }}
             className="text-brand-gray text-xs sm:text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed px-4 sm:px-0"
           >
-            Explore our world-class onboarding timeline — engineered for complete architectural transparency from design lock-in to final schema deploy.
+            Explore our world-class onboarding timeline, engineered for complete architectural transparency from design lock-in to final schema deploy.
           </motion.p>
         </Reveal>
 
@@ -161,7 +166,7 @@ export default function Process() {
           {/* Central Vertical Connector Line */}
           <div className="absolute left-[24px] md:left-1/2 top-4 bottom-4 w-[1px] bg-gradient-to-b from-brand-cyan/40 via-brand-blue/20 to-transparent pointer-events-none"></div>
 
-          <div className="space-y-8 md:space-y-16">
+          <div className="space-y-12 md:space-y-20">
             {steps.map((step, i) => {
               const rotateDir = i % 2 === 0 ? "md:text-right md:flex-row-reverse" : "md:text-left md:flex-row";
               return (
@@ -171,51 +176,42 @@ export default function Process() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.5, delay: i * 0.05 }}
-                  className={`flex items-start md:items-center gap-4 md:gap-14 ${rotateDir} relative`}
+                  className={`flex items-start md:items-center gap-6 md:gap-14 ${rotateDir} relative`}
                 >
                   
-                  {/* Left Column (Left card on even, empty side on odd for elegant zigzag) */}
+                  {/* Left Column (Desktop only) */}
                   <div className="w-full md:w-1/2 hidden md:block">
                     {i % 2 === 0 ? (
-                      <div className="glass-card p-4 sm:p-6.5 rounded-2xl border-white/5 bg-white/[0.01] hover:border-white/10 transition-colors">
-                        <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">{step.timeline}</span>
-                        <h4 className="text-sm font-semibold text-white uppercase mt-1 mb-2">{step.title}</h4>
-                        <p className="text-[11px] text-brand-gray leading-relaxed font-light">{step.desc}</p>
-                        <div className="pt-3 border-t border-white/5 mt-3 flex items-center justify-end gap-2 text-[9px] font-mono text-brand-silver uppercase">
-                          <Check size={10} className="text-brand-cyan" /> {step.delivery}
+                      <div className="glass-card p-8 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-brand-cyan/20 transition-all duration-500 group">
+                        <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.3em] font-bold">{step.timeline}</span>
+                        <h4 className="text-xl font-display font-bold text-white uppercase mt-2 mb-3 tracking-tight group-hover:text-brand-cyan transition-colors">{step.title}</h4>
+                        <p className="text-sm text-brand-gray leading-relaxed font-light">{step.desc}</p>
+                        <div className="pt-4 border-t border-white/5 mt-4 flex items-center justify-end gap-2 text-[10px] font-mono text-brand-silver uppercase tracking-widest">
+                          <Check size={12} className="text-brand-cyan" /> {step.delivery}
                         </div>
                       </div>
                     ) : null}
                   </div>
 
                   {/* Central Node Dot Marker */}
-                  <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-brand-cyan/25 bg-brand-black flex items-center justify-center shrink-0 z-10 shadow-[0_0_15px_rgba(34,211,238,0.1)] relative mt-1 md:mt-0">
-                    <span className="text-xs md:text-lg font-display font-medium text-brand-cyan font-mono">{step.num}</span>
-                    <div className="absolute inset-1 md:inset-2 border border-white/5 rounded-full"></div>
+                  <div className="w-12 h-12 md:w-20 md:h-20 rounded-full border border-brand-cyan/30 bg-brand-black flex items-center justify-center shrink-0 z-10 shadow-[0_0_20px_rgba(34,211,238,0.15)] relative mt-1 md:mt-0">
+                    <span className="text-sm md:text-xl font-display font-bold text-brand-cyan font-mono">{step.num}</span>
+                    <div className="absolute inset-1.5 md:inset-2 border border-white/10 rounded-full animate-spin-slow"></div>
                   </div>
 
-                  {/* Right Column (Right card on odd, mobile views, empty side on even) */}
+                  {/* Right Column (Mobile views + Desktop odd) */}
                   <div className="w-full md:w-1/2">
-                    {i % 2 !== 0 ? (
-                      <div className="glass-card p-4 sm:p-6.5 rounded-2xl border-white/5 bg-white/[0.01] hover:border-white/10 transition-colors">
-                        <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">{step.timeline}</span>
-                        <h4 className="text-xs sm:text-sm font-semibold text-white uppercase mt-1 mb-2">{step.title}</h4>
-                        <p className="text-[10px] sm:text-[11px] text-brand-gray leading-relaxed font-light">{step.desc}</p>
-                        <div className="pt-2 sm:pt-3 border-t border-white/5 mt-2 sm:mt-3 flex items-center justify-start gap-2 text-[8px] sm:text-[9px] font-mono text-brand-silver uppercase">
-                          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-brand-cyan" /> {step.delivery}
-                        </div>
+                    <div className={cn(
+                      "glass-card p-6 sm:p-8 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-brand-cyan/20 transition-all duration-500 group",
+                      i % 2 === 0 ? "md:hidden" : ""
+                    )}>
+                      <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.3em] font-bold">{step.timeline}</span>
+                      <h4 className="text-lg sm:text-xl font-display font-bold text-white uppercase mt-2 mb-3 tracking-tight group-hover:text-brand-cyan transition-colors">{step.title}</h4>
+                      <p className="text-[13px] sm:text-sm text-brand-gray leading-relaxed font-light">{step.desc}</p>
+                      <div className="pt-4 border-t border-white/5 mt-4 flex items-center justify-start gap-2 text-[10px] font-mono text-brand-silver uppercase tracking-widest">
+                        <Check className="w-3 h-3 text-brand-cyan" /> {step.delivery}
                       </div>
-                    ) : (
-                      /* Mobile render for even items because they are hidden at the left on screens */
-                      <div className="glass-card p-4 sm:p-6.5 rounded-2xl border-white/5 bg-white/[0.01] hover:border-white/10 transition-colors md:hidden">
-                        <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">{step.timeline}</span>
-                        <h4 className="text-xs sm:text-sm font-semibold text-white uppercase mt-1 mb-2">{step.title}</h4>
-                        <p className="text-[10px] sm:text-[11px] text-brand-gray leading-relaxed font-light">{step.desc}</p>
-                        <div className="pt-2 sm:pt-3 border-t border-white/5 mt-2 sm:mt-3 flex items-center justify-start gap-2 text-[8px] sm:text-[9px] font-mono text-brand-silver uppercase">
-                          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-brand-cyan" /> {step.delivery}
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </div>
 
                 </motion.div>
@@ -225,31 +221,51 @@ export default function Process() {
         </div>
 
         {/* TRUST ACCREDITATION GUARANTEES */}
-        <Reveal className="p-8 md:p-12 rounded-3xl border border-white/5 bg-white/[0.01] max-w-5xl mx-auto mb-32 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-28 h-28 bg-brand-cyan/5 rounded-full blur-2xl"></div>
+        <Reveal className="p-8 md:p-16 rounded-3xl border border-white/5 bg-white/[0.01] max-w-5xl mx-auto mb-32 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-brand-cyan/5 rounded-full blur-3xl"></div>
           
-          <div className="grid grid-cols-3 gap-2 md:gap-8 text-center md:text-left">
-            <div className="space-y-1.5 md:space-y-2">
-              <div className="w-7 h-7 md:w-10 md:h-10 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto md:mx-0">
-                <ShieldCheck className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-12 text-center sm:text-left">
+            <div className="space-y-4">
+              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto sm:mx-0 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <ShieldCheck className="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
               </div>
-              <h4 className="text-[8px] sm:text-[10px] md:text-sm font-mono uppercase tracking-widest text-white font-semibold">100% Contractual IP</h4>
-              <p className="text-[7.5px] sm:text-[9px] md:text-xs text-brand-gray leading-relaxed font-light">
-                Complete codebase copyright handover to your organization. Zero proprietary vendor locks.
+              <h4 className="text-xs md:text-sm font-display font-bold uppercase tracking-[0.2em] text-white">Contractual IP</h4>
+              <p className="text-[13px] text-brand-gray leading-relaxed font-light">
+                Complete codebase copyright handover. Zero proprietary vendor locks.
               </p>
             </div>
 
-            <div className="space-y-1.5 md:space-y-2">
-              <div className="w-7 h-7 md:w-10 md:h-10 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto md:mx-0">
-                <Clock className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
+            <div className="space-y-4">
+              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto sm:mx-0 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <Clock className="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
+              </div>
+              <h4 className="text-xs md:text-sm font-display font-bold uppercase tracking-[0.2em] text-white">Rapid Deployment</h4>
+              <p className="text-[13px] text-brand-gray leading-relaxed font-light">
+                Agile sprints focused on time-to-market without compromising precision.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto sm:mx-0 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <Award className="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
+              </div>
+              <h4 className="text-xs md:text-sm font-display font-bold uppercase tracking-[0.2em] text-white">Elite Standards</h4>
+              <p className="text-[13px] text-brand-gray leading-relaxed font-light">
+                98+ Lighthouse scores, WCAG compliance, and enterprise-grade security.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto sm:mx-0 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <Phone className="w-6 h-6 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
               </div>
               <h4 className="text-[8px] sm:text-[10px] md:text-sm font-mono uppercase tracking-widest text-white font-semibold">24-Hr SLA Commitment</h4>
               <p className="text-[7.5px] sm:text-[9px] md:text-xs text-brand-gray leading-relaxed font-light">
-                Premium Ticketing Response guarantee. Account Managers accessible via Whatsapp and email workspace.
+                Premium Ticketing Response guarantee. Account Managers accessible via WhatsApp and email workspace.
               </p>
             </div>
 
-            <div className="space-y-1.5 md:space-y-2">
+            <div className="space-y-4">
               <div className="w-7 h-7 md:w-10 md:h-10 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto md:mx-0">
                 <Award className="w-3.5 h-3.5 md:w-[18px] md:h-[18px] drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
               </div>
@@ -380,7 +396,7 @@ export default function Process() {
             </Link>
             <a href={config.whatsappLink} target="_blank" rel="noreferrer">
               <span className="inline-flex items-center gap-2 px-6 py-2.5 border border-white/5 hover:border-[#22c55e]/30 bg-white/5 text-[#22c55e] rounded-xl text-xs font-mono uppercase tracking-widest font-bold transition-all">
-                <Phone size={14} className="fill-[#22c55e]/20" /> WhatsApp {config.countryName}
+                <Phone size={14} className="fill-[#22c55e]/20" /> {whatsappLabel}
               </span>
             </a>
           </div>

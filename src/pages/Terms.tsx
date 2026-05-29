@@ -3,13 +3,17 @@ import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 
 export default function Terms() {
-  const { config } = useRegion();
+  const { config, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'Global Terms of Service' : `Terms of Service | ${config.countryName}`;
+  const seoDescription = isInternational
+    ? 'Standard terms of service and agreement guidelines for international Jawrah Pixel clients, USD projects, and remote-first collaborations.'
+    : `Standard terms of service and agreement guidelines for Jawrah Pixel clients in ${config.countryName}.`;
 
   return (
     <div className="pt-32 pb-24 min-h-[81vh]">
       <SEO 
-        title={`Terms of Service | ${config.countryName}`}
-        description={`Standard terms of service and agreement guidelines for Jawrah Pixel clients in ${config.countryName}.`}
+        title={seoTitle}
+        description={seoDescription}
       />
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto">
@@ -24,6 +28,7 @@ export default function Terms() {
           <div className="prose prose-invert max-w-none text-brand-gray space-y-6 text-sm md:text-base leading-relaxed">
             <p>
               By accessing or using the Jawrah Pixel platform and services, you agree to comply with and be bound by the following terms and conditions.
+              International projects are scoped through USD proposals, remote-first collaboration, and globally supported payment methods where applicable.
             </p>
             
             <h2 className="text-xl text-white font-display mt-8 mb-4 uppercase tracking-wider">01. Service Agreement</h2>

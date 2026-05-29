@@ -93,7 +93,7 @@ export function PaymentCTAGroup({ serviceName, priceLabel, compact, className }:
             className={cn('w-full border border-white/10 hover:bg-white/5', btnClass)}
             onClick={() => openWithProvider('bank_transfer', 100, 'invoice')}
           >
-            Manual Bank Transfer
+            {isInternational ? 'International Bank Transfer' : 'Manual Bank Transfer'}
           </Button>
         </div>
         <a href={config.whatsappLink} target="_blank" rel="noreferrer" className="block">
@@ -103,7 +103,7 @@ export function PaymentCTAGroup({ serviceName, priceLabel, compact, className }:
             className={cn('w-full border border-white/10 text-brand-cyan', btnClass)}
             onClick={() => openWithProvider('bank_transfer', 10, 'advance_10')}
           >
-            WhatsApp Payment Confirmation
+            {isInternational ? 'Global Payment Confirmation' : 'WhatsApp Payment Confirmation'}
           </Button>
         </a>
       </div>

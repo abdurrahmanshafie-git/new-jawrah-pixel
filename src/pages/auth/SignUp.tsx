@@ -8,6 +8,7 @@ import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { cn } from '@/lib/utils';
 import { getRegionMeta, getSavedRegion, persistRegion } from '@/lib/region';
+import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
 
 export default function SignUp() {
@@ -23,7 +24,7 @@ export default function SignUp() {
   const validateForm = () => {
     if (fullName.trim().length < 2) return 'Enter your full name so we can prepare your portal profile.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Enter a valid business email address.';
-    if (!region) return 'Choose Pakistan or Sri Lanka before creating your account.';
+    if (!region) return 'Choose Sri Lanka, Pakistan, or International before creating your account.';
     if (password.length < 8) return 'Use at least 8 characters for a more secure password.';
     return '';
   };
@@ -78,106 +79,123 @@ export default function SignUp() {
     }
   };
 
+  const selectedRegionLabel = region
+    ? REGION_OPTIONS.find((option) => option.id === region)?.label ?? 'your selected region'
+    : 'your selected region';
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-black p-4 relative overflow-hidden">
-      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[100px]"></div>
+    <div className="min-h-screen flex items-center justify-center bg-brand-black p-0 sm:p-4 relative overflow-hidden">
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-brand-blue/5 rounded-full blur-[100px]"></div>
+        <div className="absolute inset-0 bg-[url('/assets/grid.svg')] opacity-[0.03] bg-center"></div>
       </div>
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md glass-card p-8 rounded-2xl relative z-10"
+        className="w-full max-w-md min-h-screen sm:min-h-0 glass-card p-8 sm:p-10 sm:rounded-3xl relative z-10 flex flex-col justify-center sm:block border-0 sm:border border-white/5"
       >
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center justify-center mb-6">
-            <Logo variant="icon" size="md" className="w-16 h-16" />
+          <Link to="/" className="inline-flex items-center justify-center mb-8 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-brand-cyan/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <Logo variant="icon" size="md" className="w-16 h-16 relative z-10" />
+            </div>
           </Link>
-          <h1 className="text-2xl font-display font-bold text-white mb-2">Create Account</h1>
-          <p className="text-brand-gray text-sm">Join to access your client portal</p>
+          <h1 className="text-3xl font-display font-bold text-white mb-3 uppercase tracking-tight">Register Node</h1>
+          <p className="text-brand-gray text-sm font-light">Initialize your secure client environment</p>
         </div>
 
         {success ? (
-          <div className="text-center space-y-4">
-            <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle size={32} />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center space-y-6 py-4"
+          >
+            <div className="w-20 h-20 bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+              <CheckCircle size={40} />
             </div>
-            <h3 className="text-xl font-display font-semibold text-white">Check your email</h3>
-            <p className="text-brand-gray text-sm leading-relaxed">
-              We've sent a verification link to {email}. Your client region is reserved for {region === 'pk' ? 'Pakistan' : 'Sri Lanka'}.
+            <h3 className="text-2xl font-display font-bold text-white uppercase tracking-wider">Verification Sent</h3>
+            <p className="text-brand-gray text-sm leading-relaxed font-light">
+              We've transmitted a verification link to <span className="text-white font-medium">{email}</span>. Your portal is provisioned for <span className="text-brand-cyan font-bold">{selectedRegionLabel}</span>.
             </p>
-            <Link to="/login">
-              <Button variant="outline" className="mt-4 w-full">Back to Login</Button>
+            <Link to="/login" className="block pt-4">
+              <Button variant="outline" className="w-full h-14 text-[11px] font-mono uppercase tracking-widest border-white/10 hover:bg-white/5">Back to Terminal</Button>
             </Link>
-          </div>
+          </motion.div>
         ) : (
           <>
             {errorMsg && (
-              <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-md flex items-center gap-3">
-                <AlertCircle className="text-red-500 shrink-0" size={18} />
-                <p className="text-red-500 text-sm">{errorMsg}</p>
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3"
+              >
+                <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={16} />
+                <p className="text-red-400 text-xs leading-relaxed font-mono">{errorMsg}</p>
+              </motion.div>
             )}
 
-            <form onSubmit={handleSignUp} className="space-y-4">
+            <form onSubmit={handleSignUp} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm text-brand-silver">Full Name</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-cyan/70 ml-1">Operative Full Name</label>
                 <Input 
                   value={fullName} 
                   onChange={(e) => setFullName(e.target.value)} 
                   required 
                   autoComplete="name"
-                  placeholder="Your full name"
+                  placeholder="Alexander Vance"
+                  className="h-14 bg-white/[0.03] border-white/10 focus:border-brand-cyan/50 focus:bg-white/[0.05] transition-all rounded-xl"
                 />
               </div>
-              <div className="rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 p-4 text-xs leading-relaxed text-brand-silver">
-                New signups are provisioned as client accounts. Agent and admin roles are issued internally after verification.
-              </div>
+
               <div className="space-y-2">
-                <label className="text-sm text-brand-silver">Client Region</label>
-                <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-brand-navy/40 p-1.5">
-                  {([
-                    { value: 'lk', label: 'Sri Lanka', caption: 'LKR portal' },
-                    { value: 'pk', label: 'Pakistan', caption: 'PKR portal' },
-                  ] as const).map((option) => (
+                <label className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-cyan/70 ml-1">Strategic Region</label>
+                <div className="grid grid-cols-1 min-[420px]:grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-brand-navy/40 p-1.5">
+                  {REGION_OPTIONS.map((option) => (
                     <button
-                      key={option.value}
+                      key={option.id}
                       type="button"
                       onClick={() => {
-                        setRegion(option.value);
-                        persistRegion(option.value);
+                        setRegion(option.id);
+                        persistRegion(option.id);
                         setErrorMsg('');
                       }}
                       className={cn(
-                        'rounded-sm border px-3 py-3 text-left transition-all duration-300',
-                        region === option.value
-                          ? 'border-brand-cyan/40 bg-brand-cyan/10 shadow-[0_0_20px_rgba(34,211,238,0.12)]'
-                          : 'border-transparent bg-transparent hover:border-white/10 hover:bg-white/[0.03]'
+                        'rounded-xl border px-3 py-3 text-left transition-all duration-300',
+                        region === option.id
+                          ? 'border-brand-cyan/40 bg-brand-cyan/10 shadow-[0_0_20px_rgba(34,211,238,0.12)] text-white'
+                          : 'border-transparent bg-transparent text-brand-gray hover:border-white/10 hover:bg-white/[0.03]'
                       )}
                     >
-                      <span className="block text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-white">
-                        {option.label}
+                      <span className="block text-[10px] font-mono font-bold uppercase tracking-widest">
+                        {option.shortLabel}
                       </span>
-                      <span className="mt-1 block text-[10px] font-light uppercase tracking-[0.12em] text-brand-gray">
-                        {option.caption}
+                      <span className="mt-1 block text-[8px] font-light uppercase tracking-widest opacity-60">
+                        {option.label.split(' ')[0]}
                       </span>
                     </button>
                   ))}
                 </div>
               </div>
+
               <div className="space-y-2">
-                <label className="text-sm text-brand-silver">Email Address</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-cyan/70 ml-1">Corporate Email Address</label>
                 <Input 
                   type="email" 
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
                   required 
                   autoComplete="email"
-                  placeholder="you@company.com"
+                  placeholder="vance@enterprise.com"
+                  className="h-14 bg-white/[0.03] border-white/10 focus:border-brand-cyan/50 focus:bg-white/[0.05] transition-all rounded-xl"
                 />
               </div>
+
               <div className="space-y-2">
-                <label className="text-sm text-brand-silver">Password</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-cyan/70 ml-1">New Access Key</label>
                 <div className="relative">
                   <Input
                     type={showPassword ? 'text' : 'password'}
@@ -187,12 +205,12 @@ export default function SignUp() {
                     autoComplete="new-password"
                     placeholder="Minimum 8 characters"
                     minLength={8}
-                    className="pr-12"
+                    className="h-14 bg-white/[0.03] border-white/10 focus:border-brand-cyan/50 focus:bg-white/[0.05] transition-all rounded-xl pr-14"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((value) => !value)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gray transition-colors hover:text-brand-cyan"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-gray transition-colors hover:text-white"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -200,17 +218,17 @@ export default function SignUp() {
                 </div>
               </div>
               
-              <Button type="submit" className="w-full mt-4 gap-2" disabled={loading}>
-                {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {loading ? 'Creating Secure Portal...' : 'Create Client Portal'}
+              <Button type="submit" className="w-full h-14 text-[11px] font-mono uppercase tracking-[0.3em] font-bold luxury-glow shadow-[0_10px_30px_rgba(34,211,238,0.2)]" disabled={loading}>
+                {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                {loading ? 'Initializing Node...' : 'Initialize Environment'}
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-brand-gray">
-                Already have an account?{' '}
-                <Link to="/login" className="text-brand-cyan hover:text-white transition-colors">
-                  Sign in
+            <div className="mt-8 text-center border-t border-white/5 pt-8">
+              <p className="text-[11px] font-mono text-brand-gray uppercase tracking-widest">
+                Already registered?{' '}
+                <Link to="/login" className="text-brand-cyan hover:text-white transition-colors font-bold ml-1">
+                  Authorize Node
                 </Link>
               </p>
             </div>

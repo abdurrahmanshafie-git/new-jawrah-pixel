@@ -26,6 +26,8 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
+import { REGION_OPTIONS } from '@/data/regions';
+import type { RegionCode } from '@/types';
 
 // Reusable Toast feedback type
 interface Toast {
@@ -57,7 +59,7 @@ export default function AdminDashboard() {
   const [toasts, setToasts] = useState<Toast[]>([]);
   
   // Search & Filter state values
-  const [regionFilter, setRegionFilter] = useState<'all' | 'lk' | 'pk'>('all');
+  const [regionFilter, setRegionFilter] = useState<'all' | RegionCode>('all');
   
   // MODAL States for CRUD
   const [projectModalOpen, setProjectModalOpen] = useState(false);
@@ -459,12 +461,15 @@ export default function AdminDashboard() {
                       <div className="flex gap-2">
                         <select 
                           value={regionFilter}
-                          onChange={(e) => setRegionFilter(e.target.value as any)}
+                          onChange={(e) => setRegionFilter(e.target.value as 'all' | RegionCode)}
                           className="bg-brand-navy/40 border border-white/10 rounded px-3 py-1.5 text-[10px] font-mono text-white uppercase"
                         >
                           <option value="all">All Regions</option>
-                          <option value="lk">Sri Lanka</option>
-                          <option value="pk">Pakistan</option>
+                          {REGION_OPTIONS.map((region) => (
+                            <option key={region.id} value={region.id}>
+                              {region.label}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>

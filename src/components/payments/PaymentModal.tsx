@@ -251,7 +251,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                       onClick={() => void handleConfirm('bank_transfer')}
                       className="text-[9px] font-mono uppercase tracking-wider h-10 border-white/10"
                     >
-                      Manual Bank Transfer
+                      {isInternational ? 'International Bank Transfer' : 'Manual Bank Transfer'}
                     </Button>
                     <a
                       href={config.whatsappLink}
@@ -265,7 +265,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                         variant="ghost"
                         className="w-full text-[9px] font-mono uppercase tracking-wider h-10 border border-white/10 gap-1"
                       >
-                        <MessageCircle size={12} /> WhatsApp Confirmation
+                        <MessageCircle size={12} /> {isInternational ? 'Global Confirmation' : 'WhatsApp Confirmation'}
                       </Button>
                     </a>
                   </div>
@@ -299,8 +299,10 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                   <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 flex gap-3">
                     <AlertCircle className="text-amber-400 shrink-0" size={18} />
                     <p className="text-xs text-amber-100/90 leading-relaxed">
-                      Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp
-                      confirmation. Your invoice <strong className="text-white">{invoiceNumber}</strong> is registered as
+                      {isInternational
+                        ? 'Online payment gateway is not connected yet. Please use PayPal, Wise, international bank transfer, or global confirmation. '
+                        : 'Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp confirmation. '}
+                      Your invoice <strong className="text-white">{invoiceNumber}</strong> is registered as
                       pending review.
                     </p>
                   </div>

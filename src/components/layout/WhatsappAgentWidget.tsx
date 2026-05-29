@@ -70,7 +70,37 @@ export function WhatsappAgentWidget() {
     },
   ];
 
-  const agents = currentRegion === 'lk' ? sriLankaAgents : pakistanAgents;
+  const internationalAgents: Agent[] = [
+    {
+      name: 'Global Strategy Desk',
+      role: 'International Project Advisor',
+      hub: 'Remote Global',
+      status: 'active',
+      phone: config.whatsappNumber,
+      avatar: 'GS',
+    },
+    {
+      name: 'Sarah Jenkins',
+      role: 'Brand Experience Director',
+      hub: 'London Desk',
+      status: 'active',
+      phone: '+447712345678',
+      avatar: 'SJ',
+    },
+    {
+      name: 'Zaid Al-Mansoori',
+      role: 'Client Success Partner',
+      hub: 'Dubai Desk',
+      status: 'busy',
+      phone: '+971501234567',
+      avatar: 'ZM',
+    },
+  ];
+
+  const agents = currentRegion === 'int' ? internationalAgents : currentRegion === 'lk' ? sriLankaAgents : pakistanAgents;
+  const panelCopy = currentRegion === 'int'
+    ? 'Connect directly with our global strategy and delivery team.'
+    : 'Converse directly with our execution team leads.';
 
   const handleConnectAgent = (phone: string, name: string) => {
     // Generate secure whatsapp proxy link
@@ -113,7 +143,7 @@ export function WhatsappAgentWidget() {
             <h4 className="text-lg font-display font-semibold text-white uppercase tracking-wider">
               Jawrah <span className="text-brand-cyan">Agents</span>
             </h4>
-            <p className="text-brand-gray text-xs mt-1">Converse directly with our execution team leads.</p>
+            <p className="text-brand-gray text-xs mt-1">{panelCopy}</p>
           </div>
 
           {/* Agents List */}

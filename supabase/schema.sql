@@ -16,7 +16,7 @@ create table if not exists public.profiles (
   email text,
   role text not null default 'client' check (role in ('client', 'admin', 'agent')),
   avatar_url text,
-  region text check (region in ('lk', 'pk')),
+  region text check (region in ('lk', 'pk', 'int')),
   country text,
   currency text,
   created_at timestamptz not null default now(),
@@ -34,11 +34,11 @@ create table if not exists public.inquiries (
   inquiry_type text not null default 'general' check (inquiry_type in ('general', 'project', 'pricing', 'collaboration', 'support')),
   budget_range text,
   message text,
-  source_page text check (source_page in ('lk', 'pk')),
+  source_page text check (source_page in ('lk', 'pk', 'int')),
   status text not null default 'new' check (status in ('new', 'contacted', 'proposal_sent', 'closed', 'rejected')),
   assigned_to uuid references public.profiles(id),
   notes text,
-  region text default 'lk' check (region in ('lk', 'pk')),
+  region text default 'lk' check (region in ('lk', 'pk', 'int')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -56,7 +56,7 @@ create table if not exists public.bookings (
   project_type text not null,
   message text,
   status text not null default 'pending' check (status in ('pending', 'confirmed', 'completed', 'cancelled')),
-  region text default 'lk' check (region in ('lk', 'pk')),
+  region text default 'lk' check (region in ('lk', 'pk', 'int')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -71,7 +71,7 @@ create table if not exists public.projects (
   status text not null default 'project active' check (status in ('new lead', 'contacted', 'proposal sent', 'payment pending', 'project active', 'delivered', 'maintenance')),
   progress integer default 0 check (progress between 0 and 100),
   notes text,
-  region text default 'lk' check (region in ('lk', 'pk')),
+  region text default 'lk' check (region in ('lk', 'pk', 'int')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -122,7 +122,7 @@ create table if not exists public.invoices (
   currency text not null default 'LKR',
   status text not null default 'draft' check (status in ('draft', 'sent', 'paid', 'overdue', 'void')),
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid', 'pending', 'processing', 'paid', 'failed', 'refunded', 'manual_review')),
-  payment_method text check (payment_method in ('payhere', 'onepay', 'bank_transfer', 'easypaisa', 'jazzcash', 'stripe', 'wise', 'payoneer')),
+  payment_method text check (payment_method in ('payhere', 'onepay', 'bank_transfer', 'easypaisa', 'jazzcash', 'paypal', 'stripe', 'visa', 'mastercard', 'wise', 'payoneer')),
   transaction_id text,
   due_date date,
   paid_at timestamptz,
@@ -316,17 +316,19 @@ declare
   selected_country text;
   selected_currency text;
 begin
-  if selected_region not in ('lk', 'pk') then
+  if selected_region not in ('lk', 'pk', 'int') then
     selected_region := null;
   end if;
 
   selected_country := case selected_region
+    when 'int' then 'International'
     when 'pk' then 'Pakistan'
     when 'lk' then 'Sri Lanka'
     else null
   end;
 
   selected_currency := case selected_region
+    when 'int' then 'USD'
     when 'pk' then 'PKR'
     when 'lk' then 'LKR'
     else null

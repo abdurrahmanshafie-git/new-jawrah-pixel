@@ -10,14 +10,26 @@ import { cn } from '@/lib/utils';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function Services() {
-  const { config, services, pricingPlans, p } = useRegion();
+  const { config, services, pricingPlans, p, isInternational } = useRegion();
+  const seoTitle = isInternational ? 'Global USD Web Design & Ecommerce Packages' : `${config.countryName} Custom Web & Ecommerce Packages`;
+  const seoDescription = isInternational
+    ? 'View USD pricing for premium global website design, ecommerce platforms, AI systems, UI/UX, frontend development, and international monthly care plans.'
+    : `View direct transparent pricing for premium website design, custom e-commerce applications, and monthly SLA care plans in ${config.countryName}.`;
+  const heroCopy = isInternational
+    ? 'World-class digital systems, high-converting checkout flows, AI integrations, and luxury brand interfaces built for international businesses and premium global brands. Unrivaled speed, uncompromising precision.'
+    : `World-class digital systems, high-converting checkout flows, and luxury brand interfaces built natively for leading ${config.countryName} enterprises. Unrivaled speed, uncompromising precision.`;
+  const retainerCopy = isInternational
+    ? 'Protect your high-traffic assets with dedicated monthly engineering allocations, USD invoicing, and priority technical care for worldwide digital products.'
+    : `Protect your high-traffic assets with our dedicated monthly engineering allocations. Priority technical care for ${config.countryName} systems.`;
 
   const getServiceIcon = (id: string) => {
     switch (id) {
       case "web-design":
+      case "web-design-int":
         return <LayoutTemplate className="w-6 h-6 text-brand-blue" />;
       case "ecommerce":
       case "ecommerce-pk":
+      case "ecommerce-int":
         return <ShoppingCart className="w-6 h-6 text-brand-cyan" />;
       case "jewellery":
       case "jewellery-pk":
@@ -27,9 +39,13 @@ export default function Services() {
         return <Briefcase className="w-6 h-6 text-brand-cyan" />;
       case "dashboards":
       case "dashboards-pk":
+      case "saas-int":
+      case "frontend-int":
+      case "enterprise-int":
         return <Server className="w-6 h-6 text-brand-blue" />;
       case "seo":
       case "seo-pk":
+      case "seo-int":
         return <Search className="w-6 h-6 text-brand-cyan" />;
       default:
         return <Database className="w-6 h-6 text-brand-cyan" />;
@@ -37,62 +53,62 @@ export default function Services() {
   };
 
   return (
-    <div className="pt-32 pb-24 bg-brand-black text-white relative min-h-screen">
+    <div className="pt-28 pb-20 bg-brand-black text-white relative min-h-screen">
       <SEO 
-        title={`${config.countryName} Custom Web & Ecommerce Packages`}
-        description={`View direct transparent pricing for premium website design, custom e-commerce applications, and monthly SLA care plans in ${config.countryName}.`}
+        title={seoTitle}
+        description={seoDescription}
       />
 
-      <div className="container mx-auto px-4 md:px-6">
-        <Reveal className="text-center max-w-3xl mx-auto mb-12 sm:mb-20">
+      <div className="container mx-auto px-5 md:px-6">
+        <Reveal className="text-center max-w-3xl mx-auto mb-16 sm:mb-24">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex gap-2 items-center px-2 py-1 sm:px-3.5 sm:py-1.5 border border-brand-cyan/20 rounded-full bg-slate-900/40 text-brand-cyan text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] mb-4 sm:mb-6"
+            className="inline-flex gap-2 items-center px-4 py-1.5 border border-brand-cyan/25 rounded-full bg-slate-900/40 text-brand-cyan text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] mb-6 shadow-[0_0_15px_rgba(34,211,238,0.1)]"
           >
-            <Zap size={10} className="fill-brand-cyan animate-pulse sm:w-3 sm:h-3" /> Agency Capabilities
+            <Zap size={12} className="fill-brand-cyan animate-pulse" /> Agency Capabilities
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-4 sm:mb-6"
+            className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-6 leading-tight"
           >
-            Strategic Services & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Ecosystems</span>
+            Strategic Services & <br className="sm:hidden" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Ecosystems</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-brand-gray text-[11px] sm:text-base md:text-lg font-light leading-relaxed px-4"
+            className="text-brand-gray text-[13px] sm:text-base md:text-lg font-light leading-relaxed px-2 sm:px-0"
           >
-            World-class digital systems, high-converting checkout flows, and luxury brand interfaces built natively for leading {config.countryName} enterprises. Unrivaled speed, uncompromising precision.
+            {heroCopy}
           </motion.p>
         </Reveal>
 
         {/* Services mapping */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-24">
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-24 md:mb-32">
           {services.map((service) => (
             <StaggerItem
               key={service.title}
-              className="glass-card p-6 sm:p-8 rounded-2xl flex flex-col h-full border-t border-white/10 hover:border-brand-blue/40 duration-300 transition-all"
+              className="glass-card p-8 sm:p-10 rounded-2xl flex flex-col h-full border-t border-white/10 hover:border-brand-blue/40 duration-300 transition-all group"
             >
-              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/5 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
+              <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                 {getServiceIcon(service.id)}
               </div>
-              <h3 className="text-base sm:text-2xl font-display font-bold text-white mb-1 sm:mb-2">{service.title}</h3>
-              <div className="text-xs sm:text-base text-brand-cyan font-semibold mb-3 sm:mb-6">{service.price}</div>
-              <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-1">
+              <h3 className="text-xl sm:text-2xl font-display font-bold text-white mb-2 uppercase tracking-tight group-hover:text-brand-cyan transition-colors">{service.title}</h3>
+              <div className="text-sm sm:text-base text-brand-cyan font-mono font-bold mb-6 tracking-wider">{service.price}</div>
+              <ul className="space-y-4 mb-8 flex-1">
                 {service.features.map((feature, j) => (
-                  <li key={j} className="flex items-start gap-2 sm:gap-3 text-[10px] sm:text-sm text-brand-silver">
-                    <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-brand-blue shrink-0 mt-0.5" />
+                  <li key={j} className="flex items-start gap-3 text-[12px] sm:text-sm text-brand-silver leading-relaxed">
+                    <Shield className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <PaymentCTAGroup serviceName={service.title} priceLabel={service.price} compact />
-              <Link to={p('/contact')} className="block mt-2">
-                <Button variant="ghost" className="w-full text-[10px] sm:text-sm h-8 border border-white/5 text-brand-gray hover:text-white">
+              <Link to={p('/contact')} className="block mt-3">
+                <Button variant="ghost" className="w-full text-[11px] font-mono uppercase tracking-widest h-10 border border-white/5 text-brand-gray hover:text-white hover:bg-white/5">
                   Inquire Now
                 </Button>
               </Link>
@@ -101,72 +117,83 @@ export default function Services() {
         </StaggerContainer>
 
         {/* Maintenance Plans */}
-        <div className="mt-24 md:mt-32">
-          <Reveal className="text-center mb-10 md:mb-16 px-4">
-            <span className="text-[9px] sm:text-[10px] font-mono text-brand-cyan uppercase tracking-widest font-bold block mb-2">Ongoing Retainers</span>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-medium uppercase tracking-tight text-white mb-3 sm:mb-4 leading-tight">Service Level Agreements</h2>
-            <p className="text-brand-gray text-[10px] sm:text-sm font-light max-w-xl mx-auto leading-relaxed">Protect your high-traffic assets with our dedicated monthly engineering allocations. Priority technical care for {config.countryName} systems.</p>
+        <div className="mt-24 md:mt-40">
+          <Reveal className="text-center mb-12 md:mb-24 px-4">
+            <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold block mb-4">Ongoing Retainers</span>
+            <h2 className="text-3xl sm:text-3xl md:text-5xl font-display font-medium uppercase tracking-tight text-white mb-4 leading-tight">Service Level Agreements</h2>
+            <p className="text-brand-gray text-[13px] sm:text-sm font-light max-w-xl mx-auto leading-relaxed">{retainerCopy}</p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 max-w-5xl mx-auto">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
             {pricingPlans.map((plan) => (
               <StaggerItem
                 key={plan.name}
                 className={cn(
-                  "glass-card p-6 sm:p-8 rounded-2xl border-white/5 flex flex-col justify-between h-full relative",
+                  "glass-card p-8 sm:p-10 rounded-2xl border border-white/5 flex flex-col justify-between h-full relative transition-all duration-500",
                   plan.isRecommended 
-                    ? "border-brand-blue/30 glow-blue lg:-translate-y-4 bg-brand-navy/80 z-10" 
-                    : ""
+                    ? "border-brand-blue/30 glow-blue lg:-translate-y-4 bg-brand-navy/60 z-10 shadow-[0_0_40px_rgba(59,130,246,0.15)]" 
+                    : "hover:border-white/20"
                 )}
               >
                 {plan.isRecommended && (
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-blue text-white text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-blue text-white text-[10px] font-mono font-bold px-4 py-1.5 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                     RECOMMENDED
                   </div>
                 )}
                 <div>
-                  <h3 className="text-sm sm:text-xl font-display font-medium text-white mb-2 uppercase tracking-wide">{plan.name}</h3>
-                  <div className={cn("font-bold mb-4 sm:mb-6 font-mono tracking-tight", plan.isRecommended ? "text-brand-cyan text-xl sm:text-4xl" : "text-brand-gray text-lg sm:text-3xl")}>
+                  <h3 className="text-lg sm:text-xl font-display font-bold text-white mb-4 uppercase tracking-widest">{plan.name}</h3>
+                  <div className={cn("font-bold mb-6 font-mono tracking-tight", plan.isRecommended ? "text-brand-cyan text-3xl sm:text-4xl" : "text-white text-2xl sm:text-3xl")}>
                     {plan.price}
-                    <span className="text-[9px] sm:text-xs font-mono font-light text-brand-gray block mt-0.5 sm:mt-1 uppercase tracking-widest">{plan.period}</span>
+                    <span className="text-[10px] font-mono font-light text-brand-gray block mt-1 uppercase tracking-[0.2em]">{plan.period}</span>
                   </div>
-                  <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                  <ul className="space-y-4 mb-10">
                     {plan.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="flex gap-2 sm:gap-3 text-[9px] sm:text-sm text-brand-silver items-start">
+                      <li key={fIdx} className="flex gap-3 text-[12px] sm:text-sm text-brand-silver items-start leading-relaxed">
                         {plan.isRecommended ? (
-                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-brand-blue shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
                         ) : (
-                          <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-brand-gray shrink-0 mt-0.5" />
+                          <Zap className="w-4 h-4 text-brand-gray shrink-0 mt-0.5" />
                         )}
                         <span>{feat}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <PaymentCTAGroup
-                  serviceName={`${plan.name} SLA`}
-                  priceLabel={plan.price}
-                  compact
-                />
-                <Link to={p('/contact')} className="block mt-2">
-                  <Button
-                    variant="ghost"
-                    className={cn(
-                      'w-full uppercase font-mono tracking-widest text-[9px] sm:text-[10px] h-8 border border-white/5 text-brand-gray hover:text-white',
-                    )}
-                  >
-                    Select Plan
-                  </Button>
-                </Link>
+                <div className="mt-auto">
+                  <PaymentCTAGroup
+                    serviceName={`${plan.name} SLA`}
+                    priceLabel={plan.price}
+                    compact
+                  />
+                  <Link to={p('/contact')} className="block mt-3">
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        'w-full uppercase font-mono tracking-widest text-[11px] h-10 border border-white/10 text-brand-gray hover:text-white hover:bg-white/5',
+                      )}
+                    >
+                      Select Plan
+                    </Button>
+                  </Link>
+                </div>
               </StaggerItem>
             ))}
           </StaggerContainer>
+
 
           {config.id === 'pk' && (
             <Reveal className="mt-12 text-center max-w-md mx-auto p-4 rounded-xl border border-white/5 bg-slate-900/40 backdrop-blur-sm">
               <span className="text-[10px] tracking-widest text-brand-cyan uppercase font-semibold block mb-2">Flexible Pakistani Payments</span>
               <p className="text-xs text-brand-gray leading-relaxed">
                 We accept Easypaisa, JazzCash, secure bank transfers (IBAN updates provided at invoice lock), and installment billing structures.
+              </p>
+            </Reveal>
+          )}
+          {config.id === 'int' && (
+            <Reveal className="mt-12 text-center max-w-xl mx-auto p-4 rounded-xl border border-white/5 bg-slate-900/40 backdrop-blur-sm">
+              <span className="text-[10px] tracking-widest text-brand-cyan uppercase font-semibold block mb-2">International USD Payments</span>
+              <p className="text-xs text-brand-gray leading-relaxed">
+                We support PayPal, Wise, international bank transfer, Visa, and Mastercard for global clients and remote-first teams.
               </p>
             </Reveal>
           )}

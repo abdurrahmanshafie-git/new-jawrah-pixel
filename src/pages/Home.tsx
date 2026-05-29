@@ -163,7 +163,7 @@ export default function Home() {
       />
 
       {/* Cinematic Hero Section */}
-      <section className="premium-hero-stage relative pt-24 pb-16 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
+      <section className="premium-hero-stage relative pt-28 pb-20 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-blue/15 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-brand-cyan/10 rounded-full blur-[150px] translate-x-1/2 translate-y-1/2"></div>
@@ -173,17 +173,16 @@ export default function Home() {
         </div>
         <div className="premium-particles"></div>
         
-        <div className="container mx-auto px-4 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-start text-left overflow-visible md:overflow-hidden">
+        <div className="container mx-auto px-5 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-center md:items-start text-center md:text-left overflow-visible md:overflow-hidden">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="inline-flex max-w-full md:max-w-full items-center justify-start gap-2 mb-7 md:mb-8 px-3 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md self-start shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
+            className="inline-flex max-w-full items-center justify-center md:justify-start gap-2 mb-8 px-4 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
           >
-            <span className="w-2 h-2 md:w-1.5 md:h-1.5 rounded-full bg-brand-cyan md:bg-brand-blue animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)] md:shadow-none"></span>
-            <span className="text-zinc-200 md:text-zinc-300 text-[9px] min-[380px]:text-[10px] md:text-xs font-semibold tracking-[0.16em] min-[380px]:tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-normal text-left leading-relaxed">
-              <span className="md:hidden">Elite Transformation Partner</span>
-              <span className="hidden md:inline">Elite Digital Transformation Partner</span>
+            <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)] md:shadow-none"></span>
+            <span className="text-zinc-200 text-[10px] md:text-xs font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-nowrap leading-relaxed">
+              Elite Transformation Partner
             </span>
           </motion.div>
           
@@ -192,11 +191,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden max-w-xs text-[clamp(2.05rem,8.2vw,3rem)] font-medium text-white tracking-tight leading-[1.12] mb-5 flex flex-col uppercase overflow-visible"
+            className="md:hidden w-full max-w-[min(100%,42rem)] text-[clamp(2.2rem,9vw,3.5rem)] font-medium text-white tracking-tight leading-[1.1] mb-6 flex flex-col uppercase break-words"
           >
-            <span className="font-display tracking-tight text-white mb-1.5">Architecting</span>
-            <span className="premium-gradient-brand text-[clamp(2.6rem,10vw,3.5rem)] font-bold italic pr-2 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">Digital</span>
-            <span className="font-serif italic font-light text-zinc-400 text-[clamp(2.15rem,8vw,3rem)] mt-1.5">Excellence</span>
+            <span className="font-display tracking-tight text-white/90">Architecting</span>
+            <span className="premium-gradient-brand font-bold italic drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">Digital</span>
+            <span className="font-serif italic font-light text-zinc-400 text-[0.95em]">Excellence</span>
           </motion.h1>
 
           {/* Desktop Headline */}
@@ -204,7 +203,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden md:block text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] font-medium text-white tracking-tight leading-[1.05] md:leading-[1.02] mb-6 md:mb-8 uppercase font-display"
+            className="hidden md:block text-[clamp(2.8rem,6vw,5.75rem)] font-medium text-white tracking-tight leading-[1.02] mb-6 md:mb-8 uppercase font-display max-w-[min(100%,46rem)] break-words"
           >
             Architecting <span className="premium-gradient-brand font-bold italic">Digital</span><br/>
             <span className="text-zinc-100">Excellence</span>
@@ -214,35 +213,34 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[13px] sm:text-lg md:text-2xl text-zinc-300 md:text-zinc-400 max-w-xs sm:max-w-2xl md:max-w-3xl mb-7 md:mb-10 leading-relaxed font-light px-0 animate-fade-in"
+            className="text-sm sm:text-lg md:text-2xl text-zinc-300 md:text-zinc-400 max-w-[min(100%,38rem)] mb-10 md:mb-12 leading-relaxed font-light px-0 mx-auto md:mx-0"
           >
-            Jawrah Pixel engineers premium digital experiences designed to elevate brand perception, establish market authority, and drive measurable revenue for ambitious enterprises in {config.countryName}.
+            Jawrah Pixel engineers premium digital experiences designed to elevate brand perception and drive measurable revenue for ambitious enterprises.
           </motion.p>
 
-          {/* Logo below the text */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="premium-logo-aura mb-8 md:mb-12 self-center md:self-start"
+            className="premium-logo-aura mb-12 md:mb-16"
           >
-            <Logo size="xl" className="w-[180px] sm:w-[240px] md:w-[320px]" />
+            <Logo size="xl" className="w-[200px] sm:w-[240px] md:w-[320px]" />
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="grid max-w-xs sm:max-w-none grid-cols-1 sm:flex sm:flex-row gap-3 md:gap-6 w-full sm:w-auto items-center self-center md:self-start"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto items-center"
           >
             <Link to={p('/contact')} className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-12 md:h-14 px-4 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.12em] sm:tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(59,130,246,0.5)] md:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all duration-500 group luxury-glow py-2 leading-tight">
+              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-[11px] font-mono tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_45px_rgba(34,211,238,0.5)] transition-all duration-500 luxury-glow">
                 Initiate Project
-                <ArrowRight className="hidden sm:inline ml-3 group-hover:translate-x-1 transition-transform duration-300 w-3 h-3 md:w-[14px] md:h-[14px]" />
+                <ArrowRight className="ml-3 w-4 h-4" />
               </Button>
             </Link>
             <Link to={p('/case-studies')} className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 md:h-14 px-4 md:px-8 text-[9px] sm:text-[11px] font-mono tracking-[0.12em] sm:tracking-[0.2em] font-bold uppercase border-white/20 md:border-zinc-800 text-white md:text-zinc-300 hover:text-white hover:bg-zinc-900 transition-all duration-300 bg-white/5 md:bg-transparent py-2 leading-tight">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 text-[11px] font-mono tracking-[0.2em] font-bold uppercase border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300">
                 Explore Work
               </Button>
             </Link>
@@ -253,23 +251,22 @@ export default function Home() {
       {/* Authority Metrics Strip */}
       <section className="relative border-y border-white/5 bg-brand-black overflow-hidden">
         <div className="absolute inset-0 premium-grid-overlay opacity-40 pointer-events-none"></div>
-        <div className="absolute left-1/2 top-0 h-32 w-[70vw] -translate-x-1/2 rounded-full bg-brand-cyan/10 blur-[90px] pointer-events-none"></div>
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="grid grid-cols-1 min-[390px]:grid-cols-2 lg:grid-cols-4 divide-y min-[390px]:divide-y-0 lg:divide-y-0 divide-white/5 border-l border-white/5 lg:border-l-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-white/5">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-6 sm:p-8 md:p-10 border-r border-white/5 border-b min-[390px]:border-b-0 lg:border-b-0 last:border-b-0">
-                <div className="text-2xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-2">
+              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-8 sm:p-10 border-white/5 flex flex-col items-center text-center sm:items-start sm:text-left">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-3">
                   <AnimatedCounter
                     value={metric.value}
                     suffix={metric.suffix}
                     prefix={metric.prefix}
-                    className="drop-shadow-[0_0_14px_rgba(34,211,238,0.22)]"
+                    className="drop-shadow-[0_0_15px_rgba(34,211,238,0.25)]"
                   />
                 </div>
-                <h3 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] text-brand-cyan mb-2">
+                <h3 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-cyan mb-3 font-bold">
                   {metric.label}
                 </h3>
-                <p className="text-[10px] sm:text-xs text-brand-gray leading-relaxed font-light">
+                <p className="text-[10px] sm:text-xs text-brand-gray leading-relaxed font-light max-w-[160px]">
                   {metric.caption}
                 </p>
               </Reveal>
@@ -277,6 +274,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* Explore Live Projects Section */}
       <section className="py-20 md:py-32 relative border-t border-white/5 bg-brand-black overflow-hidden">
@@ -303,9 +301,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight mb-6 uppercase"
+              className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight mb-6 uppercase leading-tight"
             >
-              Explore <span className="premium-gradient-brand font-bold italic">Live</span> Projects
+              Explore <span className="premium-gradient-brand font-bold italic">Live</span> <br className="sm:hidden" /> Projects
             </motion.h2>
             
             <motion.p
@@ -313,13 +311,13 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-zinc-400 text-sm sm:text-lg font-light leading-relaxed"
+              className="text-zinc-400 text-sm sm:text-lg font-light leading-relaxed px-4 sm:px-0"
             >
               Interact directly with fully responsive production-grade web assets compiled from our flagship case studies.
             </motion.p>
           </div>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             {liveProjects.map((project, idx) => (
               <StaggerItem
                 key={project.slug}
@@ -328,11 +326,11 @@ export default function Home() {
                 {/* Browser Mockup Header */}
                 <div className="bg-zinc-950/90 px-4 py-3 border-b border-white/5 flex items-center justify-between">
                   <div className="flex gap-1.5 items-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/30 group-hover:bg-red-500/70 transition-colors duration-500"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/30 group-hover:bg-yellow-500/70 transition-colors duration-500"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/30 group-hover:bg-green-500/70 transition-colors duration-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-red-500/40 group-hover:bg-red-500/80 transition-colors duration-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-yellow-500/40 group-hover:bg-yellow-500/80 transition-colors duration-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-green-500/40 group-hover:bg-green-500/80 transition-colors duration-500"></div>
                   </div>
-                  <div className="text-[10px] font-mono text-zinc-500 font-light select-none tracking-wider lowercase">
+                  <div className="text-[9px] font-mono text-zinc-500 font-light select-none tracking-widest lowercase">
                     {project.slug}.jawrah.live
                   </div>
                   <div className="w-4"></div>
@@ -343,12 +341,12 @@ export default function Home() {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 ease-[0.16, 1, 0.3, 1]"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-[0.16, 1, 0.3, 1]"
                     referrerPolicy="no-referrer"
                   />
                   
                   {/* Subtle Glow Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/40 via-transparent to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent pointer-events-none"></div>
                   
                   {/* Immediate Quick Actions overlay */}
                   <div className="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4 backdrop-blur-sm">
@@ -356,42 +354,42 @@ export default function Home() {
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-cyan text-brand-navy rounded-full text-xs font-mono font-bold tracking-wider uppercase hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-navy rounded-full text-[10px] font-mono font-bold tracking-wider uppercase hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
                     >
-                      <ExternalLink className="w-4 h-4" />
-                      Visit Live Site
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      Visit Site
                     </a>
                   </div>
                 </div>
 
                 {/* Content Box */}
-                <div className="p-6 md:p-8 flex flex-col flex-grow justify-between bg-gradient-to-b from-transparent to-brand-black/20">
+                <div className="p-6 sm:p-8 flex flex-col flex-grow justify-between bg-gradient-to-b from-transparent to-brand-black/20">
                   <div className="mb-6">
-                    <span className="text-[10px] font-mono tracking-[0.2em] text-brand-cyan uppercase block mb-2 font-medium">
+                    <span className="text-[9px] font-mono tracking-[0.25em] text-brand-cyan uppercase block mb-3 font-bold">
                       {project.category}
                     </span>
-                    <h4 className="text-lg sm:text-xl font-display font-medium text-white mb-2.5 group-hover:text-brand-cyan transition-colors duration-300">
+                    <h4 className="text-xl sm:text-xl font-display font-medium text-white mb-3 group-hover:text-brand-cyan transition-colors duration-300 leading-tight">
                       {project.title}
                     </h4>
-                    <p className="text-zinc-400 text-xs sm:text-[13px] leading-relaxed font-light">
+                    <p className="text-zinc-400 text-[13px] leading-relaxed font-light">
                       {project.desc}
                     </p>
                   </div>
                   
-                  <div className="flex gap-4 items-center pt-4 border-t border-white/5">
+                  <div className="flex gap-4 items-center pt-5 border-t border-white/5">
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-[11px] font-mono font-bold tracking-[0.15em] uppercase text-brand-cyan hover:text-white transition-colors duration-300 group/link"
+                      className="inline-flex items-center gap-2 text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-brand-cyan hover:text-white transition-colors duration-300 group/link"
                     >
-                      Visit Live Project
-                      <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
+                      Visit Live
+                      <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
                     </a>
                     <span className="text-zinc-800 font-light select-none">|</span>
                     <Link
                       to={p(`/case-studies/${project.slug}`)}
-                      className="text-[11px] font-mono font-bold tracking-[0.15em] uppercase text-zinc-400 hover:text-white transition-colors duration-300"
+                      className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-zinc-400 hover:text-white transition-colors duration-300"
                     >
                       Case Study
                     </Link>
@@ -405,51 +403,52 @@ export default function Home() {
 
       {/* Premium Services Grid */}
       <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-navy/30">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-20 gap-4 md:gap-8 text-center md:text-left">
+        <div className="container mx-auto px-5 md:px-8 max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-6 md:gap-8 text-center md:text-left">
             <div className="max-w-2xl">
-              <h2 className="text-[10px] md:text-sm font-semibold tracking-[0.3em] uppercase text-brand-blue mb-2.5 md:mb-4">Core Capabilities</h2>
-              <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-medium text-white tracking-tight">Engineering Growth Through <br/>Strategic Design.</h3>
+              <h2 className="text-[11px] md:text-sm font-semibold tracking-[0.3em] uppercase text-brand-blue mb-4">Core Capabilities</h2>
+              <h3 className="text-3xl sm:text-3xl md:text-5xl font-display font-medium text-white tracking-tight leading-tight">Engineering Growth Through <br className="hidden md:block" /> Strategic Design.</h3>
             </div>
-            <p className="text-zinc-400 max-w-md text-xs sm:text-sm md:text-lg leading-relaxed font-light mx-auto md:mx-0">
+            <p className="text-zinc-400 max-w-md text-[13px] sm:text-sm md:text-lg leading-relaxed font-light mx-auto md:mx-0">
               We leverage modern technology and luxury aesthetics to build digital assets that position your brand at the absolute pinnacle of your industry.
             </p>
           </div>
 
-          <StaggerContainer className="grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
             {servicesList.map((service, i) => (
               <StaggerItem
                 key={i} 
-                className="glass-card p-4 sm:p-6 md:p-10 rounded-2xl group cursor-default"
+                className="glass-card p-8 md:p-10 rounded-2xl group cursor-default border border-white/5 hover:border-brand-blue/30 transition-all duration-500"
               >
-                <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-brand-blue/20 to-brand-cyan/5 border border-white/5 flex items-center justify-center mb-4 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-brand-blue/20 to-brand-cyan/5 border border-white/5 flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   {React.cloneElement(service.icon, { className: 'w-5 h-5 md:w-6 md:h-6 text-brand-blue group-hover:text-white transition-colors duration-300' })}
                 </div>
-                <h4 className="text-xs sm:text-base md:text-xl font-display font-medium mb-2 md:mb-4 text-white group-hover:text-brand-cyan transition-colors duration-300">{service.title}</h4>
-                <p className="text-zinc-400 text-[10px] sm:text-xs md:text-base leading-relaxed font-light">{service.desc}</p>
+                <h4 className="text-lg sm:text-base md:text-xl font-display font-medium mb-3 md:mb-4 text-white group-hover:text-brand-cyan transition-colors duration-300 uppercase tracking-tight">{service.title}</h4>
+                <p className="text-zinc-400 text-[13px] md:text-base leading-relaxed font-light">{service.desc}</p>
               </StaggerItem>
             ))}
           </StaggerContainer>
         </div>
       </section>
 
+
       {/* Agency Operating System Layer */}
       <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="cinematic-divider mb-12 md:mb-20"></div>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <Reveal className="lg:col-span-5 lg:sticky lg:top-28">
+        <div className="container mx-auto px-5 md:px-8 max-w-7xl relative z-10">
+          <div className="cinematic-divider mb-16 md:mb-20"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <Reveal className="lg:col-span-5 lg:sticky lg:top-28 text-center lg:text-left">
               <span className="text-[10px] md:text-xs font-mono text-brand-cyan uppercase tracking-[0.3em] font-bold block mb-4">
                 Built Like A Business OS
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.05] mb-6 text-balance">
-                Not a website. A scalable client acquisition and delivery ecosystem.
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-6 text-balance">
+                Not a website. <br className="hidden md:block" /> A scalable <span className="text-brand-cyan italic">ecosystem</span>.
               </h2>
-              <p className="text-sm sm:text-lg text-brand-gray font-light leading-relaxed mb-8">
-                Jawrah Pixel connects premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, project tracking, support queues, and automation-ready delivery paths.
+              <p className="text-sm sm:text-lg text-brand-gray font-light leading-relaxed mb-10 max-w-md mx-auto lg:mx-0">
+                Jawrah Pixel connects premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, and automation-ready delivery paths.
               </p>
               <Link to={p('/process')}>
-                <Button variant="outline" className="h-12 px-6 text-[10px] font-mono uppercase tracking-[0.22em]">
+                <Button variant="outline" className="h-14 px-8 text-[11px] font-mono uppercase tracking-[0.22em] font-bold border-white/10 bg-white/5 hover:bg-white/10">
                   View Delivery System
                 </Button>
               </Link>
@@ -458,14 +457,14 @@ export default function Home() {
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {ecosystemLayers.map((layer, idx) => (
                 <Reveal key={layer.title} delay={idx * 0.08}>
-                  <div className="interactive-lift h-full rounded-2xl border border-white/10 bg-white/[0.025] p-6 md:p-8 hover:border-brand-cyan/30 hover:shadow-[0_18px_60px_rgba(6,182,212,0.08)]">
-                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 text-brand-cyan">
+                  <div className="interactive-lift h-full rounded-2xl border border-white/5 bg-white/[0.02] p-8 md:p-8 hover:border-brand-cyan/30 hover:shadow-[0_18px_60px_rgba(6,182,212,0.08)] transition-all duration-500">
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 text-brand-cyan shadow-[0_0_15px_rgba(34,211,238,0.1)]">
                       {layer.icon}
                     </div>
-                    <h3 className="text-lg md:text-xl font-display font-semibold uppercase tracking-tight text-white mb-3">
+                    <h3 className="text-xl md:text-xl font-display font-bold uppercase tracking-tight text-white mb-4">
                       {layer.title}
                     </h3>
-                    <p className="text-xs md:text-sm text-brand-gray leading-relaxed font-light">
+                    <p className="text-[13px] md:text-sm text-brand-gray leading-relaxed font-light">
                       {layer.desc}
                     </p>
                   </div>
@@ -477,28 +476,24 @@ export default function Home() {
       </section>
 
       {/* Cinematic Storytelling Sequence */}
-      <section ref={storyRef} className="relative h-[260vh] md:h-[340vh] bg-brand-black">
+      <section ref={storyRef} className="relative h-[280vh] md:h-[340vh] bg-brand-black">
         <div className="sticky top-0 h-[100svh] min-h-[560px] w-full overflow-hidden flex items-center justify-center border-y border-white/5">
           
           {/* Dynamic Background */}
           <motion.div 
             style={{ scale: imageScale }}
-            className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center"
+            className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-40"
           ></motion.div>
           
           <motion.div
             style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-brand-black/90 md:bg-brand-black"
+            className="absolute inset-0 bg-brand-black/95"
           ></motion.div>
 
-          {/* Vignette */}
-          <div className="absolute inset-0 bg-radial-gradient from-transparent via-brand-black/50 to-brand-black"></div>
-
-          <div className="absolute top-24 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 md:top-28">
+          <div className="absolute top-28 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 md:top-28">
             {storySteps.map((step, idx) => (
               <button
-                key={step.eyebrow}
-                type="button"
+                key={idx}
                 onClick={() => {
                   const section = storyRef.current;
                   if (!section) return;
@@ -509,48 +504,32 @@ export default function Home() {
                     behavior: 'smooth',
                   });
                 }}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  activeStoryStep === idx ? 'w-10 bg-brand-cyan shadow-[0_0_16px_rgba(34,211,238,0.6)]' : 'w-4 bg-white/20 hover:bg-white/40'
+                className={`h-1 transition-all duration-500 rounded-full ${
+                  activeStoryStep === idx ? "w-8 bg-brand-cyan shadow-[0_0_10px_rgba(34,211,238,0.8)]" : "w-4 bg-white/10 hover:bg-white/30"
                 }`}
-                aria-label={`View ${step.eyebrow}`}
               />
             ))}
           </div>
 
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activeStory.eyebrow}
-              initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -22, filter: 'blur(8px)' }}
-              transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center"
-            >
-              <span className={`${activeStory.eyebrowClass} text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] md:tracking-[0.3em] font-bold mb-4 md:mb-6 block`}>
-                {activeStory.eyebrow}
-              </span>
-              <h2 className={`${activeStory.titleClass} story-headline-clean text-[clamp(2rem,9vw,3rem)] sm:text-5xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[1.12] md:leading-[1.1] max-w-4xl`}>
-                {activeStory.title}
-              </h2>
-              {activeStoryStep === 2 && (
-                <motion.div
-                  initial={false}
-                  animate={{
-                    opacity: activeStoryStep === 2 ? 1 : 0,
-                    y: activeStoryStep === 2 ? 0 : 12,
-                  }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: activeStoryStep === 2 ? 0.15 : 0 }}
-                  className="mt-8 w-full max-w-[320px] md:mt-10 md:max-w-none"
-                >
-                  <Link to={p('/case-studies')} className="block md:inline-block">
-                    <Button size="lg" className="h-12 w-full px-4 text-[9px] font-mono uppercase tracking-[0.13em] font-bold shadow-[0_0_40px_rgba(34,211,238,0.3)] luxury-glow leading-tight md:h-14 md:w-auto md:px-8 md:text-xs md:tracking-widest">
-                      View Enterprise Case Studies
-                    </Button>
-                  </Link>
-                </motion.div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+          <div className="container relative z-10 mx-auto px-6 text-center">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={activeStoryStep}
+                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -30, filter: 'blur(10px)' }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-4xl mx-auto"
+              >
+                <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${activeStory.eyebrowClass}`}>
+                  {activeStory.eyebrow}
+                </span>
+                <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${activeStory.titleClass}`}>
+                  {activeStory.title}
+                </h2>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
         </div>
       </section>

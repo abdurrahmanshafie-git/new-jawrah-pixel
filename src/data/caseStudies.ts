@@ -1,3 +1,5 @@
+import type { RegionCode } from '@/types';
+
 export interface CaseListItem {
   title: string;
   slug: string;
@@ -37,7 +39,7 @@ export interface CaseDetails {
   metaDesc: string;
 }
 
-export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: 'lk' | 'pk' }> = {
+export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode }> = {
   'zenvor': {
     region: 'lk',
     title: "Zenvor Premium Streetwear",
@@ -321,7 +323,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: 'lk' | 'pk
   }
 };
 
-export const caseStudiesList: Record<'lk' | 'pk', CaseListItem[]> = {
+export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
   lk: [
     {
       title: "Zenvor Premium",
@@ -455,16 +457,80 @@ export const caseStudiesList: Record<'lk' | 'pk', CaseListItem[]> = {
       color: "from-blue-600/10 to-transparent",
       badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
     }
+  ],
+  int: [
+    {
+      title: "Zenvor Premium",
+      slug: "zenvor",
+      category: "Luxury E-commerce Boutique",
+      description: "High-performance digital flagship boutique for Zenvor's premium streetwear collections. Engineered for minimal luxury and maximum speed.",
+      tags: ["React SPA", "Supabase", "Luxury fashion", "SEO Audit"],
+      perf: 99,
+      seo: 98,
+      char: "Z",
+      thumbnail: "/assets/case-studies/zenvor/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "Jawrah Pixel OS",
+      slug: "jawrah-pixel",
+      category: "Internal Operations & Client CRM",
+      description: "Official presence and client workspace command systems. Features active milestone monitors, collaborative tickets, and secure contract vaults.",
+      tags: ["D3.js Charts", "Database Security", "Supabase RLS"],
+      perf: 99,
+      seo: 100,
+      char: "J",
+      thumbnail: "/assets/case-studies/jawrah-pixel/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
+    },
+    {
+      title: "Velora Estates",
+      slug: "velora-estates",
+      category: "Luxury Real Estate Portal",
+      description: "A flagship digital portal architected for Velora. Translates complex property portfolios into a cinematic, high-speed browsing experience.",
+      tags: ["Real Estate", "3D Virtual Tours", "Lead Management"],
+      perf: 97,
+      seo: 99,
+      char: "V",
+      thumbnail: "/assets/case-studies/velora/desktop.png",
+      color: "from-amber-600/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
+    },
+    {
+      title: "Shabnam Jewellers",
+      slug: "shabnam-jewellers",
+      category: "Bespoke Ecommerce & UI Branding",
+      description: "A premium digital flagship boutique representing fine gold heritage with automated appraisal systems.",
+      tags: ["Jewelry Tech", "Gold Appraiser", "Local Gateway"],
+      perf: 98,
+      seo: 96,
+      char: "S",
+      thumbnail: "/assets/case-studies/shabnam-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "AeroVista Travels",
+      slug: "aerovista-travels",
+      category: "Luxury Travel System",
+      description: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Engineered for maximum travel authority.",
+      tags: ["Travel Tech", "API Integration", "Booking Engine"],
+      perf: 97,
+      seo: 95,
+      char: "A",
+      thumbnail: "/assets/case-studies/aero-vista/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    }
   ]
 };
 
-import type { RegionCode } from '@/types';
-
 export function getCaseStudiesForRegion(region: RegionCode): CaseListItem[] {
-  if (region === 'pk') return caseStudiesList.pk;
-  return caseStudiesList.lk;
+  return caseStudiesList[region] ?? caseStudiesList.lk;
 }
 
-export function getCaseStudyDetails(slug: string): CaseDetails | null {
+export function getCaseStudyDetails(slug: string): (CaseDetails & { region: RegionCode }) | null {
   return ALL_CASE_STUDIES[slug] || null;
 }

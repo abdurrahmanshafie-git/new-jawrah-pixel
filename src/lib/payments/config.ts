@@ -8,7 +8,10 @@ export type PaymentProviderId =
   | 'bank_transfer'
   | 'easypaisa'
   | 'jazzcash'
+  | 'paypal'
   | 'stripe'
+  | 'visa'
+  | 'mastercard'
   | 'wise'
   | 'payoneer';
 
@@ -38,10 +41,11 @@ export const PAYMENT_PROVIDERS_BY_REGION: Record<PaymentRegion, PaymentProviderC
     { id: 'bank_transfer', label: 'Bank Transfer', currency: 'PKR', envKeys: [] },
   ],
   int: [
-    { id: 'stripe', label: 'Stripe', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
+    { id: 'paypal', label: 'PayPal', currency: 'USD', envKeys: ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET'] },
     { id: 'wise', label: 'Wise', currency: 'USD', envKeys: ['WISE_API_KEY'] },
-    { id: 'payoneer', label: 'Payoneer', currency: 'USD', envKeys: ['PAYONEER_API_KEY'] },
-    { id: 'bank_transfer', label: 'Bank Transfer', currency: 'USD', envKeys: [] },
+    { id: 'bank_transfer', label: 'International Bank Transfer', currency: 'USD', envKeys: [] },
+    { id: 'visa', label: 'Visa', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
+    { id: 'mastercard', label: 'Mastercard', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
   ],
 };
 

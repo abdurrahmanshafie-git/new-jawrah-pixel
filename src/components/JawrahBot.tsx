@@ -8,15 +8,13 @@ import {
   Bot, 
   User, 
   RefreshCcw, 
-  ExternalLink,
-  ChevronRight,
   Sparkles,
   Phone
 } from 'lucide-react';
 import { useRegion } from '@/hooks/useRegion';
-import { submitChatbotLead } from '@/lib/supabase/api';
-import { notifyInquiryReceived } from '@/lib/email/notifications';
+import { submitInquiry } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { getChatResponse } from '@/lib/ai';
 
 interface Message {
   id: string;
@@ -44,24 +42,56 @@ const SUGGESTED_QUESTIONS = [
   "Can you build ecommerce websites?",
   "How long does a project take?",
   "How do I start a project?",
-  "Do you work in Sri Lanka and Pakistan?"
 ];
 
-const BUDGET_OPTIONS = [
-  "LKR 80k - 180k",
-  "LKR 180k - 450k",
-  "LKR 450k - 900k",
-  "LKR 900k - 2M+",
-  "Monthly Maintenance"
+const INTERNATIONAL_SUGGESTED_QUESTIONS = [
+  "What global services do you offer?",
+  "How much does a website cost in USD?",
+  "Can you build ecommerce or SaaS platforms?",
+  "How does remote collaboration work?",
 ];
+
+const BUDGET_OPTIONS_MAP: Record<string, string[]> = {
+  lk: [
+    "LKR 80,000 – 150,000",
+    "LKR 150,000 – 350,000",
+    "LKR 250,000 – 700,000+",
+    "LKR 500,000+",
+    "Monthly Maintenance"
+  ],
+  pk: [
+    "PKR 80,000 – 180,000",
+    "PKR 180,000 – 450,000",
+    "PKR 300,000 – 900,000+",
+    "PKR 700,000+",
+    "Monthly Maintenance"
+  ],
+  int: [
+    "$300 – $700",
+    "$700 – $1,500",
+    "$1,500 – $5,000+",
+    "$3,000+",
+    "Custom Quote"
+  ]
+};
 
 export function JawrahBot() {
+  const { config, currentRegion } = useRegion();
+  const regionKey = currentRegion === 'int' ? 'int' : currentRegion === 'pk' ? 'pk' : 'lk';
+  
+  const initialGreeting = regionKey === 'int'
+    ? "Hello! I'm Jawrah-Bot, your global digital project assistant. How can I help you plan a premium international build today?"
+    : "Hello! I'm Jawrah-Bot, your premium digital project assistant. How can I help you elevate your brand today?";
+  
+  const suggestedQuestions = regionKey === 'int' ? INTERNATIONAL_SUGGESTED_QUESTIONS : SUGGESTED_QUESTIONS;
+  const budgetOptions = BUDGET_OPTIONS_MAP[regionKey];
+
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hello! I'm Jawrah-Bot, your premium digital project assistant. How can I help you elevate your brand today?",
+      text: initialGreeting,
       sender: 'bot',
       timestamp: new Date()
     }
@@ -76,7 +106,18 @@ export function JawrahBot() {
   const [leadData, setLeadData] = useState<Partial<LeadData>>({});
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { config } = useRegion();
+
+  useEffect(() => {
+    setMessages([{
+      id: '1',
+      text: initialGreeting,
+      sender: 'bot',
+      timestamp: new Date()
+    }]);
+    setFlow('normal');
+    setLeadStep('name');
+    setLeadData({});
+  }, [currentRegion, initialGreeting]);
 
   // Handle auto-scroll
   useEffect(() => {
@@ -120,24 +161,21 @@ export function JawrahBot() {
 
     try {
       if (isSupabaseConfigured) {
-        const { error } = await submitChatbotLead({
-          name: data.name.trim(),
-          business_type: data.business_type,
-          country: data.country,
-          project_type: data.project_type,
+        const { error } = await submitInquiry({
+          full_name: data.name.trim(),
+          email: 'captured-via-bot@jawrahpixel.com', // Placeholder if email not asked
+          business_name: data.business_type,
+          service_interested: data.project_type,
           budget_range: data.budget_range,
           whatsapp: data.whatsapp,
-          message: `Lead captured via Jawrah-Bot for ${data.business_type}.`,
+          message: `Lead captured via Jawrah-Bot. Interested in ${data.project_type} for ${data.business_type}. Budget: ${data.budget_range}.`,
+          inquiry_type: 'project',
           status: 'new',
+          region: regionKey as any,
+          source_page: regionKey as any,
         });
 
         if (error) throw error;
-
-        void notifyInquiryReceived({
-          fullName: data.name,
-          email: 'captured-via-bot@jawrahpixel.com',
-          service: data.project_type,
-        });
       } else {
         saveLeadToStorage(data);
       }
@@ -184,19 +222,19 @@ export function JawrahBot() {
         nextData.business_type = value;
         setLeadData(nextData);
         setLeadStep('country');
-        addBotMessage("Understood. Which country are you located in?");
+        addBotMessage(regionKey === 'int' ? "Understood. Which country or region is your business based in?" : "Understood. Which country are you located in?");
         break;
       case 'country':
         nextData.country = value;
         setLeadData(nextData);
         setLeadStep('project');
-        addBotMessage("What type of project are we looking at? (e.g., Ecommerce, Corporate Website, Admin Dashboard)");
+        addBotMessage(regionKey === 'int' ? "What type of project are we looking at? (e.g., Ecommerce, SaaS dashboard, AI system, Premium Website)" : "What type of project are we looking at? (e.g., Ecommerce, Corporate Website, Admin Dashboard)");
         break;
       case 'project':
         nextData.project_type = value;
         setLeadData(nextData);
         setLeadStep('budget');
-        addBotMessage("Please select your estimated budget range:");
+        addBotMessage(regionKey === 'int' ? "Please select your estimated USD budget range:" : `Please select your estimated ${regionKey.toUpperCase()} budget range:`);
         break;
       case 'budget':
         nextData.budget_range = value;
@@ -217,41 +255,7 @@ export function JawrahBot() {
     }
   };
 
-  const getBotResponse = (input: string): string => {
-    const text = input.toLowerCase();
-    
-    if (text.includes('service')) {
-      return "Jawrah Pixel provides high-end digital architecture including: Bespoke Business Websites, Performance Ecommerce, UI/UX Strategy, Premium Branding, and Enterprise Admin Dashboards.";
-    }
-    
-    if (text.includes('cost') || text.includes('price') || text.includes('how much')) {
-      return "Our pricing is structured by project complexity:\n• Basic: LKR 80k - 180k\n• Premium: LKR 180k - 450k\n• Ecommerce: LKR 300k - 900k+\n• Enterprise: LKR 600k - 2M+\n\nWould you like to start a project and get a specific quote?";
-    }
-    
-    if (text.includes('ecommerce') || text.includes('shop')) {
-      return "We build elite ecommerce experiences with seamless LKR/USD payment gateways, inventory automation, and conversion-optimized checkout flows.";
-    }
-
-    if (text.includes('how long') || text.includes('time') || text.includes('timeline')) {
-      return "Typical timelines range from 2 weeks for business sites to 6-10 weeks for advanced ecommerce and platform development.";
-    }
-    
-    if (text.includes('sri lanka') || text.includes('pakistan')) {
-      return "We have specialized regional architects in both Sri Lanka and Pakistan to ensure localized payment and server performance.";
-    }
-    
-    if (text.includes('contact') || text.includes('whatsapp')) {
-      return `Reach us instantly:\n• WhatsApp: ${config.whatsappNumber}\n• Email: ${config.contactEmail}\n• Instagram: ${config.instagramHandle}`;
-    }
-
-    if (text.includes('start') || text.includes('hire')) {
-      return "I can help you start right now! Shall we go through a few quick questions to get your project initiated?";
-    }
-
-    return "I'm Jawrah-Bot, here to help with Jawrah Pixel's elite design and engineering services. Would you like to check our pricing, services, or start a new project?";
-  };
-
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
 
     const userMessage: Message = {
@@ -268,23 +272,41 @@ export function JawrahBot() {
       handleLeadStep(text);
     } else {
       setIsTyping(true);
-      setTimeout(() => {
-        const response = getBotResponse(text);
+      try {
+        const history = messages
+          .filter(m => !m.isAction)
+          .map(m => ({
+            role: m.sender === 'bot' ? 'model' : 'user' as const,
+            parts: m.text
+          }));
+
+        const response = await getChatResponse(text, history, regionKey);
+        
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
           text: response,
           sender: 'bot',
           timestamp: new Date()
         }]);
+      } catch (error) {
+        console.error("Chat error:", error);
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          text: "I'm having a temporary connection issue, but I can still help. Please try again in a moment or contact us via WhatsApp.",
+          sender: 'bot',
+          timestamp: new Date(),
+          isAction: true
+        }]);
+      } finally {
         setIsTyping(false);
-      }, 1000);
+      }
     }
   };
 
   const resetChat = () => {
     setMessages([{
       id: '1',
-      text: "Hello! I'm Jawrah-Bot, your premium digital project assistant. How can I help you elevate your brand today?",
+      text: initialGreeting,
       sender: 'bot',
       timestamp: new Date()
     }]);
@@ -413,7 +435,7 @@ export function JawrahBot() {
                     <Sparkles size={12} className="group-hover:rotate-12 transition-transform" />
                     Start Project
                   </button>
-                  {SUGGESTED_QUESTIONS.slice(0, 3).map((q, i) => (
+                  {suggestedQuestions.slice(0, 3).map((q, i) => (
                     <button
                       key={i}
                       onClick={() => handleSendMessage(q)}
@@ -427,7 +449,7 @@ export function JawrahBot() {
               
               {flow === 'lead_capture' && leadStep === 'budget' && (
                 <div className="grid grid-cols-2 gap-2 w-full">
-                  {BUDGET_OPTIONS.map((opt) => (
+                  {budgetOptions.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => handleSendMessage(opt)}
