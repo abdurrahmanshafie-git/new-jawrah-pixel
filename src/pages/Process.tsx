@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { cn } from '@/lib/utils';
 
 // Interactive FAQ Type
 interface FaqItem {
