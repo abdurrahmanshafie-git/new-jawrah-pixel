@@ -1,3 +1,4 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendLeadEmails, type LeadSubmission } from './_email/leadEmails';
 
 type JsonRecord = Record<string, unknown>;
@@ -30,14 +31,44 @@ const FIELD_LIMITS: Record<keyof Omit<LeadSubmission, 'submissionTime'>, number>
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
-function jsonResponse(body: JsonRecord, status = 200): Response {
-  return Response.json(body, {
-    status,
-    headers: {
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-    },
-  });
+function jsonResponse(res: VercelResponse, body: JsonRecord, status = 200) {
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(status).json(body);
+}
+
+function getHeader(req: VercelRequest, name: string): string | undefined {
+  const value = req.headers[name.toLowerCase()];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function getBodyByteLength(body: unknown): number {
+  if (typeof body === 'string') return Buffer.byteLength(body, 'utf8');
+  if (Buffer.isBuffer(body)) return body.length;
+  if (body === undefined || body === null) return 0;
+  return Buffer.byteLength(JSON.stringify(body), 'utf8');
+}
+
+function parseJsonBody(req: VercelRequest): { body?: JsonRecord; error?: string; status?: number } {
+  if (getBodyByteLength(req.body) > MAX_BODY_BYTES) {
+    return { error: 'Payload too large.', status: 413 };
+  }
+
+  let body: unknown = req.body ?? {};
+  if (Buffer.isBuffer(body)) body = body.toString('utf8');
+
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body || '{}');
+    } catch {
+      return { error: 'Invalid JSON payload.', status: 400 };
+    }
+  }
+
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return { error: 'Invalid request body.', status: 400 };
+  }
+
+  return { body: body as JsonRecord };
 }
 
 function sanitizeString(value: unknown, maxLength: number): string | undefined {
@@ -53,7 +84,7 @@ function sanitizeString(value: unknown, maxLength: number): string | undefined {
   return normalized ? normalized.slice(0, maxLength) : undefined;
 }
 
-function sanitizeLeadSubmission(body: JsonRecord, request: Request): LeadSubmission {
+function sanitizeLeadSubmission(body: JsonRecord, req: VercelRequest): LeadSubmission {
   const lead: LeadSubmission = {};
 
   for (const [field, maxLength] of Object.entries(FIELD_LIMITS) as Array<[keyof typeof FIELD_LIMITS, number]>) {
@@ -61,18 +92,18 @@ function sanitizeLeadSubmission(body: JsonRecord, request: Request): LeadSubmiss
   }
 
   lead.formType ||= 'Website Inquiry';
-  lead.source ||= sanitizeString(request.headers.get('referer'), FIELD_LIMITS.source) || 'jawrahpixel.com';
+  lead.source ||= sanitizeString(getHeader(req, 'referer'), FIELD_LIMITS.source) || 'jawrahpixel.com';
   lead.submissionTime = new Date().toISOString();
 
   return lead;
 }
 
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+function getClientIp(req: VercelRequest): string {
+  const forwardedFor = getHeader(req, 'x-forwarded-for')?.split(',')[0]?.trim();
   return (
     forwardedFor ||
-    request.headers.get('x-real-ip') ||
-    request.headers.get('cf-connecting-ip') ||
+    getHeader(req, 'x-real-ip') ||
+    getHeader(req, 'cf-connecting-ip') ||
     'unknown'
   );
 }
@@ -113,82 +144,57 @@ function validateLead(lead: LeadSubmission): string | null {
   return null;
 }
 
-export default {
-  async fetch(request: Request): Promise<Response> {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          Allow: 'POST, OPTIONS',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-      });
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).end();
+  }
+
+  if (req.method !== 'POST') {
+    return jsonResponse(res, { ok: false, error: 'Method not allowed.' }, 405);
+  }
+
+  try {
+    const parsed = parseJsonBody(req);
+    if (!parsed.body) {
+      return jsonResponse(res, { ok: false, error: parsed.error || 'Invalid request body.' }, parsed.status || 400);
     }
 
-    if (request.method !== 'POST') {
-      return jsonResponse({ ok: false, error: 'Method not allowed.' }, 405);
+    const lead = sanitizeLeadSubmission(parsed.body, req);
+    const validationError = validateLead(lead);
+    if (validationError) {
+      return jsonResponse(res, { ok: false, error: validationError }, 400);
     }
 
-    try {
-      const rawBody = await request.text();
-      if (rawBody.length > MAX_BODY_BYTES) {
-        return jsonResponse({ ok: false, error: 'Payload too large.' }, 413);
-      }
-
-      let body: unknown;
-      try {
-        body = JSON.parse(rawBody || '{}');
-      } catch {
-        return jsonResponse({ ok: false, error: 'Invalid JSON payload.' }, 400);
-      }
-
-      if (!body || typeof body !== 'object' || Array.isArray(body)) {
-        return jsonResponse({ ok: false, error: 'Invalid request body.' }, 400);
-      }
-
-      const lead = sanitizeLeadSubmission(body as JsonRecord, request);
-      const validationError = validateLead(lead);
-      if (validationError) {
-        return jsonResponse({ ok: false, error: validationError }, 400);
-      }
-
-      const rateLimitKey = [
-        getClientIp(request),
-        (lead.email || lead.whatsapp || lead.phone || 'anonymous').toLowerCase(),
-      ].join(':');
-      const rateLimit = checkRateLimit(rateLimitKey);
-      if (!rateLimit.allowed) {
-        return Response.json(
-          { ok: false, error: 'Too many submissions. Please try again shortly.' },
-          {
-            status: 429,
-            headers: {
-              'Cache-Control': 'no-store',
-              'Content-Type': 'application/json',
-              'Retry-After': String(rateLimit.retryAfterSeconds ?? 60),
-            },
-          },
-        );
-      }
-
-      const result = await sendLeadEmails(lead);
-      const hasAnyDelivery = result.adminEmailSent || result.clientEmailSent;
-      const status = result.ok ? 200 : hasAnyDelivery ? 207 : 502;
-
-      return jsonResponse(
-        {
-          ok: result.ok,
-          clientEmailSent: result.clientEmailSent,
-          adminEmailSent: result.adminEmailSent,
-          skippedClientEmail: result.skippedClientEmail,
-          error: result.ok ? undefined : 'Email delivery failed. Submission was saved.',
-        },
-        status,
-      );
-    } catch (error) {
-      console.error('[send-lead-email] Unexpected failure:', error);
-      return jsonResponse({ ok: false, error: 'Email service unavailable.' }, 500);
+    const rateLimitKey = [
+      getClientIp(req),
+      (lead.email || lead.whatsapp || lead.phone || 'anonymous').toLowerCase(),
+    ].join(':');
+    const rateLimit = checkRateLimit(rateLimitKey);
+    if (!rateLimit.allowed) {
+      res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds ?? 60));
+      return jsonResponse(res, { ok: false, error: 'Too many submissions. Please try again shortly.' }, 429);
     }
-  },
-};
+
+    const result = await sendLeadEmails(lead);
+    const hasAnyDelivery = result.adminEmailSent || result.clientEmailSent;
+    const status = result.ok ? 200 : hasAnyDelivery ? 207 : 502;
+
+    return jsonResponse(
+      res,
+      {
+        ok: result.ok,
+        clientEmailSent: result.clientEmailSent,
+        adminEmailSent: result.adminEmailSent,
+        skippedClientEmail: result.skippedClientEmail,
+        error: result.ok ? undefined : 'Email delivery failed. Submission was saved.',
+      },
+      status,
+    );
+  } catch (error) {
+    console.error('[send-lead-email] Unexpected failure:', error);
+    return jsonResponse(res, { ok: false, error: 'Email service unavailable.' }, 500);
+  }
+}

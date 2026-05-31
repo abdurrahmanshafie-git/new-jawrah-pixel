@@ -1,3 +1,4 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendWelcomeEmail, type WelcomeEmailPayload } from './_email/leadEmails';
 
 type JsonRecord = Record<string, unknown>;
@@ -9,14 +10,44 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
-function jsonResponse(body: JsonRecord, status = 200): Response {
-  return Response.json(body, {
-    status,
-    headers: {
-      'Cache-Control': 'no-store',
-      'Content-Type': 'application/json',
-    },
-  });
+function jsonResponse(res: VercelResponse, body: JsonRecord, status = 200) {
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(status).json(body);
+}
+
+function getHeader(req: VercelRequest, name: string): string | undefined {
+  const value = req.headers[name.toLowerCase()];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function getBodyByteLength(body: unknown): number {
+  if (typeof body === 'string') return Buffer.byteLength(body, 'utf8');
+  if (Buffer.isBuffer(body)) return body.length;
+  if (body === undefined || body === null) return 0;
+  return Buffer.byteLength(JSON.stringify(body), 'utf8');
+}
+
+function parseJsonBody(req: VercelRequest): { body?: JsonRecord; error?: string; status?: number } {
+  if (getBodyByteLength(req.body) > MAX_BODY_BYTES) {
+    return { error: 'Payload too large.', status: 413 };
+  }
+
+  let body: unknown = req.body ?? {};
+  if (Buffer.isBuffer(body)) body = body.toString('utf8');
+
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body || '{}');
+    } catch {
+      return { error: 'Invalid JSON payload.', status: 400 };
+    }
+  }
+
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return { error: 'Invalid request body.', status: 400 };
+  }
+
+  return { body: body as JsonRecord };
 }
 
 function sanitizeString(value: unknown, maxLength: number): string | undefined {
@@ -43,12 +74,12 @@ function sanitizeWelcomePayload(body: JsonRecord): WelcomeEmailPayload | null {
   };
 }
 
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+function getClientIp(req: VercelRequest): string {
+  const forwardedFor = getHeader(req, 'x-forwarded-for')?.split(',')[0]?.trim();
   return (
     forwardedFor ||
-    request.headers.get('x-real-ip') ||
-    request.headers.get('cf-connecting-ip') ||
+    getHeader(req, 'x-real-ip') ||
+    getHeader(req, 'cf-connecting-ip') ||
     'unknown'
   );
 }
@@ -77,73 +108,48 @@ function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: nu
   return { allowed: true };
 }
 
-export default {
-  async fetch(request: Request): Promise<Response> {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          Allow: 'POST, OPTIONS',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-      });
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).end();
+  }
+
+  if (req.method !== 'POST') {
+    return jsonResponse(res, { ok: false, error: 'Method not allowed.' }, 405);
+  }
+
+  try {
+    const parsed = parseJsonBody(req);
+    if (!parsed.body) {
+      return jsonResponse(res, { ok: false, error: parsed.error || 'Invalid request body.' }, parsed.status || 400);
     }
 
-    if (request.method !== 'POST') {
-      return jsonResponse({ ok: false, error: 'Method not allowed.' }, 405);
+    const payload = sanitizeWelcomePayload(parsed.body);
+    if (!payload) {
+      return jsonResponse(res, { ok: false, error: 'Provide a valid email address.' }, 400);
     }
 
-    try {
-      const rawBody = await request.text();
-      if (rawBody.length > MAX_BODY_BYTES) {
-        return jsonResponse({ ok: false, error: 'Payload too large.' }, 413);
-      }
-
-      let body: unknown;
-      try {
-        body = JSON.parse(rawBody || '{}');
-      } catch {
-        return jsonResponse({ ok: false, error: 'Invalid JSON payload.' }, 400);
-      }
-
-      if (!body || typeof body !== 'object' || Array.isArray(body)) {
-        return jsonResponse({ ok: false, error: 'Invalid request body.' }, 400);
-      }
-
-      const payload = sanitizeWelcomePayload(body as JsonRecord);
-      if (!payload) {
-        return jsonResponse({ ok: false, error: 'Provide a valid email address.' }, 400);
-      }
-
-      const rateLimitKey = `${getClientIp(request)}:${payload.email.toLowerCase()}`;
-      const rateLimit = checkRateLimit(rateLimitKey);
-      if (!rateLimit.allowed) {
-        return Response.json(
-          { ok: false, error: 'Too many requests. Please try again shortly.' },
-          {
-            status: 429,
-            headers: {
-              'Cache-Control': 'no-store',
-              'Content-Type': 'application/json',
-              'Retry-After': String(rateLimit.retryAfterSeconds ?? 60),
-            },
-          },
-        );
-      }
-
-      const result = await sendWelcomeEmail(payload);
-      return jsonResponse(
-        {
-          ok: result.ok,
-          sent: result.sent,
-          reason: result.reason,
-        },
-        result.ok ? 200 : 502,
-      );
-    } catch (error) {
-      console.error('[send-welcome-email] Unexpected failure:', error);
-      return jsonResponse({ ok: false, error: 'Email service unavailable.' }, 500);
+    const rateLimitKey = `${getClientIp(req)}:${payload.email.toLowerCase()}`;
+    const rateLimit = checkRateLimit(rateLimitKey);
+    if (!rateLimit.allowed) {
+      res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds ?? 60));
+      return jsonResponse(res, { ok: false, error: 'Too many requests. Please try again shortly.' }, 429);
     }
-  },
-};
+
+    const result = await sendWelcomeEmail(payload);
+    return jsonResponse(
+      res,
+      {
+        ok: result.ok,
+        sent: result.sent,
+        reason: result.reason,
+      },
+      result.ok ? 200 : 502,
+    );
+  } catch (error) {
+    console.error('[send-welcome-email] Unexpected failure:', error);
+    return jsonResponse(res, { ok: false, error: 'Email service unavailable.' }, 500);
+  }
+}
