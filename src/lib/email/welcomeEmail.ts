@@ -34,9 +34,11 @@ export async function sendWelcomeEmailNotification(
       return { ok: false, reason: data.reason || 'Welcome email dispatch failed.' };
     }
 
+    console.log('WELCOME EMAIL SUCCESS');
     return { ok: true, sent: data.sent };
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'Welcome email dispatch unavailable.';
+    console.error('CONTACT FLOW ERROR:', error);
     console.error('[Email] Welcome email dispatch unavailable:', reason);
     return { ok: false, reason };
   } finally {

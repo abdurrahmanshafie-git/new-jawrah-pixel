@@ -272,8 +272,9 @@ export default function Contact() {
         guestName: bookingForm.name.trim(),
       });
       setPaymentModalOpen(true);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Could not reserve briefing slot.';
+    } catch (error: unknown) {
+      console.error('CONTACT FLOW ERROR:', error);
+      const message = error instanceof Error ? error.message : 'Could not reserve briefing slot.';
       setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);
@@ -323,7 +324,7 @@ export default function Contact() {
       const businessName = data.business_name?.trim() || null;
       const message = `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`;
 
-      const { error } = await submitInquiry({
+      const { error: inquiryError } = await submitInquiry({
         full_name: trimmedName,
         email: trimmedEmail,
         whatsapp: trimmedWhatsapp,
@@ -354,19 +355,24 @@ export default function Contact() {
         requirements: [data.goals, data.message].filter(Boolean).join('\n\n') || undefined,
       });
 
-      if (error) throw error;
+      if (inquiryError) throw inquiryError;
 
-      clearFormDraft(rfpDraftKey);
-
-      setLastRfpService(data.project_type);
-      setLastRfpAmount(estimateFromBudget(data.budget, currentRegion));
-      setLastRfpEmail(trimmedEmail);
-      setLastRfpName(trimmedName);
       setSuccess(true);
-      reset();
-      setRfpStep(1);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to submit inquiry. Please try again.';
+
+      try {
+        clearFormDraft(rfpDraftKey);
+        setLastRfpService(data.project_type);
+        setLastRfpAmount(estimateFromBudget(data.budget, currentRegion));
+        setLastRfpEmail(trimmedEmail);
+        setLastRfpName(trimmedName);
+        reset();
+        setRfpStep(1);
+      } catch (error) {
+        console.error('CONTACT FLOW ERROR:', error);
+      }
+    } catch (error: unknown) {
+      console.error('CONTACT FLOW ERROR:', error);
+      const message = error instanceof Error ? error.message : 'Failed to submit inquiry. Please try again.';
       setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);
@@ -467,8 +473,9 @@ export default function Contact() {
       });
       setSelectedDateIndex(null);
       setSelectedTime(null);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to schedule briefing. Please try again.';
+    } catch (error: unknown) {
+      console.error('CONTACT FLOW ERROR:', error);
+      const message = error instanceof Error ? error.message : 'Failed to schedule briefing. Please try again.';
       setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);

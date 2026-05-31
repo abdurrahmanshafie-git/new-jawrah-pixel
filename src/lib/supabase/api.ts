@@ -15,6 +15,16 @@ function ensureConfigured() {
   }
 }
 
+function createClientUuid() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+    const random = Math.floor(Math.random() * 16);
+    const value = char === 'x' ? random : (random & 0x3) | 0x8;
+    return value.toString(16);
+  });
+}
+
 function finalizeLeadEmail(payload: LeadEmailPayload, submissionId?: string | null): LeadEmailPayload {
   const requirements =
     payload.requirements ??
@@ -30,9 +40,17 @@ function finalizeLeadEmail(payload: LeadEmailPayload, submissionId?: string | nu
 }
 
 async function notifyLeadEmail(payload: LeadEmailPayload, submissionId?: string | null) {
-  const result = await sendLeadEmailNotification(finalizeLeadEmail(payload, submissionId));
-  if (!result.ok) {
+  try {
+    const result = await sendLeadEmailNotification(finalizeLeadEmail(payload, submissionId));
+    if (result.ok) {
+      console.log('LEAD EMAIL SUCCESS');
+      return;
+    }
+
     console.error('[Email] Lead was saved, but notification email failed:', result.reason);
+  } catch (error) {
+    console.error('CONTACT FLOW ERROR:', error);
+    console.error('[Email] Lead was saved, but notification email threw:', error);
   }
 }
 
@@ -112,9 +130,12 @@ export async function getProfileRole(userId: string) {
 export async function submitInquiry(payload: Insert<'inquiries'>, leadEmail?: LeadEmailPayload) {
   ensureConfigured();
 
-  const result = await supabase.from('inquiries').insert(payload).select('id').single();
+  const inquiryId = payload.id ?? createClientUuid();
+  const result = await supabase.from('inquiries').insert({ ...payload, id: inquiryId });
   if (!result.error) {
-    await notifyLeadEmail(leadEmail ?? inquiryToLeadEmail(payload), result.data?.id);
+    console.log('INQUIRY INSERT SUCCESS');
+    void notifyLeadEmail(leadEmail ?? inquiryToLeadEmail(payload), inquiryId);
+    return { ...result, data: { id: inquiryId }, error: null };
   }
 
   return result;

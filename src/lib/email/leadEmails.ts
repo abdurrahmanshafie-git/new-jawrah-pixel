@@ -83,6 +83,7 @@ export async function sendLeadEmailNotification(
     };
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'Email dispatch unavailable.';
+    console.error('CONTACT FLOW ERROR:', error);
     console.error('[Email] Lead email dispatch unavailable:', reason);
     return { ok: false, reason };
   } finally {
