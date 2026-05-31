@@ -1,6 +1,11 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { Insert, Row, Update } from './database.types';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
+import {
+  findFirstSupabaseQueryError,
+  logSupabaseQuery,
+  withSupabaseQueryContext,
+} from './query-debug';
 
 export type ProfileRole = Row<'profiles'>['role'];
 
@@ -139,12 +144,18 @@ export async function submitChatbotLead(payload: Insert<'chatbot_leads'>, leadEm
 
 export async function fetchAdminLeads() {
   ensureConfigured();
-  return supabase.from('inquiries').select('*').order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.inquiries',
+    supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
+  );
 }
 
 export async function fetchChatbotLeads() {
   ensureConfigured();
-  return supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.chatbot_leads',
+    supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateLeadStatus(id: string, status: Row<'inquiries'>['status']) {
@@ -159,10 +170,13 @@ export async function updateChatbotLeadStatus(id: string, status: Row<'chatbot_l
 
 export async function fetchAdminInvoices() {
   ensureConfigured();
-  return supabase
-    .from('invoices')
-    .select('*, client:profiles(full_name, email), project:projects(title)')
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.invoices',
+    supabase
+      .from('invoices')
+      .select('*, client:profiles(full_name, email), project:projects(title)')
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateInvoice(id: string, payload: Update<'invoices'>) {
@@ -254,11 +268,20 @@ export async function fetchDashboardAnalytics() {
   ensureConfigured();
 
   const [leads, bookings, projects, invoices] = await Promise.all([
-    supabase.from('inquiries').select('status, created_at'),
-    supabase.from('bookings').select('id', { count: 'exact', head: true }),
-    supabase.from('projects').select('status, price'),
-    supabase.from('invoices').select('status, payment_status, amount'),
+    logSupabaseQuery('dashboard_analytics.inquiries', supabase.from('inquiries').select('status, created_at')),
+    logSupabaseQuery('dashboard_analytics.bookings', supabase.from('bookings').select('id', { count: 'exact', head: true })),
+    logSupabaseQuery('dashboard_analytics.projects', supabase.from('projects').select('status, price')),
+    logSupabaseQuery('dashboard_analytics.invoices', supabase.from('invoices').select('status, payment_status, amount')),
   ]);
+
+  const firstError = findFirstSupabaseQueryError([
+    { table: 'dashboard_analytics.inquiries', error: leads.error },
+    { table: 'dashboard_analytics.bookings', error: bookings.error },
+    { table: 'dashboard_analytics.projects', error: projects.error },
+    { table: 'dashboard_analytics.invoices', error: invoices.error },
+  ]);
+
+  if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
 
   const totalLeads = leads.data?.length || 0;
   const newInquiries = leads.data?.filter((l) => l.status === 'new').length || 0;
@@ -312,7 +335,13 @@ export async function createProject(payload: Insert<'projects'>) {
 
 export async function fetchProjects() {
   ensureConfigured();
-  return supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.projects',
+    supabase
+      .from('projects')
+      .select('*, client:profiles!projects_client_id_fkey(*)')
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateProject(id: string, payload: Update<'projects'>) {
@@ -340,7 +369,10 @@ export async function updateProject(id: string, payload: Update<'projects'>) {
 
 export async function fetchClients() {
   ensureConfigured();
-  return supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.profiles',
+    supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
+  );
 }
 
 export async function fetchAdminWorkspace() {
@@ -348,18 +380,40 @@ export async function fetchAdminWorkspace() {
 
   const [projects, inquiries, bookings, testimonials, blogPosts, subscribers, invoices, chatbotLeads] =
     await Promise.all([
-      supabase.from('projects').select('*').order('created_at', { ascending: false }),
-      supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
-      supabase.from('bookings').select('*').order('created_at', { ascending: false }),
-      supabase.from('testimonials').select('*').order('created_at', { ascending: false }),
-      supabase.from('blog_posts').select('*').order('created_at', { ascending: false }),
-      supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
-      supabase
-        .from('invoices')
-        .select('*, client:profiles(full_name, email)')
-        .order('created_at', { ascending: false }),
-      supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+      logSupabaseQuery('admin_workspace.projects', supabase.from('projects').select('*').order('created_at', { ascending: false })),
+      logSupabaseQuery('admin_workspace.inquiries', supabase.from('inquiries').select('*').order('created_at', { ascending: false })),
+      logSupabaseQuery('admin_workspace.bookings', supabase.from('bookings').select('*').order('created_at', { ascending: false })),
+      logSupabaseQuery('admin_workspace.testimonials', supabase.from('testimonials').select('*').order('created_at', { ascending: false })),
+      logSupabaseQuery('admin_workspace.blog_posts', supabase.from('blog_posts').select('*').order('created_at', { ascending: false })),
+      logSupabaseQuery(
+        'admin_workspace.newsletter_subscribers',
+        supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
+      ),
+      logSupabaseQuery(
+        'admin_workspace.invoices',
+        supabase
+          .from('invoices')
+          .select('*, client:profiles(full_name, email)')
+          .order('created_at', { ascending: false }),
+      ),
+      logSupabaseQuery(
+        'admin_workspace.chatbot_leads',
+        supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+      ),
     ]);
+
+  const firstError = findFirstSupabaseQueryError([
+    { table: 'admin_workspace.projects', error: projects.error },
+    { table: 'admin_workspace.inquiries', error: inquiries.error },
+    { table: 'admin_workspace.bookings', error: bookings.error },
+    { table: 'admin_workspace.testimonials', error: testimonials.error },
+    { table: 'admin_workspace.blog_posts', error: blogPosts.error },
+    { table: 'admin_workspace.newsletter_subscribers', error: subscribers.error },
+    { table: 'admin_workspace.invoices', error: invoices.error },
+    { table: 'admin_workspace.chatbot_leads', error: chatbotLeads.error },
+  ]);
+
+  if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
 
   return { projects, inquiries, bookings, testimonials, blogPosts, subscribers, invoices, chatbotLeads };
 }
@@ -368,23 +422,61 @@ export async function fetchClientWorkspace(userId: string) {
   ensureConfigured();
 
   const [projects, bookings, revisionRequests, supportTickets, invoices, files, notifications] = await Promise.all([
-    supabase.from('projects').select('*').eq('client_id', userId).order('updated_at', { ascending: false }),
-    supabase.from('bookings').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
-    supabase.from('revision_requests').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
-    supabase.from('support_tickets').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
-    supabase.from('invoices').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
-    supabase.from('project_files').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
-    supabase.from('notifications').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+    logSupabaseQuery(
+      'client_workspace.projects',
+      supabase.from('projects').select('*').eq('client_id', userId).order('updated_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.bookings',
+      supabase.from('bookings').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.revision_requests',
+      supabase.from('revision_requests').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.support_tickets',
+      supabase.from('support_tickets').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.invoices',
+      supabase.from('invoices').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.project_files',
+      supabase.from('project_files').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_workspace.notifications',
+      supabase.from('notifications').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+    ),
   ]);
+
+  const firstError = findFirstSupabaseQueryError([
+    { table: 'client_workspace.projects', error: projects.error },
+    { table: 'client_workspace.bookings', error: bookings.error },
+    { table: 'client_workspace.revision_requests', error: revisionRequests.error },
+    { table: 'client_workspace.support_tickets', error: supportTickets.error },
+    { table: 'client_workspace.invoices', error: invoices.error },
+    { table: 'client_workspace.project_files', error: files.error },
+    { table: 'client_workspace.notifications', error: notifications.error },
+  ]);
+
+  if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
 
   const projectIds = projects.data?.map((project) => project.id) ?? [];
   const milestones = projectIds.length
-    ? await supabase
-        .from('project_milestones')
-        .select('*')
-        .in('project_id', projectIds)
-        .order('sort_order', { ascending: true })
+    ? await logSupabaseQuery(
+        'client_workspace.project_milestones',
+        supabase
+          .from('project_milestones')
+          .select('*')
+          .in('project_id', projectIds)
+          .order('sort_order', { ascending: true }),
+      )
     : { data: [], error: null };
+
+  if (milestones.error) throw withSupabaseQueryContext('client_workspace.project_milestones', milestones.error);
 
   return { projects, bookings, revisionRequests, supportTickets, invoices, files, notifications, milestones };
 }
@@ -411,10 +503,13 @@ export async function createNotification(payload: Insert<'notifications'>) {
 
 export async function fetchAdminSupportTickets() {
   ensureConfigured();
-  return supabase
-    .from('support_tickets')
-    .select('*, client:profiles(full_name, email)')
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'dashboard_service.support_tickets',
+    supabase
+      .from('support_tickets')
+      .select('*, client:profiles(full_name, email)')
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateRow<T extends 'inquiries' | 'bookings' | 'projects' | 'testimonials' | 'blog_posts'>(

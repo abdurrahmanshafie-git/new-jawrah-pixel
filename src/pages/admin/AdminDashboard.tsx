@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { fetchBusinessAnalytics } from '@/lib/supabase/ecosystem-api';
+import {
+  findFirstSupabaseQueryError,
+  getSupabaseErrorMessage,
+  logSupabaseQuery,
+  logSupabaseTask,
+  withSupabaseQueryContext,
+} from '@/lib/supabase/query-debug';
 import { AdminAnalyticsExtras, AdminEcosystemPanels } from '@/components/ecosystem/AdminEcosystemPanels';
 import { CRM_PIPELINE, PROJECT_LIFECYCLE } from '@/lib/platform/ecosystem';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
@@ -102,32 +109,57 @@ export default function AdminDashboard() {
     try {
       const [leadsRes, projectsRes, clientsRes, analyticsRes, bookingsRes, invoicesRes, chatbotRes, ticketsRes] =
         await Promise.all([
-          supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
-          supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false }),
-          supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
-          fetchBusinessAnalytics(),
-          supabase.from('bookings').select('*').order('created_at', { ascending: false }),
-          supabase
-            .from('invoices')
-            .select('*, client:profiles(full_name, email)')
-            .order('created_at', { ascending: false }),
-          supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
-          supabase
-            .from('support_tickets')
-            .select('*, client:profiles(full_name, email)')
-            .order('created_at', { ascending: false }),
+          logSupabaseQuery(
+            'admin_dashboard.inquiries',
+            supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.projects',
+            supabase
+              .from('projects')
+              .select('*, client:profiles!projects_client_id_fkey(*)')
+              .order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.profiles',
+            supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
+          ),
+          logSupabaseTask('admin_dashboard.business_analytics', fetchBusinessAnalytics()),
+          logSupabaseQuery(
+            'admin_dashboard.bookings',
+            supabase.from('bookings').select('*').order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.invoices',
+            supabase
+              .from('invoices')
+              .select('*, client:profiles(full_name, email)')
+              .order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.chatbot_leads',
+            supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.support_tickets',
+            supabase
+              .from('support_tickets')
+              .select('*, client:profiles(full_name, email)')
+              .order('created_at', { ascending: false }),
+          ),
         ]);
 
-      const firstError =
-        leadsRes.error ||
-        projectsRes.error ||
-        clientsRes.error ||
-        bookingsRes.error ||
-        invoicesRes.error ||
-        chatbotRes.error ||
-        ticketsRes.error;
+      const firstError = findFirstSupabaseQueryError([
+        { table: 'admin_dashboard.inquiries', error: leadsRes.error },
+        { table: 'admin_dashboard.projects', error: projectsRes.error },
+        { table: 'admin_dashboard.profiles', error: clientsRes.error },
+        { table: 'admin_dashboard.bookings', error: bookingsRes.error },
+        { table: 'admin_dashboard.invoices', error: invoicesRes.error },
+        { table: 'admin_dashboard.chatbot_leads', error: chatbotRes.error },
+        { table: 'admin_dashboard.support_tickets', error: ticketsRes.error },
+      ]);
 
-      if (firstError) throw firstError;
+      if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
 
       setInquiries(leadsRes.data ?? []);
       setProjects(projectsRes.data ?? []);
@@ -137,11 +169,11 @@ export default function AdminDashboard() {
       setInvoices(invoicesRes.data ?? []);
       setChatbotLeads(chatbotRes.data ?? []);
       setSupportTickets(ticketsRes.data ?? []);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Database sync failed.';
-      console.warn('Supabase load failed:', message);
+    } catch (error: unknown) {
+      console.error('ADMIN DASHBOARD ERROR:', error);
+      const message = getSupabaseErrorMessage(error);
       setLoadError(message);
-      showToast('Database sync failed. Check connection.', 'error');
+      showToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -168,11 +200,17 @@ export default function AdminDashboard() {
 
     try {
       if (editingProject) {
-        const { error } = await supabase.from('projects').update(payload).eq('id', editingProject.id);
+        const { error } = await logSupabaseQuery(
+          'admin_dashboard.projects.update',
+          supabase.from('projects').update(payload).eq('id', editingProject.id),
+        );
         if (error) throw error;
         showToast("Project updated successfully!");
       } else {
-        const { error } = await supabase.from('projects').insert([payload]);
+        const { error } = await logSupabaseQuery(
+          'admin_dashboard.projects.insert',
+          supabase.from('projects').insert([payload]),
+        );
         if (error) throw error;
         showToast("New project created!");
       }
@@ -198,7 +236,10 @@ export default function AdminDashboard() {
   const handleDeleteProject = async (id: string) => {
     if (!window.confirm("Are you absolutely sure?")) return;
     try {
-      const { error } = await supabase.from('projects').delete().eq('id', id);
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.projects.delete',
+        supabase.from('projects').delete().eq('id', id),
+      );
       if (error) throw error;
       showToast("Project deleted.");
       loadAllDashboardData();
@@ -210,7 +251,10 @@ export default function AdminDashboard() {
   // INQUIRIES & BOOKING STATUS CHANGES
   const handleUpdateInquiryStatus = async (id: string, nextStatus: string) => {
     try {
-      const { error } = await supabase.from('inquiries').update({ status: nextStatus }).eq('id', id);
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.inquiries.update_status',
+        supabase.from('inquiries').update({ status: nextStatus }).eq('id', id),
+      );
       if (error) throw error;
       showToast(`Inquiry marked as ${nextStatus}`);
       loadAllDashboardData();
@@ -221,7 +265,10 @@ export default function AdminDashboard() {
 
   const handleUpdateBookingStatus = async (id: string, nextStatus: string) => {
     try {
-      const { error } = await supabase.from('bookings').update({ status: nextStatus }).eq('id', id);
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.bookings.update_status',
+        supabase.from('bookings').update({ status: nextStatus }).eq('id', id),
+      );
       if (error) throw error;
       showToast(`Booking marked as ${nextStatus}`);
       loadAllDashboardData();
@@ -232,14 +279,17 @@ export default function AdminDashboard() {
 
   const handleUpdateInvoicePayment = async (id: string, paymentStatus: string) => {
     try {
-      const { error } = await supabase
-        .from('invoices')
-        .update({
-          payment_status: paymentStatus,
-          status: paymentStatus === 'paid' ? 'paid' : undefined,
-          paid_at: paymentStatus === 'paid' ? new Date().toISOString() : null,
-        })
-        .eq('id', id);
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.invoices.update_payment',
+        supabase
+          .from('invoices')
+          .update({
+            payment_status: paymentStatus,
+            status: paymentStatus === 'paid' ? 'paid' : undefined,
+            paid_at: paymentStatus === 'paid' ? new Date().toISOString() : null,
+          })
+          .eq('id', id),
+      );
       if (error) throw error;
       showToast(`Invoice marked as ${paymentStatus}`);
       loadAllDashboardData();
@@ -250,7 +300,10 @@ export default function AdminDashboard() {
 
   const handleUpdateChatbotStatus = async (id: string, nextStatus: string) => {
     try {
-      const { error } = await supabase.from('chatbot_leads').update({ status: nextStatus }).eq('id', id);
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.chatbot_leads.update_status',
+        supabase.from('chatbot_leads').update({ status: nextStatus }).eq('id', id),
+      );
       if (error) throw error;
       showToast(`Chatbot lead marked as ${nextStatus}`);
       loadAllDashboardData();

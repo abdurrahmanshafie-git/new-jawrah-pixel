@@ -3,6 +3,12 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 import type { Insert, Row, Update } from './database.types';
 import { projectProgressFromStatus } from '@/lib/platform/ecosystem';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
+import {
+  findFirstSupabaseQueryError,
+  logSupabaseQuery,
+  logSupabaseTask,
+  withSupabaseQueryContext,
+} from './query-debug';
 
 function ensureConfigured() {
   if (!isSupabaseConfigured) {
@@ -26,13 +32,42 @@ export async function fetchBusinessAnalytics() {
   ensureConfigured();
 
   const [leads, clients, projects, invoices, proposals, applications] = await Promise.all([
-    supabase.from('inquiries').select('status, region, service_interested, created_at'),
-    supabase.from('profiles').select('id, region, created_at').eq('role', 'client'),
-    supabase.from('projects').select('status, region, service_type, price, created_at'),
-    supabase.from('invoices').select('status, payment_status, amount, currency, created_at'),
-    supabase.from('proposals').select('status, region, pricing, currency, created_at'),
-    supabase.from('agent_applications').select('status, region, created_at'),
+    logSupabaseQuery(
+      'business_analytics.inquiries',
+      supabase.from('inquiries').select('status, region, service_interested, created_at'),
+    ),
+    logSupabaseQuery(
+      'business_analytics.profiles',
+      supabase.from('profiles').select('id, region, created_at').eq('role', 'client'),
+    ),
+    logSupabaseQuery(
+      'business_analytics.projects',
+      supabase.from('projects').select('status, region, service_type, price, created_at'),
+    ),
+    logSupabaseQuery(
+      'business_analytics.invoices',
+      supabase.from('invoices').select('status, payment_status, amount, currency, created_at'),
+    ),
+    logSupabaseQuery(
+      'business_analytics.proposals',
+      supabase.from('proposals').select('status, region, pricing, currency, created_at'),
+    ),
+    logSupabaseQuery(
+      'business_analytics.agent_applications',
+      supabase.from('agent_applications').select('status, region, created_at'),
+    ),
   ]);
+
+  const firstError = findFirstSupabaseQueryError([
+    { table: 'business_analytics.inquiries', error: leads.error },
+    { table: 'business_analytics.profiles', error: clients.error },
+    { table: 'business_analytics.projects', error: projects.error },
+    { table: 'business_analytics.invoices', error: invoices.error },
+    { table: 'business_analytics.proposals', error: proposals.error },
+    { table: 'business_analytics.agent_applications', error: applications.error },
+  ]);
+
+  if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
 
   const leadRows = leads.data ?? [];
   const clientRows = clients.data ?? [];
@@ -104,20 +139,29 @@ export async function fetchBusinessAnalytics() {
 
 export async function createProjectUpdate(payload: Insert<'project_updates'>) {
   ensureConfigured();
-  const result = await supabase.from('project_updates').insert(payload).select('*').single();
+  const result = await logSupabaseQuery(
+    'project_updates.insert',
+    supabase.from('project_updates').insert(payload).select('*').single(),
+  );
 
   if (!result.error && payload.project_id) {
-    await supabase
-      .from('projects')
-      .update({
-        status: payload.status,
-        progress: payload.progress ?? projectProgressFromStatus(payload.status),
-        estimated_completion: payload.estimated_completion ?? undefined,
-        assigned_to: payload.assigned_to ?? undefined,
-      })
-      .eq('id', payload.project_id);
+    await logSupabaseQuery(
+      'projects.update_from_project_update',
+      supabase
+        .from('projects')
+        .update({
+          status: payload.status,
+          progress: payload.progress ?? projectProgressFromStatus(payload.status),
+          estimated_completion: payload.estimated_completion ?? undefined,
+          assigned_to: payload.assigned_to ?? undefined,
+        })
+        .eq('id', payload.project_id),
+    );
 
-    const project = await supabase.from('projects').select('client_id, title').eq('id', payload.project_id).single();
+    const project = await logSupabaseQuery(
+      'projects.notification_lookup',
+      supabase.from('projects').select('client_id, title').eq('id', payload.project_id).single(),
+    );
     if (project.data?.client_id) {
       await notifyUser(
         project.data.client_id,
@@ -132,25 +176,34 @@ export async function createProjectUpdate(payload: Insert<'project_updates'>) {
 
 export async function fetchProjectUpdates(projectId: string) {
   ensureConfigured();
-  return supabase
-    .from('project_updates')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'project_updates',
+    supabase
+      .from('project_updates')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function fetchClientProjectUpdates(clientId: string) {
   ensureConfigured();
-  const projects = await supabase.from('projects').select('id').eq('client_id', clientId);
+  const projects = await logSupabaseQuery(
+    'projects.client_update_ids',
+    supabase.from('projects').select('id').eq('client_id', clientId),
+  );
   const ids = projects.data?.map((p) => p.id) ?? [];
   if (!ids.length) return { data: [], error: null };
 
-  return supabase
-    .from('project_updates')
-    .select('*, project:projects(title)')
-    .in('project_id', ids)
-    .order('created_at', { ascending: false })
-    .limit(20);
+  return logSupabaseQuery(
+    'project_updates.client',
+    supabase
+      .from('project_updates')
+      .select('*, project:projects(title)')
+      .in('project_id', ids)
+      .order('created_at', { ascending: false })
+      .limit(20),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -159,26 +212,44 @@ export async function fetchClientProjectUpdates(clientId: string) {
 
 export async function updateCrmLead(id: string, payload: Update<'inquiries'>) {
   ensureConfigured();
-  return supabase.from('inquiries').update(payload).eq('id', id).select('*').single();
+  return logSupabaseQuery('inquiries.update', supabase.from('inquiries').update(payload).eq('id', id).select('*').single());
 }
 
 export async function fetchCrmLeadDetail(id: string) {
   ensureConfigured();
-  return supabase
-    .from('inquiries')
-    .select('*')
-    .eq('id', id)
-    .single();
+  return logSupabaseQuery(
+    'inquiries.detail',
+    supabase
+      .from('inquiries')
+      .select('*')
+      .eq('id', id)
+      .single(),
+  );
 }
 
 export async function fetchClientCrmHistory(email: string) {
   ensureConfigured();
   const [inquiries, bookings, projects, invoices, proposals] = await Promise.all([
-    supabase.from('inquiries').select('*').eq('email', email).order('created_at', { ascending: false }),
-    supabase.from('bookings').select('*').eq('email', email).order('created_at', { ascending: false }),
-    supabase.from('projects').select('*').order('created_at', { ascending: false }),
-    supabase.from('invoices').select('*').order('created_at', { ascending: false }),
-    supabase.from('proposals').select('*').order('created_at', { ascending: false }),
+    logSupabaseQuery(
+      'client_crm_history.inquiries',
+      supabase.from('inquiries').select('*').eq('email', email).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_crm_history.bookings',
+      supabase.from('bookings').select('*').eq('email', email).order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_crm_history.projects',
+      supabase.from('projects').select('*').order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_crm_history.invoices',
+      supabase.from('invoices').select('*').order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'client_crm_history.proposals',
+      supabase.from('proposals').select('*').order('created_at', { ascending: false }),
+    ),
   ]);
 
   return { inquiries, bookings, projects, invoices, proposals };
@@ -190,43 +261,55 @@ export async function fetchClientCrmHistory(email: string) {
 
 export async function createProposal(payload: Omit<Insert<'proposals'>, 'proposal_number'>) {
   ensureConfigured();
-  return supabase
-    .from('proposals')
-    .insert({ ...payload, proposal_number: proposalNumber() })
-    .select('*')
-    .single();
+  return logSupabaseQuery(
+    'proposals.insert',
+    supabase
+      .from('proposals')
+      .insert({ ...payload, proposal_number: proposalNumber() })
+      .select('*')
+      .single(),
+  );
 }
 
 export async function fetchProposals() {
   ensureConfigured();
-  return supabase
-    .from('proposals')
-    .select('*, client:profiles(full_name, email), project:projects(title)')
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'proposals',
+    supabase
+      .from('proposals')
+      .select('*, client:profiles(full_name, email), project:projects(title)')
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function fetchClientProposals(clientId: string) {
   ensureConfigured();
-  return supabase
-    .from('proposals')
-    .select('*')
-    .eq('client_id', clientId)
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'proposals.client',
+    supabase
+      .from('proposals')
+      .select('*')
+      .eq('client_id', clientId)
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateProposal(id: string, payload: Update<'proposals'>) {
   ensureConfigured();
-  return supabase.from('proposals').update(payload).eq('id', id).select('*').single();
+  return logSupabaseQuery('proposals.update', supabase.from('proposals').update(payload).eq('id', id).select('*').single());
 }
 
 export async function sendProposal(id: string, emailPayload?: LeadEmailPayload) {
   ensureConfigured();
-  const result = await supabase
-    .from('proposals')
-    .update({ status: 'sent', sent_at: new Date().toISOString() })
-    .eq('id', id)
-    .select('*, client:profiles(full_name, email)')
-    .single();
+  const result = await logSupabaseQuery(
+    'proposals.send',
+    supabase
+      .from('proposals')
+      .update({ status: 'sent', sent_at: new Date().toISOString() })
+      .eq('id', id)
+      .select('*, client:profiles(full_name, email)')
+      .single(),
+  );
 
   if (!result.error && emailPayload) {
     await sendLeadEmailNotification({
@@ -245,13 +328,16 @@ export async function sendProposal(id: string, emailPayload?: LeadEmailPayload) 
 
 export async function acceptProposal(id: string, clientId: string) {
   ensureConfigured();
-  return supabase
-    .from('proposals')
-    .update({ status: 'accepted', accepted_at: new Date().toISOString(), viewed_at: new Date().toISOString() })
-    .eq('id', id)
-    .eq('client_id', clientId)
-    .select('*')
-    .single();
+  return logSupabaseQuery(
+    'proposals.accept',
+    supabase
+      .from('proposals')
+      .update({ status: 'accepted', accepted_at: new Date().toISOString(), viewed_at: new Date().toISOString() })
+      .eq('id', id)
+      .eq('client_id', clientId)
+      .select('*')
+      .single(),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -260,11 +346,14 @@ export async function acceptProposal(id: string, clientId: string) {
 
 export async function createAdminInvoice(payload: Omit<Insert<'invoices'>, 'invoice_number'>) {
   ensureConfigured();
-  const result = await supabase
-    .from('invoices')
-    .insert({ ...payload, invoice_number: invoiceNumber() })
-    .select('*')
-    .single();
+  const result = await logSupabaseQuery(
+    'invoices.admin_insert',
+    supabase
+      .from('invoices')
+      .insert({ ...payload, invoice_number: invoiceNumber() })
+      .select('*')
+      .single(),
+  );
 
   if (!result.error && result.data?.client_id) {
     await notifyUser(
@@ -289,61 +378,85 @@ export async function fetchMessageThreads(clientId?: string) {
     .order('updated_at', { ascending: false });
 
   if (clientId) query = query.eq('client_id', clientId);
-  return query;
+  return logSupabaseQuery('message_threads', query);
 }
 
 export async function fetchThreadMessages(threadId: string) {
   ensureConfigured();
-  return supabase
-    .from('messages')
-    .select('*, sender:profiles(full_name, role)')
-    .eq('thread_id', threadId)
-    .order('created_at', { ascending: true });
+  return logSupabaseQuery(
+    'messages.thread',
+    supabase
+      .from('messages')
+      .select('*, sender:profiles(full_name, role)')
+      .eq('thread_id', threadId)
+      .order('created_at', { ascending: true }),
+  );
 }
 
 export async function createMessageThread(payload: Insert<'message_threads'>, initialMessage: string, senderId: string) {
   ensureConfigured();
-  const thread = await supabase.from('message_threads').insert(payload).select('*').single();
+  const thread = await logSupabaseQuery(
+    'message_threads.insert',
+    supabase.from('message_threads').insert(payload).select('*').single(),
+  );
   if (thread.error || !thread.data) return thread;
 
-  await supabase.from('messages').insert({
-    thread_id: thread.data.id,
-    sender_id: senderId,
-    body: initialMessage,
-  });
+  await logSupabaseQuery(
+    'messages.initial_insert',
+    supabase.from('messages').insert({
+      thread_id: thread.data.id,
+      sender_id: senderId,
+      body: initialMessage,
+    }),
+  );
 
-  await supabase
-    .from('message_threads')
-    .update({ last_message_at: new Date().toISOString() })
-    .eq('id', thread.data.id);
+  await logSupabaseQuery(
+    'message_threads.touch_last_message',
+    supabase
+      .from('message_threads')
+      .update({ last_message_at: new Date().toISOString() })
+      .eq('id', thread.data.id),
+  );
 
   return thread;
 }
 
 export async function sendThreadMessage(threadId: string, senderId: string, body: string, attachmentPath?: string) {
   ensureConfigured();
-  const result = await supabase
-    .from('messages')
-    .insert({
-      thread_id: threadId,
-      sender_id: senderId,
-      body,
-      attachment_path: attachmentPath ?? null,
-    })
-    .select('*')
-    .single();
+  const result = await logSupabaseQuery(
+    'messages.send',
+    supabase
+      .from('messages')
+      .insert({
+        thread_id: threadId,
+        sender_id: senderId,
+        body,
+        attachment_path: attachmentPath ?? null,
+      })
+      .select('*')
+      .single(),
+  );
 
   if (!result.error) {
-    await supabase
-      .from('message_threads')
-      .update({ last_message_at: new Date().toISOString() })
-      .eq('id', threadId);
+    await logSupabaseQuery(
+      'message_threads.touch_last_message',
+      supabase
+        .from('message_threads')
+        .update({ last_message_at: new Date().toISOString() })
+        .eq('id', threadId),
+    );
 
-    const thread = await supabase.from('message_threads').select('client_id').eq('id', threadId).single();
+    const thread = await logSupabaseQuery(
+      'message_threads.notification_lookup',
+      supabase.from('message_threads').select('client_id').eq('id', threadId).single(),
+    );
     if (thread.data?.client_id && thread.data.client_id !== senderId) {
       await notifyUser(thread.data.client_id, 'Message Received', body.slice(0, 120));
     } else if (thread.data?.client_id === senderId) {
-      const admins = await supabase.from('profiles').select('id').eq('role', 'admin');
+      const admins = await logSupabaseQuery(
+        'profiles.admin_notification_lookup',
+        supabase.from('profiles').select('id').eq('role', 'admin'),
+      );
       for (const admin of admins.data ?? []) {
         await notifyUser(admin.id, 'Message Received', body.slice(0, 120));
       }
@@ -355,12 +468,15 @@ export async function sendThreadMessage(threadId: string, senderId: string, body
 
 export async function markMessagesRead(threadId: string, readerId: string) {
   ensureConfigured();
-  return supabase
-    .from('messages')
-    .update({ read_at: new Date().toISOString() })
-    .eq('thread_id', threadId)
-    .neq('sender_id', readerId)
-    .is('read_at', null);
+  return logSupabaseQuery(
+    'messages.mark_read',
+    supabase
+      .from('messages')
+      .update({ read_at: new Date().toISOString() })
+      .eq('thread_id', threadId)
+      .neq('sender_id', readerId)
+      .is('read_at', null),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -369,24 +485,36 @@ export async function markMessagesRead(threadId: string, readerId: string) {
 
 export async function createAgentApplication(payload: Insert<'agent_applications'>) {
   ensureConfigured();
-  return supabase.from('agent_applications').insert(payload).select('*').single();
+  return logSupabaseQuery(
+    'agent_applications.insert',
+    supabase.from('agent_applications').insert(payload).select('*').single(),
+  );
 }
 
 export async function fetchAgentApplications() {
   ensureConfigured();
-  return supabase.from('agent_applications').select('*').order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'agent_applications',
+    supabase.from('agent_applications').select('*').order('created_at', { ascending: false }),
+  );
 }
 
 export async function updateAgentApplication(id: string, payload: Update<'agent_applications'>) {
   ensureConfigured();
-  const result = await supabase.from('agent_applications').update(payload).eq('id', id).select('*').single();
+  const result = await logSupabaseQuery(
+    'agent_applications.update',
+    supabase.from('agent_applications').update(payload).eq('id', id).select('*').single(),
+  );
 
   if (!result.error && result.data && payload.status) {
-    const profile = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('email', result.data.applicant_email)
-      .maybeSingle();
+    const profile = await logSupabaseQuery(
+      'profiles.agent_application_lookup',
+      supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', result.data.applicant_email)
+        .maybeSingle(),
+    );
 
     if (profile.data?.id) {
       await notifyUser(
@@ -418,27 +546,33 @@ export async function uploadProjectFile(params: {
   const safeName = params.file.name.replace(/[^\w.\-]+/g, '_');
   const storagePath = `${params.clientId}/${params.projectId ?? 'general'}/${Date.now()}-${safeName}`;
 
-  const upload = await supabase.storage.from(FILE_BUCKET).upload(storagePath, params.file, {
-    upsert: false,
-    contentType: params.file.type || undefined,
-  });
+  const upload = await logSupabaseQuery(
+    'storage.project-files.upload',
+    supabase.storage.from(FILE_BUCKET).upload(storagePath, params.file, {
+      upsert: false,
+      contentType: params.file.type || undefined,
+    }),
+  );
 
   if (upload.error) return { data: null, error: upload.error };
 
-  const record = await supabase
-    .from('project_files')
-    .insert({
-      client_id: params.clientId,
-      project_id: params.projectId ?? null,
-      file_name: params.file.name,
-      storage_path: storagePath,
-      mime_type: params.file.type || null,
-      size_bytes: params.file.size,
-      uploaded_by: params.uploadedBy,
-      file_category: params.category ?? 'project',
-    })
-    .select('*')
-    .single();
+  const record = await logSupabaseQuery(
+    'project_files.insert',
+    supabase
+      .from('project_files')
+      .insert({
+        client_id: params.clientId,
+        project_id: params.projectId ?? null,
+        file_name: params.file.name,
+        storage_path: storagePath,
+        mime_type: params.file.type || null,
+        size_bytes: params.file.size,
+        uploaded_by: params.uploadedBy,
+        file_category: params.category ?? 'project',
+      })
+      .select('*')
+      .single(),
+  );
 
   if (!record.error) {
     await notifyUser(params.clientId, 'File Uploaded', `${params.file.name} was added to your workspace.`);
@@ -449,13 +583,16 @@ export async function uploadProjectFile(params: {
 
 export async function getProjectFileUrl(storagePath: string, expiresIn = 3600) {
   ensureConfigured();
-  return supabase.storage.from(FILE_BUCKET).createSignedUrl(storagePath, expiresIn);
+  return logSupabaseQuery(
+    'storage.project-files.signed_url',
+    supabase.storage.from(FILE_BUCKET).createSignedUrl(storagePath, expiresIn),
+  );
 }
 
 export async function deleteProjectFile(fileId: string, storagePath: string) {
   ensureConfigured();
-  await supabase.storage.from(FILE_BUCKET).remove([storagePath]);
-  return supabase.from('project_files').delete().eq('id', fileId);
+  await logSupabaseQuery('storage.project-files.remove', supabase.storage.from(FILE_BUCKET).remove([storagePath]));
+  return logSupabaseQuery('project_files.delete', supabase.from('project_files').delete().eq('id', fileId));
 }
 
 export function downloadInvoiceRecord(invoice: {
@@ -495,30 +632,42 @@ export function downloadInvoiceRecord(invoice: {
 
 export async function fetchNotifications(userId: string) {
   ensureConfigured();
-  return supabase
-    .from('notifications')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
+  return logSupabaseQuery(
+    'notifications',
+    supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false }),
+  );
 }
 
 export async function markNotificationRead(id: string) {
   ensureConfigured();
-  return supabase.from('notifications').update({ read_at: new Date().toISOString() }).eq('id', id);
+  return logSupabaseQuery(
+    'notifications.mark_read',
+    supabase.from('notifications').update({ read_at: new Date().toISOString() }).eq('id', id),
+  );
 }
 
 export async function markAllNotificationsRead(userId: string) {
   ensureConfigured();
-  return supabase
-    .from('notifications')
-    .update({ read_at: new Date().toISOString() })
-    .eq('user_id', userId)
-    .is('read_at', null);
+  return logSupabaseQuery(
+    'notifications.mark_all_read',
+    supabase
+      .from('notifications')
+      .update({ read_at: new Date().toISOString() })
+      .eq('user_id', userId)
+      .is('read_at', null),
+  );
 }
 
 export async function notifyUser(userId: string, title: string, body?: string) {
   ensureConfigured();
-  return supabase.from('notifications').insert({ user_id: userId, title, body: body ?? null });
+  return logSupabaseQuery(
+    'notifications.insert',
+    supabase.from('notifications').insert({ user_id: userId, title, body: body ?? null }),
+  );
 }
 
 export function subscribeToNotifications(userId: string, onChange: () => void): RealtimeChannel {
@@ -540,10 +689,10 @@ export async function fetchExtendedClientWorkspace(userId: string) {
   ensureConfigured();
 
   const [base, proposals, threads, updates] = await Promise.all([
-    import('./api').then((m) => m.fetchClientWorkspace(userId)),
-    fetchClientProposals(userId),
-    fetchMessageThreads(userId),
-    fetchClientProjectUpdates(userId),
+    logSupabaseTask('extended_client_workspace.base', import('./api').then((m) => m.fetchClientWorkspace(userId))),
+    logSupabaseTask('extended_client_workspace.proposals', fetchClientProposals(userId)),
+    logSupabaseTask('extended_client_workspace.threads', fetchMessageThreads(userId)),
+    logSupabaseTask('extended_client_workspace.updates', fetchClientProjectUpdates(userId)),
   ]);
 
   return {
@@ -556,25 +705,37 @@ export async function fetchExtendedClientWorkspace(userId: string) {
 
 export async function updateSupportTicketStatus(id: string, status: Row<'support_tickets'>['status']) {
   ensureConfigured();
-  return supabase.from('support_tickets').update({ status }).eq('id', id).select('*').single();
+  return logSupabaseQuery(
+    'support_tickets.update_status',
+    supabase.from('support_tickets').update({ status }).eq('id', id).select('*').single(),
+  );
 }
 
 export async function updateRevisionStatus(id: string, status: Row<'revision_requests'>['status']) {
   ensureConfigured();
-  return supabase.from('revision_requests').update({ status }).eq('id', id).select('*').single();
+  return logSupabaseQuery(
+    'revision_requests.update_status',
+    supabase.from('revision_requests').update({ status }).eq('id', id).select('*').single(),
+  );
 }
 
 export async function createProjectMilestone(payload: Insert<'project_milestones'>) {
   ensureConfigured();
-  return supabase.from('project_milestones').insert(payload).select('*').single();
+  return logSupabaseQuery(
+    'project_milestones.insert',
+    supabase.from('project_milestones').insert(payload).select('*').single(),
+  );
 }
 
 export async function updateProjectMilestone(id: string, payload: Update<'project_milestones'>) {
   ensureConfigured();
-  return supabase.from('project_milestones').update(payload).eq('id', id).select('*').single();
+  return logSupabaseQuery(
+    'project_milestones.update',
+    supabase.from('project_milestones').update(payload).eq('id', id).select('*').single(),
+  );
 }
 
 export async function deleteProjectMilestone(id: string) {
   ensureConfigured();
-  return supabase.from('project_milestones').delete().eq('id', id);
+  return logSupabaseQuery('project_milestones.delete', supabase.from('project_milestones').delete().eq('id', id));
 }
