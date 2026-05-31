@@ -18,7 +18,7 @@ export function AdminRegionPreviewSwitcher({ compact = false, className }: Admin
   const location = useLocation();
   const navigate = useNavigate();
 
-  if (profile?.role !== 'admin') return null;
+  if (profile?.role !== 'admin' && profile?.role !== 'superadmin') return null;
 
   const handleRegionChange = (region: RegionCode) => {
     persistAdminRegion(region);

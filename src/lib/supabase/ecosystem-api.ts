@@ -319,6 +319,15 @@ export async function sendProposal(id: string, emailPayload?: LeadEmailPayload) 
   }
 
   const clientId = (result.data as { client_id?: string | null })?.client_id;
+  const inquiryId = (result.data as { inquiry_id?: string | null })?.inquiry_id;
+
+  if (!result.error && inquiryId) {
+    await logSupabaseQuery(
+      'proposals.update_inquiry_status',
+      supabase.from('inquiries').update({ status: 'proposal_sent' }).eq('id', inquiryId),
+    );
+  }
+
   if (!result.error && clientId) {
     await notifyUser(clientId, 'Proposal Sent', 'A new proposal is ready for your review.');
   }
@@ -337,6 +346,43 @@ export async function acceptProposal(id: string, clientId: string) {
       .eq('client_id', clientId)
       .select('*')
       .single(),
+  );
+}
+
+export async function requestProposalRevision(id: string, clientId: string, message: string) {
+  ensureConfigured();
+
+  const proposal = await logSupabaseQuery(
+    'proposals.revision_lookup',
+    supabase
+      .from('proposals')
+      .select('id, proposal_number, title, client_id, status')
+      .eq('id', id)
+      .eq('client_id', clientId)
+      .single(),
+  );
+
+  if (proposal.error || !proposal.data) return { data: null, error: proposal.error };
+
+  const nextStatus = proposal.data.status === 'sent' ? 'viewed' : proposal.data.status;
+  const update = await updateProposal(id, {
+    status: nextStatus,
+    viewed_at: new Date().toISOString(),
+  });
+
+  if (update.error) return update;
+
+  return createMessageThread(
+    {
+      client_id: clientId,
+      subject: `Proposal Revision Request: ${proposal.data.title}`,
+      status: 'open',
+    },
+    [
+      `Proposal: ${proposal.data.proposal_number}`,
+      message,
+    ].join('\n\n'),
+    clientId,
   );
 }
 

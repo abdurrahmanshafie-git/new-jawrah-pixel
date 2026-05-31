@@ -61,7 +61,7 @@ export default function About() {
           </motion.div>
 
           {/* Core Values Section for Mobile optimization */}
-          <StaggerContainer className="grid grid-cols-3 gap-3 mt-24 pt-12 border-t border-white/5">
+          <StaggerContainer className="grid grid-cols-1 min-[360px]:grid-cols-3 gap-3 mt-24 pt-12 border-t border-white/5">
             {[
               { label: 'Precision', icon: '01' },
               { label: 'Elegance', icon: '02' },

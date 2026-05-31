@@ -50,11 +50,12 @@ const BOOKING_SERVICE_ESTIMATES: Record<RegionCode, Record<string, number>> = {
 
 export function parsePriceAmount(priceLabel: string): number {
   const normalized = priceLabel.replace(/,/g, '');
-  const match = normalized.match(/(\d+(?:\.\d+)?)/);
+  const match = normalized.match(/(\d+(?:\.\d+)?)\s*([mk])?\b/i);
   if (!match) return 0;
   const value = Number(match[1]);
-  if (normalized.toLowerCase().includes('m')) return value * 1_000_000;
-  if (normalized.toLowerCase().includes('k') && value < 1000) return value * 1_000;
+  const suffix = match[2]?.toLowerCase();
+  if (suffix === 'm') return value * 1_000_000;
+  if (suffix === 'k' && value < 1000) return value * 1_000;
   return value;
 }
 

@@ -18,7 +18,7 @@ export function RootLayout() {
   return (
     <RegionRouteGuard>
       <ReferralCapture />
-      <div className="flex flex-col min-h-screen bg-brand-black">
+      <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
         {!isCountrySelection && <Navbar />}
         <main className="flex-1">
           <AnimatePresence mode="wait">
@@ -42,9 +42,9 @@ export function RootLayout() {
 
 export function AdminLayout() {
   return (
-    <div className="flex flex-col min-h-screen bg-brand-black">
+    <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
       {/* Admin header */}
-      <header className="bg-brand-navy border-b border-white/5 py-4 px-6 flex justify-between items-center z-10 relative">
+      <header className="bg-brand-navy border-b border-white/5 py-3 sm:py-4 px-4 sm:px-6 flex flex-wrap justify-between items-center gap-3 z-10 relative min-w-0">
         <div className="flex items-center gap-2">
            <Logo variant="icon" size="sm" className="w-7 h-7" />
            <span className="text-white font-display font-medium text-sm">Admin Portal</span>
@@ -66,12 +66,12 @@ export function AdminLayout() {
 export function ClientLayout() {
   const { profile } = useAuth();
   const { currentRegion } = useRegion();
-  const siteRegion = profile?.role === 'admin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
+  const siteRegion = profile?.role === 'admin' || profile?.role === 'superadmin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
 
    return (
-    <div className="flex flex-col min-h-screen bg-brand-black">
+    <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
       {/* Client header */}
-      <header className="bg-brand-navy border-b border-white/5 py-4 px-6 flex justify-between items-center z-10 relative">
+      <header className="bg-brand-navy border-b border-white/5 py-3 sm:py-4 px-4 sm:px-6 flex flex-wrap justify-between items-center gap-3 z-10 relative min-w-0">
         <div className="flex items-center gap-2">
            <Logo variant="icon" size="sm" className="w-7 h-7" />
            <span className="text-white font-display font-medium text-sm">Client Portal</span>
@@ -92,15 +92,15 @@ export function ClientLayout() {
 export function AgentLayout() {
   const { profile } = useAuth();
   const { currentRegion } = useRegion();
-  const siteRegion = profile?.role === 'admin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
+  const siteRegion = profile?.role === 'admin' || profile?.role === 'superadmin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
 
    return (
-    <div className="flex flex-col min-h-screen bg-brand-black">
+    <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
       {/* Agent header */}
-      <header className="bg-brand-navy border-b border-white/5 py-4 px-6 flex justify-between items-center z-10 relative">
+      <header className="bg-brand-navy border-b border-white/5 py-3 sm:py-4 px-4 sm:px-6 flex flex-wrap justify-between items-center gap-3 z-10 relative min-w-0">
         <div className="flex items-center gap-2">
            <Logo variant="icon" size="sm" className="w-7 h-7" />
-           <span className="text-white font-display font-medium text-sm">Agent Workspace</span>
+           <span className="text-white font-display font-medium text-sm">Partner Dashboard</span>
         </div>
         <div className="flex items-center gap-4">
            <AdminRegionPreviewSwitcher compact />

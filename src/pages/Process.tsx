@@ -292,7 +292,7 @@ export default function Process() {
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-8">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-8">
             {plans.map((plan) => (
               <StaggerItem key={plan.name} className={`glass-card p-4 sm:p-6 md:p-8 rounded-2xl border flex flex-col justify-between ${plan.glow}`}>
                 <div className="space-y-3 sm:space-y-4">

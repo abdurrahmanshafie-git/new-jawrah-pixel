@@ -801,7 +801,7 @@ export default function Contact() {
                         >
                           <h3 className="text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">03. Corporate Relationship Coordinator</h3>
                           
-                          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-5">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                             <div className="space-y-1.5">
                               <label className="text-xs font-mono text-brand-silver uppercase">Full Coordinator Name *</label>
                               <Input {...register('name', { required: 'Name is strictly required' })} placeholder="e.g. Johnathan Ross" className="bg-brand-navy/20 border-white/10 text-xs" />
@@ -814,7 +814,7 @@ export default function Contact() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-5">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                             <div className="space-y-1.5">
                               <label className="text-xs font-mono text-brand-silver uppercase flex justify-between">
                                 WhatsApp Contact Phone
@@ -963,7 +963,7 @@ export default function Contact() {
                       <div className="pt-2 space-y-4">
                         <h3 className="text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">03. Partners Consultation Registration Details</h3>
                         
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                           <div className="space-y-1.5">
                             <label className="text-xs font-mono text-brand-silver uppercase">Your Full Name *</label>
                             <Input 
@@ -987,7 +987,7 @@ export default function Contact() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                           <div className="space-y-1.5">
                             <label className="text-xs font-mono text-brand-silver uppercase">WhatsApp Contact Line</label>
                             <Input 
@@ -1008,7 +1008,7 @@ export default function Contact() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                           <div className="space-y-1.5 col-span-2">
                             <label className="text-xs font-mono text-brand-silver uppercase">Meeting Agenda Category</label>
                             <select 

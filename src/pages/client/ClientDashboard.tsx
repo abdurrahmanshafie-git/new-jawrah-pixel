@@ -496,14 +496,14 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="pt-28 pb-20 min-h-screen bg-brand-black text-white relative font-sans">
+    <div className="pt-28 pb-20 min-h-screen bg-brand-black text-white relative font-sans overflow-x-hidden">
       <SEO 
         title="Premium Project Workspace" 
         description="Dynamic client collaboration terminal. Track project milestones, submit revisions, download invoices, schedule meetings, and chat with design experts." 
       />
 
       {/* Floating toasts container */}
-      <div className="fixed top-24 right-6 space-y-3 z-50 max-w-sm pointer-events-none">
+      <div className="fixed top-20 left-3 right-3 sm:top-24 sm:right-6 sm:left-auto space-y-3 z-50 max-w-sm pointer-events-none">
         {toasts.map((t) => (
           <div 
             key={t.id} 
@@ -519,7 +519,7 @@ export default function ClientDashboard() {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl min-w-0">
 
         {portalError && !sandboxMode && (
           <div className="mb-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 text-amber-200 text-xs font-mono uppercase tracking-wider">
@@ -536,15 +536,16 @@ export default function ClientDashboard() {
         {/* UPPER TITLE HEADER BLOCK */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10 mb-8">
           <div>
-            <div className="flex items-center gap-3 mb-1">
-              <span className="px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan font-mono text-[9px] uppercase tracking-widest font-bold">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
+              <span className="px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan font-mono text-[9px] uppercase tracking-widest font-bold shrink-0">
                 CLIENT PORTAL
               </span>
-              <div className="text-[10px] text-brand-gray font-mono uppercase tracking-widest flex items-center gap-1">
-                <ShieldCheck size={12} className="text-brand-cyan" /> 256-bit Document Vault Enabled
+              <div className="text-[9px] sm:text-[10px] text-brand-gray font-mono uppercase tracking-widest flex items-center gap-1 min-w-0">
+                <ShieldCheck size={12} className="text-brand-cyan shrink-0" />
+                <span className="truncate">256-bit Document Vault Enabled</span>
               </div>
             </div>
-            <h1 className="text-3xl font-display font-semibold uppercase tracking-tight text-white mb-1">
+            <h1 className="text-2xl sm:text-3xl font-display font-semibold uppercase tracking-tight text-white mb-1 break-words">
               Welcome, {profile?.full_name || user?.email || 'Valued Partner'}
             </h1>
             <p className="text-xs text-brand-gray font-light">
@@ -599,7 +600,7 @@ export default function ClientDashboard() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
+                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3 sm:p-3.5 min-h-[44px] rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
                     isActive 
                       ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]' 
                       : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
@@ -620,7 +621,7 @@ export default function ClientDashboard() {
           </div>
 
           {/* RIGHT: CONTENT PANEL DISPLAY */}
-          <div className="lg:col-span-9 glass-card p-6 md:p-8 rounded-2xl relative bg-white/[0.01] border-white/10 min-h-[480px]">
+          <div className="lg:col-span-9 glass-card p-4 sm:p-6 md:p-8 rounded-2xl relative bg-white/[0.01] border-white/10 min-h-[480px] min-w-0 overflow-hidden">
             
             {loading ? (
               <div className="py-24 flex flex-col items-center justify-center text-brand-cyan gap-4">

@@ -18,7 +18,8 @@ const Process = lazy(() => import('./pages/Process'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
 const Contact = lazy(() => import('./pages/Contact'));
-const Agents = lazy(() => import('./pages/Agents'));
+const Partner = lazy(() => import('./pages/Partner'));
+const AgentsRedirect = lazy(() => import('./pages/Agents'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const Blog = lazy(() => import('./pages/Blog'));
@@ -47,7 +48,7 @@ function RegionalRedirect({ path = '/' }: { path?: string }) {
   if (user && !profile) return <SleekLoader />;
 
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
-  const region = profile?.role === 'admin'
+  const region = profile?.role === 'admin' || profile?.role === 'superadmin'
     ? getSavedAdminRegion() ?? profileRegion ?? getSavedRegion()
     : user && profileRegion ? profileRegion : getSavedRegion();
   return <Navigate to={region ? regionPath(region, path) : '/'} replace />;
@@ -74,7 +75,8 @@ export default function App() {
               <Route path="/lk/case-studies" element={<CaseStudies />} />
               <Route path="/lk/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/lk/contact" element={<Contact />} />
-              <Route path="/lk/agents" element={<Agents />} />
+              <Route path="/lk/partner" element={<Partner />} />
+              <Route path="/lk/agents" element={<AgentsRedirect />} />
               <Route path="/lk/privacy" element={<Privacy />} />
               <Route path="/lk/terms" element={<Terms />} />
               <Route path="/lk/blog" element={<Blog />} />
@@ -88,7 +90,8 @@ export default function App() {
               <Route path="/pk/case-studies" element={<CaseStudies />} />
               <Route path="/pk/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/pk/contact" element={<Contact />} />
-              <Route path="/pk/agents" element={<Agents />} />
+              <Route path="/pk/partner" element={<Partner />} />
+              <Route path="/pk/agents" element={<AgentsRedirect />} />
               <Route path="/pk/privacy" element={<Privacy />} />
               <Route path="/pk/terms" element={<Terms />} />
               <Route path="/pk/blog" element={<Blog />} />
@@ -102,7 +105,8 @@ export default function App() {
               <Route path="/int/case-studies" element={<CaseStudies />} />
               <Route path="/int/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/int/contact" element={<Contact />} />
-              <Route path="/int/agents" element={<Agents />} />
+              <Route path="/int/partner" element={<Partner />} />
+              <Route path="/int/agents" element={<AgentsRedirect />} />
               <Route path="/int/privacy" element={<Privacy />} />
               <Route path="/int/terms" element={<Terms />} />
               <Route path="/int/blog" element={<Blog />} />
@@ -115,7 +119,9 @@ export default function App() {
               <Route path="/process" element={<RegionalRedirect path="/process" />} />
               <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
               <Route path="/contact" element={<RegionalRedirect path="/contact" />} />
-              <Route path="/agents" element={<RegionalRedirect path="/agents" />} />
+              <Route path="/partner" element={<RegionalRedirect path="/partner" />} />
+              <Route path="/agents" element={<RegionalRedirect path="/partner" />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to root which redirects to region if exists */}
               <Route path="*" element={<Navigate to="/" replace />} />
@@ -126,7 +132,7 @@ export default function App() {
             <Route path="/signup" element={<SignUp />} />
 
             {/* Admin Routes */}
-            <Route element={<RequireAuth roles={['admin']}><AdminLayout /></RequireAuth>}>
+            <Route element={<RequireAuth roles={['admin', 'superadmin']}><AdminLayout /></RequireAuth>}>
               <Route path="/admin" element={<AdminDashboard />} />
             </Route>
 
@@ -141,10 +147,11 @@ export default function App() {
               element={<RequireAuth roles={['client', 'admin']}><CheckoutRedirect /></RequireAuth>}
             />
 
-            {/* Agent Routes */}
+            {/* Partner Routes (agent role in database) */}
             <Route element={<RequireAuth roles={['agent', 'admin']}><AgentLayout /></RequireAuth>}>
-              <Route path="/agent" element={<Navigate to="/agent/dashboard" replace />} />
-              <Route path="/agent/dashboard" element={<AgentDashboard />} />
+              <Route path="/partner/dashboard" element={<AgentDashboard />} />
+              <Route path="/agent" element={<Navigate to="/partner/dashboard" replace />} />
+              <Route path="/agent/dashboard" element={<Navigate to="/partner/dashboard" replace />} />
             </Route>
           </Routes>
         </Suspense>

@@ -71,14 +71,14 @@ export function nextTierProgress(completedPaidProjects: number): {
 export function tierCardsForRegion(region: RegionCode) {
   const currency = regionCurrency(region);
   return AGENT_TIER_DEFINITIONS.map((tier) => ({
-    level: `${tier.label} Tier`,
+    level: `${tier.label} Partner`,
     volume:
       tier.maxProjects === null
-        ? `${tier.minProjects}+ completed paid projects`
-        : `${tier.minProjects}–${tier.maxProjects} completed paid projects`,
-    budget: 'Paid & completed projects only',
-    rate: `${tier.rateLabel} Commission`,
-    reward: `Commission in ${currency}`,
+        ? `${tier.minProjects}+ Paid Projects`
+        : `${tier.minProjects}–${tier.maxProjects} Paid Projects`,
+    budget: 'Only paid/completed projects count',
+    rate: tier.rateLabel,
+    reward: `Commissions paid in ${currency}`,
     focus:
       'Only paid and completed client projects count toward your tier. Inquiries, meetings, rejected leads, unpaid, and cancelled projects are excluded.',
     color:

@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { fetchBusinessAnalytics } from '@/lib/supabase/ecosystem-api';
-import {
-  findFirstSupabaseQueryError,
-  getSupabaseErrorMessage,
-  logSupabaseQuery,
-  logSupabaseTask,
-  withSupabaseQueryContext,
-} from '@/lib/supabase/query-debug';
+import { getSupabaseErrorMessage, logSupabaseQuery, logSupabaseTask } from '@/lib/supabase/query-debug';
 import { AdminAnalyticsExtras, AdminEcosystemPanels } from '@/components/ecosystem/AdminEcosystemPanels';
-import { AdminAgentNetworkPanel } from '@/components/ecosystem/AdminAgentNetworkPanel';
+import { ADMIN_AGENT_WORKSPACE_TABS, AdminAgentNetworkPanel } from '@/components/ecosystem/AdminAgentNetworkPanel';
 import { AdminInvoiceCreatePanel } from '@/components/ecosystem/AdminInvoiceCreatePanel';
 import { BillingPdfActions } from '@/components/billing/BillingPdfActions';
 import { adminApproveManualPayment } from '@/lib/supabase/billing-api';
+import { adminFetchAgents } from '@/lib/supabase/agent-api';
 import { formatCurrencyAmount } from '@/lib/billing/format';
 import { paymentStatusLabel } from '@/lib/billing/calculations';
 import { CRM_PIPELINE, PROJECT_LIFECYCLE } from '@/lib/platform/ecosystem';
@@ -51,12 +46,100 @@ interface Toast {
   type: 'success' | 'error' | 'info';
 }
 
+type AdminWorkspace = 'client' | 'agent';
+
+interface AgentWorkspaceData {
+  agents: any[];
+  leads: any[];
+  commissions: any[];
+  payouts: any[];
+  referrals: any[];
+  tierHistory: any[];
+}
+
+const emptyAgentWorkspace: AgentWorkspaceData = {
+  agents: [],
+  leads: [],
+  commissions: [],
+  payouts: [],
+  referrals: [],
+  tierHistory: [],
+};
+
+const CLIENT_DEFAULT_TAB = 'crm';
+const AGENT_DEFAULT_TAB = ADMIN_AGENT_WORKSPACE_TABS[0];
+const CLIENT_TAB_IDS = [
+  'crm',
+  'leads',
+  'projects',
+  'proposals',
+  'invoices',
+  'files',
+  'messages',
+  'notifications',
+  'analytics',
+] as const;
+const ADMIN_WORKSPACE_STORAGE_KEY = 'jawrah.admin.workspace';
+const ADMIN_CLIENT_TAB_STORAGE_KEY = 'jawrah.admin.clientOperationsTab';
+const ADMIN_AGENT_TAB_STORAGE_KEY = 'jawrah.admin.agentNetworkTab';
+
+function formatFileSize(size?: number | string | null) {
+  const bytes = Number(size || 0);
+  if (!bytes) return 'Size unavailable';
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024)).toLocaleString()} KB`;
+}
+
+function storageAvailable() {
+  return typeof window !== 'undefined' && Boolean(window.localStorage);
+}
+
+function isClientTab(tab: string | null): tab is typeof CLIENT_TAB_IDS[number] {
+  return Boolean(tab && CLIENT_TAB_IDS.includes(tab as typeof CLIENT_TAB_IDS[number]));
+}
+
+function isAgentTab(tab: string | null): tab is typeof ADMIN_AGENT_WORKSPACE_TABS[number] {
+  return Boolean(tab && ADMIN_AGENT_WORKSPACE_TABS.includes(tab as typeof ADMIN_AGENT_WORKSPACE_TABS[number]));
+}
+
+function getStoredWorkspace(): AdminWorkspace {
+  if (!storageAvailable()) return 'client';
+  return window.localStorage.getItem(ADMIN_WORKSPACE_STORAGE_KEY) === 'agent' ? 'agent' : 'client';
+}
+
+function getStoredWorkspaceTab(workspace: AdminWorkspace) {
+  if (!storageAvailable()) return workspace === 'client' ? CLIENT_DEFAULT_TAB : AGENT_DEFAULT_TAB;
+  const stored = window.localStorage.getItem(
+    workspace === 'client' ? ADMIN_CLIENT_TAB_STORAGE_KEY : ADMIN_AGENT_TAB_STORAGE_KEY,
+  );
+  if (workspace === 'client') return isClientTab(stored) ? stored : CLIENT_DEFAULT_TAB;
+  return isAgentTab(stored) ? stored : AGENT_DEFAULT_TAB;
+}
+
+function persistWorkspaceSelection(workspace: AdminWorkspace, tab: string) {
+  if (!storageAvailable()) return;
+  window.localStorage.setItem(ADMIN_WORKSPACE_STORAGE_KEY, workspace);
+  window.localStorage.setItem(
+    workspace === 'client' ? ADMIN_CLIENT_TAB_STORAGE_KEY : ADMIN_AGENT_TAB_STORAGE_KEY,
+    tab,
+  );
+}
+
+async function safeDashboardTask<T>(task: Promise<T>): Promise<{ data: T | null; error: unknown | null }> {
+  try {
+    return { data: await task, error: null };
+  } catch (error: unknown) {
+    return { data: null, error };
+  }
+}
+
 export default function AdminDashboard() {
   const { profile, user } = useAuth();
   const { config } = useRegion();
   
-  // Tab control states: 'analytics' | 'leads' | 'bookings' | 'clients' | 'projects' | 'settings'
-  const [activeTab, setActiveTab] = useState<string>('analytics');
+  // Workspace and tab control states stay client-side so switching never reloads the dashboard.
+  const [activeWorkspace, setActiveWorkspace] = useState<AdminWorkspace>(() => getStoredWorkspace());
+  const [activeTab, setActiveTab] = useState<string>(() => getStoredWorkspaceTab(getStoredWorkspace()));
   
   // System State Lists
   const [inquiries, setInquiries] = useState<any[]>([]);
@@ -64,10 +147,14 @@ export default function AdminDashboard() {
   const [projects, setProjects] = useState<any[]>([]);
   const [clients, setClients] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<any[]>([]);
+  const [projectFiles, setProjectFiles] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [agentWorkspace, setAgentWorkspace] = useState<AgentWorkspaceData>(emptyAgentWorkspace);
   const [chatbotLeads, setChatbotLeads] = useState<any[]>([]);
   const [supportTickets, setSupportTickets] = useState<any[]>([]);
   const [analytics, setAnalytics] = useState<any>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [resourceErrors, setResourceErrors] = useState<Record<string, string>>({});
   
   // Loading & Action states
   const [loading, setLoading] = useState(true);
@@ -78,6 +165,7 @@ export default function AdminDashboard() {
   
   // MODAL States for CRUD
   const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<any | null>(null);
   
   // Project Form States
@@ -88,33 +176,84 @@ export default function AdminDashboard() {
   const [projectDeadline, setProjectDeadline] = useState('');
   const [projectNotes, setProjectNotes] = useState('');
   const [projectClientId, setProjectClientId] = useState('');
+  const [leadForm, setLeadForm] = useState({
+    full_name: '',
+    email: '',
+    whatsapp: '',
+    business_name: '',
+    service_interested: '',
+    budget_range: '',
+    message: '',
+    region: config.id as RegionCode,
+  });
 
   // Toast trigger utility
-  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 4000);
-  };
+  }, []);
+
+  const userRole = String(profile?.role || '');
+  const hasAdminRole = userRole === 'admin' || userRole === 'superadmin';
+  const canAccessClientOperations = hasAdminRole;
+  const canAccessAgentNetwork = userRole === 'admin' || userRole === 'superadmin';
+  const canAccessActiveWorkspace =
+    activeWorkspace === 'client' ? canAccessClientOperations : canAccessAgentNetwork;
 
   useEffect(() => {
     loadAllDashboardData();
   }, []);
 
+  useEffect(() => {
+    persistWorkspaceSelection(activeWorkspace, activeTab);
+  }, [activeWorkspace, activeTab]);
+
+  useEffect(() => {
+    if (activeWorkspace === 'agent' && !canAccessAgentNetwork && canAccessClientOperations) {
+      const fallbackTab = getStoredWorkspaceTab('client');
+      setActiveWorkspace('client');
+      setActiveTab(fallbackTab);
+    }
+  }, [activeWorkspace, canAccessAgentNetwork, canAccessClientOperations]);
+
   const loadAllDashboardData = async () => {
     setLoading(true);
     setLoadError(null);
+    setResourceErrors({});
 
     if (!isSupabaseConfigured) {
-      setLoadError('Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+      const message = 'Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.';
+      setLoadError(message);
+      setResourceErrors({ workspace: message });
+      setLoading(false);
+      return;
+    }
+
+    if (!canAccessClientOperations && !canAccessAgentNetwork) {
+      const message = `Admin access is required. Your active role is "${profile?.role || 'Guest'}".`;
+      setLoadError(message);
+      setResourceErrors({ workspace: message });
       setLoading(false);
       return;
     }
 
     try {
-      const [leadsRes, projectsRes, clientsRes, analyticsRes, bookingsRes, invoicesRes, chatbotRes, ticketsRes] =
-        await Promise.all([
+      const [
+        leadsRes,
+        projectsRes,
+        clientsRes,
+        analyticsRes,
+        bookingsRes,
+        invoicesRes,
+        filesRes,
+        notificationsRes,
+        chatbotRes,
+        ticketsRes,
+        agentWorkspaceRes,
+      ] = await Promise.all([
           logSupabaseQuery(
             'admin_dashboard.inquiries',
             supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
@@ -130,7 +269,7 @@ export default function AdminDashboard() {
             'admin_dashboard.profiles',
             supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
           ),
-          logSupabaseTask('admin_dashboard.business_analytics', fetchBusinessAnalytics()),
+          safeDashboardTask(logSupabaseTask('admin_dashboard.business_analytics', fetchBusinessAnalytics())),
           logSupabaseQuery(
             'admin_dashboard.bookings',
             supabase.from('bookings').select('*').order('created_at', { ascending: false }),
@@ -140,6 +279,22 @@ export default function AdminDashboard() {
             supabase
               .from('invoices')
               .select('*, client:profiles(full_name, email)')
+              .order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.project_files',
+            supabase
+              .from('project_files')
+              .select(
+                '*, client:profiles!project_files_client_id_fkey(full_name, email), project:projects!project_files_project_id_fkey(title)',
+              )
+              .order('created_at', { ascending: false }),
+          ),
+          logSupabaseQuery(
+            'admin_dashboard.notifications',
+            supabase
+              .from('notifications')
+              .select('*, user:profiles(full_name, email, role)')
               .order('created_at', { ascending: false }),
           ),
           logSupabaseQuery(
@@ -153,32 +308,54 @@ export default function AdminDashboard() {
               .select('*, client:profiles(full_name, email)')
               .order('created_at', { ascending: false }),
           ),
+          safeDashboardTask(logSupabaseTask('admin_dashboard.agent_workspace', adminFetchAgents())),
         ]);
 
-      const firstError = findFirstSupabaseQueryError([
-        { table: 'admin_dashboard.inquiries', error: leadsRes.error },
-        { table: 'admin_dashboard.projects', error: projectsRes.error },
-        { table: 'admin_dashboard.profiles', error: clientsRes.error },
-        { table: 'admin_dashboard.bookings', error: bookingsRes.error },
-        { table: 'admin_dashboard.invoices', error: invoicesRes.error },
-        { table: 'admin_dashboard.chatbot_leads', error: chatbotRes.error },
-        { table: 'admin_dashboard.support_tickets', error: ticketsRes.error },
-      ]);
-
-      if (firstError?.error) throw withSupabaseQueryContext(firstError.table, firstError.error);
+      const nextErrors: Record<string, string> = {};
+      [
+        ['inquiries', leadsRes.error],
+        ['projects', projectsRes.error],
+        ['clients', clientsRes.error],
+        ['analytics', analyticsRes.error],
+        ['bookings', bookingsRes.error],
+        ['invoices', invoicesRes.error],
+        ['projectFiles', filesRes.error],
+        ['notifications', notificationsRes.error],
+        ['chatbotLeads', chatbotRes.error],
+        ['supportTickets', ticketsRes.error],
+        ['agentWorkspace', agentWorkspaceRes.error || agentWorkspaceRes.data?.error],
+      ].forEach(([key, error]) => {
+        if (error) nextErrors[String(key)] = getSupabaseErrorMessage(error);
+      });
 
       setInquiries(leadsRes.data ?? []);
       setProjects(projectsRes.data ?? []);
       setClients(clientsRes.data ?? []);
-      setAnalytics(analyticsRes);
+      setAnalytics(analyticsRes.data);
       setBookings(bookingsRes.data ?? []);
       setInvoices(invoicesRes.data ?? []);
+      setProjectFiles(filesRes.data ?? []);
+      setNotifications(notificationsRes.data ?? []);
       setChatbotLeads(chatbotRes.data ?? []);
       setSupportTickets(ticketsRes.data ?? []);
+      setAgentWorkspace({
+        agents: agentWorkspaceRes.data?.agents ?? [],
+        leads: agentWorkspaceRes.data?.leads ?? [],
+        commissions: agentWorkspaceRes.data?.commissions ?? [],
+        payouts: agentWorkspaceRes.data?.payouts ?? [],
+        referrals: agentWorkspaceRes.data?.referrals ?? [],
+        tierHistory: agentWorkspaceRes.data?.tierHistory ?? [],
+      });
+
+      setResourceErrors(nextErrors);
+      const firstMessage = Object.values(nextErrors)[0] ?? null;
+      setLoadError(firstMessage);
+      if (firstMessage) showToast('Some admin data could not be loaded.', 'error');
     } catch (error: unknown) {
       console.error('ADMIN DASHBOARD ERROR:', error);
       const message = getSupabaseErrorMessage(error);
       setLoadError(message);
+      setResourceErrors({ workspace: message });
       showToast(message, 'error');
     } finally {
       setLoading(false);
@@ -323,17 +500,237 @@ export default function AdminDashboard() {
     }
   };
 
-  const hasAdminRole = profile?.role === 'admin';
+  const resetLeadForm = () => {
+    setLeadForm({
+      full_name: '',
+      email: '',
+      whatsapp: '',
+      business_name: '',
+      service_interested: '',
+      budget_range: '',
+      message: '',
+      region: regionFilter === 'all' ? config.id : regionFilter,
+    });
+  };
+
+  const handleCreateLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadForm.full_name.trim() || !leadForm.email.trim() || !leadForm.service_interested.trim()) {
+      showToast('Name, email, and project type are required.', 'error');
+      return;
+    }
+
+    try {
+      const { error } = await logSupabaseQuery(
+        'admin_dashboard.inquiries.insert',
+        supabase.from('inquiries').insert({
+          full_name: leadForm.full_name.trim(),
+          email: leadForm.email.trim(),
+          whatsapp: leadForm.whatsapp.trim() || null,
+          phone: leadForm.whatsapp.trim() || null,
+          business_name: leadForm.business_name.trim() || null,
+          company: leadForm.business_name.trim() || null,
+          service_interested: leadForm.service_interested.trim(),
+          inquiry_type: 'project',
+          budget_range: leadForm.budget_range.trim() || null,
+          message: leadForm.message.trim() || null,
+          source_page: leadForm.region,
+          region: leadForm.region,
+          country: config.countryName,
+          status: 'new',
+          notes: 'Created from Admin Workspace',
+        }),
+      );
+      if (error) throw error;
+      showToast('Lead added.');
+      resetLeadForm();
+      setLeadModalOpen(false);
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const totalClientLeads = inquiries.length + chatbotLeads.length;
+  const activeClientIds = new Set(
+    projects
+      .filter((project) => !['completed', 'delivered', 'cancelled'].includes(project.status))
+      .map((project) => project.client_id)
+      .filter(Boolean),
+  );
+  const activeClientProjects = projects.filter(
+    (project) => !['completed', 'delivered', 'cancelled'].includes(project.status),
+  );
+  const clientRevenue = Number(
+    analytics?.paidRevenue ?? analytics?.contractedRevenue ?? analytics?.totalRevenue ?? 0,
+  );
+
+  const visibleAgents =
+    regionFilter === 'all'
+      ? agentWorkspace.agents
+      : agentWorkspace.agents.filter((agent) => agent.region === regionFilter);
+  const visibleAgentIds = new Set(visibleAgents.map((agent) => agent.user_id));
+  const visibleAgentLeads =
+    regionFilter === 'all'
+      ? agentWorkspace.leads
+      : agentWorkspace.leads.filter((lead) => lead.region === regionFilter || visibleAgentIds.has(lead.agent_id));
+  const visibleAgentCommissions =
+    regionFilter === 'all'
+      ? agentWorkspace.commissions
+      : agentWorkspace.commissions.filter((commission) => visibleAgentIds.has(commission.agent_id));
+  const visibleAgentPayouts =
+    regionFilter === 'all'
+      ? agentWorkspace.payouts
+      : agentWorkspace.payouts.filter((payout) => visibleAgentIds.has(payout.agent_id));
+  const visibleAgentReferrals =
+    regionFilter === 'all'
+      ? agentWorkspace.referrals
+      : agentWorkspace.referrals.filter(
+          (referral) => referral.region === regionFilter || visibleAgentIds.has(referral.agent_id),
+        );
+  const approvedAgents = visibleAgents.filter((agent) => agent.status === 'approved');
+  const pendingApplications = visibleAgents.filter((agent) => ['pending', 'interview'].includes(agent.status)).length;
+  const monthlyReferrals = visibleAgentReferrals.filter(
+    (referral) => referral.created_at?.slice(0, 7) === new Date().toISOString().slice(0, 7),
+  ).length;
+  const commissionsDue = visibleAgentCommissions
+    .filter((commission) => commission.status === 'pending' || commission.status === 'approved')
+    .reduce((sum, commission) => sum + Number(commission.commission_amount || 0), 0);
+  const totalPayouts = visibleAgentPayouts
+    .filter((payout) => payout.status === 'completed')
+    .reduce((sum, payout) => sum + Number(payout.amount || 0), 0);
+  const topAgent = approvedAgents.reduce<any | null>((current, agent) => {
+    if (!current) return agent;
+    return Number(agent.completed_paid_projects || 0) > Number(current.completed_paid_projects || 0)
+      ? agent
+      : current;
+  }, null);
+  const topAgentName =
+    topAgent?.profiles?.full_name || topAgent?.profiles?.agent_code || topAgent?.profiles?.email || 'N/A';
+
+  const clientOperationTabs = [
+    { id: 'crm', label: 'CRM', count: inquiries.length, icon: Users },
+    { id: 'leads', label: 'Leads', count: totalClientLeads, icon: FileText },
+    { id: 'projects', label: 'Projects', count: projects.length, icon: Briefcase },
+    { id: 'proposals', label: 'Proposals', icon: FileText },
+    { id: 'invoices', label: 'Invoices', count: invoices.length, icon: DollarSign },
+    { id: 'files', label: 'Files', count: projectFiles.length, icon: FileText },
+    { id: 'messages', label: 'Messages', icon: MessageSquare },
+    { id: 'notifications', label: 'Notifications', count: notifications.length, icon: MessageSquare },
+    { id: 'analytics', label: 'Analytics', icon: Activity },
+  ];
+
+  const agentNetworkTabs = [
+    { id: 'agent-applications', label: 'Agent Applications', count: pendingApplications, icon: Users },
+    { id: 'approved-agents', label: 'Approved Agents', count: approvedAgents.length, icon: Users },
+    { id: 'referral-tracking', label: 'Referral Tracking', count: visibleAgentLeads.length, icon: Activity },
+    { id: 'commission-management', label: 'Commission Management', count: visibleAgentCommissions.length, icon: DollarSign },
+    { id: 'payout-management', label: 'Payout Management', count: visibleAgentPayouts.length, icon: DollarSign },
+    { id: 'agent-messages', label: 'Agent Messages', icon: MessageSquare },
+    { id: 'tier-history', label: 'Tier History', count: agentWorkspace.tierHistory.length, icon: Activity },
+    { id: 'agent-analytics', label: 'Agent Analytics', icon: Activity },
+  ];
+
+  const workspaceTabs = activeWorkspace === 'client' ? clientOperationTabs : agentNetworkTabs;
+  const workspaceKpis =
+    activeWorkspace === 'client'
+      ? [
+          { title: 'Total Leads', val: totalClientLeads, desc: 'CRM and lead capture' },
+          { title: 'Active Clients', val: activeClientIds.size, desc: 'Clients in delivery' },
+          { title: 'Active Projects', val: analytics?.activeProjects ?? activeClientProjects.length, desc: 'Current operations' },
+          { title: 'Revenue', val: `${config.currencySymbol}${clientRevenue.toLocaleString()}`, desc: 'Paid revenue' },
+          { title: 'Conversion Rate', val: `${analytics?.conversionRate ?? 0}%`, desc: 'Lead to win ratio' },
+        ]
+      : [
+          { title: 'Approved Agents', val: approvedAgents.length, desc: 'Active network partners' },
+          { title: 'Pending Applications', val: pendingApplications, desc: 'Awaiting review' },
+          { title: 'Monthly Referrals', val: monthlyReferrals, desc: 'This month' },
+          { title: 'Commissions Due', val: `${config.currencySymbol}${commissionsDue.toLocaleString()}`, desc: 'Pending or approved' },
+          { title: 'Total Payouts', val: `${config.currencySymbol}${totalPayouts.toLocaleString()}`, desc: 'Completed payouts' },
+          { title: 'Top Performing Agent', val: topAgentName, desc: 'Paid project count' },
+        ];
+
+  const tabErrorSources: Record<string, string[]> = {
+    crm: ['inquiries'],
+    leads: ['inquiries', 'chatbotLeads'],
+    projects: ['projects'],
+    proposals: [],
+    invoices: ['invoices'],
+    files: ['projectFiles'],
+    messages: [],
+    notifications: ['notifications'],
+    analytics: ['analytics', 'inquiries', 'projects', 'invoices'],
+    'agent-applications': ['agentWorkspace'],
+    'approved-agents': ['agentWorkspace'],
+    'referral-tracking': ['agentWorkspace'],
+    'commission-management': ['agentWorkspace'],
+    'payout-management': ['agentWorkspace'],
+    'agent-messages': ['agentWorkspace'],
+    'tier-history': ['agentWorkspace'],
+    'agent-analytics': ['agentWorkspace'],
+  };
+  const activeTabErrors = (tabErrorSources[activeTab] ?? ['workspace'])
+    .map((key) => resourceErrors[key])
+    .filter(Boolean);
+  const activeTabLabel = workspaceTabs.find((tab) => tab.id === activeTab)?.label || 'Workspace';
+  const workspaceAccessMessage =
+    activeWorkspace === 'agent'
+      ? 'Agent Network requires admin or superadmin access.'
+      : 'Client Operations requires admin access.';
+
+  const renderTabLoading = (label = activeTabLabel) => (
+    <div className="py-24 flex flex-col items-center justify-center text-brand-cyan gap-4">
+      <Loader className="animate-spin" size={36} />
+      <span className="text-xs font-mono uppercase tracking-widest text-brand-gray">
+        Loading {label}...
+      </span>
+    </div>
+  );
+
+  const renderTabError = (message: string) => (
+    <div className="mb-6 p-4 rounded-xl border border-red-500/30 bg-red-500/5 text-red-300 text-xs font-mono uppercase tracking-wider">
+      {message}
+    </div>
+  );
+
+  const renderEmptyState = (message: string, className = '') => (
+    <p className={`text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center ${className}`}>
+      {message}
+    </p>
+  );
+
+  const handleWorkspaceChange = (workspace: AdminWorkspace) => {
+    if (workspace === 'client' && !canAccessClientOperations) {
+      showToast('Client Operations requires admin access.', 'error');
+      return;
+    }
+    if (workspace === 'agent' && !canAccessAgentNetwork) {
+      showToast('Agent Network requires admin or superadmin access.', 'error');
+      return;
+    }
+    setActiveWorkspace(workspace);
+    setActiveTab(getStoredWorkspaceTab(workspace));
+  };
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+  };
+
+  const activateWorkspaceTab = (workspace: AdminWorkspace, tabId: string) => {
+    handleWorkspaceChange(workspace);
+    if (workspace === 'client' && canAccessClientOperations) setActiveTab(tabId);
+    if (workspace === 'agent' && canAccessAgentNetwork) setActiveTab(tabId);
+  };
 
   return (
-    <div className="pt-28 pb-20 min-h-screen bg-brand-black text-white relative font-sans">
+    <div className="pt-28 pb-20 min-h-screen bg-brand-black text-white relative font-sans overflow-x-hidden">
       <SEO 
         title="Admin CMS Operations Platform" 
         description="Full-suite database synchronization, bookings overview, client revision trackers, and client CRM controller." 
       />
 
       {/* Floating toasts render */}
-      <div className="fixed top-24 right-6 space-y-3 z-50 max-w-sm pointer-events-none">
+      <div className="fixed top-20 left-3 right-3 sm:top-24 sm:right-6 sm:left-auto space-y-3 z-50 max-w-sm pointer-events-none">
         {toasts.map((t) => (
           <div 
             key={t.id} 
@@ -349,7 +746,7 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl min-w-0">
         
         {/* UPPER TITLE HEADER BAR */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10 mb-8">
@@ -392,34 +789,111 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        <div className="mb-8 space-y-4">
+          <div className="p-2 bg-brand-black/40 border border-white/5 rounded-2xl flex flex-col sm:flex-row gap-2">
+            {[
+              { id: 'client' as AdminWorkspace, label: 'Client Operations', allowed: canAccessClientOperations },
+              { id: 'agent' as AdminWorkspace, label: 'Partner Network', allowed: canAccessAgentNetwork },
+            ].map((workspace) => {
+              const isActive = activeWorkspace === workspace.id;
+              return (
+                <button
+                  key={workspace.id}
+                  type="button"
+                  disabled={!workspace.allowed}
+                  onClick={() => handleWorkspaceChange(workspace.id)}
+                  className={`flex-1 p-3.5 rounded-xl border transition-all text-left ${
+                    isActive
+                      ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]'
+                      : workspace.allowed
+                        ? 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
+                        : 'border-white/5 bg-transparent text-brand-gray opacity-50 cursor-not-allowed'
+                  }`}
+                >
+                  <span className="block text-[10px] sm:text-xs uppercase font-mono tracking-wider">
+                    {workspace.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
+            {workspaceKpis.map((card) => (
+              <div key={card.title} className="p-4 sm:p-5 bg-brand-black/60 border border-white/5 rounded-xl hover:border-white/10 transition-colors">
+                <div className="text-[9px] font-mono text-brand-gray uppercase tracking-widest">{card.title}</div>
+                <div className="text-xl sm:text-2xl font-mono font-bold text-white tracking-tight mt-2 leading-tight break-words">
+                  {card.val}
+                </div>
+                <p className="text-[9px] sm:text-[10px] text-brand-gray font-light font-sans mt-1">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canAccessClientOperations}
+              onClick={() => {
+                resetLeadForm();
+                setLeadModalOpen(true);
+              }}
+              className="uppercase font-mono text-[10px] tracking-wider border-white/10"
+            >
+              <Plus size={14} className="mr-1" /> Add Lead
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canAccessClientOperations}
+              onClick={() => activateWorkspaceTab('client', 'proposals')}
+              className="uppercase font-mono text-[10px] tracking-wider border-white/10"
+            >
+              Create Proposal
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canAccessClientOperations}
+              onClick={() => activateWorkspaceTab('client', 'invoices')}
+              className="uppercase font-mono text-[10px] tracking-wider border-white/10"
+            >
+              Create Invoice
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canAccessAgentNetwork}
+              onClick={() => activateWorkspaceTab('agent', 'agent-applications')}
+              className="uppercase font-mono text-[10px] tracking-wider border-white/10"
+            >
+              Review Agent Applications
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!canAccessAgentNetwork}
+              onClick={() => activateWorkspaceTab('agent', 'payout-management')}
+              className="uppercase font-mono text-[10px] tracking-wider border-white/10"
+            >
+              Process Payouts
+            </Button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* NAVIGATION CONTROL RAIL */}
           <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-            {[
-              { id: 'analytics', label: 'Analytics Console', icon: Activity },
-              { id: 'crm', label: 'Agency CRM', count: inquiries.length, icon: Users },
-              { id: 'leads', label: 'Leads (Inquiries)', count: inquiries.length, icon: FileText },
-              { id: 'tracking', label: 'Project Tracking', count: projects.length, icon: Briefcase },
-              { id: 'bookings', label: 'Strategy Bookings', count: bookings.length, icon: Calendar },
-              { id: 'clients', label: 'Client CRM', count: clients.length, icon: Users },
-              { id: 'projects', label: 'Project Portfolio', count: projects.length, icon: Briefcase },
-              { id: 'proposals', label: 'Proposals', icon: FileText },
-              { id: 'invoices', label: 'Invoices & Payments', count: invoices.length, icon: DollarSign },
-              { id: 'agents', label: 'Agent Applications', icon: Users },
-              { id: 'agent-network', label: 'Agent Network', icon: Users },
-              { id: 'messages', label: 'Messaging', icon: MessageSquare },
-              { id: 'chatbot', label: 'Chatbot Leads', count: chatbotLeads.length, icon: MessageSquare },
-              { id: 'support', label: 'Support Tickets', count: supportTickets.length, icon: ShieldAlert },
-              { id: 'settings', label: 'System Settings', icon: Settings }
-            ].map((tab) => {
+            {workspaceTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3 sm:p-3.5 min-h-[44px] rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
                     isActive 
                       ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]' 
                       : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
@@ -440,21 +914,20 @@ export default function AdminDashboard() {
           </div>
 
           {/* MAIN DYNAMIC CMS CONTAINER */}
-          <div className="lg:col-span-9 glass-card p-6 md:p-8 rounded-2xl relative bg-white/[0.01] border-white/10 min-h-[500px]">
-            
-            {loadError && !loading && (
-              <div className="mb-6 p-4 rounded-xl border border-red-500/30 bg-red-500/5 text-red-300 text-xs font-mono uppercase tracking-wider">
-                {loadError}
+          <div className="lg:col-span-9 glass-card p-4 sm:p-6 md:p-8 rounded-2xl relative bg-white/[0.01] border-white/10 min-h-[500px] min-w-0 overflow-hidden">
+            {!canAccessActiveWorkspace ? (
+              <div className="py-24 flex flex-col items-center justify-center text-amber-500 gap-4 text-center">
+                <ShieldAlert size={36} />
+                <span className="text-xs font-mono uppercase tracking-widest text-brand-gray">
+                  {workspaceAccessMessage}
+                </span>
               </div>
-            )}
-
-            {loading ? (
-              <div className="py-24 flex flex-col items-center justify-center text-brand-cyan gap-4">
-                <Loader className="animate-spin" size={36} />
-                <span className="text-xs font-mono uppercase tracking-widest text-brand-gray">Extracting tables...</span>
-              </div>
+            ) : loading ? (
+              renderTabLoading()
             ) : (
               <div>
+                {activeTabErrors.map((message) => renderTabError(message))}
+                {loadError && activeTabErrors.length === 0 && renderTabError(loadError)}
                 
                 {/* 1. ANALYTICS CONSOLE TAB */}
                 {activeTab === 'analytics' && (
@@ -470,7 +943,7 @@ export default function AdminDashboard() {
                         { title: 'Total Leads', val: analytics?.totalLeads || 0, growth: '+12%', desc: 'Inquiries across regions', icon: FileText, color: 'text-brand-cyan' },
                         { title: 'Active Projects', val: analytics?.activeProjects || 0, growth: 'Stable', desc: 'Current dev operations', icon: Briefcase, color: 'text-brand-blue' },
                         { title: 'New Inquiries', val: analytics?.newInquiries || 0, growth: 'High', desc: 'Unprocessed opportunities', icon: MessageSquare, color: 'text-purple-400' },
-                        { title: 'Total Revenue', val: `${config.currencySymbol}${(analytics?.totalRevenue || 0).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-emerald-400' }
+                        { title: 'Total Revenue', val: `${config.currencySymbol}${(Number(analytics?.paidRevenue ?? analytics?.contractedRevenue ?? 0)).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-emerald-400' }
                       ].map((card, cIdx) => {
                         const Icon = card.icon;
                         return (
@@ -520,6 +993,7 @@ export default function AdminDashboard() {
                     </div>
 
                     <AdminAnalyticsExtras analytics={analytics} />
+                    {!analytics && renderEmptyState('No analytics data available yet.')}
                   </div>
                 )}
 
@@ -539,6 +1013,7 @@ export default function AdminDashboard() {
                   regionFilter={regionFilter}
                   showToast={showToast}
                   adminUserId={user?.id}
+                  onReload={loadAllDashboardData}
                 />
 
                 {/* 2. LEADS (INQUIRIES) TAB */}
@@ -568,15 +1043,13 @@ export default function AdminDashboard() {
 
                     <div className="space-y-4">
                       {inquiries.filter((inq) => regionFilter === 'all' || inq.region === regionFilter).length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No inquiries yet for this filter.
-                        </p>
+                        renderEmptyState('No inquiries yet for this filter.')
                       )}
                       {inquiries
                         .filter(inq => regionFilter === 'all' || inq.region === regionFilter)
                         .map((inq) => (
                         <div key={inq.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl hover:border-brand-cyan/10 transition-colors relative group">
-                          <div className="absolute top-4 right-4 flex gap-2">
+                          <div className="flex flex-wrap gap-2 mb-3 sm:absolute sm:top-4 sm:right-4">
                             {CRM_PIPELINE.map((st) => (
                               <button
                                 key={st}
@@ -623,9 +1096,7 @@ export default function AdminDashboard() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {clients.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center col-span-full">
-                          No registered clients yet.
-                        </p>
+                        renderEmptyState('No registered clients yet.', 'col-span-full')
                       )}
                       {clients.map((client) => (
                         <div key={client.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex items-center gap-4">
@@ -679,7 +1150,50 @@ export default function AdminDashboard() {
                       </Button>
                     </div>
 
-                    <div className="border border-white/5 rounded-xl overflow-hidden bg-brand-black/20 overflow-x-auto">
+                    <div className="md:hidden space-y-3">
+                      {projects.length === 0 && (
+                        <p className="p-8 text-center text-xs text-brand-gray font-mono uppercase tracking-widest border border-white/5 rounded-xl">
+                          No projects in portfolio yet.
+                        </p>
+                      )}
+                      {projects.map((proj) => (
+                        <div key={proj.id} className="p-4 rounded-xl border border-white/5 bg-brand-black/40 space-y-3">
+                          <div className="min-w-0">
+                            <div className="text-xs font-semibold text-white uppercase tracking-wider break-words">{proj.title}</div>
+                            <div className="text-[10px] text-brand-gray mt-0.5">{proj.service_type}</div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 text-[10px] font-mono uppercase">
+                            <div>
+                              <span className="text-brand-gray block mb-0.5">Client</span>
+                              <span className="text-brand-silver truncate block">{proj.client?.full_name || 'N/A'}</span>
+                            </div>
+                            <div>
+                              <span className="text-brand-gray block mb-0.5">Price</span>
+                              <span className="text-brand-cyan">{config.currency} {Number(proj.price || 0).toLocaleString()}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-mono uppercase ${
+                              proj.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                              proj.status === 'development' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
+                              'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                            }`}>
+                              {proj.status}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <button onClick={() => handleEditProjectClick(proj)} className="p-2.5 min-h-[44px] min-w-[44px] rounded bg-white/5 hover:bg-brand-cyan/15 text-brand-gray hover:text-brand-cyan transition-colors">
+                                <Edit size={14} />
+                              </button>
+                              <button onClick={() => handleDeleteProject(proj.id)} className="p-2.5 min-h-[44px] min-w-[44px] rounded bg-white/5 hover:bg-red-500/15 text-brand-gray hover:text-red-400 transition-colors">
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="hidden md:block border border-white/5 rounded-xl overflow-hidden bg-brand-black/20 overflow-x-auto">
                       <table className="w-full text-left border-collapse">
                         <thead>
                           <tr className="border-b border-white/10 bg-white/[0.03]">
@@ -749,9 +1263,7 @@ export default function AdminDashboard() {
 
                     <div className="space-y-4">
                       {bookings.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No strategy bookings scheduled yet.
-                        </p>
+                        renderEmptyState('No strategy bookings scheduled yet.')
                       )}
                       {bookings.map((book) => (
                         <div key={book.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex flex-col sm:flex-row justify-between sm:items-center gap-6">
@@ -802,9 +1314,7 @@ export default function AdminDashboard() {
 
                     <div className="space-y-4">
                       {invoices.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No invoices issued yet.
-                        </p>
+                        renderEmptyState('No invoices issued yet.')
                       )}
                       {invoices.map((inv) => (
                         <div key={inv.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex flex-col sm:flex-row justify-between gap-4">
@@ -861,7 +1371,90 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* 7. CHATBOT LEADS TAB */}
+                {/* 7. FILES TAB */}
+                {activeTab === 'files' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Files</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Project files, contracts, invoices, proposals, and client assets.</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      {projectFiles.length === 0 && (
+                        renderEmptyState('No files uploaded yet.')
+                      )}
+                      {projectFiles.map((file) => (
+                        <div key={file.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl flex flex-col sm:flex-row justify-between gap-4">
+                          <div>
+                            <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">
+                              {file.file_category || 'project'}
+                            </span>
+                            <h3 className="text-sm font-bold text-white uppercase tracking-wider mt-1">{file.file_name}</h3>
+                            <p className="text-[10px] text-brand-gray font-mono lowercase mt-1">
+                              {file.client?.full_name || 'Client unavailable'} / {file.project?.title || 'No linked project'}
+                            </p>
+                          </div>
+                          <div className="text-right space-y-1">
+                            <div className="text-xs font-mono text-brand-cyan">{formatFileSize(file.size_bytes)}</div>
+                            <div className="text-[10px] font-mono uppercase text-brand-gray">
+                              {file.mime_type || 'Unknown type'}
+                            </div>
+                            <div className="text-[10px] font-mono text-brand-silver">
+                              {file.created_at?.split('T')[0] || 'No date'}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 8. NOTIFICATIONS TAB */}
+                {activeTab === 'notifications' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Notifications</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Client and platform notifications generated across the workspace.</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      {notifications.length === 0 && (
+                        renderEmptyState('No notifications issued yet.')
+                      )}
+                      {notifications.map((note) => (
+                        <div
+                          key={note.id}
+                          className={`p-5 border rounded-xl ${
+                            note.read_at
+                              ? 'bg-brand-black/60 border-white/5'
+                              : 'bg-brand-cyan/5 border-brand-cyan/20'
+                          }`}
+                        >
+                          <div className="flex justify-between gap-4 flex-wrap">
+                            <div>
+                              <h3 className="text-sm font-semibold text-white uppercase tracking-wider">{note.title}</h3>
+                              <p className="text-xs text-brand-silver mt-2">{note.body || 'No notification body.'}</p>
+                              <div className="flex flex-wrap gap-4 pt-2 text-[10px] font-mono text-brand-gray uppercase">
+                                <span>User: {note.user?.full_name || note.user?.email || 'N/A'}</span>
+                                <span>Role: {note.user?.role || 'client'}</span>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[10px] font-mono uppercase text-brand-cyan block">
+                                {note.read_at ? 'Read' : 'Unread'}
+                              </span>
+                              <span className="text-[10px] font-mono text-brand-gray block mt-1">
+                                {note.created_at?.split('T')[0] || 'No date'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 9. CHATBOT LEADS TAB */}
                 {activeTab === 'chatbot' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
@@ -871,9 +1464,7 @@ export default function AdminDashboard() {
 
                     <div className="space-y-4">
                       {chatbotLeads.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No chatbot leads captured yet.
-                        </p>
+                        renderEmptyState('No chatbot leads captured yet.')
                       )}
                       {chatbotLeads.map((lead) => (
                         <div key={lead.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl">
@@ -906,7 +1497,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* 8. SUPPORT TICKETS TAB */}
+                {/* 10. SUPPORT TICKETS TAB */}
                 {activeTab === 'support' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
@@ -915,9 +1506,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="space-y-4">
                       {supportTickets.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No support tickets logged yet.
-                        </p>
+                        renderEmptyState('No support tickets logged yet.')
                       )}
                       {supportTickets.map((ticket) => (
                         <div key={ticket.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl">
@@ -934,7 +1523,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* 9. SETTINGS TAB */}
+                {/* 11. SETTINGS TAB */}
                 {activeTab === 'settings' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
@@ -960,23 +1549,103 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* LEAD MODAL */}
+      {leadModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-4">
+          <div className="absolute inset-0 bg-brand-black/90 backdrop-blur-sm" onClick={() => setLeadModalOpen(false)}></div>
+          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto overscroll-contain bg-brand-navy/90 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl animate-scale-in">
+            <button
+              onClick={() => setLeadModalOpen(false)}
+              className="absolute top-4 right-4 p-1.5 bg-white/5 hover:bg-white/10 rounded-full text-brand-gray hover:text-white transition-colors cursor-pointer"
+            >
+              <X size={16} />
+            </button>
+            <h2 className="text-xl sm:text-2xl font-display font-semibold uppercase text-white mb-4 sm:mb-6 pr-8">
+              Add Lead
+            </h2>
+
+            <form onSubmit={handleCreateLead} className="space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Contact Person</label>
+                  <Input value={leadForm.full_name} onChange={(e) => setLeadForm((p) => ({ ...p, full_name: e.target.value }))} placeholder="Client name" className="bg-black/40 border-white/5 text-xs" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Email</label>
+                  <Input type="email" value={leadForm.email} onChange={(e) => setLeadForm((p) => ({ ...p, email: e.target.value }))} placeholder="client@email.com" className="bg-black/40 border-white/5 text-xs" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Business Name</label>
+                  <Input value={leadForm.business_name} onChange={(e) => setLeadForm((p) => ({ ...p, business_name: e.target.value }))} placeholder="Company" className="bg-black/40 border-white/5 text-xs" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">WhatsApp / Phone</label>
+                  <Input value={leadForm.whatsapp} onChange={(e) => setLeadForm((p) => ({ ...p, whatsapp: e.target.value }))} placeholder="+94..." className="bg-black/40 border-white/5 text-xs" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Project Type</label>
+                  <Input value={leadForm.service_interested} onChange={(e) => setLeadForm((p) => ({ ...p, service_interested: e.target.value }))} placeholder="Premium Website" className="bg-black/40 border-white/5 text-xs" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Region</label>
+                  <select
+                    value={leadForm.region}
+                    onChange={(e) => setLeadForm((p) => ({ ...p, region: e.target.value as RegionCode }))}
+                    className="w-full h-10 bg-black/40 border border-white/5 rounded px-3 py-2 text-xs font-mono text-white focus:outline-none"
+                  >
+                    {REGION_OPTIONS.map((region) => (
+                      <option key={region.id} value={region.id}>{region.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Budget Range</label>
+                <Input value={leadForm.budget_range} onChange={(e) => setLeadForm((p) => ({ ...p, budget_range: e.target.value }))} placeholder="Budget range" className="bg-black/40 border-white/5 text-xs" />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Requirements</label>
+                <Textarea value={leadForm.message} onChange={(e) => setLeadForm((p) => ({ ...p, message: e.target.value }))} placeholder="Initial project notes..." className="bg-black/40 border-white/5 text-xs min-h-[100px]" />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <Button type="button" variant="outline" onClick={() => setLeadModalOpen(false)} className="uppercase font-mono text-[10px] tracking-widest border-white/10">
+                  Cancel
+                </Button>
+                <Button type="submit" className="uppercase font-mono text-[10px] tracking-widest luxury-glow font-bold">
+                  Save Lead
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* PROJECT MODAL */}
       {projectModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-4">
           <div className="absolute inset-0 bg-brand-black/90 backdrop-blur-sm" onClick={() => setProjectModalOpen(false)}></div>
-          <div className="relative w-full max-w-xl bg-brand-navy/90 border border-white/10 p-8 rounded-3xl shadow-2xl animate-scale-in">
+          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto overscroll-contain bg-brand-navy/90 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl animate-scale-in">
             <button 
               onClick={() => setProjectModalOpen(false)}
               className="absolute top-4 right-4 p-1.5 bg-white/5 hover:bg-white/10 rounded-full text-brand-gray hover:text-white transition-colors cursor-pointer"
             >
               <X size={16} />
             </button>
-            <h2 className="text-2xl font-display font-semibold uppercase text-white mb-6">
+            <h2 className="text-xl sm:text-2xl font-display font-semibold uppercase text-white mb-4 sm:mb-6 pr-8">
               {editingProject ? 'Revise Project Node' : 'Initialize New Project'}
             </h2>
             
             <form onSubmit={handleSaveProject} className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Project Title</label>
                   <Input value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} placeholder="e.g. AeroVista Flagship" className="bg-black/40 border-white/5 text-xs" />
@@ -987,7 +1656,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Client</label>
                   <select 
@@ -1005,7 +1674,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest">Status Matrix</label>
                   <select 

@@ -42,6 +42,13 @@ export function generateInvoiceNumber(region: PaymentRegion): string {
   return `${prefix}-${Date.now().toString(36).toUpperCase()}`;
 }
 
+function paymentTitle(intent: PaymentModalIntent | undefined, percent: DepositPercent): string {
+  if (intent === 'advance_10') return '10% Advance';
+  if (intent === 'deposit_50') return '50% Deposit';
+  if (percent === 100) return 'Full Payment';
+  return `${percent}% Deposit`;
+}
+
 export async function runDepositCheckout(params: CheckoutParams): Promise<CheckoutResult> {
   const depositAmount = calculateDeposit(params.totalAmount, params.depositPercent);
   let invoiceId = params.existingInvoiceId ?? '';
@@ -64,7 +71,7 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
       guest_name: params.guestName ?? null,
       project_id: params.projectId ?? null,
       invoice_number: invoiceNumberNew,
-      title: `${params.serviceName} — ${params.depositPercent}% Deposit`,
+      title: `${params.serviceName} - ${paymentTitle(params.intent, params.depositPercent)}`,
       amount: billing.amount_due_now,
       currency: params.currency,
       status: 'pending',

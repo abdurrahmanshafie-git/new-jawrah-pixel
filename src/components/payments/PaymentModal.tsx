@@ -149,7 +149,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-3 sm:p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -161,7 +161,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            className="relative w-full max-w-lg bg-brand-navy/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg max-h-[92vh] bg-brand-navy/95 border border-white/10 rounded-t-2xl sm:rounded-3xl shadow-2xl overflow-hidden"
           >
             <button
               type="button"
@@ -184,7 +184,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
 
               {step === 'form' && (
                 <div className="space-y-5">
-                  <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-brand-black/50 border border-white/5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-brand-black/50 border border-white/5">
                     <div>
                       <span className="text-[9px] font-mono text-brand-gray uppercase block">Project Total</span>
                       <span className="text-sm font-mono text-white font-bold">{formatMoney(totalAmount, currency)}</span>
@@ -200,7 +200,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                       <label className="text-[10px] font-mono text-brand-gray uppercase tracking-widest block mb-2">
                         Deposit Percentage
                       </label>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {DEPOSIT_OPTIONS.map((p) => (
                           <button
                             key={p}

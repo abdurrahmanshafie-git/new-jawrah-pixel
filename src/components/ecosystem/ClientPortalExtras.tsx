@@ -15,6 +15,7 @@ import {
   markAllNotificationsRead,
   downloadInvoiceRecord,
   markNotificationRead,
+  requestProposalRevision,
   sendThreadMessage,
   uploadProjectFile,
 } from '@/lib/supabase/ecosystem-api';
@@ -63,7 +64,7 @@ export function ClientOverviewExtras({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: 'Active Projects', val: active.length },
           { label: 'Pending Projects', val: pending.length },
@@ -127,6 +128,31 @@ export function ClientProposalsPanel({
   showToast,
   onReload,
 }: Pick<ClientPortalExtrasProps, 'proposals' | 'userId' | 'showToast' | 'onReload'>) {
+  const [revisionProposalId, setRevisionProposalId] = useState<string | null>(null);
+  const [revisionMessage, setRevisionMessage] = useState('');
+  const [revisionSubmitting, setRevisionSubmitting] = useState(false);
+
+  const submitRevisionRequest = async (proposalId: string) => {
+    if (!revisionMessage.trim()) {
+      showToast('Add revision notes before sending.', 'info');
+      return;
+    }
+
+    setRevisionSubmitting(true);
+    const { error } = await requestProposalRevision(proposalId, userId, revisionMessage.trim());
+    setRevisionSubmitting(false);
+
+    if (error) {
+      showToast(error.message, 'error');
+      return;
+    }
+
+    showToast('Revision request sent.');
+    setRevisionProposalId(null);
+    setRevisionMessage('');
+    onReload();
+  };
+
   return (
     <div className="space-y-4">
       {proposals.map((proposal) => (
@@ -140,13 +166,47 @@ export function ClientProposalsPanel({
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-[10px] font-mono uppercase text-brand-cyan">{proposal.status}</span>
-              {proposal.status === 'sent' && (
-                <Button size="sm" className="text-[9px] font-mono uppercase" onClick={() => acceptProposal(proposal.id, userId).then(() => { showToast('Proposal accepted.'); onReload(); })}>
-                  Accept Proposal
-                </Button>
+              {(proposal.status === 'sent' || proposal.status === 'viewed') && (
+                <>
+                  <Button size="sm" className="text-[9px] font-mono uppercase" onClick={() => acceptProposal(proposal.id, userId).then(() => { showToast('Proposal accepted.'); onReload(); })}>
+                    Accept Proposal
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-[9px] font-mono uppercase"
+                    onClick={() => setRevisionProposalId(revisionProposalId === proposal.id ? null : proposal.id)}
+                  >
+                    Request Revision
+                  </Button>
+                </>
               )}
             </div>
           </div>
+          {revisionProposalId === proposal.id && (
+            <form
+              className="mt-4 pt-4 border-t border-white/5 space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void submitRevisionRequest(proposal.id);
+              }}
+            >
+              <Textarea
+                value={revisionMessage}
+                onChange={(e) => setRevisionMessage(e.target.value)}
+                placeholder="Revision request"
+                className="text-xs min-h-[90px]"
+              />
+              <Button
+                type="submit"
+                size="sm"
+                className="text-[9px] font-mono uppercase"
+                disabled={revisionSubmitting}
+              >
+                Send Revision Request
+              </Button>
+            </form>
+          )}
         </div>
       ))}
       {proposals.length === 0 && <p className="text-xs text-brand-gray font-mono uppercase tracking-widest">No proposals yet.</p>}
@@ -388,7 +448,7 @@ export function ClientProjectsPanel({
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
                 { label: 'Last Update', value: lastUpdate?.title || 'Awaiting team update' },
                 { label: 'Assigned Team', value: proj.assignee?.full_name || 'Jawrah Pixel Team' },
@@ -417,7 +477,7 @@ export function ClientProjectsPanel({
             </div>
 
             {projectMilestones.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-white/5">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-white/5">
                 {projectMilestones.map((ms: any, idx: number) => (
                   <div key={ms.id} className="p-3 rounded-xl border border-white/5 bg-white/[0.02]">
                     <span className="text-[10px] font-mono text-brand-gray">{String(idx + 1).padStart(2, '0')}</span>

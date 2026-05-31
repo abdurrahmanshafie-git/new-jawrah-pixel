@@ -207,7 +207,7 @@ as $$
   select p.id, p.agent_code, p.region
   from public.profiles p
   where p.agent_code = upper(trim(p_code))
-    and p.role in ('agent', 'admin')
+    and p.role in ('agent', 'admin', 'superadmin')
     and p.agent_status = 'approved'
   limit 1;
 $$;

@@ -1,4 +1,4 @@
-export type Role = 'client' | 'admin' | 'agent';
+export type Role = 'client' | 'admin' | 'agent' | 'superadmin';
 export type RegionCode = 'lk' | 'pk' | 'int';
 
 export interface Profile {

@@ -87,12 +87,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Error fetching profile:', error);
       } else {
         setProfile(data);
-        if (data?.role === 'admin' && !getSavedAdminRegion()) {
+        if ((data?.role === 'admin' || data?.role === 'superadmin') && !getSavedAdminRegion()) {
           const initialAdminRegion = isRegionCode(data.region) ? data.region : getSavedRegion();
           if (initialAdminRegion) {
             persistAdminRegion(initialAdminRegion);
           }
-        } else if (data?.role !== 'admin' && isRegionCode(data?.region)) {
+        } else if (data?.role !== 'admin' && data?.role !== 'superadmin' && isRegionCode(data?.region)) {
           persistRegion(data.region);
         }
       }

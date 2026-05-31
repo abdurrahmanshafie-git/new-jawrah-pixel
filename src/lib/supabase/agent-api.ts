@@ -11,6 +11,13 @@ import {
   regionCurrency,
   type AgentTier,
 } from '@/lib/agent/tiers';
+import {
+  formatPartnerId,
+  generateReferralCodeFromName,
+  isUrlSafeReferralCode,
+  normalizeReferralCode,
+  partnerStatusLabel,
+} from '@/lib/partner/ids';
 import type { RegionCode } from '@/types';
 import { logSupabaseQuery } from './query-debug';
 
@@ -44,21 +51,55 @@ export interface ApplyAsAgentInput {
   whatsapp?: string | null;
   region: RegionCode;
   location: string;
+  country?: string | null;
+  city?: string | null;
   profileLink?: string | null;
   experience: string;
   message?: string | null;
   userId: string;
 }
 
+async function nextPartnerSequence(region: RegionCode): Promise<number> {
+  const { count } = await supabase
+    .from('agent_profiles')
+    .select('id', { count: 'exact', head: true })
+    .eq('region', region);
+  return (count ?? 0) + 1001;
+}
+
+async function generateUniqueReferralCode(seedName: string): Promise<string> {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const candidate =
+      attempt === 0
+        ? generateReferralCodeFromName(seedName)
+        : `${generateReferralCodeFromName(seedName)}${attempt}`;
+    const normalized = normalizeReferralCode(candidate);
+    const { data } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('agent_code', normalized)
+      .maybeSingle();
+    if (!data) return normalized;
+  }
+  return normalizeReferralCode(`JP${Date.now().toString(36).toUpperCase()}`);
+}
+
+export { partnerStatusLabel };
+
 export async function applyAsAgent(input: ApplyAsAgentInput) {
   ensureConfigured();
 
+  const country = input.country?.trim() || input.region.toUpperCase();
+  const city = input.city?.trim() || input.location;
+
   const fullMessage = `
---- AGENT NETWORK APPLICATION ---
-Location: ${input.location}
-Profile/LinkedIn Link: ${input.profileLink || 'None Provided'}
-Sales / Marketing Experience: ${input.experience}
-Applicant Message: ${input.message || 'No extra notes.'}
+--- PARTNER NETWORK APPLICATION ---
+Country: ${country}
+City: ${city}
+Location Hub: ${input.location}
+LinkedIn: ${input.profileLink || 'None Provided'}
+Experience: ${input.experience}
+Why Partner: ${input.message || 'No additional notes.'}
   `.trim();
 
   const { data: inquiry, error: inquiryError } = await submitInquiry(
@@ -66,8 +107,8 @@ Applicant Message: ${input.message || 'No extra notes.'}
       full_name: input.name.trim(),
       email: input.email.trim(),
       whatsapp: input.whatsapp?.trim() || null,
-      business_name: `Agent Application - ${input.location}`,
-      service_interested: 'Agent Application',
+      business_name: `Partner Application - ${city}`,
+      service_interested: 'Partner Application',
       inquiry_type: 'collaboration',
       budget_range: 'Referral Program',
       message: fullMessage,
@@ -81,11 +122,11 @@ Applicant Message: ${input.message || 'No extra notes.'}
       email: input.email.trim(),
       whatsapp: input.whatsapp?.trim() || null,
       region: input.region,
-      service: 'Agent Application',
+      service: 'Partner Application',
       budget: 'Referral Program',
       goals: input.experience,
       message: input.message || undefined,
-      formType: 'Agent Application',
+      formType: 'Partner Application',
       userId: input.userId,
       platform: getClientPlatform(),
       requirements: fullMessage,
@@ -519,12 +560,24 @@ export async function adminFetchAgents(region?: RegionCode | 'all') {
     query = query.eq('region', region);
   }
 
-  const [agents, leads, commissions] = await Promise.all([
+  const [agents, leads, commissions, payouts, referrals, tierHistory] = await Promise.all([
     logSupabaseQuery('admin.agent_profiles', query),
     logSupabaseQuery('admin.agent_leads', supabase.from('agent_leads').select('*').order('created_at', { ascending: false })),
     logSupabaseQuery(
       'admin.agent_commissions',
       supabase.from('agent_commissions').select('*').order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'admin.agent_payouts',
+      supabase.from('agent_payouts').select('*').order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'admin.agent_referrals',
+      supabase.from('agent_referrals').select('*').order('created_at', { ascending: false }),
+    ),
+    logSupabaseQuery(
+      'admin.agent_tier_history',
+      supabase.from('agent_tier_history').select('*').order('created_at', { ascending: false }),
     ),
   ]);
 
@@ -532,7 +585,16 @@ export async function adminFetchAgents(region?: RegionCode | 'all') {
     agents: agents.data ?? [],
     leads: leads.data ?? [],
     commissions: commissions.data ?? [],
-    error: agents.error || leads.error || commissions.error,
+    payouts: payouts.data ?? [],
+    referrals: referrals.data ?? [],
+    tierHistory: tierHistory.data ?? [],
+    error:
+      agents.error ||
+      leads.error ||
+      commissions.error ||
+      payouts.error ||
+      referrals.error ||
+      tierHistory.error,
   };
 }
 
@@ -586,16 +648,38 @@ export async function adminUpdateAgentStatus(
   );
 
   const profilePatch: Record<string, unknown> = { agent_status: status };
+  let partnerId: string | undefined;
+  let referralCode: string | undefined;
+
   if (status === 'approved') {
     profilePatch.role = 'agent';
     const { data: existingProfile } = await supabase
       .from('profiles')
-      .select('agent_code')
+      .select('agent_code, full_name, region')
       .eq('id', userId)
       .single();
+
+    const agentRegion = (agentProfileRes.data?.region ??
+      (existingProfile?.region as RegionCode | undefined) ??
+      'lk') as RegionCode;
+    const sequence = await nextPartnerSequence(agentRegion);
+    partnerId = formatPartnerId(agentRegion, sequence);
+
     if (!existingProfile?.agent_code) {
-      profilePatch.agent_code = `JP${userId.replace(/-/g, '').slice(0, 8).toUpperCase()}`;
+      referralCode = await generateUniqueReferralCode(existingProfile?.full_name ?? 'Partner');
+      profilePatch.agent_code = referralCode;
+    } else {
+      referralCode = existingProfile.agent_code;
     }
+
+    const profileUpdates: Record<string, unknown> = {
+      partner_id: partnerId,
+      updated_at: new Date().toISOString(),
+    };
+    await logSupabaseQuery(
+      'agent_profiles.partner_id',
+      supabase.from('agent_profiles').update(profileUpdates).eq('user_id', userId),
+    );
   }
   if (status === 'rejected' || status === 'suspended') {
     profilePatch.role = 'client';
@@ -628,8 +712,8 @@ export async function adminUpdateAgentStatus(
 
   await notifyUser(
     userId,
-    'Agent Application Update',
-    `Your partner application status is now: ${status}.`,
+    'Partner Application Update',
+    `Your partner application status is now: ${partnerStatusLabel(status)}.`,
   );
 
   if (status === 'approved') {
@@ -638,7 +722,8 @@ export async function adminUpdateAgentStatus(
       email: profile?.email ?? undefined,
       name: profile?.full_name ?? undefined,
       region: profile?.region ?? undefined,
-      agentCode: profile?.agent_code ?? undefined,
+      agentCode: referralCode ?? profile?.agent_code ?? undefined,
+      partnerId,
     });
   } else if (status === 'rejected') {
     void sendAgentEmailNotification({
@@ -647,9 +732,80 @@ export async function adminUpdateAgentStatus(
       name: profile?.full_name ?? undefined,
       region: profile?.region ?? undefined,
     });
+  } else if (status === 'interview') {
+    void sendAgentEmailNotification({
+      emailType: 'agent_application_needs_info',
+      email: profile?.email ?? undefined,
+      name: profile?.full_name ?? undefined,
+      region: profile?.region ?? undefined,
+      message: 'Our team needs additional information to continue reviewing your partner application.',
+    });
   }
 
   return agentProfileRes;
+}
+
+export async function updatePartnerReferralCode(userId: string, nextCode: string) {
+  ensureConfigured();
+  const normalized = normalizeReferralCode(nextCode);
+  if (!isUrlSafeReferralCode(normalized)) {
+    return { error: new Error('Referral code must be unique, URL-safe, and 3–32 characters.'), data: null };
+  }
+
+  const { data: agentProfile } = await supabase
+    .from('agent_profiles')
+    .select('status, referral_code_customized')
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  if (agentProfile?.status !== 'approved') {
+    return { error: new Error('Referral codes can only be customized after approval.'), data: null };
+  }
+
+  const { data: taken } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('agent_code', normalized)
+    .neq('id', userId)
+    .maybeSingle();
+
+  if (taken) return { error: new Error('This referral code is already in use.'), data: null };
+
+  const result = await logSupabaseQuery(
+    'profiles.referral_code',
+    supabase.from('profiles').update({ agent_code: normalized }).eq('id', userId).select('agent_code').single(),
+  );
+
+  if (!result.error) {
+    await supabase
+      .from('agent_profiles')
+      .update({ referral_code_customized: true, updated_at: new Date().toISOString() })
+      .eq('user_id', userId);
+  }
+
+  return result;
+}
+
+export async function adminOverridePartnerReferralCode(userId: string, nextCode: string) {
+  ensureConfigured();
+  const normalized = normalizeReferralCode(nextCode);
+  if (!isUrlSafeReferralCode(normalized)) {
+    return { error: new Error('Referral code must be URL-safe.'), data: null };
+  }
+
+  const { data: taken } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('agent_code', normalized)
+    .neq('id', userId)
+    .maybeSingle();
+
+  if (taken) return { error: new Error('This referral code is already in use.'), data: null };
+
+  return logSupabaseQuery(
+    'profiles.admin_referral_code',
+    supabase.from('profiles').update({ agent_code: normalized }).eq('id', userId).select('agent_code').single(),
+  );
 }
 
 export async function adminUpdateAgentLeadStatus(leadId: string, status: AgentLeadStatus) {

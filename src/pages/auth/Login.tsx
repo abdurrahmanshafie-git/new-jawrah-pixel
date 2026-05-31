@@ -34,12 +34,12 @@ export default function Login() {
       if (error) throw error;
 
       const { data: profileData } = await getProfileRole(data.user.id);
-      if (profileData?.role === 'admin' && !getSavedAdminRegion()) {
+      if ((profileData?.role === 'admin' || profileData?.role === 'superadmin') && !getSavedAdminRegion()) {
         const initialAdminRegion = isRegionCode(profileData.region) ? profileData.region : getSavedRegion();
         if (initialAdminRegion) {
           persistAdminRegion(initialAdminRegion);
         }
-      } else if (profileData?.role !== 'admin' && isRegionCode(profileData?.region)) {
+      } else if (profileData?.role !== 'admin' && profileData?.role !== 'superadmin' && isRegionCode(profileData?.region)) {
         persistRegion(profileData.region);
       }
 
@@ -47,10 +47,10 @@ export default function Login() {
 
       if (requestedPath) {
         navigate(requestedPath);
-      } else if (profileData?.role === 'admin') {
+      } else if (profileData?.role === 'admin' || profileData?.role === 'superadmin') {
         navigate('/admin');
       } else if (profileData?.role === 'agent') {
-        navigate('/agent/dashboard');
+        navigate('/partner/dashboard');
       } else {
         navigate('/dashboard');
       }

@@ -40,8 +40,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     },
     agents: {
       ...BASE,
-      path: '/agents',
-      title: 'Agent Network Sri Lanka | Jawrah Pixel',
+      path: '/partner',
+      title: 'Become a Jawrah Pixel Partner | Sri Lanka',
       description: 'Join the Jawrah Pixel partner network in Sri Lanka and earn commission on referred projects.',
     },
     about: {
@@ -100,8 +100,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     },
     agents: {
       ...BASE,
-      path: '/agents',
-      title: 'Agent Network Pakistan | Jawrah Pixel',
+      path: '/partner',
+      title: 'Become a Jawrah Pixel Partner | Pakistan',
       description: 'Join the Jawrah Pixel partner network in Pakistan and earn commission on referred projects.',
     },
     about: {
@@ -160,8 +160,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     },
     agents: {
       ...BASE,
-      path: '/agents',
-      title: 'Global Partner Network | Jawrah Pixel',
+      path: '/partner',
+      title: 'Become a Jawrah Pixel Partner | International',
       description: 'Join the Jawrah Pixel international partner network and earn USD commissions.',
     },
     about: {

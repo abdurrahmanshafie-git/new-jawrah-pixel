@@ -16,6 +16,7 @@ export type AgentEmailType =
   | 'agent_application_admin_alert'
   | 'agent_application_approved'
   | 'agent_application_rejected'
+  | 'agent_application_needs_info'
   | 'agent_lead_submitted'
   | 'agent_lead_admin_alert'
   | 'agent_commission_approved'
@@ -29,11 +30,12 @@ export interface AgentEmailPayload {
   region?: string;
   message?: string;
   agentCode?: string;
+  partnerId?: string;
   amount?: string;
   currency?: string;
 }
 
-const AGENT_DASHBOARD_URL = `${DASHBOARD_URL.replace('/dashboard', '')}/agent/dashboard`;
+const PARTNER_DASHBOARD_URL = `${DASHBOARD_URL.replace('/dashboard', '')}/partner/dashboard`;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function isValidEmail(email?: string): email is string {
@@ -43,22 +45,25 @@ function isValidEmail(email?: string): email is string {
 function subjectFor(type: AgentEmailType): string {
   switch (type) {
     case 'agent_application_received':
+      return 'Application Received — Jawrah Pixel Partner Network';
     case 'agent_application_admin_alert':
-      return '[NEW AGENT APPLICATION] Jawrah Pixel';
+      return '[Partner Application] Review Required — Jawrah Pixel';
     case 'agent_application_approved':
-      return '[AGENT APPROVED] Welcome to Jawrah Pixel Partner Network';
+      return 'Welcome To The Jawrah Pixel Partner Network';
     case 'agent_application_rejected':
-      return '[AGENT APPLICATION] Jawrah Pixel';
+      return 'Partner Application Update — Jawrah Pixel';
+    case 'agent_application_needs_info':
+      return 'Additional Information Requested — Jawrah Pixel Partner Network';
     case 'agent_lead_submitted':
-      return '[AGENT LEAD SUBMITTED] Jawrah Pixel';
+      return 'Lead Submitted — Jawrah Pixel Partner Network';
     case 'agent_lead_admin_alert':
-      return '[NEW AGENT LEAD] Jawrah Pixel';
+      return '[Partner Lead] Review Required — Jawrah Pixel';
     case 'agent_commission_approved':
-      return '[COMMISSION APPROVED] Jawrah Pixel';
+      return 'Commission Approved — Jawrah Pixel Partner Network';
     case 'agent_commission_paid':
-      return '[COMMISSION PAID] Jawrah Pixel';
+      return 'Commission Paid — Jawrah Pixel Partner Network';
     case 'agent_message_received':
-      return '[NEW MESSAGE] Jawrah Pixel';
+      return 'New Message — Jawrah Pixel Partner Network';
     default:
       return 'Jawrah Pixel Partner Network';
   }
@@ -78,20 +83,32 @@ function buildBody(payload: AgentEmailPayload): string {
       return card(
         'Application Received',
         `<p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Hello ${name},</p>
-         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Your Jawrah Pixel partner application has been received. Our team will review your profile within 24–48 hours.</p>
+         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Thank you for your interest in joining the Jawrah Pixel Partner Network. Our team will carefully review your application.</p>
+         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Estimated review time: 1–3 business days.</p>
+         ${summaryRow('Status', 'Pending Review')}
          ${summaryRow('Region', region)}`,
-        'Track Application',
-        AGENT_DASHBOARD_URL,
+        'View Partner Program',
+        PARTNER_DASHBOARD_URL,
       );
     case 'agent_application_approved':
       return card(
-        'Welcome to the Partner Network',
+        'Welcome To The Jawrah Pixel Partner Network',
+        `<p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Congratulations.</p>
+         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Your application has been approved.</p>
+         ${summaryRow('Partner ID', display(payload.partnerId))}
+         ${summaryRow('Referral Code', display(payload.agentCode))}
+         <p style="margin:16px 0 0;font-size:16px;line-height:26px;color:#cbd5e1;">You may now access your Partner Dashboard and begin referring projects.</p>`,
+        'Open Partner Dashboard',
+        PARTNER_DASHBOARD_URL,
+      );
+    case 'agent_application_needs_info':
+      return card(
+        'Additional Information Requested',
         `<p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Hello ${name},</p>
-         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Your agent application has been approved. Your partner workspace, referral link, and commission tracking are now active.</p>
-         ${summaryRow('Partner Code', display(payload.agentCode))}
-         ${summaryRow('Region', region)}`,
-        'Open Agent Dashboard',
-        AGENT_DASHBOARD_URL,
+         <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">We need more information to continue reviewing your partner application.</p>
+         <div style="margin-top:12px;font-size:14px;color:#dbeafe;">${details}</div>`,
+        'Open Messages',
+        PARTNER_DASHBOARD_URL,
       );
     case 'agent_application_rejected':
       return card(
@@ -106,7 +123,7 @@ function buildBody(payload: AgentEmailPayload): string {
          <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Your referred lead has been submitted successfully and is now in review.</p>
          <div style="margin-top:12px;font-size:14px;color:#dbeafe;">${details}</div>`,
         'View Leads',
-        AGENT_DASHBOARD_URL,
+        PARTNER_DASHBOARD_URL,
       );
     case 'agent_commission_approved':
       return card(
@@ -115,7 +132,7 @@ function buildBody(payload: AgentEmailPayload): string {
          <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">A commission on your referred project has been approved.</p>
          ${summaryRow('Amount', `${display(payload.amount)} ${display(payload.currency, '')}`)}`,
         'View Commissions',
-        AGENT_DASHBOARD_URL,
+        PARTNER_DASHBOARD_URL,
       );
     case 'agent_commission_paid':
       return card(
@@ -124,7 +141,7 @@ function buildBody(payload: AgentEmailPayload): string {
          <p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">Your partner commission payout has been processed.</p>
          ${summaryRow('Amount', `${display(payload.amount)} ${display(payload.currency, '')}`)}`,
         'View Payouts',
-        AGENT_DASHBOARD_URL,
+        PARTNER_DASHBOARD_URL,
       );
     case 'agent_message_received':
       return card(
@@ -132,7 +149,7 @@ function buildBody(payload: AgentEmailPayload): string {
         `<p style="margin:0 0 16px;font-size:16px;line-height:26px;color:#cbd5e1;">You have a new message in your Jawrah Pixel partner inbox.</p>
          <div style="margin-top:12px;font-size:14px;color:#dbeafe;">${details}</div>`,
         'Open Messages',
-        AGENT_DASHBOARD_URL,
+        PARTNER_DASHBOARD_URL,
       );
     default:
       return card('Partner Network', `<p style="color:#cbd5e1;">${details}</p>`);
@@ -151,7 +168,7 @@ function buildAdminBody(payload: AgentEmailPayload): string {
     return card('New Agent Lead', `<p style="color:#cbd5e1;margin:0 0 16px;">An agent submitted a new lead for review.</p>${details}`);
   }
 
-  return card('New Agent Application', `<p style="color:#cbd5e1;margin:0 0 16px;">A new partner application requires review.</p>${details}`);
+  return card('New Partner Application', `<p style="color:#cbd5e1;margin:0 0 16px;">A new partner application requires review.</p>${details}`);
 }
 
 function summaryRow(label: string, value: string): string {
@@ -238,7 +255,7 @@ export async function sendAgentEmails(payload: AgentEmailPayload): Promise<{ ok:
         {
           from,
           to: adminEmail,
-          subject: '[NEW AGENT APPLICATION] Jawrah Pixel',
+          subject: '[Partner Application] Review Required — Jawrah Pixel',
           html: buildAdminBody({ ...payload, emailType: 'agent_application_admin_alert' }),
         },
         {
@@ -254,7 +271,7 @@ export async function sendAgentEmails(payload: AgentEmailPayload): Promise<{ ok:
         {
           from,
           to: adminEmail,
-          subject: '[NEW AGENT LEAD] Jawrah Pixel',
+          subject: '[Partner Lead] Review Required — Jawrah Pixel',
           html: buildAdminBody({ ...payload, emailType: 'agent_lead_admin_alert' }),
         },
         {

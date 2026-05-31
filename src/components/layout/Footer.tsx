@@ -13,7 +13,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   const { config, p, currentRegion } = useRegion();
   const { user, profile } = useAuth();
-  const isAdmin = user && profile?.role === 'admin';
+  const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const isInternational = currentRegion === 'int';
   const serviceLinks = isInternational
@@ -21,9 +21,9 @@ export function Footer() {
     : ['Web Design', 'Ecommerce Development', 'UI/UX Design', 'Branding', 'SEO Optimization', 'Admin Dashboards', 'Maintenance Plans'];
 
   return (
-    <footer className="bg-brand-navy border-t border-white/5 pt-16 md:pt-24 pb-10 overflow-hidden">
+    <footer className="bg-brand-navy border-t border-white/5 pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-10 overflow-hidden">
       <Reveal className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 md:gap-12 lg:gap-8 mb-12 sm:mb-16">
           <div className="sm:col-span-2 lg:col-span-1 flex flex-col items-center sm:items-start text-center sm:text-left">
             <Link to={p('/')} className="flex items-center mb-6 group inline-flex">
               <Logo variant="full" size="md" />
@@ -64,7 +64,7 @@ export function Footer() {
                 { name: 'About Us', path: '/about' },
                 { name: 'Case Studies', path: '/case-studies' },
                 { name: 'Process', path: '/process' },
-                { name: 'Agent Network', path: '/agents' },
+                { name: 'Partner Program', path: '/partner' },
                 { name: 'Pricing', path: '/pricing' },
                 { name: 'Blog', path: '/blog' },
                 { name: 'Contact', path: '/contact' }

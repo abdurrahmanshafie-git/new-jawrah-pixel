@@ -6,9 +6,11 @@ import {
   markAgentNotificationsRead,
   sendAgentMessage,
   submitAgentLead,
+  updatePartnerReferralCode,
 } from '@/lib/supabase/agent-api';
 import { buildAgentReferralLink } from '@/lib/referral';
 import { nextTierProgress, regionCurrency } from '@/lib/agent/tiers';
+import { partnerStatusLabel } from '@/lib/partner/ids';
 import type { RegionCode } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
@@ -26,6 +28,8 @@ import {
 
 type TabId = 'overview' | 'leads' | 'commissions' | 'referral' | 'messages' | 'notifications' | 'profile';
 
+const REFERRAL_REGIONS: RegionCode[] = ['lk', 'pk', 'int'];
+
 export default function AgentDashboard() {
   const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<TabId>('overview');
@@ -34,6 +38,9 @@ export default function AgentDashboard() {
   const [messages, setMessages] = useState<any[]>([]);
   const [threadId, setThreadId] = useState<string | null>(null);
   const [reply, setReply] = useState('');
+  const [customCode, setCustomCode] = useState('');
+  const [codeSaving, setCodeSaving] = useState(false);
+  const [copyHint, setCopyHint] = useState('');
   const [leadForm, setLeadForm] = useState({
     client_name: '',
     client_email: '',
@@ -65,14 +72,29 @@ export default function AgentDashboard() {
 
   const region = (dashboard?.agentProfile?.region ?? profile?.region ?? 'lk') as RegionCode;
   const agentCode = dashboard?.profile?.agent_code;
+  const partnerId = dashboard?.agentProfile?.partner_id;
   const tierProgress = nextTierProgress(dashboard?.completedCount ?? 0);
   const unread = (dashboard?.notifications ?? []).filter((n: any) => !n.read_at).length;
+  const totalReferrals = dashboard?.referrals?.length ?? 0;
+  const pendingProjects =
+    (dashboard?.leads ?? []).filter((l: { status: string }) => !['paid', 'lost', 'cancelled'].includes(l.status))
+      .length ?? 0;
+
+  const copyLink = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopyHint('Copied');
+      setTimeout(() => setCopyHint(''), 2000);
+    } catch {
+      setCopyHint('Copy failed');
+    }
+  };
 
   const tabs: { id: TabId; label: string; icon: React.ElementType; count?: number }[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'leads', label: 'Leads', icon: Users, count: dashboard?.leads?.length },
     { id: 'commissions', label: 'Commissions', icon: DollarSign },
-    { id: 'referral', label: 'Referral Link', icon: Link2 },
+    { id: 'referral', label: 'Referral Links', icon: Link2 },
     { id: 'messages', label: 'Messages', icon: MessageSquare },
     { id: 'notifications', label: 'Notifications', icon: Bell, count: unread },
     { id: 'profile', label: 'Profile', icon: User },
@@ -87,16 +109,16 @@ export default function AgentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-black text-white relative">
+    <div className="min-h-screen bg-brand-black text-white relative overflow-x-hidden">
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="container mx-auto px-4 md:px-6 py-12 relative z-10 max-w-7xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8 mb-10">
-          <div>
+      <div className="container mx-auto px-4 md:px-6 py-8 sm:py-12 relative z-10 max-w-7xl min-w-0">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 border-b border-white/10 pb-6 sm:pb-8 mb-8 sm:mb-10">
+          <div className="min-w-0">
             <span className="px-2.5 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan text-xs font-mono uppercase tracking-widest">
               Partner Portal
             </span>
-            <h1 className="text-4xl font-display font-semibold tracking-tight text-white uppercase mt-2">
-              Agent <span className="text-brand-cyan">Dashboard</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold tracking-tight text-white uppercase mt-2">
+              Partner <span className="text-brand-cyan">Dashboard</span>
             </h1>
             <p className="text-brand-gray mt-1 text-sm">{profile?.full_name || profile?.email}</p>
           </div>
@@ -110,14 +132,14 @@ export default function AgentDashboard() {
           </div>
         </div>
 
-        <div className="flex overflow-x-auto gap-3 pb-4 mb-8 border-b border-white/5">
+        <div className="flex overflow-x-auto gap-2 sm:gap-3 pb-4 mb-6 sm:mb-8 border-b border-white/5 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-mono uppercase tracking-wider whitespace-nowrap ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 min-h-[44px] rounded-xl border text-[10px] sm:text-xs font-mono uppercase tracking-wider whitespace-nowrap shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-brand-cyan/10 border-brand-cyan/30 text-brand-cyan'
                     : 'bg-white/5 border-white/10 text-brand-gray'
@@ -134,17 +156,24 @@ export default function AgentDashboard() {
         </div>
 
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <StatCard label="Application Status" value={dashboard?.applicationStatus ?? 'pending'} />
-            <StatCard label="Current Tier" value={tierProgress.current.label} />
-            <StatCard label="Completed Paid Projects" value={String(dashboard?.completedCount ?? 0)} />
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            <StatCard label="Partner ID" value={partnerId || '—'} />
+            <StatCard label="Referral Code" value={agentCode || '—'} />
+            <StatCard label="Current Tier" value={`${tierProgress.current.label} Partner`} />
+            <StatCard label="Total Referrals" value={String(totalReferrals)} />
+            <StatCard label="Paid Projects" value={String(dashboard?.completedCount ?? 0)} />
+            <StatCard label="Pending Projects" value={String(pendingProjects)} />
             <StatCard
-              label="Total Commission Earned"
+              label="Commission Earned"
               value={`${regionCurrency(region)} ${Number(dashboard?.totalEarned ?? 0).toLocaleString()}`}
             />
             <StatCard
-              label="Pending Commission"
+              label="Commission Pending"
               value={`${regionCurrency(region)} ${Number(dashboard?.pendingCommission ?? 0).toLocaleString()}`}
+            />
+            <StatCard
+              label="Partner Status"
+              value={partnerStatusLabel(dashboard?.applicationStatus)}
             />
             <div className="p-5 rounded-2xl border border-white/10 bg-white/[0.02]">
               <div className="text-[10px] font-mono uppercase text-brand-gray mb-2">Next Tier Progress</div>
@@ -268,22 +297,62 @@ export default function AgentDashboard() {
         )}
 
         {activeTab === 'referral' && (
-          <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] max-w-2xl">
+          <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] max-w-2xl space-y-4">
             {agentCode ? (
               <>
-                <p className="text-xs font-mono uppercase text-brand-gray mb-2">Your partner code</p>
-                <p className="text-2xl font-mono text-brand-cyan mb-4">{agentCode}</p>
-                <p className="text-xs text-brand-silver mb-2">Referral links</p>
-                <code className="block text-xs text-white bg-black/40 p-3 rounded border border-white/10 mb-2 break-all">
-                  {buildAgentReferralLink(agentCode)}
-                </code>
-                <code className="block text-xs text-white bg-black/40 p-3 rounded border border-white/10 break-all">
-                  https://jawrahpixel.com/ref/{agentCode}
-                </code>
+                <p className="text-xs font-mono uppercase text-brand-gray">Referral code</p>
+                <p className="text-2xl font-mono text-brand-cyan">{agentCode}</p>
+                {copyHint && <p className="text-[10px] font-mono uppercase text-brand-cyan">{copyHint}</p>}
+                <p className="text-xs text-brand-silver">Regional referral links</p>
+                {REFERRAL_REGIONS.map((r) => {
+                  const url = buildAgentReferralLink(agentCode, r);
+                  return (
+                    <div key={r} className="flex flex-col sm:flex-row gap-2 sm:items-center">
+                      <code className="flex-1 text-xs text-white bg-black/40 p-3 rounded border border-white/10 break-all">
+                        {url}
+                      </code>
+                      <Button type="button" size="sm" variant="outline" onClick={() => copyLink(url)}>
+                        Copy
+                      </Button>
+                    </div>
+                  );
+                })}
+                {!dashboard?.agentProfile?.referral_code_customized && (
+                  <form
+                    className="pt-4 border-t border-white/10 space-y-2"
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      if (!profile?.id || !customCode.trim()) return;
+                      setCodeSaving(true);
+                      const { error } = await updatePartnerReferralCode(profile.id, customCode);
+                      setCodeSaving(false);
+                      if (error) setCopyHint(error.message);
+                      else {
+                        setCustomCode('');
+                        load();
+                      }
+                    }}
+                  >
+                    <p className="text-[10px] font-mono uppercase text-brand-gray">
+                      Customize your referral code once (URL-safe, unique)
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        value={customCode}
+                        onChange={(e) => setCustomCode(e.target.value)}
+                        placeholder="e.g. ASHAFIE24"
+                        className="h-10 text-xs"
+                      />
+                      <Button type="submit" size="sm" disabled={codeSaving}>
+                        Save
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </>
             ) : (
               <p className="text-sm text-brand-silver">
-                Your referral code will appear once your application is approved.
+                Your referral code will appear once your partner application is approved.
               </p>
             )}
           </div>
@@ -363,8 +432,10 @@ export default function AgentDashboard() {
                   : region.toUpperCase()
               }
             />
-            <Row label="Status" value={dashboard?.applicationStatus} />
-            <Row label="Tier" value={tierProgress.current.label} />
+            <Row label="Partner ID" value={partnerId} />
+            <Row label="Referral Code" value={agentCode} />
+            <Row label="Status" value={partnerStatusLabel(dashboard?.applicationStatus)} />
+            <Row label="Tier" value={`${tierProgress.current.label} Partner`} />
           </div>
         )}
       </div>
@@ -376,7 +447,7 @@ function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="p-5 rounded-2xl border border-white/10 bg-white/[0.02]">
       <div className="text-[10px] font-mono uppercase text-brand-gray">{label}</div>
-      <div className="text-lg font-display text-white mt-1 capitalize">{value}</div>
+      <div className="text-lg font-display text-white mt-1 normal-case break-words">{value}</div>
     </div>
   );
 }

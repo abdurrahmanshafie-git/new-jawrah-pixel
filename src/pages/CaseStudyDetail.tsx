@@ -312,7 +312,7 @@ export default function CaseStudyDetail() {
         )}
 
         {/* METRICS / STATS STRIP */}
-        <div className="grid grid-cols-3 gap-2 md:gap-6 mb-16 md:mb-24">
+        <div className="grid grid-cols-1 min-[360px]:grid-cols-3 gap-2 md:gap-6 mb-16 md:mb-24">
           {project.results.map((res, idx) => (
             <div 
               key={idx} 

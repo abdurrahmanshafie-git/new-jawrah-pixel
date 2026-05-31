@@ -67,6 +67,24 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.modal-panel {
+  @apply relative w-full max-h-[90vh] overflow-y-auto overscroll-contain;
+}
+
 .safe-glass {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018));
   border: 1px solid rgba(255, 255, 255, 0.09);

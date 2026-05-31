@@ -14,7 +14,7 @@ create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
   email text,
-  role text not null default 'client' check (role in ('client', 'admin', 'agent')),
+  role text not null default 'client' check (role in ('client', 'admin', 'agent', 'superadmin')),
   avatar_url text,
   region text check (region in ('lk', 'pk', 'int')),
   country text,
@@ -131,6 +131,9 @@ create table if not exists public.invoices (
 );
 
 -- Idempotent upgrade for existing deployments
+alter table public.profiles drop constraint if exists profiles_role_check;
+alter table public.profiles
+  add constraint profiles_role_check check (role in ('client', 'admin', 'agent', 'superadmin'));
 alter table public.invoices add column if not exists payment_status text;
 alter table public.invoices add column if not exists payment_method text;
 alter table public.invoices add column if not exists transaction_id text;
@@ -282,7 +285,7 @@ stable
 security definer
 set search_path = public, pg_temp
 as $$
-  select app_private.has_role('admin');
+  select app_private.has_role('admin') or app_private.has_role('superadmin');
 $$;
 
 create or replace function app_private.is_agent()

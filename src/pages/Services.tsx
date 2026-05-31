@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Shield, Sparkles, Code, Smartphone, Zap, Search, LayoutTemplate, Briefcase, Database, Server, ShoppingCart, Check } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { Link } from 'react-router-dom';
 import { PaymentCTAGroup } from '@/components/payments/PaymentCTAGroup';
 import { useRegion } from '@/hooks/useRegion';
 import { useRegionalSeo } from '@/hooks/useRegionalSeo';
@@ -12,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function Services() {
-  const { config, services, pricingPlans, p, isInternational } = useRegion();
+  const { config, services, pricingPlans, isInternational } = useRegion();
   const seo = useRegionalSeo('services');
   const heroCopy = isInternational
     ? 'World-class digital systems, high-converting checkout flows, AI integrations, and luxury brand interfaces built for international businesses and premium global brands. Unrivaled speed, uncompromising precision.'
@@ -109,11 +107,6 @@ export default function Services() {
                 ))}
               </ul>
               <PaymentCTAGroup serviceName={service.title} priceLabel={service.price} compact />
-              <Link to={p('/contact')} className="block mt-3">
-                <Button variant="ghost" className="w-full text-[11px] font-mono uppercase tracking-widest h-10 border border-white/5 text-brand-gray hover:text-white hover:bg-white/5">
-                  Inquire Now
-                </Button>
-              </Link>
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -167,16 +160,6 @@ export default function Services() {
                     priceLabel={plan.price}
                     compact
                   />
-                  <Link to={p('/contact')} className="block mt-3">
-                    <Button
-                      variant="ghost"
-                      className={cn(
-                        'w-full uppercase font-mono tracking-widest text-[11px] h-10 border border-white/10 text-brand-gray hover:text-white hover:bg-white/5',
-                      )}
-                    >
-                      Select Plan
-                    </Button>
-                  </Link>
                 </div>
               </StaggerItem>
             ))}

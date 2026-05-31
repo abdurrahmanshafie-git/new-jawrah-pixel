@@ -23,7 +23,7 @@ export function useRegion() {
   const { user, profile } = useAuth();
   const [adminPreviewRegion, setAdminPreviewRegion] = useState<RegionCode | null>(() => getSavedAdminRegion());
   const pathRegion = getExplicitRegionFromPathname(location.pathname);
-  const isAdmin = Boolean(user && profile?.role === 'admin');
+  const isAdmin = Boolean(user && (profile?.role === 'admin' || profile?.role === 'superadmin'));
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
   const currentRegion = (
     isAdmin && !pathRegion

@@ -187,7 +187,7 @@ export default function Home() {
             className="inline-flex max-w-full items-center justify-center md:justify-start gap-2 mb-8 px-4 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
           >
             <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)] md:shadow-none"></span>
-            <span className="text-zinc-200 text-[10px] md:text-xs font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-nowrap leading-relaxed">
+            <span className="text-zinc-200 text-[10px] md:text-xs font-semibold tracking-[0.15em] md:tracking-[0.3em] uppercase text-center leading-relaxed">
               Elite Transformation Partner
             </span>
           </motion.div>

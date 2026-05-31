@@ -27,7 +27,7 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
   if (loading) return <SleekLoader />;
   if (user && !profile) return <SleekLoader />;
 
-  const isAdmin = user && profile?.role === 'admin';
+  const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
   const lockedRegion = user && !isAdmin ? profileRegion : null;
 

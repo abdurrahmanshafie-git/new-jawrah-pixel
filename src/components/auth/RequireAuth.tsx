@@ -11,8 +11,8 @@ interface RequireAuthProps {
 }
 
 function getRoleHome(role?: Role | null) {
-  if (role === 'admin') return '/admin';
-  if (role === 'agent') return '/agent/dashboard';
+  if (role === 'admin' || role === 'superadmin') return '/admin';
+  if (role === 'agent') return '/partner/dashboard';
   return '/dashboard';
 }
 
@@ -23,7 +23,7 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
   if (loading) return <SleekLoader />;
 
   if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}` }} />;
   }
 
   if (roles?.length && profile && !roles.includes(profile.role)) {

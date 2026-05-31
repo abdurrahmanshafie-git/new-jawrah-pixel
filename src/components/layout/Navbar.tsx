@@ -18,7 +18,7 @@ export function Navbar() {
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
   const { scrollYProgress } = useScroll();
-  const isAdmin = user && profile?.role === 'admin';
+  const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const lockedRegionOption = lockedRegion
     ? REGION_OPTIONS.find((region) => region.id === lockedRegion)
@@ -40,7 +40,6 @@ export function Navbar() {
     { name: 'Services', path: p('/services') },
     { name: 'Case Studies', path: p('/case-studies') },
     { name: 'Process', path: p('/process') },
-    { name: 'Agents', path: p('/agents') },
     { name: 'Pricing', path: p('/pricing') },
     { name: 'About', path: p('/about') },
   ];
@@ -162,13 +161,22 @@ export function Navbar() {
             {renderRegionSwitcher()}
 
             {user ? (
-              <Link to={profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent/dashboard' : '/dashboard'}>
+              <Link to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'}>
                 <Button variant="outline" size="sm" className="uppercase tracking-tighter text-xs">Dashboard</Button>
               </Link>
             ) : (
-              <Link to="/login">
-                <Button variant="ghost" size="sm" className="uppercase tracking-tighter text-xs">Client Login</Button>
-              </Link>
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" size="sm" className="uppercase tracking-tighter text-xs">
+                    Login as Client
+                  </Button>
+                </Link>
+                <Link to={p('/partner')}>
+                  <Button variant="outline" size="sm" className="uppercase tracking-tighter text-xs border-white/15">
+                    Become a Partner
+                  </Button>
+                </Link>
+              </>
             )}
             <Link to={p('/contact')}>
               <Button size="sm" className="uppercase tracking-tighter text-xs luxury-glow">Start Project</Button>
@@ -176,8 +184,8 @@ export function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <div className="md:hidden ml-auto flex min-w-0 items-center justify-end gap-2">
-            {renderRegionSwitcher(true)}
+          <div className="md:hidden ml-auto flex min-w-0 items-center justify-end gap-2 shrink-0">
+            {lockedRegionOption ? renderRegionSwitcher(true) : null}
             <motion.button
               type="button"
               whileTap={{ scale: 0.94 }}
@@ -236,6 +244,11 @@ export function Navbar() {
               className="fixed left-3 right-3 top-[72px] z-[45] mx-auto max-h-[calc(100dvh-88px)] max-w-[430px] overflow-hidden rounded-[22px] border border-white/[0.12] bg-zinc-950/[0.68] shadow-[0_24px_80px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:hidden"
             >
               <div className="flex max-h-[calc(100dvh-88px)] flex-col overflow-y-auto px-2.5 py-3">
+                {!lockedRegionOption && (
+                  <div className="mb-3 px-1">
+                    {renderRegionSwitcher(true)}
+                  </div>
+                )}
                 <nav className="flex flex-col" aria-label="Mobile navigation">
                   {navLinks.map((link, i) => (
                     <motion.div
@@ -248,7 +261,7 @@ export function Navbar() {
                         to={link.path}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'group flex min-h-[46px] items-center justify-between rounded-2xl px-4 text-[19px] font-display font-medium text-zinc-200 transition-all duration-300 active:scale-[0.985]',
+                          'group flex min-h-[44px] items-center justify-between rounded-2xl px-4 text-base sm:text-[19px] font-display font-medium text-zinc-200 transition-all duration-300 active:scale-[0.985]',
                           location.pathname === link.path
                             ? 'bg-white/[0.075] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
                             : 'hover:bg-white/[0.055] hover:text-white',
@@ -267,12 +280,28 @@ export function Navbar() {
                   transition={{ duration: 0.28, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
                   className="mt-3 grid gap-2 border-t border-white/10 px-1 pt-3"
                 >
-                  <Link onClick={() => setIsOpen(false)} to={user ? (profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent/dashboard' : '/dashboard') : '/login'} className="w-full">
+                  {!user && (
+                    <>
+                      <Link onClick={() => setIsOpen(false)} to="/login" className="w-full">
+                        <Button variant="outline" size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.12] bg-white/[0.045] text-[11px] font-mono font-bold uppercase tracking-[0.16em]">
+                          Login as Client
+                        </Button>
+                      </Link>
+                      <Link onClick={() => setIsOpen(false)} to={p('/partner')} className="w-full">
+                        <Button variant="outline" size="sm" className="h-10 w-full text-[11px] font-mono font-bold uppercase tracking-[0.16em] border-brand-cyan/25 text-brand-cyan">
+                          Become a Partner
+                        </Button>
+                      </Link>
+                    </>
+                  )}
+                  {user && (
+                  <Link onClick={() => setIsOpen(false)} to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'} className="w-full">
                     <Button variant="outline" size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.12] bg-white/[0.045] text-[11px] font-mono font-bold uppercase tracking-[0.16em] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
                       <User className="h-3.5 w-3.5" />
                       Dashboard
                     </Button>
                   </Link>
+                  )}
                   <Link onClick={() => setIsOpen(false)} to={p('/contact')} className="w-full">
                     <Button size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.15] bg-white text-[11px] font-mono font-bold uppercase tracking-[0.16em] text-brand-black shadow-[0_12px_30px_rgba(255,255,255,0.12)] hover:bg-zinc-100">
                       Start Project
