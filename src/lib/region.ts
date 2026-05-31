@@ -2,6 +2,8 @@ import { REGION_OPTIONS, regions, type RegionConfig } from '@/data/regions';
 import type { RegionCode } from '@/types';
 
 export const REGION_STORAGE_KEY = 'jawrah_region';
+export const ADMIN_REGION_STORAGE_KEY = 'jawrah_admin_region';
+export const ADMIN_REGION_CHANGE_EVENT = 'jawrah:admin-region-change';
 const REGION_COOKIE_NAME = 'jawrah_region';
 
 export function isRegionCode(value: unknown): value is RegionCode {
@@ -34,11 +36,25 @@ export function getSavedRegion(): RegionCode | null {
   return isRegionCode(cookieRegion) ? cookieRegion : null;
 }
 
+export function getSavedAdminRegion(): RegionCode | null {
+  if (typeof window === 'undefined') return null;
+
+  const adminRegion = window.localStorage.getItem(ADMIN_REGION_STORAGE_KEY);
+  return isRegionCode(adminRegion) ? adminRegion : null;
+}
+
 export function persistRegion(region: RegionCode) {
   if (typeof window === 'undefined') return;
 
   window.localStorage.setItem(REGION_STORAGE_KEY, region);
   document.cookie = `${REGION_COOKIE_NAME}=${region}; max-age=31536000; path=/; SameSite=Lax`;
+}
+
+export function persistAdminRegion(region: RegionCode) {
+  if (typeof window === 'undefined') return;
+
+  window.localStorage.setItem(ADMIN_REGION_STORAGE_KEY, region);
+  window.dispatchEvent(new CustomEvent<RegionCode>(ADMIN_REGION_CHANGE_EVENT, { detail: region }));
 }
 
 export function regionPath(region: RegionCode, pathname = '/') {

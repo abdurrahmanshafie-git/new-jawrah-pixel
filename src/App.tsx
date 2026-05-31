@@ -6,7 +6,7 @@ import { ScrollToTop } from './components/layout/ScrollToTop';
 import { SleekLoader } from './components/ui/SleekLoader';
 import { RequireAuth } from './components/auth/RequireAuth';
 import { useAuth } from './contexts/AuthContext';
-import { getSavedRegion, isRegionCode, regionPath } from './lib/region';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from './lib/region';
 
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
@@ -36,8 +36,12 @@ function RegionalRedirect({ path = '/' }: { path?: string }) {
   const { user, profile, loading } = useAuth();
 
   if (loading) return <SleekLoader />;
+  if (user && !profile) return <SleekLoader />;
 
-  const region = user && isRegionCode(profile?.region) ? profile.region : getSavedRegion();
+  const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
+  const region = profile?.role === 'admin'
+    ? getSavedAdminRegion() ?? profileRegion ?? getSavedRegion()
+    : user && profileRegion ? profileRegion : getSavedRegion();
   return <Navigate to={region ? regionPath(region, path) : '/'} replace />;
 }
 

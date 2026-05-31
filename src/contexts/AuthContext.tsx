@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { getProfile } from '@/lib/supabase/api';
-import { isRegionCode, persistRegion } from '@/lib/region';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
 import type { Profile } from '@/types';
 import type { User, Session } from '@supabase/supabase-js';
 
@@ -87,7 +87,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Error fetching profile:', error);
       } else {
         setProfile(data);
-        if (isRegionCode(data?.region)) {
+        if (data?.role === 'admin' && !getSavedAdminRegion()) {
+          const initialAdminRegion = isRegionCode(data.region) ? data.region : getSavedRegion();
+          if (initialAdminRegion) {
+            persistAdminRegion(initialAdminRegion);
+          }
+        } else if (data?.role !== 'admin' && isRegionCode(data?.region)) {
           persistRegion(data.region);
         }
       }

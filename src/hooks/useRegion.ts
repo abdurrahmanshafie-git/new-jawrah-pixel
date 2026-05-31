@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { regions, getRegionFromPathname, RegionConfig } from '../data/regions';
 import type { RegionCode } from '@/types';
@@ -5,12 +6,58 @@ import { getServicesForRegion } from '../data/services';
 import { getCaseStudiesForRegion } from '../data/caseStudies';
 import { getMaintenancePlans } from '../data/pricing';
 import { getFaqsForRegion } from '../data/faqs';
-import { persistRegion, regionPath } from '@/lib/region';
+import {
+  ADMIN_REGION_CHANGE_EVENT,
+  ADMIN_REGION_STORAGE_KEY,
+  getExplicitRegionFromPathname,
+  getSavedAdminRegion,
+  getSavedRegion,
+  isRegionCode,
+  persistRegion,
+  regionPath,
+} from '@/lib/region';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function useRegion() {
   const location = useLocation();
-  const currentRegion = getRegionFromPathname(location.pathname) as RegionCode;
+  const { user, profile } = useAuth();
+  const [adminPreviewRegion, setAdminPreviewRegion] = useState<RegionCode | null>(() => getSavedAdminRegion());
+  const pathRegion = getExplicitRegionFromPathname(location.pathname);
+  const isAdmin = Boolean(user && profile?.role === 'admin');
+  const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
+  const currentRegion = (
+    isAdmin && !pathRegion
+      ? adminPreviewRegion ?? profileRegion ?? getSavedRegion() ?? 'lk'
+      : getRegionFromPathname(location.pathname)
+  ) as RegionCode;
   const config: RegionConfig = regions[currentRegion] ?? regions.lk;
+
+  useEffect(() => {
+    setAdminPreviewRegion(getSavedAdminRegion());
+  }, [user?.id, profile?.role, profile?.region]);
+
+  useEffect(() => {
+    if (!isAdmin || typeof window === 'undefined') return;
+
+    const handleAdminRegionChange = (event: Event) => {
+      const nextRegion = event instanceof CustomEvent ? event.detail : getSavedAdminRegion();
+      setAdminPreviewRegion(isRegionCode(nextRegion) ? nextRegion : getSavedAdminRegion());
+    };
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === ADMIN_REGION_STORAGE_KEY) {
+        setAdminPreviewRegion(isRegionCode(event.newValue) ? event.newValue : null);
+      }
+    };
+
+    window.addEventListener(ADMIN_REGION_CHANGE_EVENT, handleAdminRegionChange);
+    window.addEventListener('storage', handleStorage);
+
+    return () => {
+      window.removeEventListener(ADMIN_REGION_CHANGE_EVENT, handleAdminRegionChange);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, [isAdmin]);
 
   return {
     currentRegion,

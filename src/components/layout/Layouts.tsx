@@ -7,6 +7,8 @@ import { Logo } from './Logo';
 import { RegionRouteGuard } from './RegionRouteGuard';
 import { useAuth } from '@/contexts/AuthContext';
 import { getSavedRegion, regionPath } from '@/lib/region';
+import { useRegion } from '@/hooks/useRegion';
+import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 
 export function RootLayout() {
   const location = useLocation();
@@ -45,8 +47,11 @@ export function AdminLayout() {
            <Logo variant="icon" size="sm" className="w-7 h-7" />
            <span className="text-white font-display font-medium text-sm">Admin Portal</span>
         </div>
-        <div className="text-brand-gray text-sm">
-          System v1.0
+        <div className="flex items-center gap-4">
+          <AdminRegionPreviewSwitcher compact />
+          <div className="text-brand-gray text-sm">
+            System v1.0
+          </div>
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
@@ -58,7 +63,8 @@ export function AdminLayout() {
 
 export function ClientLayout() {
   const { profile } = useAuth();
-  const siteRegion = profile?.region ?? getSavedRegion() ?? 'lk';
+  const { currentRegion } = useRegion();
+  const siteRegion = profile?.role === 'admin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
 
    return (
     <div className="flex flex-col min-h-screen bg-brand-black">
@@ -68,7 +74,8 @@ export function ClientLayout() {
            <Logo variant="icon" size="sm" className="w-7 h-7" />
            <span className="text-white font-display font-medium text-sm">Client Portal</span>
         </div>
-        <div>
+        <div className="flex items-center gap-4">
+           <AdminRegionPreviewSwitcher compact />
            {/* Back to main site link? */}
            <Link to={regionPath(siteRegion)} className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</Link>
         </div>
@@ -82,7 +89,8 @@ export function ClientLayout() {
 
 export function AgentLayout() {
   const { profile } = useAuth();
-  const siteRegion = profile?.region ?? getSavedRegion() ?? 'lk';
+  const { currentRegion } = useRegion();
+  const siteRegion = profile?.role === 'admin' ? currentRegion : profile?.region ?? getSavedRegion() ?? 'lk';
 
    return (
     <div className="flex flex-col min-h-screen bg-brand-black">
@@ -92,7 +100,8 @@ export function AgentLayout() {
            <Logo variant="icon" size="sm" className="w-7 h-7" />
            <span className="text-white font-display font-medium text-sm">Agent Workspace</span>
         </div>
-        <div>
+        <div className="flex items-center gap-4">
+           <AdminRegionPreviewSwitcher compact />
            <Link to={regionPath(siteRegion)} className="text-brand-gray text-sm hover:text-white transition-colors">Back to Site</Link>
         </div>
       </header>

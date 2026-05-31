@@ -7,12 +7,14 @@ import { persistRegion, isRegionCode } from '@/lib/region';
 import { cn } from '@/lib/utils';
 import { REGION_OPTIONS } from '@/data/regions';
 import { useAuth } from '@/contexts/AuthContext';
+import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { config, p, currentRegion } = useRegion();
   const { user, profile } = useAuth();
-  const lockedRegion = user && isRegionCode(profile?.region) ? profile.region : null;
+  const isAdmin = user && profile?.role === 'admin';
+  const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const isInternational = currentRegion === 'int';
   const serviceLinks = isInternational
     ? ['Premium Website Design', 'Ecommerce Development', 'AI Integrations', 'Branding & Identity', 'SEO Optimization', 'UI/UX Systems', 'Conversion Optimization', 'Frontend Development']
@@ -89,7 +91,9 @@ export function Footer() {
               </li>
               <li className="flex flex-col items-center sm:items-start">
                 <span className="block text-brand-cyan/60 mb-2 text-[10px] font-mono uppercase tracking-[0.2em]">Region Selection</span>
-                {lockedRegion ? (
+                {isAdmin ? (
+                  <AdminRegionPreviewSwitcher compact />
+                ) : lockedRegion ? (
                   <div
                     className="inline-flex items-center gap-2 rounded-lg border border-brand-cyan/30 bg-brand-cyan/5 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest text-brand-cyan"
                     title="Region locked to your account"

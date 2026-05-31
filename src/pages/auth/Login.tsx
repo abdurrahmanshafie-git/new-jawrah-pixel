@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
-import { isRegionCode, persistRegion } from '@/lib/region';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -34,7 +34,12 @@ export default function Login() {
       if (error) throw error;
 
       const { data: profileData } = await getProfileRole(data.user.id);
-      if (isRegionCode(profileData?.region)) {
+      if (profileData?.role === 'admin' && !getSavedAdminRegion()) {
+        const initialAdminRegion = isRegionCode(profileData.region) ? profileData.region : getSavedRegion();
+        if (initialAdminRegion) {
+          persistAdminRegion(initialAdminRegion);
+        }
+      } else if (profileData?.role !== 'admin' && isRegionCode(profileData?.region)) {
         persistRegion(profileData.region);
       }
 

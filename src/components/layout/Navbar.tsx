@@ -9,6 +9,7 @@ import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { REGION_OPTIONS } from '@/data/regions';
 import { persistRegion, isRegionCode } from '@/lib/region';
+import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,8 @@ export function Navbar() {
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
   const { scrollYProgress } = useScroll();
-  const lockedRegion = user && isRegionCode(profile?.region) ? profile.region : null;
+  const isAdmin = user && profile?.role === 'admin';
+  const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const lockedRegionOption = lockedRegion
     ? REGION_OPTIONS.find((region) => region.id === lockedRegion)
     : null;
@@ -51,6 +53,10 @@ export function Navbar() {
   );
 
   const renderRegionSwitcher = (isMobile = false) => {
+    if (isAdmin) {
+      return <AdminRegionPreviewSwitcher compact={isMobile} />;
+    }
+
     if (lockedRegionOption) {
       return (
         <div
