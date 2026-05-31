@@ -12,9 +12,12 @@ import {
   Phone
 } from 'lucide-react';
 import { useRegion } from '@/hooks/useRegion';
-import { submitInquiry } from '@/lib/supabase/api';
+import { submitChatbotLead } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { getChatResponse } from '@/lib/ai';
+import { useAuth } from '@/contexts/AuthContext';
+import { FormAuthGate } from '@/components/auth/FormAuthGate';
+import { getClientPlatform } from '@/lib/email/platform';
 
 interface Message {
   id: string;
@@ -77,6 +80,7 @@ const BUDGET_OPTIONS_MAP: Record<string, string[]> = {
 
 export function JawrahBot() {
   const { config, currentRegion } = useRegion();
+  const { user } = useAuth();
   const regionKey = currentRegion === 'int' ? 'int' : currentRegion === 'pk' ? 'pk' : 'lk';
   
   const initialGreeting = regionKey === 'int'
@@ -156,23 +160,40 @@ export function JawrahBot() {
   };
 
   const submitLeadToSupabase = async (data: LeadData) => {
+    if (!user) {
+      addBotMessage('Please login to continue. Create your Jawrah account to submit projects and manage your digital workspace.');
+      return;
+    }
     if (isSavingLead) return;
     setIsSavingLead(true);
 
     try {
       if (isSupabaseConfigured) {
-        const { error } = await submitInquiry({
-          full_name: data.name.trim(),
-          email: 'captured-via-bot@jawrahpixel.com', // Placeholder if email not asked
-          business_name: data.business_type,
-          service_interested: data.project_type,
+        const message = `Lead captured via Jawrah-Bot. Interested in ${data.project_type} for ${data.business_type}. Budget: ${data.budget_range}.`;
+
+        const { error } = await submitChatbotLead({
+          name: data.name.trim(),
+          business_type: data.business_type,
+          country: data.country,
+          project_type: data.project_type,
           budget_range: data.budget_range,
           whatsapp: data.whatsapp,
-          message: `Lead captured via Jawrah-Bot. Interested in ${data.project_type} for ${data.business_type}. Budget: ${data.budget_range}.`,
-          inquiry_type: 'project',
+          message,
           status: 'new',
-          region: regionKey as any,
-          source_page: regionKey as any,
+        }, {
+          name: data.name.trim(),
+          whatsapp: data.whatsapp,
+          country: data.country,
+          region: regionKey,
+          service: data.project_type,
+          budget: data.budget_range,
+          message,
+          notes: `Business Type: ${data.business_type}`,
+          source: 'JawrahBot',
+          formType: 'Chatbot Lead Capture',
+          userId: user.id,
+          platform: getClientPlatform(),
+          requirements: message,
         });
 
         if (error) throw error;
@@ -203,12 +224,17 @@ export function JawrahBot() {
   };
 
   const startLeadCapture = () => {
+    if (!user) {
+      addBotMessage('Please login to continue.\nCreate your Jawrah account to submit projects, access agents and manage your digital workspace.');
+      return;
+    }
     setFlow('lead_capture');
     setLeadStep('name');
     addBotMessage("Great! I'll help you start your project. First, what is your name?");
   };
 
   const handleLeadStep = (value: string) => {
+    if (!user) return;
     const nextData = { ...leadData };
     
     switch (leadStep) {
@@ -463,6 +489,41 @@ export function JawrahBot() {
             </div>
 
             {/* Input Area */}
+            {flow === 'lead_capture' ? (
+              <FormAuthGate className="bg-brand-black border-t border-white/10">
+                <div className="p-4 sm:p-5">
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSendMessage(inputValue);
+                    }}
+                    className="flex gap-3"
+                  >
+                    <div className="flex-1 relative">
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        placeholder={leadStep === 'whatsapp' ? "Enter your WhatsApp..." : "Type your message..."}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-[13px] sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-brand-cyan/50 focus:ring-1 focus:ring-brand-cyan/20 transition-all font-light"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={!inputValue.trim()}
+                      className="w-11 h-11 rounded-xl bg-brand-cyan text-brand-navy flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(34,211,238,0.3)] flex-shrink-0"
+                    >
+                      <Send size={18} />
+                    </button>
+                  </form>
+                  <div className="mt-3 flex justify-center">
+                    <p className="text-[9px] text-white/20 font-mono tracking-widest uppercase">
+                      Powered by Jawrah Pixel Intelligence
+                    </p>
+                  </div>
+                </div>
+              </FormAuthGate>
+            ) : (
             <div className="p-4 sm:p-5 bg-brand-black border-t border-white/10">
               <form 
                 onSubmit={(e) => {
@@ -494,6 +555,7 @@ export function JawrahBot() {
                 </p>
               </div>
             </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

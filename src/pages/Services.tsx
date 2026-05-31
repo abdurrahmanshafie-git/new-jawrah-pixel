@@ -5,16 +5,15 @@ import { Button } from '@/components/ui/Button';
 import { Link } from 'react-router-dom';
 import { PaymentCTAGroup } from '@/components/payments/PaymentCTAGroup';
 import { useRegion } from '@/hooks/useRegion';
+import { useRegionalSeo } from '@/hooks/useRegionalSeo';
+import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { cn } from '@/lib/utils';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function Services() {
   const { config, services, pricingPlans, p, isInternational } = useRegion();
-  const seoTitle = isInternational ? 'Global USD Web Design & Ecommerce Packages' : `${config.countryName} Custom Web & Ecommerce Packages`;
-  const seoDescription = isInternational
-    ? 'View USD pricing for premium global website design, ecommerce platforms, AI systems, UI/UX, frontend development, and international monthly care plans.'
-    : `View direct transparent pricing for premium website design, custom e-commerce applications, and monthly SLA care plans in ${config.countryName}.`;
+  const seo = useRegionalSeo('services');
   const heroCopy = isInternational
     ? 'World-class digital systems, high-converting checkout flows, AI integrations, and luxury brand interfaces built for international businesses and premium global brands. Unrivaled speed, uncompromising precision.'
     : `World-class digital systems, high-converting checkout flows, and luxury brand interfaces built natively for leading ${config.countryName} enterprises. Unrivaled speed, uncompromising precision.`;
@@ -55,8 +54,11 @@ export default function Services() {
   return (
     <div className="pt-28 pb-20 bg-brand-black text-white relative min-h-screen">
       <SEO 
-        title={seoTitle}
-        description={seoDescription}
+        title={seo.title}
+        description={seo.description}
+        canonicalUrl={getCanonicalUrl(seo.path)}
+        schemaType={seo.schemaType}
+        schemaData={seo.schemaData}
       />
 
       <div className="container mx-auto px-5 md:px-6">

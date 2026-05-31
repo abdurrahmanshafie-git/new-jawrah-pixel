@@ -20,6 +20,9 @@ A premium full-stack digital agency website built for **Jawrah Pixel**.
    ```env
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_anon_key
+   RESEND_API_KEY=your_resend_api_key
+   ADMIN_EMAIL=jawrahpixel@gmail.com
+   FROM_EMAIL=projects@jawrahpixel.com
    ```
 4. Run the Supabase SQL Schema located in `supabase/schema.sql` on your Supabase dashboard to provision tables and RLS policies.
 5. Start the dev server:
@@ -31,7 +34,7 @@ A premium full-stack digital agency website built for **Jawrah Pixel**.
 
 1. Push code to GitHub.
 2. Connect repository to Vercel.
-3. Set environment variables in the Vercel dashboard.
+3. Set Supabase and Resend environment variables in the Vercel dashboard. Keep `RESEND_API_KEY` and `FROM_EMAIL` server-only; do not create `VITE_` versions.
 4. Deploy!
 
 ## 🔐 Admin Access

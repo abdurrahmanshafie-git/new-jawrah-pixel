@@ -46,9 +46,11 @@ export interface Database {
           budget_range: string | null;
           message: string | null;
           source_page: RegionCode | null;
-          status: 'new' | 'contacted' | 'proposal_sent' | 'closed' | 'rejected';
+          status: 'new' | 'qualified' | 'proposal_sent' | 'negotiation' | 'won' | 'lost';
           assigned_to: string | null;
           notes: string | null;
+          company: string | null;
+          phone: string | null;
           region: RegionCode | null;
           created_at: string;
           updated_at: string;
@@ -65,9 +67,11 @@ export interface Database {
           budget_range?: string | null;
           message?: string | null;
           source_page?: RegionCode | null;
-          status?: 'new' | 'contacted' | 'proposal_sent' | 'closed' | 'rejected';
+          status?: 'new' | 'qualified' | 'proposal_sent' | 'negotiation' | 'won' | 'lost';
           assigned_to?: string | null;
           notes?: string | null;
+          company?: string | null;
+          phone?: string | null;
           region?: RegionCode | null;
           created_at?: string;
           updated_at?: string;
@@ -119,9 +123,20 @@ export interface Database {
           service_type: string | null;
           price: number | null;
           deadline: string | null;
-          status: 'new lead' | 'contacted' | 'proposal sent' | 'payment pending' | 'project active' | 'delivered' | 'maintenance';
+          status:
+            | 'lead'
+            | 'discovery'
+            | 'planning'
+            | 'design'
+            | 'development'
+            | 'testing'
+            | 'revision'
+            | 'deployment'
+            | 'completed';
           progress: number | null;
           notes: string | null;
+          assigned_to: string | null;
+          estimated_completion: string | null;
           region: RegionCode | null;
           created_at: string;
           updated_at: string;
@@ -133,9 +148,20 @@ export interface Database {
           service_type?: string | null;
           price?: number | null;
           deadline?: string | null;
-          status?: 'new lead' | 'contacted' | 'proposal sent' | 'payment pending' | 'project active' | 'delivered' | 'maintenance';
+          status?:
+            | 'lead'
+            | 'discovery'
+            | 'planning'
+            | 'design'
+            | 'development'
+            | 'testing'
+            | 'revision'
+            | 'deployment'
+            | 'completed';
           progress?: number | null;
           notes?: string | null;
+          assigned_to?: string | null;
+          estimated_completion?: string | null;
           region?: RegionCode | null;
           created_at?: string;
           updated_at?: string;
@@ -178,7 +204,7 @@ export interface Database {
           title: string;
           amount: number;
           currency: string;
-          status: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          status: 'draft' | 'pending' | 'paid' | 'overdue' | 'void';
           payment_status: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
           payment_method:
             | 'payhere'
@@ -209,7 +235,7 @@ export interface Database {
           title: string;
           amount: number;
           currency?: string;
-          status?: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+          status?: 'draft' | 'pending' | 'paid' | 'overdue' | 'void';
           payment_status?: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
           payment_method?:
             | 'payhere'
@@ -242,6 +268,7 @@ export interface Database {
           mime_type: string | null;
           size_bytes: number | null;
           uploaded_by: string | null;
+          file_category: 'project' | 'contract' | 'invoice' | 'proposal' | 'asset' | null;
           created_at: string;
         };
         Insert: {
@@ -253,6 +280,7 @@ export interface Database {
           mime_type?: string | null;
           size_bytes?: number | null;
           uploaded_by?: string | null;
+          file_category?: 'project' | 'contract' | 'invoice' | 'proposal' | 'asset' | null;
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['project_files']['Insert']>;
@@ -424,6 +452,157 @@ export interface Database {
           updated_at?: string;
         };
         Update: Partial<Database['public']['Tables']['revision_requests']['Insert']>;
+      };
+      project_updates: {
+        Row: {
+          id: string;
+          project_id: string;
+          status: string;
+          progress: number | null;
+          title: string;
+          body: string | null;
+          assigned_to: string | null;
+          estimated_completion: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          status: string;
+          progress?: number | null;
+          title: string;
+          body?: string | null;
+          assigned_to?: string | null;
+          estimated_completion?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['project_updates']['Insert']>;
+      };
+      proposals: {
+        Row: {
+          id: string;
+          proposal_number: string;
+          client_id: string | null;
+          project_id: string | null;
+          inquiry_id: string | null;
+          title: string;
+          scope_of_work: string | null;
+          timeline: string | null;
+          deliverables: string | null;
+          pricing: number | null;
+          currency: string;
+          terms: string | null;
+          status: 'draft' | 'sent' | 'viewed' | 'accepted' | 'rejected';
+          region: RegionCode | null;
+          sent_at: string | null;
+          viewed_at: string | null;
+          accepted_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          proposal_number?: string;
+          client_id?: string | null;
+          project_id?: string | null;
+          inquiry_id?: string | null;
+          title: string;
+          scope_of_work?: string | null;
+          timeline?: string | null;
+          deliverables?: string | null;
+          pricing?: number | null;
+          currency?: string;
+          terms?: string | null;
+          status?: 'draft' | 'sent' | 'viewed' | 'accepted' | 'rejected';
+          region?: RegionCode | null;
+          sent_at?: string | null;
+          viewed_at?: string | null;
+          accepted_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['proposals']['Insert']>;
+      };
+      message_threads: {
+        Row: {
+          id: string;
+          client_id: string;
+          project_id: string | null;
+          subject: string;
+          status: 'open' | 'closed';
+          last_message_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          client_id: string;
+          project_id?: string | null;
+          subject: string;
+          status?: 'open' | 'closed';
+          last_message_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['message_threads']['Insert']>;
+      };
+      messages: {
+        Row: {
+          id: string;
+          thread_id: string;
+          sender_id: string;
+          body: string;
+          attachment_path: string | null;
+          read_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          thread_id: string;
+          sender_id: string;
+          body: string;
+          attachment_path?: string | null;
+          read_at?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['messages']['Insert']>;
+      };
+      agent_applications: {
+        Row: {
+          id: string;
+          inquiry_id: string | null;
+          applicant_name: string;
+          applicant_email: string;
+          whatsapp: string | null;
+          region: RegionCode | null;
+          experience: string | null;
+          profile_link: string | null;
+          message: string | null;
+          status: 'pending' | 'interview' | 'approved' | 'rejected';
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          inquiry_id?: string | null;
+          applicant_name: string;
+          applicant_email: string;
+          whatsapp?: string | null;
+          region?: RegionCode | null;
+          experience?: string | null;
+          profile_link?: string | null;
+          message?: string | null;
+          status?: 'pending' | 'interview' | 'approved' | 'rejected';
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_applications']['Insert']>;
       };
     };
   };

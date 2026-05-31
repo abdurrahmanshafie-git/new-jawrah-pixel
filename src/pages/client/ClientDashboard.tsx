@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { fetchClientWorkspace, submitRevisionRequest, submitSupportTicket } from '@/lib/supabase/api';
+import { fetchExtendedClientWorkspace, markAllNotificationsRead, markNotificationRead, subscribeToNotifications } from '@/lib/supabase/ecosystem-api';
+import {
+  ClientFilesPanel,
+  ClientInvoicesPanel,
+  ClientMessagesPanel,
+  ClientNotificationsBar,
+  ClientNotificationsPanel,
+  ClientOverviewExtras,
+  ClientProjectsPanel,
+  ClientProposalsPanel,
+} from '@/components/ecosystem/ClientPortalExtras';
 import { notifySupportTicketCreated } from '@/lib/email/notifications';
 import { createUserNotification } from '@/lib/platform/notifications';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase/client';
 import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
 import { appEnv } from '@/lib/env';
 import { parsePriceAmount } from '@/lib/payments/amounts';
@@ -28,7 +40,8 @@ import {
   AlertCircle,
   X,
   Bell,
-  Star
+  Star,
+  Briefcase,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
@@ -63,6 +76,9 @@ export default function ClientDashboard() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [meetings, setMeetings] = useState<any[]>([]);
   const [milestones, setMilestones] = useState<any[]>([]);
+  const [proposals, setProposals] = useState<any[]>([]);
+  const [threads, setThreads] = useState<any[]>([]);
+  const [updates, setUpdates] = useState<any[]>([]);
   const [paymentProofNote, setPaymentProofNote] = useState('');
 
   // Submissions state controllers
@@ -136,6 +152,14 @@ export default function ClientDashboard() {
     loadPortalData();
   }, [sandboxMode, user]);
 
+  useEffect(() => {
+    if (!user || sandboxMode) return;
+    const channel = subscribeToNotifications(user.id, () => loadPortalData());
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [user, sandboxMode]);
+
   const loadPortalData = async () => {
     setLoading(true);
     setPortalError(null);
@@ -158,7 +182,7 @@ export default function ClientDashboard() {
     }
 
     try {
-      const workspace = await fetchClientWorkspace(user.id);
+      const workspace = await fetchExtendedClientWorkspace(user.id);
 
       const workspaceError =
         workspace.projects.error ||
@@ -197,7 +221,7 @@ export default function ClientDashboard() {
                     ? 'Manual Review'
                     : item.payment_status === 'failed'
                       ? 'Failed'
-                      : item.payment_status === 'pending' || item.status === 'sent'
+                      : item.payment_status === 'pending' || item.status === 'pending' || item.status === 'sent'
                         ? 'Pending'
                         : item.status,
               paymentStatus: item.payment_status,
@@ -224,6 +248,9 @@ export default function ClientDashboard() {
       if (!workspace.milestones.error && workspace.milestones.data) {
         setMilestones(workspace.milestones.data);
       }
+      if (!workspace.proposals?.error && workspace.proposals?.data) setProposals(workspace.proposals.data);
+      if (!workspace.threads?.error && workspace.threads?.data) setThreads(workspace.threads.data);
+      if (!workspace.updates?.error && workspace.updates?.data) setUpdates(workspace.updates.data);
 
       setLoading(false);
     } catch (err) {
@@ -367,6 +394,8 @@ export default function ClientDashboard() {
     }
     setPaymentModalOpen(true);
   };
+
+  const unreadNotifications = notifications.filter((n) => !n.read_at).length;
 
   // LIVE SHIELD CHAT RESPONSE SIMULATOR
   const handleSendChatMessage = (e: React.FormEvent) => {
@@ -542,12 +571,13 @@ export default function ClientDashboard() {
           {/* LEFT: COLLABORATION ROUTING LIST */}
           <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
             {[
-              { id: 'overview', label: 'Milestones Overview', icon: Activity },
-              { id: 'revisions', label: 'Revision Requests', count: revisions.length, icon: Layers },
-              { id: 'files', label: 'Document & Assets', count: uploadedFiles.length, icon: UploadCloud },
-              { id: 'invoices', label: 'Invoices & Payments', count: invoices.length, icon: DollarSign },
-              { id: 'support', label: 'Tickets & Live Chat', count: supportTickets.length, icon: MessageSquare },
-              { id: 'meetings', label: 'Consultation Calendar', count: meetings.length, icon: Calendar }
+              { id: 'overview', label: 'Overview', icon: Activity },
+              { id: 'projects', label: 'Projects', count: projects.length, icon: Briefcase },
+              { id: 'files', label: 'Files', count: uploadedFiles.length, icon: UploadCloud },
+              { id: 'proposals', label: 'Proposals', count: proposals.length, icon: FileText },
+              { id: 'invoices', label: 'Invoices', count: invoices.length, icon: DollarSign },
+              { id: 'messages', label: 'Messages', count: threads.length, icon: MessageSquare },
+              { id: 'notifications', label: 'Notifications', count: unreadNotifications, icon: Bell },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -585,122 +615,57 @@ export default function ClientDashboard() {
               </div>
             ) : (
               <div>
-                
-                {/* 1. MILESTONES OVERVIEW TAB */}
+                {!sandboxMode && user && (
+                  <ClientNotificationsBar
+                    notifications={notifications}
+                    onMarkRead={() => markAllNotificationsRead(user.id).then(() => loadPortalData())}
+                  />
+                )}
+
+                {/* 1. OVERVIEW TAB */}
                 {activeTab === 'overview' && (
                   <div className="space-y-8 animate-fade-in">
                     <div className="flex justify-between items-center">
-                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Milestones Overview</h2>
-                      <span className="text-[10px] font-mono text-brand-gray uppercase">Active: Phase 2</span>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Overview</h2>
+                      <span className="text-[10px] font-mono text-brand-gray uppercase">Workspace Summary</span>
                     </div>
 
-                    {projects.length > 0 ? (
-                      projects.map((proj) => (
-                        <div key={proj.id} className="p-6 bg-brand-black/60 border border-white/5 rounded-2xl space-y-6">
-                          
-                          <div className="flex justify-between items-start flex-wrap gap-4">
-                            <div>
-                              <span className="inline-block px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan text-[10px] font-mono uppercase tracking-widest">
-                                {proj.service_type || 'Bespoke Development'}
-                              </span>
-                              <h3 className="text-lg md:text-xl font-semibold text-white uppercase tracking-wide mt-2">{proj.title}</h3>
-                              <p className="text-xs text-brand-gray font-light max-w-lg leading-relaxed mt-1">
-                                {proj.description || 'System launch catalog tracking configuration indicators.'}
-                              </p>
-                            </div>
-
-                            <div className="text-right">
-                              <span className="text-[10px] font-mono text-brand-gray uppercase block">TARGET PRICE</span>
-                              <span className="text-sm font-semibold text-brand-cyan">{proj.price ? `${proj.price.toLocaleString()}` : 'Calculated project'}</span>
-                            </div>
-                          </div>
-
-                          {/* Dynamic progress bar animation */}
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-xs font-mono text-brand-silver">
-                              <span>ACTIVE SYSTEM PROGRESSIVE INTEGRATION</span>
-                              <span className="text-brand-cyan">{proj.progress || 0}% Complete</span>
-                            </div>
-                            <div className="w-full bg-white/5 rounded-full h-3">
-                              <div 
-                                className="bg-gradient-to-r from-brand-blue to-brand-cyan h-3 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(56,189,248,0.4)]"
-                                style={{ width: `${proj.progress || 50}%` }}
-                              ></div>
-                            </div>
-                          </div>
-
-                          {/* Milestone Steps Timeline */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-white/5">
-                            {(milestones.filter((m) => m.project_id === proj.id).length
-                              ? milestones.filter((m) => m.project_id === proj.id)
-                              : [
-                                  { id: 'ph1', title: 'Discovery', description: 'Scope lock-in pending.', status: 'queued' },
-                                  { id: 'ph2', title: 'Build', description: 'Development phase.', status: 'queued' },
-                                ]
-                            ).map((ms: any, msIdx: number) => {
-                              const done = ms.status === 'complete' || ms.status === 'approved';
-                              const active = ms.status === 'active' || ms.status === 'review';
-                              return (
-                              <div key={ms.id ?? msIdx} className={`p-4 rounded-xl border ${
-                                done ? 'bg-brand-cyan/5 border-brand-cyan/20' :
-                                active ? 'bg-brand-blue/5 border-brand-blue/20 animate-pulse' :
-                                'bg-white/[0.01] border-white/5'
-                              }`}>
-                                <div className="flex justify-between items-center mb-2">
-                                  <span className="text-xs font-mono font-bold text-brand-gray">{String(msIdx + 1).padStart(2, '0')}</span>
-                                  {done && <CheckCircle size={14} className="text-brand-cyan" />}
-                                  {active && !done && <Clock size={14} className="text-brand-blue" />}
-                                </div>
-                                <h4 className={`text-xs font-semibold uppercase tracking-wider ${active || done ? 'text-white' : 'text-brand-gray'}`}>{ms.title}</h4>
-                                <p className="text-[10px] text-brand-gray font-light mt-1 leading-snug">{ms.description || ms.desc || 'Milestone pending assignment.'}</p>
-                              </div>
-                            );})}
-                          </div>
-
-                        </div>
-                      ))
-                    ) : (
-                      <div className="p-12 text-center border border-white/5 bg-brand-black/40 rounded-xl space-y-4">
-                        <Activity className="w-12 h-12 text-brand-cyan mx-auto animate-pulse opacity-40" />
-                        <h4 className="text-sm font-semibold uppercase text-white font-mono tracking-wider">Establishing Active Project Node...</h4>
-                        <p className="text-xs text-brand-gray max-w-sm mx-auto">
-                          Our Colombo relations office will authorize your custom project timeline parameters shortly to track milestones.
-                        </p>
-                      </div>
-                    )}
-
+                    <ClientOverviewExtras
+                      projects={projects}
+                      notifications={notifications}
+                      updates={updates}
+                      invoices={invoices}
+                    />
                   </div>
                 )}
 
-                {/* 2. REVISION REQUESTS TAB */}
-                {activeTab === 'revisions' && (
+                {/* 2. PROJECTS TAB */}
+                {activeTab === 'projects' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
-                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Revision Requests</h2>
-                      <p className="text-xs text-brand-gray mt-0.5">Submit specific visual or structural revisions. Track implementation phases.</p>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Projects</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Track lifecycle progress, milestones, and submit revision requests.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                      
-                      {/* Left form input */}
+                    <ClientProjectsPanel projects={projects} milestones={milestones} updates={updates} />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4 border-t border-white/5">
                       <form onSubmit={handleSubmitRevision} className="lg:col-span-6 bg-brand-black/60 p-5 border border-white/5 rounded-xl space-y-4">
                         <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold">REVISION EMITTER</span>
-                        
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-mono text-brand-gray uppercase">Target Project Node</label>
-                          <select 
+                          <select
                             value={newRevisionProject}
                             onChange={(e) => setNewRevisionProject(e.target.value)}
                             className="flex h-10 w-full rounded-sm border border-white/5 bg-black px-3 py-2 text-xs font-mono text-brand-silver focus:outline-none"
                           >
-                            {projects.map(p => <option key={p.id} value={p.title}>{p.title}</option>)}
+                            {projects.map((p) => <option key={p.id} value={p.title}>{p.title}</option>)}
                             <option value="Direct Blueprints">Direct Blueprints</option>
                           </select>
                         </div>
-
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-mono text-brand-gray uppercase">Detail Revision Specifications</label>
-                          <Textarea 
+                          <Textarea
                             required
                             value={newRevisionText}
                             onChange={(e) => setNewRevisionText(e.target.value)}
@@ -708,7 +673,6 @@ export default function ClientDashboard() {
                             className="bg-black border-white/5 text-xs min-h-[140px]"
                           />
                         </div>
-
                         <Button
                           type="submit"
                           disabled={isSubmittingRevision}
@@ -718,10 +682,8 @@ export default function ClientDashboard() {
                         </Button>
                       </form>
 
-                      {/* Right list logs */}
                       <div className="lg:col-span-6 space-y-3">
                         <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest font-bold block">REVISION LOG RECORDS</span>
-                        
                         <div className="space-y-3 max-h-[350px] overflow-y-auto bg-brand-black/20 p-2 border border-white/5 rounded-xl">
                           {revisions.map((rev) => (
                             <div key={rev.id} className="p-4 bg-brand-black/40 border border-white/5 rounded-lg space-y-2">
@@ -729,27 +691,37 @@ export default function ClientDashboard() {
                                 <span className="text-[10px] font-semibold text-brand-cyan uppercase tracking-wider">{rev.status}</span>
                                 <span className="text-[9px] text-brand-gray font-mono">{rev.date}</span>
                               </div>
-                              <p className="text-[11px] text-brand-silver leading-relaxed pr-1 font-light italic">
-                                "{rev.detail}"
-                              </p>
+                              <p className="text-[11px] text-brand-silver leading-relaxed pr-1 font-light italic">"{rev.detail}"</p>
                               <span className="text-[9px] text-brand-gray font-mono block uppercase">Node: {rev.project}</span>
                             </div>
                           ))}
+                          {revisions.length === 0 && (
+                            <p className="text-[10px] text-brand-gray font-mono uppercase p-4 text-center">No revision requests yet.</p>
+                          )}
                         </div>
                       </div>
-
                     </div>
-
                   </div>
                 )}
 
-                {/* 3. UPLOADS & MEDIA ASSETS */}
+                {/* 3. FILES TAB */}
                 {activeTab === 'files' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
                       <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Document Vault</h2>
                       <p className="text-xs text-brand-gray mt-0.5">Asset vault to catalog custom briefs, style guides, logs, and graphics.</p>
                     </div>
+
+                    {!sandboxMode && user && (
+                      <ClientFilesPanel
+                        userId={user.id}
+                        projects={projects}
+                        uploadedFiles={uploadedFiles}
+                        sandboxMode={sandboxMode}
+                        showToast={showToast}
+                        onReload={loadPortalData}
+                      />
+                    )}
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                       
@@ -813,70 +785,40 @@ export default function ClientDashboard() {
                   </div>
                 )}
 
-                {/* 4. INVOICES & PAYMENTS TAB */}
+                {/* 4. PROPOSALS TAB */}
+                {activeTab === 'proposals' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Proposals</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Review scope, pricing, and accept proposals from your account team.</p>
+                    </div>
+
+                    {!sandboxMode && user ? (
+                      <ClientProposalsPanel proposals={proposals} userId={user.id} showToast={showToast} onReload={loadPortalData} />
+                    ) : (
+                      <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">No proposals available in sandbox mode.</p>
+                    )}
+                  </div>
+                )}
+
+                {/* 5. INVOICES TAB */}
                 {activeTab === 'invoices' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
-                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Invoices & Payment Tracking</h2>
-                      <p className="text-xs text-brand-gray mt-0.5">Automated accounting statements displaying milestone fees schedules.</p>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Invoices</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">View billing statements, download receipts, and pay milestones.</p>
                     </div>
 
-                    <div className="space-y-3.5">
-                      {invoices.length === 0 && (
-                        <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
-                          No invoices available yet. Your account manager will issue milestone billing here.
-                        </p>
-                      )}
-                      {invoices.map((inv) => (
-                        <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl flex items-center justify-between flex-wrap gap-4 hover:border-white/10 transition-colors">
-                          <div className="space-y-1">
-                            <div className="text-xs font-semibold text-white uppercase tracking-wider">{inv.item}</div>
-                            <span className="text-[10px] text-brand-gray font-mono block">Milestone Release Key: {inv.rate} ● Date: {inv.date}</span>
-                          </div>
+                    <ClientInvoicesPanel
+                      invoices={invoices}
+                      onPay={(inv) => openInvoicePayment(inv, 'full')}
+                    />
 
-                          <div className="flex items-center gap-4">
-                            <div>
-                              <span className="text-[9px] font-mono text-brand-gray uppercase block text-right">FEE TOTAL</span>
-                              <span className="text-xs font-mono text-brand-cyan font-bold block">{inv.amount}</span>
-                            </div>
-
-                            <span className={`px-2.5 py-0.5 rounded text-[10px] whitespace-nowrap uppercase font-mono border ${
-                              inv.status === 'Paid' 
-                                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
-                                : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-                            }`}>
-                              {inv.status}
-                            </span>
-
-                            {inv.status !== 'Paid' && (
-                              <div className="flex gap-1">
-                                <button
-                                  type="button"
-                                  onClick={() => openInvoicePayment(inv, 'full')}
-                                  className="px-2 py-1 rounded bg-brand-cyan/10 border border-brand-cyan/20 text-[9px] font-mono uppercase text-brand-cyan"
-                                >
-                                  Pay Now
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => openInvoicePayment(inv, 'deposit')}
-                                  className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[9px] font-mono uppercase text-brand-gray hover:text-white"
-                                >
-                                  Deposit
-                                </button>
-                              </div>
-                            )}
-
-                            <button 
-                              onClick={() => showToast(`Generated simulated receipt PDF for ${inv.id}`)}
-                              className="p-1.5 rounded bg-white/5 text-brand-gray hover:text-white"
-                            >
-                              <Download size={14} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    {invoices.length === 0 && (
+                      <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
+                        No invoices available yet. Your account manager will issue milestone billing here.
+                      </p>
+                    )}
 
                     <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-3">
                       <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold block">
@@ -921,186 +863,49 @@ export default function ClientDashboard() {
                         </a>
                       </div>
                     </div>
-
                   </div>
                 )}
 
-                {/* 5. LIVE CHAT & SUPPORT SUPPORT TICKETS */}
-                {activeTab === 'support' && (
+                {/* 6. MESSAGES TAB */}
+                {activeTab === 'messages' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
-                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Help Desk & Live Chat</h2>
-                      <p className="text-xs text-brand-gray mt-0.5">Lodge operations support tickets or chat with account managers instantly.</p>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Messages</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Threaded communication with your Jawrah Pixel account team.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                      
-                      {/* Left side support ticket form */}
-                      <form onSubmit={handleSubmitTicket} className="lg:col-span-5 bg-brand-black/60 p-5 border border-white/5 rounded-xl space-y-4">
-                        <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold block">SUPPORT DISPATCH</span>
-                        <h4 className="text-xs font-semibold uppercase text-white">Lodge Support Ticket</h4>
-                        
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-mono text-brand-gray uppercase">Subject Ticket Title</label>
-                          <Input 
-                            required
-                            value={newTicketSubject}
-                            onChange={(e) => setNewTicketSubject(e.target.value)}
-                            placeholder="e.g. Scraper Latency Query"
-                            className="bg-black border-white/5 h-10"
-                          />
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-mono text-brand-gray uppercase">Describe Issue Specifications</label>
-                          <Textarea 
-                            required
-                            value={newTicketMessage}
-                            onChange={(e) => setNewTicketMessage(e.target.value)}
-                            placeholder="Detail parameters, exact date triggers, and browser systems..."
-                            className="bg-black border-white/5 min-h-[100px]"
-                          />
-                        </div>
-
-                        <Button
-                          type="submit"
-                          disabled={isSubmittingTicket}
-                          className="w-full text-xs font-mono uppercase tracking-widest h-10 font-bold select-none"
-                        >
-                          {isSubmittingTicket ? 'Sending...' : 'Lodge Work Ticket'}
-                        </Button>
-                      </form>
-
-                      {/* Right side live support chat board */}
-                      <div className="lg:col-span-7 bg-brand-black/60 border border-white/5 rounded-xl overflow-hidden flex flex-col justify-between">
-                        
-                        {/* Live chat headers */}
-                        <div className="bg-white/5 py-4 px-4 border-b border-white/10 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse"></span>
-                            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Account Executive Node</span>
-                          </div>
-                          <span className="text-[9px] text-brand-gray font-mono">24/7 SLOTS ACTIVE</span>
-                        </div>
-
-                        {/* Interactive Message scroll */}
-                        <div className="p-4 space-y-3 min-h-[220px] max-h-[220px] overflow-y-auto bg-black/40 font-light flex flex-col">
-                          {chatMessages.map((msg, mIdx) => (
-                            <div 
-                              key={mIdx} 
-                              className={`max-w-[85%] p-3 rounded-xl text-xs space-y-1 ${
-                                msg.sender === 'user' 
-                                  ? 'bg-brand-blue text-white self-end rounded-tr-none' 
-                                  : 'bg-white/5 border border-white/10 text-brand-silver self-start rounded-tl-none'
-                              }`}
-                            >
-                              <p className="leading-relaxed whitespace-pre-wrap pr-1">{msg.text}</p>
-                              <span className="text-[9px] text-white/30 block text-right font-mono">{msg.time}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Input bar */}
-                        <form onSubmit={handleSendChatMessage} className="p-2 bg-brand-black/80 border-t border-white/10 flex gap-2">
-                          <input 
-                            type="text"
-                            value={chatInput}
-                            onChange={(e) => setChatInput(e.target.value)}
-                            placeholder="Type direct client revision message..."
-                            className="w-full bg-black/60 border border-white/5 rounded px-3 py-2 text-xs focus:outline-none focus:border-brand-blue"
-                          />
-                          <button 
-                            type="submit" 
-                            className="p-2.5 rounded bg-brand-cyan hover:bg-brand-cyan/90 text-brand-black transition-colors cursor-pointer shrink-0"
-                          >
-                            <Send size={14} />
-                          </button>
-                        </form>
-
-                      </div>
-
-                    </div>
-
+                    {!sandboxMode && user ? (
+                      <ClientMessagesPanel
+                        userId={user.id}
+                        threads={threads}
+                        showToast={showToast}
+                        onReload={loadPortalData}
+                      />
+                    ) : (
+                      <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">Messaging requires a live workspace connection.</p>
+                    )}
                   </div>
                 )}
 
-                {/* 6. MEETING TIMELINE CALENDAR */}
-                {activeTab === 'meetings' && (
+                {/* 7. NOTIFICATIONS TAB */}
+                {activeTab === 'notifications' && (
                   <div className="space-y-6 animate-fade-in">
                     <div>
-                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Consultation Calendar</h2>
-                      <p className="text-xs text-brand-gray mt-0.5">Select preferred technical calibration slots directly on Google Calendar.</p>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Notifications</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Project updates, proposals, invoices, files, and messages.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                      
-                      {/* Booking Scheduler form */}
-                      <form onSubmit={handleScheduleMeeting} className="lg:col-span-5 bg-brand-black/60 p-5 border border-white/5 rounded-xl space-y-4">
-                        <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold block">SCHEDULER CARD</span>
-                        <h4 className="text-xs font-semibold uppercase text-white">Reserve Strategy Call</h4>
-                        
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-mono text-brand-gray uppercase">Choose Calendar Date</label>
-                          <input 
-                            type="date"
-                            required
-                            value={meetingDate}
-                            onChange={(e) => setMeetingDate(e.target.value)}
-                            className="flex h-10 w-full rounded-sm border border-white/5 bg-black px-3 py-2 text-xs font-mono text-brand-silver focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-mono text-brand-gray uppercase">Select Clock Hour</label>
-                          <select 
-                            value={meetingTime}
-                            onChange={(e) => setMeetingTime(e.target.value)}
-                            className="flex h-10 w-full rounded-sm border border-white/5 bg-black px-3 py-2 text-xs font-mono text-brand-silver focus:outline-none"
-                          >
-                            <option value="09:00 (GMT+5:30)">09:00 AM (GMT+5:30)</option>
-                            <option value="11:30 (GMT+5:30)">11:30 AM (GMT+5:30)</option>
-                            <option value="14:00 (GMT+5:30)">14:00 PM (GMT+5:30)</option>
-                            <option value="16:30 (GMT+5:30)">16:30 PM (GMT+5:30)</option>
-                          </select>
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-mono text-brand-gray uppercase">Consultation Topic</label>
-                          <Input 
-                            value={meetingTopic}
-                            onChange={(e) => setMeetingTopic(e.target.value)}
-                            className="bg-black border-white/5 h-10"
-                          />
-                        </div>
-
-                        <Button type="submit" className="w-full text-xs font-mono uppercase tracking-widest h-10 select-none font-bold">
-                          Reserve Calendar Slot
-                        </Button>
-                      </form>
-
-                      {/* Right side active dates list */}
-                      <div className="lg:col-span-7 space-y-3">
-                        <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block font-bold">APPROVED CALL SCHEDULES</span>
-                        
-                        <div className="space-y-2.5">
-                          {meetings.map((meet) => (
-                            <div key={meet.id} className="p-4 bg-brand-black/40 border border-white/5 rounded-xl flex items-center justify-between flex-wrap gap-4">
-                              <div className="space-y-1">
-                                <span className="text-[10px] font-mono text-brand-gray uppercase">GOOGLE CALENDAR LINK APPROVED</span>
-                                <h4 className="text-xs font-bold text-white uppercase mt-1">{meet.topic}</h4>
-                                <span className="text-[10px] text-brand-gray font-mono block">Date: {meet.date} ● Hour: {meet.time}</span>
-                              </div>
-
-                              <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[9px] font-mono uppercase">
-                                {meet.status}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                    </div>
-
+                    <ClientNotificationsPanel
+                      notifications={notifications}
+                      onMarkRead={(id) => {
+                        if (!user) return;
+                        markNotificationRead(id).then(() => loadPortalData());
+                      }}
+                      onMarkAllRead={() => {
+                        if (!user) return;
+                        markAllNotificationsRead(user.id).then(() => loadPortalData());
+                      }}
+                    />
                   </div>
                 )}
 

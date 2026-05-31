@@ -4,6 +4,8 @@ import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck,
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
+import { useRegionalSeo } from '@/hooks/useRegionalSeo';
+import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { Logo } from '@/components/layout/Logo';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
@@ -64,6 +66,7 @@ const liveProjects = [
 
 export default function Home() {
   const { config, p } = useRegion();
+  const seo = useRegionalSeo('home');
   const storyRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: storyRef,
@@ -158,8 +161,11 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-brand-black">
       <SEO 
-        title={`${config.seoTitle} | Elite Digital Agency`}
-        description="Jawrah Pixel is a premium digital transformation agency crafting world-class websites, ecommerce experiences, and scalable systems for elite brands."
+        title={seo.title}
+        description={seo.description}
+        canonicalUrl={getCanonicalUrl(seo.path)}
+        schemaType={seo.schemaType}
+        schemaData={seo.schemaData}
       />
 
       {/* Cinematic Hero Section */}

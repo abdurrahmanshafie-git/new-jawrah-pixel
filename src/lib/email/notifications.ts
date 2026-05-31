@@ -1,9 +1,11 @@
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { appEnv } from '@/lib/env';
+import { sendLeadEmailNotification } from './leadEmails';
 
 export type EmailTemplate =
   | 'inquiry_received'
   | 'admin_notification'
+  | 'account_welcome'
   | 'booking_confirmation'
   | 'proposal_sent'
   | 'payment_confirmation'
@@ -27,6 +29,7 @@ export interface EmailDispatchResult {
 const TEMPLATE_SUBJECTS: Record<EmailTemplate, string> = {
   inquiry_received: 'We received your inquiry — Jawrah Pixel',
   admin_notification: 'New lead activity — Jawrah Pixel Admin',
+  account_welcome: 'Welcome to Jawrah Pixel',
   booking_confirmation: 'Your strategy briefing is scheduled — Jawrah Pixel',
   proposal_sent: 'Your project proposal is ready — Jawrah Pixel',
   payment_confirmation: 'Payment received — Jawrah Pixel',
@@ -72,16 +75,13 @@ export async function notifyInquiryReceived(data: {
   email: string;
   service?: string;
 }) {
-  await Promise.all([
-    dispatchEmail('inquiry_received', {
-      to: data.email,
-      data: { fullName: data.fullName, service: data.service },
-    }),
-    dispatchEmail('admin_notification', {
-      to: appEnv.contactEmail,
-      data: { fullName: data.fullName, email: data.email, service: data.service, source: 'inquiry' },
-    }),
-  ]);
+  await sendLeadEmailNotification({
+    name: data.fullName,
+    email: data.email,
+    service: data.service,
+    source: 'inquiry',
+    formType: 'Contact Form',
+  });
 }
 
 export async function notifyBookingConfirmation(data: {
@@ -90,16 +90,13 @@ export async function notifyBookingConfirmation(data: {
   date?: string | null;
   time?: string | null;
 }) {
-  await Promise.all([
-    dispatchEmail('booking_confirmation', {
-      to: data.email,
-      data: { name: data.name, date: data.date, time: data.time },
-    }),
-    dispatchEmail('admin_notification', {
-      to: appEnv.contactEmail,
-      data: { fullName: data.name, email: data.email, source: 'booking', date: data.date, time: data.time },
-    }),
-  ]);
+  await sendLeadEmailNotification({
+    name: data.name,
+    email: data.email,
+    timeline: [data.date, data.time].filter(Boolean).join(' '),
+    source: 'booking',
+    formType: 'Strategy Call Booking',
+  });
 }
 
 export async function notifyProposalSent(data: { email: string; projectTitle: string }) {

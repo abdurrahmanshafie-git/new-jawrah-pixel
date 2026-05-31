@@ -1,10 +1,19 @@
-import * as GoogleGenAI from "@google/genai";
 import { appEnv } from "./env";
 
-// Accessing from the namespace if the direct export is failing in build
-const GoogleGenerativeAI = (GoogleGenAI as any).GoogleGenerativeAI || GoogleGenAI.default?.GoogleGenerativeAI;
+let genAI: any = null;
 
-const genAI = GoogleGenerativeAI ? new GoogleGenerativeAI(appEnv.geminiApiKey) : null;
+async function getGenAIClient() {
+  if (!appEnv.geminiApiKey) {
+    throw new Error("Gemini API key is missing");
+  }
+
+  if (!genAI) {
+    const { GoogleGenAI } = await import("@google/genai");
+    genAI = new GoogleGenAI({ apiKey: appEnv.geminiApiKey });
+  }
+
+  return genAI;
+}
 
 export const REGION_CONFIG = {
   lk: {
@@ -46,14 +55,6 @@ export const REGION_CONFIG = {
 };
 
 export async function getChatResponse(message: string, history: { role: "user" | "model", parts: string }[], region: string) {
-  if (!appEnv.geminiApiKey) {
-    throw new Error("Gemini API key is missing");
-  }
-
-  if (!genAI) {
-    throw new Error("Generative AI client failed to initialize");
-  }
-
   const regionInfo = REGION_CONFIG[region as keyof typeof REGION_CONFIG] || REGION_CONFIG.int;
   
   const systemPrompt = `You are the Jawrah Pixel Business Assistant. You are helpful, professional, and talk like a real human. 
@@ -83,20 +84,24 @@ export async function getChatResponse(message: string, history: { role: "user" |
   4. Understand short messages like "hi", "bro", "price?", "need website". Respond naturally.
   5. If the region is unknown or the user asks about other areas, mention we support Sri Lanka, Pakistan, and International clients.
   6. If asked "why website?", explain business benefits like credibility, 24/7 sales, and global reach.
-  7. When a project interest is shown, suggest starting a project brief or moving to WhatsApp for a detailed quote.
-  8. Always be polite and confident. You represent an elite digital agency.
+  7. When a project interest is shown, suggest starting a project brief on the Contact page or using Start Project in chat after login.
+  8. If the user asks about pricing, services, process, timeline, or booking, answer using the ${regionInfo.label} region context above.
+  9. If the user is not logged in and asks to submit/start a project, tell them to login or create an account first.
+  10. Always be polite and confident. You represent an elite digital agency.
   
   User message: ${message}`;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const chat = model.startChat({
-      history: history.map(h => ({ role: h.role, parts: [{ text: h.parts }] })),
+    const client = await getGenAIClient();
+    const conversation = history
+      .map((h) => `${h.role === "model" ? "Assistant" : "User"}: ${h.parts}`)
+      .join("\n");
+    const response = await client.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `${systemPrompt}\n\nConversation history:\n${conversation || "No previous messages."}`,
     });
 
-    const result = await chat.sendMessage(systemPrompt);
-    const response = await result.response;
-    return response.text();
+    return response.text || "I'm here and ready to help. Could you send that once more?";
   } catch (error) {
     console.error("Gemini API Error:", error);
     throw error;

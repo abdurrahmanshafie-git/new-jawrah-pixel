@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { Insert, Row, Update } from './database.types';
+import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
 
 export type ProfileRole = Row<'profiles'>['role'];
 
@@ -7,6 +8,80 @@ function ensureConfigured() {
   if (!isSupabaseConfigured) {
     throw new Error('Supabase environment variables are not configured for this deployment.');
   }
+}
+
+function finalizeLeadEmail(payload: LeadEmailPayload, submissionId?: string | null): LeadEmailPayload {
+  const requirements =
+    payload.requirements ??
+    ([payload.goals, payload.message, payload.notes].filter(Boolean).join('\n\n') || null);
+
+  return {
+    ...payload,
+    submissionId: payload.submissionId ?? submissionId ?? null,
+    platform: payload.platform ?? 'Jawrah Pixel Web',
+    requirements,
+    submissionTime: payload.submissionTime ?? new Date().toISOString(),
+  };
+}
+
+async function notifyLeadEmail(payload: LeadEmailPayload, submissionId?: string | null) {
+  const result = await sendLeadEmailNotification(finalizeLeadEmail(payload, submissionId));
+  if (!result.ok) {
+    console.error('[Email] Lead was saved, but notification email failed:', result.reason);
+  }
+}
+
+function inferInquiryFormType(payload: Insert<'inquiries'>): string {
+  if (payload.service_interested === 'Agent Application') return 'Agent Application';
+  if (payload.inquiry_type === 'project') return 'Project Brief Form';
+  if (payload.inquiry_type === 'collaboration') return 'Agent Application';
+  return 'Contact Form';
+}
+
+function inquiryToLeadEmail(payload: Insert<'inquiries'>): LeadEmailPayload {
+  return {
+    name: payload.full_name,
+    email: payload.email,
+    whatsapp: payload.whatsapp,
+    country: payload.country,
+    region: payload.region,
+    service: payload.service_interested,
+    budget: payload.budget_range,
+    message: payload.message,
+    notes: payload.notes,
+    source: payload.source_page,
+    formType: inferInquiryFormType(payload),
+  };
+}
+
+function bookingToLeadEmail(payload: Insert<'bookings'>): LeadEmailPayload {
+  return {
+    name: payload.name,
+    email: payload.email,
+    phone: payload.phone,
+    whatsapp: payload.whatsapp,
+    country: payload.country,
+    region: payload.region,
+    service: payload.project_type,
+    timeline: [payload.preferred_date, payload.preferred_time].filter(Boolean).join(' '),
+    message: payload.message,
+    source: payload.region,
+    formType: 'Strategy Call Booking',
+  };
+}
+
+function chatbotToLeadEmail(payload: Insert<'chatbot_leads'>): LeadEmailPayload {
+  return {
+    name: payload.name,
+    whatsapp: payload.whatsapp,
+    country: payload.country,
+    service: payload.project_type,
+    budget: payload.budget_range,
+    message: payload.message,
+    notes: payload.business_type ? `Business Type: ${payload.business_type}` : undefined,
+    source: 'JawrahBot',
+    formType: 'Chatbot Lead Capture',
+  };
 }
 
 export async function getProfile(userId: string) {
@@ -29,22 +104,37 @@ export async function getProfileRole(userId: string) {
     .single();
 }
 
-export async function submitInquiry(payload: Insert<'inquiries'>) {
+export async function submitInquiry(payload: Insert<'inquiries'>, leadEmail?: LeadEmailPayload) {
   ensureConfigured();
 
-  return supabase.from('inquiries').insert(payload).select('id').single();
+  const result = await supabase.from('inquiries').insert(payload).select('id').single();
+  if (!result.error) {
+    await notifyLeadEmail(leadEmail ?? inquiryToLeadEmail(payload), result.data?.id);
+  }
+
+  return result;
 }
 
-export async function submitBooking(payload: Insert<'bookings'>) {
+export async function submitBooking(payload: Insert<'bookings'>, leadEmail?: LeadEmailPayload) {
   ensureConfigured();
 
-  return supabase.from('bookings').insert(payload).select('id').single();
+  const result = await supabase.from('bookings').insert(payload).select('id').single();
+  if (!result.error) {
+    await notifyLeadEmail(leadEmail ?? bookingToLeadEmail(payload), result.data?.id);
+  }
+
+  return result;
 }
 
-export async function submitChatbotLead(payload: Insert<'chatbot_leads'>) {
+export async function submitChatbotLead(payload: Insert<'chatbot_leads'>, leadEmail?: LeadEmailPayload) {
   ensureConfigured();
 
-  return supabase.from('chatbot_leads').insert(payload).select('id').single();
+  const result = await supabase.from('chatbot_leads').insert(payload).select('id').single();
+  if (!result.error) {
+    await notifyLeadEmail(leadEmail ?? chatbotToLeadEmail(payload), result.data?.id);
+  }
+
+  return result;
 }
 
 export async function fetchAdminLeads() {
@@ -136,7 +226,7 @@ export async function createDepositInvoice(payload: DepositInvoiceInput) {
     title: payload.title,
     amount: cappedAmount,
     currency: payload.currency,
-    status: payload.status ?? 'sent',
+    status: payload.status ?? 'pending',
     payment_status: payload.payment_status ?? 'pending',
     payment_method: payload.payment_method ?? null,
     transaction_id: payload.transaction_id ?? null,
@@ -172,8 +262,8 @@ export async function fetchDashboardAnalytics() {
 
   const totalLeads = leads.data?.length || 0;
   const newInquiries = leads.data?.filter((l) => l.status === 'new').length || 0;
-  const activeProjects = projects.data?.filter((p) => p.status === 'project active').length || 0;
-  const completedProjects = projects.data?.filter((p) => p.status === 'delivered').length || 0;
+  const activeProjects = projects.data?.filter((p) => !['lead', 'completed'].includes(p.status)).length || 0;
+  const completedProjects = projects.data?.filter((p) => p.status === 'completed').length || 0;
 
   const totalRevenue = projects.data?.reduce((acc, curr) => acc + (Number(curr.price) || 0), 0) || 0;
   const paidInvoices =

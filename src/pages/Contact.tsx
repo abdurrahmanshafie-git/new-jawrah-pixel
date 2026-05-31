@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { submitBooking, submitInquiry } from '@/lib/supabase/api';
-import { notifyBookingConfirmation, notifyInquiryReceived } from '@/lib/email/notifications';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { PaymentSuccessActions } from '@/components/payments/PaymentSuccessActions';
 import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
+import { FormAuthGate } from '@/components/auth/FormAuthGate';
+import { useAuth } from '@/contexts/AuthContext';
+import { clearFormDraft, loadFormDraft, saveFormDraft } from '@/lib/email/formDrafts';
+import { getClientPlatform } from '@/lib/email/platform';
 import {
   calculateDeposit,
   estimateBookingService,
@@ -15,6 +18,8 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useForm as useRHForm } from 'react-hook-form';
 import { useRegion } from '@/hooks/useRegion';
+import { useRegionalSeo } from '@/hooks/useRegionalSeo';
+import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { 
   Mail, 
@@ -51,6 +56,8 @@ type FormData = {
 
 export default function Contact() {
   const { currentRegion, config, p, isInternational } = useRegion();
+  const seo = useRegionalSeo('contact');
+  const { user } = useAuth();
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useRHForm<FormData>({
     defaultValues: {
       project_type: '',
@@ -85,6 +92,37 @@ export default function Contact() {
   const [lastRfpName, setLastRfpName] = useState('');
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
+
+  const rfpDraftKey = `contact-rfp:${currentRegion}`;
+  const bookingDraftKey = `contact-booking:${currentRegion}`;
+  const watchedFormValues = watch();
+
+  useEffect(() => {
+    if (user) {
+      const savedRfp = loadFormDraft<FormData & { rfpStep?: number }>(rfpDraftKey);
+      if (savedRfp) {
+        reset(savedRfp);
+        if (savedRfp.rfpStep) setRfpStep(savedRfp.rfpStep);
+        clearFormDraft(rfpDraftKey);
+      }
+
+      const savedBooking = loadFormDraft<{
+        bookingForm: typeof bookingForm;
+        selectedDateIndex: number | null;
+        selectedTime: string | null;
+      }>(bookingDraftKey);
+      if (savedBooking) {
+        setBookingForm(savedBooking.bookingForm);
+        setSelectedDateIndex(savedBooking.selectedDateIndex);
+        setSelectedTime(savedBooking.selectedTime);
+        clearFormDraft(bookingDraftKey);
+      }
+      return;
+    }
+
+    saveFormDraft(rfpDraftKey, { ...watchedFormValues, rfpStep });
+    saveFormDraft(bookingDraftKey, { bookingForm, selectedDateIndex, selectedTime });
+  }, [user, watchedFormValues, rfpStep, bookingForm, selectedDateIndex, selectedTime, rfpDraftKey, bookingDraftKey, reset]);
 
   const budgetOptions = isInternational ? [
     { value: '$500 - $1,000', label: 'USD $500 - $1,000' },
@@ -164,6 +202,10 @@ export default function Contact() {
   const bookingAdvance = calculateDeposit(bookingEstimate, 10);
 
   const openBookingPayment = async () => {
+    if (!user) {
+      setErrorMsg('Please login to continue.');
+      return;
+    }
     if (isSubmittingForm) return;
     if (!bookingForm.name.trim() || !bookingForm.email.trim()) {
       setErrorMsg('Enter your name and email before booking with deposit.');
@@ -184,28 +226,41 @@ export default function Contact() {
     const selectedDate = businessDaysList[selectedDateIndex!];
 
     try {
+      const trimmedName = bookingForm.name.trim();
+      const trimmedEmail = bookingForm.email.trim();
+      const trimmedWhatsapp = bookingForm.whatsapp?.trim() || null;
+      const preferredTime = `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`;
+
       const { error } = await submitBooking({
-        name: bookingForm.name.trim(),
-        email: bookingForm.email.trim(),
-        whatsapp: bookingForm.whatsapp?.trim() || null,
+        name: trimmedName,
+        email: trimmedEmail,
+        whatsapp: trimmedWhatsapp,
         phone: bookingForm.whatsapp?.trim() || null,
         country: config.countryName,
         project_type: bookingForm.project_category,
         preferred_date: selectedDate.dateString,
-        preferred_time: `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`,
+        preferred_time: preferredTime,
         message: `[10% advance requested] Business: ${bookingForm.business_name || 'N/A'}. Notes: ${bookingForm.notes || 'None'}`,
         region: currentRegion,
         status: 'pending',
+      }, {
+        name: trimmedName,
+        email: trimmedEmail,
+        phone: trimmedWhatsapp,
+        whatsapp: trimmedWhatsapp,
+        country: config.countryName,
+        region: currentRegion,
+        service: `${bookingForm.project_category} Strategy Briefing`,
+        timeline: `${selectedDate.dateString} ${preferredTime}`,
+        notes: bookingForm.notes,
+        source: 'Strategy booking deposit flow',
+        formType: 'Strategy Call Booking',
+        userId: user.id,
+        platform: getClientPlatform(),
+        requirements: bookingForm.notes || undefined,
       });
 
       if (error) throw error;
-
-      void notifyBookingConfirmation({
-        name: bookingForm.name.trim(),
-        email: bookingForm.email.trim(),
-        date: selectedDate.dateString,
-        time: selectedTime,
-      });
 
       setPaymentModalPayload({
         serviceName: `${bookingForm.project_category} Strategy Briefing`,
@@ -246,6 +301,10 @@ export default function Contact() {
 
   // Submit Interactive RFP Flow
   const onRfpSubmit = async (data: FormData) => {
+    if (!user) {
+      setErrorMsg('Please login to continue.');
+      return;
+    }
     if (isSubmittingForm) return;
     setIsSubmittingForm(true);
     setErrorMsg('');
@@ -258,32 +317,51 @@ export default function Contact() {
     }
 
     try {
+      const trimmedName = data.name.trim();
+      const trimmedEmail = data.email.trim();
+      const trimmedWhatsapp = data.whatsapp?.trim() || null;
+      const businessName = data.business_name?.trim() || null;
+      const message = `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`;
+
       const { error } = await submitInquiry({
-        full_name: data.name.trim(),
-        email: data.email.trim(),
-        whatsapp: data.whatsapp?.trim() || null,
-        business_name: data.business_name?.trim() || null,
+        full_name: trimmedName,
+        email: trimmedEmail,
+        whatsapp: trimmedWhatsapp,
+        business_name: businessName,
         service_interested: data.project_type,
         inquiry_type: 'project',
         budget_range: data.budget,
-        message: `Goals: ${data.goals || 'None stated'}. Timeline: ${data.timeline}. Preferred Contact: ${data.preferred_contact}. Key notes: ${data.message || 'None'}`,
+        message,
         region: currentRegion,
         source_page: currentRegion,
         status: 'new',
+      }, {
+        name: trimmedName,
+        email: trimmedEmail,
+        whatsapp: trimmedWhatsapp,
+        country: config.countryName,
+        region: currentRegion,
+        service: data.project_type,
+        budget: data.budget,
+        timeline: data.timeline,
+        goals: data.goals,
+        message: data.message,
+        notes: businessName ? `Business Name: ${businessName}. Preferred Contact: ${data.preferred_contact}` : `Preferred Contact: ${data.preferred_contact}`,
+        source: currentRegion,
+        formType: 'Project Brief Form',
+        userId: user.id,
+        platform: getClientPlatform(),
+        requirements: [data.goals, data.message].filter(Boolean).join('\n\n') || undefined,
       });
 
       if (error) throw error;
 
-      void notifyInquiryReceived({
-        fullName: data.name.trim(),
-        email: data.email.trim(),
-        service: data.project_type,
-      });
+      clearFormDraft(rfpDraftKey);
 
       setLastRfpService(data.project_type);
       setLastRfpAmount(estimateFromBudget(data.budget, currentRegion));
-      setLastRfpEmail(data.email.trim());
-      setLastRfpName(data.name.trim());
+      setLastRfpEmail(trimmedEmail);
+      setLastRfpName(trimmedName);
       setSuccess(true);
       reset();
       setRfpStep(1);
@@ -298,6 +376,10 @@ export default function Contact() {
   // Submit VIP Consultation Calendar Booking
   const handleCalendarSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      setErrorMsg('Please login to continue.');
+      return;
+    }
     if (isSubmittingForm) return;
     if (selectedDateIndex === null) {
       setErrorMsg('Please select a preferred briefing date on the calendar');
@@ -324,28 +406,43 @@ export default function Contact() {
     const selectedDate = businessDaysList[selectedDateIndex];
 
     try {
+      const trimmedName = bookingForm.name.trim();
+      const trimmedEmail = bookingForm.email.trim();
+      const trimmedWhatsapp = bookingForm.whatsapp?.trim() || null;
+      const preferredTime = `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`;
+
       const { data, error } = await submitBooking({
-        name: bookingForm.name.trim(),
-        email: bookingForm.email.trim(),
-        whatsapp: bookingForm.whatsapp?.trim() || null,
-        phone: bookingForm.whatsapp?.trim() || null,
+        name: trimmedName,
+        email: trimmedEmail,
+        whatsapp: trimmedWhatsapp,
+        phone: trimmedWhatsapp,
         country: config.countryName,
         project_type: bookingForm.project_category,
         preferred_date: selectedDate.dateString,
-        preferred_time: `${selectedTime} (${availableHoursList.find((h) => h.time === selectedTime)?.zone})`,
+        preferred_time: preferredTime,
         message: `Business Name: ${bookingForm.business_name || 'Not stated'}. Client Notes: ${bookingForm.notes || 'None'}`,
         region: currentRegion,
         status: 'pending',
+      }, {
+        name: trimmedName,
+        email: trimmedEmail,
+        phone: trimmedWhatsapp,
+        whatsapp: trimmedWhatsapp,
+        country: config.countryName,
+        region: currentRegion,
+        service: bookingForm.project_category,
+        timeline: `${selectedDate.dateString} ${preferredTime}`,
+        notes: `Business Name: ${bookingForm.business_name || 'Not stated'}. ${bookingForm.notes || ''}`.trim(),
+        source: currentRegion,
+        formType: 'Strategy Call Booking',
+        userId: user.id,
+        platform: getClientPlatform(),
+        requirements: bookingForm.notes || undefined,
       });
 
       if (error) throw error;
 
-      void notifyBookingConfirmation({
-        name: bookingForm.name.trim(),
-        email: bookingForm.email.trim(),
-        date: selectedDate.dateString,
-        time: selectedTime,
-      });
+      clearFormDraft(bookingDraftKey);
 
       setPaymentModalPayload({
         serviceName: `Strategy Booking: ${bookingForm.project_category}`,
@@ -381,8 +478,9 @@ export default function Contact() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 min-h-screen bg-brand-black text-white relative font-sans overflow-hidden">
       <SEO 
-        title={isInternational ? 'Book International Strategy Briefings | Jawrah Pixel' : `Book elite strategy briefings | ${config.countryName}`}
-        description={isInternational ? 'Submit international project requirements to Jawrah Pixel or schedule remote-first strategy briefings for premium websites, ecommerce, branding, SEO, and digital systems.' : `Submit brief requirements to Jawrah Pixel in ${config.countryName} or schedule live strategy video briefings with our regional architects.`}
+        title={seo.title}
+        description={seo.description}
+        canonicalUrl={getCanonicalUrl(seo.path)}
       />
 
       {/* Decorative luxury gradient lighting */}
@@ -518,6 +616,7 @@ export default function Contact() {
 
               {/* A. RFP SYSTEM BRIEFING (MULTI-STEP) */}
               {activeTab === 'rfp' && (
+                <FormAuthGate>
                 <div>
                   
                   {/* Step Progress indicators */}
@@ -767,10 +866,12 @@ export default function Contact() {
                     </form>
                   )}
                 </div>
+                </FormAuthGate>
               )}
 
               {/* B. VIP STRATEGY CALENDAR (BOOKING FLOW) */}
               {activeTab === 'calendar' && (
+                <FormAuthGate>
                 <div>
                   
                   {bookingSuccess ? (
@@ -962,6 +1063,7 @@ export default function Contact() {
                   )}
 
                 </div>
+                </FormAuthGate>
               )}
 
             </div>

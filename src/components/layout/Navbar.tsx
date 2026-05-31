@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { REGION_OPTIONS } from '@/data/regions';
-import { persistRegion } from '@/lib/region';
+import { persistRegion, isRegionCode } from '@/lib/region';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +17,9 @@ export function Navbar() {
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
   const { scrollYProgress } = useScroll();
-  const lockedClientRegion = user && profile?.role === 'client' ? profile.region : null;
-  const lockedRegionOption = lockedClientRegion
-    ? REGION_OPTIONS.find((region) => region.id === lockedClientRegion)
+  const lockedRegion = user && isRegionCode(profile?.region) ? profile.region : null;
+  const lockedRegionOption = lockedRegion
+    ? REGION_OPTIONS.find((region) => region.id === lockedRegion)
     : null;
 
   useEffect(() => {

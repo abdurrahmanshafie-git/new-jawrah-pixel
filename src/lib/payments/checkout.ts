@@ -50,7 +50,7 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
     const { error } = await updateInvoice(params.existingInvoiceId, {
       payment_status: 'pending',
       payment_method: params.provider,
-      status: 'sent',
+      status: 'pending',
     });
     if (error) throw new Error(error.message);
     invoiceId = params.existingInvoiceId;
@@ -65,7 +65,7 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
       title: `${params.serviceName} — ${params.depositPercent}% Deposit`,
       amount: depositAmount,
       currency: params.currency,
-      status: 'sent',
+      status: 'pending',
       payment_status: 'pending',
       payment_method: params.provider,
       due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],

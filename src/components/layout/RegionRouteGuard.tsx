@@ -15,18 +15,17 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
 
   const pathRegion = getExplicitRegionFromPathname(location.pathname);
   const savedRegion = useMemo(() => getSavedRegion(), [location.pathname, user?.id, profile?.region]);
-  const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
 
   if (loading) return <SleekLoader />;
   if (user && !profile) return <SleekLoader />;
 
-  const lockedClientRegion = user && profile?.role === 'client' ? profileRegion : null;
+  const lockedRegion = user && isRegionCode(profile?.region) ? profile.region : null;
 
-  if (lockedClientRegion && pathRegion && pathRegion !== lockedClientRegion) {
-    persistRegion(lockedClientRegion);
+  if (lockedRegion && pathRegion && pathRegion !== lockedRegion) {
+    persistRegion(lockedRegion);
     return (
       <Navigate
-        to={`${regionPath(lockedClientRegion, location.pathname)}${location.search}${location.hash}`}
+        to={`${regionPath(lockedRegion, location.pathname)}${location.search}${location.hash}`}
         replace
       />
     );
@@ -38,7 +37,7 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
   }
 
   if (user) {
-    const activeRegion = lockedClientRegion ?? profileRegion ?? savedRegion;
+    const activeRegion = lockedRegion ?? savedRegion;
     if (activeRegion) {
       persistRegion(activeRegion);
 

@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/send-lead-email.ts": {
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",

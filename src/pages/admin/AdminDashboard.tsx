@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { fetchDashboardAnalytics } from '@/lib/supabase/api';
+import { fetchBusinessAnalytics } from '@/lib/supabase/ecosystem-api';
+import { AdminAnalyticsExtras, AdminEcosystemPanels } from '@/components/ecosystem/AdminEcosystemPanels';
+import { CRM_PIPELINE, PROJECT_LIFECYCLE } from '@/lib/platform/ecosystem';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -37,7 +39,7 @@ interface Toast {
 }
 
 export default function AdminDashboard() {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const { config } = useRegion();
   
   // Tab control states: 'analytics' | 'leads' | 'bookings' | 'clients' | 'projects' | 'settings'
@@ -68,7 +70,7 @@ export default function AdminDashboard() {
   // Project Form States
   const [projectTitle, setProjectTitle] = useState('');
   const [projectServiceType, setProjectServiceType] = useState('Premium Website');
-  const [projectStatus, setProjectStatus] = useState<any>('project active');
+  const [projectStatus, setProjectStatus] = useState<any>('development');
   const [projectPrice, setProjectPrice] = useState<number>(0);
   const [projectDeadline, setProjectDeadline] = useState('');
   const [projectNotes, setProjectNotes] = useState('');
@@ -103,7 +105,7 @@ export default function AdminDashboard() {
           supabase.from('inquiries').select('*').order('created_at', { ascending: false }),
           supabase.from('projects').select('*, client:profiles(*)').order('created_at', { ascending: false }),
           supabase.from('profiles').select('*').eq('role', 'client').order('created_at', { ascending: false }),
-          fetchDashboardAnalytics(),
+          fetchBusinessAnalytics(),
           supabase.from('bookings').select('*').order('created_at', { ascending: false }),
           supabase
             .from('invoices')
@@ -185,7 +187,7 @@ export default function AdminDashboard() {
     setEditingProject(p);
     setProjectTitle(p.title);
     setProjectServiceType(p.service_type || 'Premium Website');
-    setProjectStatus(p.status || 'project active');
+    setProjectStatus(p.status || 'development');
     setProjectPrice(p.price || 0);
     setProjectDeadline(p.deadline || '');
     setProjectNotes(p.notes || '');
@@ -332,11 +334,16 @@ export default function AdminDashboard() {
           <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
             {[
               { id: 'analytics', label: 'Analytics Console', icon: Activity },
+              { id: 'crm', label: 'Agency CRM', count: inquiries.length, icon: Users },
               { id: 'leads', label: 'Leads (Inquiries)', count: inquiries.length, icon: FileText },
+              { id: 'tracking', label: 'Project Tracking', count: projects.length, icon: Briefcase },
               { id: 'bookings', label: 'Strategy Bookings', count: bookings.length, icon: Calendar },
               { id: 'clients', label: 'Client CRM', count: clients.length, icon: Users },
               { id: 'projects', label: 'Project Portfolio', count: projects.length, icon: Briefcase },
+              { id: 'proposals', label: 'Proposals', icon: FileText },
               { id: 'invoices', label: 'Invoices & Payments', count: invoices.length, icon: DollarSign },
+              { id: 'agents', label: 'Agent Applications', icon: Users },
+              { id: 'messages', label: 'Messaging', icon: MessageSquare },
               { id: 'chatbot', label: 'Chatbot Leads', count: chatbotLeads.length, icon: MessageSquare },
               { id: 'support', label: 'Support Tickets', count: supportTickets.length, icon: ShieldAlert },
               { id: 'settings', label: 'System Settings', icon: Settings }
@@ -426,7 +433,7 @@ export default function AdminDashboard() {
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                        {['new', 'contacted', 'proposal_sent', 'closed', 'rejected'].map((status) => {
+                        {CRM_PIPELINE.map((status) => {
                           const count = analytics?.leadsByStatus?.[status] || 0;
                           const percentage = analytics?.totalLeads ? (count / analytics.totalLeads) * 100 : 0;
                           return (
@@ -446,8 +453,22 @@ export default function AdminDashboard() {
                         })}
                       </div>
                     </div>
+
+                    <AdminAnalyticsExtras analytics={analytics} />
                   </div>
                 )}
+
+                <AdminEcosystemPanels
+                  activeTab={activeTab}
+                  hasAdminRole={hasAdminRole}
+                  clients={clients}
+                  projects={projects}
+                  inquiries={inquiries}
+                  regionFilter={regionFilter}
+                  showToast={showToast}
+                  onReload={loadAllDashboardData}
+                  adminUserId={user?.id}
+                />
 
                 {/* 2. LEADS (INQUIRIES) TAB */}
                 {activeTab === 'leads' && (
@@ -485,7 +506,7 @@ export default function AdminDashboard() {
                         .map((inq) => (
                         <div key={inq.id} className="p-5 bg-brand-black/60 border border-white/5 rounded-xl hover:border-brand-cyan/10 transition-colors relative group">
                           <div className="absolute top-4 right-4 flex gap-2">
-                            {['new', 'contacted', 'proposal_sent', 'closed', 'rejected'].map((st) => (
+                            {CRM_PIPELINE.map((st) => (
                               <button
                                 key={st}
                                 onClick={() => handleUpdateInquiryStatus(inq.id, st)}
@@ -574,7 +595,7 @@ export default function AdminDashboard() {
                           setEditingProject(null);
                           setProjectTitle('');
                           setProjectServiceType('Premium Website');
-                          setProjectStatus('project active');
+                          setProjectStatus('development');
                           setProjectPrice(0);
                           setProjectDeadline('');
                           setProjectNotes('');
@@ -621,7 +642,7 @@ export default function AdminDashboard() {
                               <td className="p-4">
                                 <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-mono uppercase ${
                                   proj.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                                  proj.status === 'project active' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
+                                  proj.status === 'development' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
                                   'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                 }`}>
                                   {proj.status}
@@ -900,7 +921,7 @@ export default function AdminDashboard() {
                     onChange={(e) => setProjectStatus(e.target.value as any)}
                     className="w-full h-10 bg-black/40 border border-white/5 rounded px-3 py-2 text-xs font-mono text-white focus:outline-none"
                   >
-                    {['new lead', 'contacted', 'proposal sent', 'payment pending', 'project active', 'delivered', 'maintenance'].map(s => (
+                    {PROJECT_LIFECYCLE.map(s => (
                       <option key={s} value={s}>{s.toUpperCase()}</option>
                     ))}
                   </select>

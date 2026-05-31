@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, Lock } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal } from '@/components/ui/Reveal';
-import { persistRegion } from '@/lib/region';
+import { persistRegion, isRegionCode } from '@/lib/region';
 import { cn } from '@/lib/utils';
 import { REGION_OPTIONS } from '@/data/regions';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { config, p, currentRegion } = useRegion();
+  const { user, profile } = useAuth();
+  const lockedRegion = user && isRegionCode(profile?.region) ? profile.region : null;
   const isInternational = currentRegion === 'int';
   const serviceLinks = isInternational
     ? ['Premium Website Design', 'Ecommerce Development', 'AI Integrations', 'Branding & Identity', 'SEO Optimization', 'UI/UX Systems', 'Conversion Optimization', 'Frontend Development']
@@ -86,23 +89,33 @@ export function Footer() {
               </li>
               <li className="flex flex-col items-center sm:items-start">
                 <span className="block text-brand-cyan/60 mb-2 text-[10px] font-mono uppercase tracking-[0.2em]">Region Selection</span>
-                <div className="grid grid-cols-3 gap-2 w-full max-w-[280px]">
-                  {REGION_OPTIONS.map((region) => (
-                    <Link
-                      key={region.id}
-                      to={region.path}
-                      onClick={() => persistRegion(region.id)}
-                      className={cn(
-                        "rounded-lg border py-2 text-center text-[9px] font-mono font-bold uppercase tracking-widest transition-all duration-300",
-                        currentRegion === region.id 
-                          ? "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" 
-                          : "border-white/5 text-brand-gray hover:border-white/20 hover:text-white hover:bg-white/5"
-                      )}
-                    >
-                      {region.shortLabel}
-                    </Link>
-                  ))}
-                </div>
+                {lockedRegion ? (
+                  <div
+                    className="inline-flex items-center gap-2 rounded-lg border border-brand-cyan/30 bg-brand-cyan/5 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest text-brand-cyan"
+                    title="Region locked to your account"
+                  >
+                    {REGION_OPTIONS.find((region) => region.id === lockedRegion)?.shortLabel ?? lockedRegion.toUpperCase()}
+                    <Lock className="h-3 w-3 text-brand-cyan/80" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-2 w-full max-w-[280px]">
+                    {REGION_OPTIONS.map((region) => (
+                      <Link
+                        key={region.id}
+                        to={region.path}
+                        onClick={() => persistRegion(region.id)}
+                        className={cn(
+                          "rounded-lg border py-2 text-center text-[9px] font-mono font-bold uppercase tracking-widest transition-all duration-300",
+                          currentRegion === region.id 
+                            ? "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" 
+                            : "border-white/5 text-brand-gray hover:border-white/20 hover:text-white hover:bg-white/5"
+                        )}
+                      >
+                        {region.shortLabel}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </li>
             </ul>
           </div>

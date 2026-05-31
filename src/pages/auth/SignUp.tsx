@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { getRegionMeta, getSavedRegion, persistRegion } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
+import { sendWelcomeEmailNotification } from '@/lib/email/welcomeEmail';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -70,6 +71,12 @@ export default function SignUp() {
           })
           .eq('id', data.session.user.id);
       }
+
+      void sendWelcomeEmailNotification({
+        name: fullName.trim(),
+        email: email.trim(),
+        region,
+      });
       
       setSuccess(true);
     } catch (err: any) {

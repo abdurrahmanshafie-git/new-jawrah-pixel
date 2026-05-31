@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { submitInquiry } from '@/lib/supabase/api';
-import { notifyInquiryReceived } from '@/lib/email/notifications';
+import { createAgentApplication } from '@/lib/supabase/ecosystem-api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { isValidEmail } from '@/lib/validation';
+import { FormAuthGate } from '@/components/auth/FormAuthGate';
+import { useAuth } from '@/contexts/AuthContext';
+import { clearFormDraft, loadFormDraft, saveFormDraft } from '@/lib/email/formDrafts';
+import { getClientPlatform } from '@/lib/email/platform';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
@@ -28,6 +32,7 @@ import {
 
 export default function Agents() {
   const { config, p } = useRegion();
+  const { user } = useAuth();
   const isInternational = config.id === 'int';
   const initialLocation = isInternational ? 'Global Remote' : config.locations[0];
   const seoTitle = isInternational ? 'Global Partner Network & USD Referral Program' : `Partner Network & Referral Program | ${config.countryName}`;
@@ -53,6 +58,43 @@ export default function Agents() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const applicationDraftKey = `agents-application:${config.id}`;
+
+  useEffect(() => {
+    if (user) {
+      const savedDraft = loadFormDraft<{
+        name: string;
+        email: string;
+        whatsapp: string;
+        location: string;
+        profileLink: string;
+        experience: string;
+        message: string;
+      }>(applicationDraftKey);
+
+      if (savedDraft) {
+        setName(savedDraft.name);
+        setEmail(savedDraft.email);
+        setWhatsapp(savedDraft.whatsapp);
+        setLocation(savedDraft.location);
+        setProfileLink(savedDraft.profileLink);
+        setExperience(savedDraft.experience);
+        setMessage(savedDraft.message);
+        clearFormDraft(applicationDraftKey);
+      }
+      return;
+    }
+
+    saveFormDraft(applicationDraftKey, {
+      name,
+      email,
+      whatsapp,
+      location,
+      profileLink,
+      experience,
+      message,
+    });
+  }, [user, name, email, whatsapp, location, profileLink, experience, message, applicationDraftKey]);
 
   // Scroll to section helper
   const scrollToSection = (id: string) => {
@@ -64,6 +106,10 @@ export default function Agents() {
 
   const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      setErrorMsg('Please login to continue.');
+      return;
+    }
     if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMsg('');
@@ -90,7 +136,7 @@ Sales / Marketing Experience: ${experience}
 Applicant Message: ${message || 'No extra notes.'}
       `.trim();
 
-      const { error } = await submitInquiry({
+      const { data, error } = await submitInquiry({
         full_name: name.trim(),
         email: email.trim(),
         whatsapp: whatsapp.trim() || null,
@@ -103,15 +149,39 @@ Applicant Message: ${message || 'No extra notes.'}
         region: config.id,
         source_page: config.id,
         status: 'new',
+      }, {
+        name: name.trim(),
+        email: email.trim(),
+        whatsapp: whatsapp.trim() || null,
+        country: config.countryName,
+        region: config.id,
+        service: 'Agent Application',
+        budget: 'Referral Program',
+        goals: experience,
+        message,
+        notes: `Location: ${location}. Profile/LinkedIn Link: ${profileLink || 'None Provided'}`,
+        source: config.id,
+        formType: 'Agent Application',
+        userId: user.id,
+        platform: getClientPlatform(),
+        requirements: fullMessage,
       });
 
       if (error) throw error;
 
-      void notifyInquiryReceived({
-        fullName: name.trim(),
-        email: email.trim(),
-        service: 'Agent Application',
+      await createAgentApplication({
+        inquiry_id: data?.id ?? null,
+        applicant_name: name.trim(),
+        applicant_email: email.trim(),
+        whatsapp: whatsapp.trim() || null,
+        region: config.id,
+        experience,
+        profile_link: profileLink || null,
+        message,
+        status: 'pending',
       });
+
+      clearFormDraft(applicationDraftKey);
 
       setIsSuccess(true);
       setName('');
@@ -543,6 +613,7 @@ Applicant Message: ${message || 'No extra notes.'}
                   </Button>
                 </div>
               ) : (
+                <FormAuthGate>
                 <form onSubmit={handleApply} className="space-y-4 sm:space-y-5">
                   
                   {errorMsg && (
@@ -645,6 +716,7 @@ Applicant Message: ${message || 'No extra notes.'}
                   </Button>
 
                 </form>
+                </FormAuthGate>
               )}
             </Reveal>
 
