@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from './components/layout/Layouts';
 import { ScrollToTop } from './components/layout/ScrollToTop';
@@ -31,6 +31,14 @@ const SignUp = lazy(() => import('./pages/auth/SignUp'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const ClientDashboard = lazy(() => import('./pages/client/ClientDashboard'));
 const AgentDashboard = lazy(() => import('./pages/agent/AgentDashboard'));
+const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage'));
+const PaymentSuccessPage = lazy(() => import('./pages/checkout/PaymentSuccessPage'));
+
+function CheckoutRedirect() {
+  const { invoiceId } = useParams<{ invoiceId: string }>();
+  if (!invoiceId) return <Navigate to="/dashboard" replace />;
+  return <Navigate to={`/dashboard/checkout/${invoiceId}`} replace />;
+}
 
 function RegionalRedirect({ path = '/' }: { path?: string }) {
   const { user, profile, loading } = useAuth();
@@ -125,11 +133,18 @@ export default function App() {
             {/* Client Routes */}
             <Route element={<RequireAuth roles={['client', 'admin']}><ClientLayout /></RequireAuth>}>
               <Route path="/dashboard" element={<ClientDashboard />} />
+              <Route path="/dashboard/checkout/:invoiceId" element={<CheckoutPage />} />
+              <Route path="/dashboard/payment-success" element={<PaymentSuccessPage />} />
             </Route>
+            <Route
+              path="/checkout/:invoiceId"
+              element={<RequireAuth roles={['client', 'admin']}><CheckoutRedirect /></RequireAuth>}
+            />
 
             {/* Agent Routes */}
             <Route element={<RequireAuth roles={['agent', 'admin']}><AgentLayout /></RequireAuth>}>
-              <Route path="/agent" element={<AgentDashboard />} />
+              <Route path="/agent" element={<Navigate to="/agent/dashboard" replace />} />
+              <Route path="/agent/dashboard" element={<AgentDashboard />} />
             </Route>
           </Routes>
         </Suspense>

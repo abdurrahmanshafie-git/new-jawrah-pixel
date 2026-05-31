@@ -208,25 +208,39 @@ export default function ClientDashboard() {
         }
         if (!workspace.invoices.error && workspace.invoices.data) {
           setInvoices(
-            workspace.invoices.data.map((item: any) => ({
-              ...item,
-              item: item.title,
-              amount: `${item.currency || profile?.currency || 'LKR'} ${Number(item.amount || 0).toLocaleString()}`,
-              amountNumeric: Number(item.amount || 0),
-              rate: item.invoice_number,
-              status:
-                item.payment_status === 'paid' || item.status === 'paid'
-                  ? 'Paid'
-                  : item.payment_status === 'manual_review'
-                    ? 'Manual Review'
-                    : item.payment_status === 'failed'
-                      ? 'Failed'
-                      : item.payment_status === 'pending' || item.status === 'pending' || item.status === 'sent'
-                        ? 'Pending'
-                        : item.status,
-              paymentStatus: item.payment_status,
-              date: item.due_date || item.created_at?.split('T')[0],
-            })),
+            workspace.invoices.data.map((item: any) => {
+              const amountDue = Number(item.amount_due_now ?? item.amount ?? 0);
+              const projectValue = Number(item.project_value ?? item.amount ?? 0);
+              return {
+                ...item,
+                item: item.title,
+                amount: `${item.currency || profile?.currency || 'LKR'} ${amountDue.toLocaleString()}`,
+                amountNumeric: amountDue,
+                project_value: projectValue,
+                amount_due_now: amountDue,
+                deposit_percentage: item.deposit_percentage ?? 10,
+                deposit_amount: item.deposit_amount,
+                remaining_balance: item.remaining_balance,
+                current_milestone: item.current_milestone ?? 'deposit',
+                rate: item.invoice_number,
+                status:
+                  item.payment_status === 'paid' || item.status === 'paid'
+                    ? 'Paid'
+                    : item.payment_status === 'manual_review'
+                      ? 'Manual Review'
+                      : item.payment_status === 'failed'
+                        ? 'Failed'
+                        : item.payment_status === 'processing'
+                          ? 'Processing'
+                          : item.payment_status === 'cancelled'
+                            ? 'Cancelled'
+                            : item.payment_status === 'pending' || item.status === 'pending' || item.status === 'sent'
+                              ? 'Pending'
+                              : item.status,
+                paymentStatus: item.payment_status,
+                date: item.due_date || item.created_at?.split('T')[0],
+              };
+            }),
           );
         }
         if (!workspace.files.error && workspace.files.data) {
@@ -812,6 +826,7 @@ export default function ClientDashboard() {
                     <ClientInvoicesPanel
                       invoices={invoices}
                       onPay={(inv) => openInvoicePayment(inv, 'full')}
+                      showToast={showToast}
                     />
 
                     {invoices.length === 0 && (

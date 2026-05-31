@@ -4,6 +4,7 @@ import { createUserNotification } from '@/lib/platform/notifications';
 import { formatMoney } from './amounts';
 import type { PaymentProviderId, PaymentRegion } from './config';
 import { calculateDeposit, type DepositPercent } from './amounts';
+import { calculateBillingFields } from '@/lib/billing/calculations';
 import { initiatePayment, isProviderConfigured, getAvailablePaymentMethods } from './index';
 
 export type PaymentModalIntent = 'start' | 'advance_10' | 'deposit_50' | 'invoice' | 'booking_advance';
@@ -56,6 +57,7 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
     invoiceId = params.existingInvoiceId;
   } else {
     const invoiceNumberNew = generateInvoiceNumber(params.region);
+    const billing = calculateBillingFields(params.totalAmount, params.depositPercent, params.region);
     const { data, error } = await createDepositInvoice({
       client_id: params.clientId ?? null,
       guest_email: params.guestEmail ?? null,
@@ -63,12 +65,20 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
       project_id: params.projectId ?? null,
       invoice_number: invoiceNumberNew,
       title: `${params.serviceName} — ${params.depositPercent}% Deposit`,
-      amount: depositAmount,
+      amount: billing.amount_due_now,
       currency: params.currency,
       status: 'pending',
       payment_status: 'pending',
       payment_method: params.provider,
       due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      project_value: billing.project_value,
+      deposit_percentage: billing.deposit_percentage,
+      deposit_amount: billing.deposit_amount,
+      remaining_balance: billing.remaining_balance,
+      amount_due_now: billing.amount_due_now,
+      current_milestone: billing.current_milestone,
+      region: params.region,
+      milestones: billing.milestones,
     });
 
     if (error || !data) {

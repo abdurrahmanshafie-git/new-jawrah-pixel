@@ -16,6 +16,8 @@ export interface Database {
           region: RegionCode | null;
           country: string | null;
           currency: string | null;
+          agent_code: string | null;
+          agent_status: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended' | null;
           created_at: string;
           updated_at: string;
         };
@@ -28,6 +30,8 @@ export interface Database {
           region?: RegionCode | null;
           country?: string | null;
           currency?: string | null;
+          agent_code?: string | null;
+          agent_status?: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended' | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -52,6 +56,9 @@ export interface Database {
           company: string | null;
           phone: string | null;
           region: RegionCode | null;
+          agent_code: string | null;
+          agent_id: string | null;
+          referral_source: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -73,6 +80,9 @@ export interface Database {
           company?: string | null;
           phone?: string | null;
           region?: RegionCode | null;
+          agent_code?: string | null;
+          agent_id?: string | null;
+          referral_source?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -205,7 +215,25 @@ export interface Database {
           amount: number;
           currency: string;
           status: 'draft' | 'pending' | 'paid' | 'overdue' | 'void';
-          payment_status: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
+          payment_status:
+            | 'unpaid'
+            | 'pending'
+            | 'processing'
+            | 'paid'
+            | 'failed'
+            | 'refunded'
+            | 'manual_review'
+            | 'cancelled';
+          project_value: number | null;
+          deposit_percentage: number | null;
+          deposit_amount: number | null;
+          remaining_balance: number | null;
+          amount_due_now: number | null;
+          current_milestone: 'deposit' | 'development' | 'final' | 'completed' | null;
+          region: RegionCode | null;
+          payment_reference: string | null;
+          payment_notes: string | null;
+          proof_storage_path: string | null;
           payment_method:
             | 'payhere'
             | 'onepay'
@@ -222,6 +250,8 @@ export interface Database {
           transaction_id: string | null;
           due_date: string | null;
           paid_at: string | null;
+          invoice_pdf_path: string | null;
+          latest_receipt_pdf_path: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -236,7 +266,25 @@ export interface Database {
           amount: number;
           currency?: string;
           status?: 'draft' | 'pending' | 'paid' | 'overdue' | 'void';
-          payment_status?: 'unpaid' | 'pending' | 'processing' | 'paid' | 'failed' | 'refunded' | 'manual_review';
+          payment_status?:
+            | 'unpaid'
+            | 'pending'
+            | 'processing'
+            | 'paid'
+            | 'failed'
+            | 'refunded'
+            | 'manual_review'
+            | 'cancelled';
+          project_value?: number | null;
+          deposit_percentage?: number | null;
+          deposit_amount?: number | null;
+          remaining_balance?: number | null;
+          amount_due_now?: number | null;
+          current_milestone?: 'deposit' | 'development' | 'final' | 'completed' | null;
+          region?: RegionCode | null;
+          payment_reference?: string | null;
+          payment_notes?: string | null;
+          proof_storage_path?: string | null;
           payment_method?:
             | 'payhere'
             | 'onepay'
@@ -253,10 +301,80 @@ export interface Database {
           transaction_id?: string | null;
           due_date?: string | null;
           paid_at?: string | null;
+          invoice_pdf_path?: string | null;
+          latest_receipt_pdf_path?: string | null;
           created_at?: string;
           updated_at?: string;
         };
         Update: Partial<Database['public']['Tables']['invoices']['Insert']>;
+      };
+      invoice_billing_milestones: {
+        Row: {
+          id: string;
+          invoice_id: string;
+          milestone_key: 'deposit' | 'development' | 'final';
+          label: string;
+          percentage: number;
+          amount: number;
+          status: 'pending' | 'paid' | 'cancelled';
+          paid_at: string | null;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          invoice_id: string;
+          milestone_key: 'deposit' | 'development' | 'final';
+          label: string;
+          percentage: number;
+          amount: number;
+          status?: 'pending' | 'paid' | 'cancelled';
+          paid_at?: string | null;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['invoice_billing_milestones']['Insert']>;
+      };
+      invoice_payments: {
+        Row: {
+          id: string;
+          invoice_id: string;
+          client_id: string | null;
+          amount: number;
+          currency: string;
+          payment_method: string | null;
+          status: 'pending' | 'processing' | 'manual_review' | 'paid' | 'failed' | 'cancelled';
+          reference_number: string | null;
+          proof_storage_path: string | null;
+          notes: string | null;
+          provider_transaction_id: string | null;
+          milestone_key: 'deposit' | 'development' | 'final' | null;
+          receipt_number: string | null;
+          receipt_pdf_path: string | null;
+          submission_id: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          invoice_id: string;
+          client_id?: string | null;
+          amount: number;
+          currency?: string;
+          payment_method?: string | null;
+          status?: 'pending' | 'processing' | 'manual_review' | 'paid' | 'failed' | 'cancelled';
+          reference_number?: string | null;
+          proof_storage_path?: string | null;
+          notes?: string | null;
+          provider_transaction_id?: string | null;
+          milestone_key?: 'deposit' | 'development' | 'final' | null;
+          receipt_number?: string | null;
+          receipt_pdf_path?: string | null;
+          submission_id?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['invoice_payments']['Insert']>;
       };
       project_files: {
         Row: {
@@ -528,7 +646,9 @@ export interface Database {
       message_threads: {
         Row: {
           id: string;
-          client_id: string;
+          client_id: string | null;
+          agent_id: string | null;
+          thread_type: 'client' | 'agent';
           project_id: string | null;
           subject: string;
           status: 'open' | 'closed';
@@ -538,7 +658,9 @@ export interface Database {
         };
         Insert: {
           id?: string;
-          client_id: string;
+          client_id?: string | null;
+          agent_id?: string | null;
+          thread_type?: 'client' | 'agent';
           project_id?: string | null;
           subject: string;
           status?: 'open' | 'closed';
@@ -580,7 +702,7 @@ export interface Database {
           experience: string | null;
           profile_link: string | null;
           message: string | null;
-          status: 'pending' | 'interview' | 'approved' | 'rejected';
+          status: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended';
           reviewed_by: string | null;
           reviewed_at: string | null;
           created_at: string;
@@ -596,13 +718,215 @@ export interface Database {
           experience?: string | null;
           profile_link?: string | null;
           message?: string | null;
-          status?: 'pending' | 'interview' | 'approved' | 'rejected';
+          status?: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended';
           reviewed_by?: string | null;
           reviewed_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
         Update: Partial<Database['public']['Tables']['agent_applications']['Insert']>;
+      };
+      agent_profiles: {
+        Row: {
+          id: string;
+          user_id: string;
+          application_id: string | null;
+          region: RegionCode;
+          status: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended';
+          tier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'elite';
+          completed_paid_projects: number;
+          commission_rate: number;
+          whatsapp: string | null;
+          experience: string | null;
+          profile_link: string | null;
+          bio: string | null;
+          approved_at: string | null;
+          region_locked: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          application_id?: string | null;
+          region: RegionCode;
+          status?: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended';
+          tier?: 'bronze' | 'silver' | 'gold' | 'platinum' | 'elite';
+          completed_paid_projects?: number;
+          commission_rate?: number;
+          whatsapp?: string | null;
+          experience?: string | null;
+          profile_link?: string | null;
+          bio?: string | null;
+          approved_at?: string | null;
+          region_locked?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_profiles']['Insert']>;
+      };
+      agent_leads: {
+        Row: {
+          id: string;
+          agent_id: string;
+          client_name: string;
+          client_email: string | null;
+          client_phone: string | null;
+          company: string | null;
+          service_interested: string | null;
+          project_value: number;
+          currency: string;
+          region: RegionCode | null;
+          status: 'submitted' | 'reviewing' | 'qualified' | 'proposal_sent' | 'won' | 'lost' | 'paid' | 'cancelled';
+          commission_estimate: number;
+          commission_status: 'pending' | 'approved' | 'paid' | 'rejected' | null;
+          inquiry_id: string | null;
+          project_id: string | null;
+          notes: string | null;
+          referral_source: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          agent_id: string;
+          client_name: string;
+          client_email?: string | null;
+          client_phone?: string | null;
+          company?: string | null;
+          service_interested?: string | null;
+          project_value?: number;
+          currency?: string;
+          region?: RegionCode | null;
+          status?: 'submitted' | 'reviewing' | 'qualified' | 'proposal_sent' | 'won' | 'lost' | 'paid' | 'cancelled';
+          commission_estimate?: number;
+          commission_status?: 'pending' | 'approved' | 'paid' | 'rejected' | null;
+          inquiry_id?: string | null;
+          project_id?: string | null;
+          notes?: string | null;
+          referral_source?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_leads']['Insert']>;
+      };
+      agent_commissions: {
+        Row: {
+          id: string;
+          agent_id: string;
+          agent_lead_id: string | null;
+          project_id: string | null;
+          project_amount: number;
+          commission_rate: number;
+          commission_amount: number;
+          currency: string;
+          tier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'elite' | null;
+          status: 'pending' | 'approved' | 'paid' | 'rejected';
+          approved_by: string | null;
+          approved_at: string | null;
+          paid_at: string | null;
+          rejection_reason: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          agent_id: string;
+          agent_lead_id?: string | null;
+          project_id?: string | null;
+          project_amount: number;
+          commission_rate?: number;
+          commission_amount?: number;
+          currency?: string;
+          tier?: 'bronze' | 'silver' | 'gold' | 'platinum' | 'elite' | null;
+          status?: 'pending' | 'approved' | 'paid' | 'rejected';
+          approved_by?: string | null;
+          approved_at?: string | null;
+          paid_at?: string | null;
+          rejection_reason?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_commissions']['Insert']>;
+      };
+      agent_payouts: {
+        Row: {
+          id: string;
+          agent_id: string;
+          amount: number;
+          currency: string;
+          method: string | null;
+          reference: string | null;
+          status: 'pending' | 'completed' | 'failed';
+          notes: string | null;
+          paid_at: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          agent_id: string;
+          amount: number;
+          currency?: string;
+          method?: string | null;
+          reference?: string | null;
+          status?: 'pending' | 'completed' | 'failed';
+          notes?: string | null;
+          paid_at?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_payouts']['Insert']>;
+      };
+      agent_referrals: {
+        Row: {
+          id: string;
+          agent_id: string;
+          agent_code: string;
+          visitor_session: string | null;
+          landing_path: string | null;
+          region: RegionCode | null;
+          converted: boolean;
+          inquiry_id: string | null;
+          project_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          agent_id: string;
+          agent_code: string;
+          visitor_session?: string | null;
+          landing_path?: string | null;
+          region?: RegionCode | null;
+          converted?: boolean;
+          inquiry_id?: string | null;
+          project_id?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_referrals']['Insert']>;
+      };
+      agent_tier_history: {
+        Row: {
+          id: string;
+          agent_id: string;
+          previous_tier: string | null;
+          new_tier: string;
+          completed_projects: number;
+          commission_rate: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          agent_id: string;
+          previous_tier?: string | null;
+          new_tier: string;
+          completed_projects?: number;
+          commission_rate: number;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['agent_tier_history']['Insert']>;
       };
     };
   };

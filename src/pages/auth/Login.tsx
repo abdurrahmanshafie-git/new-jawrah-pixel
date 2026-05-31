@@ -50,7 +50,7 @@ export default function Login() {
       } else if (profileData?.role === 'admin') {
         navigate('/admin');
       } else if (profileData?.role === 'agent') {
-        navigate('/agent');
+        navigate('/agent/dashboard');
       } else {
         navigate('/dashboard');
       }

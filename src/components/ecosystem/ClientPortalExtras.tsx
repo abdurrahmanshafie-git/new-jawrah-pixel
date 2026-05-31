@@ -1,5 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, CheckCircle, Download, FileText, MessageSquare, UploadCloud } from 'lucide-react';
+import { InvoiceBillingSummary } from '@/components/billing/InvoiceBillingSummary';
+import { formatPayButtonLabel } from '@/lib/billing/format';
+import { paymentStatusLabel } from '@/lib/billing/calculations';
+import { BillingPdfActions } from '@/components/billing/BillingPdfActions';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import {
@@ -476,55 +481,87 @@ export function ClientNotificationsPanel({
 export function ClientInvoicesPanel({
   invoices,
   onPay,
+  showToast,
 }: {
   invoices: any[];
   onPay?: (inv: any) => void;
+  showToast?: (message: string, type?: 'success' | 'error' | 'info') => void;
 }) {
+  const navigate = useNavigate();
+
+  const handlePay = (inv: any) => {
+    if (inv.id) {
+      navigate(`/dashboard/checkout/${inv.id}`);
+      return;
+    }
+    onPay?.(inv);
+  };
+
   return (
     <div className="space-y-3.5">
-      {invoices.map((inv) => (
-        <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl flex items-center justify-between flex-wrap gap-4">
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono text-brand-cyan uppercase">{inv.rate || inv.invoice_number}</div>
-            <div className="text-xs font-semibold text-white uppercase tracking-wider">{inv.item || inv.title}</div>
-            <span className="text-[10px] text-brand-gray font-mono block">
-              Issue: {inv.date || inv.created_at?.split('T')[0]} ● Due: {inv.due_date || inv.date || 'TBD'}
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <span className="text-[9px] font-mono text-brand-gray uppercase block">Amount</span>
-              <span className="text-xs font-mono text-brand-cyan font-bold">{inv.amount}</span>
+      {invoices.map((inv) => {
+        const isPaid = inv.status === 'Paid' || inv.status === 'paid' || inv.payment_status === 'paid';
+        const amountDue = Number(inv.amount_due_now ?? inv.amountNumeric ?? 0);
+        const statusLabel = paymentStatusLabel(inv.payment_status, inv.current_milestone);
+
+        return (
+          <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl space-y-4">
+            <div className="flex items-start justify-between flex-wrap gap-4">
+              <div className="space-y-1">
+                <div className="text-[10px] font-mono text-brand-cyan uppercase">{inv.rate || inv.invoice_number}</div>
+                <div className="text-xs font-semibold text-white uppercase tracking-wider">{inv.item || inv.title}</div>
+                <span className="text-[10px] text-brand-gray font-mono block">
+                  Issue: {inv.date || inv.created_at?.split('T')[0]} ● Due: {inv.due_date || inv.date || 'TBD'}
+                </span>
+              </div>
+              <span
+                className={`px-2.5 py-0.5 rounded text-[10px] uppercase font-mono border ${
+                  isPaid
+                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                    : inv.payment_status === 'manual_review'
+                      ? 'bg-blue-500/10 border-blue-500/20 text-blue-300'
+                      : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                }`}
+              >
+                {statusLabel}
+              </span>
             </div>
-            <span className={`px-2.5 py-0.5 rounded text-[10px] uppercase font-mono border ${
-              inv.status === 'Paid' || inv.status === 'paid'
-                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-            }`}>
-              {inv.status}
-            </span>
-            <Button
-              size="sm"
-              variant="outline"
-              className="text-[9px] font-mono uppercase"
-              onClick={() => downloadInvoiceRecord({
-                invoice_number: inv.rate || inv.invoice_number,
-                title: inv.item || inv.title,
-                amount: inv.amountNumeric ?? inv.amount,
-                currency: inv.currency,
-                status: inv.status,
-                due_date: inv.due_date || inv.date,
-                created_at: inv.created_at,
-              })}
-            >
-              <Download size={12} className="mr-1" /> Download
-            </Button>
-            {onPay && inv.status !== 'Paid' && inv.status !== 'paid' && (
-              <Button size="sm" className="text-[9px] font-mono uppercase" onClick={() => onPay(inv)}>Pay Now</Button>
-            )}
+
+            <InvoiceBillingSummary invoice={inv} compact />
+
+            <div className="flex flex-col items-end gap-3">
+              {inv.id && (
+                <BillingPdfActions invoiceId={inv.id} compact onToast={showToast} />
+              )}
+            <div className="flex flex-wrap items-center gap-3 justify-end">
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-[9px] font-mono uppercase"
+                onClick={() =>
+                  downloadInvoiceRecord({
+                    invoice_number: inv.rate || inv.invoice_number,
+                    title: inv.item || inv.title,
+                    amount: inv.amount_due_now ?? inv.amountNumeric ?? inv.amount,
+                    currency: inv.currency,
+                    status: inv.status,
+                    due_date: inv.due_date || inv.date,
+                    created_at: inv.created_at,
+                  })
+                }
+              >
+                <Download size={12} className="mr-1" /> Download
+              </Button>
+              {!isPaid && amountDue > 0 && (
+                <Button size="sm" className="text-[9px] font-mono uppercase luxury-glow" onClick={() => handlePay(inv)}>
+                  {formatPayButtonLabel(amountDue, inv.currency || 'LKR', inv.region)}
+                </Button>
+              )}
+            </div>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

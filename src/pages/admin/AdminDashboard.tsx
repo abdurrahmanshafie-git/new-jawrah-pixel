@@ -9,6 +9,12 @@ import {
   withSupabaseQueryContext,
 } from '@/lib/supabase/query-debug';
 import { AdminAnalyticsExtras, AdminEcosystemPanels } from '@/components/ecosystem/AdminEcosystemPanels';
+import { AdminAgentNetworkPanel } from '@/components/ecosystem/AdminAgentNetworkPanel';
+import { AdminInvoiceCreatePanel } from '@/components/ecosystem/AdminInvoiceCreatePanel';
+import { BillingPdfActions } from '@/components/billing/BillingPdfActions';
+import { adminApproveManualPayment } from '@/lib/supabase/billing-api';
+import { formatCurrencyAmount } from '@/lib/billing/format';
+import { paymentStatusLabel } from '@/lib/billing/calculations';
 import { CRM_PIPELINE, PROJECT_LIFECYCLE } from '@/lib/platform/ecosystem';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -279,19 +285,24 @@ export default function AdminDashboard() {
 
   const handleUpdateInvoicePayment = async (id: string, paymentStatus: string) => {
     try {
-      const { error } = await logSupabaseQuery(
-        'admin_dashboard.invoices.update_payment',
-        supabase
-          .from('invoices')
-          .update({
-            payment_status: paymentStatus,
-            status: paymentStatus === 'paid' ? 'paid' : undefined,
-            paid_at: paymentStatus === 'paid' ? new Date().toISOString() : null,
-          })
-          .eq('id', id),
-      );
-      if (error) throw error;
-      showToast(`Invoice marked as ${paymentStatus}`);
+      if (paymentStatus === 'paid') {
+        await adminApproveManualPayment(id);
+        showToast('Invoice milestone marked as paid.');
+      } else {
+        const { error } = await logSupabaseQuery(
+          'admin_dashboard.invoices.update_payment',
+          supabase
+            .from('invoices')
+            .update({
+              payment_status: paymentStatus,
+              status: paymentStatus === 'paid' ? 'paid' : undefined,
+              paid_at: paymentStatus === 'paid' ? new Date().toISOString() : null,
+            })
+            .eq('id', id),
+        );
+        if (error) throw error;
+        showToast(`Invoice marked as ${paymentStatus}`);
+      }
       loadAllDashboardData();
     } catch (err: any) {
       showToast(err.message, 'error');
@@ -396,6 +407,7 @@ export default function AdminDashboard() {
               { id: 'proposals', label: 'Proposals', icon: FileText },
               { id: 'invoices', label: 'Invoices & Payments', count: invoices.length, icon: DollarSign },
               { id: 'agents', label: 'Agent Applications', icon: Users },
+              { id: 'agent-network', label: 'Agent Network', icon: Users },
               { id: 'messages', label: 'Messaging', icon: MessageSquare },
               { id: 'chatbot', label: 'Chatbot Leads', count: chatbotLeads.length, icon: MessageSquare },
               { id: 'support', label: 'Support Tickets', count: supportTickets.length, icon: ShieldAlert },
@@ -520,6 +532,12 @@ export default function AdminDashboard() {
                   regionFilter={regionFilter}
                   showToast={showToast}
                   onReload={loadAllDashboardData}
+                  adminUserId={user?.id}
+                />
+                <AdminAgentNetworkPanel
+                  activeTab={activeTab}
+                  regionFilter={regionFilter}
+                  showToast={showToast}
                   adminUserId={user?.id}
                 />
 
@@ -776,6 +794,12 @@ export default function AdminDashboard() {
                       <p className="text-xs text-brand-gray mt-0.5">Track billing status, payment methods, and transaction references.</p>
                     </div>
 
+                    <AdminInvoiceCreatePanel
+                      clients={clients}
+                      showToast={showToast}
+                      onCreated={loadAllDashboardData}
+                    />
+
                     <div className="space-y-4">
                       {invoices.length === 0 && (
                         <p className="text-xs text-brand-gray font-mono uppercase tracking-widest py-8 text-center">
@@ -794,11 +818,17 @@ export default function AdminDashboard() {
                           </div>
                           <div className="text-right space-y-1">
                             <div className="text-xs font-mono text-brand-cyan">
-                              {inv.currency} {Number(inv.amount || 0).toLocaleString()}
+                              Due: {formatCurrencyAmount(
+                                Number(inv.amount_due_now ?? inv.amount ?? 0),
+                                inv.currency || 'LKR',
+                                inv.region,
+                              )}
+                            </div>
+                            <div className="text-[10px] font-mono text-brand-silver">
+                              Project: {formatCurrencyAmount(Number(inv.project_value ?? inv.amount ?? 0), inv.currency || 'LKR', inv.region)}
                             </div>
                             <div className="text-[10px] font-mono uppercase text-brand-gray">
-                              Invoice: {inv.status} ● Payment: {inv.payment_status || 'unpaid'}
-                              {inv.payment_status === 'manual_review' ? ' (awaiting confirmation)' : ''}
+                              {paymentStatusLabel(inv.payment_status, inv.current_milestone)}
                             </div>
                             <div className="text-[10px] font-mono text-brand-silver">
                               {inv.payment_method || 'Not set'} {inv.transaction_id ? `● ${inv.transaction_id}` : ''}
@@ -815,6 +845,15 @@ export default function AdminDashboard() {
                                 </button>
                               ))}
                             </div>
+                            {inv.id && (
+                              <BillingPdfActions
+                                invoiceId={inv.id}
+                                compact
+                                showView
+                                showResend
+                                onToast={showToast}
+                              />
+                            )}
                           </div>
                         </div>
                       ))}

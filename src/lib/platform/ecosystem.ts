@@ -29,7 +29,7 @@ export type ProposalStatus = (typeof PROPOSAL_STATUSES)[number];
 export const INVOICE_STATUSES = ['draft', 'pending', 'paid', 'overdue', 'void'] as const;
 export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 
-export const AGENT_APPLICATION_STATUSES = ['pending', 'interview', 'approved', 'rejected'] as const;
+export const AGENT_APPLICATION_STATUSES = ['pending', 'interview', 'approved', 'rejected', 'suspended'] as const;
 export type AgentApplicationStatus = (typeof AGENT_APPLICATION_STATUSES)[number];
 
 export const FILE_CATEGORIES = ['project', 'contract', 'invoice', 'proposal', 'asset'] as const;

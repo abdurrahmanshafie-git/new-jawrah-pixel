@@ -162,7 +162,7 @@ export function Navbar() {
             {renderRegionSwitcher()}
 
             {user ? (
-              <Link to={profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent' : '/dashboard'}>
+              <Link to={profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent/dashboard' : '/dashboard'}>
                 <Button variant="outline" size="sm" className="uppercase tracking-tighter text-xs">Dashboard</Button>
               </Link>
             ) : (
@@ -267,7 +267,7 @@ export function Navbar() {
                   transition={{ duration: 0.28, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
                   className="mt-3 grid gap-2 border-t border-white/10 px-1 pt-3"
                 >
-                  <Link onClick={() => setIsOpen(false)} to={user ? (profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent' : '/dashboard') : '/login'} className="w-full">
+                  <Link onClick={() => setIsOpen(false)} to={user ? (profile?.role === 'admin' ? '/admin' : profile?.role === 'agent' ? '/agent/dashboard' : '/dashboard') : '/login'} className="w-full">
                     <Button variant="outline" size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.12] bg-white/[0.045] text-[11px] font-mono font-bold uppercase tracking-[0.16em] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
                       <User className="h-3.5 w-3.5" />
                       Dashboard

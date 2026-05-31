@@ -12,7 +12,7 @@ interface RequireAuthProps {
 
 function getRoleHome(role?: Role | null) {
   if (role === 'admin') return '/admin';
-  if (role === 'agent') return '/agent';
+  if (role === 'agent') return '/agent/dashboard';
   return '/dashboard';
 }
 

@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { Insert, Row, Update } from './database.types';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
+import { getReferralSource, getStoredReferral } from '@/lib/referral';
 import {
   findFirstSupabaseQueryError,
   logSupabaseQuery,
@@ -127,6 +128,24 @@ export async function getProfileRole(userId: string) {
     .single();
 }
 
+async function attachStoredReferralToInquiry(inquiryId: string) {
+  const stored = getStoredReferral();
+  if (!stored?.agentCode) return;
+
+  const { data } = await supabase.rpc('resolve_agent_referral', { p_code: stored.agentCode });
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row?.agent_id) return;
+
+  await supabase
+    .from('inquiries')
+    .update({
+      agent_code: row.agent_code,
+      agent_id: row.agent_id,
+      referral_source: getReferralSource() || stored.landingPath || 'referral',
+    })
+    .eq('id', inquiryId);
+}
+
 export async function submitInquiry(payload: Insert<'inquiries'>, leadEmail?: LeadEmailPayload) {
   ensureConfigured();
 
@@ -134,6 +153,7 @@ export async function submitInquiry(payload: Insert<'inquiries'>, leadEmail?: Le
   const result = await supabase.from('inquiries').insert({ ...payload, id: inquiryId });
   if (!result.error) {
     console.log('INQUIRY INSERT SUCCESS');
+    void attachStoredReferralToInquiry(inquiryId);
     void notifyLeadEmail(leadEmail ?? inquiryToLeadEmail(payload), inquiryId);
     return { ...result, data: { id: inquiryId }, error: null };
   }
@@ -237,6 +257,20 @@ export type DepositInvoiceInput = {
   payment_method?: Insert<'invoices'>['payment_method'];
   transaction_id?: string | null;
   due_date?: string | null;
+  project_value?: number;
+  deposit_percentage?: number;
+  deposit_amount?: number;
+  remaining_balance?: number;
+  amount_due_now?: number;
+  current_milestone?: string;
+  region?: Insert<'invoices'>['region'];
+  milestones?: Array<{
+    milestone_key: string;
+    label: string;
+    percentage: number;
+    amount: number;
+    sort_order: number;
+  }>;
 };
 
 export async function createDepositInvoice(payload: DepositInvoiceInput) {
@@ -259,13 +293,20 @@ export async function createDepositInvoice(payload: DepositInvoiceInput) {
     project_id: payload.project_id ?? null,
     invoice_number: payload.invoice_number,
     title: payload.title,
-    amount: cappedAmount,
+    amount: Math.min(payload.amount_due_now ?? cappedAmount, 9999999999.99),
     currency: payload.currency,
     status: payload.status ?? 'pending',
     payment_status: payload.payment_status ?? 'pending',
     payment_method: payload.payment_method ?? null,
     transaction_id: payload.transaction_id ?? null,
     due_date: payload.due_date ?? null,
+    project_value: payload.project_value ?? cappedAmount,
+    deposit_percentage: payload.deposit_percentage ?? 10,
+    deposit_amount: payload.deposit_amount ?? null,
+    remaining_balance: payload.remaining_balance ?? null,
+    amount_due_now: payload.amount_due_now ?? cappedAmount,
+    current_milestone: payload.current_milestone ?? 'deposit',
+    region: payload.region ?? null,
   };
 
   const { data, error } = await supabase
@@ -273,6 +314,20 @@ export async function createDepositInvoice(payload: DepositInvoiceInput) {
     .insert(insertPayload)
     .select('id, invoice_number')
     .single();
+
+  if (!error && data?.id && payload.milestones?.length) {
+    await supabase.from('invoice_billing_milestones').insert(
+      payload.milestones.map((m) => ({
+        invoice_id: data.id,
+        milestone_key: m.milestone_key,
+        label: m.label,
+        percentage: m.percentage,
+        amount: m.amount,
+        status: 'pending',
+        sort_order: m.sort_order,
+      })),
+    );
+  }
 
   if (error) {
     console.error('[Supabase] Failed to create invoice:', {

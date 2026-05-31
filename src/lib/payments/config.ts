@@ -31,20 +31,20 @@ export const REGION_CURRENCY: Record<PaymentRegion, 'LKR' | 'PKR' | 'USD'> = {
 
 export const PAYMENT_PROVIDERS_BY_REGION: Record<PaymentRegion, PaymentProviderConfig[]> = {
   lk: [
-    { id: 'payhere', label: 'PayHere', currency: 'LKR', envKeys: ['PAYHERE_MERCHANT_ID', 'PAYHERE_SECRET'] },
-    { id: 'onepay', label: 'OnePay', currency: 'LKR', envKeys: ['ONEPAY_API_KEY'] },
+    { id: 'payhere', label: 'PayHere Online Payment', currency: 'LKR', envKeys: ['PAYHERE_MERCHANT_ID', 'PAYHERE_SECRET'] },
     { id: 'bank_transfer', label: 'Bank Transfer', currency: 'LKR', envKeys: [] },
+    { id: 'onepay', label: 'OnePay', currency: 'LKR', envKeys: ['ONEPAY_API_KEY'] },
   ],
   pk: [
+    { id: 'bank_transfer', label: 'Bank Transfer', currency: 'PKR', envKeys: [] },
     { id: 'easypaisa', label: 'Easypaisa', currency: 'PKR', envKeys: ['EASYPAISA_API_KEY'] },
     { id: 'jazzcash', label: 'JazzCash', currency: 'PKR', envKeys: ['JAZZCASH_API_KEY'] },
-    { id: 'bank_transfer', label: 'Bank Transfer', currency: 'PKR', envKeys: [] },
   ],
   int: [
-    { id: 'paypal', label: 'PayPal', currency: 'USD', envKeys: ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET'] },
     { id: 'wise', label: 'Wise', currency: 'USD', envKeys: ['WISE_API_KEY'] },
-    { id: 'bank_transfer', label: 'International Bank Transfer', currency: 'USD', envKeys: [] },
-    { id: 'visa', label: 'Visa', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
+    { id: 'paypal', label: 'PayPal', currency: 'USD', envKeys: ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET'] },
+    { id: 'bank_transfer', label: 'Bank Transfer', currency: 'USD', envKeys: [] },
+    { id: 'visa', label: 'Card Payment', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
     { id: 'mastercard', label: 'Mastercard', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
   ],
 };

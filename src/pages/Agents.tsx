@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { submitInquiry } from '@/lib/supabase/api';
-import { createAgentApplication } from '@/lib/supabase/ecosystem-api';
+import { applyAsAgent } from '@/lib/supabase/agent-api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { tierCardsForRegion } from '@/lib/agent/tiers';
 import { isValidEmail } from '@/lib/validation';
 import { FormAuthGate } from '@/components/auth/FormAuthGate';
 import { useAuth } from '@/contexts/AuthContext';
 import { clearFormDraft, loadFormDraft, saveFormDraft } from '@/lib/email/formDrafts';
-import { getClientPlatform } from '@/lib/email/platform';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
@@ -128,58 +127,19 @@ export default function Agents() {
     }
 
     try {
-      const fullMessage = `
---- AGENT NETWORK JET-START APPLICATION ---
-Location: ${location}
-Profile/LinkedIn Link: ${profileLink || 'None Provided'}
-Sales / Marketing Experience: ${experience}
-Applicant Message: ${message || 'No extra notes.'}
-      `.trim();
-
-      const { data, error } = await submitInquiry({
-        full_name: name.trim(),
-        email: email.trim(),
-        whatsapp: whatsapp.trim() || null,
-        business_name: `Agent Application - ${location}`,
-        service_interested: 'Agent Application',
-        inquiry_type: 'collaboration',
-        budget_range: 'Referral Program',
-        message: fullMessage,
-        country: config.countryName,
-        region: config.id,
-        source_page: config.id,
-        status: 'new',
-      }, {
+      const { error } = await applyAsAgent({
         name: name.trim(),
         email: email.trim(),
         whatsapp: whatsapp.trim() || null,
-        country: config.countryName,
         region: config.id,
-        service: 'Agent Application',
-        budget: 'Referral Program',
-        goals: experience,
+        location,
+        profileLink: profileLink || null,
+        experience,
         message,
-        notes: `Location: ${location}. Profile/LinkedIn Link: ${profileLink || 'None Provided'}`,
-        source: config.id,
-        formType: 'Agent Application',
         userId: user.id,
-        platform: getClientPlatform(),
-        requirements: fullMessage,
       });
 
       if (error) throw error;
-
-      await createAgentApplication({
-        inquiry_id: data?.id ?? null,
-        applicant_name: name.trim(),
-        applicant_email: email.trim(),
-        whatsapp: whatsapp.trim() || null,
-        region: config.id,
-        experience,
-        profile_link: profileLink || null,
-        message,
-        status: 'pending',
-      });
 
       clearFormDraft(applicationDraftKey);
 
@@ -198,90 +158,25 @@ Applicant Message: ${message || 'No extra notes.'}
     }
   };
 
-  const tiers = isInternational ? [
-    {
-      level: 'Bronze Tier',
-      volume: 'Starter Global Projects',
-      budget: '$500 - $1,500',
-      rate: '10% Commission',
-      reward: 'Up to $150',
-      focus: 'Ideal for premium starter websites, landing pages, creator portfolios, and early brand systems.',
-      color: 'border-amber-700/30 text-amber-500 bg-amber-500/5'
-    },
-    {
-      level: 'Silver Tier',
-      volume: 'Growth Projects',
-      budget: '$2,000 - $5,000',
-      rate: '10% Commission',
-      reward: 'Up to $500',
-      focus: 'High-performance ecommerce platforms, SaaS interfaces, conversion systems, and international brand builds.',
-      color: 'border-slate-400/30 text-slate-300 bg-slate-300/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]'
-    },
-    {
-      level: 'Gold Tier',
-      volume: 'Premium Enterprise',
-      budget: '$5,000 - $15,000+',
-      rate: '12% Commission',
-      reward: '$600+ Unlimited',
-      focus: 'Scalable AI systems, complex SaaS products, luxury ecommerce ecosystems, and global brand platforms.',
-      color: 'border-brand-cyan/30 text-brand-cyan bg-brand-cyan/5 shadow-[0_0_25px_rgba(34,211,238,0.1)] font-bold'
-    }
-  ] : config.id === 'lk' ? [
-    {
-      level: 'Bronze Tier',
-      volume: 'Standard Projects',
-      budget: 'Under LKR 1,000,000',
-      rate: '10% Commission',
-      reward: 'Up to LKR 100,000',
-      focus: 'Ideal for starter websites, foundational branding, and simple SEO implementation.',
-      color: 'border-amber-700/30 text-amber-500 bg-amber-500/5'
-    },
-    {
-      level: 'Silver Tier',
-      volume: 'Signature Projects',
-      budget: 'LKR 1,000,000 - 2,500,000',
-      rate: '10% Commission',
-      reward: 'Up to LKR 250,000',
-      focus: 'High-performance e-commerce platforms, customized corporate systems, and full stack database architecture.',
-      color: 'border-slate-400/30 text-slate-300 bg-slate-300/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]'
-    },
-    {
-      level: 'Gold Tier',
-      volume: 'Bespoke Enterprise',
-      budget: 'LKR 2,500,000+',
-      rate: '12% Commission',
-      reward: 'LKR 300,000+ Unlimited',
-      focus: 'Scalable CRM solutions, complex customized SaaS applications, and global multinational portals.',
-      color: 'border-brand-cyan/30 text-brand-cyan bg-brand-cyan/5 shadow-[0_0_25px_rgba(34,211,238,0.1)] font-bold'
-    }
-  ] : [
-    {
-      level: 'Bronze Tier',
-      volume: 'Standard Projects',
-      budget: 'Under PKR 800,000',
-      rate: '10% Commission',
-      reward: 'Up to PKR 80,000',
-      focus: 'Ideal for starter websites, foundational branding, and simple SEO implementation.',
-      color: 'border-amber-700/30 text-amber-500 bg-amber-500/5'
-    },
-    {
-      level: 'Silver Tier',
-      volume: 'Signature Projects',
-      budget: 'PKR 800,000 - 2,400,000',
-      rate: '10% Commission',
-      reward: 'Up to PKR 240,000',
-      focus: 'High-performance e-commerce platforms, customized corporate systems, and full stack database architecture.',
-      color: 'border-slate-400/30 text-slate-300 bg-slate-300/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]'
-    },
-    {
-      level: 'Gold Tier',
-      volume: 'Bespoke Enterprise',
-      budget: 'PKR 2,400,000+',
-      rate: '12% Commission',
-      reward: 'PKR 288,000+ Unlimited',
-      focus: 'Scalable CRM solutions, complex customized SaaS applications, and global multinational portals.',
-      color: 'border-brand-cyan/30 text-brand-cyan bg-brand-cyan/5 shadow-[0_0_25px_rgba(34,211,238,0.1)] font-bold'
-    }
+  const tiers = tierCardsForRegion(config.id);
+  const regionPartnerLabel = isInternational
+    ? 'International Partner Network'
+    : config.id === 'pk'
+      ? 'Pakistan Partner Network'
+      : 'Sri Lanka Partner Network';
+
+  const requirements = [
+    'Valid Jawrah Pixel account with verified email',
+    'Demonstrated sales, marketing, or business development experience',
+    'Professional WhatsApp contact for partner desk communication',
+    'Commitment to ethical referrals and accurate client introductions',
+  ];
+
+  const benefits = [
+    'Tiered commission on paid, completed projects only',
+    'Private agent dashboard with leads, commissions, and payouts',
+    'Unique referral links for LK, PK, and INT traffic',
+    'Direct admin messaging and in-app partner notifications',
   ];
 
   const locationOptions = isInternational ? [
@@ -348,7 +243,7 @@ Applicant Message: ${message || 'No extra notes.'}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan text-xs font-mono uppercase tracking-widest mb-6"
           >
             <ShieldCheck size={12} />
-            Jawrah Pixel Partner Program
+            {regionPartnerLabel}
           </motion.div>
 
           <motion.h1 
@@ -522,6 +417,36 @@ Applicant Message: ${message || 'No extra notes.'}
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </div>
+
+        {/* REQUIREMENTS & BENEFITS */}
+        <div className="py-16 md:py-24 border-t border-white/5 mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Reveal>
+              <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Partner Requirements</span>
+              <h2 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Requirements</h2>
+              <ul className="space-y-3">
+                {requirements.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-xs text-brand-silver">
+                    <CheckCircle size={14} className="text-brand-cyan shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Partner Benefits</span>
+              <h2 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Benefits</h2>
+              <ul className="space-y-3">
+                {benefits.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-xs text-brand-silver">
+                    <CheckCircle size={14} className="text-brand-cyan shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </div>
 
         {/* WHO CAN JOIN SECTION */}
@@ -709,10 +634,10 @@ Applicant Message: ${message || 'No extra notes.'}
 
                   <Button 
                     type="submit" 
-                    disabled={isSubmitting}
+                    disabled={!user || isSubmitting}
                     className="w-full text-[10px] font-semibold uppercase tracking-widest luxury-glow select-none h-11"
                   >
-                    {isSubmitting ? 'Transmitting Profile...' : 'Apply to Network'}
+                    {isSubmitting ? 'Transmitting Profile...' : user ? 'Apply to Network' : 'Login to Submit'}
                   </Button>
 
                 </form>

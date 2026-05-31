@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { getSavedRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
+import { ReferralCapture } from '@/components/referral/ReferralCapture';
 
 export function RootLayout() {
   const location = useLocation();
@@ -16,6 +17,7 @@ export function RootLayout() {
 
   return (
     <RegionRouteGuard>
+      <ReferralCapture />
       <div className="flex flex-col min-h-screen bg-brand-black">
         {!isCountrySelection && <Navbar />}
         <main className="flex-1">

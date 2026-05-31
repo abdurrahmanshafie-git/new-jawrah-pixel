@@ -1,4 +1,5 @@
 import type { RegionCode } from '@/types';
+import { formatCurrencyAmount } from '@/lib/billing/format';
 
 export type DepositPercent = 10 | 25 | 50 | 100;
 
@@ -76,6 +77,5 @@ export function calculateDeposit(total: number, percent: DepositPercent): number
 }
 
 export function formatMoney(amount: number, currency: string): string {
-  if (currency === 'USD') return `$${amount.toLocaleString()}`;
-  return `${currency} ${amount.toLocaleString()}`;
+  return formatCurrencyAmount(amount, currency);
 }
