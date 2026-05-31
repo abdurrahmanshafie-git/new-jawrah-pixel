@@ -420,7 +420,12 @@ export async function fetchMessageThreads(clientId?: string) {
   ensureConfigured();
   let query = supabase
     .from('message_threads')
-    .select('*, client:profiles(full_name, email), project:projects(title)')
+    .select(
+      `*,
+      client:profiles!message_threads_client_id_fkey(full_name, email),
+      admin:profiles!message_threads_agent_id_fkey(id, email, full_name, role, region),
+      project:projects(title)`,
+    )
     .order('updated_at', { ascending: false });
 
   if (clientId) query = query.eq('client_id', clientId);
@@ -433,7 +438,7 @@ export async function fetchThreadMessages(threadId: string) {
     'messages.thread',
     supabase
       .from('messages')
-      .select('*, sender:profiles(full_name, role)')
+      .select('*, sender:profiles!messages_sender_id_fkey(full_name, role)')
       .eq('thread_id', threadId)
       .order('created_at', { ascending: true }),
   );
