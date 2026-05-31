@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendWelcomeEmail, type WelcomeEmailPayload } from './_email/leadEmails';
+import { sendWelcomeEmail, type WelcomeEmailPayload } from './_email/welcomeEmail.js';
 
 type JsonRecord = Record<string, unknown>;
 

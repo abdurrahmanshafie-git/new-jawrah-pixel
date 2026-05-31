@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendLeadEmails, type LeadSubmission } from './_email/leadEmails';
+import { sendLeadEmails, type LeadSubmission } from './_email/leadEmails.js';
 
 type JsonRecord = Record<string, unknown>;
 

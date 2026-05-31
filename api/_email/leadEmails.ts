@@ -10,7 +10,7 @@ import {
   formatFromAddress,
   paragraph,
   summaryCard,
-} from './jawrahEmailTemplate';
+} from './jawrahEmailTemplate.js';
 
 export interface LeadSubmission {
   name?: string;
