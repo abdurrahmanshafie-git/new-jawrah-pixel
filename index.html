@@ -31,6 +31,16 @@
       }
     }
     </script>
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CNEZLRQ2C3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CNEZLRQ2C3', {
+        send_page_view: false // We will handle page views manually in React to support SPA routing
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

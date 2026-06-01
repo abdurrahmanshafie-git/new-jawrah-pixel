@@ -8,6 +8,7 @@ import { motion } from 'motion/react';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -32,6 +33,11 @@ export default function Login() {
       });
 
       if (error) throw error;
+
+      trackEvent(ANALYTICS_EVENTS.LOGIN, {
+        method: 'email',
+        user_id: data.user.id
+      });
 
       const { data: profileData } = await getProfileRole(data.user.id);
       if ((profileData?.role === 'admin' || profileData?.role === 'superadmin') && !getSavedAdminRegion()) {

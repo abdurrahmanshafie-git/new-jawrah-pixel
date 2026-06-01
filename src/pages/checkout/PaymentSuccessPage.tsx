@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { fetchInvoiceForCheckout } from '@/lib/supabase/billing-api';
 import { completeInvoicePayment } from '@/lib/supabase/billing-api';
 import { formatCurrencyAmount } from '@/lib/billing/format';
+import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
 
 export default function PaymentSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -37,7 +38,27 @@ export default function PaymentSuccessPage() {
       }
 
       const res = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin');
-      setInvoice(res.data?.invoice);
+      const inv = res.data?.invoice;
+      setInvoice(inv);
+
+      if (inv) {
+        const amount = Number(inv.amount_due_now ?? inv.amount ?? 0);
+        if (isManual) {
+          trackEvent(ANALYTICS_EVENTS.PAYMENT_SUBMITTED, {
+            invoice_id: invoiceId,
+            amount,
+            method: 'manual'
+          });
+        } else {
+          trackPurchase(invoiceId, amount, inv.currency);
+          trackEvent(ANALYTICS_EVENTS.PAYMENT_SUBMITTED, {
+            invoice_id: invoiceId,
+            amount,
+            method: 'online'
+          });
+        }
+      }
+
       setLoading(false);
     };
 

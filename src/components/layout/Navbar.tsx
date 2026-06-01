@@ -10,6 +10,7 @@ import { useRegion } from '@/hooks/useRegion';
 import { REGION_OPTIONS } from '@/data/regions';
 import { persistRegion, isRegionCode } from '@/lib/region';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -178,7 +179,10 @@ export function Navbar() {
                 </Link>
               </>
             )}
-            <Link to={p('/contact')}>
+            <Link 
+              to={p('/contact')}
+              onClick={() => trackEvent(ANALYTICS_EVENTS.START_PROJECT_CLICK, { location: 'navbar' })}
+            >
               <Button size="sm" className="uppercase tracking-tighter text-xs luxury-glow">Start Project</Button>
             </Link>
           </div>

@@ -21,6 +21,7 @@ import { useRegion } from '@/hooks/useRegion';
 import { useRegionalSeo } from '@/hooks/useRegionalSeo';
 import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
+import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
 import { 
   Mail, 
   Phone, 
@@ -262,6 +263,12 @@ export default function Contact() {
 
       if (error) throw error;
 
+      trackEvent(ANALYTICS_EVENTS.CHECKOUT_STARTED, {
+        service: bookingForm.project_category,
+        amount: bookingEstimate,
+        region: currentRegion
+      });
+
       setPaymentModalPayload({
         serviceName: `${bookingForm.project_category} Strategy Briefing`,
         totalAmount: bookingEstimate,
@@ -356,6 +363,17 @@ export default function Contact() {
       });
 
       if (inquiryError) throw inquiryError;
+
+      // Track Analytics
+      trackLead('interactive_rfp', {
+        project_type: data.project_type,
+        budget: data.budget,
+        region: currentRegion
+      });
+      trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_SUBMIT, {
+        form_type: 'interactive_rfp',
+        project_type: data.project_type
+      });
 
       setSuccess(true);
 

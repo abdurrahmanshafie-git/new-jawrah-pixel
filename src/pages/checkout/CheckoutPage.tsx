@@ -19,6 +19,7 @@ import { currencyForRegion } from '@/lib/payments/config';
 import { submitInquiry } from '@/lib/supabase/api';
 import { isRegionCode } from '@/lib/region';
 import type { Profile, RegionCode } from '@/types';
+import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
 
 type StartCheckoutOption = 'reserve_10' | 'deposit_50' | 'full_payment' | 'custom_invoice';
 
@@ -136,6 +137,13 @@ function ServiceStartCheckout({
         clientId: user.id,
         guestEmail: null,
         guestName: clientName,
+      });
+
+      trackEvent(ANALYTICS_EVENTS.CHECKOUT_STARTED, {
+        project: projectName,
+        option: selectedOption,
+        amount: amountDueToday,
+        currency
       });
 
       navigate(`/dashboard/checkout/${result.invoiceId}`);

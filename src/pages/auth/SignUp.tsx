@@ -11,6 +11,7 @@ import { getRegionMeta, getSavedRegion, persistRegion } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
 import { sendWelcomeEmailNotification } from '@/lib/email/welcomeEmail';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -56,6 +57,14 @@ export default function SignUp() {
       });
 
       if (error) throw error;
+
+      trackEvent(ANALYTICS_EVENTS.SIGNUP, {
+        method: 'email',
+        region: region
+      });
+      trackEvent(ANALYTICS_EVENTS.CLIENT_REGISTER, {
+        region: region
+      });
 
       persistRegion(region as RegionCode);
 

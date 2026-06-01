@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { REGION_OPTIONS } from '@/data/regions';
 import { useAuth } from '@/contexts/AuthContext';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
+import { trackContact } from '@/lib/analytics';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -32,10 +33,20 @@ export function Footer() {
               Architecting digital monopolies for ambitious brands. We craft premium websites, enterprise commerce platforms, and intelligent systems that establish market authority.
             </p>
             <div className="flex items-center gap-5">
-              <a href={`mailto:${config.contactEmail}`} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="Email Us">
+              <a 
+                href={`mailto:${config.contactEmail}`} 
+                onClick={() => trackContact('email', 'footer')}
+                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="Email Us"
+              >
                 <Mail size={20} />
               </a>
-              <a href={config.whatsappLink} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="WhatsApp">
+              <a 
+                href={config.whatsappLink} 
+                target="_blank" 
+                rel="noreferrer" 
+                onClick={() => trackContact('whatsapp', 'footer')}
+                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="WhatsApp"
+              >
                 <MessageCircle size={20} />
               </a>
               <a href={config.instagramLink} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="Instagram">

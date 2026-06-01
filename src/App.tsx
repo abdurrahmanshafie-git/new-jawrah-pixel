@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from './components/layout/Layouts';
 import { ScrollToTop } from './components/layout/ScrollToTop';
@@ -7,6 +7,18 @@ import { SleekLoader } from './components/ui/SleekLoader';
 import { RequireAuth } from './components/auth/RequireAuth';
 import { useAuth } from './contexts/AuthContext';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from './lib/region';
+import { trackPageView } from './lib/analytics';
+
+// Analytics Tracker Component
+function AnalyticsTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
 
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
@@ -59,6 +71,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <AnalyticsTracker />
         <ScrollToTop />
         <Suspense fallback={<SleekLoader />}>
           <Routes>
@@ -135,7 +148,7 @@ export default function App() {
               <Route path="/terms-and-conditions" element={<RegionalRedirect path="/terms-and-conditions" />} />
               <Route path="/refund-policy" element={<RegionalRedirect path="/refund-policy" />} />
               <Route path="/privacy" element={<RegionalRedirect path="/privacy-policy" />} />
-              <Route path="/terms" element={<RegionalRedirect path="/terms-and-conditions" replace />} />
+              <Route path="/terms" element={<RegionalRedirect path="/terms-and-conditions" />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to root which redirects to region if exists */}

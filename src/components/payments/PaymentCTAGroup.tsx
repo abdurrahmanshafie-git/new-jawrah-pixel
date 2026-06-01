@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { submitInquiry } from '@/lib/supabase/api';
 import { useAuth } from '@/contexts/AuthContext';
 import type { RegionCode } from '@/types';
+import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
 
 interface PaymentCTAGroupProps {
   serviceName: string;
@@ -74,6 +75,12 @@ export function PaymentCTAGroup({ serviceName, priceLabel, compact, className }:
   };
 
   const startProject = () => {
+    trackEvent(ANALYTICS_EVENTS.START_PROJECT_CLICK, {
+      service: serviceName,
+      price: priceLabel,
+      location: 'pricing_card'
+    });
+
     const params = new URLSearchParams({
       project: serviceName,
       amount: String(totalAmount),
@@ -134,6 +141,17 @@ export function PaymentCTAGroup({ serviceName, priceLabel, compact, className }:
       );
 
       if (error) throw error;
+
+      trackLead('proposal_request', {
+        service: serviceName,
+        budget: proposalForm.budgetRange,
+        region: currentRegion
+      });
+      trackEvent(ANALYTICS_EVENTS.GET_PROPOSAL_CLICK, {
+        service: serviceName,
+        region: currentRegion
+      });
+
       setProposalSuccess(true);
     } catch (err) {
       setProposalError(err instanceof Error ? err.message : 'Could not submit proposal request.');

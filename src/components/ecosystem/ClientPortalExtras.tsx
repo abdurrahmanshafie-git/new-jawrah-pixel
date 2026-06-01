@@ -27,6 +27,7 @@ import {
   isPendingProject,
   PROJECT_LIFECYCLE,
 } from '@/lib/platform/ecosystem';
+import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
 interface ToastFn {
   (message: string, type?: 'success' | 'info' | 'error'): void;
@@ -168,7 +169,15 @@ export function ClientProposalsPanel({
               <span className="text-[10px] font-mono uppercase text-brand-cyan">{proposal.status}</span>
               {(proposal.status === 'sent' || proposal.status === 'viewed') && (
                 <>
-                  <Button size="sm" className="text-[9px] font-mono uppercase" onClick={() => acceptProposal(proposal.id, userId).then(() => { showToast('Proposal accepted.'); onReload(); })}>
+                  <Button size="sm" className="text-[9px] font-mono uppercase" onClick={() => acceptProposal(proposal.id, userId).then(() => { 
+                    trackEvent(ANALYTICS_EVENTS.PROPOSAL_ACCEPTED, {
+                      proposal_id: proposal.id,
+                      amount: proposal.pricing,
+                      currency: proposal.currency
+                    });
+                    showToast('Proposal accepted.'); 
+                    onReload(); 
+                  })}>
                     Accept Proposal
                   </Button>
                   <Button

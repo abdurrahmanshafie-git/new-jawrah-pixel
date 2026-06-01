@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { applyAsAgent } from '@/lib/supabase/agent-api';
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
+import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { 
   ShieldCheck, 
@@ -140,6 +141,14 @@ export default function Partner() {
       });
 
       if (error) throw error;
+
+      trackLead('agent_application', {
+        region: config.id,
+        city: city
+      });
+      trackEvent(ANALYTICS_EVENTS.AGENT_REGISTER, {
+        region: config.id
+      });
 
       clearFormDraft(applicationDraftKey);
 
