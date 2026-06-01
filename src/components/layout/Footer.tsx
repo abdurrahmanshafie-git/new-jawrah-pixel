@@ -61,16 +61,16 @@ export function Footer() {
             <h4 className="text-white font-display font-medium tracking-[0.1em] uppercase text-xs mb-8 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:w-8 after:h-px after:bg-brand-cyan/50">Company</h4>
             <ul className="space-y-4">
               {[
-                { name: 'About Us', path: '/about' },
+                { name: 'Services', path: '/services' },
                 { name: 'Case Studies', path: '/case-studies' },
-                { name: 'Process', path: '/process' },
-                { name: 'Partner Program', path: '/partner' },
-                { name: 'Pricing', path: '/pricing' },
-                { name: 'Blog', path: '/blog' },
-                { name: 'Contact', path: '/contact' }
+                { name: 'Contact', path: '/contact' },
+                { name: 'Privacy Policy', path: '/privacy-policy' },
+                { name: 'Terms & Conditions', path: '/terms-and-conditions' },
+                { name: 'Refund Policy', path: '/refund-policy' }
               ].map((link) => (
                 <li key={link.name}>
-                  <Link to={p(link.path)} className="text-brand-gray hover:text-brand-cyan text-[13px] transition-colors">
+                  <Link to={p(link.path)} className="text-brand-gray hover:text-brand-cyan text-[13px] transition-all duration-300 flex items-center gap-2 group">
+                    <span className="w-0 h-px bg-brand-cyan group-hover:w-3 transition-all duration-300"></span>
                     {link.name}
                   </Link>
                 </li>
@@ -126,13 +126,15 @@ export function Footer() {
         </div>
 
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <p className="text-brand-gray/40 text-[11px] font-mono uppercase tracking-wider">
-            &copy; {currentYear} Jawrah Pixel OS. All rights reserved.
+          <p className="text-brand-gray/40 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
+            &copy; {currentYear} Jawrah Pixel. All rights reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[11px] font-mono uppercase tracking-wider text-brand-gray/40">
-            <Link to={p("/privacy-policy")} className="hover:text-brand-cyan transition-colors">Privacy Policy</Link>
-            <Link to={p("/terms-and-conditions")} className="hover:text-white transition-colors">Terms & Conditions</Link>
-            <Link to={p("/refund-policy")} className="hover:text-white transition-colors">Refund Policy</Link>
+          <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-3 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-brand-gray/40">
+            <Link to={p("/privacy-policy")} className="hover:text-brand-cyan transition-all duration-300">Privacy Policy</Link>
+            <span className="hidden sm:inline text-white/5">|</span>
+            <Link to={p("/terms-and-conditions")} className="hover:text-white transition-all duration-300">Terms & Conditions</Link>
+            <span className="hidden sm:inline text-white/5">|</span>
+            <Link to={p("/refund-policy")} className="hover:text-white transition-all duration-300">Refund Policy</Link>
           </div>
         </div>
       </Reveal>

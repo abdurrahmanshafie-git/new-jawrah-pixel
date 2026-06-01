@@ -78,7 +78,8 @@ export default function Home() {
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.8]);
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const nextStep = latest < 0.34 ? 0 : latest < 0.68 ? 1 : 2;
+    // Optimized thresholds for 3 steps to ensure smooth transitions
+    const nextStep = latest < 0.33 ? 0 : latest < 0.66 ? 1 : 2;
     setActiveStoryStep((currentStep) => (currentStep === nextStep ? currentStep : nextStep));
   });
 
@@ -482,8 +483,8 @@ export default function Home() {
       </section>
 
       {/* Cinematic Storytelling Sequence */}
-      <section ref={storyRef} className="relative h-[280vh] md:h-[340vh] bg-brand-black">
-        <div className="sticky top-0 h-[100svh] min-h-[560px] w-full overflow-hidden flex items-center justify-center border-y border-white/5">
+      <section ref={storyRef} className="relative h-[300vh] md:h-[400vh] bg-brand-black z-10">
+        <div className="sticky top-0 h-[100svh] min-h-[480px] w-full overflow-hidden flex items-center justify-center border-y border-white/5 z-10">
           
           {/* Dynamic Background */}
           <motion.div 
@@ -521,10 +522,10 @@ export default function Home() {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeStoryStep}
-                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -30, filter: 'blur(10px)' }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-4xl mx-auto"
               >
                 <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${activeStory.eyebrowClass}`}>
