@@ -18,8 +18,35 @@ export function Footer() {
   const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const isInternational = currentRegion === 'int';
   const serviceLinks = isInternational
-    ? ['Premium Website Design', 'Ecommerce Development', 'AI Integrations', 'Branding & Identity', 'SEO Optimization', 'UI/UX Systems', 'Conversion Optimization', 'Frontend Development']
-    : ['Web Design', 'Ecommerce Development', 'UI/UX Design', 'Branding', 'SEO Optimization', 'Admin Dashboards', 'Maintenance Plans'];
+    ? [
+        { label: 'Premium Website Design', path: '/services/international-digital-services' },
+        { label: 'Ecommerce Development', path: '/services/international-digital-services' },
+        { label: 'AI Integrations', path: '/services' },
+        { label: 'Branding & Identity', path: '/services' },
+        { label: 'SEO Optimization', path: '/services/international-digital-services' },
+        { label: 'UI/UX Systems', path: '/services' },
+        { label: 'Conversion Optimization', path: '/services' },
+        { label: 'Frontend Development', path: '/services/international-digital-services' },
+      ]
+    : currentRegion === 'pk'
+      ? [
+          { label: 'Web Design Pakistan', path: '/services/web-design-pakistan' },
+          { label: 'Ecommerce Development Pakistan', path: '/services/ecommerce-development-pakistan' },
+          { label: 'UI/UX Design', path: '/services' },
+          { label: 'Branding', path: '/services' },
+          { label: 'SEO Optimization', path: '/services' },
+          { label: 'Admin Dashboards', path: '/services' },
+          { label: 'Maintenance Plans', path: '/pricing' },
+        ]
+      : [
+          { label: 'Web Design Sri Lanka', path: '/services/web-design-sri-lanka' },
+          { label: 'Ecommerce Development Sri Lanka', path: '/services/ecommerce-development-sri-lanka' },
+          { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
+          { label: 'UI/UX Design', path: '/services' },
+          { label: 'Branding', path: '/services' },
+          { label: 'Admin Dashboards', path: '/services' },
+          { label: 'Maintenance Plans', path: '/pricing' },
+        ];
 
   return (
     <footer className="bg-brand-navy border-t border-white/5 pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-10 overflow-hidden">
@@ -61,8 +88,10 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               {serviceLinks.map((item) => (
-                <li key={item} className="text-brand-gray text-[13px] hover:text-white transition-colors cursor-default">
-                  {item}
+                <li key={item.label}>
+                  <Link to={p(item.path)} className="text-brand-gray text-[13px] hover:text-white transition-colors">
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>

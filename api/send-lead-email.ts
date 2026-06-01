@@ -1,10 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendLeadEmails, type LeadSubmission } from './_email/leadEmails.js';
+import { verifyTurnstileToken, getClientIp } from './_lib/security.js';
 
 type JsonRecord = Record<string, unknown>;
 
 const MAX_BODY_BYTES = 32_000;
-const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_WINDOW_MS = 3600_000; // 1 hour
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -98,17 +99,7 @@ function sanitizeLeadSubmission(body: JsonRecord, req: VercelRequest): LeadSubmi
   return lead;
 }
 
-function getClientIp(req: VercelRequest): string {
-  const forwardedFor = getHeader(req, 'x-forwarded-for')?.split(',')[0]?.trim();
-  return (
-    forwardedFor ||
-    getHeader(req, 'x-real-ip') ||
-    getHeader(req, 'cf-connecting-ip') ||
-    'unknown'
-  );
-}
-
-function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: number } {
+function checkRateLimit(key: string, limit: number = RATE_LIMIT_MAX_REQUESTS): { allowed: boolean; retryAfterSeconds?: number } {
   const now = Date.now();
 
   for (const [storeKey, value] of rateLimitStore.entries()) {
@@ -122,7 +113,7 @@ function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: nu
   }
 
   current.count += 1;
-  if (current.count > RATE_LIMIT_MAX_REQUESTS) {
+  if (current.count > limit) {
     return {
       allowed: false,
       retryAfterSeconds: Math.ceil((current.resetAt - now) / 1000),
@@ -168,11 +159,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return jsonResponse(res, { ok: false, error: validationError }, 400);
     }
 
+    // Turnstile Verification
+    const captchaToken = parsed.body.captcha_token as string | undefined;
+    const ip = getClientIp(req.headers);
+    const verification = await verifyTurnstileToken(captchaToken, ip);
+    
+    if (!verification.success) {
+      return jsonResponse(res, { ok: false, error: verification.error || 'Security verification failed.' }, 403);
+    }
+
     const rateLimitKey = [
-      getClientIp(req),
+      ip,
       (lead.email || lead.whatsapp || lead.phone || 'anonymous').toLowerCase(),
     ].join(':');
-    const rateLimit = checkRateLimit(rateLimitKey);
+
+    // Differentiated Rate Limiting
+    let limit = RATE_LIMIT_MAX_REQUESTS; // Default 5
+    if (lead.formType === 'Project Brief Form' || lead.formType === 'Proposal Request') {
+      limit = 3;
+    }
+
+    const rateLimit = checkRateLimit(rateLimitKey, limit);
     if (!rateLimit.allowed) {
       res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds ?? 60));
       return jsonResponse(res, { ok: false, error: 'Too many submissions. Please try again shortly.' }, 429);

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Globe, Layers, ArrowRightLeft } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
+import { SEO } from '@/components/layout/SEO';
 import { persistRegion } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
@@ -38,6 +39,13 @@ export default function CountrySelection() {
 
   return (
     <div className="min-h-screen bg-brand-black text-white relative flex flex-col justify-between overflow-hidden font-sans">
+      <SEO
+        title="Jawrah Pixel | Premium Web Design, SEO & Ecommerce Agency"
+        description="Choose your Jawrah Pixel region for premium web design, ecommerce development, branding, SEO, and digital systems in Sri Lanka, Pakistan, or international markets."
+        canonicalUrl="https://jawrahpixel.com/"
+        keywords={['Jawrah Pixel', 'web design agency', 'digital agency Sri Lanka', 'digital agency Pakistan', 'international digital agency']}
+      />
+
       {/* Background Ambience with Electric Glows */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-blue/15 rounded-full blur-[140px]" />

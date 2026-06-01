@@ -18,6 +18,7 @@ export interface LeadEmailPayload {
   submissionId?: string | null;
   platform?: string | null;
   submissionTime?: string | null;
+  captcha_token?: string | null;
 }
 
 export interface LeadEmailDispatchResult {

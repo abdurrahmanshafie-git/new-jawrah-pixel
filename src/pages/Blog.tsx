@@ -3,10 +3,12 @@ import { motion } from 'motion/react';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { fetchBlogPosts, BlogPost } from '@/lib/supabase/blog-api';
+import { getFallbackBlogPosts } from '@/data/blogPosts';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { Link } from 'react-router-dom';
 import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { toAbsoluteUrl } from '@/lib/env';
 
 export default function Blog() {
   const { config, isInternational, currentRegion, p } = useRegion();
@@ -20,7 +22,10 @@ export default function Blog() {
 
   useEffect(() => {
     fetchBlogPosts(currentRegion).then(({ data }) => {
-      if (data) setPosts(data);
+      setPosts(data?.length ? data : getFallbackBlogPosts(currentRegion));
+      setLoading(false);
+    }).catch(() => {
+      setPosts(getFallbackBlogPosts(currentRegion));
       setLoading(false);
     });
   }, [currentRegion]);
@@ -30,6 +35,8 @@ export default function Blog() {
       <SEO 
         title={seoTitle}
         description={seoDescription}
+        canonicalUrl={toAbsoluteUrl(p('/blog'))}
+        keywords={['Jawrah Pixel blog', 'web design insights', 'technical SEO blog', `${config.countryName} digital strategy`]}
         schemaType="BlogPosting"
         schemaData={{
           "@type": "Blog",
@@ -77,6 +84,8 @@ export default function Blog() {
                       <img 
                         src={post.featured_image} 
                         alt={post.title} 
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute top-4 left-4">

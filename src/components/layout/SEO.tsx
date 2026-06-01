@@ -1,151 +1,180 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 import { appEnv, toAbsoluteUrl } from '@/lib/env';
+import type { RegionCode } from '@/types';
+import {
+  buildLocalBusinessSchema,
+  buildOrganizationSchema,
+  buildWebsiteSchema,
+  getRegionLanguage,
+  type JsonLdNode,
+} from '@/lib/seo/schema';
+
+type OgType = 'website' | 'article' | 'profile';
+
+export interface SeoAlternate {
+  hrefLang: string;
+  href: string;
+}
 
 interface SEOProps {
   title: string;
   description: string;
   canonicalUrl?: string;
-  ogType?: 'website' | 'article' | 'profile';
+  canonical?: string;
+  ogType?: OgType;
   ogImage?: string;
-  schemaType?: 'Organization' | 'Service' | 'Project' | 'BlogPosting' | 'FAQPage' | 'LocalBusiness' | 'BreadcrumbList' | 'Person' | 'CaseStudy';
-  schemaData?: Record<string, any> | any[];
+  ogTitle?: string;
+  ogDescription?: string;
+  keywords?: string | string[];
+  schemaData?: JsonLdNode | JsonLdNode[];
+  schemaType?: string;
+  noIndex?: boolean;
+  alternates?: SeoAlternate[];
+  region?: RegionCode;
+  disableAutoHreflang?: boolean;
+}
+
+const regionLocales: Record<RegionCode, string> = {
+  lk: 'en_LK',
+  pk: 'en_PK',
+  int: 'en',
+};
+
+function getExplicitRegion(pathname: string): RegionCode | null {
+  const segment = pathname.split('/').filter(Boolean)[0];
+  if (segment === 'lk' || segment === 'pk' || segment === 'int') return segment;
+  return null;
+}
+
+function stripRegionPrefix(pathname: string) {
+  return pathname.replace(/^\/(lk|pk|int)(?=\/|$)/, '') || '/';
+}
+
+function normalizeUrl(pathOrUrl: string) {
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  return toAbsoluteUrl(pathOrUrl);
+}
+
+function formatTitle(title: string) {
+  return title.includes('Jawrah Pixel') ? title : `${title} | Jawrah Pixel`;
+}
+
+function buildAutoAlternates(pathname: string): SeoAlternate[] {
+  const basePath = stripRegionPrefix(pathname);
+  const suffix = basePath === '/' ? '' : basePath;
+
+  return [
+    { hrefLang: 'en-LK', href: `${appEnv.siteUrl}/lk${suffix}` },
+    { hrefLang: 'en-PK', href: `${appEnv.siteUrl}/pk${suffix}` },
+    { hrefLang: 'en', href: `${appEnv.siteUrl}/int${suffix}` },
+    { hrefLang: 'x-default', href: suffix ? `${appEnv.siteUrl}/int${suffix}` : `${appEnv.siteUrl}/` },
+  ];
+}
+
+function normalizeSchemaData(schemaType?: string, schemaData?: JsonLdNode | JsonLdNode[]) {
+  if (!schemaData) return [];
+  const items = Array.isArray(schemaData) ? schemaData : [schemaData];
+
+  return items.map((item) => {
+    if (!schemaType || item['@type']) return item;
+    return {
+      '@type': schemaType,
+      ...item,
+    };
+  });
 }
 
 export function SEO({
   title,
   description,
   canonicalUrl,
+  canonical,
   ogType = 'website',
-  ogImage = 'https://jawrahpixel.com/assets/og-image.jpg',
+  ogImage = '/assets/logo.png',
+  ogTitle,
+  ogDescription,
+  keywords,
   schemaType,
-  schemaData
+  schemaData,
+  noIndex = false,
+  alternates,
+  region,
+  disableAutoHreflang = false,
 }: SEOProps) {
-  useEffect(() => {
-    // 1. Update Title
-    const formattedTitle = title.includes('Jawrah Pixel') ? title : `${title} | Jawrah Pixel | Premium Digital Agency`;
-    const currentPath = window.location.pathname;
-    const resolvedCanonical = canonicalUrl || `${appEnv.siteUrl}${currentPath}`;
-    const resolvedOgImage = ogImage.startsWith('http') ? ogImage : toAbsoluteUrl(ogImage);
-    document.title = formattedTitle;
+  const location = useLocation();
+  const pathname = location.pathname || '/';
+  const activeRegion = region ?? getExplicitRegion(pathname) ?? undefined;
+  const resolvedCanonical = normalizeUrl(canonicalUrl ?? canonical ?? pathname);
+  const resolvedOgImage = normalizeUrl(ogImage);
+  const formattedTitle = formatTitle(title);
+  const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+  const resolvedAlternates = alternates ?? (disableAutoHreflang ? [] : buildAutoAlternates(pathname));
 
-    // 2. Update Meta Description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', description);
+  const structuredData = useMemo(() => {
+    const graph: JsonLdNode[] = [
+      buildOrganizationSchema(),
+      buildWebsiteSchema(),
+    ];
 
-    // 3. Update Canonical URL
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement('link');
-      linkCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(linkCanonical);
-    }
-    linkCanonical.setAttribute('href', resolvedCanonical);
-
-    // 4. Update OpenGraph Tags
-    const ogTags = {
-      'og:title': formattedTitle,
-      'og:description': description,
-      'og:url': resolvedCanonical,
-      'og:type': ogType,
-      'og:image': resolvedOgImage,
-      'og:site_name': 'Jawrah Pixel',
-      'twitter:card': 'summary_large_image',
-      'twitter:title': formattedTitle,
-      'twitter:description': description,
-      'twitter:image': resolvedOgImage,
-      'theme-color': '#000000'
-    };
-
-    Object.entries(ogTags).forEach(([property, value]) => {
-      let meta = document.querySelector(`meta[property="${property}"]`) || 
-                 document.querySelector(`meta[name="${property}"]`);
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute(property.startsWith('og:') ? 'property' : 'name', property);
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', value);
-    });
-
-    // 5. Structured Data Schema Injection
-    let schemaScript = document.getElementById('seo-structured-schema');
-    if (schemaScript) {
-      schemaScript.remove();
+    if (activeRegion) {
+      graph.push(buildLocalBusinessSchema(activeRegion));
     }
 
-    const organizationSchema = {
-      '@type': 'Organization',
-      '@id': `${appEnv.siteUrl}/#organization`,
-      'name': 'Jawrah Pixel',
-      'url': appEnv.siteUrl,
-      'logo': {
-        '@type': 'ImageObject',
-        'url': toAbsoluteUrl('/assets/logo.png'),
-        'width': '512',
-        'height': '512'
-      },
-      'email': appEnv.contactEmail,
-      'telephone': appEnv.contactWhatsapp,
-      'sameAs': [
-        'https://www.instagram.com/jawrahpixel',
-        'https://linkedin.com/company/jawrahpixel'
-      ],
-      'description': 'Premium Digital Agency & Client OS specializing in high-end website development, e-commerce, and business automation.'
-    };
+    graph.push(...normalizeSchemaData(schemaType, schemaData));
 
-    const websiteSchema = {
-      '@type': 'WebSite',
-      '@id': `${appEnv.siteUrl}/#website`,
-      'url': appEnv.siteUrl,
-      'name': 'Jawrah Pixel',
-      'publisher': {
-        '@id': `${appEnv.siteUrl}/#organization`
-      },
-      'potentialAction': {
-        '@type': 'SearchAction',
-        'target': `${appEnv.siteUrl}/search?q={search_term_string}`,
-        'query-input': 'required name=search_term_string'
-      }
-    };
-
-    const graph: any[] = [organizationSchema, websiteSchema];
-
-    if (schemaType && schemaData) {
-      if (Array.isArray(schemaData)) {
-        schemaData.forEach(item => {
-          graph.push(item);
-        });
-      } else {
-        graph.push({
-          '@type': schemaType,
-          ...schemaData
-        });
-      }
-    }
-
-    const finalSchema = {
+    return {
       '@context': 'https://schema.org',
-      '@graph': graph
+      '@graph': graph,
     };
+  }, [activeRegion, schemaData, schemaType]);
+  const structuredDataJson = useMemo(() => JSON.stringify(structuredData), [structuredData]);
 
-    schemaScript = document.createElement('script');
-    schemaScript.setAttribute('id', 'seo-structured-schema');
-    schemaScript.setAttribute('type', 'application/ld+json');
-    schemaScript.textContent = JSON.stringify(finalSchema);
-    document.head.appendChild(schemaScript);
+  useEffect(() => {
+    const id = 'seo-structured-schema';
+    document.getElementById(id)?.remove();
+
+    const script = document.createElement('script');
+    script.id = id;
+    script.type = 'application/ld+json';
+    script.textContent = structuredDataJson;
+    document.head.appendChild(script);
 
     return () => {
-      const script = document.getElementById('seo-structured-schema');
-      if (script) {
-        script.remove();
-      }
+      document.getElementById(id)?.remove();
     };
-  }, [title, description, canonicalUrl, ogType, ogImage, schemaType, schemaData]);
+  }, [structuredDataJson]);
 
-  return null;
+  return (
+    <Helmet prioritizeSeoTags>
+      <html lang={getRegionLanguage(activeRegion)} />
+      <title>{formattedTitle}</title>
+      <meta name="description" content={description} />
+      {keywordContent && <meta name="keywords" content={keywordContent} />}
+      <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+      <link rel="canonical" href={resolvedCanonical} />
+      {resolvedAlternates.map((alternate) => (
+        <link key={alternate.hrefLang} rel="alternate" hrefLang={alternate.hrefLang} href={alternate.href} />
+      ))}
+
+      <meta property="og:title" content={ogTitle ?? formattedTitle} />
+      <meta property="og:description" content={ogDescription ?? description} />
+      <meta property="og:url" content={resolvedCanonical} />
+      <meta property="og:type" content={ogType} />
+      <meta property="og:image" content={resolvedOgImage} />
+      <meta property="og:site_name" content="Jawrah Pixel" />
+      <meta property="og:locale" content={activeRegion ? regionLocales[activeRegion] : 'en'} />
+      {activeRegion !== 'lk' && <meta property="og:locale:alternate" content="en_LK" />}
+      {activeRegion !== 'pk' && <meta property="og:locale:alternate" content="en_PK" />}
+      {activeRegion !== 'int' && <meta property="og:locale:alternate" content="en" />}
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={ogTitle ?? formattedTitle} />
+      <meta name="twitter:description" content={ogDescription ?? description} />
+      <meta name="twitter:image" content={resolvedOgImage} />
+      <meta name="theme-color" content="#000000" />
+
+    </Helmet>
+  );
 }

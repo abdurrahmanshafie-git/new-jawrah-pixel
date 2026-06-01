@@ -17,6 +17,7 @@ export interface PaymentEmailPayload {
   referenceNumber?: string;
   transactionId?: string;
   clientId?: string;
+  captcha_token?: string;
 }
 
 export async function sendPaymentEmailNotification(payload: PaymentEmailPayload): Promise<{ ok: boolean }> {

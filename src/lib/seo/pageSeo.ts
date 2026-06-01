@@ -1,11 +1,13 @@
 import { REGION_SEO, type RegionSeoKey } from './regionMeta';
+import { appEnv } from '@/lib/env';
 
 export interface PageSeoConfig {
   title: string;
   description: string;
   path: string;
-  schemaType?: 'Organization' | 'Service' | 'Project' | 'BlogPosting';
+  schemaType?: string;
   schemaData?: Record<string, unknown>;
+  keywords?: string[];
 }
 
 export function getRegionalPageSeo(region: RegionSeoKey, page: keyof typeof REGION_SEO.lk): PageSeoConfig {
@@ -17,11 +19,11 @@ export function getRegionalPageSeo(region: RegionSeoKey, page: keyof typeof REGI
     path: `${prefix}${meta.path}`,
     schemaType: meta.schemaType,
     schemaData: meta.schemaData,
+    keywords: meta.keywords,
   };
 }
 
 export function getCanonicalUrl(path: string): string {
   if (path.startsWith('http')) return path;
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://jawrahpixel.com';
-  return `${origin}${path.startsWith('/') ? path : `/${path}`}`;
+  return `${appEnv.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
 }

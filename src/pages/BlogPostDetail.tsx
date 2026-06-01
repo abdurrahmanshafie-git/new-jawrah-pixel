@@ -3,13 +3,16 @@ import { useParams, Link } from 'react-router-dom';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { fetchBlogPostBySlug, BlogPost, fetchRelatedPosts } from '@/lib/supabase/blog-api';
+import { getFallbackBlogPost, getFallbackRelatedPosts } from '@/data/blogPosts';
 import { Reveal } from '@/components/ui/Reveal';
 import { Calendar, User, ArrowLeft, Tag, Clock, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { toAbsoluteUrl } from '@/lib/env';
+import { buildArticleSchema, buildBreadcrumbSchema } from '@/lib/seo/schema';
 
 export default function BlogPostDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const { p } = useRegion();
+  const { p, currentRegion } = useRegion();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,11 +21,21 @@ export default function BlogPostDetail() {
     if (slug) {
       setLoading(true);
       fetchBlogPostBySlug(slug).then(({ data }) => {
-        if (data) {
-          setPost(data);
-          fetchRelatedPosts(data.category, data.id).then(({ data: relatedData }) => {
-            if (relatedData) setRelated(relatedData);
+        const resolvedPost = data || getFallbackBlogPost(slug);
+        if (resolvedPost) {
+          setPost(resolvedPost);
+          fetchRelatedPosts(resolvedPost.category, resolvedPost.id).then(({ data: relatedData }) => {
+            setRelated(relatedData?.length ? relatedData : getFallbackRelatedPosts(resolvedPost.category, resolvedPost.id));
+          }).catch(() => {
+            setRelated(getFallbackRelatedPosts(resolvedPost.category, resolvedPost.id));
           });
+        }
+        setLoading(false);
+      }).catch(() => {
+        const fallback = getFallbackBlogPost(slug);
+        if (fallback) {
+          setPost(fallback);
+          setRelated(getFallbackRelatedPosts(fallback.category, fallback.id));
         }
         setLoading(false);
       });
@@ -37,19 +50,25 @@ export default function BlogPostDetail() {
       <SEO 
         title={post.meta_title || post.title}
         description={post.meta_description || post.excerpt}
+        canonicalUrl={toAbsoluteUrl(p(`/blog/${post.slug}`))}
         ogType="article"
         ogImage={post.featured_image}
-        schemaType="BlogPosting"
-        schemaData={{
-          "headline": post.title,
-          "image": [post.featured_image],
-          "datePublished": post.published_at,
-          "author": [{
-            "@type": "Person",
-            "name": post.author_name,
-            "jobTitle": post.author_role
-          }]
-        }}
+        keywords={post.tags}
+        schemaData={[
+          buildArticleSchema({
+            headline: post.title,
+            description: post.meta_description || post.excerpt,
+            image: post.featured_image,
+            datePublished: post.published_at,
+            authorName: post.author_name,
+            url: toAbsoluteUrl(p(`/blog/${post.slug}`)),
+          }),
+          buildBreadcrumbSchema([
+            { name: 'Home', url: toAbsoluteUrl(`/${currentRegion}`) },
+            { name: 'Blog', url: toAbsoluteUrl(p('/blog')) },
+            { name: post.title, url: toAbsoluteUrl(p(`/blog/${post.slug}`)) },
+          ]),
+        ]}
       />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">
@@ -84,7 +103,7 @@ export default function BlogPostDetail() {
 
         <Reveal delay={0.2}>
           <div className="aspect-[21/9] rounded-3xl overflow-hidden mb-12 border border-white/10">
-            <img src={post.featured_image} alt={post.title} className="w-full h-full object-cover" />
+            <img src={post.featured_image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </div>
         </Reveal>
 
@@ -119,7 +138,7 @@ export default function BlogPostDetail() {
               {related.map(item => (
                 <Link key={item.slug} to={p(`/blog/${item.slug}`)} className="group block">
                   <div className="aspect-video rounded-xl overflow-hidden mb-4 border border-white/5">
-                    <img src={item.featured_image} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                    <img src={item.featured_image} alt={item.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                   </div>
                   <h4 className="text-sm font-display font-bold uppercase tracking-wide text-white group-hover:text-brand-cyan transition-colors line-clamp-2">
                     {item.title}

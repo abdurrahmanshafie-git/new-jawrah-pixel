@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { SEO } from '@/components/layout/SEO';
+import { toAbsoluteUrl } from '@/lib/env';
+import { buildBreadcrumbSchema, buildCaseStudySchema } from '@/lib/seo/schema';
 
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -104,6 +106,33 @@ export default function CaseStudyDetail() {
       copy: project.mobileHighlights[0]?.desc || 'Responsive touch-first flows tuned for high-intent mobile visitors.',
     },
   ];
+  const canonicalUrl = toAbsoluteUrl(p(`/case-studies/${project.slug}`));
+  const caseStudySeoSections = [
+    {
+      label: 'Challenge',
+      copy: project.challenges.join(' '),
+    },
+    {
+      label: 'Strategy',
+      copy: project.solutions.join(' '),
+    },
+    {
+      label: 'Process',
+      copy: project.processSteps.map((step) => `${step.title}: ${step.desc}`).join(' '),
+    },
+    {
+      label: 'Technology Stack',
+      copy: project.technologies.join(', '),
+    },
+    {
+      label: 'Results',
+      copy: project.results.map((result) => `${result.val} ${result.metric}: ${result.desc}`).join(' '),
+    },
+    {
+      label: 'Client Outcome',
+      copy: project.testimonial.quote,
+    },
+  ];
 
   return (
     <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden select-text">
@@ -111,21 +140,33 @@ export default function CaseStudyDetail() {
       <SEO 
         title={project.title} 
         description={project.metaDesc}
-        schemaType="Project"
-        schemaData={{
-          'name': project.title,
-          'description': project.overview,
-          'category': project.category,
-          'customer': {
-            '@type': 'Organization',
-            'name': project.client
-          },
-          'offers': {
+        canonicalUrl={canonicalUrl}
+        ogImage={project.desktopImage}
+        keywords={[project.title, project.category, project.industry, `${config.countryName} case study`]}
+        schemaData={[
+          buildCaseStudySchema({
+            title: project.title,
+            description: project.overview,
+            url: canonicalUrl,
+            client: project.client,
+            industry: project.industry,
+            image: project.desktopImage,
+          }),
+          {
             '@type': 'Offer',
-            'price': priceValue,
-            'priceCurrency': priceCurrency
-          }
-        }}
+            price: priceValue,
+            priceCurrency,
+            itemOffered: {
+              '@type': 'Service',
+              name: project.category,
+            },
+          },
+          buildBreadcrumbSchema([
+            { name: 'Home', url: toAbsoluteUrl(`/${currentRegion}`) },
+            { name: 'Case Studies', url: toAbsoluteUrl(p('/case-studies')) },
+            { name: project.title, url: canonicalUrl },
+          ]),
+        ]}
       />
 
       {/* Background ambient lighting */}
@@ -227,6 +268,29 @@ export default function CaseStudyDetail() {
             </motion.div>
           ))}
         </div>
+
+        <div className="mb-20 md:mb-28">
+          <div className="mb-8 max-w-3xl">
+            <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold block mb-3">
+              Search-ready Case Study Structure
+            </span>
+            <h2 className="text-3xl font-display font-medium uppercase tracking-tight text-white">
+              Challenge, strategy, process, stack, results, and outcome.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {caseStudySeoSections.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+                <h3 className="mb-3 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-cyan">
+                  {item.label}
+                </h3>
+                <p className="text-xs font-light leading-relaxed text-brand-silver">
+                  {item.copy}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
         
         {/* VISUAL ARCHITECTURE SHOWCASE */}
         {(project.desktopImage || project.mobileImage) && (
@@ -265,6 +329,8 @@ export default function CaseStudyDetail() {
                     <img 
                       src={project.desktopImage} 
                       alt={`${project.title} Desktop Showcase`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
@@ -302,6 +368,8 @@ export default function CaseStudyDetail() {
                         <img 
                           src={project.mobileImage} 
                           alt={`${project.title} Mobile Showcase`}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />

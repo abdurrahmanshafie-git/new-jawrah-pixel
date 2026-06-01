@@ -21,6 +21,7 @@ import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { cn } from '@/lib/utils';
+import { toAbsoluteUrl } from '@/lib/env';
 
 // Interactive FAQ Type
 interface FaqItem {
@@ -125,6 +126,8 @@ export default function Process() {
       <SEO 
         title={seoTitle}
         description={seoDescription}
+        canonicalUrl={toAbsoluteUrl(p('/process'))}
+        keywords={['Jawrah Pixel process', `${config.countryName} web design process`, 'digital agency workflow', 'website project process']}
       />
 
       {/* Background Ambitions */}

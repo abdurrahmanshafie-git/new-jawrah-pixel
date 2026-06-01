@@ -22,6 +22,7 @@ import { useRegionalSeo } from '@/hooks/useRegionalSeo';
 import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 import { 
   Mail, 
   Phone, 
@@ -93,6 +94,7 @@ export default function Contact() {
   const [lastRfpName, setLastRfpName] = useState('');
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const rfpDraftKey = `contact-rfp:${currentRegion}`;
   const bookingDraftKey = `contact-booking:${currentRegion}`;
@@ -159,7 +161,7 @@ export default function Contact() {
   const internationalPaymentMethods = ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'];
   const contactIntro = isInternational
     ? 'Submit a premium global project brief or schedule a remote-first strategy consultation for websites, ecommerce platforms, AI systems, and worldwide digital solutions.'
-    : 'Submit an elite system briefing blueprint or lock in a direct strategic video consultation with our partners in Colombo, Dubai, and London.';
+    : 'Submit an elite system briefing blueprint or lock in a direct strategic video consultation with our global operations team.';
   const successRegionLabel = isInternational ? 'global strategy team' : `Lead Architect in ${config.countryName}`;
 
   // Helper to generate the next 10 business days starting today
@@ -259,6 +261,7 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
+        captcha_token: captchaToken, // Added for server-side verification
       });
 
       if (error) throw error;
@@ -313,6 +316,10 @@ export default function Contact() {
       setErrorMsg('Please login to continue.');
       return;
     }
+    if (!captchaToken) {
+      setErrorMsg('Please complete the security verification.');
+      return;
+    }
     if (isSubmittingForm) return;
     setIsSubmittingForm(true);
     setErrorMsg('');
@@ -360,6 +367,7 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: [data.goals, data.message].filter(Boolean).join('\n\n') || undefined,
+        captcha_token: captchaToken, // Added for server-side verification
       });
 
       if (inquiryError) throw inquiryError;
@@ -402,6 +410,10 @@ export default function Contact() {
     e.preventDefault();
     if (!user) {
       setErrorMsg('Please login to continue.');
+      return;
+    }
+    if (!captchaToken) {
+      setErrorMsg('Please complete the security verification.');
       return;
     }
     if (isSubmittingForm) return;
@@ -462,6 +474,7 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
+        captcha_token: captchaToken, // Added for server-side verification
       });
 
       if (error) throw error;
@@ -506,6 +519,7 @@ export default function Contact() {
         title={seo.title}
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
+        keywords={['contact Jawrah Pixel', `${config.countryName} web design consultation`, 'digital agency quote', 'website project consultation']}
       />
 
       {/* Decorative luxury gradient lighting */}
@@ -594,10 +608,10 @@ export default function Contact() {
               <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 rounded-xl flex items-center justify-center text-brand-silver mb-4 border border-white/10">
                 <MapPin size={16} />
               </div>
-              <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-1">Branch Coordinates</h3>
+              <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-1">Operational Nodes</h3>
               <p className="text-brand-gray text-[10px] sm:text-xs font-light leading-relaxed">
-                Active Headquarters: <br />
-                <span className="text-white font-medium">{config.locations.join(', ')}</span>
+                Active Presence: <br />
+                <span className="text-white font-medium">{config.locations.join(' | ')}</span>
               </p>
               <div className="text-[9px] sm:text-[10px] text-brand-gray font-mono mt-3 uppercase tracking-widest flex items-center gap-1.5 border-t border-white/5 pt-3">
                 <Globe size={11} className="text-brand-cyan" /> Edge CDN routing: v12.0
@@ -881,6 +895,9 @@ export default function Contact() {
                             <Button type="button" onClick={handlePrevStep} variant="outline" className="font-mono text-xs uppercase tracking-widest h-11 border-white/10 h-11 px-5 text-brand-gray hover:text-white">
                               <ArrowLeft size={14} className="mr-1" /> Budget
                             </Button>
+                            
+                            <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} className="my-0" />
+
                             <Button type="submit" disabled={isSubmittingForm} className="font-mono text-xs uppercase tracking-widest h-11 px-8 luxury-glow font-bold">
                               {isSubmittingForm ? 'Synthesizing Blueprint...' : 'Submit System RFP'}
                             </Button>
@@ -1053,6 +1070,8 @@ export default function Contact() {
                           />
                         </div>
                       </div>
+
+                      <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} />
 
                       <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-2">
                         <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">

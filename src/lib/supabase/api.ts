@@ -172,12 +172,18 @@ export async function submitBooking(payload: Insert<'bookings'>, leadEmail?: Lea
   return result;
 }
 
-export async function submitChatbotLead(payload: Insert<'chatbot_leads'>, leadEmail?: LeadEmailPayload) {
+export async function submitChatbotLead(
+  payload: Insert<'chatbot_leads'>,
+  leadEmail?: LeadEmailPayload,
+  captchaToken?: string | null,
+) {
   ensureConfigured();
 
   const result = await supabase.from('chatbot_leads').insert(payload).select('id').single();
   if (!result.error) {
-    await notifyLeadEmail(leadEmail ?? chatbotToLeadEmail(payload), result.data?.id);
+    const finalLeadEmail = leadEmail ?? chatbotToLeadEmail(payload);
+    if (captchaToken) finalLeadEmail.captcha_token = captchaToken;
+    await notifyLeadEmail(finalLeadEmail, result.data?.id);
   }
 
   return result;

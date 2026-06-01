@@ -1,8 +1,8 @@
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { JawrahBot } from '../JawrahBot';
 import { Logo } from './Logo';
 import { RegionRouteGuard } from './RegionRouteGuard';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,6 +10,37 @@ import { getSavedRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 import { ReferralCapture } from '@/components/referral/ReferralCapture';
+
+const JawrahBot = lazy(() => import('../JawrahBot').then((module) => ({ default: module.JawrahBot })));
+
+function DeferredJawrahBot() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const load = () => setShouldLoad(true);
+    const idleId = 'requestIdleCallback' in window
+      ? window.requestIdleCallback(load, { timeout: 1800 })
+      : globalThis.setTimeout(load, 900);
+
+    return () => {
+      if ('cancelIdleCallback' in window && typeof idleId === 'number') {
+        window.cancelIdleCallback(idleId);
+      } else {
+        globalThis.clearTimeout(idleId as number);
+      }
+    };
+  }, []);
+
+  if (!shouldLoad) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <JawrahBot />
+    </Suspense>
+  );
+}
 
 export function RootLayout() {
   const location = useLocation();
@@ -34,7 +65,7 @@ export function RootLayout() {
           </AnimatePresence>
         </main>
         {!isCountrySelection && <Footer />}
-        {!isCountrySelection && <JawrahBot />}
+        {!isCountrySelection && <DeferredJawrahBot />}
       </div>
     </RegionRouteGuard>
   );

@@ -3,6 +3,8 @@ import { supabase } from '@/lib/supabase/client';
 import { fetchBusinessAnalytics } from '@/lib/supabase/ecosystem-api';
 import { getSupabaseErrorMessage, logSupabaseQuery, logSupabaseTask } from '@/lib/supabase/query-debug';
 import { AdminAnalyticsExtras, AdminEcosystemPanels } from '@/components/ecosystem/AdminEcosystemPanels';
+import { BotAnalyticsDashboard } from '@/components/ecosystem/BotAnalytics';
+import { BotTrainingCenter } from '@/components/ecosystem/BotTrainingCenter';
 import { ADMIN_AGENT_WORKSPACE_TABS, AdminAgentNetworkPanel } from '@/components/ecosystem/AdminAgentNetworkPanel';
 import { AdminInvoiceCreatePanel } from '@/components/ecosystem/AdminInvoiceCreatePanel';
 import { BillingPdfActions } from '@/components/billing/BillingPdfActions';
@@ -30,7 +32,8 @@ import {
   DollarSign,
   Briefcase,
   ShieldAlert,
-  X
+  X,
+  BrainCircuit
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
@@ -77,6 +80,8 @@ const CLIENT_TAB_IDS = [
   'files',
   'messages',
   'notifications',
+  'bot_training',
+  'bot_analytics',
   'analytics',
 ] as const;
 const ADMIN_WORKSPACE_STORAGE_KEY = 'jawrah.admin.workspace';
@@ -617,6 +622,8 @@ export default function AdminDashboard() {
     { id: 'files', label: 'Files', count: projectFiles.length, icon: FileText },
     { id: 'messages', label: 'Messages', icon: MessageSquare },
     { id: 'notifications', label: 'Notifications', count: notifications.length, icon: MessageSquare },
+    { id: 'bot_analytics', label: 'Bot Intelligence', icon: MessageSquare },
+    { id: 'bot_training', label: 'Bot Training', icon: BrainCircuit },
     { id: 'analytics', label: 'Analytics', icon: Activity },
   ];
 
@@ -727,6 +734,7 @@ export default function AdminDashboard() {
       <SEO 
         title="Admin CMS Operations Platform" 
         description="Full-suite database synchronization, bookings overview, client revision trackers, and client CRM controller." 
+        noIndex
       />
 
       {/* Floating toasts render */}
@@ -995,6 +1003,14 @@ export default function AdminDashboard() {
                     <AdminAnalyticsExtras analytics={analytics} />
                     {!analytics && renderEmptyState('No analytics data available yet.')}
                   </div>
+                )}
+
+                {activeTab === 'bot_analytics' && (
+                  <BotAnalyticsDashboard />
+                )}
+
+                {activeTab === 'bot_training' && (
+                  <BotTrainingCenter />
                 )}
 
                 <AdminEcosystemPanels

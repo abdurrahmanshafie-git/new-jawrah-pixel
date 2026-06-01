@@ -185,6 +185,7 @@ export async function submitManualPaymentProof(params: {
   referenceNumber: string;
   notes?: string;
   proofFile?: File | null;
+  captcha_token?: string | null;
 }) {
   ensureConfigured();
 
@@ -241,6 +242,7 @@ export async function submitManualPaymentProof(params: {
     currency: invoice.currency,
     projectName: invoice.title,
     referenceNumber: params.referenceNumber,
+    captcha_token: params.captcha_token ?? undefined,
   });
 
   void createUserNotification({

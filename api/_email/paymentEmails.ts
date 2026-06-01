@@ -27,6 +27,7 @@ export interface PaymentEmailPayload {
   currency?: string;
   referenceNumber?: string;
   transactionId?: string;
+  captcha_token?: string;
 }
 
 const FALLBACK_FROM = FALLBACK_FROM_EMAIL;

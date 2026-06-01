@@ -243,55 +243,13 @@ create policy "proposals_client_accept" on public.proposals
   using (client_id = (select auth.uid()))
   with check (client_id = (select auth.uid()));
 
+-- Note: These policies are extended and hardened in schema-agent-portal.sql
 drop policy if exists "message_threads_select" on public.message_threads;
-create policy "message_threads_select" on public.message_threads
-  for select to authenticated
-  using (client_id = (select auth.uid()) or app_private.is_team());
-
 drop policy if exists "message_threads_insert" on public.message_threads;
-create policy "message_threads_insert" on public.message_threads
-  for insert to authenticated
-  with check (client_id = (select auth.uid()) or app_private.is_team());
-
 drop policy if exists "message_threads_update" on public.message_threads;
-create policy "message_threads_update" on public.message_threads
-  for update to authenticated
-  using (client_id = (select auth.uid()) or app_private.is_team())
-  with check (client_id = (select auth.uid()) or app_private.is_team());
-
 drop policy if exists "messages_select" on public.messages;
-create policy "messages_select" on public.messages
-  for select to authenticated
-  using (
-    exists (
-      select 1 from public.message_threads t
-      where t.id = thread_id
-        and (t.client_id = (select auth.uid()) or app_private.is_team())
-    )
-  );
-
 drop policy if exists "messages_insert" on public.messages;
-create policy "messages_insert" on public.messages
-  for insert to authenticated
-  with check (
-    sender_id = (select auth.uid())
-    and exists (
-      select 1 from public.message_threads t
-      where t.id = thread_id
-        and (t.client_id = (select auth.uid()) or app_private.is_team())
-    )
-  );
-
 drop policy if exists "messages_update_read" on public.messages;
-create policy "messages_update_read" on public.messages
-  for update to authenticated
-  using (
-    exists (
-      select 1 from public.message_threads t
-      where t.id = thread_id
-        and (t.client_id = (select auth.uid()) or app_private.is_team())
-    )
-  );
 
 drop policy if exists "agent_applications_team" on public.agent_applications;
 create policy "agent_applications_team" on public.agent_applications

@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
+import { SEO } from '@/components/layout/SEO';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -18,15 +20,31 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState('');
   const [recoverySent, setRecoverySent] = useState(false);
   const [recoveryLoading, setRecoveryLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!captchaToken) {
+      setErrorMsg('Please complete the security verification.');
+      return;
+    }
     setLoading(true);
     setErrorMsg('');
 
     try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken, type: 'login' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
@@ -73,6 +91,10 @@ export default function Login() {
       setErrorMsg('Enter your email address to receive a recovery link.');
       return;
     }
+    if (!captchaToken) {
+      setErrorMsg('Complete the security verification first.');
+      return;
+    }
 
     setRecoveryLoading(true);
     setErrorMsg('');
@@ -93,6 +115,14 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-brand-black p-0 sm:p-4 relative overflow-hidden">
+      <SEO
+        title="Client Login | Jawrah Pixel"
+        description="Secure Jawrah Pixel client login for project dashboards, invoices, milestones, files, and premium digital delivery updates."
+        canonicalUrl="https://jawrahpixel.com/auth/login"
+        keywords={['Jawrah Pixel login', 'client portal login', 'Jawrah Pixel dashboard']}
+        disableAutoHreflang
+      />
+
       {/* Ambient Background Effects */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-blue/10 rounded-full blur-[120px]"></div>
@@ -183,6 +213,8 @@ export default function Login() {
               </button>
             </div>
           </div>
+
+          <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} />
 
           <Button type="submit" className="w-full h-14 text-[11px] font-mono uppercase tracking-[0.3em] font-bold luxury-glow shadow-[0_10px_30px_rgba(34,211,238,0.2)]" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}

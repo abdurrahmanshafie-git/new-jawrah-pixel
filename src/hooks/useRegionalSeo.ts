@@ -5,13 +5,10 @@ import { getRegionalPageSeo, type PageSeoConfig } from '@/lib/seo/pageSeo';
 type RegionalPage = Parameters<typeof getRegionalPageSeo>[1];
 
 export function useRegionalSeo(page: RegionalPage): PageSeoConfig {
-  const { currentRegion, p } = useRegion();
+  const { currentRegion } = useRegion();
 
   return useMemo(() => {
     const meta = getRegionalPageSeo(currentRegion, page);
-    return {
-      ...meta,
-      path: p(meta.path || '/'),
-    };
-  }, [currentRegion, page, p]);
+    return meta;
+  }, [currentRegion, page]);
 }

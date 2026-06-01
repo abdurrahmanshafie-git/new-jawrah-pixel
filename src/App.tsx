@@ -26,6 +26,7 @@ const Home = lazy(() => import('./pages/Home'));
 const International = lazy(() => import('./pages/International'));
 const About = lazy(() => import('./pages/About'));
 const Services = lazy(() => import('./pages/Services'));
+const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
 const Process = lazy(() => import('./pages/Process'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
@@ -90,6 +91,7 @@ export default function App() {
               <Route path="/lk" element={<Home />} />
               <Route path="/lk/about" element={<About />} />
               <Route path="/lk/services" element={<Services />} />
+              <Route path="/lk/services/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/lk/process" element={<Process />} />
               <Route path="/lk/pricing" element={<Services />} />
               <Route path="/lk/case-studies" element={<CaseStudies />} />
@@ -112,6 +114,7 @@ export default function App() {
               <Route path="/pk" element={<Home />} />
               <Route path="/pk/about" element={<About />} />
               <Route path="/pk/services" element={<Services />} />
+              <Route path="/pk/services/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/pk/process" element={<Process />} />
               <Route path="/pk/pricing" element={<Services />} />
               <Route path="/pk/case-studies" element={<CaseStudies />} />
@@ -134,6 +137,7 @@ export default function App() {
               <Route path="/int" element={<International />} />
               <Route path="/int/about" element={<About />} />
               <Route path="/int/services" element={<Services />} />
+              <Route path="/int/services/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/int/process" element={<Process />} />
               <Route path="/int/pricing" element={<Services />} />
               <Route path="/int/case-studies" element={<CaseStudies />} />
@@ -179,6 +183,8 @@ export default function App() {
             {/* Authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<SignUp />} />
 
             {/* Admin Routes */}
             <Route element={<RequireAuth roles={['admin', 'superadmin']}><AdminLayout /></RequireAuth>}>

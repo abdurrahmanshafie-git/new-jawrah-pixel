@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Shield, Sparkles, Code, Smartphone, Zap, Search, LayoutTemplate, Briefcase, Database, Server, ShoppingCart, Check } from 'lucide-react';
 import { PaymentCTAGroup } from '@/components/payments/PaymentCTAGroup';
@@ -10,8 +11,10 @@ import { cn } from '@/lib/utils';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
 export default function Services() {
-  const { config, services, pricingPlans, isInternational } = useRegion();
-  const seo = useRegionalSeo('services');
+  const { config, services, pricingPlans, isInternational, currentRegion, p } = useRegion();
+  const location = useLocation();
+  const isPricingRoute = /\/pricing\/?$/.test(location.pathname);
+  const seo = useRegionalSeo(isPricingRoute ? 'pricing' : 'services');
   const heroCopy = isInternational
     ? 'World-class digital systems, high-converting checkout flows, AI integrations, and luxury brand interfaces built for international businesses and premium global brands. Unrivaled speed, uncompromising precision.'
     : `World-class digital systems, high-converting checkout flows, and luxury brand interfaces built natively for leading ${config.countryName} enterprises. Unrivaled speed, uncompromising precision.`;
@@ -49,12 +52,34 @@ export default function Services() {
     }
   };
 
+  const getServiceLandingPath = (id: string) => {
+    if (currentRegion === 'lk') {
+      if (id === 'web-design') return '/services/web-design-sri-lanka';
+      if (id === 'ecommerce') return '/services/ecommerce-development-sri-lanka';
+      if (id === 'seo') return '/services/seo-services-sri-lanka';
+    }
+
+    if (currentRegion === 'pk') {
+      if (id === 'web-design') return '/services/web-design-pakistan';
+      if (id === 'ecommerce-pk') return '/services/ecommerce-development-pakistan';
+    }
+
+    if (currentRegion === 'int') {
+      if (['web-design-int', 'ecommerce-int', 'seo-int', 'saas-int', 'frontend-int', 'enterprise-int'].includes(id)) {
+        return '/services/international-digital-services';
+      }
+    }
+
+    return '';
+  };
+
   return (
     <div className="pt-28 pb-20 bg-brand-black text-white relative min-h-screen">
       <SEO 
         title={seo.title}
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
+        keywords={seo.keywords}
         schemaType={seo.schemaType}
         schemaData={seo.schemaData}
       />
@@ -106,6 +131,14 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
+              {getServiceLandingPath(service.id) && (
+                <Link
+                  to={p(getServiceLandingPath(service.id))}
+                  className="mb-4 inline-flex items-center text-[10px] font-mono font-bold uppercase tracking-[0.18em] text-brand-cyan transition-colors hover:text-white"
+                >
+                  SEO service page
+                </Link>
+              )}
               <PaymentCTAGroup serviceName={service.title} priceLabel={service.price} compact />
             </StaggerItem>
           ))}

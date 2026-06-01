@@ -1,55 +1,715 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://jawrahpixel.com/</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
-
-  <!-- LK REGION -->
-  <url><loc>https://jawrahpixel.com/lk</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/about</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/services</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/process</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/case-studies</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/blog</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/contact</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/what-is-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/why-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/about-founder</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/case-studies/zenvor</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/case-studies/jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/lk/case-studies/velora-estates</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-
-  <!-- PK REGION -->
-  <url><loc>https://jawrahpixel.com/pk</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/about</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/services</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/process</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/case-studies</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/blog</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/contact</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/what-is-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/why-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/about-founder</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/pk/case-studies/shabnam-jewellers</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-
-  <!-- INT REGION -->
-  <url><loc>https://jawrahpixel.com/int</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://jawrahpixel.com/int/about</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/int/services</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://jawrahpixel.com/int/process</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/int/blog</loc><lastmod>2026-06-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://jawrahpixel.com/int/contact</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://jawrahpixel.com/int/what-is-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/int/why-jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/int/about-founder</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/zenvor</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/jawrah-pixel</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/velora-estates</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/shabnam-jewellers</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/aerovista</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://jawrahpixel.com/int/case-studies/veloura-cafe</loc><lastmod>2026-06-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-
-  <!-- LEGAL -->
-  <url><loc>https://jawrahpixel.com/privacy-policy</loc><lastmod>2026-06-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://jawrahpixel.com/terms-and-conditions</loc><lastmod>2026-06-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://jawrahpixel.com/refund-policy</loc><lastmod>2026-06-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://jawrahpixel.com/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/about</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/services</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/contact</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/partner</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.55</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/process</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pricing</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/auth/login</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.25</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/auth/signup</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/about</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/about</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/about</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/services</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/services</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/services</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/contact</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/contact" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/contact" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/contact</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/contact" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/contact" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/contact</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/contact" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/contact" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/partner</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/partner" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/partner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/partner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/partner" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/partner</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/partner" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/partner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/partner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/partner" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/partner</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/partner" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/partner" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/partner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/partner" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/process</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/process" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/process" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/process" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/process" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/process</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/process" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/process" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/process" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/process" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/process</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/process" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/process" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/process" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/process" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/case-studies" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/case-studies" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/case-studies" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/case-studies" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/case-studies" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/case-studies" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/case-studies" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/pricing</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/pricing" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/pricing</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/pricing" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/pricing</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/pricing" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/blog</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/blog" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/blog" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/blog</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/blog" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/blog" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/blog</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/blog" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/blog" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/what-is-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/what-is-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/what-is-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/what-is-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/why-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/why-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/why-jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.62</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/why-jawrah-pixel" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/about-founder</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.58</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about-founder" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about-founder" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/about-founder</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.58</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about-founder" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about-founder" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/about-founder</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.58</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/about-founder" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/about-founder" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/about-founder" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/privacy-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/privacy-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/privacy-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/privacy-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/privacy-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/privacy-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/terms-and-conditions</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/terms-and-conditions" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/terms-and-conditions</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/terms-and-conditions" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/terms-and-conditions</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/terms-and-conditions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/terms-and-conditions" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/refund-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/refund-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/refund-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/refund-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/refund-policy</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/refund-policy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/refund-policy" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/services/web-design-sri-lanka</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/web-design-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services/web-design-pakistan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services/international-digital-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services/international-digital-services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/services/web-design-pakistan</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/web-design-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services/web-design-pakistan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services/international-digital-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services/international-digital-services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/services/international-digital-services</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/web-design-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services/web-design-pakistan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services/international-digital-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services/international-digital-services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/services/ecommerce-development-sri-lanka</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/ecommerce-development-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services/ecommerce-development-pakistan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services/international-digital-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services/international-digital-services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/services/ecommerce-development-pakistan</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/ecommerce-development-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="en-PK" href="https://jawrahpixel.com/pk/services/ecommerce-development-pakistan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://jawrahpixel.com/int/services/international-digital-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/int/services/international-digital-services" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/services/seo-services-sri-lanka</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <xhtml:link rel="alternate" hreflang="en-LK" href="https://jawrahpixel.com/lk/services/seo-services-sri-lanka" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jawrahpixel.com/lk/services/seo-services-sri-lanka" />
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/zenvor</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/velora-estates</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/aerovista-travels</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/blog/seo-architecture-for-premium-websites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/blog/regional-seo-for-sri-lanka-pakistan-global</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/blog/core-web-vitals-for-agency-sites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/zenvor</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/velora-estates</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/aerovista-travels</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/blog/seo-architecture-for-premium-websites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/blog/regional-seo-for-sri-lanka-pakistan-global</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/blog/core-web-vitals-for-agency-sites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/zenvor</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/velora-estates</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/aerovista-travels</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/blog/seo-architecture-for-premium-websites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/blog/regional-seo-for-sri-lanka-pakistan-global</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/blog/core-web-vitals-for-agency-sites</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.68</priority>
+  </url>
 </urlset>

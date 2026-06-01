@@ -6,12 +6,14 @@ import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
 import { AlertCircle, CheckCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
+import { SEO } from '@/components/layout/SEO';
 import { cn } from '@/lib/utils';
 import { getRegionMeta, getSavedRegion, persistRegion } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
 import { sendWelcomeEmailNotification } from '@/lib/email/welcomeEmail';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -22,12 +24,14 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [success, setSuccess] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const validateForm = () => {
     if (fullName.trim().length < 2) return 'Enter your full name so we can prepare your portal profile.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return 'Enter a valid business email address.';
     if (!region) return 'Choose Sri Lanka, Pakistan, or International before creating your account.';
     if (password.length < 8) return 'Use at least 8 characters for a more secure password.';
+    if (!captchaToken) return 'Please complete the security verification.';
     return '';
   };
 
@@ -42,6 +46,17 @@ export default function SignUp() {
     setLoading(true);
     setErrorMsg('');
     try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken, type: 'signup' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
       const regionMeta = getRegionMeta(region as RegionCode);
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
@@ -85,6 +100,7 @@ export default function SignUp() {
         name: fullName.trim(),
         email: email.trim(),
         region,
+        captcha_token: captchaToken, // Send token to backend for verification
       });
       
       setSuccess(true);
@@ -101,6 +117,14 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-brand-black p-0 sm:p-4 relative overflow-hidden">
+      <SEO
+        title="Client Signup | Jawrah Pixel"
+        description="Create a Jawrah Pixel client account for secure project collaboration, regional onboarding, invoices, milestones, and digital delivery support."
+        canonicalUrl="https://jawrahpixel.com/auth/signup"
+        keywords={['Jawrah Pixel signup', 'client portal signup', 'digital agency client account']}
+        disableAutoHreflang
+      />
+
       {/* Ambient Background Effects */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[120px]"></div>
@@ -233,6 +257,8 @@ export default function SignUp() {
                   </button>
                 </div>
               </div>
+
+              <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} />
               
               <Button type="submit" className="w-full h-14 text-[11px] font-mono uppercase tracking-[0.3em] font-bold luxury-glow shadow-[0_10px_30px_rgba(34,211,238,0.2)]" disabled={loading}>
                 {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}

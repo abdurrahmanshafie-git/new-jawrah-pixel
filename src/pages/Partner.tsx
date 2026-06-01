@@ -12,7 +12,9 @@ import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
+import { toAbsoluteUrl } from '@/lib/env';
 import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { 
   ShieldCheck, 
@@ -34,7 +36,7 @@ export default function Partner() {
   const { config, p } = useRegion();
   const { user } = useAuth();
   const isInternational = config.id === 'int';
-  const initialCity = isInternational ? 'Global Remote' : config.locations[0];
+  const initialCity = isInternational ? 'Global Remote' : 'Remote-First Agency';
   const seoTitle = 'Become a Jawrah Pixel Partner';
   const seoDescription =
     'Help businesses grow while earning recurring commissions through the Jawrah Pixel Partner Network.';
@@ -53,6 +55,7 @@ export default function Partner() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const applicationDraftKey = `partner-application:${config.id}`;
 
   useEffect(() => {
@@ -108,6 +111,10 @@ export default function Partner() {
       setErrorMsg('Please login to continue.');
       return;
     }
+    if (!captchaToken) {
+      setErrorMsg('Please complete the security verification.');
+      return;
+    }
     if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMsg('');
@@ -138,6 +145,7 @@ export default function Partner() {
         experience,
         message: whyPartner,
         userId: user.id,
+        captcha_token: captchaToken, // Server-side verification
       });
 
       if (error) throw error;
@@ -239,6 +247,8 @@ export default function Partner() {
       <SEO 
         title={seoTitle}
         description={seoDescription}
+        canonicalUrl={toAbsoluteUrl(p('/partner'))}
+        keywords={['Jawrah Pixel partner program', `${config.countryName} web design partner`, 'digital agency referral program', 'agency partner network']}
       />
       {/* Background radial overlays for luxury look */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0"></div>

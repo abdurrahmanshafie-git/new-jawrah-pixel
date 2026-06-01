@@ -1,11 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendWelcomeEmail, type WelcomeEmailPayload } from './_email/welcomeEmail.js';
+import { verifyTurnstileToken, getClientIp } from './_lib/security.js';
 
 type JsonRecord = Record<string, unknown>;
 
 const MAX_BODY_BYTES = 8_000;
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX_REQUESTS = 3;
+const RATE_LIMIT_WINDOW_MS = 3600_000; // 1 hour
+const RATE_LIMIT_MAX_REQUESTS = 5;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
@@ -74,16 +75,6 @@ function sanitizeWelcomePayload(body: JsonRecord): WelcomeEmailPayload | null {
   };
 }
 
-function getClientIp(req: VercelRequest): string {
-  const forwardedFor = getHeader(req, 'x-forwarded-for')?.split(',')[0]?.trim();
-  return (
-    forwardedFor ||
-    getHeader(req, 'x-real-ip') ||
-    getHeader(req, 'cf-connecting-ip') ||
-    'unknown'
-  );
-}
-
 function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: number } {
   const now = Date.now();
 
@@ -131,7 +122,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return jsonResponse(res, { ok: false, error: 'Provide a valid email address.' }, 400);
     }
 
-    const rateLimitKey = `${getClientIp(req)}:${payload.email.toLowerCase()}`;
+    // Turnstile Verification
+    const captchaToken = parsed.body.captcha_token as string | undefined;
+    const ip = getClientIp(req.headers);
+    const verification = await verifyTurnstileToken(captchaToken, ip);
+    
+    if (!verification.success) {
+      return jsonResponse(res, { ok: false, error: verification.error || 'Security verification failed.' }, 403);
+    }
+
+    const rateLimitKey = `${ip}:${payload.email.toLowerCase()}`;
     const rateLimit = checkRateLimit(rateLimitKey);
     if (!rateLimit.allowed) {
       res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds ?? 60));

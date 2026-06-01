@@ -119,6 +119,7 @@ create table if not exists public.invoices (
   invoice_number text unique not null,
   title text not null,
   amount numeric(20, 2) not null check (amount >= 0),
+  region text default 'lk' check (region in ('lk', 'pk', 'int')),
   currency text not null default 'LKR',
   status text not null default 'draft' check (status in ('draft', 'sent', 'paid', 'overdue', 'void')),
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid', 'pending', 'processing', 'paid', 'failed', 'refunded', 'manual_review')),
@@ -584,14 +585,8 @@ create policy "invoices_client_insert_own" on public.invoices
   for insert to authenticated
   with check (client_id = (select auth.uid()));
 
+-- Note: This policy is hardened in security-hardening-v2.sql
 drop policy if exists "invoices_guest_deposit_insert" on public.invoices;
-create policy "invoices_guest_deposit_insert" on public.invoices
-  for insert to anon, authenticated
-  with check (
-    client_id is null
-    and guest_email is not null
-    and length(trim(guest_email)) > 0
-  );
 
 drop policy if exists "invoices_client_update_own" on public.invoices;
 create policy "invoices_client_update_own" on public.invoices
@@ -630,27 +625,15 @@ create policy "notifications_team_insert" on public.notifications
   for insert to authenticated
   with check (app_private.is_team());
 
+-- Testimonials: Public can read active, Admins can manage all.
+-- Note: These policies are hardened in security-hardening-v2.sql
 drop policy if exists "testimonials_public_active" on public.testimonials;
-create policy "testimonials_public_active" on public.testimonials
-  for select to anon, authenticated
-  using (active = true or app_private.is_admin());
-
 drop policy if exists "testimonials_admin_manage" on public.testimonials;
-create policy "testimonials_admin_manage" on public.testimonials
-  for all to authenticated
-  using (app_private.is_admin())
-  with check (app_private.is_admin());
 
+-- Blog Posts: Public can read published, Admins can manage all.
+-- Note: These policies are hardened in security-hardening-v2.sql
 drop policy if exists "blog_public_published" on public.blog_posts;
-create policy "blog_public_published" on public.blog_posts
-  for select to anon, authenticated
-  using (published = true or app_private.is_admin());
-
 drop policy if exists "blog_admin_manage" on public.blog_posts;
-create policy "blog_admin_manage" on public.blog_posts
-  for all to authenticated
-  using (app_private.is_admin())
-  with check (app_private.is_admin());
 
 drop policy if exists "newsletter_insert_public" on public.newsletter_subscribers;
 create policy "newsletter_insert_public" on public.newsletter_subscribers
@@ -678,7 +661,5 @@ create policy "audit_team_read" on public.audit_events
   for select to authenticated
   using (app_private.is_team());
 
+-- Note: This policy is hardened in security-hardening-v2.sql
 drop policy if exists "audit_insert_authenticated" on public.audit_events;
-create policy "audit_insert_authenticated" on public.audit_events
-  for insert to authenticated
-  with check (actor_id = (select auth.uid()) or app_private.is_team());

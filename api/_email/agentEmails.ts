@@ -33,6 +33,7 @@ export interface AgentEmailPayload {
   partnerId?: string;
   amount?: string;
   currency?: string;
+  captcha_token?: string;
 }
 
 const PARTNER_DASHBOARD_URL = `${DASHBOARD_URL.replace('/dashboard', '')}/partner/dashboard`;

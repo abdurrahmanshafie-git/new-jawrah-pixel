@@ -20,6 +20,7 @@ export interface AgentEmailPayload {
   partnerId?: string;
   amount?: string;
   currency?: string;
+  captcha_token?: string;
 }
 
 export async function sendAgentEmailNotification(payload: AgentEmailPayload): Promise<{ ok: boolean }> {

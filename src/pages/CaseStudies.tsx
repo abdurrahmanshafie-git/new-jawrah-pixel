@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { toAbsoluteUrl } from '@/lib/env';
 
 export default function CaseStudies() {
   const { config, cases, p, isInternational } = useRegion();
@@ -22,6 +23,13 @@ export default function CaseStudies() {
       <SEO 
         title={seoTitle}
         description={seoDescription}
+        canonicalUrl={toAbsoluteUrl(p('/case-studies'))}
+        keywords={[
+          `case studies ${config.countryName}`,
+          'Jawrah Pixel portfolio',
+          'web design case studies',
+          'ecommerce case studies',
+        ]}
       />
 
       {/* Radial Background Gradients */}
@@ -80,6 +88,8 @@ export default function CaseStudies() {
                       transition={{ duration: 0.8 }}
                       src={project.thumbnail} 
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />

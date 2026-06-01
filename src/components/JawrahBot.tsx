@@ -14,10 +14,11 @@ import {
 import { useRegion } from '@/hooks/useRegion';
 import { submitChatbotLead } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
-import { getChatResponse } from '@/lib/ai';
 import { useAuth } from '@/contexts/AuthContext';
 import { FormAuthGate } from '@/components/auth/FormAuthGate';
 import { getClientPlatform } from '@/lib/email/platform';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
+import { processBotMessage } from '@/lib/bot/botEngine';
 
 interface Message {
   id: string;
@@ -37,7 +38,7 @@ interface LeadData {
 }
 
 type BotFlow = 'normal' | 'lead_capture';
-type LeadStep = 'name' | 'business' | 'country' | 'project' | 'budget' | 'whatsapp' | 'complete';
+type LeadStep = 'name' | 'business' | 'country' | 'project' | 'budget' | 'whatsapp' | 'captcha' | 'complete';
 
 const SUGGESTED_QUESTIONS = [
   "What services do you offer?",
@@ -103,6 +104,14 @@ export function JawrahBot() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isSavingLead, setIsSavingLead] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [sessionId] = useState(() => {
+    const saved = sessionStorage.getItem('jawrah_bot_session_id');
+    if (saved) return saved;
+    const newId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('jawrah_bot_session_id', newId);
+    return newId;
+  });
   
   // Lead Capture State
   const [flow, setFlow] = useState<BotFlow>('normal');
@@ -194,7 +203,7 @@ export function JawrahBot() {
           userId: user.id,
           platform: getClientPlatform(),
           requirements: message,
-        });
+        }, captchaToken);
 
         if (error) throw error;
       } else {
@@ -207,6 +216,18 @@ export function JawrahBot() {
       setIsSavingLead(false);
     }
   };
+
+  useEffect(() => {
+    if (leadStep === 'captcha' && captchaToken) {
+      setLeadStep('complete');
+      const finalData = leadData as LeadData;
+      submitLeadToSupabase(finalData);
+      addBotMessage("Thank you! Your project details have been captured. A member of our architectural team will contact you within 24 hours.");
+      addBotMessage("You can also message us directly on WhatsApp right now for an immediate response.", true);
+      setFlow('normal');
+      setCaptchaToken(null);
+    }
+  }, [captchaToken, leadStep]);
 
   const addBotMessage = (text: string, isAction = false) => {
     setIsTyping(true);
@@ -271,13 +292,13 @@ export function JawrahBot() {
       case 'whatsapp':
         nextData.whatsapp = value;
         setLeadData(nextData);
-        setLeadStep('complete');
-        const finalData = nextData as LeadData;
-        submitLeadToSupabase(finalData);
-        addBotMessage("Thank you! Your project details have been captured. A member of our architectural team will contact you within 24 hours.");
-        addBotMessage("You can also message us directly on WhatsApp right now for an immediate response.", true);
-        setFlow('normal');
+        setLeadStep('captcha');
+        addBotMessage("Please complete the security verification below to finalize your request.");
         break;
+      case 'captcha':
+        // This is handled by the Turnstile component onVerify
+        break;
+      case 'complete':
     }
   };
 
@@ -306,13 +327,14 @@ export function JawrahBot() {
             parts: m.text
           }));
 
-        const response = await getChatResponse(text, history, regionKey);
+        const response = await processBotMessage(text, sessionId, history);
         
         setMessages(prev => [...prev, {
           id: (Date.now() + 1).toString(),
-          text: response,
+          text: response.text,
           sender: 'bot',
-          timestamp: new Date()
+          timestamp: new Date(),
+          isAction: response.showWhatsApp
         }]);
       } catch (error) {
         console.error("Chat error:", error);
@@ -432,9 +454,15 @@ export function JawrahBot() {
                     </div>
                   </div>
                 </div>
-              ))}
-              
-              {isTyping && (
+                ))}
+                {leadStep === 'captcha' && flow === 'lead_capture' && (
+                  <div className="flex justify-start mb-4">
+                    <div className="bg-brand-black/40 border border-white/5 p-3 rounded-2xl rounded-bl-none">
+                      <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" size="flexible" />
+                    </div>
+                  </div>
+                )}
+                {isTyping && (
                 <div className="flex justify-start">
                   <div className="flex gap-2 sm:gap-3">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan flex items-center justify-center mt-1">

@@ -68,7 +68,7 @@ export default function About() {
     },
     {
       question: "Where is Jawrah Pixel located?",
-      answer: "Jawrah Pixel operates as a global remote-first agency with primary hubs and physical pipelines in Sri Lanka (Colombo, Galle, Kandy) and Pakistan. We serve a worldwide clientele, managing projects seamlessly across different time zones for international brands."
+      answer: "Jawrah Pixel operates as a global remote-first agency with dedicated operations in Sri Lanka and Pakistan. We serve a worldwide clientele, managing projects seamlessly across different time zones for international brands."
     },
     {
       question: "What services does Jawrah Pixel provide?",
@@ -145,12 +145,12 @@ export default function About() {
   const regions = [
     {
       name: 'Sri Lanka',
-      label: 'Hub LK',
-      desc: 'Focused on luxury retail, tourism, and corporate transformation in Colombo, Galle, and Kandy.'
+      label: 'SL Operations',
+      desc: 'Focused on luxury retail, tourism, and corporate transformation with Sri Lanka-specific expertise.'
     },
     {
       name: 'Pakistan',
-      label: 'Hub PK',
+      label: 'PK Operations',
       desc: 'Engineering high-performance commerce and technical systems for the growing digital economy.'
     },
     {
@@ -166,6 +166,7 @@ export default function About() {
         title={seo.title}
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
+        keywords={['about Jawrah Pixel', `${seo.title}`, 'premium digital agency', 'web design agency Sri Lanka Pakistan international']}
         schemaType="Organization"
         schemaData={{
           "@type": "Organization",
@@ -597,7 +598,7 @@ export default function About() {
                   As a leading provider of custom React and Next.js applications, we bridge the gap between technical software engineering and luxury digital aesthetics. Our mission is to engineer growth through strategic design, high-performance tech stacks, and secure digital operational ecosystems.
                 </p>
                 <p>
-                  Based in Colombo, Sri Lanka, and serving a worldwide clientele, Jawrah Pixel is the trusted transformation partner for jewelry brands, luxury real estate, global SaaS firms, and ambitious e-commerce enterprises looking to dominate their market share.
+                  Based in Sri Lanka and serving a worldwide clientele, Jawrah Pixel is the trusted transformation partner for jewelry brands, luxury real estate, global SaaS firms, and ambitious e-commerce enterprises looking to dominate their market share.
                 </p>
               </div>
             </div>

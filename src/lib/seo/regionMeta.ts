@@ -4,8 +4,9 @@ type RegionPageMeta = {
   title: string;
   description: string;
   path: string;
-  schemaType?: 'Organization' | 'Service' | 'Project' | 'BlogPosting';
+  schemaType?: string;
   schemaData?: Record<string, unknown>;
+  keywords?: string[];
 };
 
 type RegionSeoMap = Record<
@@ -20,17 +21,19 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Premium Web Design Sri Lanka | Jawrah Pixel',
-      description: 'Luxury websites, ecommerce platforms, and digital systems for ambitious Sri Lankan brands.',
+      title: 'Web Design Agency Sri Lanka | Jawrah Pixel',
+      description: 'Premium web design, branding, SEO, ecommerce development and digital solutions for Sri Lankan businesses.',
       schemaType: 'Organization',
+      keywords: ['web design agency Sri Lanka', 'Sri Lanka ecommerce development', 'SEO services Sri Lanka', 'Jawrah Pixel'],
     },
     services: {
       ...BASE,
       path: '/services',
-      title: 'Web Design & Ecommerce Services Sri Lanka',
-      description: 'Premium web design, ecommerce development, branding, SEO, and custom systems for LK businesses.',
+      title: 'Web Design, Ecommerce & SEO Services Sri Lanka | Jawrah Pixel',
+      description: 'Explore premium website design, ecommerce development, SEO, branding, UI/UX, dashboards and maintenance services for Sri Lankan companies.',
       schemaType: 'Service',
       schemaData: { name: 'Premium Digital Services Sri Lanka', areaServed: 'Sri Lanka' },
+      keywords: ['web design services Sri Lanka', 'ecommerce development Sri Lanka', 'technical SEO Sri Lanka'],
     },
     contact: {
       ...BASE,
@@ -80,17 +83,19 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Premium Web Design Pakistan | Jawrah Pixel',
-      description: 'Luxury websites, ecommerce platforms, and digital systems for ambitious Pakistani brands.',
+      title: 'Web Design Agency Pakistan | Jawrah Pixel',
+      description: 'Premium web design, ecommerce development, SEO, branding and digital systems for ambitious businesses in Pakistan.',
       schemaType: 'Organization',
+      keywords: ['web design agency Pakistan', 'ecommerce development Pakistan', 'SEO services Pakistan', 'Jawrah Pixel'],
     },
     services: {
       ...BASE,
       path: '/services',
-      title: 'Web Design & Ecommerce Services Pakistan',
-      description: 'Premium web design, ecommerce development, branding, SEO, and custom systems for PK businesses.',
+      title: 'Web Design, Ecommerce & SEO Services Pakistan | Jawrah Pixel',
+      description: 'Premium website design, ecommerce development, SEO, branding, dashboards and digital growth systems for businesses in Pakistan.',
       schemaType: 'Service',
       schemaData: { name: 'Premium Digital Services Pakistan', areaServed: 'Pakistan' },
+      keywords: ['web design services Pakistan', 'ecommerce development Pakistan', 'technical SEO Pakistan'],
     },
     contact: {
       ...BASE,
@@ -140,17 +145,19 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Premium Global Web Design | Jawrah Pixel International',
+      title: 'Premium Digital Agency for Global Brands | Jawrah Pixel',
       description: 'Luxury websites, SaaS platforms, ecommerce, and AI-ready digital systems for global brands.',
       schemaType: 'Organization',
+      keywords: ['premium digital agency', 'international web design agency', 'global ecommerce development', 'Jawrah Pixel'],
     },
     services: {
       ...BASE,
       path: '/services',
-      title: 'International Digital Services | Jawrah Pixel',
+      title: 'International Digital Services for Global Brands | Jawrah Pixel',
       description: 'Premium global web design, ecommerce, SaaS interfaces, branding, SEO, and AI integrations.',
       schemaType: 'Service',
       schemaData: { name: 'International Premium Digital Services', areaServed: 'Worldwide' },
+      keywords: ['international digital services', 'global web design agency', 'premium ecommerce development'],
     },
     contact: {
       ...BASE,

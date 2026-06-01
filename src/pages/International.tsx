@@ -279,7 +279,7 @@ const testimonials = [
   },
 ];
 
-const globalNodes = ['London', 'Dubai', 'Singapore', 'New York', 'Toronto', 'Sydney'];
+const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operations', 'North America Operations', 'Remote-First Agency', 'Global Support'];
 
 const ctaBaseClass =
   'premium-button inline-flex items-center justify-center rounded-sm font-display font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan tracking-wide';
@@ -322,9 +322,10 @@ export default function International() {
   return (
     <div className="min-h-screen bg-brand-black text-zinc-300">
       <SEO
-        title="Jawrah Pixel International | Premium Web Design & Digital Solutions"
-        description="Premium websites, ecommerce, branding, SEO, and digital systems for international clients."
+        title="Premium Digital Agency for Global Brands | Jawrah Pixel"
+        description="Premium websites, ecommerce, branding, SEO, SaaS interfaces, AI integrations, and digital systems for international brands."
         canonicalUrl="https://jawrahpixel.com/int"
+        keywords={['premium digital agency', 'international web design agency', 'global ecommerce development', 'SaaS interface design']}
         schemaType="Service"
         schemaData={{
           name: 'International Premium Digital Agency',
@@ -580,6 +581,8 @@ export default function International() {
                   <img
                     src={project.image}
                     alt={`${project.title} interface preview`}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover object-top opacity-85 transition duration-700 group-hover:scale-[1.025] group-hover:opacity-100"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-black/70 via-transparent to-transparent" />

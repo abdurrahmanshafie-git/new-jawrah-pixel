@@ -14,6 +14,7 @@ import { partnerStatusLabel } from '@/lib/partner/ids';
 import type { RegionCode } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
+import { SEO } from '@/components/layout/SEO';
 import {
   Loader,
   LayoutDashboard,
@@ -103,6 +104,7 @@ export default function AgentDashboard() {
   if (loading && !dashboard) {
     return (
       <div className="min-h-screen bg-brand-black flex items-center justify-center">
+        <SEO title="Partner Dashboard | Jawrah Pixel" description="Secure Jawrah Pixel partner dashboard." noIndex />
         <Loader className="animate-spin text-brand-cyan" size={40} />
       </div>
     );
@@ -110,6 +112,7 @@ export default function AgentDashboard() {
 
   return (
     <div className="min-h-screen bg-brand-black text-white relative overflow-x-hidden">
+      <SEO title="Partner Dashboard | Jawrah Pixel" description="Secure Jawrah Pixel partner dashboard for referral links, commissions, leads, and messages." noIndex />
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="container mx-auto px-4 md:px-6 py-8 sm:py-12 relative z-10 max-w-7xl min-w-0">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 border-b border-white/10 pb-6 sm:pb-8 mb-8 sm:mb-10">

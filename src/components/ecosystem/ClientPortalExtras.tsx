@@ -28,6 +28,7 @@ import {
   PROJECT_LIFECYCLE,
 } from '@/lib/platform/ecosystem';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 
 interface ToastFn {
   (message: string, type?: 'success' | 'info' | 'error'): void;
@@ -132,6 +133,7 @@ export function ClientProposalsPanel({
   const [revisionProposalId, setRevisionProposalId] = useState<string | null>(null);
   const [revisionMessage, setRevisionMessage] = useState('');
   const [revisionSubmitting, setRevisionSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const submitRevisionRequest = async (proposalId: string) => {
     if (!revisionMessage.trim()) {
@@ -139,19 +141,40 @@ export function ClientProposalsPanel({
       return;
     }
 
-    setRevisionSubmitting(true);
-    const { error } = await requestProposalRevision(proposalId, userId, revisionMessage.trim());
-    setRevisionSubmitting(false);
-
-    if (error) {
-      showToast(error.message, 'error');
+    if (!captchaToken) {
+      showToast('Please complete the security verification.', 'error');
       return;
     }
 
-    showToast('Revision request sent.');
-    setRevisionProposalId(null);
-    setRevisionMessage('');
-    onReload();
+    setRevisionSubmitting(true);
+    try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken, type: 'revision' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
+      const { error } = await requestProposalRevision(proposalId, userId, revisionMessage.trim());
+      setRevisionSubmitting(false);
+
+      if (error) {
+        showToast(error.message, 'error');
+        return;
+      }
+
+      showToast('Revision request sent.');
+      setRevisionProposalId(null);
+      setRevisionMessage('');
+      onReload();
+    } catch (err) {
+      setRevisionSubmitting(false);
+      showToast(err instanceof Error ? err.message : 'Security verification failed.', 'error');
+    }
   };
 
   return (
@@ -206,6 +229,9 @@ export function ClientProposalsPanel({
                 placeholder="Revision request"
                 className="text-xs min-h-[90px]"
               />
+              <div className="py-2">
+                <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" size="flexible" />
+              </div>
               <Button
                 type="submit"
                 size="sm"
@@ -308,8 +334,39 @@ export function ClientMessagesPanel({
   const [messages, setMessages] = useState<any[]>([]);
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [reply, setReply] = useState('');
   const attachmentRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!captchaToken) {
+      showToast('Please complete the security verification.', 'error');
+      return;
+    }
+
+    try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken, type: 'message' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
+      await createMessageThread({ client_id: userId, subject: subject || 'Client Message', status: 'open' }, body, userId);
+      showToast('Message thread created.');
+      setSubject('');
+      setBody('');
+      setCaptchaToken(null);
+      onReload();
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Security verification failed.', 'error');
+    }
+  };
 
   React.useEffect(() => {
     if (selectedThread) fetchThreadMessages(selectedThread).then(({ data }) => setMessages(data ?? []));
@@ -319,17 +376,13 @@ export function ClientMessagesPanel({
     <div className="space-y-4">
       <form
         className="p-4 bg-brand-black/60 border border-white/5 rounded-xl space-y-3"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await createMessageThread({ client_id: userId, subject: subject || 'Client Message', status: 'open' }, body, userId);
-          showToast('Message thread created.');
-          setSubject('');
-          setBody('');
-          onReload();
-        }}
+        onSubmit={handleSubmit}
       >
         <Input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Subject" className="h-10 text-xs" />
         <Textarea value={body} onChange={(e) => setBody(e.target.value)} placeholder="Write your message..." className="text-xs min-h-[100px]" />
+        <div className="py-2">
+          <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" size="flexible" />
+        </div>
         <Button type="submit" size="sm" className="font-mono text-[10px] uppercase"><MessageSquare size={12} className="mr-1" /> Start Conversation</Button>
       </form>
 

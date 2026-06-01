@@ -166,6 +166,7 @@ export default function Home() {
         title={seo.title}
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
+        keywords={seo.keywords}
         schemaType={seo.schemaType}
         schemaData={seo.schemaData}
       />
@@ -349,6 +350,8 @@ export default function Home() {
                   <img
                     src={project.image}
                     alt={project.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-[0.16, 1, 0.3, 1]"
                     referrerPolicy="no-referrer"
                   />

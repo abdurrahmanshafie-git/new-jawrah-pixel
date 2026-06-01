@@ -72,9 +72,10 @@ export default function WhatIsJawrahPixel() {
               Jawrah Pixel serves three primary markets with region-specific expertise:
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
-              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">Sri Lanka (LK)</span>
-              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">Pakistan (PK)</span>
-              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">International (Global)</span>
+              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">Sri Lanka Operations</span>
+              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">Pakistan Operations</span>
+              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">International Operations</span>
+              <span className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono">Remote-First Agency</span>
             </div>
           </Reveal>
         </div>

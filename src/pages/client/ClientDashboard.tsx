@@ -46,6 +46,7 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { SEO } from '@/components/layout/SEO';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 
 interface Toast {
   id: number;
@@ -97,8 +98,12 @@ export default function ClientDashboard() {
   const [meetingDate, setMeetingDate] = useState('');
   const [meetingTime, setMeetingTime] = useState('10:00 (GMT+5:30)');
   const [meetingTopic, setMeetingTopic] = useState('Technical Scope Architecture review');
+  const [revisionCaptchaToken, setRevisionCaptchaToken] = useState<string | null>(null);
+  const [ticketCaptchaToken, setTicketCaptchaToken] = useState<string | null>(null);
+  const [messageCaptchaToken, setMessageCaptchaToken] = useState<string | null>(null);
+  const [paymentProofCaptchaToken, setPaymentProofCaptchaToken] = useState<string | null>(null);
 
-  // File Upload states
+  // tab countersFile Upload states
   const [dragActive, setDragActive] = useState(false);
   const [simUploadName, setSimUploadName] = useState('');
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -285,9 +290,25 @@ export default function ClientDashboard() {
     e.preventDefault();
     if (isSubmittingRevision || !newRevisionText.trim()) return;
 
+    if (!revisionCaptchaToken) {
+      showToast('Please complete the security verification.', 'error');
+      return;
+    }
+
     setIsSubmittingRevision(true);
 
     try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken: revisionCaptchaToken, type: 'revision' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
       if (!sandboxMode && user) {
         const projectId = projects.find((p) => p.title === newRevisionProject)?.id ?? projects[0]?.id ?? null;
         const { error } = await submitRevisionRequest({
@@ -324,9 +345,25 @@ export default function ClientDashboard() {
     e.preventDefault();
     if (isSubmittingTicket || !newTicketSubject.trim() || !newTicketMessage.trim()) return;
 
+    if (!ticketCaptchaToken) {
+      showToast('Please complete the security verification.', 'error');
+      return;
+    }
+
     setIsSubmittingTicket(true);
 
     try {
+      // Server-side CAPTCHA verification
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captchaToken: ticketCaptchaToken, type: 'support' }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        throw new Error(verifyData.error || 'Security verification failed.');
+      }
+
       if (!sandboxMode && user) {
         const { error } = await submitSupportTicket({
           client_id: user.id,
@@ -500,6 +537,7 @@ export default function ClientDashboard() {
       <SEO 
         title="Premium Project Workspace" 
         description="Dynamic client collaboration terminal. Track project milestones, submit revisions, download invoices, schedule meetings, and chat with design experts." 
+        noIndex
       />
 
       {/* Floating toasts container */}
@@ -687,6 +725,9 @@ export default function ClientDashboard() {
                             placeholder="e.g. Adjust checkout background frames to slate-950 on small screen breakpoints..."
                             className="bg-black border-white/5 text-xs min-h-[140px]"
                           />
+                        </div>
+                        <div className="py-2">
+                          <TurnstileCaptcha onVerify={setRevisionCaptchaToken} theme="dark" size="flexible" />
                         </div>
                         <Button
                           type="submit"

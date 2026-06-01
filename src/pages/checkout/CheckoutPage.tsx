@@ -20,6 +20,8 @@ import { submitInquiry } from '@/lib/supabase/api';
 import { isRegionCode } from '@/lib/region';
 import type { Profile, RegionCode } from '@/types';
 import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
+import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
+import { SEO } from '@/components/layout/SEO';
 
 type StartCheckoutOption = 'reserve_10' | 'deposit_50' | 'full_payment' | 'custom_invoice';
 
@@ -156,6 +158,11 @@ function ServiceStartCheckout({
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+      <SEO
+        title="Secure Checkout | Jawrah Pixel"
+        description="Secure Jawrah Pixel checkout for project invoices, deposits, manual payment proof, and payment confirmation."
+        noIndex
+      />
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-xs font-mono uppercase text-brand-gray hover:text-white">
         <ArrowLeft size={14} /> Back to Dashboard
       </Link>
@@ -263,6 +270,7 @@ export default function CheckoutPage() {
   const [reference, setReference] = useState('');
   const [notes, setNotes] = useState('');
   const [proofFile, setProofFile] = useState<File | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
 
@@ -320,6 +328,10 @@ export default function CheckoutPage() {
 
   const handleManualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!captchaToken) {
+      setError('Please complete the security verification.');
+      return;
+    }
     if (!reference.trim()) {
       setError('Enter your bank transfer reference number.');
       return;
@@ -333,6 +345,7 @@ export default function CheckoutPage() {
         referenceNumber: reference.trim(),
         notes: notes.trim() || undefined,
         proofFile,
+        captcha_token: captchaToken,
       });
       navigate(`/dashboard/payment-success?invoiceId=${invoiceId}&manual=1`);
     } catch (err) {
@@ -361,6 +374,11 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
+      <SEO
+        title="Start Project Checkout | Jawrah Pixel"
+        description="Start a secure Jawrah Pixel project checkout, reserve a project slot, request a custom invoice, or begin a deposit payment."
+        noIndex
+      />
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-xs font-mono uppercase text-brand-gray hover:text-white">
         <ArrowLeft size={14} /> Back to Dashboard
       </Link>
@@ -480,6 +498,9 @@ export default function CheckoutPage() {
                       onChange={(e) => setProofFile(e.target.files?.[0] ?? null)}
                       className="text-xs"
                     />
+                    <div className="py-2">
+                      <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" />
+                    </div>
                     <Button
                       type="submit"
                       className="w-full font-mono uppercase tracking-widest text-xs"

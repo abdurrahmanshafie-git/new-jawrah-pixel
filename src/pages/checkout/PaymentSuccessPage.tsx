@@ -7,6 +7,7 @@ import { fetchInvoiceForCheckout } from '@/lib/supabase/billing-api';
 import { completeInvoicePayment } from '@/lib/supabase/billing-api';
 import { formatCurrencyAmount } from '@/lib/billing/format';
 import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
+import { SEO } from '@/components/layout/SEO';
 
 export default function PaymentSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -80,6 +81,11 @@ export default function PaymentSuccessPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-16 text-center space-y-6">
+      <SEO
+        title="Payment Confirmation | Jawrah Pixel"
+        description="Secure Jawrah Pixel payment confirmation page for client invoices and project milestones."
+        noIndex
+      />
       <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
         <CheckCircle size={32} />
       </div>

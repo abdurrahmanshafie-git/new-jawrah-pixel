@@ -57,6 +57,7 @@ export interface ApplyAsAgentInput {
   experience: string;
   message?: string | null;
   userId: string;
+  captcha_token?: string | null;
 }
 
 async function nextPartnerSequence(region: RegionCode): Promise<number> {

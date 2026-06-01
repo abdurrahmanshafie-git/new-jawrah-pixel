@@ -2,6 +2,7 @@ export interface WelcomeEmailPayload {
   name?: string;
   email: string;
   region?: string;
+  captcha_token?: string;
 }
 
 export interface WelcomeEmailResult {
