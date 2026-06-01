@@ -10,6 +10,7 @@ import { SEO } from '@/components/layout/SEO';
 import { Logo } from '@/components/layout/Logo';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { TrustSection } from '@/components/sections/TrustSection';
 
 const liveProjects = [
   {
@@ -407,6 +408,8 @@ export default function Home() {
           </StaggerContainer>
         </div>
       </section>
+
+      <TrustSection />
 
       {/* Premium Services Grid */}
       <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-navy/30">

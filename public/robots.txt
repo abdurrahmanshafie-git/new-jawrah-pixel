@@ -1,11 +1,12 @@
 User-agent: *
 Allow: /
 
-# Exclude dashboards or secure admin endpoints from search index
-Disallow: /admin/
-Disallow: /dashboard
-Disallow: /agent/
-Disallow: /login
-Disallow: /signup
-
+# Sitemap
 Sitemap: https://jawrahpixel.com/sitemap.xml
+
+# Disallow admin and internal dashboard paths
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /partner/dashboard/
+Disallow: /agent/dashboard/
+Disallow: /checkout/

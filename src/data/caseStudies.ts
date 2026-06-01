@@ -152,6 +152,118 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     },
     metaDesc: "Discover Jawrah Pixel's leading operational client CRM, custom bento dashboard, and Supabase database architecture."
   },
+  'aerovista': {
+    region: 'int',
+    title: "Aerovista Global Logistics",
+    slug: "aerovista",
+    category: "Enterprise SaaS & Supply Chain Dashboard",
+    industry: "Logistics & Supply Chain",
+    client: "Aerovista Solutions",
+    websiteUrl: "https://aerovista.example.com",
+    desktopImage: "/assets/case-studies/aerovista/desktop.png",
+    mobileImage: "/assets/case-studies/aerovista/mobile.png",
+    overview: "A high-fidelity global logistics dashboard architected for Aerovista. The system centralizes real-time freight tracking, automated custom clearances, and global fleet management into a single, secure command center.",
+    budget: "$12,500",
+    duration: "10 Weeks",
+    goals: [
+      "Unify fragmented data streams from multiple international carriers.",
+      "Reduce manual entry errors through automated API synchronization.",
+      "Deliver a sub-second response time for large-scale data visualization."
+    ],
+    challenges: [
+      "Legacy systems were running on outdated PHP architectures with significant downtime.",
+      "Complexity in mapping diverse international shipping regulations into a unified UI.",
+      "Handling real-time geolocation data for over 500 active fleet units."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Infrastructure Audit", desc: "Mapping legacy data silos and defining the new React-Supabase bridge." },
+      { phase: "Phase 2", title: "UI Architecture", desc: "Designing high-density data grids with zero visual clutter." },
+      { phase: "Phase 3", title: "Global Sync", desc: "Implementing edge functions for real-time tracking updates." }
+    ],
+    technologies: ["React", "Next.js", "Supabase", "Leaflet.js", "Redis", "Edge Functions"],
+    solutions: [
+      "Bespoke real-time tracking engine with sub-100ms update latency.",
+      "Automated documentation pipeline reducing clearance times by 40%.",
+      "Secure role-based access control (RBAC) for global branch managers."
+    ],
+    perfScores: { perf: 98, seo: 95, access: 99, best: 96 },
+    desktopHighlights: [
+      { title: "Fleet Command Center", desc: "Real-time interactive map with health monitoring for all active assets." },
+      { title: "Automated Reporting", desc: "Instant generation of international compliance documents." }
+    ],
+    mobileHighlights: [
+      { title: "On-the-go Tracking", desc: "Critical alerts and status updates delivered via push notifications." },
+      { title: "Driver Portal", desc: "Simplified interface for fleet operators to log status changes." }
+    ],
+    results: [
+      { metric: "Operational Efficiency", val: "+65%", desc: "Reduction in time spent on manual logistics coordination." },
+      { metric: "Data Accuracy", val: "99.9%", desc: "Significant reduction in shipping documentation errors." },
+      { metric: "System Uptime", val: "99.99%", desc: "Flawless performance since the migration to Jawrah OS." }
+    ],
+    testimonial: {
+      quote: "Aerovista's global operations are now powered by a system that is as reliable as it is fast. Jawrah Pixel's engineering has set a new standard for our industry.",
+      author: "David Chen",
+      role: "CTO, Aerovista Global",
+      avatar: "DC"
+    },
+    metaDesc: "Discover how Jawrah Pixel transformed Aerovista's global logistics with a custom enterprise SaaS dashboard."
+  },
+  'veloura-cafe': {
+    region: 'int',
+    title: "Veloura Cafe & Roastery",
+    slug: "veloura-cafe",
+    category: "Luxury E-commerce & Hospitality",
+    industry: "Food & Beverage / E-commerce",
+    client: "Veloura Group",
+    websiteUrl: "https://veloura-cafe.example.com",
+    desktopImage: "/assets/case-studies/veloura-cafe/desktop.png",
+    mobileImage: "/assets/case-studies/veloura-cafe/mobile.png",
+    overview: "A cinematic digital presence for Veloura Cafe, bridging the gap between their physical luxury roastery and a global audience. The platform features a bespoke coffee subscription engine and a high-converting retail boutique.",
+    budget: "$4,800",
+    duration: "7 Weeks",
+    goals: [
+      "Translate the sensory experience of a luxury roastery into a digital interface.",
+      "Launch a custom subscription model for recurring coffee bean deliveries.",
+      "Achieve premium brand positioning in the competitive specialty coffee market."
+    ],
+    challenges: [
+      "Existing e-commerce templates failed to capture the 'luxury artisanal' brand voice.",
+      "Complex subscription logic required custom development beyond standard Shopify features.",
+      "Need for atmospheric storytelling to justify premium price points."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Visual Storyboarding", desc: "Defining the 'Golden Roast' color palette and atmospheric motion design." },
+      { phase: "Phase 2", title: "Subscription Engine", desc: "Architecting a custom billing and delivery frequency logic." },
+      { phase: "Phase 3", title: "Cinematic Commerce", desc: "Building high-fidelity product pages with immersive video backgrounds." }
+    ],
+    technologies: ["React", "Tailwind CSS", "Framer Motion", "Stripe Connect", "Supabase Auth"],
+    solutions: [
+      "Bespoke 'Brew Profile' selector to help customers find their perfect roast.",
+      "High-converting subscription engine with integrated customer portal.",
+      "Cinematic product galleries that showcase artisanal detail."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Immersive Storytelling", desc: "Full-bleed video backgrounds and parallex scrolling for brand immersion." },
+      { title: "Subscription Desk", desc: "Intuitive management portal for recurring coffee orders." }
+    ],
+    mobileHighlights: [
+      { title: "Instant Checkout", desc: "Apple Pay and Google Pay integration for one-tap mobile coffee purchases." },
+      { title: "Visual Tasting Notes", desc: "Icon-driven tasting profiles optimized for quick mobile scanning." }
+    ],
+    results: [
+      { metric: "Subscription Growth", val: "+215%", desc: "Increase in monthly recurring revenue since launch." },
+      { metric: "Average Order Value", val: "+42%", desc: "Higher basket totals due to premium brand positioning." },
+      { metric: "Mobile Conversion", val: "6.8%", desc: "Unusually high mobile purchase rate for the luxury sector." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel didn't just build a website; they built a digital flagship that reflects our passion for coffee. Our subscription numbers have exceeded all expectations.",
+      author: "Elena Rossi",
+      role: "Brand Director",
+      avatar: "ER"
+    },
+    metaDesc: "Explore the luxury e-commerce and hospitality case study for Veloura Cafe & Roastery by Jawrah Pixel."
+  },
   'velora-estates': {
     region: 'lk',
     title: "Velora Estates",

@@ -29,6 +29,7 @@ import { useRegion } from '@/hooks/useRegion';
 import { Button } from '@/components/ui/Button';
 import { Logo } from '@/components/layout/Logo';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { TrustSection } from '@/components/sections/TrustSection';
 
 interface ServiceCard {
   title: string;
@@ -414,6 +415,8 @@ export default function International() {
           </motion.div>
         </div>
       </section>
+
+      <TrustSection />
 
       <section className="relative overflow-hidden border-y border-white/5 bg-brand-black py-16 md:py-24">
         <div className="absolute inset-0 premium-grid-overlay opacity-40" />

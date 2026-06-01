@@ -7,8 +7,8 @@ interface SEOProps {
   canonicalUrl?: string;
   ogType?: 'website' | 'article' | 'profile';
   ogImage?: string;
-  schemaType?: 'Organization' | 'Service' | 'Project' | 'BlogPosting';
-  schemaData?: Record<string, any>;
+  schemaType?: 'Organization' | 'Service' | 'Project' | 'BlogPosting' | 'FAQPage' | 'LocalBusiness' | 'BreadcrumbList' | 'Person' | 'CaseStudy';
+  schemaData?: Record<string, any> | any[];
 }
 
 export function SEO({
@@ -23,8 +23,9 @@ export function SEO({
   useEffect(() => {
     // 1. Update Title
     const formattedTitle = title.includes('Jawrah Pixel') ? title : `${title} | Jawrah Pixel | Premium Digital Agency`;
-    const resolvedCanonical = canonicalUrl || `${appEnv.siteUrl}${window.location.pathname}`;
-    const resolvedOgImage = toAbsoluteUrl(ogImage);
+    const currentPath = window.location.pathname;
+    const resolvedCanonical = canonicalUrl || `${appEnv.siteUrl}${currentPath}`;
+    const resolvedOgImage = ogImage.startsWith('http') ? ogImage : toAbsoluteUrl(ogImage);
     document.title = formattedTitle;
 
     // 2. Update Meta Description
@@ -77,53 +78,68 @@ export function SEO({
       schemaScript.remove();
     }
 
-    const defaultSchema = {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'Organization',
-          '@id': 'https://jawrahpixel.com/#organization',
-          'name': 'Jawrah Pixel',
-          'url': appEnv.siteUrl,
-          'logo': toAbsoluteUrl('/assets/logo.png'),
-          'email': appEnv.contactEmail,
-          'telephone': appEnv.contactWhatsapp,
-          'sameAs': [
-            'https://www.instagram.com/jawrahpixel',
-            'https://linkedin.com/company/jawrahpixel'
-          ]
-        },
-        {
-          '@type': 'WebSite',
-          '@id': 'https://jawrahpixel.com/#website',
-          'url': appEnv.siteUrl,
-          'name': 'Jawrah Pixel',
-          'publisher': {
-            '@id': 'https://jawrahpixel.com/#organization'
-          }
-        }
-      ]
+    const organizationSchema = {
+      '@type': 'Organization',
+      '@id': `${appEnv.siteUrl}/#organization`,
+      'name': 'Jawrah Pixel',
+      'url': appEnv.siteUrl,
+      'logo': {
+        '@type': 'ImageObject',
+        'url': toAbsoluteUrl('/assets/logo.png'),
+        'width': '512',
+        'height': '512'
+      },
+      'email': appEnv.contactEmail,
+      'telephone': appEnv.contactWhatsapp,
+      'sameAs': [
+        'https://www.instagram.com/jawrahpixel',
+        'https://linkedin.com/company/jawrahpixel'
+      ],
+      'description': 'Premium Digital Agency & Client OS specializing in high-end website development, e-commerce, and business automation.'
     };
 
+    const websiteSchema = {
+      '@type': 'WebSite',
+      '@id': `${appEnv.siteUrl}/#website`,
+      'url': appEnv.siteUrl,
+      'name': 'Jawrah Pixel',
+      'publisher': {
+        '@id': `${appEnv.siteUrl}/#organization`
+      },
+      'potentialAction': {
+        '@type': 'SearchAction',
+        'target': `${appEnv.siteUrl}/search?q={search_term_string}`,
+        'query-input': 'required name=search_term_string'
+      }
+    };
+
+    const graph: any[] = [organizationSchema, websiteSchema];
+
     if (schemaType && schemaData) {
-      let mainEntity: Record<string, any> = {
-        '@context': 'https://schema.org',
-        '@type': schemaType,
-        ...schemaData
-      };
-      
-      // Merge specialized schemas into the graph if defined
-      (defaultSchema['@graph'] as any[]).push(mainEntity);
+      if (Array.isArray(schemaData)) {
+        schemaData.forEach(item => {
+          graph.push(item);
+        });
+      } else {
+        graph.push({
+          '@type': schemaType,
+          ...schemaData
+        });
+      }
     }
+
+    const finalSchema = {
+      '@context': 'https://schema.org',
+      '@graph': graph
+    };
 
     schemaScript = document.createElement('script');
     schemaScript.setAttribute('id', 'seo-structured-schema');
     schemaScript.setAttribute('type', 'application/ld+json');
-    schemaScript.textContent = JSON.stringify(defaultSchema);
+    schemaScript.textContent = JSON.stringify(finalSchema);
     document.head.appendChild(schemaScript);
 
     return () => {
-      // Cleanup script on unmount/route change
       const script = document.getElementById('seo-structured-schema');
       if (script) {
         script.remove();

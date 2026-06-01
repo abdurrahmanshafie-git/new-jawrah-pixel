@@ -36,6 +36,12 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 const Blog = lazy(() => import('./pages/Blog'));
+const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
+
+// AI Entity Pages
+const WhatIsJawrahPixel = lazy(() => import('./pages/ai/WhatIsJawrahPixel'));
+const WhyJawrahPixel = lazy(() => import('./pages/ai/WhyJawrahPixel'));
+const AboutFounder = lazy(() => import('./pages/ai/AboutFounder'));
 
 // Auth Pages
 const Login = lazy(() => import('./pages/auth/Login'));
@@ -97,6 +103,10 @@ export default function App() {
               <Route path="/lk/privacy" element={<Navigate to="/lk/privacy-policy" replace />} />
               <Route path="/lk/terms" element={<Navigate to="/lk/terms-and-conditions" replace />} />
               <Route path="/lk/blog" element={<Blog />} />
+              <Route path="/lk/blog/:slug" element={<BlogPostDetail />} />
+              <Route path="/lk/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
+              <Route path="/lk/why-jawrah-pixel" element={<WhyJawrahPixel />} />
+              <Route path="/lk/about-founder" element={<AboutFounder />} />
 
               {/* Pakistan version */}
               <Route path="/pk" element={<Home />} />
@@ -115,6 +125,10 @@ export default function App() {
               <Route path="/pk/privacy" element={<Navigate to="/pk/privacy-policy" replace />} />
               <Route path="/pk/terms" element={<Navigate to="/pk/terms-and-conditions" replace />} />
               <Route path="/pk/blog" element={<Blog />} />
+              <Route path="/pk/blog/:slug" element={<BlogPostDetail />} />
+              <Route path="/pk/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
+              <Route path="/pk/why-jawrah-pixel" element={<WhyJawrahPixel />} />
+              <Route path="/pk/about-founder" element={<AboutFounder />} />
 
               {/* International version */}
               <Route path="/int" element={<International />} />
@@ -133,6 +147,10 @@ export default function App() {
               <Route path="/int/privacy" element={<Navigate to="/int/privacy-policy" replace />} />
               <Route path="/int/terms" element={<Navigate to="/int/terms-and-conditions" replace />} />
               <Route path="/int/blog" element={<Blog />} />
+              <Route path="/int/blog/:slug" element={<BlogPostDetail />} />
+              <Route path="/int/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
+              <Route path="/int/why-jawrah-pixel" element={<WhyJawrahPixel />} />
+              <Route path="/int/about-founder" element={<AboutFounder />} />
 
               {/* Fallback routes */}
               <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
@@ -149,6 +167,9 @@ export default function App() {
               <Route path="/refund-policy" element={<RegionalRedirect path="/refund-policy" />} />
               <Route path="/privacy" element={<RegionalRedirect path="/privacy-policy" />} />
               <Route path="/terms" element={<RegionalRedirect path="/terms-and-conditions" />} />
+              <Route path="/what-is-jawrah-pixel" element={<RegionalRedirect path="/what-is-jawrah-pixel" />} />
+              <Route path="/why-jawrah-pixel" element={<RegionalRedirect path="/why-jawrah-pixel" />} />
+              <Route path="/about-founder" element={<RegionalRedirect path="/about-founder" />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to root which redirects to region if exists */}

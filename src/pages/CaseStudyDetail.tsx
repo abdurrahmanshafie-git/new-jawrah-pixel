@@ -187,6 +187,14 @@ export default function CaseStudyDetail() {
                 <span className="font-semibold text-white block truncate">{project.client}</span>
               </div>
               <div className="bg-white/[0.02] border border-white/5 p-3 sm:p-4 rounded-xl">
+                <span className="text-[8px] sm:text-[10px] text-brand-gray block mb-0.5 sm:mb-1">INDUSTRY</span>
+                <span className="font-semibold text-white block truncate">{project.industry}</span>
+              </div>
+              <div className="bg-white/[0.02] border border-white/5 p-3 sm:p-4 rounded-xl">
+                <span className="text-[8px] sm:text-[10px] text-brand-gray block mb-0.5 sm:mb-1">TIMELINE</span>
+                <span className="font-semibold text-white block truncate">{project.duration}</span>
+              </div>
+              <div className="bg-white/[0.02] border border-white/5 p-3 sm:p-4 rounded-xl">
                 <span className="text-[8px] sm:text-[10px] text-brand-gray block mb-0.5 sm:mb-1">BUDGET FRAME</span>
                 <span className="font-semibold text-brand-cyan block">{project.budget}</span>
               </div>
