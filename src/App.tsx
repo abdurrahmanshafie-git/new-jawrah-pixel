@@ -20,8 +20,9 @@ const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Partner = lazy(() => import('./pages/Partner'));
 const AgentsRedirect = lazy(() => import('./pages/Agents'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const Terms = lazy(() => import('./pages/Terms'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 const Blog = lazy(() => import('./pages/Blog'));
 
 // Auth Pages
@@ -77,8 +78,11 @@ export default function App() {
               <Route path="/lk/contact" element={<Contact />} />
               <Route path="/lk/partner" element={<Partner />} />
               <Route path="/lk/agents" element={<AgentsRedirect />} />
-              <Route path="/lk/privacy" element={<Privacy />} />
-              <Route path="/lk/terms" element={<Terms />} />
+              <Route path="/lk/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/lk/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/lk/refund-policy" element={<RefundPolicy />} />
+              <Route path="/lk/privacy" element={<Navigate to="/lk/privacy-policy" replace />} />
+              <Route path="/lk/terms" element={<Navigate to="/lk/terms-and-conditions" replace />} />
               <Route path="/lk/blog" element={<Blog />} />
 
               {/* Pakistan version */}
@@ -92,8 +96,11 @@ export default function App() {
               <Route path="/pk/contact" element={<Contact />} />
               <Route path="/pk/partner" element={<Partner />} />
               <Route path="/pk/agents" element={<AgentsRedirect />} />
-              <Route path="/pk/privacy" element={<Privacy />} />
-              <Route path="/pk/terms" element={<Terms />} />
+              <Route path="/pk/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/pk/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/pk/refund-policy" element={<RefundPolicy />} />
+              <Route path="/pk/privacy" element={<Navigate to="/pk/privacy-policy" replace />} />
+              <Route path="/pk/terms" element={<Navigate to="/pk/terms-and-conditions" replace />} />
               <Route path="/pk/blog" element={<Blog />} />
 
               {/* International version */}
@@ -107,8 +114,11 @@ export default function App() {
               <Route path="/int/contact" element={<Contact />} />
               <Route path="/int/partner" element={<Partner />} />
               <Route path="/int/agents" element={<AgentsRedirect />} />
-              <Route path="/int/privacy" element={<Privacy />} />
-              <Route path="/int/terms" element={<Terms />} />
+              <Route path="/int/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/int/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/int/refund-policy" element={<RefundPolicy />} />
+              <Route path="/int/privacy" element={<Navigate to="/int/privacy-policy" replace />} />
+              <Route path="/int/terms" element={<Navigate to="/int/terms-and-conditions" replace />} />
               <Route path="/int/blog" element={<Blog />} />
 
               {/* Fallback routes */}
@@ -121,6 +131,11 @@ export default function App() {
               <Route path="/contact" element={<RegionalRedirect path="/contact" />} />
               <Route path="/partner" element={<RegionalRedirect path="/partner" />} />
               <Route path="/agents" element={<RegionalRedirect path="/partner" />} />
+              <Route path="/privacy-policy" element={<RegionalRedirect path="/privacy-policy" />} />
+              <Route path="/terms-and-conditions" element={<RegionalRedirect path="/terms-and-conditions" />} />
+              <Route path="/refund-policy" element={<RegionalRedirect path="/refund-policy" />} />
+              <Route path="/privacy" element={<RegionalRedirect path="/privacy-policy" />} />
+              <Route path="/terms" element={<RegionalRedirect path="/terms-and-conditions" replace />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to root which redirects to region if exists */}

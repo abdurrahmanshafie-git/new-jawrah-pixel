@@ -130,9 +130,9 @@ export function Footer() {
             &copy; {currentYear} Jawrah Pixel OS. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[11px] font-mono uppercase tracking-wider text-brand-gray/40">
-            <Link to={p("/privacy")} className="hover:text-brand-cyan transition-colors">Privacy</Link>
-            <Link to={p("/terms")} className="hover:text-white transition-colors">Terms</Link>
-            <Link to={p("/about")} className="hover:text-white transition-colors">About</Link>
+            <Link to={p("/privacy-policy")} className="hover:text-brand-cyan transition-colors">Privacy Policy</Link>
+            <Link to={p("/terms-and-conditions")} className="hover:text-white transition-colors">Terms & Conditions</Link>
+            <Link to={p("/refund-policy")} className="hover:text-white transition-colors">Refund Policy</Link>
           </div>
         </div>
       </Reveal>
