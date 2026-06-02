@@ -140,9 +140,9 @@ export function Footer() {
                 </h4>
                 <ul className="space-y-5">
                   {[
-                    { label: 'Privacy Policy', path: '/privacy' },
-                    { label: 'Terms of Service', path: '/terms' },
-                    { label: 'Refund Policy', path: '/refunds' }
+                    { label: 'Privacy Policy', path: '/privacy-policy' },
+                    { label: 'Terms of Service', path: '/terms-and-conditions' },
+                    { label: 'Refund Policy', path: '/refund-policy' }
                   ].map((link) => (
                     <li key={link.label}>
                       <Link to={p(link.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">

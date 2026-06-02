@@ -104,6 +104,8 @@ export default function App() {
               <Route path="/lk/refund-policy" element={<RefundPolicy />} />
               <Route path="/lk/privacy" element={<Navigate to="/lk/privacy-policy" replace />} />
               <Route path="/lk/terms" element={<Navigate to="/lk/terms-and-conditions" replace />} />
+              <Route path="/lk/refund" element={<Navigate to="/lk/refund-policy" replace />} />
+              <Route path="/lk/refunds" element={<Navigate to="/lk/refund-policy" replace />} />
               <Route path="/lk/blog" element={<Blog />} />
               <Route path="/lk/blog/:slug" element={<BlogPostDetail />} />
               <Route path="/lk/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
@@ -127,6 +129,8 @@ export default function App() {
               <Route path="/pk/refund-policy" element={<RefundPolicy />} />
               <Route path="/pk/privacy" element={<Navigate to="/pk/privacy-policy" replace />} />
               <Route path="/pk/terms" element={<Navigate to="/pk/terms-and-conditions" replace />} />
+              <Route path="/pk/refund" element={<Navigate to="/pk/refund-policy" replace />} />
+              <Route path="/pk/refunds" element={<Navigate to="/pk/refund-policy" replace />} />
               <Route path="/pk/blog" element={<Blog />} />
               <Route path="/pk/blog/:slug" element={<BlogPostDetail />} />
               <Route path="/pk/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
@@ -150,6 +154,8 @@ export default function App() {
               <Route path="/int/refund-policy" element={<RefundPolicy />} />
               <Route path="/int/privacy" element={<Navigate to="/int/privacy-policy" replace />} />
               <Route path="/int/terms" element={<Navigate to="/int/terms-and-conditions" replace />} />
+              <Route path="/int/refund" element={<Navigate to="/int/refund-policy" replace />} />
+              <Route path="/int/refunds" element={<Navigate to="/int/refund-policy" replace />} />
               <Route path="/int/blog" element={<Blog />} />
               <Route path="/int/blog/:slug" element={<BlogPostDetail />} />
               <Route path="/int/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
@@ -169,6 +175,8 @@ export default function App() {
               <Route path="/privacy-policy" element={<RegionalRedirect path="/privacy-policy" />} />
               <Route path="/terms-and-conditions" element={<RegionalRedirect path="/terms-and-conditions" />} />
               <Route path="/refund-policy" element={<RegionalRedirect path="/refund-policy" />} />
+              <Route path="/refund" element={<RegionalRedirect path="/refund-policy" />} />
+              <Route path="/refunds" element={<RegionalRedirect path="/refund-policy" />} />
               <Route path="/privacy" element={<RegionalRedirect path="/privacy-policy" />} />
               <Route path="/terms" element={<RegionalRedirect path="/terms-and-conditions" />} />
               <Route path="/what-is-jawrah-pixel" element={<RegionalRedirect path="/what-is-jawrah-pixel" />} />
