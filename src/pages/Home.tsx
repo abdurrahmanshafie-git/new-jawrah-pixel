@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles } from 'lucide-react';
+import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles, CheckCircle2, Globe2, Building2, Star } from 'lucide-react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
@@ -11,6 +11,7 @@ import { Logo } from '@/components/layout/Logo';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { TrustSection } from '@/components/sections/TrustSection';
+import Magnetic from '@/components/ui/Magnetic';
 
 const liveProjects = [
   {
@@ -65,8 +66,38 @@ const liveProjects = [
   }
 ];
 
+const intPricingPackages = [
+  {
+    name: 'Starter',
+    price: '$500 - $1,500',
+    desc: 'A premium entry system for focused launches, creators, portfolios, and early-stage global brands.',
+    features: ['Landing page or compact website', 'Premium responsive UI', 'Core SEO foundation', 'Global inquiry routing'],
+  },
+  {
+    name: 'Growth',
+    price: '$2,000 - $5,000',
+    desc: 'A conversion-ready digital platform for startups, SaaS teams, ecommerce brands, and international businesses.',
+    features: ['Multi-page website architecture', 'CMS or commerce-ready structure', 'Analytics-ready conversion paths', 'Remote-first launch support'],
+    isRecommended: true,
+  },
+  {
+    name: 'Premium',
+    price: '$5,000 - $15,000+',
+    desc: 'A high-end brand and product experience for premium global brands that need deeper design and engineering.',
+    features: ['Custom UI/UX system', 'Ecommerce or SaaS interface flows', 'AI integration planning', 'Performance and accessibility tuning'],
+  },
+  {
+    name: 'Enterprise',
+    price: 'Custom Pricing',
+    desc: 'A bespoke engagement for complex systems, AI workflows, global launches, and long-term creative technology support.',
+    features: ['Discovery-led scope mapping', 'Advanced integrations', 'Scalable systems architecture', 'Priority strategic partnership'],
+  },
+];
+
+const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operations', 'North America Operations', 'Remote-First Agency', 'Global Support'];
+
 export default function Home() {
-  const { config, p } = useRegion();
+  const { config, p, isInternational } = useRegion();
   const seo = useRegionalSeo('home');
   const storyRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -77,6 +108,7 @@ export default function Home() {
   const [activeStoryStep, setActiveStoryStep] = useState(0);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.8]);
+  const translateXStory = useTransform(scrollYProgress, [0, 0.9], ["0%", "-66.66%"]);
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     // Optimized thresholds for 3 steps to ensure smooth transitions
@@ -158,10 +190,9 @@ export default function Home() {
       titleClass: 'text-white',
     },
   ];
-  const activeStory = storySteps[activeStoryStep] ?? storySteps[0];
 
   return (
-    <div className="flex flex-col min-h-screen bg-brand-black">
+    <div className="bg-brand-black">
       <SEO 
         title={seo.title}
         description={seo.description}
@@ -172,110 +203,108 @@ export default function Home() {
       />
 
       {/* Cinematic Hero Section */}
-      <section className="premium-hero-stage relative pt-28 pb-20 md:pt-48 md:pb-40 overflow-hidden flex items-center md:min-h-[95vh] blue-gradient-bg">
+      <section className="relative min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-32 md:pt-48 pb-20 overflow-hidden">
+        {/* Atmospheric Background */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-blue/15 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-brand-cyan/10 rounded-full blur-[150px] translate-x-1/2 translate-y-1/2"></div>
-          
-          {/* Mobile-only additional intense glow */}
-          <div className="md:hidden absolute top-1/2 left-1/2 w-[350px] h-[400px] bg-brand-cyan/20 rounded-full blur-[110px] -translate-x-1/2 -translate-y-1/2 mix-blend-screen"></div>
+          <div className="absolute inset-0 premium-grid-overlay opacity-[0.15]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
+            <div className="absolute top-[15%] left-[15%] cinematic-light opacity-30 blur-[120px] animate-pulse-slow" />
+            <div className="absolute bottom-[15%] right-[15%] cinematic-light opacity-20 blur-[100px] animate-glow" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.08), transparent 70%)' }} />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-transparent to-brand-black" />
         </div>
-        <div className="premium-particles"></div>
-        
-        <div className="container mx-auto px-5 md:px-8 relative z-10 flex w-full max-w-7xl flex-col justify-center items-center md:items-start text-center md:text-left overflow-visible md:overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="inline-flex max-w-full items-center justify-center md:justify-start gap-2 mb-8 px-4 py-2 md:px-4 md:py-1.5 rounded-full border border-brand-cyan/30 md:border-white/10 bg-brand-cyan/10 md:bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.15)] md:shadow-none"
-          >
-            <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)] md:shadow-none"></span>
-            <span className="text-zinc-200 text-[10px] md:text-xs font-semibold tracking-[0.15em] md:tracking-[0.3em] uppercase text-center leading-relaxed">
-              Elite Transformation Partner
-            </span>
-          </motion.div>
-          
-          {/* Mobile-Optimized Headline */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden w-full max-w-[min(100%,42rem)] text-[clamp(2.2rem,9vw,3.5rem)] font-medium text-white tracking-tight leading-[1.1] mb-6 flex flex-col uppercase break-words"
-          >
-            <span className="font-display tracking-tight text-white/90">Architecting</span>
-            <span className="premium-gradient-brand font-bold italic drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">Digital</span>
-            <span className="font-serif italic font-light text-zinc-400 text-[0.95em]">Excellence</span>
-          </motion.h1>
 
-          {/* Desktop Headline */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden md:block text-[clamp(2.8rem,6vw,5.75rem)] font-medium text-white tracking-tight leading-[1.02] mb-6 md:mb-8 uppercase font-display max-w-[min(100%,46rem)] break-words"
-          >
-            Architecting <span className="premium-gradient-brand font-bold italic">Digital</span><br/>
-            <span className="text-zinc-100">Excellence</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-lg md:text-2xl text-zinc-300 md:text-zinc-400 max-w-[min(100%,38rem)] mb-10 md:mb-12 leading-relaxed font-light px-0 mx-auto md:mx-0"
-          >
-            Jawrah Pixel engineers premium digital experiences designed to elevate brand perception and drive measurable revenue for ambitious enterprises.
-          </motion.p>
+        <div className="container relative z-10 mx-auto px-6">
+          <div className="flex flex-col items-center text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-3 mb-8 md:mb-12 px-5 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-2xl"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-40"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-blue"></span>
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-zinc-500">
+                Strategic Digital Architecture
+              </span>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="premium-logo-aura mb-12 md:mb-16"
-          >
-            <Logo size="xl" className="w-[200px] sm:w-[240px] md:w-[320px]" />
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto items-center"
-          >
-            <Link to={p('/contact')} className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-[11px] font-mono tracking-[0.2em] font-bold uppercase shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_45px_rgba(34,211,238,0.5)] transition-all duration-500 luxury-glow">
-                Initiate Project
-                <ArrowRight className="ml-3 w-4 h-4" />
-              </Button>
-            </Link>
-            <Link to={p('/case-studies')} className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 text-[11px] font-mono tracking-[0.2em] font-bold uppercase border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300">
-                Explore Work
-              </Button>
-            </Link>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-10 md:mb-16 relative w-full flex justify-center"
+            >
+              <div className="absolute inset-0 blur-[100px] bg-white/[0.02] rounded-full scale-125 pointer-events-none" />
+              <Logo size="xl" className="relative z-10 w-[280px] md:w-[400px] lg:w-[480px] opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)]" />
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1] mb-8 uppercase font-display"
+            >
+              <span className="premium-text-gradient block mb-2">Architecting</span>
+              <span className="italic font-serif font-light text-zinc-500 lowercase opacity-70">Digital</span>
+              <span className="block text-white mt-2">Monopolies</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-base md:text-lg text-zinc-500 max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
+            >
+              We engineer high-trust digital ecosystems for ambitious brands ready to establish absolute market authority.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-row gap-2 md:gap-6 items-center justify-center w-full sm:w-auto px-4 sm:px-0 max-w-[500px] sm:max-w-none mx-auto"
+            >
+              <Magnetic strength={0.15}>
+                <Link to={p('/contact')} className="flex-1 sm:flex-none block">
+                  <Button size="lg" className="w-full sm:min-w-[220px] font-bold text-[11px] md:text-base px-4 md:px-10 h-[48px] md:h-14">
+                    Initiate
+                    <ArrowRight className="ml-2 w-3.5 h-3.5 transition-transform group-hover:translate-x-1.5 duration-500" />
+                  </Button>
+                </Link>
+              </Magnetic>
+              <Magnetic strength={0.12}>
+                <Link to={p('/services')} className="flex-1 sm:flex-none block">
+                  <Button variant="secondary" size="lg" className="w-full sm:min-w-[220px] font-bold text-[11px] md:text-base px-4 md:px-10 h-[48px] md:h-14">
+                    Services
+                  </Button>
+                </Link>
+              </Magnetic>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Authority Metrics Strip */}
-      <section className="relative border-y border-white/5 bg-brand-black overflow-hidden">
-        <div className="absolute inset-0 premium-grid-overlay opacity-40 pointer-events-none"></div>
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-white/5">
+      <section className="relative border-y border-white/[0.03] bg-brand-black overflow-hidden py-10">
+        <div className="absolute inset-0 premium-grid-overlay opacity-10 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.03] border border-white/[0.03]">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.05} className="premium-stat-card p-8 sm:p-10 border-white/5 flex flex-col items-center text-center sm:items-start sm:text-left">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-3">
+              <Reveal key={metric.label} delay={idx * 0.1} className="bg-brand-black p-10 flex flex-col items-center text-center group">
+                <div className="text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-4 group-hover:scale-[1.05] transition-transform duration-700">
                   <AnimatedCounter
                     value={metric.value}
                     suffix={metric.suffix}
                     prefix={metric.prefix}
-                    className="drop-shadow-[0_0_15px_rgba(34,211,238,0.25)]"
                   />
                 </div>
-                <h3 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-cyan mb-3 font-bold">
+                <h3 className="text-[9px] font-mono uppercase tracking-[0.4em] text-brand-blue mb-4 font-bold opacity-60 group-hover:opacity-100 transition-opacity">
                   {metric.label}
                 </h3>
-                <p className="text-[10px] sm:text-xs text-brand-gray leading-relaxed font-light max-w-[160px]">
+                <p className="text-[11px] text-zinc-600 leading-relaxed font-light max-w-[200px]">
                   {metric.caption}
                 </p>
               </Reveal>
@@ -284,131 +313,156 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Brand Value Prop Section */}
+      <section className="relative overflow-hidden border-b border-white/5 bg-brand-black py-20 md:py-32">
+        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        <div className="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:gap-20 px-6 md:grid-cols-[0.9fr_1.1fr]">
+          <Reveal>
+            <span className="mb-6 block text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-cyan">
+              Digital Craftsmanship
+            </span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1] tracking-tight text-white mb-8">
+              Global remote agency. <br /> Premium digital <span className="premium-text-gradient italic">engineering</span>.
+            </h2>
+            <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl">
+              We operate at the intersection of luxury aesthetics and high-performance technology, delivering unshakeable digital assets for brands that refuse to settle for average.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              ['Remote-first delivery', 'A focused international workflow built for founders, operators, and luxury teams across time zones.'],
+              ['Modern Tech Stack', 'React interfaces, scalable Supabase architecture, and automation-ready data foundations.'],
+              ['Performance Engineering', 'Speed, accessibility, and SEO are architected into the core from the first wireframe.'],
+              ['UI/UX Obsession', 'Every interaction and content rhythm is tuned for trust, clarity, and absolute brand authority.'],
+            ].map(([title, desc], idx) => (
+              <div key={title} className="p-8 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-brand-blue/20 transition-all duration-500 group">
+                <h3 className="mb-4 text-xs font-display font-bold uppercase tracking-widest text-white group-hover:text-brand-cyan transition-colors">{title}</h3>
+                <p className="text-[11px] leading-relaxed text-zinc-500 font-light group-hover:text-zinc-400 transition-colors">{desc}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
 
-      {/* Explore Live Projects Section */}
-      <section className="py-20 md:py-32 relative border-t border-white/5 bg-brand-black overflow-hidden">
-        {/* Glow Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-cyan/5 rounded-full blur-[160px] pointer-events-none z-0"></div>
-        
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8 }}
-              className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-brand-cyan/25 bg-brand-cyan/5"
-            >
-              <Globe className="w-3.5 h-3.5 text-brand-cyan animate-spin-slow" />
-              <span className="text-brand-cyan text-[10px] sm:text-xs font-semibold tracking-widest uppercase font-mono">
-                Active Deployments
-              </span>
-            </motion.div>
-            
-            <motion.h2
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight mb-6 uppercase leading-tight"
-            >
-              Explore <span className="premium-gradient-brand font-bold italic">Live</span> <br className="sm:hidden" /> Projects
-            </motion.h2>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-zinc-400 text-sm sm:text-lg font-light leading-relaxed px-4 sm:px-0"
-            >
-              Interact directly with fully responsive production-grade web assets compiled from our flagship case studies.
-            </motion.p>
-          </div>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {liveProjects.map((project, idx) => (
-              <StaggerItem
-                key={project.slug}
-                className="glass-card overflow-hidden group rounded-2xl border border-white/5 bg-brand-navy/20 relative flex flex-col justify-between transition-all duration-500 hover:border-white/10 hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)] h-full"
+      {/* Explore Live Projects Section - Manual Horizontal Carousel */}
+      <section className="py-24 md:py-32 bg-brand-black overflow-hidden relative border-t border-white/5">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="text-left max-w-2xl">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.02]"
               >
-                {/* Browser Mockup Header */}
-                <div className="bg-zinc-950/90 px-4 py-3 border-b border-white/5 flex items-center justify-between">
-                  <div className="flex gap-1.5 items-center">
-                    <div className="w-2 h-2 rounded-full bg-red-500/40 group-hover:bg-red-500/80 transition-colors duration-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-yellow-500/40 group-hover:bg-yellow-500/80 transition-colors duration-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-500/40 group-hover:bg-green-500/80 transition-colors duration-500"></div>
-                  </div>
-                  <div className="text-[9px] font-mono text-zinc-500 font-light select-none tracking-widest lowercase">
-                    {project.slug}.jawrah.live
-                  </div>
-                  <div className="w-4"></div>
-                </div>
+                <Globe className="w-3 h-3 text-brand-cyan opacity-60" />
+                <span className="text-brand-cyan text-[9px] font-bold tracking-[0.4em] uppercase font-mono">
+                  Active Deployments
+                </span>
+              </motion.div>
+              
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight uppercase leading-tight"
+              >
+                Explore <span className="premium-gradient-brand font-bold italic">Live</span> Projects
+              </motion.h2>
+            </div>
 
-                {/* Cover Interface Preview */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 border-b border-white/5 group">
+            {/* Desktop Scroll Hint */}
+            <div className="hidden md:flex items-center gap-4 text-zinc-500 font-mono text-[10px] uppercase tracking-[0.3em]">
+              <span>Scroll to explore</span>
+              <div className="w-12 h-px bg-zinc-800"></div>
+              <ArrowRight className="w-3 h-3 animate-pulse" />
+            </div>
+
+            {/* Mobile Swipe Hint */}
+            <div className="flex md:hidden items-center gap-3 text-zinc-500 font-mono text-[9px] uppercase tracking-[0.2em]">
+              <ArrowRight className="w-3 h-3 animate-pulse rotate-180" />
+              <span>Swipe</span>
+              <ArrowRight className="w-3 h-3 animate-pulse" />
+            </div>
+          </div>
+        </div>
+
+        {/* Horizontal Scroll Track - Manual Carousel */}
+        <div className="relative w-full overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory pb-12">
+          <div className="flex gap-8 md:gap-12 px-[10vw] md:px-[15vw] w-max">
+            {liveProjects.map((project, idx) => (
+              <div
+                key={project.slug}
+                data-cursor="premium"
+                className="relative h-[500px] md:h-[600px] w-[80vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden bg-brand-black border border-white/5"
+              >
+                {/* Background Image with Darker Overlay */}
+                <div className="absolute inset-0 z-0">
                   <img
                     src={project.image}
                     alt={project.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-[0.16, 1, 0.3, 1]"
-                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-50 transition-all duration-1000 ease-out"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/80 to-brand-black/40 group-hover:via-brand-black/60 transition-colors duration-700" />
+                </div>
+
+                <div className="absolute inset-0 z-10 p-6 md:p-10 flex flex-col justify-end">
+                  <div className="mb-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-[9px] font-mono text-brand-blue uppercase tracking-widest mb-4">
+                      {idx === 0 ? "Featured Case Study" : "Client Transformation"}
+                    </span>
+                    <h4 className="text-3xl md:text-4xl font-display font-medium text-white mb-2 leading-tight">
+                      {project.title}
+                    </h4>
+                    <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] text-zinc-400 uppercase">
+                      {project.category}
+                    </span>
+                  </div>
+
+                  <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
+                    {project.desc}
+                  </p>
+
+                  {/* Agency Metrics / Tags */}
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {['Performance-ready', 'UX Audit', 'Conversion-led'].map(tag => (
+                      <span key={tag} className="text-[9px] font-mono text-zinc-500 border border-white/10 px-2 py-1">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                   
-                  {/* Subtle Glow Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent pointer-events-none"></div>
-                  
-                  {/* Immediate Quick Actions overlay */}
-                  <div className="absolute inset-0 bg-brand-black/75 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4 backdrop-blur-sm">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <Link
+                      to={p(`/case-studies/${project.slug}`)}
+                      className="flex-1 sm:flex-none"
+                    >
+                      <Button size="sm" className="w-full sm:px-6 text-[10px] tracking-widest h-11">
+                        View Case Study
+                      </Button>
+                    </Link>
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-brand-cyan text-brand-navy rounded-full text-[10px] font-mono font-bold tracking-wider uppercase hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                      className="flex-1 sm:flex-none"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      Visit Site
+                      <Button variant="secondary" size="sm" className="w-full sm:px-6 text-[10px] tracking-widest h-11">
+                        Visit Live <ExternalLink className="ml-2 w-3 h-3" />
+                      </Button>
                     </a>
                   </div>
                 </div>
 
-                {/* Content Box */}
-                <div className="p-6 sm:p-8 flex flex-col flex-grow justify-between bg-gradient-to-b from-transparent to-brand-black/20">
-                  <div className="mb-6">
-                    <span className="text-[9px] font-mono tracking-[0.25em] text-brand-cyan uppercase block mb-3 font-bold">
-                      {project.category}
-                    </span>
-                    <h4 className="text-xl sm:text-xl font-display font-medium text-white mb-3 group-hover:text-brand-cyan transition-colors duration-300 leading-tight">
-                      {project.title}
-                    </h4>
-                    <p className="text-zinc-400 text-[13px] leading-relaxed font-light">
-                      {project.desc}
-                    </p>
-                  </div>
-                  
-                  <div className="flex gap-4 items-center pt-5 border-t border-white/5">
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-brand-cyan hover:text-white transition-colors duration-300 group/link"
-                    >
-                      Visit Live
-                      <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
-                    </a>
-                    <span className="text-zinc-800 font-light select-none">|</span>
-                    <Link
-                      to={p(`/case-studies/${project.slug}`)}
-                      className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-zinc-400 hover:text-white transition-colors duration-300"
-                    >
-                      Case Study
-                    </Link>
-                  </div>
-                </div>
-              </StaggerItem>
+                {/* Hover Border Glow */}
+                <div className="absolute inset-0 border border-white/5 group-hover:border-brand-blue/30 transition-colors duration-700 pointer-events-none" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.1),transparent_70%)]" />
+              </div>
             ))}
-          </StaggerContainer>
+          </div>
         </div>
       </section>
 
@@ -417,27 +471,31 @@ export default function Home() {
       {/* Premium Services Grid */}
       <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-navy/30">
         <div className="container mx-auto px-5 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-6 md:gap-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8 text-center md:text-left">
             <div className="max-w-2xl">
-              <h2 className="text-[11px] md:text-sm font-semibold tracking-[0.3em] uppercase text-brand-blue mb-4">Core Capabilities</h2>
-              <h3 className="text-3xl sm:text-3xl md:text-5xl font-display font-medium text-white tracking-tight leading-tight">Engineering Growth Through <br className="hidden md:block" /> Strategic Design.</h3>
+              <h2 className="text-[9px] md:text-[10px] font-bold tracking-[0.4em] uppercase text-brand-blue mb-6">Core Capabilities</h2>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">Engineering Growth Through <br className="hidden md:block" /> Strategic Architecture.</h3>
             </div>
-            <p className="text-zinc-400 max-w-md text-[13px] sm:text-sm md:text-lg leading-relaxed font-light mx-auto md:mx-0">
+            <p className="text-zinc-500 max-w-md text-base md:text-lg leading-relaxed font-light mx-auto md:mx-0">
               We leverage modern technology and luxury aesthetics to build digital assets that position your brand at the absolute pinnacle of your industry.
             </p>
           </div>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesList.map((service, i) => (
               <StaggerItem
                 key={i} 
-                className="glass-card p-8 md:p-10 rounded-2xl group cursor-default border border-white/5 hover:border-brand-blue/30 transition-all duration-500"
+                className="group relative p-10 md:p-12 bg-white/[0.01] border border-white/5 hover:bg-white/[0.02] hover:border-brand-blue/20 transition-all duration-700 overflow-hidden"
               >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-brand-blue/20 to-brand-cyan/5 border border-white/5 flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  {React.cloneElement(service.icon, { className: 'w-5 h-5 md:w-6 md:h-6 text-brand-blue group-hover:text-white transition-colors duration-300' })}
+                {/* Edge Highlight */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                <div className="mb-10 text-zinc-500 group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
+                  {React.cloneElement(service.icon as React.ReactElement, { className: 'w-10 h-10' })}
                 </div>
-                <h4 className="text-lg sm:text-base md:text-xl font-display font-medium mb-3 md:mb-4 text-white group-hover:text-brand-cyan transition-colors duration-300 uppercase tracking-tight">{service.title}</h4>
-                <p className="text-zinc-400 text-[13px] md:text-base leading-relaxed font-light">{service.desc}</p>
+                <h4 className="text-xl font-display font-medium mb-6 text-white uppercase tracking-tight">{service.title}</h4>
+                <p className="text-zinc-500 text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500">{service.desc}</p>
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-brand-blue/40 to-brand-cyan/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -446,38 +504,39 @@ export default function Home() {
 
 
       {/* Agency Operating System Layer */}
-      <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden">
-        <div className="container mx-auto px-5 md:px-8 max-w-7xl relative z-10">
-          <div className="cinematic-divider mb-16 md:mb-20"></div>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <Reveal className="lg:col-span-5 lg:sticky lg:top-28 text-center lg:text-left">
-              <span className="text-[10px] md:text-xs font-mono text-brand-cyan uppercase tracking-[0.3em] font-bold block mb-4">
-                Built Like A Business OS
+      <section className="py-32 relative bg-brand-black overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+            <Reveal className="lg:col-span-5 lg:sticky lg:top-32">
+              <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">
+                Operational Excellence
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-6 text-balance">
-                Not a website. <br className="hidden md:block" /> A scalable <span className="text-brand-cyan italic">ecosystem</span>.
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
+                Not a website. <br /> A scalable <span className="premium-text-gradient italic">ecosystem</span>.
               </h2>
-              <p className="text-sm sm:text-lg text-brand-gray font-light leading-relaxed mb-10 max-w-md mx-auto lg:mx-0">
-                Jawrah Pixel connects premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, and automation-ready delivery paths.
+              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12 max-w-md">
+                We connect premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, and automation-ready delivery paths.
               </p>
               <Link to={p('/process')}>
-                <Button variant="outline" className="h-14 px-8 text-[11px] font-mono uppercase tracking-[0.22em] font-bold border-white/10 bg-white/5 hover:bg-white/10">
+                <Button variant="outline" size="lg" className="group">
                   View Delivery System
+                  <ArrowRight className="ml-3 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
             </Reveal>
 
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
               {ecosystemLayers.map((layer, idx) => (
-                <Reveal key={layer.title} delay={idx * 0.08}>
-                  <div className="interactive-lift h-full rounded-2xl border border-white/5 bg-white/[0.02] p-8 md:p-8 hover:border-brand-cyan/30 hover:shadow-[0_18px_60px_rgba(6,182,212,0.08)] transition-all duration-500">
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border border-brand-cyan/25 bg-brand-cyan/10 text-brand-cyan shadow-[0_0_15px_rgba(34,211,238,0.1)]">
-                      {layer.icon}
+                <Reveal key={layer.title} delay={idx * 0.1}>
+                  <div className="group p-10 bg-white/[0.01] border border-white/5 hover:border-brand-blue/20 transition-all duration-500 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="mb-8 text-zinc-500 group-hover:scale-110 group-hover:text-brand-cyan transition-transform duration-500">
+                      {React.cloneElement(layer.icon as React.ReactElement, { className: 'w-8 h-8' })}
                     </div>
-                    <h3 className="text-xl md:text-xl font-display font-bold uppercase tracking-tight text-white mb-4">
+                    <h3 className="text-lg font-display font-bold uppercase tracking-wider text-white mb-4">
                       {layer.title}
                     </h3>
-                    <p className="text-[13px] md:text-sm text-brand-gray leading-relaxed font-light">
+                    <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500">
                       {layer.desc}
                     </p>
                   </div>
@@ -488,22 +547,94 @@ export default function Home() {
         </div>
       </section>
 
+      {/* International Pricing Section */}
+      {isInternational && (
+        <section className="relative overflow-hidden border-y border-white/5 bg-brand-black py-24 md:py-32">
+          <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+          <div className="container relative z-10 mx-auto max-w-7xl px-6">
+            <div className="text-center mb-20">
+              <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold block mb-6">
+                Strategic Investment
+              </span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
+                International <span className="premium-text-gradient italic">Pricing</span>.
+              </h2>
+              <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto">
+                Transparent starting ranges for global clients, with custom quotes for advanced AI systems, complex ecommerce, and enterprise-grade platforms.
+              </p>
+            </div>
+
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {intPricingPackages.map((plan) => (
+                <StaggerItem
+                  key={plan.name}
+                  className={`relative p-10 bg-white/[0.01] border transition-all duration-500 flex flex-col h-full group ${
+                    plan.isRecommended ? 'border-brand-cyan/30 bg-brand-cyan/[0.02]' : 'border-white/5 hover:border-brand-blue/20'
+                  }`}
+                >
+                  {plan.isRecommended && (
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-cyan text-brand-black text-[9px] font-mono font-bold uppercase px-4 py-1 tracking-widest">
+                      Recommended
+                    </div>
+                  )}
+                  <div className="mb-8">
+                    <h3 className="text-xs font-mono font-bold text-brand-blue uppercase tracking-widest mb-4">{plan.name}</h3>
+                    <div className="text-3xl font-display font-bold text-white mb-4">{plan.price}</div>
+                    <p className="text-xs text-zinc-500 font-light leading-relaxed">{plan.desc}</p>
+                  </div>
+                  <ul className="space-y-4 mb-10 flex-1">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3 text-[11px] text-zinc-400 font-light">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0 mt-0.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link to={p('/contact')} className="mt-auto">
+                    <Button variant={plan.isRecommended ? 'primary' : 'secondary'} size="sm" className="w-full text-[10px] tracking-widest font-bold">
+                      Request Quote
+                    </Button>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+
+            <Reveal className="mt-16 p-8 bg-white/[0.01] border border-white/5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="max-w-xl">
+                <h4 className="text-sm font-display font-bold uppercase tracking-widest text-white mb-2">International Payment Support</h4>
+                <p className="text-xs text-zinc-500 font-light leading-relaxed">
+                  We support USD invoices via PayPal, Wise, and International Bank Transfers, ensuring a seamless remote engagement for global teams.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 justify-center md:justify-end">
+                {['PayPal', 'Wise', 'Bank Transfer', 'Visa', 'Mastercard'].map(method => (
+                  <span key={method} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
+                    {method}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
       {/* Cinematic Storytelling Sequence */}
-      <section ref={storyRef} className="relative h-[300vh] md:h-[400vh] bg-brand-black z-10">
-        <div className="sticky top-0 h-[100svh] min-h-[480px] w-full overflow-hidden flex items-center justify-center border-y border-white/5 z-10">
+      <section ref={storyRef} className="relative w-full bg-brand-black" style={{ height: '300vh' }}>
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
           
           {/* Dynamic Background */}
-          <motion.div 
-            style={{ scale: imageScale }}
-            className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-40"
-          ></motion.div>
-          
-          <motion.div
-            style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-brand-black/95"
-          ></motion.div>
+          <div className="absolute inset-0">
+            <motion.div 
+              style={{ scale: imageScale }}
+              className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-40"
+            />
+            <motion.div
+              style={{ opacity: overlayOpacity }}
+              className="absolute inset-0 bg-brand-black/95"
+            />
+          </div>
 
-          <div className="absolute top-28 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 md:top-28">
+          <div className="absolute top-32 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
             {storySteps.map((step, idx) => (
               <button
                 key={idx}
@@ -524,28 +655,94 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="container relative z-10 mx-auto px-6 text-center">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={activeStoryStep}
-                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-4xl mx-auto"
-              >
-                <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${activeStory.eyebrowClass}`}>
-                  {activeStory.eyebrow}
-                </span>
-                <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${activeStory.titleClass}`}>
-                  {activeStory.title}
-                </h2>
-              </motion.div>
-            </AnimatePresence>
+          <div className="w-full relative z-10 overflow-hidden">
+            <motion.div
+              style={{ x: translateXStory, willChange: 'transform' }}
+              className="flex w-[300%]"
+            >
+              {storySteps.map((step, idx) => (
+                <div key={idx} className="w-1/3 flex flex-col items-center justify-center text-center px-6">
+                  <div className="max-w-4xl mx-auto">
+                    <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${step.eyebrowClass}`}>
+                      {step.eyebrow}
+                    </span>
+                    <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${step.titleClass}`}>
+                      {step.title}
+                    </h2>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
 
         </div>
       </section>
+
+      {/* Global Reach Section (International Only) */}
+      {isInternational && (
+        <section className="relative overflow-hidden border-y border-white/5 bg-brand-black py-24 md:py-32">
+          <div className="absolute inset-0 premium-grid-overlay opacity-30 pointer-events-none" />
+          <div className="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[0.9fr_1.1fr]">
+            <Reveal>
+              <span className="mb-6 block text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold">
+                Global Network
+              </span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1] tracking-tight text-white mb-8">
+                Worldwide remote <span className="premium-text-gradient italic">collaboration</span>.
+              </h2>
+              <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl mb-10">
+                Jawrah Pixel serves clients internationally with flexible communication, remote-first workflows, and a delivery rhythm designed for global businesses.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  'Worldwide Remote Workflows',
+                  'International Delivery Standards',
+                  'Flexible Time-Zone Sync',
+                  'USD Secure Transactions'
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-xs text-zinc-300 font-light">
+                    <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1} className="relative min-h-[400px] flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-brand-cyan/10 blur-[120px]" />
+              <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center rounded-full border border-white/5 bg-white/[0.01] backdrop-blur-3xl shadow-[inset_0_0_80px_rgba(6,182,212,0.05)]">
+                <div className="absolute inset-[15%] rounded-full border border-white/[0.03]" />
+                <div className="absolute inset-[30%] rounded-full border border-white/[0.03]" />
+                <Globe2 className="w-32 h-32 text-brand-cyan/20" />
+                
+                {globalNodes.map((node, idx) => {
+                  const positions = [
+                    'left-[15%] top-[25%]',
+                    'right-[15%] top-[30%]',
+                    'left-[45%] top-[10%]',
+                    'right-[20%] bottom-[20%]',
+                    'left-[18%] bottom-[25%]',
+                    'left-[48%] bottom-[12%]',
+                  ];
+                  return (
+                    <motion.div
+                      key={node}
+                      className={`absolute ${positions[idx]} flex items-center gap-2`}
+                      animate={{ opacity: [0.4, 1, 0.4], scale: [0.95, 1.05, 0.95] }}
+                      transition={{ duration: 4 + idx, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-brand-cyan shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
+                      <span className="hidden sm:block text-[8px] font-mono font-bold text-zinc-500 uppercase tracking-widest bg-brand-black/50 px-2 py-1 rounded border border-white/5 backdrop-blur-sm">
+                        {node}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="py-20 md:py-32 relative overflow-hidden">

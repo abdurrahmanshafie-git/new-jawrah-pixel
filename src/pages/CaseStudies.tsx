@@ -6,6 +6,7 @@ import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { toAbsoluteUrl } from '@/lib/env';
+import { cn } from '@/lib/utils';
 
 export default function CaseStudies() {
   const { config, cases, p, isInternational } = useRegion();
@@ -19,7 +20,7 @@ export default function CaseStudies() {
     : `Discover our scalable systems, premium digital products, and high-converting luxury e-commerce boutiques. Engineered for exponential growth and maximum authority in ${config.countryName}.`;
 
   return (
-    <div className="bg-brand-black text-white relative min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 font-sans overflow-hidden">
+    <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
       <SEO 
         title={seoTitle}
         description={seoDescription}
@@ -32,135 +33,131 @@ export default function CaseStudies() {
         ]}
       />
 
-      {/* Radial Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+      {/* Atmospheric Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <div className="absolute top-[10%] left-[10%] cinematic-light animate-pulse-slow opacity-30" />
+          <div className="absolute bottom-[20%] right-[10%] cinematic-light animate-glow opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' }} />
+        </div>
+      </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
+      <div className="container mx-auto px-6 relative z-10">
         
         {/* HEADER SECTION */}
-        <Reveal className="text-center max-w-3xl mx-auto mb-12 sm:mb-20 md:mb-28">
+        <Reveal className="text-center max-w-4xl mx-auto mb-24 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex gap-2 items-center px-3 py-1.5 border border-brand-cyan/20 rounded-full bg-slate-900/40 text-brand-cyan text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.25em] mb-4 sm:mb-6"
+            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
           >
-            <Zap size={10} className="fill-brand-cyan animate-pulse sm:w-3 sm:h-3" /> Agency Transformations
+            <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Agency Transformations
           </motion.div>
 
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight leading-[1.1] mb-4 sm:mb-6 uppercase"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-10 uppercase"
           >
-            Elite Portfolio <br/> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue drop-shadow-[0_0_12px_rgba(34,211,238,0.2)]">for {headlineRegion}</span>
+            Elite <br /> <span className="premium-text-gradient italic">Portfolio</span>
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-brand-gray text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto leading-relaxed px-4 sm:px-0"
+            transition={{ delay: 0.1 }}
+            className="text-zinc-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
             {introCopy}
           </motion.p>
         </Reveal>
 
         {/* PROJECTS GRID */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 max-w-6xl mx-auto mb-20">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto mb-32">
           {cases.map((project) => (
             <StaggerItem
               key={project.slug}
-              className="group flex flex-col justify-between"
+              className="group flex flex-col"
             >
-              <Link to={p(`/case-studies/${project.slug}`)} className="block">
-                
-                {/* Visual Stage Card with Gradient Backplane */}
-                <div className={`glass-card rounded-2xl aspect-video mb-6 relative overflow-hidden flex items-center justify-center bg-gradient-to-br ${project.color} group-hover:border-brand-cyan/40 transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.5)]`}>
-                  
+              <Link to={p(`/case-studies/${project.slug}`)} className="block relative h-[450px] md:h-[500px] overflow-hidden bg-brand-black border border-white/5 mb-8">
+                <div className="absolute inset-0 z-0">
                   {project.thumbnail ? (
                     <motion.img 
                       initial={{ scale: 1.1, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.8 }}
+                      transition={{ duration: 1.2 }}
                       src={project.thumbnail} 
                       alt={project.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-60 transition-all duration-1000 ease-out"
                     />
                   ) : (
-                    <>
-                      {/* Glowing core orb */}
-                      <div className="w-28 h-28 bg-brand-blue/10 group-hover:bg-brand-cyan/20 rounded-full blur-2xl absolute transition-all duration-500"></div>
-                      
-                      {/* Huge elegant stylized single letter */}
-                      <div className="text-white/10 group-hover:text-brand-cyan/20 font-display font-semibold text-7xl md:text-8xl group-hover:scale-110 transition-transform duration-500 cursor-pointer pr-1">
-                        {project.char}
-                      </div>
-                    </>
+                    <div className={cn("w-full h-full bg-gradient-to-br flex items-center justify-center", project.color)}>
+                      <span className="text-white/5 font-display font-medium text-9xl uppercase">{project.char}</span>
+                    </div>
                   )}
-
-                  {/* Top WebVitals Strip */}
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <span className="flex items-center gap-1.5 px-2 py-1 bg-brand-black/80 border border-white/5 rounded-md text-[10px] font-mono text-[#22c55e]">
-                      <Zap size={10} className="fill-[#22c55e]" /> Perf: {project.perf}
-                    </span>
-                    <span className="flex items-center gap-1.5 px-2 py-1 bg-brand-black/80 border border-white/5 rounded-md text-[10px] font-mono text-brand-cyan">
-                      <Eye size={10} className="fill-brand-cyan/20" /> SEO: {project.seo}
-                    </span>
-                  </div>
-
-                  {/* Direct Link Arrow Indicator */}
-                  <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-slate-900/80 border border-white/10 flex items-center justify-center text-brand-gray group-hover:text-brand-cyan group-hover:border-brand-cyan/30 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 duration-300">
-                    <ArrowUpRight size={16} />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/80 to-brand-black/20 group-hover:via-brand-black/60 transition-colors duration-700" />
                 </div>
 
-                {/* Text Metadata */}
-                <div>
-                  <span className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full border mb-3 inline-block ${project.badgeColor}`}>
-                    {project.category}
+                {/* Top WebVitals Strip */}
+                <div className="absolute top-6 left-6 flex gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                  <span className="flex items-center gap-2 px-3 py-1 bg-brand-black/80 backdrop-blur-xl border border-white/10 text-[9px] font-mono text-[#22c55e]">
+                    <Zap size={10} className="fill-[#22c55e]" /> PERF: {project.perf}
                   </span>
-                  
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-display font-semibold text-white tracking-tight leading-tight mb-2 group-hover:text-brand-cyan transition-colors">
-                    {project.title}
-                  </h3>
-                  
-                  <p className="text-brand-gray text-[11px] sm:text-xs font-light leading-relaxed mb-4 max-w-lg">
-                    {project.description}
-                  </p>
+                  <span className="flex items-center gap-2 px-3 py-1 bg-brand-black/80 backdrop-blur-xl border border-white/10 text-[9px] font-mono text-brand-blue">
+                    <Eye size={10} className="fill-brand-blue/20" /> SEO: {project.seo}
+                  </span>
+                </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 bg-white/[0.03] text-brand-silver rounded-md">
-                        {tag}
-                      </span>
-                    ))}
+                {/* Bottom Overlay - Improved Mobile Padding */}
+                <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 flex items-end justify-between gap-4">
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                    <span className={cn("text-[9px] font-mono uppercase tracking-[0.3em] mb-4 block", project.badgeColor.includes('text-') ? project.badgeColor : 'text-brand-blue')}>
+                      {project.category}
+                    </span>
+                    <h3 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight leading-tight group-hover:text-brand-blue transition-colors">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-none border border-white/10 flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:border-brand-blue group-hover:text-brand-black transition-all duration-500">
+                    <ArrowUpRight size={18} />
                   </div>
                 </div>
               </Link>
+
+              <div className="px-4 md:px-2">
+                <p className="text-zinc-500 text-sm font-light leading-relaxed mb-6 max-w-lg line-clamp-2">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {project.tags.map((tag, tIdx) => (
+                    <span key={tIdx} className="text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-600 border border-white/5 px-2 py-1">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>
 
         {/* Global CTA */}
-        <Reveal className="mt-20 sm:mt-32 max-w-5xl mx-auto glass-card p-8 sm:p-10 md:p-12 rounded-3xl border border-white/5 relative bg-gradient-to-tr from-brand-blue/[0.02] to-transparent text-center flex flex-col items-center">
-          <div className="absolute top-0 right-10 -translate-y-12 w-40 h-40 bg-brand-cyan/5 rounded-full blur-2xl"></div>
-          <p className="text-brand-cyan text-[10px] sm:text-xs font-mono uppercase tracking-[0.3em] mb-4">Have an ambitious project concept?</p>
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-display font-semibold tracking-tight text-white max-w-xl mb-4 sm:mb-6 uppercase">Let's craft the next digital benchmark together</h2>
-          <p className="text-brand-gray text-[11px] sm:text-xs md:text-sm font-light max-w-md mx-auto mb-8 leading-relaxed">
-            From luxury high-ticket boutiques to custom administrative backplanes. Reach out now to initialize your complimentary strategy briefing.
-          </p>
-          <Link to={p('/contact')}>
-            <Button className="px-8 sm:px-10 h-11 sm:h-12 uppercase tracking-widest text-[10px] sm:text-xs font-mono font-bold luxury-glow">
-              Get Started
-            </Button>
-          </Link>
+        <Reveal className="mt-32 md:mt-48 pb-20">
+          <div className="relative p-16 md:p-24 bg-white/[0.02] border border-white/5 text-center flex flex-col items-center overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+            
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initiate Transformation</span>
+            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10">
+              Ready to architect the <span className="premium-text-gradient italic">future</span> of your brand?
+            </h2>
+            <p className="text-zinc-500 text-lg font-light max-w-xl mx-auto mb-12 leading-relaxed relative z-10">
+              We are currently accepting high-impact project concepts for the next quarter. Reach out now to secure your strategic briefing.
+            </p>
+            <Link to={p('/contact')} className="relative z-10">
+              <Button size="lg" className="min-w-[280px]">
+                Start Briefing
+              </Button>
+            </Link>
+          </div>
         </Reveal>
         
       </div>

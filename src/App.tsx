@@ -23,7 +23,6 @@ function AnalyticsTracker() {
 // Lazy Loaded Pages
 const CountrySelection = lazy(() => import('./pages/CountrySelection'));
 const Home = lazy(() => import('./pages/Home'));
-const International = lazy(() => import('./pages/International'));
 const About = lazy(() => import('./pages/About'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
@@ -38,6 +37,7 @@ const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // AI Entity Pages
 const WhatIsJawrahPixel = lazy(() => import('./pages/ai/WhatIsJawrahPixel'));
@@ -134,7 +134,7 @@ export default function App() {
               <Route path="/pk/about-founder" element={<AboutFounder />} />
 
               {/* International version */}
-              <Route path="/int" element={<International />} />
+              <Route path="/int" element={<Home />} />
               <Route path="/int/about" element={<About />} />
               <Route path="/int/services" element={<Services />} />
               <Route path="/int/services/:serviceSlug" element={<ServiceLandingPage />} />
@@ -176,8 +176,8 @@ export default function App() {
               <Route path="/about-founder" element={<RegionalRedirect path="/about-founder" />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
-              {/* Catch-all to root which redirects to region if exists */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              {/* Catch-all to 404 */}
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
 
             {/* Authentication */}

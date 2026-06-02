@@ -10,6 +10,8 @@ import { getSavedRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 import { ReferralCapture } from '@/components/referral/ReferralCapture';
+import { Cursor } from '../ui/Cursor';
+import { CinematicLoader } from '../ui/CinematicLoader';
 
 const JawrahBot = lazy(() => import('../JawrahBot').then((module) => ({ default: module.JawrahBot })));
 
@@ -45,28 +47,39 @@ function DeferredJawrahBot() {
 export function RootLayout() {
   const location = useLocation();
   const isCountrySelection = location.pathname === '/';
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    // Hide initial loader after 3.5s (match CinematicLoader timeline)
+    const timer = setTimeout(() => {
+      setInitialLoad(false);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <RegionRouteGuard>
+      <AnimatePresence mode="wait">
+        {initialLoad && <CinematicLoader key="loader" />}
+      </AnimatePresence>
+      
       <ReferralCapture />
-      <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
+      <Cursor />
+      <div className="noise-overlay" />
+      
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: initialLoad ? 0 : 1 }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        className="bg-brand-black min-h-screen"
+      >
         {!isCountrySelection && <Navbar />}
-        <main className="flex-1">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+        <main className="w-full">
+          <Outlet />
         </main>
         {!isCountrySelection && <Footer />}
         {!isCountrySelection && <DeferredJawrahBot />}
-      </div>
+      </motion.div>
     </RegionRouteGuard>
   );
 }

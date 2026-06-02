@@ -24,24 +24,24 @@ import { SEO } from '@/components/layout/SEO';
 import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 import { 
-  Mail, 
-  Phone, 
-  MapPin, 
   CheckCircle, 
   AlertCircle, 
-  Sparkles, 
   Calendar, 
-  Clock, 
   ChevronRight, 
   ArrowLeft, 
-  User, 
   Briefcase, 
-  HelpCircle,
   MessageSquare,
   Globe,
   Settings,
-  CheckCheck
+  CheckCheck,
+  Zap,
+  ShieldCheck,
+  Clock,
+  ExternalLink
 } from 'lucide-react';
+import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { cn } from '@/lib/utils';
+import Magnetic from '@/components/ui/Magnetic';
 
 type FormData = {
   name: string;
@@ -158,13 +158,11 @@ export default function Contact() {
     { id: 'Other', title: 'Special Dev Scope', desc: 'Bespoke systems, custom integrations' }
   ];
 
-  const internationalPaymentMethods = ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'];
   const contactIntro = isInternational
     ? 'Submit a premium global project brief or schedule a remote-first strategy consultation for websites, ecommerce platforms, AI systems, and worldwide digital solutions.'
     : 'Submit an elite system briefing blueprint or lock in a direct strategic video consultation with our global operations team.';
   const successRegionLabel = isInternational ? 'global strategy team' : `Lead Architect in ${config.countryName}`;
 
-  // Helper to generate the next 10 business days starting today
   const generateBusinessDays = () => {
     const list = [];
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -174,7 +172,6 @@ export default function Contact() {
 
     while (count < 10) {
       current.setDate(current.getDate() + 1);
-      // Skip weekends of the calendar to keep bookings realistic
       if (current.getDay() !== 0 && current.getDay() !== 6) {
         list.push({
           dayName: days[current.getDay()].substring(0, 3),
@@ -261,7 +258,7 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
-        captcha_token: captchaToken, // Added for server-side verification
+        captcha_token: captchaToken,
       });
 
       if (error) throw error;
@@ -291,7 +288,6 @@ export default function Contact() {
     }
   };
 
-  // Multi-step RFP Next/Prev Navigation and Validation
   const handleNextStep = () => {
     if (rfpStep === 1 && !watchedProjectType) {
       setErrorMsg('Please select a strategic scope type to continue');
@@ -310,7 +306,6 @@ export default function Contact() {
     setRfpStep(prev => prev - 1);
   };
 
-  // Submit Interactive RFP Flow
   const onRfpSubmit = async (data: FormData) => {
     if (!user) {
       setErrorMsg('Please login to continue.');
@@ -367,12 +362,11 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: [data.goals, data.message].filter(Boolean).join('\n\n') || undefined,
-        captcha_token: captchaToken, // Added for server-side verification
+        captcha_token: captchaToken,
       });
 
       if (inquiryError) throw inquiryError;
 
-      // Track Analytics
       trackLead('interactive_rfp', {
         project_type: data.project_type,
         budget: data.budget,
@@ -405,7 +399,6 @@ export default function Contact() {
     }
   };
 
-  // Submit VIP Consultation Calendar Booking
   const handleCalendarSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
@@ -474,7 +467,7 @@ export default function Contact() {
         userId: user.id,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
-        captcha_token: captchaToken, // Added for server-side verification
+        captcha_token: captchaToken,
       });
 
       if (error) throw error;
@@ -500,13 +493,13 @@ export default function Contact() {
         whatsapp: '',
         business_name: '',
         project_category: 'Web Design',
-        notes: '',
+        notes: ''
       });
       setSelectedDateIndex(null);
       setSelectedTime(null);
     } catch (error: unknown) {
       console.error('CONTACT FLOW ERROR:', error);
-      const message = error instanceof Error ? error.message : 'Failed to schedule briefing. Please try again.';
+      const message = error instanceof Error ? error.message : 'Booking failed. Please check your network and try again.';
       setErrorMsg(message);
     } finally {
       setIsSubmittingForm(false);
@@ -514,611 +507,505 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 min-h-screen bg-brand-black text-white relative font-sans overflow-hidden">
+    <div className="bg-brand-black min-h-screen pt-32 pb-24 overflow-hidden relative">
       <SEO 
         title={seo.title}
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
-        keywords={['contact Jawrah Pixel', `${config.countryName} web design consultation`, 'digital agency quote', 'website project consultation']}
+        keywords={['contact Jawrah Pixel', 'hire digital agency', 'web design consultation', 'project brief submission']}
       />
 
-      {/* Decorative luxury gradient lighting */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[140px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-1/4 left-10 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[110px] pointer-events-none z-0"></div>
+      {/* Atmospheric Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <div className="absolute top-[10%] left-[10%] cinematic-light animate-pulse-slow opacity-30" />
+          <div className="absolute bottom-[20%] right-[10%] cinematic-light animate-glow opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' }} />
+        </div>
+      </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
-        
-        {/* Title Content */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
+      <div className="container mx-auto px-6 relative z-10">
+        <Reveal className="text-center max-w-4xl mx-auto mb-20 md:mb-32">
           <motion.div 
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan text-[10px] sm:text-xs font-mono uppercase tracking-widest mb-4 sm:mb-6"
+            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
           >
-            <Sparkles size={10} className="animate-pulse sm:w-3 sm:h-3" /> Global Client Relationship Hub
+            <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Agency Access
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5.5xl font-display font-semibold uppercase tracking-tight mb-4 sm:mb-6 leading-tight"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-10"
           >
-            Start Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Transformation</span>
+            Initiate <br /> <span className="premium-text-gradient italic">Briefing</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-brand-gray text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto px-4"
+            className="text-zinc-500 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto"
           >
             {contactIntro}
           </motion.p>
-        </div>
+        </Reveal>
 
-        {/* Global Hub Switcher Tabs */}
-        <div className="flex justify-center max-w-[320px] sm:max-w-md mx-auto mb-10 sm:mb-16 p-1.5 bg-white/[0.03] border border-white/10 rounded-2xl relative shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-          <button
-            onClick={() => { setActiveTab('rfp'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 sm:py-3.5 rounded-xl text-[11px] sm:text-xs font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
-              activeTab === 'rfp' ? 'bg-brand-cyan text-brand-black font-bold shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'text-brand-gray hover:text-white'
-            }`}
-          >
-            <Settings size={14} className="sm:w-4 sm:h-4" /> Briefing
-          </button>
-          <button
-            onClick={() => { setActiveTab('calendar'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 sm:py-3.5 rounded-xl text-[11px] sm:text-xs font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
-              activeTab === 'calendar' ? 'bg-brand-cyan text-brand-black font-bold shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'text-brand-gray hover:text-white'
-            }`}
-          >
-            <Calendar size={14} className="sm:w-4 sm:h-4" /> VIP Calendar
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto">
-          
-          {/* LEFT COLUMN: CONTACT DETAILS / CORPORATE VALUES */}
-          <div className="lg:col-span-4 space-y-4 sm:space-y-6">
-            
-            <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-cyan/[0.02] rounded-full blur-xl"></div>
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-brand-cyan/10 rounded-xl flex items-center justify-center text-brand-cyan mb-4 border border-brand-cyan/20">
-                <Mail size={16} />
-              </div>
-              <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-2">Corporate Mailbox</h3>
-              <p className="text-brand-gray text-[10px] sm:text-xs mb-3 font-light">Direct route for raw RFP briefing documents and enterprise partnerships.</p>
-              <a href={`mailto:${config.contactEmail}`} className="text-white hover:text-brand-cyan text-xs sm:text-sm font-mono transition-colors block truncate">
-                {config.contactEmail}
-              </a>
+        <div className="max-w-6xl mx-auto">
+          {/* FLOW SWITCHER */}
+          <div className="flex justify-center mb-16 md:mb-24">
+            <div className="inline-flex p-2 bg-white/[0.02] border border-white/5 backdrop-blur-xl">
+              <button
+                onClick={() => { setActiveTab('rfp'); setErrorMsg(''); }}
+                className={cn(
+                  "px-8 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500",
+                  activeTab === 'rfp' ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                )}
+              >
+                Project Brief
+              </button>
+              <button
+                onClick={() => { setActiveTab('calendar'); setErrorMsg(''); }}
+                className={cn(
+                  "px-8 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500",
+                  activeTab === 'calendar' ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                )}
+              >
+                Strategy Call
+              </button>
             </div>
-
-            <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-blue/0.02 rounded-full blur-xl"></div>
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-brand-blue/10 rounded-xl flex items-center justify-center text-brand-blue mb-4 border border-brand-blue/20">
-                <Phone size={16} />
-              </div>
-              <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-2">WhatsApp Relationship</h3>
-              <p className="text-brand-gray text-[10px] sm:text-xs mb-3 font-light">Connect securely in real-time with our available platform architects.</p>
-              <a href={config.whatsappLink} target="_blank" rel="noreferrer" className="text-white hover:text-brand-cyan text-xs sm:text-sm font-mono transition-colors block">
-                {config.whatsappNumber}
-              </a>
-            </div>
-
-            <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.01] rounded-full blur-xl"></div>
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 rounded-xl flex items-center justify-center text-brand-silver mb-4 border border-white/10">
-                <MapPin size={16} />
-              </div>
-              <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-1">Operational Nodes</h3>
-              <p className="text-brand-gray text-[10px] sm:text-xs font-light leading-relaxed">
-                Active Presence: <br />
-                <span className="text-white font-medium">{config.locations.join(' | ')}</span>
-              </p>
-              <div className="text-[9px] sm:text-[10px] text-brand-gray font-mono mt-3 uppercase tracking-widest flex items-center gap-1.5 border-t border-white/5 pt-3">
-                <Globe size={11} className="text-brand-cyan" /> Edge CDN routing: v12.0
-              </div>
-            </div>
-
-            {isInternational && (
-              <div className="glass-card p-5 sm:p-6 rounded-2xl border-white/10 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-brand-cyan/[0.03] rounded-full blur-xl"></div>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-brand-cyan/10 rounded-xl flex items-center justify-center text-brand-cyan mb-4 border border-brand-cyan/20">
-                  <CheckCircle size={16} />
-                </div>
-                <h3 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider mb-2">USD Payment Support</h3>
-                <p className="text-brand-gray text-[10px] sm:text-xs mb-4 font-light">
-                  International invoices for global clients, remote-first teams, SaaS companies, and premium global brands.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {internationalPaymentMethods.map((method) => (
-                    <span key={method} className="rounded-full border border-white/10 bg-brand-black/50 px-2.5 py-1 text-[9px] font-mono uppercase tracking-[0.14em] text-brand-silver">
-                      {method}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
           </div>
 
-          {/* RIGHT COLUMN: INTERACTIVE FORM PANELS */}
-          <div className="lg:col-span-8 bg-white/[0.01] border border-white/10 p-6 sm:p-10 rounded-3xl relative">
-            <div className="absolute -inset-1 bg-gradient-to-b from-brand-blue/10 to-transparent rounded-3xl blur-xl pointer-events-none z-0"></div>
-            
-            <div className="relative z-10">
-
-              {errorMsg && (
-                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3">
-                  <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={16} />
-                  <p className="text-xs text-red-400 font-mono tracking-wide">{errorMsg}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+            {/* LEFT SIDE: CONTEXT & TRUST */}
+            <div className="lg:col-span-4 space-y-16">
+              <Reveal>
+                <h2 className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-10">Commitment</h2>
+                <div className="space-y-10">
+                  {[
+                    { icon: ShieldCheck, title: 'Secure Handling', desc: 'Enterprise-grade encryption for project data.' },
+                    { icon: Clock, title: 'Rapid Response', desc: 'Direct technical review within 24 hours.' },
+                    { icon: Globe, title: 'Global Operations', desc: 'Serving brands across all time zones.' }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-6 group">
+                      <div className="w-12 h-12 bg-white/[0.03] border border-white/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                        <item.icon size={20} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-2">{item.title}</h3>
+                        <p className="text-xs text-zinc-500 leading-relaxed font-light">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </Reveal>
 
-              {/* A. RFP SYSTEM BRIEFING (MULTI-STEP) */}
-              {activeTab === 'rfp' && (
-                <FormAuthGate>
-                <div>
-                  
-                  {/* Step Progress indicators */}
-                  <div className="mb-8">
-                    <div className="flex justify-between items-center mb-2.5">
-                      <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest font-bold">
-                        Phase {rfpStep} of 3: {
-                          rfpStep === 1 ? 'System Vision' :
-                          rfpStep === 2 ? 'Investment & Time' :
-                          'Corporate Coordinates'
-                        }
-                      </span>
-                      <span className="text-xs font-mono text-brand-gray">{Math.round((rfpStep / 3) * 100)}% Lock</span>
-                    </div>
-                    <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div 
-                        className="bg-brand-cyan h-full rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(34,211,238,0.4)]"
-                        style={{ width: `${(rfpStep / 3) * 100}%` }}
-                      ></div>
-                    </div>
+              <Reveal delay={0.2} className="p-10 bg-white/[0.02] border border-white/5">
+                <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-6">Regional Access</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                    <span>Region</span>
+                    <span className="text-white">{config.countryName}</span>
                   </div>
-
-                  {success ? (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="text-center py-10 space-y-4"
-                    >
-                      <div className="w-16 h-16 bg-[#22c55e]/10 border border-[#22c55e]/35 rounded-full flex items-center justify-center text-[#22c55e] mx-auto mb-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.15)]">
-                        <CheckCheck size={32} />
-                      </div>
-                      <h3 className="text-2xl font-display font-semibold uppercase text-white tracking-wider">System RFP Received</h3>
-                      <p className="text-sm text-brand-gray max-w-md mx-auto font-light leading-relaxed">
-                        We have successfully registered your project blueprint parameters. Our {successRegionLabel} will evaluate the specifications and contact you on WhatsApp/Email within 12 hours.
-                      </p>
-                      <PaymentSuccessActions
-                        serviceName={lastRfpService || 'Custom Project'}
-                        totalAmount={lastRfpAmount || estimateFromBudget('', currentRegion)}
-                        guestEmail={lastRfpEmail}
-                        guestName={lastRfpName}
-                      />
-                      <Button onClick={() => setSuccess(false)} variant="outline" size="sm" className="font-mono text-xs uppercase tracking-widest mt-4">
-                        Submit another brief
-                      </Button>
-                    </motion.div>
-                  ) : (
-                    <form onSubmit={handleSubmit(onRfpSubmit)} className="space-y-6">
-                      
-                      {/* Step 1: System Vision */}
-                      {rfpStep === 1 && (
-                        <motion.div 
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="space-y-6"
-                        >
-                          <div className="space-y-2">
-                            <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">01. What system are we engineering?</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              {projectTypeOptions.map((opt) => {
-                                const isSelected = watchedProjectType === opt.id;
-                                return (
-                                  <button
-                                    key={opt.id}
-                                    type="button"
-                                    onClick={() => {
-                                      setValue('project_type', opt.id);
-                                      setErrorMsg('');
-                                    }}
-                                    className={`p-3.5 sm:p-4 rounded-xl border text-left transition-all relative overflow-hidden cursor-pointer ${
-                                      isSelected 
-                                        ? 'bg-brand-cyan/10 border-brand-cyan shadow-[0_0_12px_rgba(34,211,238,0.1)] text-white' 
-                                        : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
-                                    }`}
-                                  >
-                                    <h4 className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider mb-1">{opt.title}</h4>
-                                    <p className="text-[9px] sm:text-[10px] text-brand-gray font-light max-w-full leading-snug">{opt.desc}</p>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="text-xs font-mono text-brand-silver uppercase tracking-wider block">Key Business Goals & Objectives</label>
-                            <Textarea 
-                              {...register('goals')}
-                              placeholder={isInternational ? "e.g. Launch worldwide digital solutions, improve SaaS conversion, prepare an AI-ready global customer experience..." : "e.g. Expand retail gold collections globally, reduce page load shift under slow mobile nodes, improve overall visual brand value..."}
-                              className="bg-brand-navy/30 border-white/10 text-xs min-h-[100px]"
-                            />
-                          </div>
-
-                          <div className="pt-4 flex justify-end">
-                            <Button type="button" onClick={handleNextStep} className="font-mono text-xs uppercase tracking-widest h-11 px-6 font-bold">
-                              Continue Specifications <ChevronRight size={14} className="ml-1" />
-                            </Button>
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* Step 2: Investment & Time */}
-                      {rfpStep === 2 && (
-                        <motion.div 
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="space-y-6"
-                        >
-                          <div className="space-y-2">
-                            <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">02. Investment and Development cycles</h3>
-                            <label className="text-[10px] sm:text-xs font-mono text-brand-silver uppercase tracking-wider block">Target Portfolio Investment</label>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              {budgetOptions.map((opt) => {
-                                const isSelected = watchedBudget === opt.value;
-                                return (
-                                  <button
-                                    key={opt.value}
-                                    type="button"
-                                    onClick={() => {
-                                      setValue('budget', opt.value);
-                                      setErrorMsg('');
-                                    }}
-                                    className={`p-3 sm:p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                                      isSelected
-                                        ? 'bg-brand-cyan/10 border-brand-cyan text-white shadow-[0_0_12px_rgba(34,211,238,0.1)]'
-                                        : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
-                                    }`}
-                                  >
-                                    <span className="text-[10px] sm:text-xs font-mono font-bold block uppercase">{opt.value}</span>
-                                    <span className="text-[9px] sm:text-[10px] text-brand-gray block font-light mt-0.5">{opt.label}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <div className="space-y-2 pt-2">
-                            <label className="text-[10px] sm:text-xs font-mono text-brand-silver uppercase tracking-wider block">Launch Speedframe Timeline</label>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                              {['1 Month', '3 Months', 'Flexible'].map((t) => {
-                                const isSelected = watch('timeline') === t;
-                                return (
-                                  <button
-                                    key={t}
-                                    type="button"
-                                    onClick={() => setValue('timeline', t)}
-                                    className={`py-3 sm:py-3.5 rounded-lg border text-[10px] sm:text-xs font-mono uppercase tracking-wider transition-all cursor-pointer text-center ${
-                                      isSelected
-                                        ? 'bg-brand-cyan/10 border-brand-cyan text-white shadow-[0_0_8px_rgba(34,211,238,0.1)]'
-                                        : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
-                                    }`}
-                                  >
-                                    {t}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <div className="pt-4 flex justify-between">
-                            <Button type="button" onClick={handlePrevStep} variant="outline" className="font-mono text-xs uppercase tracking-widest h-11 border-white/10 px-5 text-brand-gray hover:text-white">
-                              <ArrowLeft size={14} className="mr-1" /> Vision
-                            </Button>
-                            <Button type="button" onClick={handleNextStep} className="font-mono text-xs uppercase tracking-widest h-11 px-6 font-bold">
-                              Partner Coordinates <ChevronRight size={14} className="ml-1" />
-                            </Button>
-                          </div>
-                        </motion.div>
-                      )}
-
-                      {/* Step 3: Identity & Coordinates */}
-                      {rfpStep === 3 && (
-                        <motion.div 
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="space-y-6"
-                        >
-                          <h3 className="text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">03. Corporate Relationship Coordinator</h3>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-mono text-brand-silver uppercase">Full Coordinator Name *</label>
-                              <Input {...register('name', { required: 'Name is strictly required' })} placeholder="e.g. Johnathan Ross" className="bg-brand-navy/20 border-white/10 text-xs" />
-                              {errors.name && <span className="text-[10px] text-red-400 font-mono">{errors.name.message}</span>}
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-mono text-brand-silver uppercase">Direct Business Email *</label>
-                              <Input type="email" {...register('email', { required: 'Email address is required' })} placeholder="e.g. j.ross@brand.com" className="bg-brand-navy/20 border-white/10 text-xs" />
-                              {errors.email && <span className="text-[10px] text-red-400 font-mono">{errors.email.message}</span>}
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-mono text-brand-silver uppercase flex justify-between">
-                                WhatsApp Contact Phone
-                              </label>
-                              <Input {...register('whatsapp')} placeholder={isInternational ? "e.g. +1 415 555 0198" : "e.g. +94 76 273 7411"} className="bg-brand-navy/20 border-white/10 text-xs" />
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-mono text-brand-silver uppercase">Corporate Entity / Business Name</label>
-                              <Input {...register('business_name')} placeholder="e.g. Ross Advisory Ltd" className="bg-brand-navy/20 border-white/10 text-xs" />
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <label className="text-[10px] sm:text-xs font-mono text-brand-silver uppercase block">Preferred Contact Gateway</label>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                              {['WhatsApp', 'Email', 'Voice Call'].map((m) => {
-                                const isSelected = watch('preferred_contact') === m;
-                                return (
-                                  <button
-                                    key={m}
-                                    type="button"
-                                    onClick={() => setValue('preferred_contact', m)}
-                                    className={`py-2.5 sm:py-3 rounded-lg border text-[10px] sm:text-[11px] font-mono uppercase tracking-wider transition-all cursor-pointer text-center ${
-                                      isSelected
-                                        ? 'bg-brand-cyan/10 border-brand-cyan text-white shadow-[0_0_8px_rgba(34,211,238,0.1)]'
-                                        : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15'
-                                    }`}
-                                  >
-                                    {m}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <div className="space-y-2.5">
-                            <label className="text-xs font-mono text-brand-silver uppercase block">Additional RFP Directives (Optional)</label>
-                            <Textarea 
-                              {...register('message')} 
-                              placeholder={isInternational ? "Any global payment requirements, SaaS workflow details, AI integrations, market launch priorities, or enterprise compliance notes..." : "Any secondary server API hooks instructions, payment structures routing requests, maintenance plans requirements..."} 
-                              className="bg-brand-navy/20 border-white/10 text-xs min-h-[100px]"
-                            />
-                          </div>
-
-                          <div className="pt-4 flex justify-between">
-                            <Button type="button" onClick={handlePrevStep} variant="outline" className="font-mono text-xs uppercase tracking-widest h-11 border-white/10 h-11 px-5 text-brand-gray hover:text-white">
-                              <ArrowLeft size={14} className="mr-1" /> Budget
-                            </Button>
-                            
-                            <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} className="my-0" />
-
-                            <Button type="submit" disabled={isSubmittingForm} className="font-mono text-xs uppercase tracking-widest h-11 px-8 luxury-glow font-bold">
-                              {isSubmittingForm ? 'Synthesizing Blueprint...' : 'Submit System RFP'}
-                            </Button>
-                          </div>
-                        </motion.div>
-                      )}
-
-                    </form>
-                  )}
+                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                    <span>Currency</span>
+                    <span className="text-white">{isInternational ? 'USD ($)' : config.id === 'lk' ? 'LKR (Rs)' : 'PKR (Rs)'}</span>
+                  </div>
                 </div>
-                </FormAuthGate>
-              )}
+              </Reveal>
+            </div>
 
-              {/* B. VIP STRATEGY CALENDAR (BOOKING FLOW) */}
-              {activeTab === 'calendar' && (
-                <FormAuthGate>
-                <div>
-                  
-                  {bookingSuccess ? (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="text-center py-10 space-y-4"
-                    >
-                      <div className="w-16 h-16 bg-brand-cyan/10 border border-brand-cyan/35 rounded-full flex items-center justify-center text-brand-cyan mx-auto mb-2 drop-shadow-[0_0_15px_rgba(34,211,238,0.15)]">
-                        <CheckCheck size={32} />
-                      </div>
-                      <h3 className="text-2xl font-display font-semibold uppercase text-white tracking-wider">Strategy Briefing Confirmed</h3>
-                      <p className="text-sm text-brand-gray max-w-md mx-auto font-light leading-relaxed">
-                        Your strategic video consultation is scheduled successfully. Check your email for direct Google Meet locks and calendar invites.
-                      </p>
-                      <Button onClick={() => setBookingSuccess(false)} variant="outline" size="sm" className="font-mono text-xs uppercase tracking-widest mt-4">
-                        Schedule another slot
-                      </Button>
-                    </motion.div>
-                  ) : (
-                    <form onSubmit={handleCalendarSubmit} className="space-y-6 animate-fade-in">
-                      
-                      <div>
-                        <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">01. Select Briefing Date</h3>
-                        <p className="text-[10px] sm:text-xs text-brand-gray mb-4">Click below to locate an available date. Business days only.</p>
-                        
-                        {/* Custom visual calendar date slider */}
-                        <div className="grid grid-cols-2 min-[400px]:grid-cols-3 sm:grid-cols-5 gap-2">
-                          {businessDaysList.map((day, dIdx) => {
-                            const isSelected = selectedDateIndex === dIdx;
-                            return (
-                              <button
-                                key={dIdx}
-                                type="button"
-                                onClick={() => {
-                                  setSelectedDateIndex(dIdx);
-                                  setErrorMsg('');
-                                }}
-                                className={`p-2 sm:p-3.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center cursor-pointer ${
-                                  isSelected
-                                    ? 'bg-brand-cyan text-brand-black border-brand-cyan shadow-[0_0_15px_rgba(34,211,238,0.25)] font-bold'
-                                    : 'border-white/5 bg-brand-navy/10 text-brand-gray hover:text-white hover:border-white/15'
-                                }`}
-                              >
-                                <span className="text-[8px] sm:text-[10px] font-mono tracking-wider uppercase block">{day.dayName}</span>
-                                <span className={`text-lg sm:text-2xl font-mono block my-0.5 sm:my-1 ${isSelected ? 'text-brand-black' : 'text-white'}`}>{day.dayNum}</span>
-                                <span className="text-[8px] sm:text-[9px] font-mono uppercase opacity-75">{day.monthName}</span>
-                              </button>
-                            );
-                          })}
+            {/* RIGHT SIDE: FORMS */}
+            <div className="lg:col-span-8">
+              <FormAuthGate 
+                className="h-full"
+              >
+                {activeTab === 'rfp' ? (
+                  <div className="bg-white/[0.02] border border-white/5 p-10 md:p-16">
+                    {success ? (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center py-20"
+                      >
+                        <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-10">
+                          <CheckCheck className="w-10 h-10 text-brand-blue" />
                         </div>
-                      </div>
+                        <h2 className="text-3xl font-display font-medium text-white uppercase mb-6 tracking-tight">Brief Received</h2>
+                        <p className="text-zinc-500 mb-12 max-w-md mx-auto leading-relaxed">
+                          Your strategic brief has been locked into our system. Our {successRegionLabel} will review the technical scope and contact you via WhatsApp shortly.
+                        </p>
+                        <PaymentSuccessActions 
+                          serviceName={lastRfpService}
+                          totalAmount={lastRfpAmount}
+                          guestEmail={lastRfpEmail}
+                          guestName={lastRfpName}
+                        />
+                      </motion.div>
+                    ) : (
+                      <form onSubmit={handleSubmit(onRfpSubmit)} className="space-y-12">
+                        {/* RFP STEPS */}
+                        <div className="flex gap-4 mb-16">
+                          {[1, 2, 3].map((step) => (
+                            <div 
+                              key={step}
+                              className={cn(
+                                "h-1 flex-1 transition-all duration-700",
+                                rfpStep >= step ? "bg-brand-blue" : "bg-white/5"
+                              )}
+                            />
+                          ))}
+                        </div>
 
-                      <div className="pt-2">
-                        <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">02. Select Preferred Time</h3>
-                        
-                        {/* Timeslot buttons */}
-                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                          {availableHoursList.map((slot) => {
-                            const isSelected = selectedTime === slot.time;
-                            return (
+                        {rfpStep === 1 && (
+                          <motion.div 
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="space-y-10"
+                          >
+                            <div className="space-y-4">
+                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 01</span>
+                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Select Strategic Scope</h3>
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                              {projectTypeOptions.map((opt) => (
+                                <button
+                                  key={opt.id}
+                                  type="button"
+                                  onClick={() => { setValue('project_type', opt.id); setErrorMsg(''); }}
+                                  className={cn(
+                                    "p-8 text-left transition-all duration-500 border group",
+                                    watchedProjectType === opt.id 
+                                      ? "bg-white border-white text-black" 
+                                      : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
+                                  )}
+                                >
+                                  <div className="flex justify-between items-start mb-2">
+                                    <h4 className="font-display font-medium uppercase tracking-widest">{opt.title}</h4>
+                                    {watchedProjectType === opt.id && <CheckCircle size={16} />}
+                                  </div>
+                                  <p className={cn(
+                                    "text-xs font-light leading-relaxed",
+                                    watchedProjectType === opt.id ? "text-black/60" : "text-zinc-500"
+                                  )}>
+                                    {opt.desc}
+                                  </p>
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {rfpStep === 2 && (
+                          <motion.div 
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="space-y-10"
+                          >
+                            <div className="space-y-4">
+                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 02</span>
+                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Target Investment</h3>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              {budgetOptions.map((opt) => (
+                                <button
+                                  key={opt.value}
+                                  type="button"
+                                  onClick={() => { setValue('budget', opt.value); setErrorMsg(''); }}
+                                  className={cn(
+                                    "p-8 text-center transition-all duration-500 border group",
+                                    watchedBudget === opt.value 
+                                      ? "bg-white border-white text-black" 
+                                      : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
+                                  )}
+                                >
+                                  <span className="text-xs font-mono font-bold uppercase tracking-widest">{opt.label}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {rfpStep === 3 && (
+                          <motion.div 
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="space-y-12"
+                          >
+                            <div className="space-y-4">
+                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 03</span>
+                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Technical Contact</h3>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
+                                <Input 
+                                  {...register('name', { required: true })}
+                                  placeholder="Architect Name"
+                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                />
+                              </div>
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Business Email</label>
+                                <Input 
+                                  {...register('email', { required: true })}
+                                  type="email"
+                                  placeholder="name@domain.com"
+                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">WhatsApp / Signal</label>
+                                <Input 
+                                  {...register('whatsapp')}
+                                  placeholder="+1 234 567 890"
+                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                />
+                              </div>
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Entity Name</label>
+                                <Input 
+                                  {...register('business_name')}
+                                  placeholder="Corporate Identity"
+                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="space-y-4">
+                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Project Requirements</label>
+                              <Textarea 
+                                {...register('message')}
+                                placeholder="Describe the technical scope and business goals..."
+                                className="bg-white/[0.03] border-white/10 rounded-none min-h-[150px]"
+                              />
+                            </div>
+
+                            <div className="pt-6">
+                              <TurnstileCaptcha onVerify={setCaptchaToken} />
+                              <Magnetic strength={0.1}>
+                                <Button 
+                                  type="submit" 
+                                  className="w-full h-16 rounded-none text-[12px] tracking-[0.3em] font-bold"
+                                  disabled={isSubmittingForm}
+                                >
+                                  {isSubmittingForm ? 'Architecting Brief...' : 'Initialize Briefing'}
+                                </Button>
+                              </Magnetic>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {errorMsg && (
+                          <div className="p-6 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
+                            <AlertCircle size={14} /> {errorMsg}
+                          </div>
+                        )}
+
+                        <div className="flex justify-between pt-10 border-t border-white/5">
+                          {rfpStep > 1 ? (
+                            <button
+                              type="button"
+                              onClick={handlePrevStep}
+                              className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 hover:text-white uppercase tracking-widest transition-colors"
+                            >
+                              <ArrowLeft size={14} /> Back
+                            </button>
+                          ) : <div />}
+                          
+                          {rfpStep < 3 && (
+                            <Button 
+                              type="button" 
+                              onClick={handleNextStep}
+                              className="px-10 h-14"
+                            >
+                              Continue <ChevronRight className="ml-2 w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-white/[0.02] border border-white/5 p-10 md:p-16">
+                    {bookingSuccess ? (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center py-20"
+                      >
+                        <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-10">
+                          <Calendar className="w-10 h-10 text-brand-blue" />
+                        </div>
+                        <h2 className="text-3xl font-display font-medium text-white uppercase mb-6 tracking-tight">Session Reserved</h2>
+                        <p className="text-zinc-500 mb-12 max-w-md mx-auto leading-relaxed">
+                          Your strategy session has been tentatively reserved. Please complete the security advance below to finalize the booking.
+                        </p>
+                        <div className="flex flex-col gap-4 max-w-xs mx-auto">
+                          <Button size="lg" onClick={() => setPaymentModalOpen(true)}>
+                            Complete Advance
+                          </Button>
+                          <Button variant="outline" onClick={() => setBookingSuccess(false)}>
+                            Modify Details
+                          </Button>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <form onSubmit={handleCalendarSubmit} className="space-y-16">
+                        {/* CALENDAR SELECTION */}
+                        <div className="space-y-10">
+                          <div className="space-y-4">
+                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 01</span>
+                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Select Briefing Date</h3>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                            {businessDaysList.map((day, i) => (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => setSelectedDateIndex(i)}
+                                className={cn(
+                                  "p-6 flex flex-col items-center gap-2 border transition-all duration-500",
+                                  selectedDateIndex === i 
+                                    ? "bg-white border-white text-black" 
+                                    : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
+                                )}
+                              >
+                                <span className="text-[10px] font-mono uppercase tracking-widest opacity-60">{day.dayName}</span>
+                                <span className="text-2xl font-display font-medium">{day.dayNum}</span>
+                                <span className="text-[10px] font-mono uppercase tracking-widest opacity-60">{day.monthName}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* TIME SELECTION */}
+                        <div className="space-y-10">
+                          <div className="space-y-4">
+                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 02</span>
+                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Preferred Window</h3>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            {availableHoursList.map((slot) => (
                               <button
                                 key={slot.time}
                                 type="button"
-                                onClick={() => {
-                                  setSelectedTime(slot.time);
-                                  setErrorMsg('');
-                                }}
-                                className={`py-2.5 sm:py-3 rounded-lg border text-[10px] sm:text-[11px] font-mono transition-all uppercase cursor-pointer text-center ${
-                                  isSelected
-                                    ? 'bg-brand-cyan text-brand-black border-brand-cyan shadow-[0_0_12px_rgba(34,211,238,0.2)] font-bold'
-                                    : 'border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/10'
-                                }`}
+                                onClick={() => setSelectedTime(slot.time)}
+                                className={cn(
+                                  "p-6 text-center border transition-all duration-500",
+                                  selectedTime === slot.time 
+                                    ? "bg-white border-white text-black" 
+                                    : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
+                                )}
                               >
-                                {slot.time} <span className="text-[7px] sm:text-[8px] opacity-75 block mt-0.5">{slot.zone} local</span>
+                                <div className="text-sm font-display font-medium uppercase tracking-widest">{slot.time}</div>
+                                <div className="text-[10px] font-mono uppercase tracking-widest opacity-40">{slot.zone}</div>
                               </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <div className="pt-2 space-y-4">
-                        <h3 className="text-lg font-display font-medium text-white mb-2 uppercase tracking-wide">03. Partners Consultation Registration Details</h3>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-mono text-brand-silver uppercase">Your Full Name *</label>
-                            <Input 
-                              required
-                              value={bookingForm.name}
-                              onChange={(e) => setBookingForm(prev => ({ ...prev, name: e.target.value }))}
-                              placeholder="e.g. David Sterling" 
-                              className="bg-brand-navy/20 border-white/10 text-xs text-white" 
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-mono text-brand-silver uppercase">Corporate Email Address *</label>
-                            <Input 
-                              required
-                              type="email"
-                              value={bookingForm.email}
-                              onChange={(e) => setBookingForm(prev => ({ ...prev, email: e.target.value }))}
-                              placeholder="e.g. d.sterling@sterlingcorp.com" 
-                              className="bg-brand-navy/20 border-white/10 text-xs text-white" 
-                            />
+                            ))}
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-mono text-brand-silver uppercase">WhatsApp Contact Line</label>
-                            <Input 
-                              value={bookingForm.whatsapp}
-                              onChange={(e) => setBookingForm(prev => ({ ...prev, whatsapp: e.target.value }))}
-                              placeholder={isInternational ? "e.g. +44 20 0000 0000" : "e.g. +92 300 XXXXXXX"} 
-                              className="bg-brand-navy/20 border-white/10 text-xs text-white" 
-                            />
+                        {/* BOOKING DETAILS */}
+                        <div className="space-y-10">
+                          <div className="space-y-4">
+                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 03</span>
+                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Client Credentials</h3>
                           </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-mono text-brand-silver uppercase">Joint-Entity / Business Name</label>
-                            <Input 
-                              value={bookingForm.business_name}
-                              onChange={(e) => setBookingForm(prev => ({ ...prev, business_name: e.target.value }))}
-                              placeholder="e.g. Sterling Holdings" 
-                              className="bg-brand-navy/20 border-white/10 text-xs text-white" 
-                            />
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div className="space-y-4">
+                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
+                              <Input 
+                                placeholder="Architect Name"
+                                value={bookingForm.name}
+                                onChange={e => setBookingForm({...bookingForm, name: e.target.value})}
+                                className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                              />
+                            </div>
+                            <div className="space-y-4">
+                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Business Email</label>
+                              <Input 
+                                type="email"
+                                placeholder="name@domain.com"
+                                value={bookingForm.email}
+                                onChange={e => setBookingForm({...bookingForm, email: e.target.value})}
+                                className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                              />
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
-                          <div className="space-y-1.5 col-span-2">
-                            <label className="text-xs font-mono text-brand-silver uppercase">Meeting Agenda Category</label>
-                            <select 
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strategic Scope</label>
+                            <select
                               value={bookingForm.project_category}
-                              onChange={(e) => setBookingForm(prev => ({ ...prev, project_category: e.target.value }))}
-                              className="flex h-11 w-full rounded-sm border border-white/10 bg-brand-navy/50 px-3 py-2 text-xs font-mono text-white focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+                              onChange={e => setBookingForm({...bookingForm, project_category: e.target.value})}
+                              className="w-full bg-white/[0.03] border border-white/10 rounded-none h-14 px-6 text-[10px] font-mono uppercase tracking-[0.2em] text-white outline-none focus:border-brand-blue"
                             >
-                              <option value="Web Design">Bespoke Strategic Web Architecture</option>
-                              <option value="Ecommerce">High-Converting E-commerce flagship</option>
-                              <option value="Admin Dashboard">Corporate Systems & Supabase Admin nodes</option>
-                              <option value="Branding">Search optimization (SEO) and Digital Identity branding</option>
-                              <option value="Other">Bespoke tech scope</option>
+                              {projectTypeOptions.map(opt => (
+                                <option key={opt.id} value={opt.id} className="bg-brand-black">{opt.title}</option>
+                              ))}
                             </select>
                           </div>
+
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Briefing Notes</label>
+                            <Textarea 
+                              placeholder="Any specific technical challenges to address..."
+                              value={bookingForm.notes}
+                              onChange={e => setBookingForm({...bookingForm, notes: e.target.value})}
+                              className="bg-white/[0.03] border-white/10 rounded-none min-h-[120px]"
+                            />
+                          </div>
+
+                          <div className="p-10 bg-brand-blue/5 border border-brand-blue/20">
+                            <div className="flex items-start gap-4">
+                              <Zap className="text-brand-blue shrink-0 mt-1" size={20} />
+                              <div>
+                                <h4 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-2">Advance Commitment</h4>
+                                <p className="text-xs text-zinc-500 leading-relaxed font-light mb-6">
+                                  To secure elite architectural time, a 10% commitment advance is required. This is fully deductible from your final project investment.
+                                </p>
+                                <div className="text-2xl font-display font-medium text-white">
+                                  {formatMoney(bookingAdvance, currentRegion)}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="pt-6">
+                            <TurnstileCaptcha onVerify={setCaptchaToken} />
+                            <Button 
+                              type="submit" 
+                              className="w-full h-16 rounded-none text-[12px] tracking-[0.3em] font-bold"
+                              disabled={isSubmittingForm}
+                            >
+                              {isSubmittingForm ? 'Processing Reservation...' : 'Secure Briefing Session'}
+                            </Button>
+                          </div>
                         </div>
 
-                        <div className="space-y-1.5 pt-2">
-                          <label className="text-xs font-mono text-brand-silver uppercase">Consultation Brief / Key Technical Notes</label>
-                          <Textarea 
-                            value={bookingForm.notes}
-                            onChange={(e) => setBookingForm(prev => ({ ...prev, notes: e.target.value }))}
-                            placeholder="Detail any timelines constraints, existing URLs to audit during video call, preferred platform frameworks..." 
-                            className="bg-brand-navy/20 border-white/10 text-xs min-h-[100px]"
-                          />
-                        </div>
-                      </div>
-
-                      <TurnstileCaptcha onSuccess={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken(null)} />
-
-                      <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-2">
-                        <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
-                          <span className="text-brand-gray">Estimated Project</span>
-                          <span className="text-white">{formatMoney(bookingEstimate, config.currency)}</span>
-                        </div>
-                        <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
-                          <span className="text-brand-gray">10% Strategy Slot Advance</span>
-                          <span className="text-brand-cyan font-bold">{formatMoney(bookingAdvance, config.currency)}</span>
-                        </div>
-                      </div>
-
-                      <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-end">
-                        <Button
-                          type="button"
-                          disabled={isSubmittingForm}
-                          onClick={openBookingPayment}
-                          className="font-mono text-xs uppercase tracking-widest h-12 px-6 luxury-glow font-bold"
-                        >
-                          Book Slot & Pay 10% Advance
-                        </Button>
-                        <Button
-                          type="submit"
-                          disabled={isSubmittingForm}
-                          variant="outline"
-                          className="font-mono text-xs uppercase tracking-widest h-12 px-6 border-white/10"
-                        >
-                          {isSubmittingForm ? 'Securing Slot...' : 'Confirm Invitation Only'}
-                        </Button>
-                      </div>
-
-                    </form>
-                  )}
-
-                </div>
-                </FormAuthGate>
-              )}
-
+                        {errorMsg && (
+                          <div className="p-6 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
+                            <AlertCircle size={14} /> {errorMsg}
+                          </div>
+                        )}
+                      </form>
+                    )}
+                  </div>
+                )}
+              </FormAuthGate>
             </div>
           </div>
-
         </div>
       </div>
-      <PaymentModal
+
+      <PaymentModal 
         open={paymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}
-        payload={paymentModalPayload}
+        payload={paymentModalPayload!}
       />
     </div>
   );

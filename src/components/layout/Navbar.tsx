@@ -15,6 +15,8 @@ import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
@@ -27,11 +29,26 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      
+      // Update scrolled state for styling
+      setScrolled(currentScrollY > 20);
+
+      // Smart navbar visibility logic
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide navbar
+        setVisible(false);
+      } else {
+        // Scrolling up - show navbar
+        setVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   useEffect(() => {
     setIsOpen(false);
@@ -44,6 +61,8 @@ export function Navbar() {
     { name: 'Pricing', path: p('/pricing') },
     { name: 'About', path: p('/about') },
   ];
+
+  const dashboardPath = user ? (isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard') : '/login';
 
   const getRegionShellClass = (isMobile = false) => cn(
     'flex items-center border border-white/10 shadow-[0_0_12px_rgba(34,211,238,0.06)]',
@@ -124,200 +143,197 @@ export function Navbar() {
     <>
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-1000',
         scrolled
-          ? 'bg-brand-black/82 backdrop-blur-xl border-white/10 py-2 md:py-4 h-16 md:h-20 shadow-[0_20px_50px_rgba(0,0,0,0.35)]'
-          : 'bg-brand-black/28 backdrop-blur-md border-white/10 py-2 md:py-6 h-16 md:h-24'
+          ? 'bg-brand-black/80 backdrop-blur-[48px] py-3 h-16 md:py-4 md:h-20 border-b border-white/[0.04] shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_60px_rgba(0,149,255,0.08)]'
+          : 'bg-transparent py-5 h-20 md:py-8 md:h-28 border-b border-transparent',
+        !visible && !isOpen && '-translate-y-full'
       )}
     >
-      <motion.div
-        className="absolute bottom-0 left-0 h-px w-full origin-left bg-gradient-to-r from-brand-cyan via-brand-blue to-transparent"
-        style={{ scaleX: scrollYProgress }}
-      />
-      <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center">
-        <div className="flex items-center justify-between gap-3">
-          <Link to={`/${currentRegion}`} className="flex items-center group shrink-0">
-            <Logo variant="full" size="sm" className="md:hidden" />
-            <Logo variant="full" size="md" className="hidden md:flex" />
-          </Link>
-          
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={cn(
-                  'text-xs font-medium uppercase tracking-[0.2em] transition-colors hover:text-white',
-                  location.pathname === link.path ? 'text-brand-cyan drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]' : 'text-brand-gray'
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
+      {/* Premium Ambient Lighting System */}
+      <div className={cn(
+        "absolute inset-0 z-0 transition-opacity duration-1000 pointer-events-none overflow-hidden",
+        scrolled ? "opacity-100" : "opacity-0"
+      )}>
+        {/* Subtle Center Glow - Behind Nav Area */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150%] bg-brand-blue/[0.06] blur-[100px] rounded-[100%]" />
+        
+        {/* Soft Bottom Edge Light Leak / Premium Divider */}
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-60" />
+      </div>
 
-          <div className="hidden md:flex items-center gap-4">
-            {/* Region Switcher */}
+      <div className="container relative z-10 mx-auto px-6 h-full flex flex-col justify-center">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-12">
+            <Link to={`/${currentRegion}`} className="flex items-center group shrink-0">
+              <Logo size="sm" className="md:hidden transition-transform duration-500 group-hover:scale-105" />
+              <Logo size="md" className="hidden md:flex transition-transform duration-500 group-hover:scale-105" />
+            </Link>
+            
+            <nav className="hidden md:flex items-center gap-10">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={cn(
+                    'text-[9px] font-bold uppercase tracking-[0.3em] transition-all duration-500 hover:text-white relative group py-2',
+                    location.pathname === link.path ? 'text-white' : 'text-zinc-500'
+                  )}
+                >
+                  {link.name}
+                  <span className={cn(
+                    "absolute -bottom-0.5 left-0 w-full h-[2px] bg-brand-blue origin-left transition-transform duration-500",
+                    location.pathname === link.path 
+                      ? "scale-x-100 shadow-[0_0_10px_rgba(6,182,212,0.5)]" 
+                      : "scale-x-0 group-hover:scale-x-100"
+                  )} />
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8">
             {renderRegionSwitcher()}
 
             {user ? (
               <Link to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'}>
-                <Button variant="outline" size="sm" className="uppercase tracking-tighter text-xs">Dashboard</Button>
+                <Button variant="outline" size="sm" className="h-9 px-5 rounded-none text-[9px] tracking-[0.2em] border-white/5 bg-white/[0.02] hover:bg-white/[0.05]">
+                  Workspace
+                </Button>
               </Link>
             ) : (
-              <>
+              <div className="flex items-center gap-6">
                 <Link to="/login">
-                  <Button variant="ghost" size="sm" className="uppercase tracking-tighter text-xs">
-                    Login as Client
+                  <Button variant="ghost" size="sm" className="text-[9px] tracking-[0.2em] font-bold">
+                    Login
                   </Button>
                 </Link>
-                <Link to={p('/partner')}>
-                  <Button variant="outline" size="sm" className="uppercase tracking-tighter text-xs border-white/15">
-                    Become a Partner
+                <Link to={p('/agents')} className="hidden lg:block">
+                  <Button variant="ghost" size="sm" className="text-[9px] tracking-[0.2em] font-bold text-zinc-500 hover:text-white transition-colors">
+                    Apply as Agent
                   </Button>
                 </Link>
-              </>
+                <Link to={p('/contact')}>
+                  <Button size="sm" className="h-9 px-5 rounded-none text-[9px] tracking-[0.2em] font-bold shadow-none">
+                    Start Project
+                  </Button>
+                </Link>
+              </div>
             )}
-            <Link 
-              to={p('/contact')}
-              onClick={() => trackEvent(ANALYTICS_EVENTS.START_PROJECT_CLICK, { location: 'navbar' })}
-            >
-              <Button size="sm" className="uppercase tracking-tighter text-xs luxury-glow">Start Project</Button>
-            </Link>
           </div>
 
-          {/* Mobile Toggle */}
-          <div className="md:hidden ml-auto flex min-w-0 items-center justify-end gap-2 shrink-0">
-            {lockedRegionOption ? renderRegionSwitcher(true) : null}
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.94 }}
-              className="group relative z-[60] grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.045] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 hover:border-white/20 hover:bg-white/[0.075] focus:outline-none focus:ring-2 focus:ring-brand-cyan/40"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
+          <div className="md:hidden ml-auto flex items-center gap-2.5">
+            <Link 
+              to={dashboardPath}
+              className="w-9 h-9 rounded-full border border-white/5 bg-white/[0.03] flex items-center justify-center text-zinc-500 hover:text-white transition-all active:scale-95 shrink-0"
+              aria-label={user ? "Go to Dashboard" : "Login"}
             >
-              <span
-                className={cn(
-                  'absolute h-px w-4 rounded-full bg-white/85 transition-all duration-300 ease-out',
-                  isOpen ? 'translate-y-0 rotate-45' : '-translate-y-1.5',
-                )}
-              />
-              <span
-                className={cn(
-                  'absolute h-px w-4 rounded-full bg-white/70 transition-all duration-200 ease-out',
-                  isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100',
-                )}
-              />
-              <span
-                className={cn(
-                  'absolute h-px w-4 rounded-full bg-white/85 transition-all duration-300 ease-out',
-                  isOpen ? 'translate-y-0 -rotate-45' : 'translate-y-1.5',
-                )}
-              />
-            </motion.button>
+              <User size={16} />
+            </Link>
+
+            {!user && (
+              <Link
+                to={p('/agents')}
+                className="h-8 px-2.5 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center hover:border-brand-blue/20 transition-all active:scale-95 shrink-0"
+              >
+                <span className="text-[9px] font-mono font-bold uppercase tracking-[0.1em] text-zinc-500 hover:text-white transition-colors">Agent</span>
+              </Link>
+            )}
+            
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative z-50 w-9 h-9 flex flex-col items-center justify-center gap-1.5 shrink-0"
+            >
+              <span className={cn("w-5 h-px bg-white transition-all duration-500", isOpen && "rotate-45 translate-y-2")} />
+              <span className={cn("w-3 h-px bg-white transition-all duration-500 ml-auto", isOpen && "opacity-0")} />
+              <span className={cn("w-5 h-px bg-white transition-all duration-500", isOpen && "-rotate-45 -translate-y-2")} />
+            </button>
           </div>
         </div>
       </div>
-      </header>
+    </header>
 
-      {/* Premium Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.button
-              type="button"
-              aria-label="Close menu"
-              className="fixed inset-0 z-40 cursor-default bg-transparent backdrop-blur-[2px] md:hidden"
-              initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-              animate={{ opacity: 1, backdropFilter: 'blur(2px)' }}
-              exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => setIsOpen(false)}
-            />
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-0 left-0 right-0 z-[45] h-auto max-h-[52vh] bg-brand-black/95 backdrop-blur-[64px] border-b border-white/[0.04] flex flex-col p-6 pt-24 pb-10 md:hidden shadow-[0_30px_60px_rgba(0,0,0,1),0_0_50px_rgba(0,149,255,0.06)]"
+        >
+          <div className="absolute inset-0 z-0 opacity-15">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-blue/[0.08] blur-[100px]" />
+          </div>
+          <div className="absolute inset-0 premium-grid-overlay opacity-5 pointer-events-none" />
+          
+          <div className="flex flex-col gap-5 relative z-10">
+            {/* Mobile Account Shortcut */}
             <motion.div
-              id="mobile-menu"
-              role="dialog"
-              aria-modal="false"
-              initial={{ opacity: 0, y: -14, scale: 0.985 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.985 }}
-              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed left-3 right-3 top-[72px] z-[45] mx-auto max-h-[calc(100dvh-88px)] max-w-[430px] overflow-hidden rounded-[22px] border border-white/[0.12] bg-zinc-950/[0.68] shadow-[0_24px_80px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl md:hidden"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="pb-5 border-b border-white/5"
             >
-              <div className="flex max-h-[calc(100dvh-88px)] flex-col overflow-y-auto px-2.5 py-3">
-                {!lockedRegionOption && (
-                  <div className="mb-3 px-1">
-                    {renderRegionSwitcher(true)}
+              <Link 
+                to={dashboardPath}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-brand-blue/5 border border-brand-blue/20 flex items-center justify-center text-brand-blue">
+                    <User size={18} />
                   </div>
-                )}
-                <nav className="flex flex-col" aria-label="Mobile navigation">
-                  {navLinks.map((link, i) => (
-                    <motion.div
-                      key={link.name}
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.24, delay: 0.04 + i * 0.025, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <Link
-                        to={link.path}
-                        onClick={() => setIsOpen(false)}
-                        className={cn(
-                          'group flex min-h-[44px] items-center justify-between rounded-2xl px-4 text-base sm:text-[19px] font-display font-medium text-zinc-200 transition-all duration-300 active:scale-[0.985]',
-                          location.pathname === link.path
-                            ? 'bg-white/[0.075] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
-                            : 'hover:bg-white/[0.055] hover:text-white',
-                        )}
-                      >
-                        <span>{link.name}</span>
-                        <span className="h-px w-5 origin-right scale-x-0 bg-brand-cyan/70 transition-transform duration-300 group-hover:scale-x-100" />
-                      </Link>
-                    </motion.div>
-                  ))}
-                </nav>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-display font-medium text-white group-hover:text-brand-blue transition-colors">
+                      {user ? (profile?.full_name || 'My Workspace') : 'Client Login'}
+                    </span>
+                    <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                      {user ? (profile?.role || 'User Account') : 'Access Dashboard'}
+                    </span>
+                  </div>
+                </div>
+                <ArrowRight size={14} className="text-zinc-800 group-hover:text-brand-blue group-hover:translate-x-1 transition-all" />
+              </Link>
+            </motion.div>
 
+            <div className="flex flex-col gap-3.5">
+              {navLinks.map((link, i) => (
                 <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.28, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                  className="mt-3 grid gap-2 border-t border-white/10 px-1 pt-3"
+                  key={link.name}
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + i * 0.04, duration: 0.3 }}
                 >
-                  {!user && (
-                    <>
-                      <Link onClick={() => setIsOpen(false)} to="/login" className="w-full">
-                        <Button variant="outline" size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.12] bg-white/[0.045] text-[11px] font-mono font-bold uppercase tracking-[0.16em]">
-                          Login as Client
-                        </Button>
-                      </Link>
-                      <Link onClick={() => setIsOpen(false)} to={p('/partner')} className="w-full">
-                        <Button variant="outline" size="sm" className="h-10 w-full text-[11px] font-mono font-bold uppercase tracking-[0.16em] border-brand-cyan/25 text-brand-cyan">
-                          Become a Partner
-                        </Button>
-                      </Link>
-                    </>
-                  )}
-                  {user && (
-                  <Link onClick={() => setIsOpen(false)} to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'} className="w-full">
-                    <Button variant="outline" size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.12] bg-white/[0.045] text-[11px] font-mono font-bold uppercase tracking-[0.16em] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
-                      <User className="h-3.5 w-3.5" />
-                      Dashboard
-                    </Button>
-                  </Link>
-                  )}
-                  <Link onClick={() => setIsOpen(false)} to={p('/contact')} className="w-full">
-                    <Button size="sm" className="h-10 w-full gap-2 rounded-full border-white/[0.15] bg-white text-[11px] font-mono font-bold uppercase tracking-[0.16em] text-brand-black shadow-[0_12px_30px_rgba(255,255,255,0.12)] hover:bg-zinc-100">
-                      Start Project
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Button>
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="text-[20px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
+                  >
+                    {link.name}
                   </Link>
                 </motion.div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              ))}
+              
+              {!user && (
+                <motion.div
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + navLinks.length * 0.04, duration: 0.3 }}
+                >
+                  <Link
+                    to={p('/agents')}
+                    onClick={() => setIsOpen(false)}
+                    className="text-[20px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
+                  >
+                    Apply as Agent
+                  </Link>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
     </>
   );
 }

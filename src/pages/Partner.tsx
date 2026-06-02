@@ -243,453 +243,232 @@ export default function Partner() {
   ];
 
   return (
-    <div className="bg-brand-black text-white relative min-h-screen pt-28 sm:pt-32 pb-24 font-sans overflow-hidden">
+    <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
       <SEO 
         title={seoTitle}
         description={seoDescription}
         canonicalUrl={toAbsoluteUrl(p('/partner'))}
-        keywords={['Jawrah Pixel partner program', `${config.countryName} web design partner`, 'digital agency referral program', 'agency partner network']}
       />
-      {/* Background radial overlays for luxury look */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-      {/* Main Container */}
-      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
+      {/* Atmospheric Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <div className="absolute top-[10%] right-[10%] cinematic-light animate-pulse-slow opacity-30" />
+          <div className="absolute bottom-[20%] left-[10%] cinematic-light animate-glow opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' }} />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         
         {/* HERO SECTION */}
-        <div className="text-center max-w-4xl mx-auto mb-20 md:mb-28">
+        <Reveal className="text-center max-w-4xl mx-auto mb-24 md:mb-32">
           <motion.div 
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan text-xs font-mono uppercase tracking-widest mb-6"
+            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
           >
-            <ShieldCheck size={12} />
-            {regionPartnerLabel}
+            <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Network Expansion
           </motion.div>
 
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-display font-semibold mb-6 tracking-tight uppercase leading-[1.1]"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-10 uppercase"
           >
-            Become a <br/>
-            <span className="text-brand-cyan drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">Jawrah Pixel Partner</span>
+            Partner <br /> <span className="premium-text-gradient italic">Ecosystem</span>
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-brand-gray text-base md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto"
+            transition={{ delay: 0.1 }}
+            className="text-zinc-500 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12"
           >
-            Help businesses grow while earning recurring commissions through the Jawrah Pixel Partner Network.
+            {seoDescription} Help premium brands scale while building your own scalable digital agency revenue stream.
           </motion.p>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-wrap items-center justify-center gap-2 md:gap-4 max-w-xs sm:max-w-lg mx-auto md:max-w-none"
-          >
-            <Link to="/signup" className="w-full sm:w-auto">
-              <Button className="w-full md:w-auto px-4 md:px-8 h-10 md:h-14 uppercase tracking-widest md:tracking-wider text-[10px] sm:text-[9px] md:text-xs font-semibold select-none leading-tight py-1">
-                Create Account
-              </Button>
-            </Link>
-            <Button 
-              variant="outline" 
-              onClick={() => scrollToSection('partner-application')}
-              className="w-full sm:w-auto px-4 md:px-8 h-10 md:h-14 border-white/10 uppercase tracking-widest md:tracking-wider text-[10px] sm:text-[9px] md:text-xs transition-colors hover:bg-white/5 leading-tight py-1"
-            >
-              Apply Now
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button size="lg" className="min-w-[240px]" onClick={() => scrollToSection('application-form')}>
+              Join Network
             </Button>
-            <a 
-              href={partnerWhatsappLink}
-              target="_blank" 
-              referrerPolicy="no-referrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center h-10 md:h-14 px-4 md:px-8 border border-[#25D366]/30 bg-[#25D366]/5 hover:bg-[#25D366]/10 text-white rounded-none md:rounded-sm font-medium tracking-widest md:tracking-wider uppercase text-[10px] sm:text-[9px] md:text-xs transition-colors text-center leading-tight py-1"
-            >
-              Contact WA
-            </a>
-          </motion.div>
-
-          <motion.span 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="block text-xs font-mono uppercase tracking-widest text-brand-silver mt-6"
-          >
-            Per confirmed project introduced by you to Jawrah Pixel.
-          </motion.span>
-        </div>
-
-        {/* HOW IT WORKS SECTION */}
-        <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Execution Path</span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">How It Works</h2>
-            <p className="text-sm text-brand-gray">
-              A meticulously engineered partner flow from simple business introduction to instant commission.
-            </p>
-          </Reveal>
-
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
-            {[
-              {
-                step: '01',
-                title: 'Introduce',
-                desc: 'Connect with business founders or decision-makers who need websites, e-commerce networks, enterprise CRM platforms, branding, or digital systems.'
-              },
-              {
-                step: '02',
-                title: 'Propose',
-                desc: 'Jawrah Pixel conducts the discovery session, engineers the architecture proposal, drafts plans, and runs client strategy calls using our premium processes.'
-              },
-              {
-                step: '03',
-                title: 'Confirm',
-                desc: 'Once the applicant accepts the calculated plan scope and deposits the lock-in reservation fee, you are credited for the active client acquisition.'
-              },
-              {
-                step: '04',
-                title: 'Earn',
-                desc: 'Earn high-tier payouts immediately upon first milestone completion. Track your progress live in our specialized workspace portal.'
-              }
-            ].map((item, idx) => (
-              <StaggerItem
-                key={idx} 
-                className="group p-4 sm:p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-cyan/20 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
-              >
-                <div>
-                  <div className="text-2xl sm:text-5xl font-mono font-bold text-white/5 group-hover:text-brand-cyan/10 transition-colors mb-2 sm:mb-4">
-                    {item.step}
-                  </div>
-                  <h3 className="text-xs sm:text-xl font-display font-medium text-white mb-1 sm:mb-2 uppercase tracking-wide group-hover:text-brand-cyan transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-[9px] sm:text-xs text-brand-silver leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-                <div className="h-0.5 bg-brand-cyan/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left mt-4 sm:mt-6"></div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-
-        {/* COMMISSION TIERS SECTION */}
-        <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Incentives Framework</span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Commission Tiers</h2>
-            <p className="text-sm text-brand-gray">
-              Engineered payouts tailored for connectors who identify serious digital modernization projects.
-            </p>
-          </Reveal>
-
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-            {tiers.map((tier, idx) => (
-              <StaggerItem
-                key={idx} 
-                className={`flex flex-col justify-between p-4 sm:p-8 rounded-2xl border ${tier.color} transition-all duration-300 relative group`}
-              >
-                <div>
-                  <div className="flex justify-between items-start mb-4 sm:mb-6">
-                    <div>
-                      <span className="text-[8px] sm:text-xs font-mono uppercase tracking-widest text-brand-gray">{tier.volume}</span>
-                      <h3 className="text-sm sm:text-2xl font-display font-semibold tracking-wide text-white uppercase mt-0.5 sm:mt-1">
-                        {tier.level}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-8">
-                    <div className="border-b border-white/10 pb-2 sm:pb-4">
-                      <span className="text-[8px] sm:text-[10px] font-mono text-brand-gray uppercase tracking-widest block mb-0.5">Budget Scale</span>
-                      <span className="text-[10px] sm:text-lg font-semibold text-white">{tier.budget}</span>
-                    </div>
-
-                    <div className="border-b border-white/10 pb-2 sm:pb-4">
-                      <span className="text-[8px] sm:text-[10px] font-mono text-brand-gray uppercase tracking-widest block mb-0.5">Commission Frame</span>
-                      <span className="text-[10px] sm:text-lg font-semibold text-brand-cyan">{tier.rate}</span>
-                    </div>
-
-                    <div>
-                      <span className="text-[8px] sm:text-[10px] font-mono text-brand-gray uppercase tracking-widest block mb-0.5">Target Reward</span>
-                      <span className="text-xs sm:text-2xl font-mono font-bold text-white tracking-tight">{tier.reward}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-[8.5px] sm:text-xs text-brand-silver leading-relaxed border-t border-white/5 pt-3 sm:pt-4">
-                    {tier.focus}
-                  </p>
-                </div>
-                
-                <div className="mt-4 sm:mt-8">
-                  <button 
-                    onClick={() => scrollToSection('partner-application')}
-                    className="w-full flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 border border-white/10 rounded group-hover:border-brand-cyan/40 bg-white/5 group-hover:bg-brand-cyan/10 transition-all text-[8px] sm:text-xs text-white uppercase font-mono tracking-widest"
-                  >
-                    <span>Secure Slot Now</span>
-                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-
-        {/* REQUIREMENTS & BENEFITS */}
-        <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Reveal>
-              <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Partner Requirements</span>
-              <h2 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Requirements</h2>
-              <ul className="space-y-3">
-                {requirements.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-xs text-brand-silver">
-                    <CheckCircle size={14} className="text-brand-cyan shrink-0 mt-0.5" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Partner Benefits</span>
-              <h2 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Benefits</h2>
-              <ul className="space-y-3">
-                {benefits.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-xs text-brand-silver">
-                    <CheckCircle size={14} className="text-brand-cyan shrink-0 mt-0.5" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+            <Button variant="outline" size="lg" className="min-w-[240px]" onClick={() => scrollToSection('how-it-works')}>
+              Learn More
+            </Button>
           </div>
-        </div>
+        </Reveal>
 
-        {/* WHO CAN JOIN SECTION */}
-        <div className="py-16 md:py-24 border-t border-white/5 mb-20">
-          <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold">Network Spectrum</span>
-            <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mt-2 mb-4">Who Can Join</h2>
-            <p className="text-sm text-brand-gray">
-              Our network accommodates anyone with direct channel access to business clients ready for system modernization.
-            </p>
-          </Reveal>
+        {/* TARGET GROUPS */}
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-32 md:mb-48">
+          {targetGroups.map((group, idx) => (
+            <StaggerItem key={idx} className="group p-10 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700">
+              <div className="mb-8 text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                <group.icon className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-display font-medium text-white uppercase tracking-wider mb-4">{group.title}</h3>
+              <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">{group.description}</p>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-            {targetGroups.map((group, idx) => {
-              const Icon = group.icon;
-              return (
-                <StaggerItem
-                  key={idx}
-                  className="p-4 sm:p-8 bg-white/[0.01] border border-white/5 hover:border-white/10 rounded-2xl transition-all duration-300 flex flex-col sm:flex-row items-start gap-3 sm:gap-5 group"
-                >
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan rounded-lg shrink-0 group-hover:bg-brand-cyan/20 transition-all">
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]" />
-                  </div>
-                  <div className="space-y-1 sm:space-y-2">
-                    <h3 className="text-[10px] sm:text-xl font-display font-medium text-white uppercase tracking-wide">
-                      {group.title}
-                    </h3>
-                    <p className="text-[8px] sm:text-xs text-brand-silver leading-relaxed">
-                      {group.description}
-                    </p>
-                  </div>
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
-        </div>
-
-        {/* AGENT APPLICATION FORM SECTION */}
-        <div id="partner-application" className="py-16 md:py-24 border-t border-white/5 relative">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            
-            {/* Context block */}
-            <Reveal className="lg:col-span-5 space-y-6">
-              <span className="text-[10px] font-mono text-brand-cyan tracking-[0.2em] uppercase font-bold block">Apply To Network</span>
-              <h2 className="text-3xl md:text-4xl font-display font-medium text-white uppercase tracking-tight leading-tight">
-                Submit Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-blue">Partner Application</span>
+        {/* BENEFITS SECTION */}
+        <section id="how-it-works" className="mb-32 md:mb-48 scroll-mt-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <Reveal>
+              <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Network Value</span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
+                Unrivaled <br /> <span className="premium-text-gradient italic">Capabilities</span>
               </h2>
-              <p className="text-sm text-brand-gray leading-relaxed">
-                {applicationCopy}
+              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12">
+                We provide the world-class infrastructure. You provide the connections. Together, we architect digital excellence.
               </p>
-
-              <div className="space-y-4 pt-4">
-                <div className="flex items-center gap-3.5 text-xs text-brand-silver font-mono uppercase tracking-widest">
-                  <CheckCircle size={16} className="text-brand-cyan shrink-0" />
-                  <span>Real-time Referral dashboards</span>
-                </div>
-                <div className="flex items-center gap-3.5 text-xs text-brand-silver font-mono uppercase tracking-widest">
-                  <CheckCircle size={16} className="text-brand-cyan shrink-0" />
-                  <span>24/7 Client Account Executive support</span>
-                </div>
-                <div className="flex items-center gap-3.5 text-xs text-brand-silver font-mono uppercase tracking-widest">
-                  <CheckCircle size={16} className="text-brand-cyan shrink-0" />
-                  <span>Interactive AI Proposal generators</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12">
+                {benefits.map((benefit, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <CheckCircle className="w-5 h-5 text-brand-blue shrink-0" />
+                    <span className="text-sm text-zinc-400 font-light">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={0.2} className="relative group">
+              <div className="absolute inset-0 bg-brand-blue/10 blur-[100px] group-hover:bg-brand-blue/20 transition-colors duration-1000" />
+              <div className="relative p-12 bg-white/[0.02] border border-white/5 backdrop-blur-3xl">
+                <h3 className="text-2xl font-display font-medium text-white mb-8 uppercase tracking-widest">Partner Tiers</h3>
+                <div className="space-y-8">
+                  {tiers.map((tier: any, i) => (
+                    <div key={i} className="flex items-center justify-between p-6 bg-white/[0.03] border border-white/5 hover:border-brand-blue/30 transition-all duration-500">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-mono text-brand-blue uppercase tracking-widest">{tier.level}</span>
+                        <span className="text-lg font-display font-bold text-white uppercase">{tier.focus}</span>
+                      </div>
+                      <div className="text-2xl font-display font-bold text-white">{tier.rate}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </Reveal>
+          </div>
+        </section>
 
-            {/* Form card */}
-            <Reveal delay={0.08} className="lg:col-span-7 glass-card p-5 sm:p-8 rounded-2xl border border-white/10 relative overflow-hidden bg-white/[0.02]">
-              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-brand-cyan/5 rounded-full blur-[60px] pointer-events-none"></div>
-              
+        {/* APPLICATION FORM */}
+        <section id="application-form" className="max-w-4xl mx-auto scroll-mt-32">
+          <Reveal className="text-center mb-16 md:mb-24">
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Application</span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Join the Network</h2>
+            <p className="text-zinc-500 text-lg font-light leading-relaxed">{applicationCopy}</p>
+          </Reveal>
+
+          <Reveal className="p-10 md:p-16 bg-white/[0.02] border border-white/5">
+            <FormAuthGate>
               {isSuccess ? (
-                <div className="text-center py-10 px-4 flex flex-col items-center justify-center space-y-5">
-                  <div className="w-16 h-16 bg-brand-cyan/10 border border-brand-cyan/30 rounded-full flex items-center justify-center text-brand-cyan mb-2">
-                    <CheckCircle className="animate-pulse" size={32} />
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-8">
+                    <CheckCircle className="w-10 h-10 text-brand-blue" />
                   </div>
-                  <h3 className="text-2xl font-display font-semibold text-white uppercase">Application Received</h3>
-                  <p className="text-sm text-brand-silver max-w-md leading-relaxed">
-                    Thank you for your interest in joining the Jawrah Pixel Partner Network. Our team will carefully review your application.
-                  </p>
-                  <div className="text-left text-sm text-brand-silver space-y-2 max-w-sm w-full">
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-brand-cyan">You will receive updates through:</p>
-                    <p>✓ Email</p>
-                    <p>✓ Dashboard Messages</p>
-                  </div>
-                  <div className="w-full max-w-sm rounded-xl border border-white/10 bg-white/[0.03] p-4 text-left space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-brand-gray font-mono uppercase">Status</span>
-                      <span className="text-white font-medium">Pending Review</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-brand-gray font-mono uppercase">Estimated review</span>
-                      <span className="text-white">1–3 business days</span>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-display font-medium text-white mb-4 uppercase">Application Submitted</h3>
+                  <p className="text-zinc-500 mb-10">Our partner desk will review your application and contact you shortly.</p>
+                  <Button onClick={() => setIsSuccess(false)}>Send Another</Button>
                 </div>
               ) : (
-                <FormAuthGate>
-                <form onSubmit={handleApply} className="space-y-4 sm:space-y-5">
-                  
+                <form onSubmit={handleApply} className="space-y-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
+                      <Input 
+                        placeholder="John Doe" 
+                        value={name} 
+                        onChange={(e) => setName(e.target.value)}
+                        className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue h-14"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Professional Email</label>
+                      <Input 
+                        type="email" 
+                        placeholder="john@agency.com" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue h-14"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">WhatsApp Contact</label>
+                      <Input 
+                        placeholder="+1 234 567 890" 
+                        value={phone} 
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue h-14"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Region / City</label>
+                      <select 
+                        value={city} 
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-full bg-white/[0.03] border border-white/10 rounded-none focus:border-brand-blue h-14 px-4 text-sm text-white outline-none"
+                      >
+                        {locationOptions.map(opt => (
+                          <option key={opt.value} value={opt.value} className="bg-brand-black">{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Professional Profile (LinkedIn / Portfolio)</label>
+                    <Input 
+                      placeholder="https://linkedin.com/in/johndoe" 
+                      value={profileLink} 
+                      onChange={(e) => setProfileLink(e.target.value)}
+                      className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue h-14"
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Relevant Experience</label>
+                    <Textarea 
+                      placeholder="Briefly describe your background in sales or digital consulting..." 
+                      value={experience} 
+                      onChange={(e) => setExperience(e.target.value)}
+                      className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue min-h-[120px]"
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Why Join Jawrah Pixel Network?</label>
+                    <Textarea 
+                      placeholder="What are your goals as a partner?" 
+                      value={whyPartner} 
+                      onChange={(e) => setWhyPartner(e.target.value)}
+                      className="bg-white/[0.03] border-white/10 rounded-none focus:border-brand-blue min-h-[120px]"
+                    />
+                  </div>
+
                   {errorMsg && (
-                    <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-xs text-center font-semibold">
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-mono uppercase tracking-widest">
                       {errorMsg}
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Full Name</label>
-                      <Input 
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        placeholder={isInternational ? 'e.g. Sophia Morgan' : 'e.g. Ruwan de Silva'}
-                        className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Email Address</label>
-                      <Input 
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder={isInternational ? 'e.g. sophia@example.com' : 'e.g. ruwan@example.com'}
-                        className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Phone Number</label>
-                      <Input 
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                        placeholder={isInternational ? 'e.g. +1 555 014 8820' : 'e.g. +94762737411'}
-                        className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
-                      />
-                    </div>
+                  <div className="pt-6">
+                    <TurnstileCaptcha onVerify={setCaptchaToken} />
+                    <Button 
+                      type="submit" 
+                      className="w-full h-16 rounded-none text-[12px] tracking-[0.3em] font-bold" 
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Processing Application...' : 'Submit Application'}
+                    </Button>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Country</label>
-                      <Input
-                        type="text"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        required
-                        className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">City</label>
-                      <select
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="flex h-10 w-full rounded-sm border border-white/10 bg-brand-navy/50 px-3 py-2 text-xs text-brand-gray/80 ring-offset-brand-black file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-brand-gray/50 focus-visible:outline-none focus:border-brand-cyan transition-colors duration-200 backdrop-blur-md"
-                      >
-                        {locationOptions.map(opt => (
-                          <option key={opt.value} value={opt.value} className="bg-brand-navy">{opt.label}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="space-y-1.5 sm:col-span-2">
-                      <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">LinkedIn (optional)</label>
-                      <Input 
-                        type="url"
-                        value={profileLink}
-                        onChange={(e) => setProfileLink(e.target.value)}
-                        placeholder="e.g. https://linkedin.com/..."
-                        className="h-10 text-xs bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Experience</label>
-                    <Textarea 
-                      value={experience}
-                      onChange={(e) => setExperience(e.target.value)}
-                      required
-                      placeholder="Your professional background, industries served, and referral experience."
-                      className="bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan min-h-[70px] text-xs"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] text-brand-silver font-mono uppercase tracking-widest">Why do you want to become a partner?</label>
-                    <Textarea 
-                      value={whyPartner}
-                      onChange={(e) => setWhyPartner(e.target.value)}
-                      required
-                      placeholder="Tell us why you are a strong fit for the Jawrah Pixel Partner Network."
-                      className="bg-brand-black/50 border-white/5 focus-visible:ring-brand-cyan min-h-[70px] text-xs"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit" 
-                    disabled={!user || isSubmitting}
-                    className="w-full text-[10px] font-semibold uppercase tracking-widest luxury-glow select-none h-11"
-                  >
-                    {isSubmitting ? 'Submitting Application...' : user ? 'Apply To Become A Partner' : 'Login to Apply'}
-                  </Button>
-
                 </form>
-                </FormAuthGate>
               )}
-            </Reveal>
-
-          </div>
-
-        </div>
+            </FormAuthGate>
+          </Reveal>
+        </section>
 
       </div>
     </div>

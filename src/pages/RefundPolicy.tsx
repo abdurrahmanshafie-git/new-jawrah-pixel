@@ -1,8 +1,9 @@
 import { motion } from 'motion/react';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 
 const SECTIONS = [
@@ -35,190 +36,161 @@ export default function RefundPolicy() {
   };
 
   return (
-    <div className="bg-brand-navy min-h-screen">
+    <div className="bg-brand-black min-h-screen pt-32 pb-24 text-white overflow-hidden relative">
       <SEO 
         title={`Refund Policy | Jawrah Pixel`}
         description="Transparent refund policy and cancellation guidelines for Jawrah Pixel digital services."
       />
 
-      {/* Sticky Back Button */}
-      <div className="fixed top-24 left-4 md:left-8 z-40">
-        <Link 
-          to={p('/')}
-          className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-brand-gray hover:text-white hover:border-brand-cyan/50 transition-all duration-300 group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-xs font-mono uppercase tracking-widest">Back</span>
-        </Link>
+      {/* Atmospheric Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
+          <div className="absolute top-[10%] right-[10%] cinematic-light animate-pulse-slow opacity-30" />
+          <div className="absolute bottom-[20%] left-[10%] cinematic-light animate-glow opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' }} />
+        </div>
       </div>
 
-      <div className="pt-32 pb-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              
-              {/* Sidebar Navigation */}
-              <aside className="lg:col-span-4 hidden lg:block">
-                <div className="sticky top-32 space-y-8">
-                  <div>
-                    <h3 className="text-white font-display text-sm uppercase tracking-[0.2em] mb-6">Contents</h3>
-                    <nav className="space-y-2">
-                      {SECTIONS.map((section) => (
-                        <button
-                          key={section.id}
-                          onClick={() => scrollToSection(section.id)}
-                          className="flex items-center justify-between w-full text-left px-4 py-3 rounded-lg border border-transparent hover:border-white/5 hover:bg-white/5 text-brand-gray hover:text-brand-cyan transition-all duration-300 group"
-                        >
-                          <span className="text-[13px] font-medium">{section.title}</span>
-                          <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </button>
-                      ))}
-                    </nav>
-                  </div>
-
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-brand-cyan/10 to-transparent border border-brand-cyan/20">
-                    <h4 className="text-white font-display text-xs uppercase tracking-widest mb-2">Transparency First</h4>
-                    <p className="text-brand-gray text-xs leading-relaxed mb-4">We believe in clear, fair policies that protect both our clients and our creative output.</p>
-                  </div>
-                </div>
-              </aside>
-
-              {/* Main Content */}
-              <main className="lg:col-span-8">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+            
+            {/* Sidebar Navigation */}
+            <aside className="lg:col-span-4 hidden lg:block">
+              <div className="sticky top-32 space-y-12">
                 <Reveal>
-                  <div className="mb-12">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan text-[10px] font-mono uppercase tracking-widest mb-4">
-                      Billing & Refunds
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6">
-                      Refund <span className="text-brand-cyan italic">Policy</span>
-                    </h1>
-                    <div className="flex items-center gap-4 text-brand-gray/60 text-xs font-mono uppercase tracking-wider">
-                      <span>Last Updated: {lastUpdated}</span>
-                      <span className="w-1 h-1 rounded-full bg-brand-gray/30"></span>
-                      <span>Version 2.0</span>
+                  <Link 
+                    to={p('/')}
+                    className="group inline-flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 hover:text-white transition-colors mb-12"
+                  >
+                    <ArrowLeft size={14} className="group-hover:-translate-x-2 transition-transform" />
+                    Back to Agency
+                  </Link>
+
+                  <h3 className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold mb-10">Navigation</h3>
+                  <nav className="space-y-4">
+                    {SECTIONS.map((section) => (
+                      <button
+                        key={section.id}
+                        onClick={() => scrollToSection(section.id)}
+                        className="flex items-center justify-between w-full text-left px-6 py-4 bg-white/[0.02] border border-white/5 hover:border-brand-blue/30 text-zinc-500 hover:text-white transition-all duration-500 group"
+                      >
+                        <span className="text-xs font-display font-medium uppercase tracking-widest">{section.title}</span>
+                        <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                      </button>
+                    ))}
+                  </nav>
+                </Reveal>
+
+                <Reveal delay={0.2} className="p-8 bg-brand-blue/5 border border-brand-blue/20">
+                  <div className="flex gap-4 items-start">
+                    <Info size={18} className="text-brand-blue shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-[10px] font-mono text-brand-blue uppercase tracking-widest font-bold mb-3">Transparency First</h4>
+                      <p className="text-xs text-zinc-500 leading-relaxed font-light">We believe in clear, fair policies that protect both our clients and our creative output.</p>
                     </div>
                   </div>
                 </Reveal>
+              </div>
+            </aside>
 
-                <div className="prose prose-invert max-w-none">
-                  <Reveal delay={0.1}>
-                    <p className="text-lg text-brand-gray leading-relaxed mb-12">
-                      At Jawrah Pixel, we strive for absolute client satisfaction. However, due to the nature of digital creative services and the resources allocated to each project, we maintain a clear policy regarding refunds and cancellations.
-                    </p>
-                  </Reveal>
-
-                  <div className="space-y-16">
-                    <section id="eligibility" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">01</span>
-                          Eligibility
-                        </h2>
-                        <p className="text-brand-gray leading-relaxed">
-                          Refund eligibility is determined based on the stage of the project and the type of services rendered. As a digital agency, our primary costs are human expertise and time, which cannot be recovered once spent.
-                        </p>
-                      </Reveal>
-                    </section>
-
-                    <section id="non-refundable" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">02</span>
-                          Non-refundable Services
-                        </h2>
-                        <p className="text-brand-gray leading-relaxed mb-4">The following services and fees are strictly non-refundable:</p>
-                        <ul className="list-none space-y-4 pl-0 text-brand-gray">
-                          <li className="flex gap-4">
-                            <span className="text-brand-cyan mt-1.5">•</span>
-                            <div>
-                              <strong className="text-white block mb-1">Consultation Fees</strong>
-                              Fees paid for strategic consultations and expert advice.
-                            </div>
-                          </li>
-                          <li className="flex gap-4">
-                            <span className="text-brand-cyan mt-1.5">•</span>
-                            <div>
-                              <strong className="text-white block mb-1">Discovery & Planning</strong>
-                              Initial research, wireframing, and project scoping phases.
-                            </div>
-                          </li>
-                          <li className="flex gap-4">
-                            <span className="text-brand-cyan mt-1.5">•</span>
-                            <div>
-                              <strong className="text-white block mb-1">Completed Work</strong>
-                              Any milestone that has been delivered and approved by the Client.
-                            </div>
-                          </li>
-                          <li className="flex gap-4">
-                            <span className="text-brand-cyan mt-1.5">•</span>
-                            <div>
-                              <strong className="text-white block mb-1">Custom Development</strong>
-                              Bespoke coding, API integrations, and specialized software development.
-                            </div>
-                          </li>
-                        </ul>
-                      </Reveal>
-                    </section>
-
-                    <section id="partial-refunds" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">03</span>
-                          Partial Refund Situations
-                        </h2>
-                        <p className="text-brand-gray leading-relaxed">
-                          If a project is cancelled before any design or development work has commenced, a partial refund of the initial deposit may be considered, minus administrative costs and planning fees (typically 25% of the deposit). Once work has started, refunds are not guaranteed and are at the sole discretion of Jawrah Pixel management.
-                        </p>
-                      </Reveal>
-                    </section>
-
-                    <section id="cancellation" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">04</span>
-                          Cancellation Policy
-                        </h2>
-                        <p className="text-brand-gray leading-relaxed">
-                          Clients may cancel their project at any time. Upon cancellation, the Client will be billed for all work completed up to the date of cancellation. For subscription-based maintenance services, cancellations must be requested at least 7 days before the next renewal date.
-                        </p>
-                      </Reveal>
-                    </section>
-
-                    <section id="chargebacks" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">05</span>
-                          Chargeback Policy
-                        </h2>
-                        <p className="text-brand-gray leading-relaxed">
-                          We encourage clients to contact us directly to resolve any billing disputes. Fraudulent chargebacks will result in the immediate suspension of all services, legal action where appropriate, and reporting to relevant credit agencies.
-                        </p>
-                      </Reveal>
-                    </section>
-
-                    <section id="requests" className="scroll-mt-32">
-                      <Reveal>
-                        <h2 className="text-2xl text-white font-display mb-6 flex items-center gap-4">
-                          <span className="text-brand-cyan/40 text-sm font-mono tracking-tighter">06</span>
-                          How to Request
-                        </h2>
-                        <div className="p-8 rounded-2xl bg-white/5 border border-white/10 space-y-4">
-                          <p className="text-brand-gray leading-relaxed">
-                            All refund requests must be submitted in writing to our billing department. Please include your Project ID and a detailed explanation for the request.
-                          </p>
-                          <div className="pt-4 space-y-2">
-                            <p className="text-white font-medium">Billing Department</p>
-                            <p className="text-brand-gray text-sm">Email: hello@jawrahpixel.com</p>
-                            <p className="text-brand-gray text-sm">Subject: REFUND REQUEST - [Your Project ID]</p>
-                          </div>
-                        </div>
-                      </Reveal>
-                    </section>
-                  </div>
+            {/* Main Content */}
+            <main className="lg:col-span-8">
+              <Reveal className="mb-24">
+                <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Commercial Protection</span>
+                <h1 className="text-4xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-10">
+                  Refund <br /> <span className="premium-text-gradient italic">Policy</span>
+                </h1>
+                <div className="flex items-center gap-6 text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                  <span>Last Updated: {lastUpdated}</span>
+                  <span className="w-1 h-1 rounded-full bg-zinc-800"></span>
+                  <span>Version 2.0</span>
                 </div>
-              </main>
-            </div>
+              </Reveal>
+
+              <div className="space-y-32">
+                <section id="eligibility" className="scroll-mt-32">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">01. Eligibility</h2>
+                    <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
+                      <p>At Jawrah Pixel, we strive for 100% satisfaction. If you are not satisfied with the initial direction of your project, you may be eligible for a refund of the deposit before significant production has commenced.</p>
+                      <ul className="space-y-4">
+                        <li className="flex gap-4 items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-blue mt-2 shrink-0"></div>
+                          <span>Refund requests must be made in writing within 7 days of the initial strategy briefing.</span>
+                        </li>
+                        <li className="flex gap-4 items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-blue mt-2 shrink-0"></div>
+                          <span>Eligibility is void once the design lock-in phase has been completed.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </Reveal>
+                </section>
+
+                <section id="non-refundable" className="scroll-mt-32">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">02. Non-refundable Services</h2>
+                    <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
+                      <p>Due to the intensive nature of architectural time and third-party costs, certain items are strictly non-refundable:</p>
+                      <ul className="space-y-4">
+                        <li className="flex gap-4 items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-blue mt-2 shrink-0"></div>
+                          <span>Strategic briefing sessions and consultation time already rendered.</span>
+                        </li>
+                        <li className="flex gap-4 items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-blue mt-2 shrink-0"></div>
+                          <span>Third-party license fees (Premium Fonts, Stocks, API keys).</span>
+                        </li>
+                        <li className="flex gap-4 items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-blue mt-2 shrink-0"></div>
+                          <span>Subscription payments for active maintenance plans.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </Reveal>
+                </section>
+
+                <section id="partial-refunds" className="scroll-mt-32">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">03. Partial Refund Situations</h2>
+                    <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
+                      <p>In cases where a project is terminated mid-production, a partial refund may be issued based on the work completed to date, minus a 25% administrative and planning fee.</p>
+                    </div>
+                  </Reveal>
+                </section>
+
+                <section id="cancellation" className="scroll-mt-32">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">04. Cancellation Policy</h2>
+                    <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
+                      <p>Project cancellations must be submitted via your client dashboard or official email. Upon cancellation, all work in progress remains the intellectual property of Jawrah Pixel unless full buyout is settled.</p>
+                    </div>
+                  </Reveal>
+                </section>
+
+                <section id="chargebacks" className="scroll-mt-32">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">05. Chargeback Policy</h2>
+                    <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
+                      <p>Jawrah Pixel reserves the right to immediately suspend all services and terminate dashboard access if a chargeback is initiated without prior communication with our billing department.</p>
+                    </div>
+                  </Reveal>
+                </section>
+
+                <section id="requests" className="scroll-mt-32 pb-20">
+                  <Reveal>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">06. How to Request</h2>
+                    <div className="space-y-10 text-zinc-500 font-light leading-relaxed">
+                      <p>Official refund requests must be sent to <span className="text-white">billing@jawrahpixel.com</span> with your Project ID and reason for the request.</p>
+                      <Link to={p('/contact')}>
+                        <Button size="lg" className="min-w-[240px]">Contact Billing Desk</Button>
+                      </Link>
+                    </div>
+                  </Reveal>
+                </section>
+              </div>
+            </main>
           </div>
         </div>
       </div>

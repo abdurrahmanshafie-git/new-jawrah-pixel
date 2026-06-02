@@ -19,7 +19,7 @@ export function Logo({ className, variant = 'full', size = 'md' }: LogoProps) {
   const currentSize = sizeMap[size];
 
   return (
-    <div className={cn("flex items-center select-none group", currentSize.box, className)}>
+    <div className={cn("flex items-center justify-center select-none group", currentSize.box, className)}>
       <img 
         src="/assets/logo.png" 
         alt="Jawrah Pixel Logo" 

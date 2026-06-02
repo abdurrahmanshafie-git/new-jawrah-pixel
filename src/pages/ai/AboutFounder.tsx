@@ -21,7 +21,7 @@ export default function AboutFounder() {
             Leadership & Vision
           </div>
           <h1 className="text-4xl md:text-6xl font-display font-medium mb-8 uppercase tracking-tight">
-            The <span className="text-brand-cyan italic">Architect</span>
+            The <span className="text-brand-cyan italic">Founders</span>
           </h1>
         </Reveal>
 
@@ -30,17 +30,18 @@ export default function AboutFounder() {
             <div className="flex flex-col md:flex-row gap-12 items-center mb-12">
               <div className="w-48 h-48 rounded-full bg-gradient-to-br from-brand-cyan to-brand-blue p-1 shrink-0">
                 <div className="w-full h-full rounded-full bg-brand-black flex items-center justify-center overflow-hidden">
-                  <span className="text-4xl font-display text-brand-cyan">JP</span>
+                  <span className="text-4xl font-display text-brand-cyan font-bold tracking-tighter">AS & JH</span>
                 </div>
               </div>
               <div>
                 <p>
-                  Jawrah Pixel was founded by a team of elite systems architects and digital strategists with a single 
-                  obsession: <strong>Engineering Digital Authority.</strong>
+                  Jawrah Pixel was founded by <strong>Abdurrahman Shafie</strong> and Co-Founded by <strong>Jaweriya Hafeez</strong>.
                 </p>
                 <p className="mt-4">
-                  The vision was to bridge the gap between technical software engineering and luxury brand aesthetics, 
-                  providing businesses with a platform that is as powerful as it is beautiful.
+                  Built on a vision of combining luxury aesthetics with modern technology, Jawrah Pixel was created to help ambitious businesses establish strong digital authority through world-class websites, e-commerce platforms, automation systems, and strategic digital infrastructure.
+                </p>
+                <p className="mt-4">
+                  Every project is guided by the same principles that shaped the company from day one: precision, transparency, innovation, and measurable business growth.
                 </p>
               </div>
             </div>

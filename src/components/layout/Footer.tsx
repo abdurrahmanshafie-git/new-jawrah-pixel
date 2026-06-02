@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import { REGION_OPTIONS } from '@/data/regions';
 import { useAuth } from '@/contexts/AuthContext';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
-import { trackContact } from '@/lib/analytics';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,6 +16,7 @@ export function Footer() {
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   const isInternational = currentRegion === 'int';
+  
   const serviceLinks = isInternational
     ? [
         { label: 'Premium Website Design', path: '/services/international-digital-services' },
@@ -49,136 +49,160 @@ export function Footer() {
         ];
 
   return (
-    <footer className="bg-brand-navy border-t border-white/5 pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-10 overflow-hidden">
-      <Reveal className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 md:gap-12 lg:gap-8 mb-12 sm:mb-16">
-          <div className="sm:col-span-2 lg:col-span-1 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <Link to={p('/')} className="flex items-center mb-6 group inline-flex">
-              <Logo variant="full" size="md" />
-            </Link>
-            <p className="text-brand-gray text-[13px] md:text-sm leading-relaxed mb-8 max-w-sm">
-              Architecting digital monopolies for ambitious brands. We craft premium websites, enterprise commerce platforms, and intelligent systems that establish market authority.
-            </p>
-            <div className="flex items-center gap-5">
-              <a 
-                href={`mailto:${config.contactEmail}`} 
-                onClick={() => trackContact('email', 'footer')}
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="Email Us"
-              >
-                <Mail size={20} />
-              </a>
-              <a 
-                href={config.whatsappLink} 
-                target="_blank" 
-                rel="noreferrer" 
-                onClick={() => trackContact('whatsapp', 'footer')}
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="WhatsApp"
-              >
-                <MessageCircle size={20} />
-              </a>
-              <a href={config.instagramLink} target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-brand-gray hover:text-brand-cyan hover:border-brand-cyan hover:bg-brand-cyan/10 transition-all duration-300 shadow-sm" title="Instagram">
-                <Instagram size={20} />
-              </a>
+    <footer className="relative bg-brand-black pt-32 pb-16 overflow-hidden">
+      {/* Premium Glass Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-blue/5 blur-[160px] rounded-full pointer-events-none opacity-40" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-24 mb-24">
+            {/* Brand Section */}
+            <div className="lg:col-span-5 flex flex-col items-start">
+              <Link to={p('/')} className="mb-10 group inline-flex transition-transform hover:scale-[1.01] duration-700">
+                <Logo variant="full" size="md" />
+              </Link>
+              <p className="text-zinc-500 text-base md:text-lg leading-relaxed mb-10 max-w-md font-light">
+                Architecting digital monopolies for ambitious brands. We engineer world-class experiences that establish unshakeable market authority.
+              </p>
+              
+              <div className="flex flex-col gap-6 mb-12">
+                <div className="flex flex-col gap-2">
+                  <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.4em] font-bold">The Standard</p>
+                  <p className="text-xs text-zinc-500 font-light">Serving Sri Lanka, Pakistan & International brands.</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-5">
+                {[
+                  { icon: <Mail size={16} />, href: `mailto:${config.contactEmail}`, label: 'Email' },
+                  { icon: <MessageCircle size={16} />, href: config.whatsappLink, label: 'WhatsApp' },
+                  { icon: <Instagram size={16} />, href: config.instagramLink, label: 'Instagram' }
+                ].map((social) => (
+                  <a 
+                    key={social.label}
+                    href={social.href}
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="w-11 h-11 rounded-none border border-white/5 bg-white/[0.01] flex items-center justify-center text-zinc-600 hover:text-brand-blue hover:border-brand-blue/30 hover:bg-brand-blue/5 transition-all duration-700 group"
+                    title={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Links Sections */}
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-12 md:gap-16">
+              <div className="flex flex-col items-start">
+                <h4 className="text-[9px] text-brand-blue font-bold uppercase tracking-[0.4em] mb-10">
+                  Services
+                </h4>
+                <ul className="space-y-5">
+                  {serviceLinks.slice(0, 6).map((item) => (
+                    <li key={item.label}>
+                      <Link to={p(item.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col items-start">
+                <h4 className="text-[9px] text-brand-blue font-bold uppercase tracking-[0.4em] mb-10">
+                  Agency
+                </h4>
+                <ul className="space-y-5">
+                  {[
+                    { label: 'About', path: '/about' },
+                    { label: 'Case Studies', path: '/case-studies' },
+                    { label: 'Process', path: '/process' },
+                    { label: 'Blog', path: '/blog' },
+                    { label: 'Pricing', path: '/pricing' },
+                    { label: 'Contact', path: '/contact' }
+                  ].map((link) => (
+                    <li key={link.label}>
+                      <Link to={p(link.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col items-start col-span-2 sm:col-span-1">
+                <h4 className="text-[9px] text-brand-blue font-bold uppercase tracking-[0.4em] mb-10">
+                  Legal
+                </h4>
+                <ul className="space-y-5">
+                  {[
+                    { label: 'Privacy Policy', path: '/privacy' },
+                    { label: 'Terms of Service', path: '/terms' },
+                    { label: 'Refund Policy', path: '/refunds' }
+                  ].map((link) => (
+                    <li key={link.label}>
+                      <Link to={p(link.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="text-white font-display font-medium tracking-[0.1em] uppercase text-xs mb-8 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:w-8 after:h-px after:bg-brand-cyan/50">
-              {isInternational ? 'Core Services' : 'Local Services'}
-            </h4>
-            <ul className="space-y-4">
-              {serviceLinks.map((item) => (
-                <li key={item.label}>
-                  <Link to={p(item.path)} className="text-brand-gray text-[13px] hover:text-white transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="text-white font-display font-medium tracking-[0.1em] uppercase text-xs mb-8 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:w-8 after:h-px after:bg-brand-cyan/50">Company</h4>
-            <ul className="space-y-4">
-              {[
-                { name: 'Services', path: '/services' },
-                { name: 'Case Studies', path: '/case-studies' },
-                { name: 'Contact', path: '/contact' },
-                { name: 'Privacy Policy', path: '/privacy-policy' },
-                { name: 'Terms & Conditions', path: '/terms-and-conditions' },
-                { name: 'Refund Policy', path: '/refund-policy' }
-              ].map((link) => (
-                <li key={link.name}>
-                  <Link to={p(link.path)} className="text-brand-gray hover:text-brand-cyan text-[13px] transition-all duration-300 flex items-center gap-2 group">
-                    <span className="w-0 h-px bg-brand-cyan group-hover:w-3 transition-all duration-300"></span>
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <h4 className="text-white font-display font-medium tracking-[0.1em] uppercase text-xs mb-8 relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:w-8 after:h-px after:bg-brand-cyan/50">Global Network</h4>
-            <ul className="space-y-6 text-sm text-brand-gray w-full">
-              <li className="flex flex-col items-center sm:items-start">
-                <span className="block text-brand-cyan/60 mb-2 text-[10px] font-mono uppercase tracking-[0.2em]">Primary Inquiries</span>
-                <a href={`mailto:${config.contactEmail}`} className="text-[13px] hover:text-white transition-colors break-all border-b border-white/5 pb-1">{config.contactEmail}</a>
-              </li>
-              <li className="flex flex-col items-center sm:items-start">
-                <span className="block text-brand-cyan/60 mb-2 text-[10px] font-mono uppercase tracking-[0.2em]">Secure WhatsApp</span>
-                <a href={config.whatsappLink} className="text-[13px] hover:text-white transition-colors break-words border-b border-white/5 pb-1" target="_blank" rel="noreferrer">{config.whatsappNumber}</a>
-              </li>
-              <li className="flex flex-col items-center sm:items-start">
-                <span className="block text-brand-cyan/60 mb-2 text-[10px] font-mono uppercase tracking-[0.2em]">Region Selection</span>
-                {isAdmin ? (
-                  <AdminRegionPreviewSwitcher compact />
-                ) : lockedRegion ? (
-                  <div
-                    className="inline-flex items-center gap-2 rounded-lg border border-brand-cyan/30 bg-brand-cyan/5 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest text-brand-cyan"
-                    title="Region locked to your account"
-                  >
-                    {REGION_OPTIONS.find((region) => region.id === lockedRegion)?.shortLabel ?? lockedRegion.toUpperCase()}
-                    <Lock className="h-3 w-3 text-brand-cyan/80" />
-                  </div>
+          {/* Bottom Bar */}
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+              <p className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.3em]">
+                &copy; {currentYear} Jawrah Pixel. Engineered for excellence.
+              </p>
+              <div className="h-px w-6 bg-white/5 hidden md:block" />
+              <div className="flex items-center gap-6">
+                <span className="text-[8px] font-mono text-zinc-800 uppercase tracking-[0.4em]">Region</span>
+                {lockedRegion ? (
+                  <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest flex items-center gap-2">
+                    {lockedRegion.toUpperCase()}
+                  </span>
                 ) : (
-                  <div className="grid grid-cols-3 gap-2 w-full max-w-[280px]">
-                    {REGION_OPTIONS.map((region) => (
-                      <Link
-                        key={region.id}
-                        to={region.path}
-                        onClick={() => persistRegion(region.id)}
+                  <div className="flex items-center gap-4">
+                    {REGION_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.id}
+                        onClick={() => {
+                          persistRegion(opt.id);
+                          window.location.href = `/${opt.id}`;
+                        }}
                         className={cn(
-                          "rounded-lg border py-2 text-center text-[9px] font-mono font-bold uppercase tracking-widest transition-all duration-300",
-                          currentRegion === region.id 
-                            ? "border-brand-cyan/40 bg-brand-cyan/5 text-brand-cyan" 
-                            : "border-white/5 text-brand-gray hover:border-white/20 hover:text-white hover:bg-white/5"
+                          "text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500",
+                          currentRegion === opt.id ? "text-brand-blue font-bold" : "text-zinc-700 hover:text-zinc-500"
                         )}
                       >
-                        {region.shortLabel}
-                      </Link>
+                        {opt.id}
+                      </button>
                     ))}
                   </div>
                 )}
-              </li>
-            </ul>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-8">
+              <Link 
+                to={p('/admin')} 
+                className="text-zinc-800 hover:text-brand-blue transition-all duration-500 flex items-center gap-2 text-[9px] font-mono uppercase tracking-[0.3em]"
+              >
+                <Lock size={10} /> Portal
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <p className="text-brand-gray/40 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider">
-            &copy; {currentYear} Jawrah Pixel. All rights reserved.
-          </p>
-          <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-3 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-brand-gray/40">
-            <Link to={p("/privacy-policy")} className="hover:text-brand-cyan transition-all duration-300">Privacy Policy</Link>
-            <span className="hidden sm:inline text-white/5">|</span>
-            <Link to={p("/terms-and-conditions")} className="hover:text-white transition-all duration-300">Terms & Conditions</Link>
-            <span className="hidden sm:inline text-white/5">|</span>
-            <Link to={p("/refund-policy")} className="hover:text-white transition-all duration-300">Refund Policy</Link>
-          </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
+      
+      {isAdmin && <AdminRegionPreviewSwitcher />}
     </footer>
-
   );
 }

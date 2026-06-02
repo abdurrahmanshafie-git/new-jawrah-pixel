@@ -22,6 +22,7 @@ export const KNOWLEDGE_BASE = {
     tagline: "Premium Digital Experiences",
     description: "Jawrah Pixel is a high-end digital agency specializing in premium web development, AI automation, and luxury branding. We build scalable platforms for global clients.",
     founded: "2023",
+    founders: "Abdurrahman Shafie (Founder) and Jaweriya Hafeez (Co-Founder)",
     specialties: ["Web Development", "AI Solutions", "UI/UX Design", "E-commerce", "SaaS Platforms"],
     locations: {
       lk: "Colombo, Sri Lanka",
