@@ -20,7 +20,7 @@ export default function CaseStudies() {
     : `Discover our scalable systems, premium digital products, and high-converting luxury e-commerce boutiques. Engineered for exponential growth and maximum authority in ${config.countryName}.`;
 
   return (
-    <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
+    <div className="bg-brand-black text-white relative min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 font-sans overflow-hidden">
       <SEO 
         title={seoTitle}
         description={seoDescription}
@@ -42,14 +42,14 @@ export default function CaseStudies() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10">
         
         {/* HEADER SECTION */}
-        <Reveal className="text-center max-w-4xl mx-auto mb-24 md:mb-32">
+        <Reveal className="text-center max-w-4xl mx-auto mb-16 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
+            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-8 md:mb-10"
           >
             <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Agency Transformations
           </motion.div>
@@ -57,7 +57,7 @@ export default function CaseStudies() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-10 uppercase"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-8 md:mb-10 uppercase"
           >
             Elite <br /> <span className="premium-text-gradient italic">Portfolio</span>
           </motion.h1>
@@ -73,13 +73,13 @@ export default function CaseStudies() {
         </Reveal>
 
         {/* PROJECTS GRID */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto mb-32">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-7xl mx-auto mb-24 md:mb-32">
           {cases.map((project) => (
             <StaggerItem
               key={project.slug}
               className="group flex flex-col"
             >
-              <Link to={p(`/case-studies/${project.slug}`)} className="block relative h-[450px] md:h-[500px] overflow-hidden bg-brand-black border border-white/5 mb-8">
+              <Link to={p(`/case-studies/${project.slug}`)} className="block relative h-[420px] sm:h-[450px] md:h-[500px] overflow-hidden bg-brand-black border border-white/5 mb-6 md:mb-8">
                 <div className="absolute inset-0 z-0">
                   {project.thumbnail ? (
                     <motion.img 
@@ -99,7 +99,7 @@ export default function CaseStudies() {
                 </div>
 
                 {/* Top WebVitals Strip */}
-                <div className="absolute top-6 left-6 flex gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                <div className="absolute top-5 left-5 md:top-6 md:left-6 flex gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                   <span className="flex items-center gap-2 px-3 py-1 bg-brand-black/80 backdrop-blur-xl border border-white/10 text-[9px] font-mono text-[#22c55e]">
                     <Zap size={10} className="fill-[#22c55e]" /> PERF: {project.perf}
                   </span>
@@ -124,7 +124,7 @@ export default function CaseStudies() {
                 </div>
               </Link>
 
-              <div className="px-4 md:px-2">
+              <div className="px-0 md:px-2">
                 <p className="text-zinc-500 text-sm font-light leading-relaxed mb-6 max-w-lg line-clamp-2">
                   {project.description}
                 </p>
@@ -141,19 +141,19 @@ export default function CaseStudies() {
         </StaggerContainer>
 
         {/* Global CTA */}
-        <Reveal className="mt-32 md:mt-48 pb-20">
-          <div className="relative p-16 md:p-24 bg-white/[0.02] border border-white/5 text-center flex flex-col items-center overflow-hidden">
+        <Reveal className="mt-20 md:mt-48 pb-16 md:pb-20">
+          <div className="relative p-8 md:p-24 bg-white/[0.02] border border-white/5 text-center flex flex-col items-center overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initiate Transformation</span>
-            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10">
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6 md:mb-8 relative z-10">Initiate Transformation</span>
+            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-8 md:mb-10 uppercase leading-[1.1] relative z-10">
               Ready to architect the <span className="premium-text-gradient italic">future</span> of your brand?
             </h2>
-            <p className="text-zinc-500 text-lg font-light max-w-xl mx-auto mb-12 leading-relaxed relative z-10">
+            <p className="text-[15px] md:text-lg text-zinc-500 font-light max-w-xl mx-auto mb-10 md:mb-12 leading-relaxed relative z-10">
               We are currently accepting high-impact project concepts for the next quarter. Reach out now to secure your strategic briefing.
             </p>
             <Link to={p('/contact')} className="relative z-10">
-              <Button size="lg" className="min-w-[280px]">
+              <Button size="lg" className="w-full sm:min-w-[280px]">
                 Start Briefing
               </Button>
             </Link>

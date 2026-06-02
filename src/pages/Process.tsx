@@ -146,7 +146,34 @@ export default function Process() {
           </motion.p>
         </Reveal>
 
-        <div className="max-w-6xl mx-auto mb-48 relative">
+        <div className="md:hidden max-w-6xl mx-auto mb-24">
+          <StaggerContainer className="grid grid-cols-2 gap-4">
+            {steps.map((step) => (
+              <StaggerItem
+                key={step.num}
+                className="h-full p-6 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 flex flex-col"
+              >
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">{step.timeline}</span>
+                  <span className="w-9 h-9 border border-brand-blue/30 flex items-center justify-center shrink-0 text-brand-blue font-mono text-sm">
+                    {step.num}
+                  </span>
+                </div>
+                <h4 className="text-sm font-display font-medium text-white uppercase tracking-tight leading-snug mb-3">
+                  {step.title}
+                </h4>
+                <p className="text-[11px] text-zinc-500 leading-relaxed font-light mb-5 line-clamp-4">
+                  {step.desc}
+                </p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
+                  <Check size={12} className="text-brand-blue" /> {step.delivery}
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+
+        <div className="hidden md:block max-w-6xl mx-auto mb-24 md:mb-48 relative">
           <div className="absolute left-[24px] md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-brand-blue via-brand-blue/20 to-transparent pointer-events-none"></div>
 
           <div className="space-y-20 md:space-y-32">
@@ -205,8 +232,8 @@ export default function Process() {
           </div>
         </div>
 
-        <section className="mb-48">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <section className="mb-24 md:mb-48">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
             {[
               {
                 icon: ShieldCheck,
@@ -224,12 +251,13 @@ export default function Process() {
                 desc: 'Rigorous performance benchmarks and security auditing on every build.'
               }
             ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.1} className="group p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 text-center">
-                <div className="w-16 h-16 bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue mx-auto mb-8 group-hover:scale-110 transition-transform duration-500">
-                  <item.icon size={24} />
+              <Reveal key={i} delay={i * 0.1} className="group p-6 md:p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 text-center h-full">
+                <div className="w-10 h-10 md:w-16 md:h-16 bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue mx-auto mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <item.icon size={18} className="md:hidden" />
+                  <item.icon size={24} className="hidden md:block" />
                 </div>
                 <h4 className="text-sm font-display font-medium uppercase tracking-[0.2em] text-white mb-4">{item.title}</h4>
-                <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">
+                <p className="text-[11px] md:text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">
                   {item.desc}
                 </p>
               </Reveal>
@@ -237,7 +265,7 @@ export default function Process() {
           </div>
         </section>
 
-        <section className="mb-48">
+        <section className="mb-24 md:mb-48">
           <Reveal className="text-center mb-24 md:mb-32">
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Operations</span>
             <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Technical Care</h2>
@@ -289,7 +317,7 @@ export default function Process() {
           </StaggerContainer>
         </section>
 
-        <section className="mb-32">
+        <section className="mb-24 md:mb-32">
           <Reveal className="text-center mb-16 md:mb-24">
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Inquiries</span>
             <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Common Questions</h2>
@@ -301,7 +329,7 @@ export default function Process() {
                 <div className="border border-white/5 bg-white/[0.02] overflow-hidden">
                   <button 
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors"
+                    className="w-full p-6 md:p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors"
                   >
                     <span className="text-sm md:text-lg font-display font-medium text-white uppercase tracking-tight">{faq.q}</span>
                     <ChevronDown className={cn("w-5 h-5 text-zinc-500 transition-transform duration-500", openFaq === i && "rotate-180")} />

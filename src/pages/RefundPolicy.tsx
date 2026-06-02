@@ -36,7 +36,7 @@ export default function RefundPolicy() {
   };
 
   return (
-    <div className="bg-brand-black min-h-screen pt-32 pb-24 text-white overflow-hidden relative">
+    <div className="bg-brand-black min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 text-white overflow-hidden relative">
       <SEO 
         title={`Refund Policy | Jawrah Pixel`}
         description="Transparent refund policy and cancellation guidelines for Jawrah Pixel digital services."
@@ -51,9 +51,9 @@ export default function RefundPolicy() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-20">
             
             {/* Sidebar Navigation */}
             <aside className="lg:col-span-4 hidden lg:block">
@@ -96,7 +96,7 @@ export default function RefundPolicy() {
 
             {/* Main Content */}
             <main className="lg:col-span-8">
-              <Reveal className="mb-24">
+              <Reveal className="mb-16 md:mb-24">
                 <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Commercial Protection</span>
                 <h1 className="text-4xl md:text-7xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-10">
                   Refund <br /> <span className="premium-text-gradient italic">Policy</span>
@@ -108,10 +108,10 @@ export default function RefundPolicy() {
                 </div>
               </Reveal>
 
-              <div className="space-y-32">
+              <div className="space-y-20 md:space-y-32">
                 <section id="eligibility" className="scroll-mt-32">
                   <Reveal>
-                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-8">01. Eligibility</h2>
+                    <h2 className="text-2xl font-display font-medium text-white uppercase tracking-tight mb-6 md:mb-8">01. Eligibility</h2>
                     <div className="space-y-6 text-zinc-500 font-light leading-relaxed">
                       <p>At Jawrah Pixel, we strive for 100% satisfaction. If you are not satisfied with the initial direction of your project, you may be eligible for a refund of the deposit before significant production has commenced.</p>
                       <ul className="space-y-4">

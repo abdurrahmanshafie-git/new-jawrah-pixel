@@ -82,7 +82,7 @@ export default function ServiceLandingPage() {
         <div className="absolute inset-0 premium-grid-overlay opacity-30" />
         <div className="absolute right-0 top-24 h-96 w-96 rounded-full bg-brand-cyan/10 blur-[130px]" />
         <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-brand-blue/10 blur-[130px]" />
-        <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-8">
+        <div className="container relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-8">
           <Reveal className="max-w-4xl">
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-cyan/20 bg-brand-cyan/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-[0.24em] text-brand-cyan">
               <Sparkles className="h-3.5 w-3.5" />

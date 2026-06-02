@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles, CheckCircle2, Globe2, Building2, Star } from 'lucide-react';
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
 import { useRegionalSeo } from '@/hooks/useRegionalSeo';
@@ -99,22 +99,6 @@ const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operat
 export default function Home() {
   const { config, p, isInternational } = useRegion();
   const seo = useRegionalSeo('home');
-  const storyRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: storyRef,
-    offset: ["start start", "end end"]
-  });
-
-  const [activeStoryStep, setActiveStoryStep] = useState(0);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.8]);
-  const translateXStory = useTransform(scrollYProgress, [0, 0.9], ["0%", "-66.66%"]);
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    // Optimized thresholds for 3 steps to ensure smooth transitions
-    const nextStep = latest < 0.33 ? 0 : latest < 0.66 ? 1 : 2;
-    setActiveStoryStep((currentStep) => (currentStep === nextStep ? currentStep : nextStep));
-  });
 
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
@@ -203,7 +187,7 @@ export default function Home() {
       />
 
       {/* Cinematic Hero Section */}
-      <section className="relative min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-32 md:pt-48 pb-20 overflow-hidden">
+      <section className="relative z-0 min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-20 md:pt-32 pb-20 overflow-hidden isolate">
         {/* Atmospheric Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 premium-grid-overlay opacity-[0.15]" />
@@ -214,13 +198,13 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-transparent to-brand-black" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-6">
+        <div className="container relative z-20 mx-auto px-6">
           <div className="flex flex-col items-center text-center">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-3 mb-8 md:mb-12 px-5 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-2xl"
+              className="inline-flex items-center gap-3 mb-6 md:mb-10 px-5 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-2xl"
             >
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-40"></span>
@@ -235,17 +219,17 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-10 md:mb-16 relative w-full flex justify-center"
+              className="relative z-20 mb-5 sm:mb-6 md:mb-8 lg:mb-10 flex w-full justify-center pointer-events-none"
             >
               <div className="absolute inset-0 blur-[100px] bg-white/[0.02] rounded-full scale-125 pointer-events-none" />
-              <Logo size="xl" className="relative z-10 w-[280px] md:w-[400px] lg:w-[480px] opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)]" />
+              <Logo size="xl" className="relative z-10 h-[clamp(160px,28vh,220px)] w-[min(82vw,320px)] max-w-[320px] shrink-0 opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)] sm:w-[min(76vw,420px)] sm:max-w-[420px] md:h-[min(34vh,300px)] md:w-[min(68vw,560px)] md:max-w-[560px] lg:h-[min(40vh,340px)] lg:w-[min(52vw,680px)] lg:max-w-[680px] xl:max-w-[720px] [&>img]:h-full [&>img]:max-h-full [&>img]:w-full [&>img]:object-contain" />
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1] mb-8 uppercase font-display"
+              className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1] mb-8 uppercase font-display"
             >
               <span className="premium-text-gradient block mb-2">Architecting</span>
               <span className="italic font-serif font-light text-zinc-500 lowercase opacity-70">Digital</span>
@@ -256,7 +240,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base md:text-lg text-zinc-500 max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
+              className="relative z-30 text-base md:text-lg text-zinc-500 max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
               We engineer high-trust digital ecosystems for ambitious brands ready to establish absolute market authority.
             </motion.p>
@@ -265,19 +249,19 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-row gap-2 md:gap-6 items-center justify-center w-full sm:w-auto px-4 sm:px-0 max-w-[500px] sm:max-w-none mx-auto"
+              className="relative z-30 flex flex-row gap-2 md:gap-6 items-center justify-center w-full sm:w-auto px-4 sm:px-0 max-w-full sm:max-w-none mx-auto"
             >
               <Magnetic strength={0.15}>
-                <Link to={p('/contact')} className="flex-1 sm:flex-none block">
-                  <Button size="lg" className="w-full sm:min-w-[220px] font-bold text-[11px] md:text-base px-4 md:px-10 h-[48px] md:h-14">
+                <Link to={p('/contact')} className="flex-1 sm:flex-none block min-w-0">
+                  <Button size="lg" className="w-full sm:min-w-[220px] font-bold text-[10px] sm:text-[11px] md:text-base px-2 sm:px-4 md:px-10 h-[46px] md:h-14">
                     Initiate
-                    <ArrowRight className="ml-2 w-3.5 h-3.5 transition-transform group-hover:translate-x-1.5 duration-500" />
+                    <ArrowRight className="ml-1.5 sm:ml-2 w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:translate-x-1.5 duration-500" />
                   </Button>
                 </Link>
               </Magnetic>
               <Magnetic strength={0.12}>
-                <Link to={p('/services')} className="flex-1 sm:flex-none block">
-                  <Button variant="secondary" size="lg" className="w-full sm:min-w-[220px] font-bold text-[11px] md:text-base px-4 md:px-10 h-[48px] md:h-14">
+                <Link to={p('/services')} className="flex-1 sm:flex-none block min-w-0">
+                  <Button variant="secondary" size="lg" className="w-full sm:min-w-[220px] font-bold text-[10px] sm:text-[11px] md:text-base px-2 sm:px-4 md:px-10 h-[46px] md:h-14">
                     Services
                   </Button>
                 </Link>
@@ -288,23 +272,23 @@ export default function Home() {
       </section>
 
       {/* Authority Metrics Strip */}
-      <section className="relative border-y border-white/[0.03] bg-brand-black overflow-hidden py-10">
+      <section className="relative border-y border-white/[0.03] bg-brand-black overflow-hidden py-8 md:py-10">
         <div className="absolute inset-0 premium-grid-overlay opacity-10 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.03] border border-white/[0.03]">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.1} className="bg-brand-black p-10 flex flex-col items-center text-center group">
-                <div className="text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-4 group-hover:scale-[1.05] transition-transform duration-700">
+              <Reveal key={metric.label} delay={idx * 0.1} className="bg-brand-black p-6 sm:p-8 md:p-10 flex flex-col items-center text-center group">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-3 md:mb-4 group-hover:scale-[1.05] transition-transform duration-700">
                   <AnimatedCounter
                     value={metric.value}
                     suffix={metric.suffix}
                     prefix={metric.prefix}
                   />
                 </div>
-                <h3 className="text-[9px] font-mono uppercase tracking-[0.4em] text-brand-blue mb-4 font-bold opacity-60 group-hover:opacity-100 transition-opacity">
+                <h3 className="text-[9px] font-mono uppercase tracking-[0.35em] sm:tracking-[0.4em] text-brand-blue mb-3 md:mb-4 font-bold opacity-60 group-hover:opacity-100 transition-opacity">
                   {metric.label}
                 </h3>
-                <p className="text-[11px] text-zinc-600 leading-relaxed font-light max-w-[200px]">
+                <p className="hidden sm:block text-[11px] text-zinc-600 leading-relaxed font-light max-w-[200px]">
                   {metric.caption}
                 </p>
               </Reveal>
@@ -347,7 +331,7 @@ export default function Home() {
 
       {/* Explore Live Projects Section - Manual Horizontal Carousel */}
       <section className="py-24 md:py-32 bg-brand-black overflow-hidden relative border-t border-white/5">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 mb-12">
+        <div className="container mx-auto px-5 sm:px-6 md:px-8 max-w-7xl relative z-20 mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="text-left max-w-2xl">
               <motion.div
@@ -392,12 +376,12 @@ export default function Home() {
 
         {/* Horizontal Scroll Track - Manual Carousel */}
         <div className="relative w-full overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory pb-12">
-          <div className="flex gap-8 md:gap-12 px-[10vw] md:px-[15vw] w-max">
+          <div className="flex gap-4 md:gap-12 px-6 md:px-[15vw] w-max">
             {liveProjects.map((project, idx) => (
               <div
                 key={project.slug}
                 data-cursor="premium"
-                className="relative h-[500px] md:h-[600px] w-[80vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden bg-brand-black border border-white/5"
+                className="relative h-[400px] md:h-[600px] w-[85vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden bg-brand-black border border-white/5"
               >
                 {/* Background Image with Darker Overlay */}
                 <div className="absolute inset-0 z-0">
@@ -481,20 +465,24 @@ export default function Home() {
             </p>
           </div>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {servicesList.map((service, i) => (
               <StaggerItem
                 key={i} 
-                className="group relative p-10 md:p-12 bg-white/[0.01] border border-white/5 hover:bg-white/[0.02] hover:border-brand-blue/20 transition-all duration-700 overflow-hidden"
+                className="group relative p-6 sm:p-8 md:p-12 bg-white/[0.01] border border-white/5 hover:bg-white/[0.02] hover:border-brand-blue/20 transition-all duration-700 overflow-hidden h-full"
               >
                 {/* Edge Highlight */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 
-                <div className="mb-10 text-zinc-500 group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
-                  {React.cloneElement(service.icon as React.ReactElement, { className: 'w-10 h-10' })}
+                <div className="mb-6 sm:mb-8 text-zinc-500 group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
+                  {React.cloneElement(service.icon as React.ReactElement, { className: 'w-9 h-9 sm:w-10 sm:h-10' })}
                 </div>
-                <h4 className="text-xl font-display font-medium mb-6 text-white uppercase tracking-tight">{service.title}</h4>
-                <p className="text-zinc-500 text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500">{service.desc}</p>
+                <h4 className="text-[11px] sm:text-lg md:text-xl font-display font-medium mb-3 sm:mb-5 text-white uppercase tracking-tight leading-snug">
+                  {service.title}
+                </h4>
+                <p className="text-zinc-500 text-[10px] sm:text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500 line-clamp-3">
+                  {service.desc}
+                </p>
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-brand-blue/40 to-brand-cyan/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
               </StaggerItem>
             ))}
@@ -504,7 +492,7 @@ export default function Home() {
 
 
       {/* Agency Operating System Layer */}
-      <section className="py-32 relative bg-brand-black overflow-hidden">
+      <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
             <Reveal className="lg:col-span-5 lg:sticky lg:top-32">
@@ -619,62 +607,45 @@ export default function Home() {
       )}
 
       {/* Cinematic Storytelling Sequence */}
-      <section ref={storyRef} className="relative w-full bg-brand-black" style={{ height: '300vh' }}>
-        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-          
-          {/* Dynamic Background */}
-          <div className="absolute inset-0">
-            <motion.div 
-              style={{ scale: imageScale }}
-              className="absolute inset-0 bg-[url('/assets/hero_bg.png')] bg-cover bg-center opacity-40"
-            />
-            <motion.div
-              style={{ opacity: overlayOpacity }}
-              className="absolute inset-0 bg-brand-black/95"
-            />
-          </div>
+      <section className="relative w-full max-w-full overflow-hidden bg-brand-black py-16 md:py-20 lg:py-24" data-story-section>
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 overflow-hidden bg-brand-black pointer-events-none">
+          <div className="absolute inset-0 premium-grid-overlay opacity-[0.12]" />
+          <div className="absolute left-1/2 top-1/2 h-[70vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-blue/[0.035] blur-[140px]" />
+          <div className="absolute bottom-[12%] right-[12%] h-[42vh] w-[42vh] rounded-full bg-brand-cyan/[0.025] blur-[110px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-brand-black/90 to-brand-black" />
+        </div>
 
-          <div className="absolute top-32 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
-            {storySteps.map((step, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  const section = storyRef.current;
-                  if (!section) return;
-                  const top = section.getBoundingClientRect().top + window.scrollY;
-                  const scrollable = section.offsetHeight - window.innerHeight;
-                  window.scrollTo({
-                    top: top + scrollable * (idx / (storySteps.length - 1)),
-                    behavior: 'smooth',
-                  });
-                }}
-                className={`h-1 transition-all duration-500 rounded-full ${
-                  activeStoryStep === idx ? "w-8 bg-brand-cyan shadow-[0_0_10px_rgba(34,211,238,0.8)]" : "w-4 bg-white/10 hover:bg-white/30"
-                }`}
-              />
+        <div
+          className="story-marquee relative z-10 w-full max-w-full overflow-hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-brand-cyan/50"
+          tabIndex={0}
+          aria-label="Jawrah Pixel story carousel"
+        >
+          <div className="story-marquee-track flex w-max max-w-none" data-story-track>
+            {[0, 1].map((groupIndex) => (
+              <div
+                key={groupIndex}
+                className="flex shrink-0 gap-4 pr-4 md:gap-6 md:pr-6"
+                aria-hidden={groupIndex === 1}
+              >
+                {storySteps.map((step, idx) => (
+                  <div
+                    key={`${groupIndex}-${idx}`}
+                    className="flex min-h-[240px] w-[86vw] max-w-[760px] flex-none flex-col items-center justify-center px-6 py-8 text-center sm:w-[82vw] sm:min-h-[280px] md:w-[78vw] md:min-h-[320px] md:px-10 lg:w-[86vw] lg:max-w-[1280px] lg:min-h-[360px] xl:w-[82vw]"
+                  >
+                    <div className="mx-auto max-w-4xl">
+                      <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${step.eyebrowClass}`}>
+                        {step.eyebrow}
+                      </span>
+                      <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl xl:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${step.titleClass}`}>
+                        {step.title}
+                      </h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ))}
           </div>
-
-          <div className="w-full relative z-10 overflow-hidden">
-            <motion.div
-              style={{ x: translateXStory, willChange: 'transform' }}
-              className="flex w-[300%]"
-            >
-              {storySteps.map((step, idx) => (
-                <div key={idx} className="w-1/3 flex flex-col items-center justify-center text-center px-6">
-                  <div className="max-w-4xl mx-auto">
-                    <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${step.eyebrowClass}`}>
-                      {step.eyebrow}
-                    </span>
-                    <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${step.titleClass}`}>
-                      {step.title}
-                    </h2>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
         </div>
       </section>
 
@@ -747,7 +718,7 @@ export default function Home() {
       {/* CTA */}
       <section className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-blue/10"></div>
-        <div className="container mx-auto px-4 md:px-8 text-center max-w-4xl relative z-10">
+        <div className="container mx-auto px-5 sm:px-6 md:px-8 text-center max-w-4xl relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}

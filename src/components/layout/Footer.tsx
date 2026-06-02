@@ -49,7 +49,7 @@ export function Footer() {
         ];
 
   return (
-    <footer className="relative bg-brand-black pt-32 pb-16 overflow-hidden">
+    <footer className="relative bg-brand-black pt-20 md:pt-32 pb-12 md:pb-16 overflow-hidden">
       {/* Premium Glass Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -58,17 +58,17 @@ export function Footer() {
 
       <div className="container mx-auto px-6 relative z-10">
         <Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-24 mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-16 lg:gap-24 mb-16 md:mb-24">
             {/* Brand Section */}
             <div className="lg:col-span-5 flex flex-col items-start">
-              <Link to={p('/')} className="mb-10 group inline-flex transition-transform hover:scale-[1.01] duration-700">
+              <Link to={p('/')} className="mb-8 md:mb-10 group inline-flex transition-transform hover:scale-[1.01] duration-700">
                 <Logo variant="full" size="md" />
               </Link>
-              <p className="text-zinc-500 text-base md:text-lg leading-relaxed mb-10 max-w-md font-light">
+              <p className="text-zinc-500 text-base md:text-lg leading-relaxed mb-8 md:mb-10 max-w-md font-light">
                 Architecting digital monopolies for ambitious brands. We engineer world-class experiences that establish unshakeable market authority.
               </p>
               
-              <div className="flex flex-col gap-6 mb-12">
+              <div className="flex flex-col gap-6 mb-10 md:mb-12">
                 <div className="flex flex-col gap-2">
                   <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.4em] font-bold">The Standard</p>
                   <p className="text-xs text-zinc-500 font-light">Serving Sri Lanka, Pakistan & International brands.</p>
@@ -96,7 +96,7 @@ export function Footer() {
             </div>
 
             {/* Links Sections */}
-            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-12 md:gap-16">
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-10 md:gap-16">
               <div className="flex flex-col items-start">
                 <h4 className="text-[9px] text-brand-blue font-bold uppercase tracking-[0.4em] mb-10">
                   Services
@@ -156,7 +156,7 @@ export function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="pt-10 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
               <p className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.3em]">
                 &copy; {currentYear} Jawrah Pixel. Engineered for excellence.

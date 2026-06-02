@@ -3,7 +3,9 @@
 html {
   scroll-behavior: smooth;
   background: #000000;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 @theme {
@@ -68,7 +70,20 @@ body {
   @apply bg-brand-black text-zinc-400 font-sans antialiased selection:bg-brand-blue/30 selection:text-white;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+#root {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -333,6 +348,30 @@ h1, h2, h3, h4, h5, h6 {
   mask-image: none;
 }
 
+.story-marquee {
+  touch-action: pan-y;
+}
+
+.story-marquee-track {
+  animation: storyMarquee 46s linear infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.story-marquee:hover .story-marquee-track,
+.story-marquee:focus-within .story-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes storyMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .premium-stat-card:hover,
   .glass-card:hover {
@@ -426,6 +465,11 @@ h1, h2, h3, h4, h5, h6 {
     scroll-behavior: auto;
   }
 
+  .story-marquee-track {
+    animation: none !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
   *,
   *::before,
   *::after {
@@ -462,5 +506,9 @@ h1, h2, h3, h4, h5, h6 {
   .glass-card:hover,
   .premium-button:hover {
     transform: translate3d(0, 0, 0);
+  }
+
+  .story-marquee-track {
+    animation-duration: 54s;
   }
 }

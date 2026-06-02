@@ -507,7 +507,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-brand-black min-h-screen pt-32 pb-24 overflow-hidden relative">
+    <div className="bg-brand-black min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden relative">
       <SEO 
         title={seo.title}
         description={seo.description}
@@ -524,19 +524,19 @@ export default function Contact() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <Reveal className="text-center max-w-4xl mx-auto mb-20 md:mb-32">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10">
+        <Reveal className="text-center max-w-4xl mx-auto mb-16 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
+            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-8 md:mb-10"
           >
             <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Agency Access
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-10"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-8 md:mb-10"
           >
             Initiate <br /> <span className="premium-text-gradient italic">Briefing</span>
           </motion.h1>
@@ -552,7 +552,7 @@ export default function Contact() {
 
         <div className="max-w-6xl mx-auto">
           {/* FLOW SWITCHER */}
-          <div className="flex justify-center mb-16 md:mb-24">
+          <div className="flex justify-center mb-12 md:mb-24">
             <div className="inline-flex p-2 bg-white/[0.02] border border-white/5 backdrop-blur-xl">
               <button
                 onClick={() => { setActiveTab('rfp'); setErrorMsg(''); }}
@@ -575,9 +575,9 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-20">
             {/* LEFT SIDE: CONTEXT & TRUST */}
-            <div className="lg:col-span-4 space-y-16">
+            <div className="lg:col-span-4 space-y-10 md:space-y-16">
               <Reveal>
                 <h2 className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-10">Commitment</h2>
                 <div className="space-y-10">
@@ -586,9 +586,9 @@ export default function Contact() {
                     { icon: Clock, title: 'Rapid Response', desc: 'Direct technical review within 24 hours.' },
                     { icon: Globe, title: 'Global Operations', desc: 'Serving brands across all time zones.' }
                   ].map((item, i) => (
-                    <div key={i} className="flex gap-6 group">
-                      <div className="w-12 h-12 bg-white/[0.03] border border-white/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform duration-500">
-                        <item.icon size={20} />
+                    <div key={i} className="flex gap-5 group">
+                      <div className="w-11 h-11 bg-white/[0.03] border border-white/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                        <item.icon size={18} />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-2">{item.title}</h3>
@@ -599,7 +599,7 @@ export default function Contact() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.2} className="p-10 bg-white/[0.02] border border-white/5">
+              <Reveal delay={0.2} className="p-6 md:p-10 bg-white/[0.02] border border-white/5">
                 <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-6">Regional Access</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
@@ -620,12 +620,12 @@ export default function Contact() {
                 className="h-full"
               >
                 {activeTab === 'rfp' ? (
-                  <div className="bg-white/[0.02] border border-white/5 p-10 md:p-16">
+                  <div className="bg-white/[0.02] border border-white/5 p-6 md:p-16">
                     {success ? (
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-center py-20"
+                        className="text-center py-10 md:py-20"
                       >
                         <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-10">
                           <CheckCheck className="w-10 h-10 text-brand-blue" />
@@ -736,7 +736,7 @@ export default function Contact() {
                               <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Technical Contact</h3>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                               <div className="space-y-4">
                                 <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
                                 <Input 
@@ -756,7 +756,7 @@ export default function Contact() {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                               <div className="space-y-4">
                                 <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">WhatsApp / Signal</label>
                                 <Input 
@@ -915,7 +915,7 @@ export default function Contact() {
                             <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Client Credentials</h3>
                           </div>
                           
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                             <div className="space-y-4">
                               <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
                               <Input 

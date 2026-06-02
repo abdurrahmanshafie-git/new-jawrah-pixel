@@ -29,7 +29,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
     <div className="border border-white/5 bg-white/[0.02] mb-4 overflow-hidden">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors group focus:outline-none"
+        className="w-full p-6 md:p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors group focus:outline-none"
       >
         <h3 className="text-sm sm:text-lg font-display font-medium text-white uppercase tracking-tight group-hover:text-brand-blue transition-colors duration-300">
           {question}
@@ -37,7 +37,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
         <Plus className={`w-4 h-4 text-brand-blue transition-transform duration-500 ${isOpen ? 'rotate-45' : ''}`} />
       </button>
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
-        <div className="px-8 pb-8 text-zinc-500 text-sm md:text-base leading-relaxed font-light">
+        <div className="px-6 pb-6 md:px-8 md:pb-8 text-zinc-500 text-sm md:text-base leading-relaxed font-light">
           {answer}
         </div>
       </div>
@@ -73,14 +73,14 @@ export default function About() {
   ];
 
   const technologies = [
-    { name: 'React', icon: <Code className="w-5 h-5" /> },
-    { name: 'TypeScript', icon: <ShieldCheck className="w-5 h-5" /> },
-    { name: 'Next.js', icon: <Zap className="w-5 h-5" /> },
-    { name: 'Supabase', icon: <Server className="w-5 h-5" /> },
-    { name: 'Vercel', icon: <Globe className="w-5 h-5" /> },
-    { name: 'Tailwind CSS', icon: <Layout className="w-5 h-5" /> },
-    { name: 'Node.js', icon: <Cpu className="w-5 h-5" /> },
-    { name: 'Modern AI', icon: <Sparkles className="w-5 h-5" /> },
+    { name: 'React', icon: <Code className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'TypeScript', icon: <ShieldCheck className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Next.js', icon: <Zap className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Supabase', icon: <Server className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Vercel', icon: <Globe className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Tailwind CSS', icon: <Layout className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Node.js', icon: <Cpu className="w-9 h-9 md:w-5 md:h-5" /> },
+    { name: 'Modern AI', icon: <Sparkles className="w-9 h-9 md:w-5 md:h-5" /> },
   ];
 
   const regions = [
@@ -139,11 +139,11 @@ export default function About() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 flex items-center min-h-[80svh]">
-        <div className="container mx-auto px-6 relative z-10">
+      <section className="relative pt-24 pb-16 md:pt-48 md:pb-32 flex items-center min-h-[80svh]">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             <Reveal>
-              <div className="inline-flex items-center gap-3 mb-10 px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em]">
+              <div className="inline-flex items-center gap-3 mb-8 md:mb-10 px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em]">
                 <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
                 The Agency Identity
               </div>
@@ -162,20 +162,20 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto mb-16 leading-relaxed font-light"
+              className="text-[15px] md:text-xl text-zinc-500 max-w-2xl mx-auto mb-10 md:mb-16 leading-relaxed font-light"
             >
               Jawrah Pixel is a world-class digital agency engineering premium digital ecosystems for brands that demand excellence. We bridge the gap between technical complexity and luxury brand perception.
             </motion.p>
 
             <Reveal delay={0.4}>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center">
                 <Link to={p('/contact')}>
-                  <Button size="lg" className="min-w-[240px]">
+                  <Button size="lg" className="w-full sm:min-w-[240px]">
                     Initiate Project
                   </Button>
                 </Link>
                 <Link to={p('/services')}>
-                  <Button variant="outline" size="lg" className="min-w-[240px]">
+                  <Button variant="outline" size="lg" className="w-full sm:min-w-[240px]">
                     Explore Services
                   </Button>
                 </Link>
@@ -186,9 +186,9 @@ export default function About() {
       </section>
 
       {/* The Core Mission */}
-      <section className="py-32 relative bg-brand-black overflow-hidden border-t border-white/5">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+      <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
             <Reveal>
               <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Our DNA</span>
               <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
@@ -212,11 +212,11 @@ export default function About() {
               </div>
             </Reveal>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {technologies.map((tech, idx) => (
                 <Reveal key={tech.name} delay={idx * 0.05}>
-                  <div className="p-8 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-500 group">
-                    <div className="mb-6 text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                  <div className="h-full p-6 sm:p-8 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-500 group flex flex-col">
+                    <div className="mb-5 md:mb-6 text-brand-blue group-hover:scale-110 transition-transform duration-500">
                       {tech.icon}
                     </div>
                     <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">
@@ -231,18 +231,18 @@ export default function About() {
       </section>
 
       {/* Regional Operations */}
-      <section className="py-32 relative bg-brand-black border-t border-white/5">
-        <div className="container mx-auto px-6 relative z-10">
-          <Reveal className="text-center mb-24">
+      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+          <Reveal className="text-center mb-16 md:mb-24">
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Global Network</span>
             <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Regional Presence</h2>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
             {regions.map((region, idx) => (
-              <StaggerItem key={idx} className="group p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700">
-                <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8">{region.label}</span>
-                <h3 className="text-3xl font-display font-medium text-white uppercase mb-6 tracking-tight group-hover:text-brand-blue transition-colors">{region.name}</h3>
+              <StaggerItem key={idx} className="group p-8 md:p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 h-full">
+                <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6 md:mb-8">{region.label}</span>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-white uppercase mb-4 md:mb-6 tracking-tight group-hover:text-brand-blue transition-colors">{region.name}</h3>
                 <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">{region.desc}</p>
               </StaggerItem>
             ))}
@@ -251,13 +251,13 @@ export default function About() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-32 relative bg-brand-black border-t border-white/5">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-20">
             <Reveal className="lg:col-span-5 lg:sticky lg:top-32 h-fit">
               <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Transparency</span>
               <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Common Inquiries</h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12">
+              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-8 md:mb-12">
                 Detailed insights into our methodology, operations, and commitment to excellence.
               </p>
               <Link to={p('/contact')}>
@@ -280,17 +280,17 @@ export default function About() {
       </section>
 
       {/* Global CTA */}
-      <Reveal className="py-32 md:py-48 border-t border-white/5">
-        <div className="container mx-auto px-6 text-center">
-          <div className="relative p-16 md:p-24 bg-white/[0.02] border border-white/5 overflow-hidden">
+      <Reveal className="py-24 md:py-48 border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 text-center">
+          <div className="relative p-8 md:p-24 bg-white/[0.02] border border-white/5 overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initialize Partnership</span>
-            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto">
+            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto">
               Ready to build your <span className="premium-text-gradient italic">digital legacy</span>?
             </h2>
             <Link to={p('/contact')} className="relative z-10">
-              <Button size="lg" className="min-w-[280px]">
+              <Button size="lg" className="min-w-full sm:min-w-[280px]">
                 Start Consultation
               </Button>
             </Link>

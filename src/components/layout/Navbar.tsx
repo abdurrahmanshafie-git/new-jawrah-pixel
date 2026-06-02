@@ -143,7 +143,7 @@ export function Navbar() {
     <>
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-1000',
+        'fixed top-0 left-0 right-0 z-[100] transition-all duration-1000',
         scrolled
           ? 'bg-brand-black/80 backdrop-blur-[48px] py-3 h-16 md:py-4 md:h-20 border-b border-white/[0.04] shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_60px_rgba(0,149,255,0.08)]'
           : 'bg-transparent py-5 h-20 md:py-8 md:h-28 border-b border-transparent',
@@ -225,16 +225,16 @@ export function Navbar() {
           <div className="md:hidden ml-auto flex items-center gap-2.5">
             <Link 
               to={dashboardPath}
-              className="w-9 h-9 rounded-full border border-white/5 bg-white/[0.03] flex items-center justify-center text-zinc-500 hover:text-white transition-all active:scale-95 shrink-0"
+              className="w-11 h-11 rounded-full border border-white/5 bg-white/[0.03] flex items-center justify-center text-zinc-500 hover:text-white transition-all active:scale-95 shrink-0"
               aria-label={user ? "Go to Dashboard" : "Login"}
             >
-              <User size={16} />
+              <User size={18} />
             </Link>
 
             {!user && (
               <Link
                 to={p('/agents')}
-                className="h-8 px-2.5 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center hover:border-brand-blue/20 transition-all active:scale-95 shrink-0"
+                className="h-11 px-3 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center hover:border-brand-blue/20 transition-all active:scale-95 shrink-0"
               >
                 <span className="text-[9px] font-mono font-bold uppercase tracking-[0.1em] text-zinc-500 hover:text-white transition-colors">Agent</span>
               </Link>
@@ -242,11 +242,11 @@ export function Navbar() {
             
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 w-9 h-9 flex flex-col items-center justify-center gap-1.5 shrink-0"
+              className="relative z-50 w-11 h-11 flex flex-col items-center justify-center gap-2 shrink-0"
             >
-              <span className={cn("w-5 h-px bg-white transition-all duration-500", isOpen && "rotate-45 translate-y-2")} />
-              <span className={cn("w-3 h-px bg-white transition-all duration-500 ml-auto", isOpen && "opacity-0")} />
-              <span className={cn("w-5 h-px bg-white transition-all duration-500", isOpen && "-rotate-45 -translate-y-2")} />
+              <span className={cn("w-6 h-px bg-white transition-all duration-500", isOpen && "rotate-45 translate-y-2.5")} />
+              <span className={cn("w-4 h-px bg-white transition-all duration-500 ml-auto", isOpen && "opacity-0")} />
+              <span className={cn("w-6 h-px bg-white transition-all duration-500", isOpen && "-rotate-45 -translate-y-2.5")} />
             </button>
           </div>
         </div>
@@ -260,7 +260,7 @@ export function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-0 left-0 right-0 z-[45] h-auto max-h-[52vh] bg-brand-black/95 backdrop-blur-[64px] border-b border-white/[0.04] flex flex-col p-6 pt-24 pb-10 md:hidden shadow-[0_30px_60px_rgba(0,0,0,1),0_0_50px_rgba(0,149,255,0.06)]"
+          className="fixed top-0 left-0 right-0 z-[90] h-auto max-h-[52vh] bg-brand-black/95 backdrop-blur-[64px] border-b border-white/[0.04] flex flex-col p-6 pt-24 pb-10 md:hidden shadow-[0_30px_60px_rgba(0,0,0,1),0_0_50px_rgba(0,149,255,0.06)]"
         >
           <div className="absolute inset-0 z-0 opacity-15">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-blue/[0.08] blur-[100px]" />
@@ -280,7 +280,7 @@ export function Navbar() {
                 className="flex items-center justify-between group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-brand-blue/5 border border-brand-blue/20 flex items-center justify-center text-brand-blue">
+                    <div className="w-11 h-11 rounded-full bg-brand-blue/5 border border-brand-blue/20 flex items-center justify-center text-brand-blue">
                     <User size={18} />
                   </div>
                   <div className="flex flex-col">
@@ -307,7 +307,7 @@ export function Navbar() {
                   <Link
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className="text-[20px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
+                    className="flex items-center min-h-[44px] text-[18px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -323,7 +323,7 @@ export function Navbar() {
                   <Link
                     to={p('/agents')}
                     onClick={() => setIsOpen(false)}
-                    className="text-[20px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
+                    className="flex items-center min-h-[44px] text-[18px] font-display font-medium text-white/80 uppercase tracking-tight hover:text-brand-blue transition-colors"
                   >
                     Apply as Agent
                   </Link>

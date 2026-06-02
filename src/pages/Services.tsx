@@ -26,29 +26,29 @@ export default function Services() {
     switch (id) {
       case "web-design":
       case "web-design-int":
-        return <LayoutTemplate className="w-6 h-6 text-brand-blue" />;
+        return <LayoutTemplate className="w-9 h-9 md:w-6 md:h-6 text-brand-blue" />;
       case "ecommerce":
       case "ecommerce-pk":
       case "ecommerce-int":
-        return <ShoppingCart className="w-6 h-6 text-brand-cyan" />;
+        return <ShoppingCart className="w-9 h-9 md:w-6 md:h-6 text-brand-cyan" />;
       case "jewellery":
       case "jewellery-pk":
-        return <Sparkles className="w-6 h-6 text-brand-blue" />;
+        return <Sparkles className="w-9 h-9 md:w-6 md:h-6 text-brand-blue" />;
       case "fashion":
       case "fashion-pk":
-        return <Briefcase className="w-6 h-6 text-brand-cyan" />;
+        return <Briefcase className="w-9 h-9 md:w-6 md:h-6 text-brand-cyan" />;
       case "dashboards":
       case "dashboards-pk":
       case "saas-int":
       case "frontend-int":
       case "enterprise-int":
-        return <Server className="w-6 h-6 text-brand-blue" />;
+        return <Server className="w-9 h-9 md:w-6 md:h-6 text-brand-blue" />;
       case "seo":
       case "seo-pk":
       case "seo-int":
-        return <Search className="w-6 h-6 text-brand-cyan" />;
+        return <Search className="w-9 h-9 md:w-6 md:h-6 text-brand-cyan" />;
       default:
-        return <Database className="w-6 h-6 text-brand-cyan" />;
+        return <Database className="w-9 h-9 md:w-6 md:h-6 text-brand-cyan" />;
     }
   };
 
@@ -120,27 +120,35 @@ export default function Services() {
         </Reveal>
 
         {/* Services mapping */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-32 md:mb-48">
+        <StaggerContainer className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-10 mb-24 md:mb-48">
           {services.map((service) => (
             <StaggerItem
               key={service.title}
-              className="group relative p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 flex flex-col"
+              className="group relative p-6 sm:p-8 md:p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 flex flex-col h-full"
             >
-              <div className="mb-10 text-brand-blue group-hover:scale-110 group-hover:text-white transition-all duration-500">
+              <div className="mb-6 sm:mb-8 md:mb-10 text-brand-blue group-hover:scale-110 group-hover:text-white transition-all duration-500">
                 {getServiceIcon(service.id)}
               </div>
-              <h3 className="text-2xl font-display font-medium text-white mb-4 uppercase tracking-tight group-hover:text-brand-blue transition-colors">{service.title}</h3>
-              <div className="text-xs font-mono font-bold text-zinc-500 mb-10 tracking-[0.2em] uppercase">{service.price}</div>
-              <ul className="space-y-6 mb-12 flex-1">
+              <h3 className="text-sm sm:text-xl md:text-2xl font-display font-medium text-white mb-3 sm:mb-4 uppercase tracking-tight group-hover:text-brand-blue transition-colors leading-snug">
+                {service.title}
+              </h3>
+              <div className="text-[10px] sm:text-xs font-mono font-bold text-zinc-500 mb-6 sm:mb-10 tracking-[0.2em] uppercase">{service.price}</div>
+              <ul className="space-y-4 sm:space-y-6 mb-8 sm:mb-12 flex-1">
                 {service.features.map((feature, j) => (
-                  <li key={j} className="flex items-start gap-4 text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors">
+                  <li
+                    key={j}
+                    className={cn(
+                      "flex items-start gap-3 sm:gap-4 text-[11px] sm:text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors",
+                      j > 1 && "hidden sm:flex"
+                    )}
+                  >
                     <Shield className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
                     {feature}
                   </li>
                 ))}
               </ul>
               
-              <div className="pt-8 border-t border-white/5 flex flex-col gap-6">
+              <div className="pt-6 sm:pt-8 border-t border-white/5 flex flex-col gap-5 sm:gap-6">
                 {getServiceLandingPath(service.id) && (
                   <Link
                     to={p(getServiceLandingPath(service.id))}

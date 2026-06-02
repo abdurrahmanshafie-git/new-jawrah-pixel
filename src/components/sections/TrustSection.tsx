@@ -23,8 +23,8 @@ export function TrustSection() {
   ];
 
   return (
-    <section className="py-24 bg-brand-black overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="py-16 md:py-24 bg-brand-black overflow-hidden">
+      <div className="container mx-auto px-5 sm:px-6">
         <Reveal>
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-display font-medium uppercase tracking-tight text-white mb-4">
@@ -40,7 +40,7 @@ export function TrustSection() {
         <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-24">
           {stats.map((stat) => (
             <StaggerItem key={stat.label}>
-              <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center group hover:border-brand-cyan/30 transition-all duration-500">
+              <div className="h-full p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center group hover:border-brand-cyan/30 transition-all duration-500">
                 <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto mb-4 group-hover:scale-110 transition-transform">
                   {stat.icon}
                 </div>
@@ -53,37 +53,74 @@ export function TrustSection() {
 
         {/* Testimonials */}
         {testimonials.length > 0 && (
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t) => (
-              <StaggerItem key={t.id}>
-                <div className="h-full p-8 rounded-3xl bg-white/[0.02] border border-white/5 relative flex flex-col justify-between group hover:bg-white/[0.04] transition-all">
-                  <div className="mb-6">
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(t.rating)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-brand-cyan text-brand-cyan" />
-                      ))}
+          <>
+            <div className="md:hidden -mx-5 px-5 overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory">
+              <div className="flex gap-4 w-max pb-2">
+                {testimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="w-[80vw] max-w-[340px] snap-center h-full p-6 rounded-3xl bg-white/[0.02] border border-white/5 relative flex flex-col justify-between"
+                  >
+                    <div className="mb-6">
+                      <div className="flex gap-1 mb-4">
+                        {[...Array(t.rating)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 fill-brand-cyan text-brand-cyan" />
+                        ))}
+                      </div>
+                      <p className="text-brand-gray text-sm font-light italic leading-relaxed line-clamp-5">
+                        "{t.review}"
+                      </p>
                     </div>
-                    <p className="text-brand-gray text-sm font-light italic leading-relaxed">
-                      "{t.review}"
-                    </p>
+                    <div className="flex items-center gap-4 pt-6 border-t border-white/5">
+                      <div className="w-10 h-10 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan font-display text-xs shrink-0">
+                        {t.avatar_url ? (
+                          <img src={t.avatar_url} alt={t.client_name} className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                          t.client_name.charAt(0)
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-white font-display font-bold uppercase text-[10px] tracking-widest truncate">{t.client_name}</div>
+                        <div className="text-brand-gray text-[9px] font-mono uppercase truncate">{t.company_name}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-4 pt-6 border-t border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan font-display text-xs">
-                      {t.avatar_url ? (
-                        <img src={t.avatar_url} alt={t.client_name} className="w-full h-full rounded-full object-cover" />
-                      ) : (
-                        t.client_name.charAt(0)
-                      )}
+                ))}
+              </div>
+            </div>
+
+            <StaggerContainer className="hidden md:grid grid-cols-3 gap-8">
+              {testimonials.map((t) => (
+                <StaggerItem key={t.id}>
+                  <div className="h-full p-8 rounded-3xl bg-white/[0.02] border border-white/5 relative flex flex-col justify-between group hover:bg-white/[0.04] transition-all">
+                    <div className="mb-6">
+                      <div className="flex gap-1 mb-4">
+                        {[...Array(t.rating)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 fill-brand-cyan text-brand-cyan" />
+                        ))}
+                      </div>
+                      <p className="text-brand-gray text-sm font-light italic leading-relaxed">
+                        "{t.review}"
+                      </p>
                     </div>
-                    <div>
-                      <div className="text-white font-display font-bold uppercase text-[10px] tracking-widest">{t.client_name}</div>
-                      <div className="text-brand-gray text-[9px] font-mono uppercase">{t.company_name}</div>
+                    <div className="flex items-center gap-4 pt-6 border-t border-white/5">
+                      <div className="w-10 h-10 rounded-full bg-brand-cyan/20 flex items-center justify-center text-brand-cyan font-display text-xs">
+                        {t.avatar_url ? (
+                          <img src={t.avatar_url} alt={t.client_name} className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                          t.client_name.charAt(0)
+                        )}
+                      </div>
+                      <div>
+                        <div className="text-white font-display font-bold uppercase text-[10px] tracking-widest">{t.client_name}</div>
+                        <div className="text-brand-gray text-[9px] font-mono uppercase">{t.company_name}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </>
         )}
       </div>
     </section>

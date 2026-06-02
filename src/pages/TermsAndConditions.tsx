@@ -56,7 +56,7 @@ export default function TermsAndConditions() {
       </div>
 
       <div className="pt-32 pb-24">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-5 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               
