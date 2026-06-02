@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useRegion } from '@/hooks/useRegion';
 import { getCaseStudyDetails, ALL_CASE_STUDIES } from '@/data/caseStudies';
 import { motion, AnimatePresence } from 'motion/react';
@@ -30,12 +30,14 @@ import { cn } from '@/lib/utils';
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeMedia, setActiveMedia] = useState<'desktop' | 'mobile'>('desktop');
   const { currentRegion, config, p, cases } = useRegion();
   
   const rawProject = slug ? getCaseStudyDetails(slug) : null;
   const visibleSlugs = cases.map((item) => item.slug);
-  const project = rawProject && visibleSlugs.includes(rawProject.slug) ? rawProject : null;
+  const hasRegionalPrefix = /^\/(lk|pk|int)(?=\/|$)/.test(location.pathname);
+  const project = rawProject && (!hasRegionalPrefix || visibleSlugs.includes(rawProject.slug)) ? rawProject : null;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -57,12 +59,87 @@ export default function CaseStudyDetail() {
   const currentIndex = slugs.indexOf(project.slug);
   const nextSlug = slugs[(currentIndex + 1) % slugs.length];
   const nextProject = ALL_CASE_STUDIES[nextSlug];
+  const caseStudyPath = hasRegionalPrefix ? p(`/case-studies/${project.slug}`) : `/case-studies/${project.slug}`;
 
   const transformationSummary = [
     { label: 'Challenge', icon: <Compass size={20} />, copy: project.challenges[0] },
     { label: 'Strategy', icon: <Cpu size={20} />, copy: project.solutions[0] },
     { label: 'Impact', icon: <Award size={20} />, copy: `${project.results[0].val} ${project.results[0].metric} improvement.` },
     { label: 'Mobile', icon: <ShieldCheck size={20} />, copy: 'Optimized for high-intent mobile visitors.' },
+  ];
+  const caseStudyServiceLinks: Record<string, Array<{ label: string; path: string; copy: string }>> = {
+    zenvor: [
+      {
+        label: 'Ecommerce Development Sri Lanka',
+        path: '/lk/ecommerce-development-sri-lanka',
+        copy: 'Premium catalog, product confidence, checkout readiness, and mobile commerce architecture.',
+      },
+      {
+        label: 'Web Development Sri Lanka',
+        path: '/lk/web-development-sri-lanka',
+        copy: 'Fast React pages, technical SEO structure, and conversion-focused service journeys.',
+      },
+    ],
+    'shabnam-jewellers': [
+      {
+        label: 'Ecommerce Development Pakistan',
+        path: '/pk/ecommerce-development-pakistan',
+        copy: 'High-trust retail journeys, assisted checkout paths, and product-led mobile discovery.',
+      },
+      {
+        label: 'Web Development Pakistan',
+        path: '/pk/web-development-pakistan',
+        copy: 'Premium web architecture for Pakistani brands that need stronger search and sales confidence.',
+      },
+    ],
+    'aerovista-travels': [
+      {
+        label: 'Custom Software Development',
+        path: '/int/custom-software-development',
+        copy: 'Booking logic, workflow planning, dashboard-ready data, and scalable product interface thinking.',
+      },
+      {
+        label: 'Web Development Agency',
+        path: '/int/web-development-agency',
+        copy: 'International web architecture for premium service businesses and remote-first teams.',
+      },
+    ],
+    aerovista: [
+      {
+        label: 'Custom Software Development',
+        path: '/int/custom-software-development',
+        copy: 'Booking logic, workflow planning, dashboard-ready data, and scalable product interface thinking.',
+      },
+      {
+        label: 'Web Development Agency',
+        path: '/int/web-development-agency',
+        copy: 'International web architecture for premium service businesses and remote-first teams.',
+      },
+    ],
+    'veloura-cafe': [
+      {
+        label: 'Web Development Agency',
+        path: '/int/web-development-agency',
+        copy: 'Premium marketing pages, mobile-first storytelling, and conversion-ready brand experiences.',
+      },
+      {
+        label: 'Custom Software Development',
+        path: '/int/custom-software-development',
+        copy: 'Operational systems, ordering flows, and scalable digital infrastructure for global teams.',
+      },
+    ],
+  };
+  const relatedServiceLinks = caseStudyServiceLinks[project.slug] ?? [
+    {
+      label: 'Web Development Agency',
+      path: '/int/web-development-agency',
+      copy: 'Premium web development, conversion architecture, and search-ready digital systems.',
+    },
+    {
+      label: 'Custom Software Development',
+      path: '/int/custom-software-development',
+      copy: 'Secure portals, dashboards, workflows, and product interfaces for scalable operations.',
+    },
   ];
 
   return (
@@ -74,13 +151,13 @@ export default function CaseStudyDetail() {
         schemaData={[
           buildBreadcrumbSchema([
             { name: 'Home', url: toAbsoluteUrl(p('/')) },
-            { name: 'Case Studies', url: toAbsoluteUrl(p('/case-studies')) },
-            { name: project.title, url: toAbsoluteUrl(p(`/case-studies/${project.slug}`)) }
+            { name: 'Case Studies', url: toAbsoluteUrl(hasRegionalPrefix ? p('/case-studies') : '/case-studies') },
+            { name: project.title, url: toAbsoluteUrl(caseStudyPath) }
           ]),
           buildCaseStudySchema({
             ...project,
             description: project.overview,
-            url: toAbsoluteUrl(p(`/case-studies/${project.slug}`))
+            url: toAbsoluteUrl(caseStudyPath)
           })
         ]}
       />
@@ -228,6 +305,40 @@ export default function CaseStudyDetail() {
                 </div>
                 <h4 className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-6">{result.metric}</h4>
                 <p className="text-sm text-zinc-500 font-light leading-relaxed max-w-[240px] mx-auto">{result.desc}</p>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </section>
+
+        {/* RELATED SERVICES */}
+        <section className="mb-32">
+          <Reveal className="mb-12 max-w-3xl">
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">
+              Relevant Services
+            </span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] text-white">
+              Explore the capability behind this project
+            </h2>
+          </Reveal>
+
+          <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {relatedServiceLinks.map((service) => (
+              <StaggerItem key={service.path} className="group border border-white/5 bg-white/[0.02] p-8 transition-all duration-700 hover:border-brand-blue/25 hover:bg-white/[0.04]">
+                <Link to={service.path} className="block">
+                  <span className="mb-5 block text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-brand-blue">
+                    Service Page
+                  </span>
+                  <h3 className="mb-4 text-2xl font-display font-medium uppercase tracking-tight text-white transition-colors group-hover:text-brand-blue">
+                    {service.label}
+                  </h3>
+                  <p className="mb-8 text-sm font-light leading-relaxed text-zinc-500">
+                    {service.copy}
+                  </p>
+                  <span className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.24em] text-white">
+                    Learn More
+                    <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
+                  </span>
+                </Link>
               </StaggerItem>
             ))}
           </StaggerContainer>

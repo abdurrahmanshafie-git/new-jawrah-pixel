@@ -29,7 +29,7 @@ const liveProjects = [
     category: "Internal Operations & Client CRM",
     desc: "A secure agency operating layer for proposals, client workspaces, lead routing, and Supabase-backed delivery governance.",
     image: "/assets/case-studies/jawrah-pixel/desktop.png",
-    url: "https://jawrah-pixel-itpe.vercel.app/",
+    url: "https://jawrahpixel.com/",
     slug: "jawrah-pixel",
     glowColor: "rgba(255,255,255,0.08)",
     gradient: "from-white/10 to-transparent",
@@ -39,7 +39,7 @@ const liveProjects = [
     category: "Premium Real Estate Portal",
     desc: "A high-trust property acquisition portal built to present architectural inventory, qualify buyers, and protect luxury brand perception.",
     image: "/assets/case-studies/velora/desktop.png",
-    url: "https://real-estate-jawrah-project.netlify.app/",
+    url: "https://jawrahpixel.com/case-studies/velora-estates",
     slug: "velora-estates",
     glowColor: "rgba(245,158,11,0.12)",
     gradient: "from-amber-600/20 to-transparent",
@@ -49,7 +49,7 @@ const liveProjects = [
     category: "Bespoke Jewelry E-commerce",
     desc: "A heritage jewelry storefront shaped around product confidence, appraisal clarity, and premium mobile-first catalog discovery.",
     image: "/assets/case-studies/shabnam-jewellers/desktop.png",
-    url: "https://shabnam-jawrah-project.netlify.app/",
+    url: "https://jawrahpixel.com/case-studies/shabnam-jewellers",
     slug: "shabnam-jewellers",
     glowColor: "rgba(217,119,6,0.12)",
     gradient: "from-amber-600/15 to-transparent",
@@ -59,7 +59,7 @@ const liveProjects = [
     category: "Bespoke Tour Planner & Booking Engine",
     desc: "A travel planning system designed to move visitors from inspiration to itinerary confidence through structured booking flows.",
     image: "/assets/case-studies/aero-vista/desktop.png",
-    url: "https://aero-vista-jawrah-project.vercel.app/#home",
+    url: "https://jawrahpixel.com/case-studies/aerovista",
     slug: "aerovista-travels",
     glowColor: "rgba(59,130,246,0.15)",
     gradient: "from-blue-600/20 to-transparent",
@@ -97,7 +97,7 @@ const intPricingPackages = [
 const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operations', 'North America Operations', 'Remote-First Agency', 'Global Support'];
 
 export default function Home() {
-  const { config, p, isInternational } = useRegion();
+  const { config, p, isInternational, currentRegion } = useRegion();
   const seo = useRegionalSeo('home');
 
   const servicesList = [
@@ -108,6 +108,31 @@ export default function Home() {
     { icon: <Server className="text-brand-blue" />, title: "SaaS & Systems Architecture", desc: "Bespoke internal tools, robust admin dashboards, and scalable database systems built on modern Supabase and React infrastructure." },
     { icon: <ShieldCheck className="text-brand-cyan" />, title: "Long-Term Digital Partnership", desc: `Continuous technical audits, strategic advisory, and unshakeable security infrastructure ensuring your digital assets remain flawless.` }
   ];
+
+  const getHomeServiceLandingPath = (title: string) => {
+    const webPath = currentRegion === 'lk'
+      ? '/web-development-sri-lanka'
+      : currentRegion === 'pk'
+        ? '/web-development-pakistan'
+        : '/web-development-agency';
+    const ecommercePath = currentRegion === 'lk'
+      ? '/ecommerce-development-sri-lanka'
+      : currentRegion === 'pk'
+        ? '/ecommerce-development-pakistan'
+        : '/custom-software-development';
+    const softwarePath = currentRegion === 'int' ? '/custom-software-development' : webPath;
+
+    const paths: Record<string, string> = {
+      'Premium Digital Experiences': webPath,
+      'Enterprise Commerce': ecommercePath,
+      'Strategic UI/UX Architecture': '/ui-ux-design',
+      'SEO & Performance Scaling': '/seo',
+      'SaaS & Systems Architecture': softwarePath,
+      'Long-Term Digital Partnership': softwarePath,
+    };
+
+    return paths[title] ?? '/services';
+  };
 
   const authorityMetrics = [
     { value: 99, suffix: '/100', label: 'Performance-first delivery target', caption: 'Core Web Vitals, accessibility, and SEO treated as business assets.' },
@@ -483,6 +508,13 @@ export default function Home() {
                 <p className="text-zinc-500 text-[10px] sm:text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500 line-clamp-3">
                   {service.desc}
                 </p>
+                <Link
+                  to={p(getHomeServiceLandingPath(service.title))}
+                  className="mt-6 inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-brand-blue transition-colors hover:text-white sm:text-[10px]"
+                >
+                  Learn More
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-brand-blue/40 to-brand-cyan/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
               </StaggerItem>
             ))}

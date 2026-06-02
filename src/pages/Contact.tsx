@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { submitBooking, submitInquiry } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
@@ -57,8 +58,10 @@ type FormData = {
 };
 
 export default function Contact() {
+  const location = useLocation();
   const { currentRegion, config, p, isInternational } = useRegion();
   const seo = useRegionalSeo('contact');
+  const canonicalPath = location.pathname === '/book' ? '/book' : seo.path;
   const { user } = useAuth();
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useRHForm<FormData>({
     defaultValues: {
@@ -511,7 +514,7 @@ export default function Contact() {
       <SEO 
         title={seo.title}
         description={seo.description}
-        canonicalUrl={getCanonicalUrl(seo.path)}
+        canonicalUrl={getCanonicalUrl(canonicalPath)}
         keywords={['contact Jawrah Pixel', 'hire digital agency', 'web design consultation', 'project brief submission']}
       />
 

@@ -6,10 +6,17 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /dashboard
 Disallow: /dashboard/
+Disallow: /client
+Disallow: /client/
 Disallow: /partner/dashboard
 Disallow: /partner/dashboard/
 Disallow: /agent
 Disallow: /agent/
+Disallow: /crm
+Disallow: /workspace
+Disallow: /messages
+Disallow: /invoices
+Disallow: /settings/private
 Disallow: /checkout
 Disallow: /checkout/
 

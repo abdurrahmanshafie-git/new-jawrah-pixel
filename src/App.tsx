@@ -92,6 +92,7 @@ export default function App() {
               <Route path="/lk/about" element={<About />} />
               <Route path="/lk/services" element={<Services />} />
               <Route path="/lk/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/lk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/lk/process" element={<Process />} />
               <Route path="/lk/pricing" element={<Services />} />
               <Route path="/lk/case-studies" element={<CaseStudies />} />
@@ -117,6 +118,7 @@ export default function App() {
               <Route path="/pk/about" element={<About />} />
               <Route path="/pk/services" element={<Services />} />
               <Route path="/pk/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/pk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/pk/process" element={<Process />} />
               <Route path="/pk/pricing" element={<Services />} />
               <Route path="/pk/case-studies" element={<CaseStudies />} />
@@ -142,6 +144,7 @@ export default function App() {
               <Route path="/int/about" element={<About />} />
               <Route path="/int/services" element={<Services />} />
               <Route path="/int/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/int/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/int/process" element={<Process />} />
               <Route path="/int/pricing" element={<Services />} />
               <Route path="/int/case-studies" element={<CaseStudies />} />
@@ -165,14 +168,18 @@ export default function App() {
               {/* Fallback routes */}
               <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
               <Route path="/blog" element={<RegionalRedirect path="/blog" />} />
+              <Route path="/book" element={<Contact />} />
+              <Route path="/faq" element={<Process />} />
               <Route path="/about" element={<RegionalRedirect path="/about" />} />
               <Route path="/services" element={<RegionalRedirect path="/services" />} />
               <Route path="/process" element={<RegionalRedirect path="/process" />} />
               <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
+              <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/contact" element={<RegionalRedirect path="/contact" />} />
               <Route path="/partner" element={<RegionalRedirect path="/partner" />} />
               <Route path="/agents" element={<RegionalRedirect path="/partner" />} />
               <Route path="/privacy-policy" element={<RegionalRedirect path="/privacy-policy" />} />
+              <Route path="/cookie-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-and-conditions" element={<RegionalRedirect path="/terms-and-conditions" />} />
               <Route path="/refund-policy" element={<RegionalRedirect path="/refund-policy" />} />
               <Route path="/refund" element={<RegionalRedirect path="/refund-policy" />} />

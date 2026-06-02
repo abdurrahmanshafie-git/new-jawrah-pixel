@@ -152,7 +152,7 @@ export function SEO({
       <title>{formattedTitle}</title>
       <meta name="description" content={description} />
       {keywordContent && <meta name="keywords" content={keywordContent} />}
-      <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+      <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
       <link rel="canonical" href={resolvedCanonical} />
       {resolvedAlternates.map((alternate) => (
         <link key={alternate.hrefLang} rel="alternate" hrefLang={alternate.hrefLang} href={alternate.href} />

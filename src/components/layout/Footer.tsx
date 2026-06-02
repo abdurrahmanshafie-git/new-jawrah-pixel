@@ -15,38 +15,17 @@ export function Footer() {
   const { user, profile } = useAuth();
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
-  const isInternational = currentRegion === 'int';
   
-  const serviceLinks = isInternational
-    ? [
-        { label: 'Premium Website Design', path: '/services/international-digital-services' },
-        { label: 'Ecommerce Development', path: '/services/international-digital-services' },
-        { label: 'AI Integrations', path: '/services' },
-        { label: 'Branding & Identity', path: '/services' },
-        { label: 'SEO Optimization', path: '/services/international-digital-services' },
-        { label: 'UI/UX Systems', path: '/services' },
-        { label: 'Conversion Optimization', path: '/services' },
-        { label: 'Frontend Development', path: '/services/international-digital-services' },
-      ]
-    : currentRegion === 'pk'
-      ? [
-          { label: 'Web Design Pakistan', path: '/services/web-design-pakistan' },
-          { label: 'Ecommerce Development Pakistan', path: '/services/ecommerce-development-pakistan' },
-          { label: 'UI/UX Design', path: '/services' },
-          { label: 'Branding', path: '/services' },
-          { label: 'SEO Optimization', path: '/services' },
-          { label: 'Admin Dashboards', path: '/services' },
-          { label: 'Maintenance Plans', path: '/pricing' },
-        ]
-      : [
-          { label: 'Web Design Sri Lanka', path: '/services/web-design-sri-lanka' },
-          { label: 'Ecommerce Development Sri Lanka', path: '/services/ecommerce-development-sri-lanka' },
-          { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
-          { label: 'UI/UX Design', path: '/services' },
-          { label: 'Branding', path: '/services' },
-          { label: 'Admin Dashboards', path: '/services' },
-          { label: 'Maintenance Plans', path: '/pricing' },
-        ];
+  const serviceLinks = [
+    { label: 'Web Development Sri Lanka', path: '/lk/web-development-sri-lanka' },
+    { label: 'Ecommerce Development Sri Lanka', path: '/lk/ecommerce-development-sri-lanka' },
+    { label: 'Web Development Pakistan', path: '/pk/web-development-pakistan' },
+    { label: 'Ecommerce Development Pakistan', path: '/pk/ecommerce-development-pakistan' },
+    { label: 'Web Development Agency', path: '/int/web-development-agency' },
+    { label: 'Custom Software Development', path: '/int/custom-software-development' },
+  ];
+
+  const resolveFooterPath = (path: string) => (/^\/(?:lk|pk|int)\//.test(path) ? path : p(path));
 
   return (
     <footer className="relative bg-brand-black pt-20 md:pt-32 pb-12 md:pb-16 overflow-hidden">
@@ -104,7 +83,7 @@ export function Footer() {
                 <ul className="space-y-5">
                   {serviceLinks.slice(0, 6).map((item) => (
                     <li key={item.label}>
-                      <Link to={p(item.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">
+                      <Link to={resolveFooterPath(item.path)} className="text-zinc-500 text-[13px] font-light hover:text-white transition-colors duration-500">
                         {item.label}
                       </Link>
                     </li>

@@ -22,6 +22,7 @@ export default defineConfig(() => {
       target: 'es2022',
       cssMinify: true,
       sourcemap: false,
+      chunkSizeWarningLimit: 700,
       rollupOptions: {
         output: {
           manualChunks: {

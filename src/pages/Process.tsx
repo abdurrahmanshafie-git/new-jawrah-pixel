@@ -10,7 +10,7 @@ import {
   Award
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
@@ -18,8 +18,10 @@ import { cn } from '@/lib/utils';
 import { toAbsoluteUrl } from '@/lib/env';
 
 export default function Process() {
+  const location = useLocation();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { config, faqs, p, isInternational } = useRegion();
+  const canonicalPath = location.pathname === '/faq' ? '/faq' : p('/process');
   const seoTitle = isInternational ? 'Global Agency Workflow & USD Retainers' : `Agency Workflow & Trust Blueprints | ${config.countryName}`;
   const seoDescription = isInternational
     ? "Learn about Jawrah Pixel's remote-first global development process, USD monthly retainers, international payment support, and performance guarantees for premium global brands."
@@ -107,7 +109,7 @@ export default function Process() {
       <SEO 
         title={seoTitle}
         description={seoDescription}
-        canonicalUrl={toAbsoluteUrl(p('/process'))}
+        canonicalUrl={toAbsoluteUrl(canonicalPath)}
       />
 
       <div className="absolute inset-0 z-0">

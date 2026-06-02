@@ -12,11 +12,12 @@ export interface ServiceLandingPage {
   audience: string;
   priceSignal: string;
   primaryOutcome: string;
-  route: `/${RegionCode}/services/${string}`;
+  route: `/${RegionCode}/${string}`;
   relatedCaseSlug?: string;
   relatedServices: Array<{ label: string; path: string }>;
   sections: Array<{ title: string; paragraphs: string[] }>;
   deliverables: string[];
+  technologyAngles: string[];
   process: Array<{ step: string; title: string; copy: string }>;
   faqs: Array<{ q: string; a: string }>;
 }
@@ -33,7 +34,7 @@ interface PageSeed {
   audience: string;
   priceSignal: string;
   primaryOutcome: string;
-  route: `/${RegionCode}/services/${string}`;
+  route: `/${RegionCode}/${string}`;
   relatedCaseSlug?: string;
   positioning: string;
   buyerTriggers: string[];
@@ -174,6 +175,41 @@ function buildFaqs(seed: PageSeed): ServiceLandingPage['faqs'] {
 
 const seeds: PageSeed[] = [
   {
+    slug: 'web-development-sri-lanka',
+    region: 'lk',
+    title: 'Web Development Company Sri Lanka | Jawrah Pixel',
+    h1: 'Web Development Sri Lanka',
+    description:
+      'Premium web development services for ambitious Sri Lankan businesses that need fast, conversion-ready websites and scalable digital systems.',
+    keywords: ['web development Sri Lanka', 'web development company Sri Lanka', 'custom website development Sri Lanka', 'React development Sri Lanka'],
+    serviceName: 'Web Development Sri Lanka',
+    market: 'Sri Lanka',
+    audience: 'Sri Lankan founders, retailers, exporters, consultants, hospitality teams, property brands, and premium service businesses',
+    priceSignal:
+      'Web development in Sri Lanka is scoped around page depth, content readiness, integrations, ecommerce needs, launch support, and long-term technical care. Jawrah Pixel provides clear LKR milestones after discovery.',
+    primaryOutcome: 'a high-trust web platform that improves organic discovery, mobile conversion, and premium brand authority for Sri Lankan buyers',
+    route: '/lk/web-development-sri-lanka',
+    relatedCaseSlug: 'zenvor',
+    positioning:
+      'Web development in Sri Lanka should feel premium, load quickly on real local devices, and give serious buyers a clear path from first impression to inquiry.',
+    buyerTriggers: ['new website launch', 'legacy website rebuild', 'mobile lead generation', 'conversion-focused redesign', 'technical SEO upgrade'],
+    localSearchAngles: ['Sri Lankan commercial search intent', 'Colombo and islandwide discovery', 'WhatsApp inquiry paths', 'LKR project planning', 'mobile-first traffic'],
+    technologyAngles: ['React and TypeScript builds', 'responsive page systems', 'structured service routes', 'schema-ready content', 'analytics-ready CTAs', 'Supabase-ready architecture'],
+    deliverables: [
+      'Custom responsive website architecture for Sri Lankan service and product brands',
+      'SEO-ready metadata, canonical URLs, internal links, and schema foundations',
+      'Premium homepage, service, case study, process, and contact conversion sections',
+      'Fast image handling, stable layouts, accessible headings, and mobile-first QA',
+      'Lead capture paths for forms, WhatsApp, consultation requests, and proposal handoff',
+      'Launch validation for sitemap inclusion, indexing readiness, and analytics events',
+    ],
+    relatedServices: [
+      { label: 'Ecommerce Development Sri Lanka', path: '/ecommerce-development-sri-lanka' },
+      { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
+      { label: 'Case Studies', path: '/case-studies' },
+    ],
+  },
+  {
     slug: 'web-design-sri-lanka',
     region: 'lk',
     title: 'Web Design Sri Lanka | Premium Website Design Agency | Jawrah Pixel',
@@ -222,7 +258,7 @@ const seeds: PageSeed[] = [
     priceSignal:
       'Ecommerce investment depends on catalog size, checkout requirements, payment gateways, inventory logic, admin workflows, and launch support. We scope LKR milestones clearly before build.',
     primaryOutcome: 'a faster ecommerce experience that improves product confidence, checkout intent, and organic discovery for Sri Lankan buyers',
-    route: '/lk/services/ecommerce-development-sri-lanka',
+    route: '/lk/ecommerce-development-sri-lanka',
     relatedCaseSlug: 'zenvor',
     positioning:
       'Ecommerce development in Sri Lanka has to do more than display products; it must build confidence quickly on mobile devices and convert buyers who may still prefer assisted purchasing.',
@@ -238,7 +274,7 @@ const seeds: PageSeed[] = [
       'Performance tuning for catalog images, layout stability, and fast browsing',
     ],
     relatedServices: [
-      { label: 'Web Design Sri Lanka', path: '/services/web-design-sri-lanka' },
+      { label: 'Web Development Sri Lanka', path: '/web-development-sri-lanka' },
       { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
       { label: 'Case Studies', path: '/case-studies' },
     ],
@@ -276,6 +312,41 @@ const seeds: PageSeed[] = [
       { label: 'Web Design Sri Lanka', path: '/services/web-design-sri-lanka' },
       { label: 'Ecommerce Development Sri Lanka', path: '/services/ecommerce-development-sri-lanka' },
       { label: 'Blog', path: '/blog' },
+    ],
+  },
+  {
+    slug: 'web-development-pakistan',
+    region: 'pk',
+    title: 'Web Development Company Pakistan | Jawrah Pixel',
+    h1: 'Web Development Pakistan',
+    description:
+      'Premium web development services in Pakistan for ambitious brands that need high-trust websites, fast mobile performance, and conversion-ready digital systems.',
+    keywords: ['web development Pakistan', 'web development company Pakistan', 'custom website development Pakistan', 'React development Pakistan'],
+    serviceName: 'Web Development Pakistan',
+    market: 'Pakistan',
+    audience: 'Pakistani startups, jewellery houses, retailers, consultants, exporters, service businesses, and premium local companies',
+    priceSignal:
+      'Pakistan web development engagements are scoped around pages, catalog depth, payment needs, integrations, content readiness, and support. Jawrah Pixel provides clear PKR milestones after discovery.',
+    primaryOutcome: 'a premium website that builds trust, loads quickly on mobile networks, and turns Pakistani visitors into qualified inquiries',
+    route: '/pk/web-development-pakistan',
+    relatedCaseSlug: 'shabnam-jewellers',
+    positioning:
+      'Web development in Pakistan has to balance premium presentation with practical conversion paths for buyers who compare brands on search, social, WhatsApp, and referrals.',
+    buyerTriggers: ['brand relaunch', 'mobile lead generation', 'catalog presentation', 'technical SEO repair', 'website rebuild'],
+    localSearchAngles: ['Pakistan commercial search demand', 'Karachi and Lahore discovery', 'PKR project expectations', 'WhatsApp-assisted leads', 'mobile-first browsing'],
+    technologyAngles: ['React interface engineering', 'responsive component systems', 'technical SEO metadata', 'schema markup', 'conversion event tracking', 'secure form flows'],
+    deliverables: [
+      'Custom responsive web development for Pakistani service and product brands',
+      'Premium UI sections for services, proof, process, pricing, and contact',
+      'SEO-ready route structure, metadata, canonical URLs, and internal links',
+      'Fast mobile performance tuning for real customer browsing conditions',
+      'Lead paths for consultation, WhatsApp, quote requests, and case study discovery',
+      'Launch QA for accessibility, sitemap inclusion, structured data, and analytics',
+    ],
+    relatedServices: [
+      { label: 'Ecommerce Development Pakistan', path: '/ecommerce-development-pakistan' },
+      { label: 'Case Studies', path: '/case-studies' },
+      { label: 'Process', path: '/process' },
     ],
   },
   {
@@ -327,7 +398,7 @@ const seeds: PageSeed[] = [
     priceSignal:
       'Ecommerce development pricing depends on product catalog complexity, checkout methods, admin workflow, integrations, and content depth. We quote clear PKR milestones after discovery.',
     primaryOutcome: 'a high-trust ecommerce system that improves product discovery, buyer confidence, checkout flow, and organic growth in Pakistan',
-    route: '/pk/services/ecommerce-development-pakistan',
+    route: '/pk/ecommerce-development-pakistan',
     relatedCaseSlug: 'shabnam-jewellers',
     positioning:
       'Ecommerce development in Pakistan must respect how customers buy: they compare products on mobile, ask questions before paying, expect flexible payment paths, and judge trust through presentation quality.',
@@ -343,9 +414,79 @@ const seeds: PageSeed[] = [
       'Analytics-ready tracking for product interest, checkout starts, and contact actions',
     ],
     relatedServices: [
-      { label: 'Web Design Pakistan', path: '/services/web-design-pakistan' },
+      { label: 'Web Development Pakistan', path: '/web-development-pakistan' },
       { label: 'Case Studies', path: '/case-studies' },
       { label: 'Pricing', path: '/pricing' },
+    ],
+  },
+  {
+    slug: 'web-development-agency',
+    region: 'int',
+    title: 'International Web Development Agency | Jawrah Pixel',
+    h1: 'Web Development Agency',
+    description:
+      'Premium international web development agency for global brands, SaaS teams, ecommerce operators, and remote-first companies that need conversion-ready digital systems.',
+    keywords: ['web development agency', 'international web development agency', 'premium web development agency', 'React web development agency'],
+    serviceName: 'International Web Development Agency',
+    market: 'International',
+    audience: 'global brands, SaaS teams, ecommerce operators, consultants, agencies, founders, and remote-first companies',
+    priceSignal:
+      'International web development is scoped in USD around product complexity, content depth, integrations, design depth, launch support, and long-term growth needs.',
+    primaryOutcome: 'a globally credible web platform that supports premium positioning, international search discovery, and serious remote-first sales conversations',
+    route: '/int/web-development-agency',
+    relatedCaseSlug: 'aerovista-travels',
+    positioning:
+      'A premium web development agency should turn strategy, interface design, technical SEO, and conversion architecture into one coherent digital asset.',
+    buyerTriggers: ['global website launch', 'SaaS marketing site rebuild', 'international ecommerce expansion', 'agency partner support', 'premium brand repositioning'],
+    localSearchAngles: ['global search discovery', 'remote-first buyer trust', 'USD engagement clarity', 'international conversion paths', 'multi-region SEO structure'],
+    technologyAngles: ['React and TypeScript frontends', 'route-level code splitting', 'schema-rich service pages', 'global CDN delivery', 'analytics-ready funnels', 'CMS-ready content models'],
+    deliverables: [
+      'Premium international website architecture for global service, SaaS, and ecommerce brands',
+      'Search-ready pages with canonical URLs, Open Graph, FAQ schema, and breadcrumbs',
+      'Conversion-focused sections for proof, process, services, pricing signals, and contact',
+      'Responsive interface systems tuned for desktop, tablet, and mobile readability',
+      'Remote-first launch workflow with QA for accessibility, performance, and indexability',
+      'Internal linking structure connecting homepage, services, case studies, and CTA paths',
+    ],
+    relatedServices: [
+      { label: 'Custom Software Development', path: '/custom-software-development' },
+      { label: 'International Services', path: '/services' },
+      { label: 'Case Studies', path: '/case-studies' },
+    ],
+  },
+  {
+    slug: 'custom-software-development',
+    region: 'int',
+    title: 'Custom Software Development Company | Jawrah Pixel',
+    h1: 'Custom Software Development',
+    description:
+      'Custom software development for global teams that need secure portals, SaaS interfaces, internal tools, ecommerce systems, and scalable operational platforms.',
+    keywords: ['custom software development', 'custom software development company', 'SaaS development agency', 'internal tools development'],
+    serviceName: 'Custom Software Development',
+    market: 'International',
+    audience: 'SaaS founders, operators, ecommerce teams, agencies, service businesses, and remote-first companies building scalable systems',
+    priceSignal:
+      'Custom software development is scoped in USD around workflow complexity, data models, integrations, user roles, security requirements, product UI depth, and launch support.',
+    primaryOutcome: 'a secure, scalable software system that reduces operational friction and gives teams a premium interface for growth',
+    route: '/int/custom-software-development',
+    relatedCaseSlug: 'aerovista-travels',
+    positioning:
+      'Custom software development should solve a real operational bottleneck while still carrying the premium clarity and interface quality expected from Jawrah Pixel.',
+    buyerTriggers: ['client portal build', 'SaaS MVP development', 'admin dashboard rebuild', 'workflow automation', 'ecommerce operations scaling'],
+    localSearchAngles: ['international software buyers', 'remote-first product delivery', 'USD development scope', 'global SaaS search intent', 'secure operations platforms'],
+    technologyAngles: ['React product interfaces', 'Supabase data models', 'role-based dashboards', 'secure API routes', 'workflow automation', 'analytics and reporting layers'],
+    deliverables: [
+      'Custom software architecture for portals, dashboards, SaaS interfaces, and operational tools',
+      'Typed React interface systems with responsive layouts and premium interaction states',
+      'Secure data model planning for roles, records, workflows, forms, and reporting',
+      'Conversion and usability paths for admins, clients, agents, customers, or internal teams',
+      'Technical SEO support where the software includes crawlable public landing pages',
+      'Launch validation for security assumptions, performance, accessibility, and support handoff',
+    ],
+    relatedServices: [
+      { label: 'Web Development Agency', path: '/web-development-agency' },
+      { label: 'Services', path: '/services' },
+      { label: 'Process', path: '/process' },
     ],
   },
   {
@@ -385,7 +526,133 @@ const seeds: PageSeed[] = [
   },
 ];
 
-export const serviceLandingPages: ServiceLandingPage[] = seeds.map((seed) => ({
+const aliasServiceCatalog = [
+  {
+    slug: 'web-development',
+    name: 'Web Development',
+    keywords: ['web development', 'custom website development', 'React development'],
+    buyerTriggers: ['new website build', 'frontend rebuild', 'business credibility', 'conversion-focused pages'],
+    technologyAngles: ['React architecture', 'responsive layouts', 'technical SEO metadata', 'analytics-ready forms'],
+    deliverables: ['Custom responsive website architecture', 'SEO-ready page structure', 'Conversion sections and contact paths', 'Performance-focused React implementation'],
+  },
+  {
+    slug: 'ecommerce-development',
+    name: 'Ecommerce Development',
+    keywords: ['ecommerce development', 'online store development', 'premium ecommerce website'],
+    buyerTriggers: ['online store launch', 'catalog redesign', 'checkout friction', 'premium product presentation'],
+    technologyAngles: ['catalog architecture', 'checkout routing', 'responsive media', 'conversion event tracking'],
+    deliverables: ['Premium product and catalog layouts', 'Checkout-ready purchase journeys', 'Ecommerce SEO structure', 'Mobile-first product discovery'],
+  },
+  {
+    slug: 'ui-ux-design',
+    name: 'UI/UX Design',
+    keywords: ['UI UX design', 'interface design', 'user experience design'],
+    buyerTriggers: ['confusing user journeys', 'low conversion clarity', 'interface redesign', 'premium product positioning'],
+    technologyAngles: ['interaction design', 'responsive design systems', 'accessibility checks', 'component architecture'],
+    deliverables: ['High-fidelity responsive UI direction', 'Conversion-led UX flows', 'Reusable interface sections', 'Accessible interaction states'],
+  },
+  {
+    slug: 'branding',
+    name: 'Branding',
+    keywords: ['branding', 'brand identity', 'digital branding'],
+    buyerTriggers: ['new brand launch', 'premium repositioning', 'visual identity refresh', 'stronger market trust'],
+    technologyAngles: ['brand-ready web systems', 'visual hierarchy', 'content rhythm', 'social preview metadata'],
+    deliverables: ['Premium brand presentation system', 'Digital identity direction', 'Website-ready brand hierarchy', 'Consistent conversion messaging'],
+  },
+  {
+    slug: 'seo',
+    name: 'SEO',
+    keywords: ['SEO', 'technical SEO', 'search engine optimization'],
+    buyerTriggers: ['low Google visibility', 'weak indexing', 'missing metadata', 'slow pages'],
+    technologyAngles: ['schema markup', 'canonical validation', 'sitemap generation', 'Core Web Vitals improvements'],
+    deliverables: ['Technical SEO audit and implementation', 'Metadata and canonical fixes', 'Schema and FAQ markup', 'Search Console readiness'],
+  },
+  {
+    slug: 'mobile-app-development',
+    name: 'Mobile App Development',
+    keywords: ['mobile app development', 'app interface development', 'mobile product design'],
+    buyerTriggers: ['mobile product launch', 'customer portal need', 'app-like experience', 'workflow automation'],
+    technologyAngles: ['mobile-first React flows', 'secure data models', 'responsive app shells', 'dashboard-ready UX'],
+    deliverables: ['Mobile-first product interface', 'Secure app flow planning', 'Responsive dashboard patterns', 'Launch-ready interaction paths'],
+  },
+  {
+    slug: 'digital-marketing',
+    name: 'Digital Marketing',
+    keywords: ['digital marketing', 'conversion marketing', 'growth strategy'],
+    buyerTriggers: ['lead generation', 'campaign landing pages', 'conversion tracking', 'market expansion'],
+    technologyAngles: ['analytics events', 'landing page architecture', 'Open Graph metadata', 'conversion funnel tracking'],
+    deliverables: ['Campaign-ready landing structure', 'Conversion CTA planning', 'Analytics-ready event paths', 'Search and social metadata'],
+  },
+  {
+    slug: 'ai-solutions',
+    name: 'AI Solutions',
+    keywords: ['AI solutions', 'AI integration', 'business automation AI'],
+    buyerTriggers: ['support automation', 'proposal automation', 'internal workflow scaling', 'AI product planning'],
+    technologyAngles: ['assistant architecture', 'secure data workflows', 'automation-ready forms', 'AI integration planning'],
+    deliverables: ['AI workflow strategy', 'Automation-ready interface planning', 'Secure data flow architecture', 'Assistant and proposal-flow foundations'],
+  },
+] as const;
+
+const aliasRegionMeta: Record<RegionCode, {
+  market: string;
+  audience: string;
+  currency: string;
+  relatedCaseSlug: string;
+  localSearchAngles: string[];
+}> = {
+  lk: {
+    market: 'Sri Lanka',
+    audience: 'Sri Lankan founders, retailers, consultants, exporters, service teams, and premium local brands',
+    currency: 'LKR',
+    relatedCaseSlug: 'zenvor',
+    localSearchAngles: ['Sri Lankan buyer intent', 'Colombo and islandwide discovery', 'mobile-first traffic', 'WhatsApp inquiry behavior'],
+  },
+  pk: {
+    market: 'Pakistan',
+    audience: 'Pakistani startups, retailers, jewellery brands, consultants, exporters, and service businesses',
+    currency: 'PKR',
+    relatedCaseSlug: 'shabnam-jewellers',
+    localSearchAngles: ['Pakistan search demand', 'Karachi and Lahore discovery', 'mobile-first browsing', 'WhatsApp-assisted conversion'],
+  },
+  int: {
+    market: 'International',
+    audience: 'global brands, SaaS teams, ecommerce operators, agencies, consultants, and remote-first companies',
+    currency: 'USD',
+    relatedCaseSlug: 'aerovista',
+    localSearchAngles: ['global search discovery', 'remote-first buyer trust', 'international conversion paths', 'multi-region SEO structure'],
+  },
+};
+
+const aliasSeeds: PageSeed[] = (['lk', 'pk', 'int'] as RegionCode[]).flatMap((region) => {
+  const meta = aliasRegionMeta[region];
+  return aliasServiceCatalog.map((service) => ({
+    slug: service.slug,
+    region,
+    title: `${service.name} ${meta.market} | Jawrah Pixel`,
+    h1: `${service.name} ${meta.market}`,
+    description: `Premium ${service.name.toLowerCase()} for ${meta.market} brands that need credible design, fast performance, search-ready structure, and conversion-focused execution.`,
+    keywords: service.keywords.map((keyword) => `${keyword} ${meta.market}`),
+    serviceName: `${service.name} ${meta.market}`,
+    market: meta.market,
+    audience: meta.audience,
+    priceSignal: `${service.name} investment is scoped in ${meta.currency} around strategy, content depth, integrations, page complexity, launch support, and long-term growth needs.`,
+    primaryOutcome: `a stronger ${service.name.toLowerCase()} asset that improves trust, visibility, and qualified inquiry quality for ${meta.market} buyers`,
+    route: `/${region}/${service.slug}`,
+    relatedCaseSlug: meta.relatedCaseSlug,
+    positioning: `${service.name} for ${meta.market} should work as a commercial system, not a generic page or isolated visual asset.`,
+    buyerTriggers: [...service.buyerTriggers],
+    localSearchAngles: meta.localSearchAngles,
+    technologyAngles: [...service.technologyAngles],
+    deliverables: [...service.deliverables],
+    relatedServices: [
+      { label: 'Services', path: '/services' },
+      { label: 'Process', path: '/process' },
+      { label: 'Contact', path: '/contact' },
+    ],
+  }));
+});
+
+export const serviceLandingPages: ServiceLandingPage[] = [...seeds, ...aliasSeeds].map((seed) => ({
   ...seed,
   sections: buildSections(seed),
   process: buildProcess(seed.serviceName),

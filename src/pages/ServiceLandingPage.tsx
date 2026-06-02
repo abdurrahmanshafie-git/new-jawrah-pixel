@@ -19,7 +19,37 @@ export default function ServiceLandingPage() {
   }
 
   const canonical = toAbsoluteUrl(page.route);
+  const relatedCasePath = page.relatedCaseSlug ? p(`/case-studies/${page.relatedCaseSlug}`) : p('/case-studies');
   const serviceAlternates = (() => {
+    const serviceAliasSlugs = [
+      'web-development',
+      'ecommerce-development',
+      'ui-ux-design',
+      'branding',
+      'seo',
+      'mobile-app-development',
+      'digital-marketing',
+      'ai-solutions',
+    ];
+
+    if (serviceAliasSlugs.includes(page.slug)) {
+      return [
+        { hrefLang: 'en-LK', href: toAbsoluteUrl(`/lk/${page.slug}`) },
+        { hrefLang: 'en-PK', href: toAbsoluteUrl(`/pk/${page.slug}`) },
+        { hrefLang: 'en', href: toAbsoluteUrl(`/int/${page.slug}`) },
+        { hrefLang: 'x-default', href: toAbsoluteUrl(`/int/${page.slug}`) },
+      ];
+    }
+
+    if (['web-development-sri-lanka', 'web-development-pakistan', 'web-development-agency'].includes(page.slug)) {
+      return [
+        { hrefLang: 'en-LK', href: toAbsoluteUrl('/lk/web-development-sri-lanka') },
+        { hrefLang: 'en-PK', href: toAbsoluteUrl('/pk/web-development-pakistan') },
+        { hrefLang: 'en', href: toAbsoluteUrl('/int/web-development-agency') },
+        { hrefLang: 'x-default', href: toAbsoluteUrl('/int/web-development-agency') },
+      ];
+    }
+
     if (page.slug.includes('web-design')) {
       return [
         { hrefLang: 'en-LK', href: toAbsoluteUrl('/lk/services/web-design-sri-lanka') },
@@ -31,24 +61,29 @@ export default function ServiceLandingPage() {
 
     if (page.slug.includes('ecommerce')) {
       return [
-        { hrefLang: 'en-LK', href: toAbsoluteUrl('/lk/services/ecommerce-development-sri-lanka') },
-        { hrefLang: 'en-PK', href: toAbsoluteUrl('/pk/services/ecommerce-development-pakistan') },
-        { hrefLang: 'en', href: toAbsoluteUrl('/int/services/international-digital-services') },
-        { hrefLang: 'x-default', href: toAbsoluteUrl('/int/services/international-digital-services') },
+        { hrefLang: 'en-LK', href: toAbsoluteUrl('/lk/ecommerce-development-sri-lanka') },
+        { hrefLang: 'en-PK', href: toAbsoluteUrl('/pk/ecommerce-development-pakistan') },
+        { hrefLang: 'en', href: toAbsoluteUrl('/int/web-development-agency') },
+        { hrefLang: 'x-default', href: toAbsoluteUrl('/int/web-development-agency') },
       ];
     }
 
-    if (page.slug === 'international-digital-services') {
+    if (page.slug === 'international-digital-services' || page.slug === 'custom-software-development') {
       return [
-        { hrefLang: 'en', href: toAbsoluteUrl('/int/services/international-digital-services') },
-        { hrefLang: 'x-default', href: toAbsoluteUrl('/int/services/international-digital-services') },
+        { hrefLang: 'en', href: canonical },
+        { hrefLang: 'x-default', href: canonical },
       ];
     }
 
-    return [
-      { hrefLang: 'en-LK', href: canonical },
-      { hrefLang: 'x-default', href: canonical },
-    ];
+    return page.region === 'int'
+      ? [
+          { hrefLang: 'en', href: canonical },
+          { hrefLang: 'x-default', href: canonical },
+        ]
+      : [
+          { hrefLang: page.region === 'lk' ? 'en-LK' : 'en-PK', href: canonical },
+          { hrefLang: 'x-default', href: canonical },
+        ];
   })();
   const schema = [
     buildServiceSchema({
@@ -183,10 +218,10 @@ export default function ServiceLandingPage() {
         <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <Reveal className="mb-10 max-w-3xl">
             <span className="mb-4 block text-[10px] font-mono font-bold uppercase tracking-[0.26em] text-brand-cyan">
-              Deliverables
+              Benefits
             </span>
             <h2 className="text-3xl font-display font-medium uppercase leading-tight tracking-tight text-white md:text-5xl">
-              What the engagement includes
+              Benefits built into the engagement
             </h2>
           </Reveal>
 
@@ -198,6 +233,87 @@ export default function ServiceLandingPage() {
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </div>
+      </section>
+
+      <section className="relative py-20 md:py-28">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <Reveal className="mb-10 max-w-3xl">
+            <span className="mb-4 block text-[10px] font-mono font-bold uppercase tracking-[0.26em] text-brand-cyan">
+              Why Jawrah Pixel
+            </span>
+            <h2 className="text-3xl font-display font-medium uppercase leading-tight tracking-tight text-white md:text-5xl">
+              Built as a ranking and revenue asset
+            </h2>
+          </Reveal>
+
+          <StaggerContainer className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {[
+              {
+                icon: SearchCheck,
+                title: 'SEO Architecture',
+                copy: 'Metadata, schema, canonical URLs, internal links, FAQs, and semantic sections are planned before production polish.',
+              },
+              {
+                icon: LineChart,
+                title: 'Conversion Clarity',
+                copy: `The page is shaped around ${page.primaryOutcome}, with CTAs and proof paths that help serious buyers move forward.`,
+              },
+              {
+                icon: ShieldCheck,
+                title: 'Premium Execution',
+                copy: 'The interface stays aligned with the Jawrah Pixel visual system while protecting speed, accessibility, and mobile layout stability.',
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <StaggerItem key={item.title} className="rounded-xl border border-white/10 bg-white/[0.025] p-6">
+                  <Icon className="mb-5 h-5 w-5 text-brand-cyan" />
+                  <h3 className="mb-3 text-lg font-display font-medium uppercase tracking-tight text-white">{item.title}</h3>
+                  <p className="text-sm font-light leading-relaxed text-brand-gray">{item.copy}</p>
+                </StaggerItem>
+              );
+            })}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      <section className="relative border-y border-white/5 bg-brand-black py-20 md:py-28">
+        <div className="container mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 md:px-8 lg:grid-cols-2">
+          <Reveal className="rounded-xl border border-white/10 bg-white/[0.025] p-6 md:p-8">
+            <span className="mb-4 block text-[10px] font-mono font-bold uppercase tracking-[0.26em] text-brand-cyan">
+              Technologies
+            </span>
+            <h2 className="mb-6 text-2xl font-display font-medium uppercase leading-tight tracking-tight text-white md:text-4xl">
+              Modern stack, search-ready structure
+            </h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {page.technologyAngles.map((technology) => (
+                <div key={technology} className="flex items-start gap-3 rounded-lg border border-white/10 px-4 py-3 text-xs font-light leading-relaxed text-brand-silver">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
+                  {technology}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1} className="rounded-xl border border-white/10 bg-white/[0.025] p-6 md:p-8">
+            <span className="mb-4 block text-[10px] font-mono font-bold uppercase tracking-[0.26em] text-brand-cyan">
+              Case Studies
+            </span>
+            <h2 className="mb-5 text-2xl font-display font-medium uppercase leading-tight tracking-tight text-white md:text-4xl">
+              Proof connected to the service
+            </h2>
+            <p className="mb-8 text-sm font-light leading-7 text-brand-gray md:text-base">
+              Review relevant work to see how Jawrah Pixel connects premium design, conversion paths, performance discipline, and scalable implementation.
+            </p>
+            <Link to={relatedCasePath}>
+              <Button variant="outline" className="h-12 w-full border-white/15 bg-white/5 px-7 text-[10px] font-mono font-bold uppercase tracking-[0.18em] sm:w-auto">
+                View Relevant Proof
+                <ArrowRight className="ml-3 h-4 w-4" />
+              </Button>
+            </Link>
+          </Reveal>
         </div>
       </section>
 

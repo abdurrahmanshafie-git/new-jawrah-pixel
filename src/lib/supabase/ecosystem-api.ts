@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import type { Insert, Row, Update } from './database.types';
+import { fetchClientWorkspace } from './api';
 import { projectProgressFromStatus } from '@/lib/platform/ecosystem';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
 import {
@@ -740,7 +741,7 @@ export async function fetchExtendedClientWorkspace(userId: string) {
   ensureConfigured();
 
   const [base, proposals, threads, updates] = await Promise.all([
-    logSupabaseTask('extended_client_workspace.base', import('./api').then((m) => m.fetchClientWorkspace(userId))),
+    logSupabaseTask('extended_client_workspace.base', fetchClientWorkspace(userId)),
     logSupabaseTask('extended_client_workspace.proposals', fetchClientProposals(userId)),
     logSupabaseTask('extended_client_workspace.threads', fetchMessageThreads(userId)),
     logSupabaseTask('extended_client_workspace.updates', fetchClientProjectUpdates(userId)),

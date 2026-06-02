@@ -54,20 +54,52 @@ export default function Services() {
 
   const getServiceLandingPath = (id: string) => {
     if (currentRegion === 'lk') {
-      if (id === 'web-design') return '/services/web-design-sri-lanka';
-      if (id === 'ecommerce') return '/services/ecommerce-development-sri-lanka';
-      if (id === 'seo') return '/services/seo-services-sri-lanka';
+      const landingPaths: Record<string, string> = {
+        'web-design': '/web-development-sri-lanka',
+        ecommerce: '/ecommerce-development-sri-lanka',
+        jewellery: '/ecommerce-development-sri-lanka',
+        fashion: '/ecommerce-development-sri-lanka',
+        restaurant: '/web-development-sri-lanka',
+        furniture: '/ecommerce-development-sri-lanka',
+        seo: '/services/seo-services-sri-lanka',
+        branding: '/branding',
+        dashboards: '/web-development-sri-lanka',
+        maintenance: '/web-development-sri-lanka',
+      };
+
+      return landingPaths[id] ?? '';
     }
 
     if (currentRegion === 'pk') {
-      if (id === 'web-design') return '/services/web-design-pakistan';
-      if (id === 'ecommerce-pk') return '/services/ecommerce-development-pakistan';
+      const landingPaths: Record<string, string> = {
+        'ecommerce-pk': '/ecommerce-development-pakistan',
+        'jewellery-pk': '/ecommerce-development-pakistan',
+        'fashion-pk': '/ecommerce-development-pakistan',
+        'travel-pk': '/web-development-pakistan',
+        'furniture-pk': '/ecommerce-development-pakistan',
+        'restaurant-pk': '/web-development-pakistan',
+        'seo-pk': '/seo',
+        'branding-pk': '/branding',
+        'dashboards-pk': '/web-development-pakistan',
+        'maintenance-pk': '/web-development-pakistan',
+      };
+
+      return landingPaths[id] ?? '';
     }
 
     if (currentRegion === 'int') {
-      if (['web-design-int', 'ecommerce-int', 'seo-int', 'saas-int', 'frontend-int', 'enterprise-int'].includes(id)) {
-        return '/services/international-digital-services';
-      }
+      const landingPaths: Record<string, string> = {
+        'web-design-int': '/web-development-agency',
+        'ecommerce-int': '/custom-software-development',
+        'ai-int': '/custom-software-development',
+        'saas-int': '/custom-software-development',
+        'branding-int': '/branding',
+        'seo-int': '/seo',
+        'frontend-int': '/web-development-agency',
+        'enterprise-int': '/custom-software-development',
+      };
+
+      return landingPaths[id] ?? '';
     }
 
     return '';
@@ -152,9 +184,9 @@ export default function Services() {
                 {getServiceLandingPath(service.id) && (
                   <Link
                     to={p(getServiceLandingPath(service.id))}
-                    className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-blue hover:text-white transition-colors"
+                    className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.02] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-blue transition-colors hover:border-brand-blue/30 hover:text-white sm:w-auto"
                   >
-                    View Specialization
+                    Learn More
                   </Link>
                 )}
                 <PaymentCTAGroup serviceName={service.title} priceLabel={service.price} compact />
