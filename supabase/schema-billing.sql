@@ -139,5 +139,43 @@ create policy "invoice_payments_insert_own" on public.invoice_payments
 drop policy if exists "invoice_payments_team_update" on public.invoice_payments;
 create policy "invoice_payments_team_update" on public.invoice_payments
   for update to authenticated
-  using (app_private.is_team())
-  with check (app_private.is_team());
+  using (app_private.is_admin())
+  with check (app_private.is_admin());
+
+-- Sri Lanka bank transfers are client-submitted but admin-verified.
+-- Clients may move their own LK invoice into manual review with proof/reference,
+-- but only admins can confirm, reject, or reset verification state.
+create or replace function app_private.guard_lk_bank_transfer_verification()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  if coalesce(new.region, old.region) = 'lk' and not app_private.is_admin() then
+    if
+      old.client_id = (select auth.uid())
+      and new.payment_status = 'manual_review'
+      and old.payment_status in ('unpaid', 'pending', 'failed', 'cancelled')
+      and new.status = 'pending'
+    then
+      return new;
+    end if;
+
+    if
+      new.payment_status is distinct from old.payment_status
+      or new.status is distinct from old.status
+      or new.paid_at is distinct from old.paid_at
+    then
+      raise exception 'Sri Lanka bank transfer verification requires admin approval.';
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists guard_lk_bank_transfer_verification on public.invoices;
+create trigger guard_lk_bank_transfer_verification
+  before update on public.invoices
+  for each row execute function app_private.guard_lk_bank_transfer_verification();

@@ -29,12 +29,12 @@ export function getManualPaymentInstructions(region: PaymentRegion): ManualPayme
 
   if (region === 'lk') {
     return {
-      title: 'Sri Lanka Manual Payment',
+      title: 'Sri Lanka Bank Transfer',
       lines: [
-        'Bank transfer to Jawrah Pixel business account (LKR).',
-        'PayHere / OnePay - use the link from your invoice when gateways are live.',
+        'Bank transfer is the active payment method for Sri Lanka invoices.',
+        'Bank details are shown inside the secure invoice payment area after quotation acceptance.',
         'Include your invoice number in the transfer reference.',
-        'After paying, confirm via WhatsApp with your receipt screenshot.',
+        'After paying, upload the receipt or submit the transfer reference for verification.',
       ],
       whatsappLink,
     };

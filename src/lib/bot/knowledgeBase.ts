@@ -81,7 +81,7 @@ export const KNOWLEDGE_BASE = {
   ],
   payments: {
     methods: {
-      lk: "Bank Transfer (LKR), Credit/Debit via PayHere",
+      lk: "Bank Transfer (LKR) with receipt upload or transaction reference verification",
       pk: "Bank Transfer (PKR), JazzCash/Easypaisa",
       int: "Stripe, Wise, International Wire Transfer (USD)"
     },

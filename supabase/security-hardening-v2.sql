@@ -80,6 +80,12 @@ create policy "project_files_read_v2" on storage.objects
         where proof_storage_path = name
         and (client_id = (select auth.uid()))
       )
+      or exists (
+        select 1 from public.invoice_payments ip
+        join public.invoices i on i.id = ip.invoice_id
+        where ip.proof_storage_path = name
+        and (ip.client_id = (select auth.uid()) or i.client_id = (select auth.uid()))
+      )
     )
   );
 

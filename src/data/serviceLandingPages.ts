@@ -263,7 +263,7 @@ const seeds: PageSeed[] = [
     positioning:
       'Ecommerce development in Sri Lanka has to do more than display products; it must build confidence quickly on mobile devices and convert buyers who may still prefer assisted purchasing.',
     buyerTriggers: ['online store launch', 'slow catalog experience', 'checkout abandonment', 'premium product presentation', 'payment workflow upgrade'],
-    localSearchAngles: ['Sri Lankan ecommerce search terms', 'PayHere and bank transfer expectations', 'mobile catalog browsing', 'local delivery clarity', 'WhatsApp sales support'],
+    localSearchAngles: ['Sri Lankan ecommerce search terms', 'bank transfer verification expectations', 'mobile catalog browsing', 'local delivery clarity', 'WhatsApp sales support'],
     technologyAngles: ['product data modeling', 'secure checkout routing', 'responsive media compression', 'inventory-ready architecture', 'conversion event tracking'],
     deliverables: [
       'SEO-ready ecommerce category and product page planning',

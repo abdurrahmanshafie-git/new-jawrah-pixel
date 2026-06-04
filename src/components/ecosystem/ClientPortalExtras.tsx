@@ -48,6 +48,26 @@ interface ClientPortalExtrasProps {
   onReload: () => void;
 }
 
+function paymentWorkflowLabel(inv: any): string {
+  if (inv.region !== 'lk') return paymentStatusLabel(inv.payment_status, inv.current_milestone);
+  if (inv.payment_status === 'manual_review') return 'Awaiting Verification';
+  if (inv.payment_status === 'paid' || inv.status === 'paid' || inv.status === 'Paid') return 'Payment Confirmed';
+  if (inv.current_milestone && inv.current_milestone !== 'deposit') return 'Project Started';
+  return 'Payment Pending';
+}
+
+function paymentWorkflowClass(inv: any, isPaid: boolean): string {
+  if (isPaid) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+  if (inv.region === 'lk' && inv.payment_status === 'manual_review') {
+    return 'bg-blue-500/10 border-blue-500/20 text-blue-300';
+  }
+  if (inv.region === 'lk' && inv.current_milestone && inv.current_milestone !== 'deposit') {
+    return 'bg-brand-cyan/10 border-brand-cyan/20 text-brand-cyan';
+  }
+  if (inv.payment_status === 'manual_review') return 'bg-blue-500/10 border-blue-500/20 text-blue-300';
+  return 'bg-amber-500/10 border-amber-500/20 text-amber-400';
+}
+
 export function ClientOverviewExtras({
   projects,
   notifications,
@@ -624,7 +644,7 @@ export function ClientInvoicesPanel({
       {invoices.map((inv) => {
         const isPaid = inv.status === 'Paid' || inv.status === 'paid' || inv.payment_status === 'paid';
         const amountDue = Number(inv.amount_due_now ?? inv.amountNumeric ?? 0);
-        const statusLabel = paymentStatusLabel(inv.payment_status, inv.current_milestone);
+        const statusLabel = paymentWorkflowLabel(inv);
 
         return (
           <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl space-y-4">
@@ -637,13 +657,7 @@ export function ClientInvoicesPanel({
                 </span>
               </div>
               <span
-                className={`px-2.5 py-0.5 rounded text-[10px] uppercase font-mono border ${
-                  isPaid
-                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                    : inv.payment_status === 'manual_review'
-                      ? 'bg-blue-500/10 border-blue-500/20 text-blue-300'
-                      : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-                }`}
+                className={`px-2.5 py-0.5 rounded text-[10px] uppercase font-mono border ${paymentWorkflowClass(inv, isPaid)}`}
               >
                 {statusLabel}
               </span>
@@ -676,7 +690,11 @@ export function ClientInvoicesPanel({
               </Button>
               {!isPaid && amountDue > 0 && (
                 <Button size="sm" className="text-[9px] font-mono uppercase luxury-glow" onClick={() => handlePay(inv)}>
-                  {formatPayButtonLabel(amountDue, inv.currency || 'LKR', inv.region)}
+                  {inv.region === 'lk'
+                    ? inv.payment_status === 'manual_review'
+                      ? 'View Verification'
+                      : 'Confirm Bank Transfer'
+                    : formatPayButtonLabel(amountDue, inv.currency || 'LKR', inv.region)}
                 </Button>
               )}
             </div>

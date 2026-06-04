@@ -8,7 +8,14 @@ import { BotTrainingCenter } from '@/components/ecosystem/BotTrainingCenter';
 import { ADMIN_AGENT_WORKSPACE_TABS, AdminAgentNetworkPanel } from '@/components/ecosystem/AdminAgentNetworkPanel';
 import { AdminInvoiceCreatePanel } from '@/components/ecosystem/AdminInvoiceCreatePanel';
 import { BillingPdfActions } from '@/components/billing/BillingPdfActions';
-import { adminApproveManualPayment } from '@/lib/supabase/billing-api';
+import {
+  adminApproveManualPayment,
+  adminRejectManualPayment,
+  adminRequestUpdatedReceipt,
+  completeInvoicePayment,
+  fetchPaymentVerificationQueue,
+  getPaymentProofSignedUrl,
+} from '@/lib/supabase/billing-api';
 import { adminFetchAgents } from '@/lib/supabase/agent-api';
 import { formatCurrencyAmount } from '@/lib/billing/format';
 import { paymentStatusLabel } from '@/lib/billing/calculations';
@@ -33,7 +40,11 @@ import {
   Briefcase,
   ShieldAlert,
   X,
-  BrainCircuit
+  BrainCircuit,
+  CheckCircle,
+  ExternalLink,
+  RefreshCw,
+  XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
@@ -152,6 +163,7 @@ export default function AdminDashboard() {
   const [projects, setProjects] = useState<any[]>([]);
   const [clients, setClients] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<any[]>([]);
+  const [paymentQueue, setPaymentQueue] = useState<any[]>([]);
   const [projectFiles, setProjectFiles] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [agentWorkspace, setAgentWorkspace] = useState<AgentWorkspaceData>(emptyAgentWorkspace);
@@ -253,6 +265,7 @@ export default function AdminDashboard() {
         analyticsRes,
         bookingsRes,
         invoicesRes,
+        paymentQueueRes,
         filesRes,
         notificationsRes,
         chatbotRes,
@@ -285,6 +298,9 @@ export default function AdminDashboard() {
               .from('invoices')
               .select('*, client:profiles(full_name, email)')
               .order('created_at', { ascending: false }),
+          ),
+          safeDashboardTask(
+            logSupabaseTask('admin_dashboard.payment_verification_queue', fetchPaymentVerificationQueue()),
           ),
           logSupabaseQuery(
             'admin_dashboard.project_files',
@@ -324,6 +340,7 @@ export default function AdminDashboard() {
         ['analytics', analyticsRes.error],
         ['bookings', bookingsRes.error],
         ['invoices', invoicesRes.error],
+        ['paymentQueue', paymentQueueRes.error || paymentQueueRes.data?.error],
         ['projectFiles', filesRes.error],
         ['notifications', notificationsRes.error],
         ['chatbotLeads', chatbotRes.error],
@@ -339,6 +356,7 @@ export default function AdminDashboard() {
       setAnalytics(analyticsRes.data);
       setBookings(bookingsRes.data ?? []);
       setInvoices(invoicesRes.data ?? []);
+      setPaymentQueue(paymentQueueRes.data?.data ?? []);
       setProjectFiles(filesRes.data ?? []);
       setNotifications(notificationsRes.data ?? []);
       setChatbotLeads(chatbotRes.data ?? []);
@@ -468,7 +486,17 @@ export default function AdminDashboard() {
   const handleUpdateInvoicePayment = async (id: string, paymentStatus: string) => {
     try {
       if (paymentStatus === 'paid') {
-        await adminApproveManualPayment(id);
+        const invoice = invoices.find((inv) => inv.id === id);
+        if (invoice?.region === 'lk' && invoice?.payment_method === 'bank_transfer') {
+          await adminApproveManualPayment(id, null, user?.id);
+        } else {
+          await completeInvoicePayment({
+            invoiceId: id,
+            amount: Number(invoice?.amount_due_now ?? invoice?.amount ?? 0),
+            paymentMethod: invoice?.payment_method || 'bank_transfer',
+            transactionId: invoice?.payment_reference ?? invoice?.transaction_id ?? undefined,
+          });
+        }
         showToast('Invoice milestone marked as paid.');
       } else {
         const { error } = await logSupabaseQuery(
@@ -485,6 +513,70 @@ export default function AdminDashboard() {
         if (error) throw error;
         showToast(`Invoice marked as ${paymentStatus}`);
       }
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const handleViewPaymentProof = async (proofPath?: string | null) => {
+    if (!proofPath) {
+      showToast('No receipt file was uploaded for this submission.', 'info');
+      return;
+    }
+
+    const { data, error } = await getPaymentProofSignedUrl(proofPath);
+    if (error || !data?.signedUrl) {
+      showToast(error?.message || 'Receipt access is unavailable.', 'error');
+      return;
+    }
+
+    window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleApproveQueuePayment = async (item: any) => {
+    try {
+      await adminApproveManualPayment(item.invoice_id, item.id, user?.id);
+      showToast('Payment approved and project status updated.');
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const handleRejectQueuePayment = async (item: any) => {
+    const reason = window.prompt('Reason for rejecting this payment?', 'Payment proof could not be verified.');
+    if (reason === null) return;
+
+    try {
+      await adminRejectManualPayment({
+        invoiceId: item.invoice_id,
+        paymentId: item.id,
+        actorId: user?.id,
+        reason,
+      });
+      showToast('Payment rejected.');
+      loadAllDashboardData();
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const handleRequestUpdatedReceipt = async (item: any) => {
+    const message = window.prompt(
+      'Message to client',
+      'Please upload a clearer receipt or submit the correct transaction reference number.',
+    );
+    if (message === null) return;
+
+    try {
+      await adminRequestUpdatedReceipt({
+        invoiceId: item.invoice_id,
+        paymentId: item.id,
+        actorId: user?.id,
+        message,
+      });
+      showToast('Updated receipt requested.');
       loadAllDashboardData();
     } catch (err: any) {
       showToast(err.message, 'error');
@@ -566,6 +658,11 @@ export default function AdminDashboard() {
   const activeClientProjects = projects.filter(
     (project) => !['completed', 'delivered', 'cancelled'].includes(project.status),
   );
+  const visiblePaymentQueue = paymentQueue.filter((item) => {
+    const invoice = Array.isArray(item.invoice) ? item.invoice[0] : item.invoice;
+    if (invoice?.region !== 'lk') return false;
+    return regionFilter === 'all' || regionFilter === 'lk';
+  });
   const clientRevenue = Number(
     analytics?.paidRevenue ?? analytics?.contractedRevenue ?? analytics?.totalRevenue ?? 0,
   );
@@ -1327,6 +1424,116 @@ export default function AdminDashboard() {
                       showToast={showToast}
                       onCreated={loadAllDashboardData}
                     />
+
+                    <div className="p-5 bg-brand-black/60 border border-brand-cyan/15 rounded-xl space-y-4">
+                      <div className="flex items-start justify-between gap-4 flex-wrap">
+                        <div>
+                          <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest">Sri Lanka Only</span>
+                          <h3 className="text-sm font-bold text-white uppercase tracking-wider mt-1">Payment Verification Queue</h3>
+                          <p className="text-xs text-brand-gray mt-1">Review bank transfer receipts and reference submissions before project start.</p>
+                        </div>
+                        <span className="px-2.5 py-1 rounded border border-brand-cyan/20 bg-brand-cyan/10 text-brand-cyan text-[10px] font-mono uppercase">
+                          {visiblePaymentQueue.length} Awaiting
+                        </span>
+                      </div>
+
+                      {visiblePaymentQueue.length === 0 ? (
+                        <div className="p-4 rounded-xl border border-white/5 bg-black/30 text-xs text-brand-gray font-mono uppercase">
+                          No Sri Lanka payment confirmations awaiting verification.
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {visiblePaymentQueue.map((item) => {
+                            const invoice = Array.isArray(item.invoice) ? item.invoice[0] : item.invoice;
+                            const client = Array.isArray(invoice?.client) ? invoice.client[0] : invoice?.client;
+                            const project = Array.isArray(invoice?.project) ? invoice.project[0] : invoice?.project;
+                            const proofPath = item.proof_storage_path || invoice?.proof_storage_path;
+                            const amount = Number(item.amount ?? invoice?.amount_due_now ?? invoice?.amount ?? 0);
+
+                            return (
+                              <div key={item.id} className="p-4 rounded-xl border border-white/10 bg-black/30 space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
+                                  <div className="min-w-0">
+                                    <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Client Name</span>
+                                    <span className="text-xs text-white font-semibold break-words">
+                                      {client?.full_name || 'Client unavailable'}
+                                    </span>
+                                    <span className="text-[10px] text-brand-gray block truncate">{client?.email || 'No email'}</span>
+                                  </div>
+                                  <div className="min-w-0">
+                                    <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Project Name</span>
+                                    <span className="text-xs text-white font-semibold break-words">
+                                      {project?.title || invoice?.title || 'Invoice project'}
+                                    </span>
+                                    <span className="text-[10px] text-brand-cyan font-mono block">{invoice?.invoice_number}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Amount</span>
+                                    <span className="text-xs text-brand-cyan font-mono font-bold">
+                                      {formatCurrencyAmount(amount, item.currency || invoice?.currency || 'LKR', 'lk')}
+                                    </span>
+                                  </div>
+                                  <div className="min-w-0">
+                                    <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Reference Number</span>
+                                    <span className="text-xs text-white font-mono break-words">
+                                      {item.reference_number || 'Receipt uploaded'}
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Submission Date</span>
+                                    <span className="text-xs text-white font-mono">
+                                      {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No date'}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    disabled={!proofPath}
+                                    className="text-[9px] font-mono uppercase gap-1"
+                                    onClick={() => handleViewPaymentProof(proofPath)}
+                                  >
+                                    <ExternalLink size={12} /> Receipt Image
+                                  </Button>
+
+                                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full sm:w-auto">
+                                    <Button
+                                      type="button"
+                                      size="sm"
+                                      className="text-[9px] font-mono uppercase gap-1"
+                                      onClick={() => handleApproveQueuePayment(item)}
+                                    >
+                                      <CheckCircle size={12} /> Approve Payment
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      size="sm"
+                                      variant="outline"
+                                      className="text-[9px] font-mono uppercase gap-1"
+                                      onClick={() => handleRejectQueuePayment(item)}
+                                    >
+                                      <XCircle size={12} /> Reject Payment
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      size="sm"
+                                      variant="ghost"
+                                      className="text-[9px] font-mono uppercase gap-1"
+                                      onClick={() => handleRequestUpdatedReceipt(item)}
+                                    >
+                                      <RefreshCw size={12} /> Request Updated Receipt
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
 
                     <div className="space-y-4">
                       {invoices.length === 0 && (

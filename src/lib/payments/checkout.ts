@@ -148,7 +148,9 @@ export async function runDepositCheckout(params: CheckoutParams): Promise<Checko
       paymentConfigured: false,
       ok: true,
       message:
-        'Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp confirmation.',
+        params.region === 'lk'
+          ? 'Sri Lanka bank transfer invoice is ready. Submit receipt or reference number from the secure invoice payment area.'
+          : 'Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp confirmation.',
     };
   }
 

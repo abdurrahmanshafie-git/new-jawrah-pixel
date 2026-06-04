@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Loader, MessageCircle, Building2, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Loader, MessageCircle, Building2, ArrowLeft, CheckCircle, ShieldCheck, UploadCloud } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
@@ -11,17 +11,16 @@ import { fetchInvoiceForCheckout, submitManualPaymentProof } from '@/lib/supabas
 import { completeInvoicePayment } from '@/lib/supabase/billing-api';
 import { getAvailablePaymentMethods, type PaymentProviderId } from '@/lib/payments';
 import { getManualPaymentInstructions } from '@/lib/payments/instructions';
-import { formatPayButtonLabel } from '@/lib/billing/format';
-import { redirectToPayHere } from '@/lib/payments/payhereClient';
 import { runDepositCheckout, type PaymentModalIntent } from '@/lib/payments/checkout';
 import { calculateDeposit, formatMoney, type DepositPercent } from '@/lib/payments/amounts';
-import { currencyForRegion } from '@/lib/payments/config';
+import { currencyForRegion, RECEIPT_UPLOAD_SETTINGS } from '@/lib/payments/config';
 import { submitInquiry } from '@/lib/supabase/api';
 import { isRegionCode } from '@/lib/region';
 import type { Profile, RegionCode } from '@/types';
 import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 import { SEO } from '@/components/layout/SEO';
+import { LkBankTransferCard } from '@/components/payments/LkBankTransferCard';
 
 type StartCheckoutOption = 'reserve_10' | 'deposit_50' | 'full_payment' | 'custom_invoice';
 
@@ -273,11 +272,21 @@ export default function CheckoutPage() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
+  const proofInputRef = useRef<HTMLInputElement>(null);
 
   const region = (invoice?.region ?? profile?.region ?? 'lk') as RegionCode;
   const methods = useMemo(() => getAvailablePaymentMethods(region), [region]);
   const manual = getManualPaymentInstructions(region);
   const isPaid = invoice?.payment_status === 'paid' || invoice?.status === 'paid';
+  const isAwaitingVerification = invoice?.payment_status === 'manual_review';
+  const isSriLankaBankTransfer = region === 'lk' && method === 'bank_transfer';
+  const lkWorkflowState = isAwaitingVerification
+    ? 'Awaiting Verification'
+    : invoice?.current_milestone && invoice.current_milestone !== 'deposit'
+      ? 'Project Started'
+      : isPaid
+        ? 'Payment Confirmed'
+        : 'Payment Pending';
   const amountDue = Number(invoice?.amount_due_now ?? invoice?.amount ?? 0);
 
   useEffect(() => {
@@ -311,19 +320,30 @@ export default function CheckoutPage() {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handlePayHere = async () => {
-    setProcessing(true);
+  const handleReceiptSelect = (file: File | null) => {
+    if (!file) {
+      setProofFile(null);
+      return;
+    }
+
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+    const mimeAllowed = RECEIPT_UPLOAD_SETTINGS.allowedMimeTypes.includes(file.type);
+    const extAllowed = RECEIPT_UPLOAD_SETTINGS.allowedExtensions.includes(ext);
+
+    if (file.size > RECEIPT_UPLOAD_SETTINGS.maxBytes) {
+      setError('Receipt file must be 10MB or smaller.');
+      setProofFile(null);
+      return;
+    }
+
+    if (!mimeAllowed || !extAllowed) {
+      setError('Receipt must be a JPG, PNG, or PDF file.');
+      setProofFile(null);
+      return;
+    }
+
     setError('');
-    const result = await redirectToPayHere({
-      invoiceId: invoiceId!,
-      invoiceNumber: invoice.invoice_number,
-      amount: amountDue,
-      currency: invoice.currency,
-      customerEmail: profile?.email ?? undefined,
-      customerName: profile?.full_name ?? undefined,
-    });
-    if (!result.ok) setError(result.message || 'Could not start PayHere checkout.');
-    setProcessing(false);
+    setProofFile(file);
   };
 
   const handleManualSubmit = async (e: React.FormEvent) => {
@@ -332,8 +352,8 @@ export default function CheckoutPage() {
       setError('Please complete the security verification.');
       return;
     }
-    if (!reference.trim()) {
-      setError('Enter your bank transfer reference number.');
+    if (!reference.trim() && !proofFile) {
+      setError('Upload your receipt or enter the bank transfer reference number.');
       return;
     }
     setProcessing(true);
@@ -341,7 +361,7 @@ export default function CheckoutPage() {
       await submitManualPaymentProof({
         invoiceId: invoiceId!,
         clientId: user.id,
-        paymentMethod: method,
+        paymentMethod: region === 'lk' ? 'bank_transfer' : method,
         referenceNumber: reference.trim(),
         notes: notes.trim() || undefined,
         proofFile,
@@ -423,7 +443,9 @@ export default function CheckoutPage() {
             </div>
           ) : (
             <div className="glass-card p-5 rounded-2xl border border-white/10 space-y-5">
-              <h2 className="text-sm font-mono uppercase tracking-widest text-brand-cyan">Payment Options</h2>
+              <h2 className="text-sm font-mono uppercase tracking-widest text-brand-cyan">
+                {region === 'lk' ? 'Bank Transfer Verification' : 'Payment Options'}
+              </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {methods.map((m) => (
@@ -442,18 +464,35 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              {error && (
-                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs">{error}</div>
+              {isSriLankaBankTransfer && (
+                <>
+                  <LkBankTransferCard
+                    invoiceNumber={invoice.invoice_number}
+                    amountDue={amountDue}
+                    currency={invoice.currency}
+                    region={region}
+                  />
+
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                    {['Payment Pending', 'Awaiting Verification', 'Payment Confirmed', 'Project Started'].map((state) => (
+                      <div
+                        key={state}
+                        className={`min-h-[58px] rounded-xl border p-3 flex items-center gap-2 ${
+                          lkWorkflowState === state
+                            ? 'border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan'
+                            : 'border-white/5 bg-white/[0.02] text-brand-gray'
+                        }`}
+                      >
+                        {lkWorkflowState === state ? <CheckCircle size={14} /> : <ShieldCheck size={14} />}
+                        <span className="text-[9px] font-mono uppercase tracking-wider leading-snug">{state}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
 
-              {method === 'payhere' && region === 'lk' && (
-                <Button
-                  className="w-full luxury-glow font-mono uppercase tracking-widest text-xs"
-                  disabled={processing}
-                  onClick={handlePayHere}
-                >
-                  {formatPayButtonLabel(amountDue, invoice.currency, region)}
-                </Button>
+              {error && (
+                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs">{error}</div>
               )}
 
               {(method === 'bank_transfer' ||
@@ -464,7 +503,8 @@ export default function CheckoutPage() {
                 method === 'visa' ||
                 method === 'mastercard') && (
                 <div className="space-y-4">
-                  <div className="p-4 rounded-xl border border-white/5 bg-black/30 space-y-2">
+                  {!isSriLankaBankTransfer && (
+                    <div className="p-4 rounded-xl border border-white/5 bg-black/30 space-y-2">
                     <div className="flex items-center gap-2 text-brand-cyan text-xs font-mono uppercase">
                       <Building2 size={14} /> {manual.title}
                     </div>
@@ -476,49 +516,72 @@ export default function CheckoutPage() {
                     <p className="text-[10px] font-mono text-brand-gray pt-2">
                       Reference format: {invoice.invoice_number}-[YourName]
                     </p>
-                  </div>
-
-                  <form onSubmit={handleManualSubmit} className="space-y-3">
-                    <Input
-                      value={reference}
-                      onChange={(e) => setReference(e.target.value)}
-                      placeholder="Bank reference / transaction ID"
-                      className="h-10 text-xs"
-                      required
-                    />
-                    <Textarea
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Notes (optional)"
-                      className="text-xs min-h-[70px]"
-                    />
-                    <Input
-                      type="file"
-                      accept="image/*,.pdf"
-                      onChange={(e) => setProofFile(e.target.files?.[0] ?? null)}
-                      className="text-xs"
-                    />
-                    <div className="py-2">
-                      <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" />
                     </div>
-                    <Button
-                      type="submit"
-                      className="w-full font-mono uppercase tracking-widest text-xs"
-                      disabled={processing}
-                    >
-                      Submit Payment Proof
-                    </Button>
-                  </form>
+                  )}
+
+                  {isAwaitingVerification ? (
+                    <div className="p-4 rounded-xl border border-brand-cyan/20 bg-brand-cyan/10 flex items-start gap-3">
+                      <ShieldCheck size={18} className="text-brand-cyan shrink-0 mt-0.5" />
+                      <div>
+                        <h3 className="text-xs font-mono uppercase tracking-widest text-white">Awaiting Verification</h3>
+                        <p className="text-xs text-brand-silver leading-relaxed mt-1">
+                          Your payment confirmation is in the admin verification queue. Our team will approve it, request an updated receipt, or contact you if anything is unclear.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleManualSubmit} className="space-y-3">
+                      <Input
+                        value={reference}
+                        onChange={(e) => setReference(e.target.value)}
+                        placeholder="Bank reference / transaction ID"
+                        className="h-11 text-xs"
+                      />
+                      <Textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        placeholder="Notes (optional)"
+                        className="text-xs min-h-[70px]"
+                      />
+                      <input
+                        ref={proofInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf"
+                        onChange={(e) => handleReceiptSelect(e.target.files?.[0] ?? null)}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full min-h-[44px] text-xs font-mono uppercase gap-2"
+                        onClick={() => proofInputRef.current?.click()}
+                      >
+                        <UploadCloud size={15} />
+                        {proofFile ? proofFile.name : 'Upload Receipt'}
+                      </Button>
+                      <div className="py-2">
+                        <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" />
+                      </div>
+                      <Button
+                        type="submit"
+                        className="w-full min-h-[44px] font-mono uppercase tracking-widest text-xs luxury-glow"
+                        disabled={processing}
+                      >
+                        {processing && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+                        Submit Payment Confirmation
+                      </Button>
+                    </form>
+                  )}
 
                   <a href={`${manual.whatsappLink}${invoice.invoice_number}`} target="_blank" rel="noreferrer">
-                    <Button type="button" variant="outline" className="w-full text-xs font-mono uppercase gap-2">
+                    <Button type="button" variant="outline" className="w-full min-h-[44px] text-xs font-mono uppercase gap-2">
                       <MessageCircle size={14} /> WhatsApp Confirmation
                     </Button>
                   </a>
                 </div>
               )}
 
-              {profile?.role === 'admin' && (
+              {profile?.role === 'admin' && region !== 'lk' && (
                 <Button variant="ghost" size="sm" className="text-[10px] font-mono" onClick={handleSimulateOnlinePaid}>
                   Admin: Mark milestone paid (test)
                 </Button>

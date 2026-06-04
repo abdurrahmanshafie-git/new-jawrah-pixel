@@ -20,7 +20,7 @@ export const REGION_CONFIG = {
     label: "Sri Lanka",
     currency: "LKR",
     market: "Sri Lankan",
-    paymentMethods: ["PayHere", "OnePay", "Bank Transfer"],
+    paymentMethods: ["Bank Transfer", "Receipt Upload", "Reference Verification", "WhatsApp Confirmation"],
     packages: {
       starter: "LKR 80,000 – 150,000",
       business: "LKR 150,000 – 350,000",

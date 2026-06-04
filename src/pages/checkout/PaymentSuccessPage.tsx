@@ -26,12 +26,14 @@ export default function PaymentSuccessPage() {
           const checkout = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin');
           if (checkout.data?.invoice && checkout.data.invoice.payment_status !== 'paid') {
             const inv = checkout.data.invoice;
-            await completeInvoicePayment({
-              invoiceId,
-              amount: Number(inv.amount_due_now ?? inv.amount),
-              paymentMethod: 'payhere',
-              transactionId: searchParams.get('payment_id') ?? undefined,
-            });
+            if (!(inv.region === 'lk' && inv.payment_method === 'bank_transfer')) {
+              await completeInvoicePayment({
+                invoiceId,
+                amount: Number(inv.amount_due_now ?? inv.amount),
+                paymentMethod: 'payhere',
+                transactionId: searchParams.get('payment_id') ?? undefined,
+              });
+            }
           }
         } catch {
           /* PayHere return may already be processed */

@@ -16,7 +16,6 @@ import { createUserNotification } from '@/lib/platform/notifications';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { supabase } from '@/lib/supabase/client';
 import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
-import { appEnv } from '@/lib/env';
 import { parsePriceAmount } from '@/lib/payments/amounts';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -80,7 +79,6 @@ export default function ClientDashboard() {
   const [proposals, setProposals] = useState<any[]>([]);
   const [threads, setThreads] = useState<any[]>([]);
   const [updates, setUpdates] = useState<any[]>([]);
-  const [paymentProofNote, setPaymentProofNote] = useState('');
 
   // Submissions state controllers
   const [newRevisionText, setNewRevisionText] = useState('');
@@ -101,7 +99,6 @@ export default function ClientDashboard() {
   const [revisionCaptchaToken, setRevisionCaptchaToken] = useState<string | null>(null);
   const [ticketCaptchaToken, setTicketCaptchaToken] = useState<string | null>(null);
   const [messageCaptchaToken, setMessageCaptchaToken] = useState<string | null>(null);
-  const [paymentProofCaptchaToken, setPaymentProofCaptchaToken] = useState<string | null>(null);
 
   // tab countersFile Upload states
   const [dragActive, setDragActive] = useState(false);
@@ -877,49 +874,6 @@ export default function ClientDashboard() {
                       </p>
                     )}
 
-                    <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-3">
-                      <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest font-bold block">
-                        Upload Payment Proof (Placeholder)
-                      </span>
-                      <p className="text-[10px] text-brand-gray font-light">
-                        Reference your transfer receipt below, then confirm via WhatsApp. File vault upload connects when storage is enabled.
-                      </p>
-                      <Input
-                        value={paymentProofNote}
-                        onChange={(e) => setPaymentProofNote(e.target.value)}
-                        placeholder="e.g. HNB transfer ref #48291 — LKR 66,000"
-                        className="bg-black border-white/5 h-10 text-xs"
-                      />
-                      <div className="flex flex-wrap gap-2">
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          className="text-[10px] font-mono uppercase"
-                          onClick={() => {
-                            if (!paymentProofNote.trim()) {
-                              showToast('Add a payment reference first.', 'error');
-                              return;
-                            }
-                            showToast('Payment proof note saved for manual review.', 'success');
-                            setPaymentProofNote('');
-                          }}
-                        >
-                          Save Proof Reference
-                        </Button>
-                        <a
-                          href={`https://wa.me/${appEnv.contactWhatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                            paymentProofNote || 'Payment proof for Jawrah Pixel invoice',
-                          )}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <Button type="button" size="sm" className="text-[10px] font-mono uppercase">
-                            WhatsApp Payment Confirmation
-                          </Button>
-                        </a>
-                      </div>
-                    </div>
                   </div>
                 )}
 

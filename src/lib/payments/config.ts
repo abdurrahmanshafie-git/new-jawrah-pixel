@@ -23,6 +23,30 @@ export interface PaymentProviderConfig {
   publicEnvKeys?: string[];
 }
 
+export interface BankTransferDetails {
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  branch: string;
+}
+
+export const LK_BANK_TRANSFER_DETAILS: BankTransferDetails = {
+  bankName: 'Commercial Bank',
+  accountName: 'MSA RAHMAN',
+  accountNumber: '8018782406',
+  branch: 'Akurana',
+};
+
+export const LK_PAYMENT_CLIENT_MESSAGE =
+  'To begin your project, please transfer the agreed advance payment using the bank details below. Once payment is completed, upload your receipt or submit the transaction reference number for verification. Our team will confirm your payment and begin the project promptly.';
+
+export const RECEIPT_UPLOAD_SETTINGS = {
+  bucket: 'project-files',
+  maxBytes: 10 * 1024 * 1024,
+  allowedMimeTypes: ['image/jpeg', 'image/png', 'application/pdf'],
+  allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+};
+
 export const REGION_CURRENCY: Record<PaymentRegion, 'LKR' | 'PKR' | 'USD'> = {
   lk: 'LKR',
   pk: 'PKR',
@@ -31,9 +55,7 @@ export const REGION_CURRENCY: Record<PaymentRegion, 'LKR' | 'PKR' | 'USD'> = {
 
 export const PAYMENT_PROVIDERS_BY_REGION: Record<PaymentRegion, PaymentProviderConfig[]> = {
   lk: [
-    { id: 'payhere', label: 'PayHere Online Payment', currency: 'LKR', envKeys: ['PAYHERE_MERCHANT_ID', 'PAYHERE_SECRET'] },
     { id: 'bank_transfer', label: 'Bank Transfer', currency: 'LKR', envKeys: [] },
-    { id: 'onepay', label: 'OnePay', currency: 'LKR', envKeys: ['ONEPAY_API_KEY'] },
   ],
   pk: [
     { id: 'bank_transfer', label: 'Bank Transfer', currency: 'PKR', envKeys: [] },

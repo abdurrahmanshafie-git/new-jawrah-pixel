@@ -55,6 +55,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
   const [provider, setProvider] = useState<PaymentProviderId>('bank_transfer');
   const [step, setStep] = useState<Step>('form');
   const [errorMsg, setErrorMsg] = useState('');
+  const [invoiceId, setInvoiceId] = useState('');
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -71,6 +72,7 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
     setProvider(payload.preselectedProvider ?? methods[0]?.id ?? 'bank_transfer');
     setStep('form');
     setErrorMsg('');
+    setInvoiceId('');
     setInvoiceNumber('');
     setIsProcessing(false);
   }, [open, payload, methods]);
@@ -121,10 +123,12 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
       });
 
       setInvoiceNumber(result.invoiceNumber);
+      setInvoiceId(result.invoiceId);
 
       if (!onlineReady || activeProvider === 'bank_transfer') {
         await updateInvoice(result.invoiceId, {
-          payment_status: 'manual_review',
+          payment_status: 'pending',
+          payment_method: activeProvider,
           transaction_id: `MANUAL-${result.invoiceNumber}`,
         });
         setStep('manual');
@@ -301,9 +305,11 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                     <p className="text-xs text-amber-100/90 leading-relaxed">
                       {isInternational
                         ? 'Online payment gateway is not connected yet. Please use PayPal, Wise, international bank transfer, or global confirmation. '
-                        : 'Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp confirmation. '}
+                        : activeRegion === 'lk'
+                          ? 'Your Sri Lanka bank transfer invoice is ready. Open the secure invoice payment area to view bank details and submit proof. '
+                          : 'Online payment gateway is not connected yet. Please use manual bank transfer or WhatsApp confirmation. '}
                       Your invoice <strong className="text-white">{invoiceNumber}</strong> is registered as
-                      pending review.
+                      pending payment.
                     </p>
                   </div>
                   <div className="p-4 rounded-xl bg-brand-black/50 border border-white/5 space-y-2">
@@ -328,6 +334,18 @@ export function PaymentModal({ open, onClose, payload }: PaymentModalProps) {
                       <MessageCircle size={14} /> WhatsApp Payment Confirmation
                     </Button>
                   </a>
+                  {activeRegion === 'lk' && invoiceId && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        window.location.href = `/dashboard/checkout/${invoiceId}`;
+                      }}
+                      className="w-full text-[10px] font-mono uppercase"
+                    >
+                      Open Payment Verification
+                    </Button>
+                  )}
                   <Button type="button" variant="outline" onClick={onClose} className="w-full text-[10px] font-mono uppercase">
                     Close
                   </Button>
