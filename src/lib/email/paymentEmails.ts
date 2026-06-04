@@ -5,7 +5,13 @@ export type PaymentEmailType =
   | 'admin_payment_notification'
   | 'manual_review'
   | 'invoice_paid'
-  | 'invoice_created';
+  | 'invoice_created'
+  | 'payment_proof_received_client'
+  | 'payment_proof_received_admin'
+  | 'payment_confirmed_client'
+  | 'payment_confirmed_admin'
+  | 'payment_rejected_client'
+  | 'payment_update_requested_client';
 
 export interface PaymentEmailPayload {
   emailType: PaymentEmailType;
@@ -17,6 +23,15 @@ export interface PaymentEmailPayload {
   referenceNumber?: string;
   transactionId?: string;
   clientId?: string;
+  clientName?: string;
+  clientEmail?: string;
+  clientPhone?: string;
+  notes?: string;
+  submittedAt?: string;
+  confirmedAt?: string;
+  adminNote?: string;
+  receiptSignedUrl?: string;
+  adminReviewUrl?: string;
   captcha_token?: string;
 }
 

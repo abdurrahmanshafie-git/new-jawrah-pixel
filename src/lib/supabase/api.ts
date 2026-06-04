@@ -522,7 +522,11 @@ export async function fetchClientWorkspace(userId: string) {
     ),
     logSupabaseQuery(
       'client_workspace.invoices',
-      supabase.from('invoices').select('*').eq('client_id', userId).order('created_at', { ascending: false }),
+      supabase
+        .from('invoices')
+        .select('*, payments:invoice_payments(*)')
+        .eq('client_id', userId)
+        .order('created_at', { ascending: false }),
     ),
     logSupabaseQuery(
       'client_workspace.project_files',

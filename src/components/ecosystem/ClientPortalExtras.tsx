@@ -50,6 +50,9 @@ interface ClientPortalExtrasProps {
 
 function paymentWorkflowLabel(inv: any): string {
   if (inv.region !== 'lk') return paymentStatusLabel(inv.payment_status, inv.current_milestone);
+  if (inv.payment_status === 'update_requested') return 'Receipt Update Requested';
+  if (inv.payment_status === 'rejected') return 'Payment Rejected';
+  if (inv.payment_status === 'awaiting_verification') return 'Awaiting Verification';
   if (inv.payment_status === 'manual_review') return 'Awaiting Verification';
   if (inv.payment_status === 'paid' || inv.status === 'paid' || inv.status === 'Paid') return 'Payment Confirmed';
   if (inv.current_milestone && inv.current_milestone !== 'deposit') return 'Project Started';
@@ -58,14 +61,28 @@ function paymentWorkflowLabel(inv: any): string {
 
 function paymentWorkflowClass(inv: any, isPaid: boolean): string {
   if (isPaid) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
-  if (inv.region === 'lk' && inv.payment_status === 'manual_review') {
+  if (inv.region === 'lk' && (inv.payment_status === 'manual_review' || inv.payment_status === 'awaiting_verification')) {
     return 'bg-blue-500/10 border-blue-500/20 text-blue-300';
+  }
+  if (inv.region === 'lk' && inv.payment_status === 'update_requested') {
+    return 'bg-amber-500/10 border-amber-500/20 text-amber-300';
+  }
+  if (inv.region === 'lk' && inv.payment_status === 'rejected') {
+    return 'bg-red-500/10 border-red-500/20 text-red-300';
   }
   if (inv.region === 'lk' && inv.current_milestone && inv.current_milestone !== 'deposit') {
     return 'bg-brand-cyan/10 border-brand-cyan/20 text-brand-cyan';
   }
   if (inv.payment_status === 'manual_review') return 'bg-blue-500/10 border-blue-500/20 text-blue-300';
   return 'bg-amber-500/10 border-amber-500/20 text-amber-400';
+}
+
+function latestProofStatusLabel(proof: any, inv: any): string {
+  if (!proof) return 'No payment submitted';
+  if (proof.status === 'confirmed' || inv.payment_status === 'paid') return 'Payment Confirmed';
+  if (proof.status === 'update_requested' || inv.payment_status === 'update_requested') return 'Receipt Update Requested';
+  if (proof.status === 'rejected' || inv.payment_status === 'rejected') return 'Payment Rejected';
+  return 'Awaiting Verification';
 }
 
 export function ClientOverviewExtras({
@@ -645,6 +662,9 @@ export function ClientInvoicesPanel({
         const isPaid = inv.status === 'Paid' || inv.status === 'paid' || inv.payment_status === 'paid';
         const amountDue = Number(inv.amount_due_now ?? inv.amountNumeric ?? 0);
         const statusLabel = paymentWorkflowLabel(inv);
+        const latestProof = inv.latestPaymentProof;
+        const proofSubmittedAt = latestProof?.submitted_at || latestProof?.created_at;
+        const proofConfirmedAt = latestProof?.confirmed_at;
 
         return (
           <div key={inv.id} className="p-4 bg-brand-black/60 border border-white/5 rounded-xl space-y-4">
@@ -664,6 +684,53 @@ export function ClientInvoicesPanel({
             </div>
 
             <InvoiceBillingSummary invoice={inv} compact />
+
+            {inv.region === 'lk' && (
+              <div className="p-3 rounded-xl border border-brand-cyan/10 bg-brand-cyan/[0.04] space-y-3">
+                <div className="flex items-start justify-between gap-3 flex-wrap">
+                  <div>
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-brand-gray block">LK Payment Verification</span>
+                    <span className="text-xs font-semibold text-white">{latestProofStatusLabel(latestProof, inv)}</span>
+                  </div>
+                  {isPaid && (
+                    <span className="text-[10px] text-emerald-300 font-mono uppercase">
+                      Your project will start within 24 hours.
+                    </span>
+                  )}
+                </div>
+
+                {latestProof ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+                    <div>
+                      <span className="text-brand-gray font-mono uppercase block">Reference Number</span>
+                      <span className="text-brand-silver break-words">{latestProof.bank_reference || latestProof.reference_number || 'No reference'}</span>
+                    </div>
+                    <div>
+                      <span className="text-brand-gray font-mono uppercase block">Receipt File</span>
+                      <span className="text-brand-silver break-words">{latestProof.receipt_file_name || 'Receipt uploaded'}</span>
+                    </div>
+                    <div>
+                      <span className="text-brand-gray font-mono uppercase block">Submitted Date</span>
+                      <span className="text-brand-silver">{proofSubmittedAt ? new Date(proofSubmittedAt).toLocaleDateString() : 'Not submitted'}</span>
+                    </div>
+                    <div>
+                      <span className="text-brand-gray font-mono uppercase block">Confirmation Date</span>
+                      <span className="text-brand-silver">{proofConfirmedAt ? new Date(proofConfirmedAt).toLocaleDateString() : 'Pending'}</span>
+                    </div>
+                    {latestProof.admin_note && (
+                      <div className="sm:col-span-2">
+                        <span className="text-brand-gray font-mono uppercase block">Admin Note</span>
+                        <span className="text-brand-silver break-words">{latestProof.admin_note}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-[10px] text-brand-gray font-mono uppercase">
+                    No bank transfer proof has been submitted for this invoice yet.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-col items-end gap-3">
               {inv.id && (
@@ -691,7 +758,7 @@ export function ClientInvoicesPanel({
               {!isPaid && amountDue > 0 && (
                 <Button size="sm" className="text-[9px] font-mono uppercase luxury-glow" onClick={() => handlePay(inv)}>
                   {inv.region === 'lk'
-                    ? inv.payment_status === 'manual_review'
+                    ? inv.payment_status === 'manual_review' || inv.payment_status === 'awaiting_verification'
                       ? 'View Verification'
                       : 'Confirm Bank Transfer'
                     : formatPayButtonLabel(amountDue, inv.currency || 'LKR', inv.region)}

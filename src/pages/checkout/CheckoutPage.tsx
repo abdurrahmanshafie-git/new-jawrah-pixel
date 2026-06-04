@@ -278,7 +278,8 @@ export default function CheckoutPage() {
   const methods = useMemo(() => getAvailablePaymentMethods(region), [region]);
   const manual = getManualPaymentInstructions(region);
   const isPaid = invoice?.payment_status === 'paid' || invoice?.status === 'paid';
-  const isAwaitingVerification = invoice?.payment_status === 'manual_review';
+  const isAwaitingVerification =
+    invoice?.payment_status === 'manual_review' || invoice?.payment_status === 'awaiting_verification';
   const isSriLankaBankTransfer = region === 'lk' && method === 'bank_transfer';
   const lkWorkflowState = isAwaitingVerification
     ? 'Awaiting Verification'
@@ -346,16 +347,41 @@ export default function CheckoutPage() {
     setProofFile(file);
   };
 
+  const handleTurnstileSuccess = (token: string) => {
+    console.log('Turnstile token received:', token);
+    setCaptchaToken(token);
+    setError((currentError) =>
+      currentError === 'Please complete the security verification.' ? '' : currentError,
+    );
+  };
+
+  const handleTurnstileExpire = () => {
+    setCaptchaToken(null);
+  };
+
+  const handleTurnstileError = () => {
+    setCaptchaToken(null);
+  };
+
   const handleManualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!captchaToken) {
       setError('Please complete the security verification.');
       return;
     }
+    if (isSriLankaBankTransfer && !reference.trim()) {
+      setError('Enter the bank transfer reference number.');
+      return;
+    }
+    if (isSriLankaBankTransfer && !proofFile) {
+      setError('Upload your bank transfer receipt.');
+      return;
+    }
     if (!reference.trim() && !proofFile) {
       setError('Upload your receipt or enter the bank transfer reference number.');
       return;
     }
+    console.log('Submitting payment with token:', captchaToken);
     setProcessing(true);
     try {
       await submitManualPaymentProof({
@@ -560,7 +586,12 @@ export default function CheckoutPage() {
                         {proofFile ? proofFile.name : 'Upload Receipt'}
                       </Button>
                       <div className="py-2">
-                        <TurnstileCaptcha onVerify={setCaptchaToken} theme="dark" />
+                        <TurnstileCaptcha
+                          onSuccess={handleTurnstileSuccess}
+                          onExpire={handleTurnstileExpire}
+                          onError={handleTurnstileError}
+                          theme="dark"
+                        />
                       </div>
                       <Button
                         type="submit"

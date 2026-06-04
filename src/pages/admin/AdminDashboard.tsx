@@ -1447,8 +1447,16 @@ export default function AdminDashboard() {
                             const invoice = Array.isArray(item.invoice) ? item.invoice[0] : item.invoice;
                             const client = Array.isArray(invoice?.client) ? invoice.client[0] : invoice?.client;
                             const project = Array.isArray(invoice?.project) ? invoice.project[0] : invoice?.project;
-                            const proofPath = item.proof_storage_path || invoice?.proof_storage_path;
-                            const amount = Number(item.amount ?? invoice?.amount_due_now ?? invoice?.amount ?? 0);
+                            const proofPath = item.receipt_storage_path || item.proof_storage_path || invoice?.proof_storage_path;
+                            const amount = Number(item.amount_paid ?? item.amount ?? invoice?.amount_due_now ?? invoice?.amount ?? 0);
+                            const clientName = item.client_name || client?.full_name || 'Client unavailable';
+                            const clientEmail = item.client_email || client?.email || 'No email';
+                            const clientPhone = item.client_phone || 'No phone';
+                            const projectName = item.project_name || project?.title || invoice?.title || 'Invoice project';
+                            const invoiceNumber = item.invoice_number || invoice?.invoice_number;
+                            const bankReference = item.bank_reference || item.reference_number || 'No reference';
+                            const submittedAt = item.submitted_at || item.created_at;
+                            const queueStatus = String(item.status || 'pending_verification').replace(/_/g, ' ');
 
                             return (
                               <div key={item.id} className="p-4 rounded-xl border border-white/10 bg-black/30 space-y-4">
@@ -1456,16 +1464,17 @@ export default function AdminDashboard() {
                                   <div className="min-w-0">
                                     <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Client Name</span>
                                     <span className="text-xs text-white font-semibold break-words">
-                                      {client?.full_name || 'Client unavailable'}
+                                      {clientName}
                                     </span>
-                                    <span className="text-[10px] text-brand-gray block truncate">{client?.email || 'No email'}</span>
+                                    <span className="text-[10px] text-brand-gray block truncate">{clientEmail}</span>
+                                    <span className="text-[10px] text-brand-gray block truncate">{clientPhone}</span>
                                   </div>
                                   <div className="min-w-0">
                                     <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Project Name</span>
                                     <span className="text-xs text-white font-semibold break-words">
-                                      {project?.title || invoice?.title || 'Invoice project'}
+                                      {projectName}
                                     </span>
-                                    <span className="text-[10px] text-brand-cyan font-mono block">{invoice?.invoice_number}</span>
+                                    <span className="text-[10px] text-brand-cyan font-mono block">{invoiceNumber}</span>
                                   </div>
                                   <div>
                                     <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Amount</span>
@@ -1476,14 +1485,31 @@ export default function AdminDashboard() {
                                   <div className="min-w-0">
                                     <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Reference Number</span>
                                     <span className="text-xs text-white font-mono break-words">
-                                      {item.reference_number || 'Receipt uploaded'}
+                                      {bankReference}
                                     </span>
                                   </div>
                                   <div>
                                     <span className="text-[9px] font-mono text-brand-gray uppercase tracking-widest block">Submission Date</span>
                                     <span className="text-xs text-white font-mono">
-                                      {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No date'}
+                                      {submittedAt ? new Date(submittedAt).toLocaleDateString() : 'No date'}
                                     </span>
+                                    <span className="text-[10px] text-amber-300 font-mono uppercase block mt-1">{queueStatus}</span>
+                                  </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[10px]">
+                                  <div className="p-3 rounded-lg border border-white/5 bg-white/[0.02] min-w-0">
+                                    <span className="font-mono text-brand-gray uppercase tracking-widest block">Receipt File</span>
+                                    <span className="text-white break-words">{item.receipt_file_name || 'Receipt file'}</span>
+                                    <span className="text-brand-gray block mt-1">{formatFileSize(item.receipt_file_size)}</span>
+                                  </div>
+                                  <div className="p-3 rounded-lg border border-white/5 bg-white/[0.02] min-w-0">
+                                    <span className="font-mono text-brand-gray uppercase tracking-widest block">Client Notes</span>
+                                    <span className="text-brand-silver break-words">{item.notes || 'No notes'}</span>
+                                  </div>
+                                  <div className="p-3 rounded-lg border border-white/5 bg-white/[0.02] min-w-0">
+                                    <span className="font-mono text-brand-gray uppercase tracking-widest block">Admin Note</span>
+                                    <span className="text-brand-silver break-words">{item.admin_note || 'No admin note yet'}</span>
                                   </div>
                                 </div>
 

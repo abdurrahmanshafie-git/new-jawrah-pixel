@@ -8,6 +8,12 @@ const ALLOWED = new Set([
   'manual_review',
   'invoice_paid',
   'invoice_created',
+  'payment_proof_received_client',
+  'payment_proof_received_admin',
+  'payment_confirmed_client',
+  'payment_confirmed_admin',
+  'payment_rejected_client',
+  'payment_update_requested_client',
 ]);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

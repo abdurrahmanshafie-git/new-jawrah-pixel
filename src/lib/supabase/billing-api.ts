@@ -18,7 +18,8 @@ import { logSupabaseQuery } from './query-debug';
 import { generateInvoiceNumber } from '@/lib/payments/checkout';
 
 const FILE_BUCKET = RECEIPT_UPLOAD_SETTINGS.bucket;
-const PAYMENT_ADMIN_ROLES = new Set(['admin', 'superadmin']);
+const PAYMENT_ADMIN_ROLES = new Set(['admin', 'superadmin', 'founder', 'co-founder']);
+const LK_ACTIVE_PAYMENT_PROOF_STATUSES = ['pending_verification', 'confirmed', 'manual_review', 'paid'];
 
 function ensureConfigured() {
   if (!isSupabaseConfigured) {
@@ -37,6 +38,24 @@ function validateReceiptFile(file: File) {
 
   if (!mimeAllowed || !extAllowed) {
     throw new Error('Receipt must be a JPG, PNG, or PDF file.');
+  }
+}
+
+function sanitizePaymentText(value: string, maxLength: number) {
+  return value.replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
+}
+
+async function verifyPaymentCaptchaToken(captchaToken?: string | null) {
+  if (!captchaToken) throw new Error('Please complete the security verification.');
+
+  const res = await fetch('/api/verify-captcha', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ captchaToken, type: 'payment_proof' }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data?.ok) {
+    throw new Error(data?.error || 'Security verification failed.');
   }
 }
 
@@ -246,14 +265,28 @@ export async function submitManualPaymentProof(params: {
 
   const { invoice } = checkout.data;
   let proofPath: string | null = null;
-  const referenceNumber = params.referenceNumber.trim();
+  const isLkBankTransfer = invoice.region === 'lk' && params.paymentMethod === 'bank_transfer';
+  const referenceNumber = sanitizePaymentText(params.referenceNumber, 120);
+  const notes = params.notes ? sanitizePaymentText(params.notes, 1000) : undefined;
 
   if (invoice.region === 'lk' && params.paymentMethod !== 'bank_transfer') {
     throw new Error('Sri Lanka invoices currently support bank transfer only.');
   }
 
-  if (!referenceNumber && !params.proofFile) {
+  if (isLkBankTransfer && !referenceNumber) {
+    throw new Error('Enter the bank transfer reference number.');
+  }
+
+  if (isLkBankTransfer && !params.proofFile) {
+    throw new Error('Upload your bank transfer receipt.');
+  }
+
+  if (!isLkBankTransfer && !referenceNumber && !params.proofFile) {
     throw new Error('Upload a receipt or enter the bank transfer reference number.');
+  }
+
+  if (isLkBankTransfer) {
+    await verifyPaymentCaptchaToken(params.captcha_token);
   }
 
   const existingReview = await logSupabaseQuery(
@@ -263,7 +296,7 @@ export async function submitManualPaymentProof(params: {
       .select('id')
       .eq('invoice_id', params.invoiceId)
       .eq('client_id', params.clientId)
-      .eq('status', 'manual_review')
+      .in('status', isLkBankTransfer ? LK_ACTIVE_PAYMENT_PROOF_STATUSES : ['manual_review'])
       .maybeSingle(),
   );
 
@@ -283,6 +316,15 @@ export async function submitManualPaymentProof(params: {
   }
 
   const amountDue = Number(invoice.amount_due_now ?? invoice.amount);
+  const invoiceClient = Array.isArray((invoice as any).client) ? (invoice as any).client[0] : (invoice as any).client;
+  const invoiceProject = Array.isArray((invoice as any).project) ? (invoice as any).project[0] : (invoice as any).project;
+  const clientName = invoiceClient?.full_name ?? null;
+  const clientEmail = invoiceClient?.email ?? undefined;
+  const projectName = invoiceProject?.title || invoice.title;
+  const proofFileName = params.proofFile?.name ?? null;
+  const proofFileType = params.proofFile?.type || null;
+  const proofFileSize = params.proofFile?.size ?? null;
+  const submittedAt = new Date().toISOString();
 
   const paymentRes = await logSupabaseQuery(
     'invoice_payments.manual',
@@ -290,51 +332,100 @@ export async function submitManualPaymentProof(params: {
       .from('invoice_payments')
       .insert({
         invoice_id: params.invoiceId,
+        project_id: invoice.project_id ?? null,
         client_id: params.clientId,
+        client_name: clientName,
+        client_email: clientEmail ?? null,
+        client_phone: null,
+        project_name: projectName,
+        invoice_number: invoice.invoice_number,
         amount: amountDue,
+        amount_paid: amountDue,
         currency: invoice.currency,
         payment_method: params.paymentMethod,
-        status: 'manual_review',
+        region: invoice.region,
+        status: isLkBankTransfer ? 'pending_verification' : 'manual_review',
         reference_number: referenceNumber || null,
-        notes: params.notes ?? null,
+        bank_reference: referenceNumber || null,
+        notes: notes ?? null,
         proof_storage_path: proofPath,
+        receipt_storage_path: proofPath,
+        receipt_file_name: proofFileName,
+        receipt_file_type: proofFileType,
+        receipt_file_size: proofFileSize,
+        captcha_verified: isLkBankTransfer,
         milestone_key: invoice.current_milestone,
+        submitted_at: submittedAt,
       })
       .select('id')
       .single(),
   );
 
   if (paymentRes.error) throw new Error(paymentRes.error.message);
+  const receiptUrl = proofPath
+    ? (await supabase.storage.from(FILE_BUCKET).createSignedUrl(proofPath, 60 * 60 * 24)).data?.signedUrl
+    : undefined;
 
   await logSupabaseQuery(
     'invoices.manual_review',
     supabase
       .from('invoices')
       .update({
-        payment_status: 'manual_review',
+        payment_status: isLkBankTransfer ? 'awaiting_verification' : 'manual_review',
         payment_method: params.paymentMethod,
         payment_reference: referenceNumber || null,
-        payment_notes: params.notes ?? null,
+        payment_notes: notes ?? null,
         proof_storage_path: proofPath,
         status: 'pending',
       })
       .eq('id', params.invoiceId),
   );
 
-  void sendPaymentEmailNotification({
-    emailType: 'manual_review',
-    invoiceNumber: invoice.invoice_number,
-    amountDue: String(amountDue),
-    currency: invoice.currency,
-    projectName: invoice.title,
-    referenceNumber: referenceNumber || 'Receipt uploaded',
-    captcha_token: params.captcha_token ?? undefined,
-  });
+  if (isLkBankTransfer) {
+    void sendPaymentEmailNotification({
+      emailType: 'payment_proof_received_client',
+      email: clientEmail,
+      clientName: clientName ?? undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(amountDue),
+      currency: invoice.currency,
+      projectName,
+      referenceNumber,
+    });
+
+    void sendPaymentEmailNotification({
+      emailType: 'payment_proof_received_admin',
+      clientName: clientName ?? undefined,
+      clientEmail,
+      clientPhone: undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(amountDue),
+      currency: invoice.currency,
+      projectName,
+      referenceNumber,
+      notes,
+      submittedAt,
+      receiptSignedUrl: receiptUrl,
+      adminReviewUrl: '/admin?tab=invoices',
+    });
+  } else {
+    void sendPaymentEmailNotification({
+      emailType: 'manual_review',
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(amountDue),
+      currency: invoice.currency,
+      projectName: invoice.title,
+      referenceNumber: referenceNumber || 'Receipt uploaded',
+      captcha_token: params.captcha_token ?? undefined,
+    });
+  }
 
   void createUserNotification({
     userId: params.clientId,
     title: 'Payment Submitted',
-    body: `Your payment proof for ${invoice.invoice_number} is under review.`,
+    body: isLkBankTransfer
+      ? `Your LK bank transfer proof for ${invoice.invoice_number} is awaiting verification.`
+      : `Your payment proof for ${invoice.invoice_number} is under review.`,
   });
 
   return { ok: true, paymentId: paymentRes.data?.id ?? null };
@@ -352,13 +443,33 @@ export async function fetchPaymentVerificationQueue() {
         id,
         invoice_id,
         client_id,
+        project_id,
+        client_name,
+        client_email,
+        client_phone,
+        project_name,
+        invoice_number,
         amount,
+        amount_paid,
         currency,
+        region,
         payment_method,
         status,
         reference_number,
+        bank_reference,
         proof_storage_path,
+        receipt_storage_path,
+        receipt_file_name,
+        receipt_file_type,
+        receipt_file_size,
+        captcha_verified,
         notes,
+        submitted_at,
+        confirmed_at,
+        confirmed_by,
+        rejected_at,
+        rejected_by,
+        admin_note,
         milestone_key,
         created_at,
         updated_at,
@@ -380,7 +491,7 @@ export async function fetchPaymentVerificationQueue() {
         )
         `,
       )
-      .eq('status', 'manual_review')
+      .in('status', ['pending_verification', 'manual_review'])
       .eq('invoice.region', 'lk')
       .order('created_at', { ascending: true }),
   );
@@ -467,12 +578,20 @@ export async function completeInvoicePayment(params: {
         .from('invoice_payments')
         .update({
           amount: params.amount,
+          amount_paid: params.amount,
           currency: invoice.currency,
           payment_method: params.paymentMethod,
-          status: 'paid',
+          status:
+            params.adminApproved && invoice.region === 'lk' && params.paymentMethod === 'bank_transfer'
+              ? 'confirmed'
+              : 'paid',
           provider_transaction_id: params.transactionId ?? null,
           milestone_key: milestoneKey,
           submission_id: params.transactionId ?? undefined,
+          confirmed_at:
+            params.adminApproved && invoice.region === 'lk' && params.paymentMethod === 'bank_transfer'
+              ? now
+              : undefined,
         })
         .eq('id', params.existingPaymentId)
         .select('id')
@@ -554,7 +673,7 @@ async function findManualPayment(invoiceId: string, paymentId?: string | null) {
     .from('invoice_payments')
     .select('*')
     .eq('invoice_id', invoiceId)
-    .eq('status', 'manual_review')
+    .in('status', ['pending_verification', 'manual_review'])
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -577,6 +696,7 @@ export async function adminApproveManualPayment(
   const payment = await findManualPayment(invoiceId, paymentId);
 
   const amount = Number(invoice.amount_due_now ?? invoice.amount);
+  const confirmedAt = new Date().toISOString();
   const result = await completeInvoicePayment({
     invoiceId,
     amount,
@@ -587,11 +707,54 @@ export async function adminApproveManualPayment(
     existingPaymentId: payment.id,
   });
 
+  await logSupabaseQuery(
+    'invoice_payments.lk_confirmed_fields',
+    supabase
+      .from('invoice_payments')
+      .update({
+        status: 'confirmed',
+        confirmed_at: confirmedAt,
+        confirmed_by: actorId ?? null,
+        admin_note: 'Payment verified and confirmed by Jawrah Pixel.',
+      })
+      .eq('id', payment.id),
+  );
+
   if (invoice.client_id) {
+    const { data: clientProfile } = await supabase
+      .from('profiles')
+      .select('full_name, email')
+      .eq('id', invoice.client_id)
+      .single();
+
     void createUserNotification({
       userId: invoice.client_id,
       title: 'Payment Confirmed',
-      body: 'Your Sri Lanka bank transfer has been verified. Your project has been moved into production.',
+      body: 'Your Sri Lanka bank transfer has been verified. Your project will start within 24 hours.',
+    });
+
+    void sendPaymentEmailNotification({
+      emailType: 'payment_confirmed_client',
+      email: clientProfile?.email ?? invoice.guest_email ?? undefined,
+      clientName: clientProfile?.full_name ?? invoice.guest_name ?? undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(amount),
+      currency: invoice.currency,
+      projectName: invoice.title,
+      referenceNumber: payment.bank_reference ?? payment.reference_number ?? undefined,
+      confirmedAt,
+    });
+
+    void sendPaymentEmailNotification({
+      emailType: 'payment_confirmed_admin',
+      clientName: clientProfile?.full_name ?? invoice.guest_name ?? undefined,
+      clientEmail: clientProfile?.email ?? invoice.guest_email ?? undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(amount),
+      currency: invoice.currency,
+      projectName: invoice.title,
+      referenceNumber: payment.bank_reference ?? payment.reference_number ?? undefined,
+      confirmedAt,
     });
   }
 
@@ -630,7 +793,10 @@ export async function adminRejectManualPayment(params: {
     supabase
       .from('invoice_payments')
       .update({
-        status: 'failed',
+        status: 'rejected',
+        rejected_at: new Date().toISOString(),
+        rejected_by: params.actorId ?? null,
+        admin_note: reason,
         notes: [payment.notes, `Admin rejected: ${reason}`].filter(Boolean).join('\n'),
       })
       .eq('id', payment.id),
@@ -641,7 +807,7 @@ export async function adminRejectManualPayment(params: {
     supabase
       .from('invoices')
       .update({
-        payment_status: 'failed',
+        payment_status: 'rejected',
         status: 'pending',
         payment_notes: reason,
       })
@@ -649,10 +815,28 @@ export async function adminRejectManualPayment(params: {
   );
 
   if (invoice.client_id) {
+    const { data: clientProfile } = await supabase
+      .from('profiles')
+      .select('full_name, email')
+      .eq('id', invoice.client_id)
+      .single();
+
     void createUserNotification({
       userId: invoice.client_id,
       title: 'Payment Verification Rejected',
       body: reason,
+    });
+
+    void sendPaymentEmailNotification({
+      emailType: 'payment_rejected_client',
+      email: clientProfile?.email ?? invoice.guest_email ?? undefined,
+      clientName: clientProfile?.full_name ?? invoice.guest_name ?? undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(invoice.amount_due_now ?? invoice.amount ?? 0),
+      currency: invoice.currency,
+      projectName: invoice.title,
+      referenceNumber: payment.bank_reference ?? payment.reference_number ?? undefined,
+      adminNote: reason,
     });
   }
 
@@ -687,7 +871,8 @@ export async function adminRequestUpdatedReceipt(params: {
     supabase
       .from('invoice_payments')
       .update({
-        status: 'failed',
+        status: 'update_requested',
+        admin_note: message,
         notes: [payment.notes, `Updated receipt requested: ${message}`].filter(Boolean).join('\n'),
       })
       .eq('id', payment.id),
@@ -698,7 +883,7 @@ export async function adminRequestUpdatedReceipt(params: {
     supabase
       .from('invoices')
       .update({
-        payment_status: 'pending',
+        payment_status: 'update_requested',
         status: 'pending',
         payment_notes: message,
       })
@@ -706,10 +891,28 @@ export async function adminRequestUpdatedReceipt(params: {
   );
 
   if (invoice.client_id) {
+    const { data: clientProfile } = await supabase
+      .from('profiles')
+      .select('full_name, email')
+      .eq('id', invoice.client_id)
+      .single();
+
     void createUserNotification({
       userId: invoice.client_id,
       title: 'Updated Receipt Requested',
       body: message,
+    });
+
+    void sendPaymentEmailNotification({
+      emailType: 'payment_update_requested_client',
+      email: clientProfile?.email ?? invoice.guest_email ?? undefined,
+      clientName: clientProfile?.full_name ?? invoice.guest_name ?? undefined,
+      invoiceNumber: invoice.invoice_number,
+      amountDue: String(invoice.amount_due_now ?? invoice.amount ?? 0),
+      currency: invoice.currency,
+      projectName: invoice.title,
+      referenceNumber: payment.bank_reference ?? payment.reference_number ?? undefined,
+      adminNote: message,
     });
   }
 

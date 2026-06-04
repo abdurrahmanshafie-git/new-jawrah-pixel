@@ -213,8 +213,14 @@ export default function ClientDashboard() {
             workspace.invoices.data.map((item: any) => {
               const amountDue = Number(item.amount_due_now ?? item.amount ?? 0);
               const projectValue = Number(item.project_value ?? item.amount ?? 0);
+              const latestPaymentProof = [...(item.payments ?? [])].sort(
+                (a: any, b: any) =>
+                  new Date(b.submitted_at || b.created_at || 0).getTime() -
+                  new Date(a.submitted_at || a.created_at || 0).getTime(),
+              )[0] ?? null;
               return {
                 ...item,
+                latestPaymentProof,
                 item: item.title,
                 amount: `${item.currency || profile?.currency || 'LKR'} ${amountDue.toLocaleString()}`,
                 amountNumeric: amountDue,
@@ -228,8 +234,12 @@ export default function ClientDashboard() {
                 status:
                   item.payment_status === 'paid' || item.status === 'paid'
                     ? 'Paid'
-                    : item.payment_status === 'manual_review'
-                      ? 'Manual Review'
+                    : item.payment_status === 'manual_review' || item.payment_status === 'awaiting_verification'
+                      ? 'Awaiting Verification'
+                      : item.payment_status === 'update_requested'
+                        ? 'Receipt Update Requested'
+                        : item.payment_status === 'rejected'
+                          ? 'Payment Rejected'
                       : item.payment_status === 'failed'
                         ? 'Failed'
                         : item.payment_status === 'processing'

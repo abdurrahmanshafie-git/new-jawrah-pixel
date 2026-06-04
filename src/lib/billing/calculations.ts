@@ -114,6 +114,9 @@ export function computeRemainingBalance(
 export function paymentStatusLabel(paymentStatus?: string | null, currentMilestone?: string | null): string {
   const ps = (paymentStatus || '').toLowerCase();
   if (ps === 'paid') return 'Paid';
+  if (ps === 'awaiting_verification') return 'Awaiting Verification';
+  if (ps === 'update_requested') return 'Receipt Update Requested';
+  if (ps === 'rejected') return 'Payment Rejected';
   if (ps === 'manual_review') return 'Manual Review';
   if (ps === 'processing') return 'Processing';
   if (ps === 'failed') return 'Failed';

@@ -21,6 +21,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     limit = 10;
   } else if (type === 'support') {
     limit = 5;
+  } else if (type === 'payment_proof') {
+    limit = 5;
   }
 
   // 1. Rate Limiting

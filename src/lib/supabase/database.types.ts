@@ -223,6 +223,10 @@ export interface Database {
             | 'failed'
             | 'refunded'
             | 'manual_review'
+            | 'awaiting_verification'
+            | 'confirmed'
+            | 'update_requested'
+            | 'rejected'
             | 'cancelled';
           project_value: number | null;
           deposit_percentage: number | null;
@@ -274,6 +278,10 @@ export interface Database {
             | 'failed'
             | 'refunded'
             | 'manual_review'
+            | 'awaiting_verification'
+            | 'confirmed'
+            | 'update_requested'
+            | 'rejected'
             | 'cancelled';
           project_value?: number | null;
           deposit_percentage?: number | null;
@@ -340,13 +348,43 @@ export interface Database {
           id: string;
           invoice_id: string;
           client_id: string | null;
+          project_id: string | null;
+          client_name: string | null;
+          client_email: string | null;
+          client_phone: string | null;
+          project_name: string | null;
+          invoice_number: string | null;
           amount: number;
+          amount_paid: number | null;
           currency: string;
+          region: RegionCode | null;
           payment_method: string | null;
-          status: 'pending' | 'processing' | 'manual_review' | 'paid' | 'failed' | 'cancelled';
+          status:
+            | 'pending'
+            | 'processing'
+            | 'manual_review'
+            | 'pending_verification'
+            | 'confirmed'
+            | 'update_requested'
+            | 'rejected'
+            | 'paid'
+            | 'failed'
+            | 'cancelled';
           reference_number: string | null;
+          bank_reference: string | null;
           proof_storage_path: string | null;
+          receipt_storage_path: string | null;
+          receipt_file_name: string | null;
+          receipt_file_type: string | null;
+          receipt_file_size: number | null;
+          captcha_verified: boolean | null;
           notes: string | null;
+          submitted_at: string | null;
+          confirmed_at: string | null;
+          confirmed_by: string | null;
+          rejected_at: string | null;
+          rejected_by: string | null;
+          admin_note: string | null;
           provider_transaction_id: string | null;
           milestone_key: 'deposit' | 'development' | 'final' | null;
           receipt_number: string | null;
@@ -359,13 +397,43 @@ export interface Database {
           id?: string;
           invoice_id: string;
           client_id?: string | null;
+          project_id?: string | null;
+          client_name?: string | null;
+          client_email?: string | null;
+          client_phone?: string | null;
+          project_name?: string | null;
+          invoice_number?: string | null;
           amount: number;
+          amount_paid?: number | null;
           currency?: string;
+          region?: RegionCode | null;
           payment_method?: string | null;
-          status?: 'pending' | 'processing' | 'manual_review' | 'paid' | 'failed' | 'cancelled';
+          status?:
+            | 'pending'
+            | 'processing'
+            | 'manual_review'
+            | 'pending_verification'
+            | 'confirmed'
+            | 'update_requested'
+            | 'rejected'
+            | 'paid'
+            | 'failed'
+            | 'cancelled';
           reference_number?: string | null;
+          bank_reference?: string | null;
           proof_storage_path?: string | null;
+          receipt_storage_path?: string | null;
+          receipt_file_name?: string | null;
+          receipt_file_type?: string | null;
+          receipt_file_size?: number | null;
+          captcha_verified?: boolean | null;
           notes?: string | null;
+          submitted_at?: string | null;
+          confirmed_at?: string | null;
+          confirmed_by?: string | null;
+          rejected_at?: string | null;
+          rejected_by?: string | null;
+          admin_note?: string | null;
           provider_transaction_id?: string | null;
           milestone_key?: 'deposit' | 'development' | 'final' | null;
           receipt_number?: string | null;
