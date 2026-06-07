@@ -51,6 +51,8 @@ export async function loadBillingPdfData(
   }
 
   const client = (invoice as { client?: { full_name?: string; email?: string; region?: string } }).client;
+  const lockedRegion = client?.region || invoice.region || 'lk';
+  const lockedCurrency = lockedRegion === 'int' ? 'USD' : lockedRegion === 'pk' ? 'PKR' : 'LKR';
   const projectValue = Number(invoice.project_value ?? invoice.amount ?? 0);
   const depositPct = Number(invoice.deposit_percentage ?? 10);
   const depositAmount = Number(invoice.deposit_amount ?? projectValue * (depositPct / 100));
@@ -62,7 +64,7 @@ export async function loadBillingPdfData(
     submissionId: payment?.submission_id ? String(payment.submission_id) : payment?.id ? String(payment.id) : undefined,
     clientName: String(invoice.guest_name || client?.full_name || 'Client'),
     clientEmail: String(invoice.guest_email || client?.email || ''),
-    region: String(invoice.region || client?.region || 'lk'),
+    region: String(lockedRegion),
     projectName: String(invoice.title),
     projectValue,
     depositPercentage: depositPct,
@@ -73,7 +75,7 @@ export async function loadBillingPdfData(
     paymentMethod: String(payment?.payment_method || invoice.payment_method || '—'),
     paymentStatus: String(invoice.payment_status || invoice.status || 'pending'),
     paymentDate: formatDate(payment?.created_at ?? invoice.paid_at ?? invoice.updated_at),
-    currency: String(invoice.currency || 'LKR'),
+    currency: lockedCurrency,
     currentMilestone: String(invoice.current_milestone || 'deposit'),
     milestones: (milestones ?? []).map((m) => ({
       label: String(m.label),

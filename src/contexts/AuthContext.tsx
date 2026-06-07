@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { getProfile } from '@/lib/supabase/api';
-import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
+import { getOrCreateProfile } from '@/lib/supabase/api';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion } from '@/lib/region';
 import type { Profile } from '@/types';
 import type { User, Session } from '@supabase/supabase-js';
 
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(data.session);
         setUser(data.session?.user ?? null);
         if (data.session?.user) {
-          await fetchProfile(data.session.user.id);
+          await fetchProfile(data.session.user);
         } else {
           setLoading(false);
         }
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(nextSession);
       setUser(nextSession?.user ?? null);
       if (nextSession?.user) {
-        void fetchProfile(nextSession.user.id);
+        void fetchProfile(nextSession.user);
       } else {
         setProfile(null);
         setLoading(false);
@@ -79,12 +79,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (nextUser: User) => {
     try {
-      const { data, error } = await getProfile(userId);
+      const { data, error } = await getOrCreateProfile(nextUser);
         
       if (error) {
         console.error('Error fetching profile:', error);
+        setAuthError(error.message);
       } else {
         setProfile(data);
         if ((data?.role === 'admin' || data?.role === 'superadmin') && !getSavedAdminRegion()) {
@@ -92,12 +93,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (initialAdminRegion) {
             persistAdminRegion(initialAdminRegion);
           }
-        } else if (data?.role !== 'admin' && data?.role !== 'superadmin' && isRegionCode(data?.region)) {
-          persistRegion(data.region);
         }
       }
     } catch (err) {
       console.error('Unexpected error fetching profile:', err);
+      setAuthError(err instanceof Error ? err.message : 'Unable to load profile.');
     } finally {
       setLoading(false);
     }
@@ -105,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshProfile = async () => {
     if (!user) return;
-    await fetchProfile(user.id);
+    await fetchProfile(user);
   };
 
   const signOut = async () => {

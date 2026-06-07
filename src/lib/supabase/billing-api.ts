@@ -12,8 +12,10 @@ import { notifyUser } from './ecosystem-api';
 import type { RegionCode } from '@/types';
 import {
   RECEIPT_UPLOAD_SETTINGS,
+  currencyForRegion,
   type PaymentProviderId,
 } from '@/lib/payments/config';
+import { isRegionCode } from '@/lib/region';
 import { logSupabaseQuery } from './query-debug';
 import { generateInvoiceNumber } from '@/lib/payments/checkout';
 
@@ -92,13 +94,16 @@ async function logPaymentVerificationAction(params: {
   );
 }
 
-export function normalizeInvoiceRow(inv: Record<string, unknown>) {
+export function normalizeInvoiceRow(inv: Record<string, unknown>, lockedRegion?: RegionCode) {
+  const invoiceRegion = lockedRegion ?? (isRegionCode(inv.region) ? inv.region : 'lk');
   const projectValue = Number(inv.project_value ?? inv.amount ?? 0);
   const depositPercentage = Number(inv.deposit_percentage ?? 10);
-  const billing = calculateBillingFields(projectValue, depositPercentage, (inv.region as RegionCode) ?? 'lk');
+  const billing = calculateBillingFields(projectValue, depositPercentage, invoiceRegion);
 
   return {
     ...inv,
+    region: invoiceRegion,
+    currency: currencyForRegion(invoiceRegion),
     project_value: Number(inv.project_value ?? billing.project_value),
     deposit_percentage: Number(inv.deposit_percentage ?? billing.deposit_percentage),
     deposit_amount: Number(inv.deposit_amount ?? billing.deposit_amount),
@@ -108,7 +113,12 @@ export function normalizeInvoiceRow(inv: Record<string, unknown>) {
   };
 }
 
-export async function fetchInvoiceForCheckout(invoiceId: string, userId: string, isAdmin: boolean) {
+export async function fetchInvoiceForCheckout(
+  invoiceId: string,
+  userId: string,
+  isAdmin: boolean,
+  lockedRegion?: RegionCode,
+) {
   ensureConfigured();
 
   const invoiceRes = await logSupabaseQuery(
@@ -126,6 +136,20 @@ export async function fetchInvoiceForCheckout(invoiceId: string, userId: string,
   if (!isAdmin && inv.client_id && inv.client_id !== userId) {
     return { data: null, error: { message: 'You do not have access to this invoice.', code: '403' } as any };
   }
+  const invoiceClient = Array.isArray((inv as any).client) ? (inv as any).client[0] : (inv as any).client;
+  const expectedRegion = !isAdmin
+    ? lockedRegion ?? (isRegionCode(invoiceClient?.region) ? invoiceClient.region : 'lk')
+    : undefined;
+  const invoiceRegion = isRegionCode(inv.region) ? inv.region : expectedRegion;
+
+  if (!isAdmin && expectedRegion && invoiceRegion && invoiceRegion !== expectedRegion) {
+    return {
+      data: null,
+      error: { message: 'This invoice is not available for your locked account region.', code: '403' } as any,
+    };
+  }
+
+  const normalizedInvoice = normalizeInvoiceRow({ ...inv, region: invoiceRegion ?? inv.region }, expectedRegion);
 
   const milestonesRes = await logSupabaseQuery(
     'invoice_billing_milestones',
@@ -138,11 +162,11 @@ export async function fetchInvoiceForCheckout(invoiceId: string, userId: string,
 
   let milestones = milestonesRes.data ?? [];
   if (milestones.length === 0) {
-    const normalized = normalizeInvoiceRow(inv);
+    const normalized = normalizedInvoice;
     const billing = calculateBillingFields(
       normalized.project_value,
       normalized.deposit_percentage,
-      (inv.region as RegionCode) ?? 'lk',
+      normalized.region as RegionCode,
     );
     milestones = billing.milestones.map((m) => ({
       ...m,
@@ -153,7 +177,7 @@ export async function fetchInvoiceForCheckout(invoiceId: string, userId: string,
   }
 
   return {
-    data: { invoice: normalizeInvoiceRow(inv), milestones },
+    data: { invoice: normalizedInvoice, milestones },
     error: null,
   };
 }
@@ -169,8 +193,14 @@ export async function createProfessionalInvoice(input: {
 }) {
   ensureConfigured();
 
-  const billing = calculateBillingFields(input.project_value, input.deposit_percentage, input.region);
-  const invoiceNumber = generateInvoiceNumber(input.region);
+  const { data: clientProfile } = await supabase
+    .from('profiles')
+    .select('email, region')
+    .eq('id', input.client_id)
+    .single();
+  const invoiceRegion = isRegionCode(clientProfile?.region) ? clientProfile.region : input.region;
+  const billing = calculateBillingFields(input.project_value, input.deposit_percentage, invoiceRegion);
+  const invoiceNumber = generateInvoiceNumber(invoiceRegion);
 
   const invoiceRes = await logSupabaseQuery(
     'invoices.professional_create',
@@ -189,7 +219,7 @@ export async function createProfessionalInvoice(input: {
         remaining_balance: billing.remaining_balance,
         current_milestone: billing.current_milestone,
         currency: billing.currency,
-        region: input.region,
+        region: invoiceRegion,
         status: 'pending',
         payment_status: 'pending',
         due_date: input.due_date ?? null,
@@ -221,12 +251,6 @@ export async function createProfessionalInvoice(input: {
     `Invoice ${invoiceNumber} is ready. Amount due now: ${billing.currency} ${billing.amount_due_now.toLocaleString()}.`,
   );
 
-  const { data: clientProfile } = await supabase
-    .from('profiles')
-    .select('email')
-    .eq('id', input.client_id)
-    .single();
-
   void sendPaymentEmailNotification({
     emailType: 'invoice_created',
     email: clientProfile?.email ?? undefined,
@@ -257,10 +281,11 @@ export async function submitManualPaymentProof(params: {
   notes?: string;
   proofFile?: File | null;
   captcha_token?: string | null;
+  expectedRegion?: RegionCode;
 }) {
   ensureConfigured();
 
-  const checkout = await fetchInvoiceForCheckout(params.invoiceId, params.clientId, false);
+  const checkout = await fetchInvoiceForCheckout(params.invoiceId, params.clientId, false, params.expectedRegion);
   if (checkout.error || !checkout.data) throw new Error(checkout.error?.message ?? 'Invoice not found.');
 
   const { invoice } = checkout.data;

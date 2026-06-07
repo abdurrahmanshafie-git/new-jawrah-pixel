@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Globe, User, ArrowRight, Lock } from 'lucide-react';
+import { Globe, User, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { Button } from '@/components/ui/Button';
@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { REGION_OPTIONS } from '@/data/regions';
-import { persistRegion, isRegionCode } from '@/lib/region';
+import { persistRegion } from '@/lib/region';
 import { AdminRegionPreviewSwitcher } from './AdminRegionPreviewSwitcher';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 
@@ -22,10 +22,6 @@ export function Navbar() {
   const { currentRegion, p, getSwitchUrl } = useRegion();
   const { scrollYProgress } = useScroll();
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
-  const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
-  const lockedRegionOption = lockedRegion
-    ? REGION_OPTIONS.find((region) => region.id === lockedRegion)
-    : null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,29 +71,6 @@ export function Navbar() {
   const renderRegionSwitcher = (isMobile = false) => {
     if (isAdmin) {
       return <AdminRegionPreviewSwitcher compact={isMobile} />;
-    }
-
-    if (lockedRegionOption) {
-      return (
-        <div
-          className={cn(
-            getRegionShellClass(isMobile),
-            isMobile ? 'gap-1.5 px-2.5' : 'gap-2 px-3',
-          )}
-          role="status"
-          title={`${lockedRegionOption.label} region locked to your account`}
-          aria-label={`${lockedRegionOption.label} region locked to your account`}
-        >
-          <Globe className={cn('h-3.5 w-3.5 text-zinc-500', isMobile && 'sr-only')} />
-          <span className={cn(
-            'font-mono font-bold uppercase text-white',
-            isMobile ? 'text-[10px] tracking-[0.08em]' : 'text-[10px] tracking-[0.14em]',
-          )}>
-            {lockedRegionOption.shortLabel}
-          </span>
-          <Lock className="h-3 w-3 text-brand-cyan/80" />
-        </div>
-      );
     }
 
     return (

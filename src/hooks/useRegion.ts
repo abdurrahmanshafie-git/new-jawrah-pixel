@@ -14,6 +14,7 @@ import {
   getSavedRegion,
   isRegionCode,
   persistRegion,
+  resolvePortalRegion,
   regionPath,
 } from '@/lib/region';
 import { useAuth } from '@/contexts/AuthContext';
@@ -25,8 +26,12 @@ export function useRegion() {
   const pathRegion = getExplicitRegionFromPathname(location.pathname);
   const isAdmin = Boolean(user && (profile?.role === 'admin' || profile?.role === 'superadmin'));
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
+  const portalRegion = resolvePortalRegion(profile?.region).region;
+  const isWorkspacePath = /^\/(?:dashboard|partner\/dashboard|agent(?:\/dashboard)?)(?=\/|$)/.test(location.pathname);
   const currentRegion = (
-    isAdmin && !pathRegion
+    user && !isAdmin && isWorkspacePath
+      ? portalRegion
+      : isAdmin && !pathRegion
       ? adminPreviewRegion ?? profileRegion ?? getSavedRegion() ?? 'lk'
       : getRegionFromPathname(location.pathname)
   ) as RegionCode;

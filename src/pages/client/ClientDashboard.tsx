@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchClientWorkspace, submitRevisionRequest, submitSupportTicket } from '@/lib/supabase/api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { submitRevisionRequest, submitSupportTicket } from '@/lib/supabase/api';
 import { fetchExtendedClientWorkspace, markAllNotificationsRead, markNotificationRead, subscribeToNotifications } from '@/lib/supabase/ecosystem-api';
 import {
   ClientFilesPanel,
@@ -17,7 +18,9 @@ import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { supabase } from '@/lib/supabase/client';
 import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
 import { parsePriceAmount } from '@/lib/payments/amounts';
+import { currencyForRegion } from '@/lib/payments/config';
 import { useAuth } from '@/contexts/AuthContext';
+import { resolvePortalRegion } from '@/lib/region';
 import { 
   Loader, 
   Activity, 
@@ -54,10 +57,25 @@ interface Toast {
 }
 
 export default function ClientDashboard() {
-  const { user, profile, loading: authLoading, signOut } = useAuth();
+  const { user, profile, loading: authLoading, signOut, refreshProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { region: portalRegion, pendingVerification: regionPendingVerification } = resolvePortalRegion(profile?.region);
+  const portalCurrency = currencyForRegion(portalRegion);
+  const routeTab = (() => {
+    const segment = location.pathname.split('/').filter(Boolean)[1];
+    if (segment === 'projects') return 'projects';
+    if (segment === 'files') return 'files';
+    if (segment === 'proposals') return 'proposals';
+    if (segment === 'invoices') return 'invoices';
+    if (segment === 'messages') return 'messages';
+    if (segment === 'notifications') return 'notifications';
+    if (segment === 'settings') return 'settings';
+    return 'overview';
+  })();
   
   // Tab Controls
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(routeTab);
   const [sandboxMode, setSandboxMode] = useState(!isSupabaseConfigured);
   const [isSubmittingRevision, setIsSubmittingRevision] = useState(false);
   const [isSubmittingTicket, setIsSubmittingTicket] = useState(false);
@@ -105,6 +123,13 @@ export default function ClientDashboard() {
   const [simUploadName, setSimUploadName] = useState('');
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentModalPayload, setPaymentModalPayload] = useState<PaymentModalOpenPayload | null>(null);
+  const [settingsSaving, setSettingsSaving] = useState(false);
+  const [settingsForm, setSettingsForm] = useState({
+    full_name: '',
+    company_name: '',
+    phone: '',
+    whatsapp: '',
+  });
 
   // Toast dispatch utility
   const showToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
@@ -116,14 +141,28 @@ export default function ClientDashboard() {
   };
 
   // Pre-seed mock datasets for accessible instant evaluators
+  const mockProjectValue = portalRegion === 'int' ? 8_000 : portalRegion === 'pk' ? 900_000 : 2_200_000;
+  const mockMilestoneA = Math.round(mockProjectValue * 0.3);
+  const mockMilestoneB = Math.round(mockProjectValue * 0.4);
   const INITIAL_MOCK_PROJECTS = [
-    { id: 'proj1', title: 'Shabnam Jewellers Flagship Store', service_type: 'Bespoke Ecommerce & UI Branding', status: 'development', progress: 68, price: 2200000, deadline: '2026-06-15', description: 'Heritage fine gold jewelry showcase with real-time appraisers.' }
+    {
+      id: 'proj1',
+      title: 'Shabnam Jewellers Flagship Store',
+      service_type: 'Bespoke Ecommerce & UI Branding',
+      status: 'development',
+      progress: 68,
+      price: mockProjectValue,
+      region: portalRegion,
+      currency: portalCurrency,
+      deadline: '2026-06-15',
+      description: 'Heritage fine gold jewelry showcase with real-time appraisers.',
+    }
   ];
 
   const INITIAL_MOCK_INVOICES = [
-    { id: 'inv_01', item: 'System Discovery & Wireframing Milestone', amount: 'LKR 660,000', rate: '30%', status: 'Paid', date: '2026-05-10' },
-    { id: 'inv_02', item: 'Backend Database Sync & RLS Implementation', amount: 'LKR 880,000', rate: '40%', status: 'Paid', date: '2026-05-20' },
-    { id: 'inv_03', item: 'Final Deployment & SEO Optimization Phase', amount: 'LKR 660,000', rate: '30%', status: 'Pending', date: '2026-06-10' }
+    { id: 'inv_01', item: 'System Discovery & Wireframing Milestone', amount: `${portalCurrency} ${mockMilestoneA.toLocaleString()}`, amountNumeric: mockMilestoneA, amount_due_now: mockMilestoneA, currency: portalCurrency, region: portalRegion, rate: '30%', status: 'Paid', date: '2026-05-10' },
+    { id: 'inv_02', item: 'Backend Database Sync & RLS Implementation', amount: `${portalCurrency} ${mockMilestoneB.toLocaleString()}`, amountNumeric: mockMilestoneB, amount_due_now: mockMilestoneB, currency: portalCurrency, region: portalRegion, rate: '40%', status: 'Paid', date: '2026-05-20' },
+    { id: 'inv_03', item: 'Final Deployment & SEO Optimization Phase', amount: `${portalCurrency} ${mockMilestoneA.toLocaleString()}`, amountNumeric: mockMilestoneA, amount_due_now: mockMilestoneA, currency: portalCurrency, region: portalRegion, rate: '30%', status: 'Pending', date: '2026-06-10' }
   ];
 
   const INITIAL_MOCK_REVISIONS = [
@@ -151,8 +190,21 @@ export default function ClientDashboard() {
   ];
 
   useEffect(() => {
+    setActiveTab(routeTab);
+  }, [routeTab]);
+
+  useEffect(() => {
+    setSettingsForm({
+      full_name: profile?.full_name ?? '',
+      company_name: profile?.company_name ?? '',
+      phone: profile?.phone ?? '',
+      whatsapp: profile?.whatsapp ?? '',
+    });
+  }, [profile?.full_name, profile?.company_name, profile?.phone, profile?.whatsapp]);
+
+  useEffect(() => {
     loadPortalData();
-  }, [sandboxMode, user]);
+  }, [sandboxMode, user, portalRegion]);
 
   useEffect(() => {
     if (!user || sandboxMode) return;
@@ -160,7 +212,7 @@ export default function ClientDashboard() {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [user, sandboxMode]);
+  }, [user, sandboxMode, portalRegion]);
 
   const loadPortalData = async () => {
     setLoading(true);
@@ -184,7 +236,7 @@ export default function ClientDashboard() {
     }
 
     try {
-      const workspace = await fetchExtendedClientWorkspace(user.id);
+      const workspace = await fetchExtendedClientWorkspace(user.id, portalRegion);
 
       const workspaceError =
         workspace.projects.error ||
@@ -193,7 +245,13 @@ export default function ClientDashboard() {
 
       if (workspaceError) throw workspaceError;
 
-      if (!workspace.projects.error && workspace.projects.data) setProjects(workspace.projects.data);
+      if (!workspace.projects.error && workspace.projects.data) {
+        setProjects(workspace.projects.data.map((item: any) => ({
+          ...item,
+          region: portalRegion,
+          currency: portalCurrency,
+        })));
+      }
         if (!workspace.bookings.error && workspace.bookings.data) setMeetings(workspace.bookings.data);
         if (!workspace.revisionRequests.error && workspace.revisionRequests.data) {
           setRevisions(workspace.revisionRequests.data.map((item: any) => ({
@@ -221,8 +279,10 @@ export default function ClientDashboard() {
               return {
                 ...item,
                 latestPaymentProof,
+                region: portalRegion,
+                currency: portalCurrency,
                 item: item.title,
-                amount: `${item.currency || profile?.currency || 'LKR'} ${amountDue.toLocaleString()}`,
+                amount: `${portalCurrency} ${amountDue.toLocaleString()}`,
                 amountNumeric: amountDue,
                 project_value: projectValue,
                 amount_due_now: amountDue,
@@ -274,7 +334,13 @@ export default function ClientDashboard() {
       if (!workspace.milestones.error && workspace.milestones.data) {
         setMilestones(workspace.milestones.data);
       }
-      if (!workspace.proposals?.error && workspace.proposals?.data) setProposals(workspace.proposals.data);
+      if (!workspace.proposals?.error && workspace.proposals?.data) {
+        setProposals(workspace.proposals.data.map((item: any) => ({
+          ...item,
+          region: portalRegion,
+          currency: portalCurrency,
+        })));
+      }
       if (!workspace.threads?.error && workspace.threads?.data) setThreads(workspace.threads.data);
       if (!workspace.updates?.error && workspace.updates?.data) setUpdates(workspace.updates.data);
 
@@ -455,6 +521,38 @@ export default function ClientDashboard() {
 
   const unreadNotifications = notifications.filter((n) => !n.read_at).length;
 
+  const openTab = (tabId: string) => {
+    const path = tabId === 'overview' ? '/dashboard' : `/dashboard/${tabId}`;
+    navigate(path);
+    setActiveTab(tabId);
+  };
+
+  const handleSettingsSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!user || settingsSaving) return;
+    setSettingsSaving(true);
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: settingsForm.full_name.trim() || null,
+          company_name: settingsForm.company_name.trim() || null,
+          phone: settingsForm.phone.trim() || null,
+          whatsapp: settingsForm.whatsapp.trim() || null,
+        })
+        .eq('id', user.id);
+
+      if (error) throw error;
+      await refreshProfile();
+      showToast('Profile settings updated.');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Something went wrong. Retry.', 'error');
+    } finally {
+      setSettingsSaving(false);
+    }
+  };
+
   // LIVE SHIELD CHAT RESPONSE SIMULATOR
   const handleSendChatMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -596,6 +694,11 @@ export default function ClientDashboard() {
             <p className="text-xs text-brand-gray font-light">
               Collaborate on active milestones, invoices, and design assets securely.
             </p>
+            {regionPendingVerification && (
+              <p className="mt-2 text-[10px] font-mono uppercase tracking-widest text-amber-200">
+                Region pending verification.
+              </p>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
@@ -638,13 +741,14 @@ export default function ClientDashboard() {
               { id: 'invoices', label: 'Invoices', count: invoices.length, icon: DollarSign },
               { id: 'messages', label: 'Messages', count: threads.length, icon: MessageSquare },
               { id: 'notifications', label: 'Notifications', count: unreadNotifications, icon: Bell },
+              { id: 'settings', label: 'Settings', icon: Settings },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => openTab(tab.id)}
                   className={`flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3 sm:p-3.5 min-h-[44px] rounded-xl border transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left ${
                     isActive 
                       ? 'bg-brand-cyan/15 border-brand-cyan/30 text-brand-cyan font-bold select-none drop-shadow-[0_0_12px_rgba(34,211,238,0.1)]' 
@@ -663,6 +767,15 @@ export default function ClientDashboard() {
                 </button>
               );
             })}
+            <button
+              onClick={signOut}
+              className="flex-shrink-0 lg:flex-shrink-1 w-auto lg:w-full flex items-center justify-between p-3 sm:p-3.5 min-h-[44px] rounded-xl border border-white/5 bg-transparent text-brand-gray hover:text-white hover:border-white/15 transition-all text-[10px] sm:text-xs uppercase font-mono tracking-wider cursor-pointer text-left"
+            >
+              <span className="flex items-center gap-2 sm:gap-3">
+                <X size={14} className="sm:w-4 sm:h-4" />
+                <span className="whitespace-nowrap">Sign Out</span>
+              </span>
+            </button>
           </div>
 
           {/* RIGHT: CONTENT PANEL DISPLAY */}
@@ -927,6 +1040,55 @@ export default function ClientDashboard() {
                         markAllNotificationsRead(user.id).then(() => loadPortalData());
                       }}
                     />
+                  </div>
+                )}
+
+                {activeTab === 'settings' && (
+                  <div className="space-y-6 animate-fade-in">
+                    <div>
+                      <h2 className="text-xl font-display font-semibold uppercase text-white tracking-wider">Settings</h2>
+                      <p className="text-xs text-brand-gray mt-0.5">Update your basic contact details. Region and role are locked by Jawrah Pixel.</p>
+                    </div>
+
+                    <form onSubmit={handleSettingsSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-black/50 border border-white/5 rounded-xl p-5">
+                      <Input
+                        value={settingsForm.full_name}
+                        onChange={(e) => setSettingsForm((prev) => ({ ...prev, full_name: e.target.value }))}
+                        placeholder="Full name"
+                        className="h-11 text-xs"
+                      />
+                      <Input
+                        value={settingsForm.company_name}
+                        onChange={(e) => setSettingsForm((prev) => ({ ...prev, company_name: e.target.value }))}
+                        placeholder="Company name"
+                        className="h-11 text-xs"
+                      />
+                      <Input
+                        value={settingsForm.phone}
+                        onChange={(e) => setSettingsForm((prev) => ({ ...prev, phone: e.target.value }))}
+                        placeholder="Phone"
+                        className="h-11 text-xs"
+                      />
+                      <Input
+                        value={settingsForm.whatsapp}
+                        onChange={(e) => setSettingsForm((prev) => ({ ...prev, whatsapp: e.target.value }))}
+                        placeholder="WhatsApp"
+                        className="h-11 text-xs"
+                      />
+                      <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+                          <span className="text-[9px] font-mono text-brand-gray uppercase block">Locked Region</span>
+                          <span className="text-sm font-mono text-brand-cyan font-bold">{portalRegion.toUpperCase()} - {portalCurrency}</span>
+                        </div>
+                        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+                          <span className="text-[9px] font-mono text-brand-gray uppercase block">Role</span>
+                          <span className="text-sm font-mono text-white font-bold">{profile?.role || 'client'}</span>
+                        </div>
+                      </div>
+                      <Button type="submit" disabled={settingsSaving} className="sm:col-span-2 w-full text-xs font-mono uppercase tracking-widest h-10">
+                        {settingsSaving ? 'Saving...' : 'Save Profile Settings'}
+                      </Button>
+                    </form>
                   </div>
                 )}
 

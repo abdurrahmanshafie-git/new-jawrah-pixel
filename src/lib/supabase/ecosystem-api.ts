@@ -1,8 +1,11 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import type { Insert, Row, Update } from './database.types';
+import type { RegionCode } from '@/types';
 import { fetchClientWorkspace } from './api';
 import { projectProgressFromStatus } from '@/lib/platform/ecosystem';
+import { currencyForRegion } from '@/lib/payments/config';
+import { isRegionCode } from '@/lib/region';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
 import {
   findFirstSupabaseQueryError,
@@ -187,11 +190,14 @@ export async function fetchProjectUpdates(projectId: string) {
   );
 }
 
-export async function fetchClientProjectUpdates(clientId: string) {
+export async function fetchClientProjectUpdates(clientId: string, portalRegion?: RegionCode) {
   ensureConfigured();
+  const projectsQuery = portalRegion
+    ? supabase.from('projects').select('id').eq('client_id', clientId).or(`region.eq.${portalRegion},region.is.null`)
+    : supabase.from('projects').select('id').eq('client_id', clientId);
   const projects = await logSupabaseQuery(
     'projects.client_update_ids',
-    supabase.from('projects').select('id').eq('client_id', clientId),
+    projectsQuery,
   );
   const ids = projects.data?.map((p) => p.id) ?? [];
   if (!ids.length) return { data: [], error: null };
@@ -262,11 +268,26 @@ export async function fetchClientCrmHistory(email: string) {
 
 export async function createProposal(payload: Omit<Insert<'proposals'>, 'proposal_number'>) {
   ensureConfigured();
+  const insertPayload = { ...payload, proposal_number: proposalNumber() };
+
+  if (payload.client_id) {
+    const { data: clientProfile } = await supabase
+      .from('profiles')
+      .select('region')
+      .eq('id', payload.client_id)
+      .single();
+
+    if (isRegionCode(clientProfile?.region)) {
+      insertPayload.region = clientProfile.region;
+      insertPayload.currency = currencyForRegion(clientProfile.region);
+    }
+  }
+
   return logSupabaseQuery(
     'proposals.insert',
     supabase
       .from('proposals')
-      .insert({ ...payload, proposal_number: proposalNumber() })
+      .insert(insertPayload)
       .select('*')
       .single(),
   );
@@ -283,15 +304,19 @@ export async function fetchProposals() {
   );
 }
 
-export async function fetchClientProposals(clientId: string) {
+export async function fetchClientProposals(clientId: string, portalRegion?: RegionCode) {
   ensureConfigured();
+  const query = portalRegion
+    ? supabase
+        .from('proposals')
+        .select('*')
+        .eq('client_id', clientId)
+        .or(`region.eq.${portalRegion},region.is.null`)
+    : supabase.from('proposals').select('*').eq('client_id', clientId);
+
   return logSupabaseQuery(
     'proposals.client',
-    supabase
-      .from('proposals')
-      .select('*')
-      .eq('client_id', clientId)
-      .order('created_at', { ascending: false }),
+    query.order('created_at', { ascending: false }),
   );
 }
 
@@ -393,11 +418,26 @@ export async function requestProposalRevision(id: string, clientId: string, mess
 
 export async function createAdminInvoice(payload: Omit<Insert<'invoices'>, 'invoice_number'>) {
   ensureConfigured();
+  const insertPayload = { ...payload, invoice_number: invoiceNumber() };
+
+  if (payload.client_id) {
+    const { data: clientProfile } = await supabase
+      .from('profiles')
+      .select('region')
+      .eq('id', payload.client_id)
+      .single();
+
+    if (isRegionCode(clientProfile?.region)) {
+      insertPayload.region = clientProfile.region;
+      insertPayload.currency = currencyForRegion(clientProfile.region);
+    }
+  }
+
   const result = await logSupabaseQuery(
     'invoices.admin_insert',
     supabase
       .from('invoices')
-      .insert({ ...payload, invoice_number: invoiceNumber() })
+      .insert(insertPayload)
       .select('*')
       .single(),
   );
@@ -737,14 +777,14 @@ export function subscribeToNotifications(userId: string, onChange: () => void): 
 // Extended client workspace
 // ---------------------------------------------------------------------------
 
-export async function fetchExtendedClientWorkspace(userId: string) {
+export async function fetchExtendedClientWorkspace(userId: string, portalRegion?: RegionCode) {
   ensureConfigured();
 
   const [base, proposals, threads, updates] = await Promise.all([
-    logSupabaseTask('extended_client_workspace.base', fetchClientWorkspace(userId)),
-    logSupabaseTask('extended_client_workspace.proposals', fetchClientProposals(userId)),
+    logSupabaseTask('extended_client_workspace.base', fetchClientWorkspace(userId, portalRegion)),
+    logSupabaseTask('extended_client_workspace.proposals', fetchClientProposals(userId, portalRegion)),
     logSupabaseTask('extended_client_workspace.threads', fetchMessageThreads(userId)),
-    logSupabaseTask('extended_client_workspace.updates', fetchClientProjectUpdates(userId)),
+    logSupabaseTask('extended_client_workspace.updates', fetchClientProjectUpdates(userId, portalRegion)),
   ]);
 
   return {

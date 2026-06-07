@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { getProfileRole } from '@/lib/supabase/api';
+import { getOrCreateProfile } from '@/lib/supabase/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { SEO } from '@/components/layout/SEO';
-import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion } from '@/lib/region';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion } from '@/lib/region';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
 
@@ -57,14 +57,13 @@ export default function Login() {
         user_id: data.user.id
       });
 
-      const { data: profileData } = await getProfileRole(data.user.id);
+      const { data: profileData, error: profileError } = await getOrCreateProfile(data.user);
+      if (profileError) throw profileError;
       if ((profileData?.role === 'admin' || profileData?.role === 'superadmin') && !getSavedAdminRegion()) {
         const initialAdminRegion = isRegionCode(profileData.region) ? profileData.region : getSavedRegion();
         if (initialAdminRegion) {
           persistAdminRegion(initialAdminRegion);
         }
-      } else if (profileData?.role !== 'admin' && profileData?.role !== 'superadmin' && isRegionCode(profileData?.region)) {
-        persistRegion(profileData.region);
       }
 
       const requestedPath = (location.state as { from?: string } | null)?.from;

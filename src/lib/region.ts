@@ -10,6 +10,17 @@ export function isRegionCode(value: unknown): value is RegionCode {
   return REGION_OPTIONS.some((region) => region.id === value);
 }
 
+export function resolvePortalRegion(profileRegion: unknown): {
+  region: RegionCode;
+  pendingVerification: boolean;
+} {
+  if (isRegionCode(profileRegion)) {
+    return { region: profileRegion, pendingVerification: false };
+  }
+
+  return { region: 'lk', pendingVerification: true };
+}
+
 export function getRegionMeta(region: RegionCode): Pick<RegionConfig, 'countryName' | 'currency'> {
   return {
     countryName: regions[region].countryName,

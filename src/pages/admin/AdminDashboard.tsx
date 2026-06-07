@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase/client';
 import { fetchBusinessAnalytics } from '@/lib/supabase/ecosystem-api';
 import { getSupabaseErrorMessage, logSupabaseQuery, logSupabaseTask } from '@/lib/supabase/query-debug';
@@ -80,10 +81,12 @@ const emptyAgentWorkspace: AgentWorkspaceData = {
   tierHistory: [],
 };
 
-const CLIENT_DEFAULT_TAB = 'crm';
+const CLIENT_DEFAULT_TAB = 'analytics';
 const AGENT_DEFAULT_TAB = ADMIN_AGENT_WORKSPACE_TABS[0];
 const CLIENT_TAB_IDS = [
+  'analytics',
   'crm',
+  'clients',
   'leads',
   'projects',
   'proposals',
@@ -93,11 +96,22 @@ const CLIENT_TAB_IDS = [
   'notifications',
   'bot_training',
   'bot_analytics',
-  'analytics',
+  'settings',
 ] as const;
 const ADMIN_WORKSPACE_STORAGE_KEY = 'jawrah.admin.workspace';
 const ADMIN_CLIENT_TAB_STORAGE_KEY = 'jawrah.admin.clientOperationsTab';
 const ADMIN_AGENT_TAB_STORAGE_KEY = 'jawrah.admin.agentNetworkTab';
+const ADMIN_TAB_PATHS: Record<string, string> = {
+  analytics: '/admin',
+  clients: '/admin/clients',
+  projects: '/admin/projects',
+  proposals: '/admin/proposals',
+  invoices: '/admin/invoices',
+  files: '/admin/files',
+  messages: '/admin/messages',
+  notifications: '/admin/notifications',
+  settings: '/admin/settings',
+};
 
 function formatFileSize(size?: number | string | null) {
   const bytes = Number(size || 0);
@@ -152,6 +166,20 @@ async function safeDashboardTask<T>(task: Promise<T>): Promise<{ data: T | null;
 export default function AdminDashboard() {
   const { profile, user } = useAuth();
   const { config } = useRegion();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const routeTab = (() => {
+    const segment = location.pathname.split('/').filter(Boolean)[1];
+    if (segment === 'clients') return 'clients';
+    if (segment === 'projects') return 'projects';
+    if (segment === 'proposals') return 'proposals';
+    if (segment === 'invoices') return 'invoices';
+    if (segment === 'files') return 'files';
+    if (segment === 'messages') return 'messages';
+    if (segment === 'notifications') return 'notifications';
+    if (segment === 'settings') return 'settings';
+    return 'analytics';
+  })();
   
   // Workspace and tab control states stay client-side so switching never reloads the dashboard.
   const [activeWorkspace, setActiveWorkspace] = useState<AdminWorkspace>(() => getStoredWorkspace());
@@ -223,6 +251,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     loadAllDashboardData();
   }, []);
+
+  useEffect(() => {
+    if (activeWorkspace !== 'client') setActiveWorkspace('client');
+    if (activeTab !== routeTab) setActiveTab(routeTab);
+  }, [routeTab]);
 
   useEffect(() => {
     persistWorkspaceSelection(activeWorkspace, activeTab);
@@ -711,7 +744,9 @@ export default function AdminDashboard() {
     topAgent?.profiles?.full_name || topAgent?.profiles?.agent_code || topAgent?.profiles?.email || 'N/A';
 
   const clientOperationTabs = [
+    { id: 'analytics', label: 'Overview', icon: Activity },
     { id: 'crm', label: 'CRM', count: inquiries.length, icon: Users },
+    { id: 'clients', label: 'Clients', count: clients.length, icon: Users },
     { id: 'leads', label: 'Leads', count: totalClientLeads, icon: FileText },
     { id: 'projects', label: 'Projects', count: projects.length, icon: Briefcase },
     { id: 'proposals', label: 'Proposals', icon: FileText },
@@ -721,7 +756,7 @@ export default function AdminDashboard() {
     { id: 'notifications', label: 'Notifications', count: notifications.length, icon: MessageSquare },
     { id: 'bot_analytics', label: 'Bot Intelligence', icon: MessageSquare },
     { id: 'bot_training', label: 'Bot Training', icon: BrainCircuit },
-    { id: 'analytics', label: 'Analytics', icon: Activity },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   const agentNetworkTabs = [
@@ -817,6 +852,10 @@ export default function AdminDashboard() {
   };
 
   const handleTabChange = (tabId: string) => {
+    const path = ADMIN_TAB_PATHS[tabId];
+    if (path) {
+      navigate(path);
+    }
     setActiveTab(tabId);
   };
 

@@ -8,6 +8,7 @@ import { completeInvoicePayment } from '@/lib/supabase/billing-api';
 import { formatCurrencyAmount } from '@/lib/billing/format';
 import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
 import { SEO } from '@/components/layout/SEO';
+import { resolvePortalRegion } from '@/lib/region';
 
 export default function PaymentSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -19,11 +20,12 @@ export default function PaymentSuccessPage() {
 
   useEffect(() => {
     if (!invoiceId || !user) return;
+    const lockedPortalRegion = resolvePortalRegion(profile?.region).region;
 
     const finalize = async () => {
       if (!isManual && searchParams.get('payhere') !== '0') {
         try {
-          const checkout = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin');
+          const checkout = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin', lockedPortalRegion);
           if (checkout.data?.invoice && checkout.data.invoice.payment_status !== 'paid') {
             const inv = checkout.data.invoice;
             if (!(inv.region === 'lk' && inv.payment_method === 'bank_transfer')) {
@@ -40,7 +42,7 @@ export default function PaymentSuccessPage() {
         }
       }
 
-      const res = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin');
+      const res = await fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin', lockedPortalRegion);
       const inv = res.data?.invoice;
       setInvoice(inv);
 
@@ -66,7 +68,7 @@ export default function PaymentSuccessPage() {
     };
 
     void finalize();
-  }, [invoiceId, user, profile?.role, isManual, searchParams]);
+  }, [invoiceId, user, profile?.role, profile?.region, isManual, searchParams]);
 
   if (authLoading) {
     return (

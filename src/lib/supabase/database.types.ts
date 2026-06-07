@@ -16,6 +16,10 @@ export interface Database {
           region: RegionCode | null;
           country: string | null;
           currency: string | null;
+          company_name: string | null;
+          phone: string | null;
+          whatsapp: string | null;
+          status: 'active' | 'inactive' | 'suspended' | null;
           agent_code: string | null;
           agent_status: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended' | null;
           created_at: string;
@@ -30,6 +34,10 @@ export interface Database {
           region?: RegionCode | null;
           country?: string | null;
           currency?: string | null;
+          company_name?: string | null;
+          phone?: string | null;
+          whatsapp?: string | null;
+          status?: 'active' | 'inactive' | 'suspended' | null;
           agent_code?: string | null;
           agent_status?: 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended' | null;
           created_at?: string;

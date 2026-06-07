@@ -203,23 +203,41 @@ export default function App() {
             {/* Authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot-password" element={<Login />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/signup" element={<SignUp />} />
 
             {/* Admin Routes */}
             <Route element={<RequireAuth roles={['admin', 'superadmin']}><AdminLayout /></RequireAuth>}>
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/clients" element={<AdminDashboard />} />
+              <Route path="/admin/projects" element={<AdminDashboard />} />
+              <Route path="/admin/projects/:id" element={<AdminDashboard />} />
+              <Route path="/admin/proposals" element={<AdminDashboard />} />
+              <Route path="/admin/invoices" element={<AdminDashboard />} />
+              <Route path="/admin/files" element={<AdminDashboard />} />
+              <Route path="/admin/messages" element={<AdminDashboard />} />
+              <Route path="/admin/notifications" element={<AdminDashboard />} />
+              <Route path="/admin/settings" element={<AdminDashboard />} />
             </Route>
 
             {/* Client Routes */}
-            <Route element={<RequireAuth roles={['client', 'admin']}><ClientLayout /></RequireAuth>}>
+            <Route element={<RequireAuth roles={['client']}><ClientLayout /></RequireAuth>}>
               <Route path="/dashboard" element={<ClientDashboard />} />
+              <Route path="/dashboard/projects" element={<ClientDashboard />} />
+              <Route path="/dashboard/projects/:id" element={<ClientDashboard />} />
+              <Route path="/dashboard/files" element={<ClientDashboard />} />
+              <Route path="/dashboard/proposals" element={<ClientDashboard />} />
+              <Route path="/dashboard/invoices" element={<ClientDashboard />} />
+              <Route path="/dashboard/messages" element={<ClientDashboard />} />
+              <Route path="/dashboard/notifications" element={<ClientDashboard />} />
+              <Route path="/dashboard/settings" element={<ClientDashboard />} />
               <Route path="/dashboard/checkout/:invoiceId" element={<CheckoutPage />} />
               <Route path="/dashboard/payment-success" element={<PaymentSuccessPage />} />
             </Route>
             <Route
               path="/checkout/:invoiceId"
-              element={<RequireAuth roles={['client', 'admin']}><CheckoutRedirect /></RequireAuth>}
+              element={<RequireAuth roles={['client']}><CheckoutRedirect /></RequireAuth>}
             />
 
             {/* Partner Routes (agent role in database) */}

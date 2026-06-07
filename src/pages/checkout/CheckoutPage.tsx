@@ -15,7 +15,7 @@ import { runDepositCheckout, type PaymentModalIntent } from '@/lib/payments/chec
 import { calculateDeposit, formatMoney, type DepositPercent } from '@/lib/payments/amounts';
 import { currencyForRegion, RECEIPT_UPLOAD_SETTINGS } from '@/lib/payments/config';
 import { submitInquiry } from '@/lib/supabase/api';
-import { isRegionCode } from '@/lib/region';
+import { isRegionCode, resolvePortalRegion } from '@/lib/region';
 import type { Profile, RegionCode } from '@/types';
 import { trackEvent, ANALYTICS_EVENTS, trackPurchase } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
@@ -66,8 +66,9 @@ function ServiceStartCheckout({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const region = resolveCheckoutRegion(searchParams.get('region'), profile?.region);
-  const currency = searchParams.get('currency') || currencyForRegion(region);
+  const lockedPortalRegion = user ? resolvePortalRegion(profile?.region).region : null;
+  const region = lockedPortalRegion ?? resolveCheckoutRegion(searchParams.get('region'), profile?.region);
+  const currency = lockedPortalRegion ? currencyForRegion(region) : searchParams.get('currency') || currencyForRegion(region);
   const projectName = searchParams.get('project') || 'Custom Project';
   const queryTotal = Number(searchParams.get('amount'));
   const totalProjectValue = Number.isFinite(queryTotal) && queryTotal > 0 ? queryTotal : fallbackProjectValue(region);
@@ -274,7 +275,8 @@ export default function CheckoutPage() {
   const [processing, setProcessing] = useState(false);
   const proofInputRef = useRef<HTMLInputElement>(null);
 
-  const region = (invoice?.region ?? profile?.region ?? 'lk') as RegionCode;
+  const lockedPortalRegion = resolvePortalRegion(profile?.region).region;
+  const region = (profile?.role === 'admin' ? invoice?.region ?? lockedPortalRegion : lockedPortalRegion) as RegionCode;
   const methods = useMemo(() => getAvailablePaymentMethods(region), [region]);
   const manual = getManualPaymentInstructions(region);
   const isPaid = invoice?.payment_status === 'paid' || invoice?.status === 'paid';
@@ -293,7 +295,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (!invoiceId || !user) return;
     setLoading(true);
-    fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin').then((res) => {
+    fetchInvoiceForCheckout(invoiceId, user.id, profile?.role === 'admin', lockedPortalRegion).then((res) => {
       if (res.error) {
         setError(res.error.message);
         setLoading(false);
@@ -304,7 +306,7 @@ export default function CheckoutPage() {
       setMethod(methods[0]?.id ?? 'bank_transfer');
       setLoading(false);
     });
-  }, [invoiceId, user, profile?.role, methods]);
+  }, [invoiceId, user, profile?.role, lockedPortalRegion, methods]);
 
   if (authLoading) {
     return (
@@ -392,6 +394,7 @@ export default function CheckoutPage() {
         notes: notes.trim() || undefined,
         proofFile,
         captcha_token: captchaToken,
+        expectedRegion: region,
       });
       navigate(`/dashboard/payment-success?invoiceId=${invoiceId}&manual=1`);
     } catch (err) {

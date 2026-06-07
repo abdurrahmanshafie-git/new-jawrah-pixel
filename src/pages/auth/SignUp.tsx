@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
+import { getOrCreateProfile } from '@/lib/supabase/api';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -84,6 +85,7 @@ export default function SignUp() {
       persistRegion(region as RegionCode);
 
       if (data.session?.user) {
+        await getOrCreateProfile(data.session.user);
         await supabase
           .from('profiles')
           .update({

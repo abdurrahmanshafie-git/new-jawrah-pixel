@@ -1,7 +1,10 @@
 import { supabase, isSupabaseConfigured } from './client';
 import type { Insert, Row, Update } from './database.types';
+import type { RegionCode } from '@/types';
+import type { User } from '@supabase/supabase-js';
 import { sendLeadEmailNotification, type LeadEmailPayload } from '@/lib/email/leadEmails';
 import { getReferralSource, getStoredReferral } from '@/lib/referral';
+import { getRegionMeta, isRegionCode } from '@/lib/region';
 import {
   findFirstSupabaseQueryError,
   logSupabaseQuery,
@@ -115,7 +118,7 @@ export async function getProfile(userId: string) {
     .from('profiles')
     .select('*')
     .eq('id', userId)
-    .single();
+    .maybeSingle();
 }
 
 export async function getProfileRole(userId: string) {
@@ -125,7 +128,44 @@ export async function getProfileRole(userId: string) {
     .from('profiles')
     .select('role, region')
     .eq('id', userId)
-    .single();
+    .maybeSingle();
+}
+
+export async function getOrCreateProfile(user: User) {
+  ensureConfigured();
+
+  const existing = await getProfile(user.id);
+  if (existing.error || existing.data) return existing;
+
+  const metadata = user.user_metadata ?? {};
+  const region = isRegionCode(metadata.region) ? metadata.region : 'lk';
+  const regionMeta = getRegionMeta(region);
+  const fullName =
+    typeof metadata.full_name === 'string'
+      ? metadata.full_name
+      : typeof metadata.name === 'string'
+        ? metadata.name
+        : null;
+
+  const insertPayload: Insert<'profiles'> = {
+    id: user.id,
+    email: user.email ?? null,
+    full_name: fullName,
+    role: 'client',
+    region,
+    country: typeof metadata.country === 'string' ? metadata.country : regionMeta.countryName,
+    currency: typeof metadata.currency === 'string' ? metadata.currency : regionMeta.currency,
+    status: 'active',
+  };
+
+  const created = await supabase.from('profiles').insert(insertPayload).select('*').maybeSingle();
+  if (!created.error || created.data) return created;
+
+  if (created.error.code === '23505') {
+    return getProfile(user.id);
+  }
+
+  return created;
 }
 
 async function attachStoredReferralToInquiry(inquiryId: string) {
@@ -500,17 +540,27 @@ export async function fetchAdminWorkspace() {
   return { projects, inquiries, bookings, testimonials, blogPosts, subscribers, invoices, chatbotLeads };
 }
 
-export async function fetchClientWorkspace(userId: string) {
+export async function fetchClientWorkspace(userId: string, portalRegion?: RegionCode) {
   ensureConfigured();
+  const regionFilter = portalRegion ? `region.eq.${portalRegion},region.is.null` : null;
+  const projectsQuery = regionFilter
+    ? supabase.from('projects').select('*').eq('client_id', userId).or(regionFilter)
+    : supabase.from('projects').select('*').eq('client_id', userId);
+  const bookingsQuery = regionFilter
+    ? supabase.from('bookings').select('*').eq('user_id', userId).or(regionFilter)
+    : supabase.from('bookings').select('*').eq('user_id', userId);
+  const invoicesQuery = regionFilter
+    ? supabase.from('invoices').select('*, payments:invoice_payments(*)').eq('client_id', userId).or(regionFilter)
+    : supabase.from('invoices').select('*, payments:invoice_payments(*)').eq('client_id', userId);
 
   const [projects, bookings, revisionRequests, supportTickets, invoices, files, notifications] = await Promise.all([
     logSupabaseQuery(
       'client_workspace.projects',
-      supabase.from('projects').select('*').eq('client_id', userId).order('updated_at', { ascending: false }),
+      projectsQuery.order('updated_at', { ascending: false }),
     ),
     logSupabaseQuery(
       'client_workspace.bookings',
-      supabase.from('bookings').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+      bookingsQuery.order('created_at', { ascending: false }),
     ),
     logSupabaseQuery(
       'client_workspace.revision_requests',
@@ -522,11 +572,7 @@ export async function fetchClientWorkspace(userId: string) {
     ),
     logSupabaseQuery(
       'client_workspace.invoices',
-      supabase
-        .from('invoices')
-        .select('*, payments:invoice_payments(*)')
-        .eq('client_id', userId)
-        .order('created_at', { ascending: false }),
+      invoicesQuery.order('created_at', { ascending: false }),
     ),
     logSupabaseQuery(
       'client_workspace.project_files',

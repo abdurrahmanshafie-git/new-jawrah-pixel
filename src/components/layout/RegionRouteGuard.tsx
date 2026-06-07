@@ -29,18 +29,6 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
 
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
-  const lockedRegion = user && !isAdmin ? profileRegion : null;
-
-  if (lockedRegion && pathRegion && pathRegion !== lockedRegion) {
-    persistRegion(lockedRegion);
-    return (
-      <Navigate
-        to={`${regionPath(lockedRegion, location.pathname)}${location.search}${location.hash}`}
-        replace
-      />
-    );
-  }
-
   if (pathRegion) {
     if (isAdmin) {
       persistAdminRegion(pathRegion);

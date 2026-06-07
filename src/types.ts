@@ -10,6 +10,10 @@ export interface Profile {
   region: RegionCode | null;
   country: string | null;
   currency: string | null;
+  company_name?: string | null;
+  phone?: string | null;
+  whatsapp?: string | null;
+  status?: 'active' | 'inactive' | 'suspended' | null;
   created_at: string;
   updated_at: string;
 }

@@ -3,7 +3,7 @@ import { Instagram, MessageCircle, Mail, Lock } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal } from '@/components/ui/Reveal';
-import { persistRegion, isRegionCode } from '@/lib/region';
+import { persistRegion } from '@/lib/region';
 import { cn } from '@/lib/utils';
 import { REGION_OPTIONS } from '@/data/regions';
 import { useAuth } from '@/contexts/AuthContext';
@@ -14,7 +14,6 @@ export function Footer() {
   const { config, p, currentRegion } = useRegion();
   const { user, profile } = useAuth();
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
-  const lockedRegion = user && !isAdmin && isRegionCode(profile?.region) ? profile.region : null;
   
   const serviceLinks = [
     { label: 'Web Development Sri Lanka', path: '/lk/web-development-sri-lanka' },
@@ -144,29 +143,23 @@ export function Footer() {
               <div className="h-px w-6 bg-white/5 hidden md:block" />
               <div className="flex items-center gap-6">
                 <span className="text-[8px] font-mono text-zinc-800 uppercase tracking-[0.4em]">Region</span>
-                {lockedRegion ? (
-                  <span className="text-[9px] font-mono text-brand-cyan uppercase tracking-widest flex items-center gap-2">
-                    {lockedRegion.toUpperCase()}
-                  </span>
-                ) : (
-                  <div className="flex items-center gap-4">
-                    {REGION_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => {
-                          persistRegion(opt.id);
-                          window.location.href = `/${opt.id}`;
-                        }}
-                        className={cn(
-                          "text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500",
-                          currentRegion === opt.id ? "text-brand-blue font-bold" : "text-zinc-700 hover:text-zinc-500"
-                        )}
-                      >
-                        {opt.id}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <div className="flex items-center gap-4">
+                  {REGION_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => {
+                        persistRegion(opt.id);
+                        window.location.href = `/${opt.id}`;
+                      }}
+                      className={cn(
+                        "text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500",
+                        currentRegion === opt.id ? "text-brand-blue font-bold" : "text-zinc-700 hover:text-zinc-500"
+                      )}
+                    >
+                      {opt.id}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
             

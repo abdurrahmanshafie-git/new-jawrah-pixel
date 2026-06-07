@@ -16,9 +16,13 @@ create table if not exists public.profiles (
   email text,
   role text not null default 'client' check (role in ('client', 'admin', 'agent', 'superadmin')),
   avatar_url text,
-  region text check (region in ('lk', 'pk', 'int')),
+  region text default 'lk' check (region in ('lk', 'pk', 'int')),
   country text,
   currency text,
+  company_name text,
+  phone text,
+  whatsapp text,
+  status text not null default 'active' check (status in ('active', 'inactive', 'suspended')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -321,7 +325,7 @@ declare
   selected_currency text;
 begin
   if selected_region not in ('lk', 'pk', 'int') then
-    selected_region := null;
+    selected_region := 'lk';
   end if;
 
   selected_country := case selected_region
