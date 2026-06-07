@@ -57,6 +57,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Services', path: p('/services') },
     { name: 'Case Studies', path: p('/case-studies') },
+    { name: 'Leadership', path: p('/leadership') },
     { name: 'Process', path: p('/process') },
     { name: 'Pricing', path: p('/pricing') },
     { name: 'About', path: p('/about') },

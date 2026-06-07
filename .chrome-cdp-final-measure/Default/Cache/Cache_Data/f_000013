@@ -1,0 +1,180 @@
+export const sriLankaServices = [
+  {
+    id: "web-design",
+    title: "Signature Web Experience",
+    price: "from LKR 500,000",
+    features: ["Bespoke Art Direction", "Conversion-Led UX Architecture", "Core Web Vitals Engineering", "Technical SEO Foundation"]
+  },
+  {
+    id: "ecommerce",
+    title: "Luxury Commerce System",
+    price: "from LKR 950,000",
+    features: ["Premium Catalog Architecture", "Local Payment Integrations", "Inventory & Order Operations", "Conversion Analytics Layer"]
+  },
+  {
+    id: "jewellery",
+    title: "Fine Jewellery Flagships",
+    price: "from LKR 850,000",
+    features: ["Macro Product Storytelling", "Appraisal & Catalog Systems", "Private Consultation Scheduling", "Certificate Verifier Flows"]
+  },
+  {
+    id: "fashion",
+    title: "Fashion Brand Flagships",
+    price: "from LKR 750,000",
+    features: ["Editorial Collection Drops", "Size & Fit Guidance", "Cinematic Lookbook Sections", "Fast Filtering & Checkout Routing"]
+  },
+  {
+    id: "restaurant",
+    title: "Restaurant Websites",
+    price: "from LKR 180,000",
+    features: ["Interactive Luxury Menu Grid", "Online Reservation Forms", "Regional Google Maps SEO", "Contactless QR Setup"]
+  },
+  {
+    id: "furniture",
+    title: "Furniture Websites",
+    price: "from LKR 220,000",
+    features: ["Immersive Living Room Visualizers", "Direct WhatsApp Inquiries", "Product Configurator Support", "Custom Dimension Displays"]
+  },
+  {
+    id: "seo",
+    title: "SEO",
+    price: "from LKR 50,000/month",
+    features: ["Technical Keyword Auditing", "Local Map Pack Placement", "Quality Link Acquisition", "Monthly Competitor Performance Reports"]
+  },
+  {
+    id: "branding",
+    title: "Branding",
+    price: "from LKR 80,000",
+    features: ["Premium Vector Logos", "Luxury Color System Design", "Brand Guideline Standards", "Typographic Framework Sets"]
+  },
+  {
+    id: "dashboards",
+    title: "Client OS & Admin Dashboards",
+    price: "from LKR 900,000",
+    features: ["Custom Database Workspaces", "Interactive Analytics & Metrics", "Secure Role-Based Access", "Export/Import Pipeline Feeds"]
+  },
+  {
+    id: "maintenance",
+    title: "Maintenance Plans",
+    price: "from LKR 15,000/month",
+    features: ["Daily Server/CDN Diagnostics", "Real-Time Site Vulnerability Scans", "Ongoing Text/Image Revisions", "Express 24h Emergency Tickets"]
+  }
+];
+export const pakistanServices = [
+  {
+    id: "ecommerce-pk",
+    title: "Luxury Commerce Pakistan",
+    price: "from PKR 850,000",
+    features: ["Custom Interactive Architecture", "Easypaisa & JazzCash Checkout", "Optimized Mobile Conversion", "Automated Billing & Reporting"]
+  },
+  {
+    id: "jewellery-pk",
+    title: "Fine Jewellery Digital Flagship",
+    price: "from PKR 750,000",
+    features: ["High-End Detail Frames", "Custom Order Configurators", "Secure Payment Protocols", "Private Showroom Scheduling"]
+  },
+  {
+    id: "fashion-pk",
+    title: "Fashion Brand Flagship Pakistan",
+    price: "from PKR 650,000",
+    features: ["Premium Seasonal Drop Systems", "Interactive Catalog Filters", "Fast Local 4G Load Paths", "Direct WhatsApp Checkout Hub"]
+  },
+  {
+    id: "travel-pk",
+    title: "Travel Agency Website Pakistan",
+    price: "from PKR 180,000",
+    features: ["Scenic Interactive Tour Packages", "Automated Consultation Forms", "Dynamic Local/Global Currency Views", "Corporate Travel System Pipelines"]
+  },
+  {
+    id: "furniture-pk",
+    title: "Furniture Showroom Website Pakistan",
+    price: "from PKR 200,000",
+    features: ["Interactive 3D Visual Showroom Modes", "Custom Built Inquiries Pipelines", "Financing & Installment Information", "Premium Catalog Layout Cards"]
+  },
+  {
+    id: "restaurant-pk",
+    title: "Restaurant Website Pakistan",
+    price: "from PKR 150,000",
+    features: ["Stellar Digital Food Menu", "Table & VIP Hall Booking Forms", "Local Karachi/Lahore Map Ranking", "Special Deal Campaign Modules"]
+  },
+  {
+    id: "seo-pk",
+    title: "SEO Pakistan",
+    price: "from PKR 40,000/month",
+    features: ["Competitor Keyword Auditing", "Targeted Regional Ranking Frameworks", "Content Marketing Strategies", "Local Citation Building Leads"]
+  },
+  {
+    id: "branding-pk",
+    title: "Branding Pakistan",
+    price: "from PKR 60,000",
+    features: ["Premium Vector Logo Packs", "Cohesive Corporate Identity Systems", "Social Media Templates Layout", "Elegant Style-Guide Handbooks"]
+  },
+  {
+    id: "dashboards-pk",
+    title: "Client OS & Admin Dashboards",
+    price: "from PKR 950,000",
+    features: ["Full Database Integration", "Order & Delivery Intelligence", "Corporate CRM Interfaces", "Multi-Warehouse Inventory Control"]
+  },
+  {
+    id: "maintenance-pk",
+    title: "Maintenance Pakistan",
+    price: "from PKR 12,000/month",
+    features: ["Daily Health Checks & Patches", "SLA Support Priority Response", "Regular Copywriting updates", "Offsite Periodic Backups Sync"]
+  }
+];
+export const internationalServices = [
+  {
+    id: "web-design-int",
+    title: "Premium Global Web Experience",
+    price: "from $500",
+    features: ["Bespoke Global Art Direction", "Conversion-Led UX Architecture", "Core Web Vitals Engineering", "International SEO Foundation"]
+  },
+  {
+    id: "ecommerce-int",
+    title: "International Commerce System",
+    price: "from $2,500",
+    features: ["Premium Catalog Architecture", "USD Checkout Readiness", "Inventory & Order Operations", "Conversion Analytics Layer"]
+  },
+  {
+    id: "ai-int",
+    title: "AI Integrations",
+    price: "from $1,000",
+    features: ["AI Assistant Workflows", "Automation Planning", "Internal Process Tools", "Secure API Integration Paths"]
+  },
+  {
+    id: "saas-int",
+    title: "SaaS UI & Product Systems",
+    price: "from $5,000",
+    features: ["Dashboard UX Architecture", "Component System Design", "Admin & Client Workspaces", "Scalable Product Interfaces"]
+  },
+  {
+    id: "branding-int",
+    title: "Global Branding & Identity",
+    price: "from $1,000",
+    features: ["Premium Identity Direction", "Luxury Color System Design", "Brand Guideline Standards", "Typographic Framework Sets"]
+  },
+  {
+    id: "seo-int",
+    title: "International SEO Optimization",
+    price: "from $500/month",
+    features: ["Technical SEO Auditing", "Search Architecture Planning", "Metadata & Schema Systems", "Monthly Performance Reports"]
+  },
+  {
+    id: "frontend-int",
+    title: "High-End Frontend Development",
+    price: "from $2,000",
+    features: ["React Interface Engineering", "Motion & Interaction Polish", "Responsive Component Systems", "Accessibility & Speed Tuning"]
+  },
+  {
+    id: "enterprise-int",
+    title: "Enterprise Digital Systems",
+    price: "Custom Quote",
+    features: ["Advanced Scope Discovery", "Bespoke Integrations", "Global Launch Support", "Long-Term Strategic Partnership"]
+  }
+];
+export function getServicesForRegion(region) {
+  if (region === "int") return internationalServices;
+  return region === "pk" ? pakistanServices : sriLankaServices;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZpY2VzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgUmVnaW9uQ29kZSB9IGZyb20gJ0AvdHlwZXMnO1xuXG5leHBvcnQgaW50ZXJmYWNlIFNlcnZpY2VJdGVtIHtcbiAgaWQ6IHN0cmluZztcbiAgdGl0bGU6IHN0cmluZztcbiAgcHJpY2U6IHN0cmluZztcbiAgZmVhdHVyZXM6IHN0cmluZ1tdO1xufVxuXG5leHBvcnQgY29uc3Qgc3JpTGFua2FTZXJ2aWNlczogU2VydmljZUl0ZW1bXSA9IFtcbiAge1xuICAgIGlkOiBcIndlYi1kZXNpZ25cIixcbiAgICB0aXRsZTogXCJTaWduYXR1cmUgV2ViIEV4cGVyaWVuY2VcIixcbiAgICBwcmljZTogXCJmcm9tIExLUiA1MDAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIkJlc3Bva2UgQXJ0IERpcmVjdGlvblwiLCBcIkNvbnZlcnNpb24tTGVkIFVYIEFyY2hpdGVjdHVyZVwiLCBcIkNvcmUgV2ViIFZpdGFscyBFbmdpbmVlcmluZ1wiLCBcIlRlY2huaWNhbCBTRU8gRm91bmRhdGlvblwiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiZWNvbW1lcmNlXCIsXG4gICAgdGl0bGU6IFwiTHV4dXJ5IENvbW1lcmNlIFN5c3RlbVwiLFxuICAgIHByaWNlOiBcImZyb20gTEtSIDk1MCwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiUHJlbWl1bSBDYXRhbG9nIEFyY2hpdGVjdHVyZVwiLCBcIkxvY2FsIFBheW1lbnQgSW50ZWdyYXRpb25zXCIsIFwiSW52ZW50b3J5ICYgT3JkZXIgT3BlcmF0aW9uc1wiLCBcIkNvbnZlcnNpb24gQW5hbHl0aWNzIExheWVyXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJqZXdlbGxlcnlcIixcbiAgICB0aXRsZTogXCJGaW5lIEpld2VsbGVyeSBGbGFnc2hpcHNcIixcbiAgICBwcmljZTogXCJmcm9tIExLUiA4NTAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIk1hY3JvIFByb2R1Y3QgU3Rvcnl0ZWxsaW5nXCIsIFwiQXBwcmFpc2FsICYgQ2F0YWxvZyBTeXN0ZW1zXCIsIFwiUHJpdmF0ZSBDb25zdWx0YXRpb24gU2NoZWR1bGluZ1wiLCBcIkNlcnRpZmljYXRlIFZlcmlmaWVyIEZsb3dzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJmYXNoaW9uXCIsXG4gICAgdGl0bGU6IFwiRmFzaGlvbiBCcmFuZCBGbGFnc2hpcHNcIixcbiAgICBwcmljZTogXCJmcm9tIExLUiA3NTAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIkVkaXRvcmlhbCBDb2xsZWN0aW9uIERyb3BzXCIsIFwiU2l6ZSAmIEZpdCBHdWlkYW5jZVwiLCBcIkNpbmVtYXRpYyBMb29rYm9vayBTZWN0aW9uc1wiLCBcIkZhc3QgRmlsdGVyaW5nICYgQ2hlY2tvdXQgUm91dGluZ1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwicmVzdGF1cmFudFwiLFxuICAgIHRpdGxlOiBcIlJlc3RhdXJhbnQgV2Vic2l0ZXNcIixcbiAgICBwcmljZTogXCJmcm9tIExLUiAxODAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIkludGVyYWN0aXZlIEx1eHVyeSBNZW51IEdyaWRcIiwgXCJPbmxpbmUgUmVzZXJ2YXRpb24gRm9ybXNcIiwgXCJSZWdpb25hbCBHb29nbGUgTWFwcyBTRU9cIiwgXCJDb250YWN0bGVzcyBRUiBTZXR1cFwiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiZnVybml0dXJlXCIsXG4gICAgdGl0bGU6IFwiRnVybml0dXJlIFdlYnNpdGVzXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBMS1IgMjIwLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJJbW1lcnNpdmUgTGl2aW5nIFJvb20gVmlzdWFsaXplcnNcIiwgXCJEaXJlY3QgV2hhdHNBcHAgSW5xdWlyaWVzXCIsIFwiUHJvZHVjdCBDb25maWd1cmF0b3IgU3VwcG9ydFwiLCBcIkN1c3RvbSBEaW1lbnNpb24gRGlzcGxheXNcIl1cbiAgfSxcbiAge1xuICAgIGlkOiBcInNlb1wiLFxuICAgIHRpdGxlOiBcIlNFT1wiLFxuICAgIHByaWNlOiBcImZyb20gTEtSIDUwLDAwMC9tb250aFwiLFxuICAgIGZlYXR1cmVzOiBbXCJUZWNobmljYWwgS2V5d29yZCBBdWRpdGluZ1wiLCBcIkxvY2FsIE1hcCBQYWNrIFBsYWNlbWVudFwiLCBcIlF1YWxpdHkgTGluayBBY3F1aXNpdGlvblwiLCBcIk1vbnRobHkgQ29tcGV0aXRvciBQZXJmb3JtYW5jZSBSZXBvcnRzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJicmFuZGluZ1wiLFxuICAgIHRpdGxlOiBcIkJyYW5kaW5nXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBMS1IgODAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIlByZW1pdW0gVmVjdG9yIExvZ29zXCIsIFwiTHV4dXJ5IENvbG9yIFN5c3RlbSBEZXNpZ25cIiwgXCJCcmFuZCBHdWlkZWxpbmUgU3RhbmRhcmRzXCIsIFwiVHlwb2dyYXBoaWMgRnJhbWV3b3JrIFNldHNcIl1cbiAgfSxcbiAge1xuICAgIGlkOiBcImRhc2hib2FyZHNcIixcbiAgICB0aXRsZTogXCJDbGllbnQgT1MgJiBBZG1pbiBEYXNoYm9hcmRzXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBMS1IgOTAwLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJDdXN0b20gRGF0YWJhc2UgV29ya3NwYWNlc1wiLCBcIkludGVyYWN0aXZlIEFuYWx5dGljcyAmIE1ldHJpY3NcIiwgXCJTZWN1cmUgUm9sZS1CYXNlZCBBY2Nlc3NcIiwgXCJFeHBvcnQvSW1wb3J0IFBpcGVsaW5lIEZlZWRzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJtYWludGVuYW5jZVwiLFxuICAgIHRpdGxlOiBcIk1haW50ZW5hbmNlIFBsYW5zXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBMS1IgMTUsMDAwL21vbnRoXCIsXG4gICAgZmVhdHVyZXM6IFtcIkRhaWx5IFNlcnZlci9DRE4gRGlhZ25vc3RpY3NcIiwgXCJSZWFsLVRpbWUgU2l0ZSBWdWxuZXJhYmlsaXR5IFNjYW5zXCIsIFwiT25nb2luZyBUZXh0L0ltYWdlIFJldmlzaW9uc1wiLCBcIkV4cHJlc3MgMjRoIEVtZXJnZW5jeSBUaWNrZXRzXCJdXG4gIH1cbl07XG5cbmV4cG9ydCBjb25zdCBwYWtpc3RhblNlcnZpY2VzOiBTZXJ2aWNlSXRlbVtdID0gW1xuICB7XG4gICAgaWQ6IFwiZWNvbW1lcmNlLXBrXCIsXG4gICAgdGl0bGU6IFwiTHV4dXJ5IENvbW1lcmNlIFBha2lzdGFuXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBQS1IgODUwLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJDdXN0b20gSW50ZXJhY3RpdmUgQXJjaGl0ZWN0dXJlXCIsIFwiRWFzeXBhaXNhICYgSmF6ekNhc2ggQ2hlY2tvdXRcIiwgXCJPcHRpbWl6ZWQgTW9iaWxlIENvbnZlcnNpb25cIiwgXCJBdXRvbWF0ZWQgQmlsbGluZyAmIFJlcG9ydGluZ1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiamV3ZWxsZXJ5LXBrXCIsXG4gICAgdGl0bGU6IFwiRmluZSBKZXdlbGxlcnkgRGlnaXRhbCBGbGFnc2hpcFwiLFxuICAgIHByaWNlOiBcImZyb20gUEtSIDc1MCwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiSGlnaC1FbmQgRGV0YWlsIEZyYW1lc1wiLCBcIkN1c3RvbSBPcmRlciBDb25maWd1cmF0b3JzXCIsIFwiU2VjdXJlIFBheW1lbnQgUHJvdG9jb2xzXCIsIFwiUHJpdmF0ZSBTaG93cm9vbSBTY2hlZHVsaW5nXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJmYXNoaW9uLXBrXCIsXG4gICAgdGl0bGU6IFwiRmFzaGlvbiBCcmFuZCBGbGFnc2hpcCBQYWtpc3RhblwiLFxuICAgIHByaWNlOiBcImZyb20gUEtSIDY1MCwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiUHJlbWl1bSBTZWFzb25hbCBEcm9wIFN5c3RlbXNcIiwgXCJJbnRlcmFjdGl2ZSBDYXRhbG9nIEZpbHRlcnNcIiwgXCJGYXN0IExvY2FsIDRHIExvYWQgUGF0aHNcIiwgXCJEaXJlY3QgV2hhdHNBcHAgQ2hlY2tvdXQgSHViXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJ0cmF2ZWwtcGtcIixcbiAgICB0aXRsZTogXCJUcmF2ZWwgQWdlbmN5IFdlYnNpdGUgUGFraXN0YW5cIixcbiAgICBwcmljZTogXCJmcm9tIFBLUiAxODAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIlNjZW5pYyBJbnRlcmFjdGl2ZSBUb3VyIFBhY2thZ2VzXCIsIFwiQXV0b21hdGVkIENvbnN1bHRhdGlvbiBGb3Jtc1wiLCBcIkR5bmFtaWMgTG9jYWwvR2xvYmFsIEN1cnJlbmN5IFZpZXdzXCIsIFwiQ29ycG9yYXRlIFRyYXZlbCBTeXN0ZW0gUGlwZWxpbmVzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJmdXJuaXR1cmUtcGtcIixcbiAgICB0aXRsZTogXCJGdXJuaXR1cmUgU2hvd3Jvb20gV2Vic2l0ZSBQYWtpc3RhblwiLFxuICAgIHByaWNlOiBcImZyb20gUEtSIDIwMCwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiSW50ZXJhY3RpdmUgM0QgVmlzdWFsIFNob3dyb29tIE1vZGVzXCIsIFwiQ3VzdG9tIEJ1aWx0IElucXVpcmllcyBQaXBlbGluZXNcIiwgXCJGaW5hbmNpbmcgJiBJbnN0YWxsbWVudCBJbmZvcm1hdGlvblwiLCBcIlByZW1pdW0gQ2F0YWxvZyBMYXlvdXQgQ2FyZHNcIl1cbiAgfSxcbiAge1xuICAgIGlkOiBcInJlc3RhdXJhbnQtcGtcIixcbiAgICB0aXRsZTogXCJSZXN0YXVyYW50IFdlYnNpdGUgUGFraXN0YW5cIixcbiAgICBwcmljZTogXCJmcm9tIFBLUiAxNTAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIlN0ZWxsYXIgRGlnaXRhbCBGb29kIE1lbnVcIiwgXCJUYWJsZSAmIFZJUCBIYWxsIEJvb2tpbmcgRm9ybXNcIiwgXCJMb2NhbCBLYXJhY2hpL0xhaG9yZSBNYXAgUmFua2luZ1wiLCBcIlNwZWNpYWwgRGVhbCBDYW1wYWlnbiBNb2R1bGVzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJzZW8tcGtcIixcbiAgICB0aXRsZTogXCJTRU8gUGFraXN0YW5cIixcbiAgICBwcmljZTogXCJmcm9tIFBLUiA0MCwwMDAvbW9udGhcIixcbiAgICBmZWF0dXJlczogW1wiQ29tcGV0aXRvciBLZXl3b3JkIEF1ZGl0aW5nXCIsIFwiVGFyZ2V0ZWQgUmVnaW9uYWwgUmFua2luZyBGcmFtZXdvcmtzXCIsIFwiQ29udGVudCBNYXJrZXRpbmcgU3RyYXRlZ2llc1wiLCBcIkxvY2FsIENpdGF0aW9uIEJ1aWxkaW5nIExlYWRzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJicmFuZGluZy1wa1wiLFxuICAgIHRpdGxlOiBcIkJyYW5kaW5nIFBha2lzdGFuXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBQS1IgNjAsMDAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIlByZW1pdW0gVmVjdG9yIExvZ28gUGFja3NcIiwgXCJDb2hlc2l2ZSBDb3Jwb3JhdGUgSWRlbnRpdHkgU3lzdGVtc1wiLCBcIlNvY2lhbCBNZWRpYSBUZW1wbGF0ZXMgTGF5b3V0XCIsIFwiRWxlZ2FudCBTdHlsZS1HdWlkZSBIYW5kYm9va3NcIl1cbiAgfSxcbiAge1xuICAgIGlkOiBcImRhc2hib2FyZHMtcGtcIixcbiAgICB0aXRsZTogXCJDbGllbnQgT1MgJiBBZG1pbiBEYXNoYm9hcmRzXCIsXG4gICAgcHJpY2U6IFwiZnJvbSBQS1IgOTUwLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJGdWxsIERhdGFiYXNlIEludGVncmF0aW9uXCIsIFwiT3JkZXIgJiBEZWxpdmVyeSBJbnRlbGxpZ2VuY2VcIiwgXCJDb3Jwb3JhdGUgQ1JNIEludGVyZmFjZXNcIiwgXCJNdWx0aS1XYXJlaG91c2UgSW52ZW50b3J5IENvbnRyb2xcIl1cbiAgfSxcbiAge1xuICAgIGlkOiBcIm1haW50ZW5hbmNlLXBrXCIsXG4gICAgdGl0bGU6IFwiTWFpbnRlbmFuY2UgUGFraXN0YW5cIixcbiAgICBwcmljZTogXCJmcm9tIFBLUiAxMiwwMDAvbW9udGhcIixcbiAgICBmZWF0dXJlczogW1wiRGFpbHkgSGVhbHRoIENoZWNrcyAmIFBhdGNoZXNcIiwgXCJTTEEgU3VwcG9ydCBQcmlvcml0eSBSZXNwb25zZVwiLCBcIlJlZ3VsYXIgQ29weXdyaXRpbmcgdXBkYXRlc1wiLCBcIk9mZnNpdGUgUGVyaW9kaWMgQmFja3VwcyBTeW5jXCJdXG4gIH1cbl07XG5cbmV4cG9ydCBjb25zdCBpbnRlcm5hdGlvbmFsU2VydmljZXM6IFNlcnZpY2VJdGVtW10gPSBbXG4gIHtcbiAgICBpZDogXCJ3ZWItZGVzaWduLWludFwiLFxuICAgIHRpdGxlOiBcIlByZW1pdW0gR2xvYmFsIFdlYiBFeHBlcmllbmNlXCIsXG4gICAgcHJpY2U6IFwiZnJvbSAkNTAwXCIsXG4gICAgZmVhdHVyZXM6IFtcIkJlc3Bva2UgR2xvYmFsIEFydCBEaXJlY3Rpb25cIiwgXCJDb252ZXJzaW9uLUxlZCBVWCBBcmNoaXRlY3R1cmVcIiwgXCJDb3JlIFdlYiBWaXRhbHMgRW5naW5lZXJpbmdcIiwgXCJJbnRlcm5hdGlvbmFsIFNFTyBGb3VuZGF0aW9uXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJlY29tbWVyY2UtaW50XCIsXG4gICAgdGl0bGU6IFwiSW50ZXJuYXRpb25hbCBDb21tZXJjZSBTeXN0ZW1cIixcbiAgICBwcmljZTogXCJmcm9tICQyLDUwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJQcmVtaXVtIENhdGFsb2cgQXJjaGl0ZWN0dXJlXCIsIFwiVVNEIENoZWNrb3V0IFJlYWRpbmVzc1wiLCBcIkludmVudG9yeSAmIE9yZGVyIE9wZXJhdGlvbnNcIiwgXCJDb252ZXJzaW9uIEFuYWx5dGljcyBMYXllclwiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiYWktaW50XCIsXG4gICAgdGl0bGU6IFwiQUkgSW50ZWdyYXRpb25zXCIsXG4gICAgcHJpY2U6IFwiZnJvbSAkMSwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiQUkgQXNzaXN0YW50IFdvcmtmbG93c1wiLCBcIkF1dG9tYXRpb24gUGxhbm5pbmdcIiwgXCJJbnRlcm5hbCBQcm9jZXNzIFRvb2xzXCIsIFwiU2VjdXJlIEFQSSBJbnRlZ3JhdGlvbiBQYXRoc1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwic2Fhcy1pbnRcIixcbiAgICB0aXRsZTogXCJTYWFTIFVJICYgUHJvZHVjdCBTeXN0ZW1zXCIsXG4gICAgcHJpY2U6IFwiZnJvbSAkNSwwMDBcIixcbiAgICBmZWF0dXJlczogW1wiRGFzaGJvYXJkIFVYIEFyY2hpdGVjdHVyZVwiLCBcIkNvbXBvbmVudCBTeXN0ZW0gRGVzaWduXCIsIFwiQWRtaW4gJiBDbGllbnQgV29ya3NwYWNlc1wiLCBcIlNjYWxhYmxlIFByb2R1Y3QgSW50ZXJmYWNlc1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiYnJhbmRpbmctaW50XCIsXG4gICAgdGl0bGU6IFwiR2xvYmFsIEJyYW5kaW5nICYgSWRlbnRpdHlcIixcbiAgICBwcmljZTogXCJmcm9tICQxLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJQcmVtaXVtIElkZW50aXR5IERpcmVjdGlvblwiLCBcIkx1eHVyeSBDb2xvciBTeXN0ZW0gRGVzaWduXCIsIFwiQnJhbmQgR3VpZGVsaW5lIFN0YW5kYXJkc1wiLCBcIlR5cG9ncmFwaGljIEZyYW1ld29yayBTZXRzXCJdXG4gIH0sXG4gIHtcbiAgICBpZDogXCJzZW8taW50XCIsXG4gICAgdGl0bGU6IFwiSW50ZXJuYXRpb25hbCBTRU8gT3B0aW1pemF0aW9uXCIsXG4gICAgcHJpY2U6IFwiZnJvbSAkNTAwL21vbnRoXCIsXG4gICAgZmVhdHVyZXM6IFtcIlRlY2huaWNhbCBTRU8gQXVkaXRpbmdcIiwgXCJTZWFyY2ggQXJjaGl0ZWN0dXJlIFBsYW5uaW5nXCIsIFwiTWV0YWRhdGEgJiBTY2hlbWEgU3lzdGVtc1wiLCBcIk1vbnRobHkgUGVyZm9ybWFuY2UgUmVwb3J0c1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiZnJvbnRlbmQtaW50XCIsXG4gICAgdGl0bGU6IFwiSGlnaC1FbmQgRnJvbnRlbmQgRGV2ZWxvcG1lbnRcIixcbiAgICBwcmljZTogXCJmcm9tICQyLDAwMFwiLFxuICAgIGZlYXR1cmVzOiBbXCJSZWFjdCBJbnRlcmZhY2UgRW5naW5lZXJpbmdcIiwgXCJNb3Rpb24gJiBJbnRlcmFjdGlvbiBQb2xpc2hcIiwgXCJSZXNwb25zaXZlIENvbXBvbmVudCBTeXN0ZW1zXCIsIFwiQWNjZXNzaWJpbGl0eSAmIFNwZWVkIFR1bmluZ1wiXVxuICB9LFxuICB7XG4gICAgaWQ6IFwiZW50ZXJwcmlzZS1pbnRcIixcbiAgICB0aXRsZTogXCJFbnRlcnByaXNlIERpZ2l0YWwgU3lzdGVtc1wiLFxuICAgIHByaWNlOiBcIkN1c3RvbSBRdW90ZVwiLFxuICAgIGZlYXR1cmVzOiBbXCJBZHZhbmNlZCBTY29wZSBEaXNjb3ZlcnlcIiwgXCJCZXNwb2tlIEludGVncmF0aW9uc1wiLCBcIkdsb2JhbCBMYXVuY2ggU3VwcG9ydFwiLCBcIkxvbmctVGVybSBTdHJhdGVnaWMgUGFydG5lcnNoaXBcIl1cbiAgfVxuXTtcblxuZXhwb3J0IGZ1bmN0aW9uIGdldFNlcnZpY2VzRm9yUmVnaW9uKHJlZ2lvbjogUmVnaW9uQ29kZSkge1xuICBpZiAocmVnaW9uID09PSAnaW50JykgcmV0dXJuIGludGVybmF0aW9uYWxTZXJ2aWNlcztcbiAgcmV0dXJuIHJlZ2lvbiA9PT0gJ3BrJyA/IHBha2lzdGFuU2VydmljZXMgOiBzcmlMYW5rYVNlcnZpY2VzO1xufVxuIl0sIm1hcHBpbmdzIjoiQUFTTyxhQUFNLG1CQUFrQztBQUFBLEVBQzdDO0FBQUEsSUFDRSxJQUFJO0FBQUEsSUFDSixPQUFPO0FBQUEsSUFDUCxPQUFPO0FBQUEsSUFDUCxVQUFVLENBQUMseUJBQXlCLGtDQUFrQywrQkFBK0IsMEJBQTBCO0FBQUEsRUFDakk7QUFBQSxFQUNBO0FBQUEsSUFDRSxJQUFJO0FBQUEsSUFDSixPQUFPO0FBQUEsSUFDUCxPQUFPO0FBQUEsSUFDUCxVQUFVLENBQUMsZ0NBQWdDLDhCQUE4QixnQ0FBZ0MsNEJBQTRCO0FBQUEsRUFDdkk7QUFB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

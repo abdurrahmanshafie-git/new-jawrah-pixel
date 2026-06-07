@@ -99,6 +99,7 @@ export function Footer() {
                   {[
                     { label: 'About', path: '/about' },
                     { label: 'Case Studies', path: '/case-studies' },
+                    { label: 'Leadership', path: '/leadership' },
                     { label: 'Process', path: '/process' },
                     { label: 'Blog', path: '/blog' },
                     { label: 'Pricing', path: '/pricing' },

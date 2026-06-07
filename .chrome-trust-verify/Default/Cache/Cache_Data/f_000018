@@ -1,0 +1,197 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/@fs/C:\\Users\\admin\\Desktop\\jawrah-pixel-new\\src\\components\\ui\\CinematicLoader.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=1428d913"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=1428d913"; const useEffect = __vite__cjsImport1_react["useEffect"]; const useState = __vite__cjsImport1_react["useState"];
+import { motion, AnimatePresence } from "/node_modules/.vite/deps/motion_react.js?v=1428d913";
+import { Logo } from "/src/components/layout/Logo.tsx";
+export function CinematicLoader() {
+  _s();
+  const [isVisible, setIsVisible] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3300);
+    return () => clearTimeout(timer);
+  }, []);
+  return /* @__PURE__ */ jsxDEV(AnimatePresence, { children: isVisible && /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      initial: { opacity: 1 },
+      exit: { opacity: 0 },
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+      className: "fixed inset-0 z-[9999] bg-[#000000] flex items-center justify-center overflow-hidden",
+      children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 z-0", children: [
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              transition: { duration: 1.5, delay: 0.4, ease: "easeOut" },
+              className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-blue/5 blur-[120px] rounded-full"
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+              lineNumber: 36,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 opacity-[0.02] pointer-events-none noise-overlay" }, void 0, false, {
+            fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+            lineNumber: 43,
+            columnNumber: 13
+          }, this),
+          [...Array(8)].map(
+            (_, i) => /* @__PURE__ */ jsxDEV(
+              motion.div,
+              {
+                initial: {
+                  opacity: 0,
+                  x: Math.random() * 200 - 100,
+                  y: Math.random() * 200 - 100
+                },
+                animate: {
+                  opacity: [0, 0.08, 0],
+                  x: [0, Math.random() * 60 - 30],
+                  y: [0, Math.random() * 60 - 30]
+                },
+                transition: {
+                  duration: 5 + Math.random() * 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                },
+                className: "absolute top-1/2 left-1/2 w-0.5 h-0.5 bg-brand-blue rounded-full blur-[0.5px]"
+              },
+              i,
+              false,
+              {
+                fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+                lineNumber: 47,
+                columnNumber: 11
+              },
+              this
+            )
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+          lineNumber: 34,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "relative z-10 flex flex-col items-center text-center", children: [
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0, scale: 0.98 },
+              animate: { opacity: 1, scale: 1 },
+              transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+              className: "mb-10",
+              children: /* @__PURE__ */ jsxDEV(Logo, { size: "lg", className: "opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)]" }, void 0, false, {
+                fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+                lineNumber: 78,
+                columnNumber: 15
+              }, this)
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+              lineNumber: 72,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0, y: 15 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] },
+              className: "mb-5",
+              children: /* @__PURE__ */ jsxDEV("h1", { className: "text-white text-xs md:text-sm font-mono font-bold uppercase tracking-[0.8em] md:tracking-[1em]", children: "Jawrah Pixel" }, void 0, false, {
+                fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+                lineNumber: 88,
+                columnNumber: 15
+              }, this)
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+              lineNumber: 82,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 0.6 },
+              transition: { duration: 1.2, delay: 0.8, ease: "easeOut" },
+              children: /* @__PURE__ */ jsxDEV("p", { className: "text-[10px] md:text-[11px] text-white font-light uppercase tracking-[0.4em]", children: "Architecting Digital Monopolies" }, void 0, false, {
+                fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+                lineNumber: 99,
+                columnNumber: 15
+              }, this)
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+              lineNumber: 94,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+          lineNumber: 70,
+          columnNumber: 11
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+      lineNumber: 27,
+      columnNumber: 7
+    },
+    this
+  ) }, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx",
+    lineNumber: 25,
+    columnNumber: 5
+  }, this);
+}
+_s(CinematicLoader, "m22S9IQwDfEe/fCJY7LYj8YPDMo=");
+_c = CinematicLoader;
+var _c;
+$RefreshReg$(_c, "CinematicLoader");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/admin/Desktop/jawrah-pixel-new/src/components/ui/CinematicLoader.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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LCJMb2dvIiwiQ2luZW1hdGljTG9hZGVyIiwiX3MiLCJpc1Zpc2libGUiLCJzZXRJc1Zpc2libGUiLCJ0aW1lciIsInNldFRpbWVvdXQiLCJjbGVhclRpbWVvdXQiLCJvcGFjaXR5IiwiZHVyYXRpb24iLCJlYXNlIiwiZGVsYXkiLCJBcnJheSIsIm1hcCIsIl8iLCJpIiwieCIsIk1hdGgiLCJyYW5kb20iLCJ5IiwicmVwZWF0IiwiSW5maW5pdHkiLCJzY2FsZSIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkNpbmVtYXRpY0xvYWRlci50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IHVzZUVmZmVjdCwgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBtb3Rpb24sIEFuaW1hdGVQcmVzZW5jZSB9IGZyb20gJ21vdGlvbi9yZWFjdCc7XG5pbXBvcnQgeyBMb2dvIH0gZnJvbSAnQC9jb21wb25lbnRzL2xheW91dC9Mb2dvJztcblxuZXhwb3J0IGZ1bmN0aW9uIENpbmVtYXRpY0xvYWRlcigpIHtcbiAgY29uc3QgW2lzVmlzaWJsZSwgc2V0SXNWaXNpYmxlXSA9IHVzZVN0YXRlKHRydWUpO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgLy8gUGhhc2UgNTogSG9sZCBmb3IgMS41IHNlY29uZHMgYWZ0ZXIgYWxsIGVsZW1lbnRzIGFyZSB2aXNpYmxlXG4gICAgLy8gVG90YWwgc2VxdWVuY2UgdGltaW5nOiBcbiAgICAvLyAwczogTG9nbyBzdGFydHMgKDFzKVxuICAgIC8vIDAuNHM6IEJsdWUgbGlnaHQgc3RhcnRzICgxcylcbiAgICAvLyAwLjZzOiBUZXh0IGZhZGVzIHVwICgxcylcbiAgICAvLyAwLjhzOiBUYWdsaW5lIGFwcGVhcnMgKDFzKVxuICAgIC8vIDEuOHM6IFNlcXVlbmNlIGNvbXBsZXRlIC0+IEhvbGQgMS41c1xuICAgIC8vIDMuM3M6IFN0YXJ0IGZhZGUgb3V0ICgxcylcbiAgICBjb25zdCB0aW1lciA9IHNldFRpbWVvdXQoKCkgPT4ge1xuICAgICAgc2V0SXNWaXNpYmxlKGZhbHNlKTtcbiAgICB9LCAzMzAwKTtcblxuICAgIHJldHVybiAoKSA9PiBjbGVhclRpbWVvdXQodGltZXIpO1xuICB9LCBbXSk7XG5cbiAgcmV0dXJuIChcbiAgICA8QW5pbWF0ZVByZXNlbmNlPlxuICAgICAge2lzVmlzaWJsZSAmJiAoXG4gICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgaW5pdGlhbD17eyBvcGFjaXR5OiAxIH19XG4gICAgICAgICAgZXhpdD17eyBvcGFjaXR5OiAwIH19XG4gICAgICAgICAgdHJhbnNpdGlvbj17eyBkdXJhdGlvbjogMS4yLCBlYXNlOiBbMC4xNiwgMSwgMC4zLCAxXSB9fVxuICAgICAgICAgIGNsYXNzTmFtZT1cImZpeGVkIGluc2V0LTAgei1bOTk5OV0gYmctWyMwMDAwMDBdIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIG92ZXJmbG93LWhpZGRlblwiXG4gICAgICAgID5cbiAgICAgICAgICB7LyogQmFja2dyb3VuZCBBdG1vc3BoZXJlICovfVxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgaW5zZXQtMCB6LTBcIj5cbiAgICAgICAgICAgIHsvKiBQaGFzZSAyOiBTb2Z0IGJsdWUgYW1iaWVudCBsaWdodCBiZWhpbmQgbG9nbyAqL31cbiAgICAgICAgICAgIDxtb3Rpb24uZGl2IFxuICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAgfX1cbiAgICAgICAgICAgICAgYW5pbWF0ZT17eyBvcGFjaXR5OiAxIH19XG4gICAgICAgICAgICAgIHRyYW5zaXRpb249e3sgZHVyYXRpb246IDEuNSwgZGVsYXk6IDAuNCwgZWFzZTogXCJlYXNlT3V0XCIgfX1cbiAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiYWJzb2x1dGUgdG9wLTEvMiBsZWZ0LTEvMiAtdHJhbnNsYXRlLXgtMS8yIC10cmFuc2xhdGUteS0xLzIgdy1bNTAwcHhdIGgtWzUwMHB4XSBiZy1icmFuZC1ibHVlLzUgYmx1ci1bMTIwcHhdIHJvdW5kZWQtZnVsbFwiXG4gICAgICAgICAgICAvPlxuICAgICAgICAgICAgey8qIFN1YnRsZSBUZXh0dXJlL05vaXNlICovfVxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBpbnNldC0wIG9wYWNpdHktWzAuMDJdIHBvaW50ZXItZXZlbnRzLW5vbmUgbm9pc2Utb3ZlcmxheVwiIC8+XG4gICAgICAgICAgICBcbiAgICAgICAgICAgIHsvKiBTdWJ0bGUgRGlnaXRhbCBFbmVyZ3kgUGFydGljbGVzIChMb3cgT3BhY2l0eSkgKi99XG4gICAgICAgICAgICB7Wy4uLkFycmF5KDgpXS5tYXAoKF8sIGkpID0+IChcbiAgICAgICAgICAgICAgPG1vdGlvbi5kaXZcbiAgICAgICAgICAgICAgICBrZXk9e2l9XG4gICAgICAgICAgICAgICAgaW5pdGlhbD17eyBcbiAgICAgICAgICAgICAgICAgIG9wYWNpdHk6IDAsXG4gICAgICAgICAgICAgICAgICB4OiBNYXRoLnJhbmRvbSgpICogMjAwIC0gMTAwLFxuICAgICAgICAgICAgICAgICAgeTogTWF0aC5yYW5kb20oKSAqIDIwMCAtIDEwMCBcbiAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgIGFuaW1hdGU9e3sgXG4gICAgICAgICAgICAgICAgICBvcGFjaXR5OiBbMCwgMC4wOCwgMF0sXG4gICAgICAgICAgICAgICAgICB4OiBbMCwgTWF0aC5yYW5kb20oKSAqIDYwIC0gMzBdLFxuICAgICAgICAgICAgICAgICAgeTogWzAsIE1hdGgucmFuZG9tKCkgKiA2MCAtIDMwXVxuICAgICAgICAgICAgICAgIH19XG4gICAgICAgICAgICAgICAgdHJhbnNpdGlvbj17eyBcbiAgICAgICAgICAgICAgICAgIGR1cmF0aW9uOiA1ICsgTWF0aC5yYW5kb20oKSAqIDMsXG4gICAgICAgICAgICAgICAgICByZXBlYXQ6IEluZmluaXR5LFxuICAgICAgICAgICAgICAgICAgZWFzZTogXCJsaW5lYXJcIlxuICAgICAgICAgICAgICAgIH19XG4gICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiYWJzb2x1dGUgdG9wLTEvMiBsZWZ0LTEvMiB3LTAuNSBoLTAuNSBiZy1icmFuZC1ibHVlIHJvdW5kZWQtZnVsbCBibHVyLVswLjVweF1cIlxuICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgKSl9XG4gICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICB7LyogQ2VudGVyIENvbnRlbnQgKi99XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyZWxhdGl2ZSB6LTEwIGZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIHRleHQtY2VudGVyXCI+XG4gICAgICAgICAgICB7LyogUGhhc2UgMTogTG9nbyBmYWRlcyBpbiAqL31cbiAgICAgICAgICAgIDxtb3Rpb24uZGl2XG4gICAgICAgICAgICAgIGluaXRpYWw9e3sgb3BhY2l0eTogMCwgc2NhbGU6IDAuOTggfX1cbiAgICAgICAgICAgICAgYW5pbWF0ZT17eyBvcGFjaXR5OiAxLCBzY2FsZTogMSB9fVxuICAgICAgICAgICAgICB0cmFuc2l0aW9uPXt7IGR1cmF0aW9uOiAxLjIsIGVhc2U6IFswLjE2LCAxLCAwLjMsIDFdIH19XG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cIm1iLTEwXCJcbiAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgPExvZ28gc2l6ZT1cImxnXCIgY2xhc3NOYW1lPVwib3BhY2l0eS05MCBicmlnaHRuZXNzLTExMCBkcm9wLXNoYWRvdy1bMF8wXzMwcHhfcmdiYSgyNTUsMjU1LDI1NSwwLjA1KV1cIiAvPlxuICAgICAgICAgICAgPC9tb3Rpb24uZGl2PlxuXG4gICAgICAgICAgICB7LyogUGhhc2UgMzogSkFXUkFIIFBJWEVMIHRleHQgZmFkZXMgdXB3YXJkICovfVxuICAgICAgICAgICAgPG1vdGlvbi5kaXZcbiAgICAgICAgICAgICAgaW5pdGlhbD17eyBvcGFjaXR5OiAwLCB5OiAxNSB9fVxuICAgICAgICAgICAgICBhbmltYXRlPXt7IG9wYWNpdHk6IDEsIHk6IDAgfX1cbiAgICAgICAgICAgICAgdHJhbnNpdGlvbj17eyBkdXJhdGlvbjogMSwgZGVsYXk6IDAuNiwgZWFzZTogWzAuMTYsIDEsIDAuMywgMV0gfX1cbiAgICAgICAgICAgICAgY2xhc3NOYW1lPVwibWItNVwiXG4gICAgICAgICAgICA+XG4gICAgICAgICAgICAgIDxoMSBjbGFzc05hbWU9XCJ0ZXh0LXdoaXRlIHRleHQteHMgbWQ6dGV4dC1zbSBmb250LW1vbm8gZm9udC1ib2xkIHVwcGVyY2FzZSB0cmFja2luZy1bMC44ZW1dIG1kOnRyYWNraW5nLVsxZW1dXCI+XG4gICAgICAgICAgICAgICAgSmF3cmFoIFBpeGVsXG4gICAgICAgICAgICAgIDwvaDE+XG4gICAgICAgICAgICA8L21vdGlvbi5kaXY+XG5cbiAgICAgICAgICAgIHsvKiBQaGFzZSA0OiBUYWdsaW5lIGFwcGVhcnMgKi99XG4gICAgICAgICAgICA8bW90aW9uLmRpdlxuICAgICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAgfX1cbiAgICAgICAgICAgICAgYW5pbWF0ZT17eyBvcGFjaXR5OiAwLjYgfX1cbiAgICAgICAgICAgICAgdHJhbnNpdGlvbj17eyBkdXJhdGlvbjogMS4yLCBkZWxheTogMC44LCBlYXNlOiBcImVhc2VPdXRcIiB9fVxuICAgICAgICAgICAgPlxuICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LVsxMHB4XSBtZDp0ZXh0LVsxMXB4XSB0ZXh0LXdoaXRlIGZvbnQtbGlnaHQgdXBwZXJjYXNlIHRyYWNraW5nLVswLjRlbV1cIj5cbiAgICAgICAgICAgICAgICBBcmNoaXRlY3RpbmcgRGlnaXRhbCBNb25vcG9saWVzXG4gICAgICAgICAgICAgIDwvcD5cbiAgICAgICAgICAgIDwvbW90aW9uLmRpdj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9tb3Rpb24uZGl2PlxuICAgICAgKX1cbiAgICA8L0FuaW1hdGVQcmVzZW5jZT5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvYWRtaW4vRGVza3RvcC9qYXdyYWgtcGl4ZWwtbmV3L3NyYy9jb21wb25lbnRzL3VpL0NpbmVtYXRpY0xvYWRlci50c3gifQ==

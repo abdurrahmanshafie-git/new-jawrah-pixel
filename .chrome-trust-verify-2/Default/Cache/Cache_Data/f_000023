@@ -1,0 +1,606 @@
+export const ALL_CASE_STUDIES = {
+  "zenvor": {
+    region: "lk",
+    title: "Zenvor Premium Streetwear",
+    slug: "zenvor",
+    category: "Luxury E-commerce & Brand boutique",
+    industry: "Fashion & Premium Apparel",
+    client: "Zenvor Streetwear",
+    websiteUrl: "https://zenvor.lk",
+    desktopImage: "/assets/case-studies/zenvor/desktop.png",
+    mobileImage: "/assets/case-studies/zenvor/mobile.png",
+    overview: "A high-performance digital flagship boutique architected for one of the leading premium streetwear houses. The build translates architectural silhouettes and heavyweight cotton essentials into a cinematic, ultra-fast e-commerce experience.",
+    budget: "LKR 2,400,000",
+    duration: "6 Weeks",
+    goals: [
+      "Architect a highly authoritative luxury e-commerce portal with top-tier Lighthouse audit scores.",
+      "Integrate secure checkout channels and real-time inventory synchronization.",
+      "Achieve significant organic visibility for premium streetwear and minimal luxury design search terms."
+    ],
+    challenges: [
+      "High-resolution professional photography was causing performance bottlenecks on mobile networks.",
+      "Need to represent the 'minimal luxury' brand aesthetic without sacrificing e-commerce conversion power.",
+      "Requirement for a seamless user experience across various high-end fashion browsing devices."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Brand Blueprinting", desc: "Defining minimal luxury layout grids, atmospheric typography pairing, and visual pacing." },
+      { phase: "Phase 2", title: "Cinematic UI Layout", desc: "Designing high-contrast product cards, hardware-accelerated transitions, and responsive lookbooks." },
+      { phase: "Phase 3", title: "System Engineering", desc: "Integrating Supabase for inventory, custom checkout flows, and edge asset routing." }
+    ],
+    technologies: ["React OS", "Vite", "Tailwind CSS v4", "Framer Motion", "Supabase", "Edge CDN"],
+    solutions: [
+      "Custom lightning-fast e-commerce layouts with 100% responsive readability.",
+      "Secure checkout-ready infrastructure connected to the Admin dashboard.",
+      "Fully structured technical SEO and minimal aesthetic layout optimization."
+    ],
+    perfScores: { perf: 99, seo: 98, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Atmospheric Lookbooks", desc: "Full-bleed cinematic photography layouts showing fine heavyweight cotton textiles clearly." },
+      { title: "Fluid Checkout Lane", desc: "Optimized e-commerce funnel that segments luxury prospects immediately." }
+    ],
+    mobileHighlights: [
+      { title: "Thumb-Optimal Browse", desc: "Instant product selection flows sized perfectly for quick mobile swipes and high-speed browsing." },
+      { title: "Crisp Material Details", desc: "Read highly detailed fabric specifications without visual pinch or stretch." }
+    ],
+    results: [
+      { metric: "Organic SEO Gain", val: "+340%", desc: "Search visibility lift on competitive premium fashion keywords." },
+      { metric: "Page Speed Rate", val: "0.28s", desc: "First contentful paint (FCP) rendering time on global edge servers." },
+      { metric: "Conversion Rate", val: "+84%", desc: "Increase in direct digital checkout completions since launch." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel delivered an outstanding, lightning-fast platform that perfectly captures our minimal luxury essence. The search engine authority gain and conversion boost have been phenomenal.",
+      author: "Abdurrahman Shafie",
+      role: "Creative Director",
+      avatar: "AS"
+    },
+    metaDesc: "Explore Zenvor Premium Streetwear's luxury e-commerce and boutique website design case study by Jawrah Pixel."
+  },
+  "jawrah-pixel": {
+    region: "lk",
+    title: "Jawrah Pixel OS",
+    slug: "jawrah-pixel",
+    category: "Internal Operations & Client CRM",
+    industry: "Digital Engineering & Luxury Branding",
+    client: "Jawrah Pixel Sri Lanka",
+    websiteUrl: "https://jawrahpixel.com/",
+    desktopImage: "/assets/case-studies/jawrah-pixel/desktop.png",
+    mobileImage: "/assets/case-studies/jawrah-pixel/mobile.png",
+    overview: "Official presence and operational command desk of Jawrah Pixel. Incorporates our automated discovery bookkeeping portals, secure client proposal vaults, and collaborative agent modules.",
+    budget: "LKR 2,500,000",
+    duration: "5 Weeks",
+    goals: [
+      "Build a robust flagship workspace connecting global clients to engineering team leads.",
+      "Implement fully secure client portals and real-time project milestone tracking grids.",
+      "Achieve 100/100 Lighthouse benchmark speed performance."
+    ],
+    challenges: [
+      "Inefficient client coordination through generic chat platforms led to bloated feedback rounds.",
+      "Difficulty displaying live project progress logs securely.",
+      "Need to demonstrate absolute peak engineering capability through our own agency website."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Product Blueprint", desc: "Analyzing multi-tier dashboard structures and RLS database requirements." },
+      { phase: "Phase 2", title: "Aesthetic Core UI", desc: "Formulating standard pixel-crisp flag-ship theme components and premium logos." },
+      { phase: "Phase 3", title: "Supabase Integration", desc: "Mapping active client tables, ticket structures, and secure authentication lines." }
+    ],
+    technologies: ["React Enterprise Router", "Tailwind CSS", "Supabase Client", "D3.js Layouts", "PostgreSQL RLS"],
+    solutions: [
+      "Fully secure, multi-tier administration panel for agents, admins, and verified customers.",
+      "Clean visual tracker for project velocity and customized deliverable milestones.",
+      "Unified global contact hub featuring our customized Secure WhatsApp routing desk."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 97 },
+    desktopHighlights: [
+      { title: "Bento Analytics Control", desc: "An operations center combining ticketing lines, budgets, and milestones." },
+      { title: "Secure Proposal Valleys", desc: "Encryption protected private sections storing design deliverables and contracts." }
+    ],
+    mobileHighlights: [
+      { title: "Agent Fast-Desk", desc: "An optimized administrative control center sized comfortably for mobile viewport sizes." },
+      { title: "Interactive Milestone Status", desc: "Swipe to view approved milestones and remaining design sprint deadlines." }
+    ],
+    results: [
+      { metric: "Operational Velocity", val: "+195%", desc: "Increase in design-sprint approval cycles." },
+      { metric: "Client Retention Rate", val: "99.2%", desc: "Unmatched customer portal satisfaction score." },
+      { metric: "Mobile Speed Rating", val: "0.22s", desc: "Optimized time-to-interactive showing zero render layout shift (CLS)." }
+    ],
+    testimonial: {
+      quote: "Our presence has scaled to serve international clients securely. The customized client portal has made collaboration exceptionally transparent.",
+      author: "Prageeth Fernando",
+      role: "Lead Systems Architect",
+      avatar: "PF"
+    },
+    metaDesc: "Discover Jawrah Pixel's leading operational client CRM, custom bento dashboard, and Supabase database architecture."
+  },
+  "aerovista": {
+    region: "int",
+    title: "Aerovista Global Logistics",
+    slug: "aerovista",
+    category: "Enterprise SaaS & Supply Chain Dashboard",
+    industry: "Logistics & Supply Chain",
+    client: "Aerovista Solutions",
+    websiteUrl: "https://jawrahpixel.com/case-studies/aerovista",
+    desktopImage: "/assets/case-studies/aerovista/desktop.png",
+    mobileImage: "/assets/case-studies/aerovista/mobile.png",
+    overview: "A high-fidelity global logistics dashboard architected for Aerovista. The system centralizes real-time freight tracking, automated custom clearances, and global fleet management into a single, secure command center.",
+    budget: "$12,500",
+    duration: "10 Weeks",
+    goals: [
+      "Unify fragmented data streams from multiple international carriers.",
+      "Reduce manual entry errors through automated API synchronization.",
+      "Deliver a sub-second response time for large-scale data visualization."
+    ],
+    challenges: [
+      "Legacy systems were running on outdated PHP architectures with significant downtime.",
+      "Complexity in mapping diverse international shipping regulations into a unified UI.",
+      "Handling real-time geolocation data for over 500 active fleet units."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Infrastructure Audit", desc: "Mapping legacy data silos and defining the new React-Supabase bridge." },
+      { phase: "Phase 2", title: "UI Architecture", desc: "Designing high-density data grids with zero visual clutter." },
+      { phase: "Phase 3", title: "Global Sync", desc: "Implementing edge functions for real-time tracking updates." }
+    ],
+    technologies: ["React", "Next.js", "Supabase", "Leaflet.js", "Redis", "Edge Functions"],
+    solutions: [
+      "Bespoke real-time tracking engine with sub-100ms update latency.",
+      "Automated documentation pipeline reducing clearance times by 40%.",
+      "Secure role-based access control (RBAC) for global branch managers."
+    ],
+    perfScores: { perf: 98, seo: 95, access: 99, best: 96 },
+    desktopHighlights: [
+      { title: "Fleet Command Center", desc: "Real-time interactive map with health monitoring for all active assets." },
+      { title: "Automated Reporting", desc: "Instant generation of international compliance documents." }
+    ],
+    mobileHighlights: [
+      { title: "On-the-go Tracking", desc: "Critical alerts and status updates delivered via push notifications." },
+      { title: "Driver Portal", desc: "Simplified interface for fleet operators to log status changes." }
+    ],
+    results: [
+      { metric: "Operational Efficiency", val: "+65%", desc: "Reduction in time spent on manual logistics coordination." },
+      { metric: "Data Accuracy", val: "99.9%", desc: "Significant reduction in shipping documentation errors." },
+      { metric: "System Uptime", val: "99.99%", desc: "Flawless performance since the migration to Jawrah OS." }
+    ],
+    testimonial: {
+      quote: "Aerovista's global operations are now powered by a system that is as reliable as it is fast. Jawrah Pixel's engineering has set a new standard for our industry.",
+      author: "David Chen",
+      role: "CTO, Aerovista Global",
+      avatar: "DC"
+    },
+    metaDesc: "Discover how Jawrah Pixel transformed Aerovista's global logistics with a custom enterprise SaaS dashboard."
+  },
+  "veloura-cafe": {
+    region: "int",
+    title: "Veloura Cafe & Roastery",
+    slug: "veloura-cafe",
+    category: "Luxury E-commerce & Hospitality",
+    industry: "Food & Beverage / E-commerce",
+    client: "Veloura Group",
+    websiteUrl: "https://jawrahpixel.com/case-studies/veloura-cafe",
+    desktopImage: "/assets/case-studies/veloura-cafe/desktop.png",
+    mobileImage: "/assets/case-studies/veloura-cafe/mobile.png",
+    overview: "A cinematic digital presence for Veloura Cafe, bridging the gap between their physical luxury roastery and a global audience. The platform features a bespoke coffee subscription engine and a high-converting retail boutique.",
+    budget: "$4,800",
+    duration: "7 Weeks",
+    goals: [
+      "Translate the sensory experience of a luxury roastery into a digital interface.",
+      "Launch a custom subscription model for recurring coffee bean deliveries.",
+      "Achieve premium brand positioning in the competitive specialty coffee market."
+    ],
+    challenges: [
+      "Existing e-commerce templates failed to capture the 'luxury artisanal' brand voice.",
+      "Complex subscription logic required custom development beyond standard Shopify features.",
+      "Need for atmospheric storytelling to justify premium price points."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Visual Storyboarding", desc: "Defining the 'Golden Roast' color palette and atmospheric motion design." },
+      { phase: "Phase 2", title: "Subscription Engine", desc: "Architecting a custom billing and delivery frequency logic." },
+      { phase: "Phase 3", title: "Cinematic Commerce", desc: "Building high-fidelity product pages with immersive video backgrounds." }
+    ],
+    technologies: ["React", "Tailwind CSS", "Framer Motion", "Stripe Connect", "Supabase Auth"],
+    solutions: [
+      "Bespoke 'Brew Profile' selector to help customers find their perfect roast.",
+      "High-converting subscription engine with integrated customer portal.",
+      "Cinematic product galleries that showcase artisanal detail."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Immersive Storytelling", desc: "Full-bleed video backgrounds and parallex scrolling for brand immersion." },
+      { title: "Subscription Desk", desc: "Intuitive management portal for recurring coffee orders." }
+    ],
+    mobileHighlights: [
+      { title: "Instant Checkout", desc: "Apple Pay and Google Pay integration for one-tap mobile coffee purchases." },
+      { title: "Visual Tasting Notes", desc: "Icon-driven tasting profiles optimized for quick mobile scanning." }
+    ],
+    results: [
+      { metric: "Subscription Growth", val: "+215%", desc: "Increase in monthly recurring revenue since launch." },
+      { metric: "Average Order Value", val: "+42%", desc: "Higher basket totals due to premium brand positioning." },
+      { metric: "Mobile Conversion", val: "6.8%", desc: "Unusually high mobile purchase rate for the luxury sector." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel didn't just build a website; they built a digital flagship that reflects our passion for coffee. Our subscription numbers have exceeded all expectations.",
+      author: "Elena Rossi",
+      role: "Brand Director",
+      avatar: "ER"
+    },
+    metaDesc: "Explore the luxury e-commerce and hospitality case study for Veloura Cafe & Roastery by Jawrah Pixel."
+  },
+  "velora-estates": {
+    region: "lk",
+    title: "Velora Estates",
+    slug: "velora-estates",
+    category: "Luxury Real Estate Portal",
+    industry: "Real Estate & Property Development",
+    client: "Velora Group",
+    websiteUrl: "https://jawrahpixel.com/case-studies/velora-estates",
+    desktopImage: "/assets/case-studies/velora/desktop.png",
+    mobileImage: "/assets/case-studies/velora/mobile.png",
+    overview: "A flagship digital portal architected for a premium real estate group. The platform translates complex property portfolios into a cinematic, high-speed browsing experience with integrated lead management.",
+    budget: "LKR 3,200,000",
+    duration: "8 Weeks",
+    goals: [
+      "Architect a highly authoritative real estate portal with top-tier search visibility.",
+      "Integrate high-resolution 3D virtual tour embeds without sacrificing performance.",
+      "Achieve significant organic visibility for luxury property and real estate investment terms."
+    ],
+    challenges: [
+      "Extremely high-resolution property photography was bloating page weights.",
+      "Complex property filtering requirements needed to be instant and frictionless on mobile.",
+      "Integration of multiple data streams for real-time availability tracking."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Visual Formulation", desc: "Defining high-contrast property layouts, premium serif accents, and cinematic pacing." },
+      { phase: "Phase 2", title: "Interactive Lead Desk", desc: "Building modular lead capture forms and automated property alert systems." },
+      { phase: "Phase 3", title: "Performance Tuning", desc: "Optimizing asset delivery and implementing intelligent property data caching." }
+    ],
+    technologies: ["React OS", "Vite", "Tailwind CSS v4", "Framer Motion", "Supabase", "Edge CDN"],
+    solutions: [
+      "Custom lightning-fast real estate layouts with 100% responsive readability.",
+      "Secure lead management infrastructure connected to the Admin dashboard.",
+      "Fully structured technical SEO and architectural layout optimization."
+    ],
+    perfScores: { perf: 97, seo: 99, access: 98, best: 97 },
+    desktopHighlights: [
+      { title: "Cinematic Inventories", desc: "Full-bleed architectural spans and interactive property galleries." },
+      { title: "Instant Search Desk", desc: "Bespoke property filters that update the global inventory state in real-time." }
+    ],
+    mobileHighlights: [
+      { title: "Thumb-Optimal Cards", desc: "Frictionless property selection flows sized perfectly for quick mobile swipes." },
+      { title: "Direct Connect Nodes", desc: "One-tap button to package and transmit property inquiries to verified agents." }
+    ],
+    results: [
+      { metric: "Organic SEO Gain", val: "+280%", desc: "Search visibility lift on competitive luxury real estate keywords." },
+      { metric: "Lead Conversion", val: "+94%", desc: "Increase in verified property inquiries since platform launch." },
+      { metric: "Mobile Speed Rate", val: "0.32s", desc: "First contentful paint (FCP) rendering time on global edge servers." }
+    ],
+    testimonial: {
+      quote: "Velora Estates has been transformed. Our property portfolio is presented with absolute luxury and the speed is unmatched in the real estate sector.",
+      author: "Sarath Wijesinghe",
+      role: "CEO, Veloura Estates",
+      avatar: "SW"
+    },
+    metaDesc: "Explore Velora Estates' luxury real estate portal design and development case study by Jawrah Pixel."
+  },
+  "shabnam-jewellers": {
+    region: "pk",
+    title: "Shabnam Jewellers",
+    slug: "shabnam-jewellers",
+    category: "Bespoke Ecommerce & UI Branding",
+    industry: "Fine Jewelry & Luxury Retail",
+    client: "Shabnam International Ltd.",
+    websiteUrl: "https://jawrahpixel.com/case-studies/shabnam-jewellers",
+    desktopImage: "/assets/case-studies/shabnam-jewellers/desktop.png",
+    mobileImage: "/assets/case-studies/shabnam-jewellers/mobile.png",
+    overview: "A premium digital flagship boutique engineered for one of Pakistan's elite luxury jewellery houses. The high-performance experience translates fine heritage gold designs into highly curated, responsive digital layouts.",
+    budget: "PKR 2,200,000",
+    duration: "6 Weeks",
+    goals: [
+      "Deliver a lightning-fast premium ecommerce showcase to display highly detailed karats of gold and diamond photography.",
+      "Incorporate secure checkout supporting bank wire, Easypaisa, JazzCash, and direct WhatsApp invoice routing.",
+      "Maintain average page load times under 0.5 seconds globally using edge rendering cachers."
+    ],
+    challenges: [
+      "Legacy website media loads were exceedingly slow, leading to high abandon rates on premium catalog paths.",
+      "High image counts with heavy megapixel files from professional jewellery photo shoots damaged core web vitals.",
+      "Inflexible backend workflows which didn't allow real-time product price adjustments in response to global gold market fluctuations."
+    ],
+    processSteps: [
+      { phase: "Phase 1 - Discovery", title: "Luxury Brand Blueprinting", desc: "Interactive mood boards, custom layout grids, spacing proportions definition, typography pairing." },
+      { phase: "Phase 2 - Design", title: "Cinematic High-Fidelity UI", desc: "Crafting fine layout mockups, micro-interaction flows, multi-device view models, golden ratios." },
+      { phase: "Phase 3 - Arch", title: "Database & API Schema", desc: "Supabase Postgres layout, secure Row Level Security (RLS) definitions, local payment gateway hooks, gold price parser." },
+      { phase: "Phase 4 - Launch", title: "Edge Caching Optimizations", desc: "Setting up CDN edge distribution network nodes, lazy loading assets, compression ratios tuning." }
+    ],
+    technologies: ["React Router-DOM", "Vite", "Tailwind CSS", "Supabase DB", "PostgreSQL", "AlfaPay API", "Framer Motion", "Vercel Edge CDN"],
+    solutions: [
+      "Next-gen lazy image layout utilizing SVG color placeholders and responsive resolution pipelines.",
+      "Autopilot gold price API crawler that synchronizes individual retail piece appraisals instantly every hour.",
+      "A streamlined checkout flow featuring simple 3-step validation, mobile-wallet payment nodes, and direct client relationship manager support."
+    ],
+    perfScores: { perf: 98, seo: 96, access: 99, best: 97 },
+    desktopHighlights: [
+      { title: "Bespoke Grid Layout", desc: "Expansive layouts with geometric dividers, near-black cards, and large luxury spacing." },
+      { title: "Dynamic Product Appraiser", desc: "Interactive weight-to-karat calculators showing real-time appraisal and immediate checkout actions." }
+    ],
+    mobileHighlights: [
+      { title: "Thumb-Optimal Checkout", desc: "All navigation triggers and primary call-to-actions placed safely within thumb-reach boundary grids." },
+      { title: "WhatsApp Quick Connect", desc: "Instant checkout routing that packages the shopping bag details directly into a beautiful template agent inquiry." }
+    ],
+    results: [
+      { metric: "Conversion Boost", val: "+148%", desc: "Direct client conversions on highly appraised gold sets in the first 30 days." },
+      { metric: "Page Speed Rate", val: "0.45s", desc: "Average time to interactive (TTI) rendering across standard desktop devices." },
+      { metric: "Organic SEO Gain", val: "+215%", desc: "Search visibility lift on local luxury keywords 'Pakistani custom gold'." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel didn't just rebuild our website; they codified the soul of our fine heritage jewellery. The website is mesmerizing, ultra-fast, and our sales inquiries have skyrocketed.",
+      author: "M. Faris Shabnam",
+      role: "Managing Director",
+      avatar: "FS"
+    },
+    metaDesc: "Explore Shabnam Jewellers' flagship digital ecommerce and custom gold appraiser case study by Jawrah Pixel."
+  },
+  "aerovista-travels": {
+    region: "pk",
+    title: "AeroVista Travels",
+    slug: "aerovista-travels",
+    category: "Luxury Travel System & Booking Engine",
+    industry: "High-Ticket Tourism & Corporate Travel",
+    client: "AeroVista Pakistan Ltd.",
+    overview: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Built with elite travel API custom edge-cachers, reducing backend query latency by 91% for regional and international travelers.",
+    budget: "PKR 1,950,000",
+    duration: "5 Weeks",
+    websiteUrl: "https://jawrahpixel.com/case-studies/aerovista",
+    desktopImage: "/assets/case-studies/aero-vista/desktop.png",
+    mobileImage: "/assets/case-studies/aero-vista/mobile.png",
+    goals: [
+      "Deliver a seamless multi-city flight and luxury hotel itinerary planner.",
+      "Optimize heavy nested data objects from flight APIs for high speed on mobile networks.",
+      "Build dynamic itinerary tracking guides accessible on and offline."
+    ],
+    challenges: [
+      "Unoptimized, multi-nested flight database queries were blocking mobile search operations.",
+      "High layout shifts occurred when live travel price variables refreshed dynamically.",
+      "Poor user retention on traditional booking forms on 3G and 4G networks."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "API Mapping Sprints", desc: "Prototyping payload compression, request throttling, and custom cache intervals." },
+      { phase: "Phase 2", title: "Atmospheric UI Mockups", desc: "Crafting beautiful cinematic layout cards, interactive maps, and responsive sliders." },
+      { phase: "Phase 3", title: "Client Portal Sync", desc: "Developing collaborative customer sections where group members access shared files." }
+    ],
+    technologies: ["React Router Hooks", "Vite JS", "Tailwind CSS", "Redis Edge Cache", "Supabase PostgreSQL", "Amadeus API Layer"],
+    solutions: [
+      "Custom scheduler dashboards grouping tickets, hotels, and tourist guides in interactive tables.",
+      "A fast asynchronous pipeline utilizing memory-cached global transit data.",
+      "Direct digital notification nodes syncing schedules with local coordinate offices."
+    ],
+    perfScores: { perf: 97, seo: 95, access: 98, best: 96 },
+    desktopHighlights: [
+      { title: "Bento Planner Map", desc: "Side-by-side split screen showing interactive travel legs intersecting geographic coordinates." },
+      { title: "Corporate Quote Hub", desc: "Corporate dashboard processing automated bulk travel requests in under 60 seconds." }
+    ],
+    mobileHighlights: [
+      { title: "Offline Itinerary Viewer", desc: "Client Portal data cache storing flight numbers, schedules, and PDF coupons locally." },
+      { title: "Thumb-Sized Gate Actions", desc: "Critical actions safely layouted for easy access under bumpy transport states." }
+    ],
+    results: [
+      { metric: "Inquiry Latency Rate", val: "-91%", desc: "Reduction in travel database search response duration." },
+      { metric: "Active Booking Sales", val: "+88%", desc: "Direct client itinerary configurations created in the first 45 days." },
+      { metric: "Mobile Conversion", val: "+160%", desc: "Increase in booking form completions on cellular connection nodes." }
+    ],
+    testimonial: {
+      quote: "Our clients enjoy an effortless booking process. The offline itinerary vault has drastically improved passenger satisfaction during transits.",
+      author: "Zubair Shah",
+      role: "Operations Manager",
+      avatar: "ZS"
+    },
+    metaDesc: "Review AeroVista Travels custom itinerary scheduler and API optimization case study."
+  }
+};
+export const caseStudiesList = {
+  lk: [
+    {
+      title: "Zenvor Premium",
+      slug: "zenvor",
+      category: "Luxury E-commerce Boutique",
+      description: "A high-performance flagship digital boutique for Zenvor. Translates minimal luxury silhouettes and heavyweight cotton essentials into a cinematic shopping experience.",
+      tags: ["Luxury E-commerce", "Minimal Design", "High Perf", "Supabase"],
+      perf: 99,
+      seo: 98,
+      char: "Z",
+      thumbnail: "/assets/case-studies/zenvor/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "Jawrah Pixel OS",
+      slug: "jawrah-pixel",
+      category: "Internal Operations & Client CRM",
+      description: "Official presence and client workspace command systems. Features active milestone monitors, collaborative tickets, and secure contract vaults.",
+      tags: ["D3.js Charts", "Database Security", "Supabase RLS"],
+      perf: 99,
+      seo: 100,
+      char: "J",
+      thumbnail: "/assets/case-studies/jawrah-pixel/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
+    },
+    {
+      title: "Velora Estates",
+      slug: "velora-estates",
+      category: "Luxury Real Estate Portal",
+      description: "A flagship digital portal architected for Velora. Translates complex property portfolios into a cinematic, high-speed browsing experience.",
+      tags: ["Real Estate", "3D Virtual Tours", "Lead Management"],
+      perf: 97,
+      seo: 99,
+      char: "V",
+      thumbnail: "/assets/case-studies/velora/desktop.png",
+      color: "from-amber-600/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
+    },
+    {
+      title: "Shabnam Jewellers",
+      slug: "shabnam-jewellers",
+      category: "Bespoke Ecommerce & UI Branding",
+      description: "A premium digital flagship boutique representing fine gold heritage with automated appraisal systems.",
+      tags: ["Jewelry Tech", "Gold Appraiser", "Local Gateway"],
+      perf: 98,
+      seo: 96,
+      char: "S",
+      thumbnail: "/assets/case-studies/shabnam-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "AeroVista Travels",
+      slug: "aerovista-travels",
+      category: "Luxury Travel System",
+      description: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Engineered for maximum travel authority.",
+      tags: ["Travel Tech", "API Integration", "Booking Engine"],
+      perf: 97,
+      seo: 95,
+      char: "A",
+      thumbnail: "/assets/case-studies/aero-vista/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    }
+  ],
+  pk: [
+    {
+      title: "Zenvor Premium",
+      slug: "zenvor",
+      category: "Luxury E-commerce Boutique",
+      description: "High-performance digital flagship boutique for Zenvor's premium streetwear collections. Engineered for minimal luxury and maximum speed.",
+      tags: ["React SPA", "Supabase", "Luxury fashion", "SEO Audit"],
+      perf: 99,
+      seo: 98,
+      char: "Z",
+      thumbnail: "/assets/case-studies/zenvor/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "Jawrah Pixel OS",
+      slug: "jawrah-pixel",
+      category: "Internal Operations & Client CRM",
+      description: "Official presence and client workspace command systems. Features active milestone monitors, collaborative tickets, and secure contract vaults.",
+      tags: ["D3.js Charts", "Database Security", "Supabase RLS"],
+      perf: 99,
+      seo: 100,
+      char: "J",
+      thumbnail: "/assets/case-studies/jawrah-pixel/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
+    },
+    {
+      title: "Velora Estates",
+      slug: "velora-estates",
+      category: "Luxury Real Estate Portal",
+      description: "A flagship digital portal architected for Velora. Translates complex property portfolios into a cinematic, high-speed browsing experience.",
+      tags: ["Real Estate", "3D Virtual Tours", "Lead Management"],
+      perf: 97,
+      seo: 99,
+      char: "V",
+      thumbnail: "/assets/case-studies/velora/desktop.png",
+      color: "from-amber-600/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
+    },
+    {
+      title: "Shabnam Jewellers",
+      slug: "shabnam-jewellers",
+      category: "Bespoke Ecommerce & UI Branding",
+      description: "A premium digital flagship boutique representing fine gold heritage with automated appraisal systems.",
+      tags: ["Jewelry Tech", "Gold Appraiser", "Local Gateway"],
+      perf: 98,
+      seo: 96,
+      char: "S",
+      thumbnail: "/assets/case-studies/shabnam-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "AeroVista Travels",
+      slug: "aerovista-travels",
+      category: "Luxury Travel System",
+      description: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Engineered for maximum travel authority.",
+      tags: ["Travel Tech", "API Integration", "Booking Engine"],
+      perf: 97,
+      seo: 95,
+      char: "A",
+      thumbnail: "/assets/case-studies/aero-vista/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    }
+  ],
+  int: [
+    {
+      title: "Zenvor Premium",
+      slug: "zenvor",
+      category: "Luxury E-commerce Boutique",
+      description: "High-performance digital flagship boutique for Zenvor's premium streetwear collections. Engineered for minimal luxury and maximum speed.",
+      tags: ["React SPA", "Supabase", "Luxury fashion", "SEO Audit"],
+      perf: 99,
+      seo: 98,
+      char: "Z",
+      thumbnail: "/assets/case-studies/zenvor/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "Jawrah Pixel OS",
+      slug: "jawrah-pixel",
+      category: "Internal Operations & Client CRM",
+      description: "Official presence and client workspace command systems. Features active milestone monitors, collaborative tickets, and secure contract vaults.",
+      tags: ["D3.js Charts", "Database Security", "Supabase RLS"],
+      perf: 99,
+      seo: 100,
+      char: "J",
+      thumbnail: "/assets/case-studies/jawrah-pixel/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
+    },
+    {
+      title: "Velora Estates",
+      slug: "velora-estates",
+      category: "Luxury Real Estate Portal",
+      description: "A flagship digital portal architected for Velora. Translates complex property portfolios into a cinematic, high-speed browsing experience.",
+      tags: ["Real Estate", "3D Virtual Tours", "Lead Management"],
+      perf: 97,
+      seo: 99,
+      char: "V",
+      thumbnail: "/assets/case-studies/velora/desktop.png",
+      color: "from-amber-600/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
+    },
+    {
+      title: "Shabnam Jewellers",
+      slug: "shabnam-jewellers",
+      category: "Bespoke Ecommerce & UI Branding",
+      description: "A premium digital flagship boutique representing fine gold heritage with automated appraisal systems.",
+      tags: ["Jewelry Tech", "Gold Appraiser", "Local Gateway"],
+      perf: 98,
+      seo: 96,
+      char: "S",
+      thumbnail: "/assets/case-studies/shabnam-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "AeroVista Travels",
+      slug: "aerovista-travels",
+      category: "Luxury Travel System",
+      description: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Engineered for maximum travel authority.",
+      tags: ["Travel Tech", "API Integration", "Booking Engine"],
+      perf: 97,
+      seo: 95,
+      char: "A",
+      thumbnail: "/assets/case-studies/aero-vista/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    }
+  ]
+};
+export function getCaseStudiesForRegion(region) {
+  return caseStudiesList[region] ?? caseStudiesList.lk;
+}
+export function getCaseStudyDetails(slug) {
+  return ALL_CASE_STUDIES[slug] || null;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNhc2VTdHVkaWVzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgUmVnaW9uQ29kZSB9IGZyb20gJ0AvdHlwZXMnO1xuXG5leHBvcnQgaW50ZXJmYWNlIENhc2VMaXN0SXRlbSB7XG4gIHRpdGxlOiBzdHJpbmc7XG4gIHNsdWc6IHN0cmluZztcbiAgY2F0ZWdvcnk6IHN0cmluZztcbiAgZGVzY3JpcHRpb246IHN0cmluZztcbiAgdGFnczogc3RyaW5nW107XG4gIHBlcmY6IG51bWJlcjtcbiAgc2VvOiBudW1iZXI7XG4gIGNoYXI6IHN0cmluZztcbiAgdGh1bWJuYWlsPzogc3RyaW5nO1xuICBjb2xvcjogc3RyaW5nO1xuICBiYWRnZUNvbG9yOiBzdHJpbmc7XG59XG5cbmV4cG9ydCBpbnRlcmZhY2UgQ2FzZURldGFpbHMge1xuICB0aXRsZTogc3RyaW5nO1xuICBzbHVnOiBzdHJpbmc7XG4gIGNhdGVnb3J5OiBzdHJpbmc7XG4gIGluZHVzdHJ5OiBzdHJpbmc7XG4gIGNsaWVudDogc3RyaW5nO1xuICBvdmVydmlldzogc3RyaW5nO1xuICBidWRnZXQ6IHN0cmluZztcbiAgZHVyYXRpb246IHN0cmluZztcbiAgd2Vic2l0ZVVybD86IHN0cmluZztcbiAgZGVza3RvcEltYWdlPzogc3RyaW5nO1xuICBtb2JpbGVJbWFnZT86IHN0cmluZztcbiAgZ29hbHM6IHN0cmluZ1tdO1xuICBjaGFsbGVuZ2VzOiBzdHJpbmdbXTtcbiAgcHJvY2Vzc1N0ZXBzOiB7IHBoYXNlOiBzdHJpbmc7IHRpdGxlOiBzdHJpbmc7IGRlc2M6IHN0cmluZyB9W107XG4gIHRlY2hub2xvZ2llczogc3RyaW5nW107XG4gIHNvbHV0aW9uczogc3RyaW5nW107XG4gIHBlcmZTY29yZXM6IHsgcGVyZjogbnVtYmVyOyBzZW86IG51bWJlcjsgYWNjZXNzOiBudW1iZXI7IGJlc3Q6IG51bWJlciB9O1xuICBkZXNrdG9wSGlnaGxpZ2h0czogeyB0aXRsZTogc3RyaW5nOyBkZXNjOiBzdHJpbmcgfVtdO1xuICBtb2JpbGVIaWdobGlnaHRzOiB7IHRpdGxlOiBzdHJpbmc7IGRlc2M6IHN0cmluZyB9W107XG4gIHJlc3VsdHM6IHsgbWV0cmljOiBzdHJpbmc7IHZhbDogc3RyaW5nOyBkZXNjOiBzdHJpbmcgfVtdO1xuICB0ZXN0aW1vbmlhbDogeyBxdW90ZTogc3RyaW5nOyBhdXRob3I6IHN0cmluZzsgcm9sZTogc3RyaW5nOyBhdmF0YXI6IHN0cmluZyB9O1xuICBtZXRhRGVzYzogc3RyaW5nO1xufVxuXG5leHBvcnQgY29uc3QgQUxMX0NBU0VfU1RVRElFUzogUmVjb3JkPHN0cmluZywgQ2FzZURldGFpbHMgJiB7IHJlZ2lvbjogUmVnaW9uQ29kZSB9PiA9IHtcbiAgJ3plbnZvcic6IHtcbiAgICByZWdpb246ICdsaycsXG4gICAgdGl0bGU6IFwiWmVudm9yIFByZW1pdW0gU3RyZWV0d2VhclwiLFxuICAgIHNsdWc6IFwiemVudm9yXCIsXG4gICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IEUtY29tbWVyY2UgJiBCcmFuZCBib3V0aXF1ZVwiLFxuICAgIGluZHVzdHJ5OiBcIkZhc2hpb24gJiBQcmVtaXVtIEFwcGFyZWxcIixcbiAgICBjbGllbnQ6IFwiWmVudm9yIFN0cmVldHdlYXJcIixcbiAgICB3ZWJzaXRlVXJsOiBcImh0dHBzOi8vemVudm9yLmxrXCIsXG4gICAgZGVza3RvcEltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3plbnZvci9kZXNrdG9wLnBuZ1wiLFxuICAgIG1vYmlsZUltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3plbnZvci9tb2JpbGUucG5nXCIsXG4gICAgb3ZlcnZpZXc6IFwiQSBoaWdoLXBlcmZvcm1hbmNlIGRpZ2l0YWwgZmxhZ3NoaXAgYm91dGlxdWUgYXJjaGl0ZWN0ZWQgZm9yIG9uZSBvZiB0aGUgbGVhZGluZyBwcmVtaXVtIHN0cmVldHdlYXIgaG91c2VzLiBUaGUgYnVpbGQgdHJhbnNsYXRlcyBhcmNoaXRlY3R1cmFsIHNpbGhvdWV0dGVzIGFuZCBoZWF2eXdlaWdodCBjb3R0b24gZXNzZW50aWFscyBpbnRvIGEgY2luZW1hdGljLCB1bHRyYS1mYXN0IGUtY29tbWVyY2UgZXhwZXJpZW5jZS5cIixcbiAgICBidWRnZXQ6IFwiTEtSIDIsNDAwLDAwMFwiLFxuICAgIGR1cmF0aW9uOiBcIjYgV2Vla3NcIixcbiAgICBnb2FsczogW1xuICAgICAgXCJBcmNoaXRlY3QgYSBoaWdobHkgYXV0aG9yaXRhdGl2ZSBsdXh1cnkgZS1jb21tZXJjZSBwb3J0YWwgd2l0aCB0b3AtdGllciBMaWdodGhvdXNlIGF1ZGl0IHNjb3Jlcy5cIixcbiAgICAgIFwiSW50ZWdyYXRlIHNlY3VyZSBjaGVja291dCBjaGFubmVscyBhbmQgcmVhbC10aW1lIGludmVudG9yeSBzeW5jaHJvbml6YXRpb24uXCIsXG4gICAgICBcIkFjaGlldmUgc2lnbmlmaWNhbnQgb3JnYW5pYyB2aXNpYmlsaXR5IGZvciBwcmVtaXVtIHN0cmVldHdlYXIgYW5kIG1pbmltYWwgbHV4dXJ5IGRlc2lnbiBzZWFyY2ggdGVybXMuXCJcbiAgICBdLFxuICAgIGNoYWxsZW5nZXM6IFtcbiAgICAgIFwiSGlnaC1yZXNvbHV0aW9uIHByb2Zlc3Npb25hbCBwaG90b2dyYXBoeSB3YXMgY2F1c2luZyBwZXJmb3JtYW5jZSBib3R0bGVuZWNrcyBvbiBtb2JpbGUgbmV0d29ya3MuXCIsXG4gICAgICBcIk5lZWQgdG8gcmVwcmVzZW50IHRoZSAnbWluaW1hbCBsdXh1cnknIGJyYW5kIGFlc3RoZXRpYyB3aXRob3V0IHNhY3JpZmljaW5nIGUtY29tbWVyY2UgY29udmVyc2lvbiBwb3dlci5cIixcbiAgICAgIFwiUmVxdWlyZW1lbnQgZm9yIGEgc2VhbWxlc3MgdXNlciBleHBlcmllbmNlIGFjcm9zcyB2YXJpb3VzIGhpZ2gtZW5kIGZhc2hpb24gYnJvd3NpbmcgZGV2aWNlcy5cIlxuICAgIF0sXG4gICAgcHJvY2Vzc1N0ZXBzOiBbXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDFcIiwgdGl0bGU6IFwiQnJhbmQgQmx1ZXByaW50aW5nXCIsIGRlc2M6IFwiRGVmaW5pbmcgbWluaW1hbCBsdXh1cnkgbGF5b3V0IGdyaWRzLCBhdG1vc3BoZXJpYyB0eXBvZ3JhcGh5IHBhaXJpbmcsIGFuZCB2aXN1YWwgcGFjaW5nLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDJcIiwgdGl0bGU6IFwiQ2luZW1hdGljIFVJIExheW91dFwiLCBkZXNjOiBcIkRlc2lnbmluZyBoaWdoLWNvbnRyYXN0IHByb2R1Y3QgY2FyZHMsIGhhcmR3YXJlLWFjY2VsZXJhdGVkIHRyYW5zaXRpb25zLCBhbmQgcmVzcG9uc2l2ZSBsb29rYm9va3MuXCIgfSxcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgM1wiLCB0aXRsZTogXCJTeXN0ZW0gRW5naW5lZXJpbmdcIiwgZGVzYzogXCJJbnRlZ3JhdGluZyBTdXBhYmFzZSBmb3IgaW52ZW50b3J5LCBjdXN0b20gY2hlY2tvdXQgZmxvd3MsIGFuZCBlZGdlIGFzc2V0IHJvdXRpbmcuXCIgfVxuICAgIF0sXG4gICAgdGVjaG5vbG9naWVzOiBbXCJSZWFjdCBPU1wiLCBcIlZpdGVcIiwgXCJUYWlsd2luZCBDU1MgdjRcIiwgXCJGcmFtZXIgTW90aW9uXCIsIFwiU3VwYWJhc2VcIiwgXCJFZGdlIENETlwiXSxcbiAgICBzb2x1dGlvbnM6IFtcbiAgICAgIFwiQ3VzdG9tIGxpZ2h0bmluZy1mYXN0IGUtY29tbWVyY2UgbGF5b3V0cyB3aXRoIDEwMCUgcmVzcG9uc2l2ZSByZWFkYWJpbGl0eS5cIixcbiAgICAgIFwiU2VjdXJlIGNoZWNrb3V0LXJlYWR5IGluZnJhc3RydWN0dXJlIGNvbm5lY3RlZCB0byB0aGUgQWRtaW4gZGFzaGJvYXJkLlwiLFxuICAgICAgXCJGdWxseSBzdHJ1Y3R1cmVkIHRlY2huaWNhbCBTRU8gYW5kIG1pbmltYWwgYWVzdGhldGljIGxheW91dCBvcHRpbWl6YXRpb24uXCJcbiAgICBdLFxuICAgIHBlcmZTY29yZXM6IHsgcGVyZjogOTksIHNlbzogOTgsIGFjY2VzczogOTgsIGJlc3Q6IDk5IH0sXG4gICAgZGVza3RvcEhpZ2hsaWdodHM6IFtcbiAgICAgIHsgdGl0bGU6IFwiQXRtb3NwaGVyaWMgTG9va2Jvb2tzXCIsIGRlc2M6IFwiRnVsbC1ibGVlZCBjaW5lbWF0aWMgcGhvdG9ncmFwaHkgbGF5b3V0cyBzaG93aW5nIGZpbmUgaGVhdnl3ZWlnaHQgY290dG9uIHRleHRpbGVzIGNsZWFybHkuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiRmx1aWQgQ2hlY2tvdXQgTGFuZVwiLCBkZXNjOiBcIk9wdGltaXplZCBlLWNvbW1lcmNlIGZ1bm5lbCB0aGF0IHNlZ21lbnRzIGx1eHVyeSBwcm9zcGVjdHMgaW1tZWRpYXRlbHkuXCIgfVxuICAgIF0sXG4gICAgbW9iaWxlSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJUaHVtYi1PcHRpbWFsIEJyb3dzZVwiLCBkZXNjOiBcIkluc3RhbnQgcHJvZHVjdCBzZWxlY3Rpb24gZmxvd3Mgc2l6ZWQgcGVyZmVjdGx5IGZvciBxdWljayBtb2JpbGUgc3dpcGVzIGFuZCBoaWdoLXNwZWVkIGJyb3dzaW5nLlwiIH0sXG4gICAgICB7IHRpdGxlOiBcIkNyaXNwIE1hdGVyaWFsIERldGFpbHNcIiwgZGVzYzogXCJSZWFkIGhpZ2hseSBkZXRhaWxlZCBmYWJyaWMgc3BlY2lmaWNhdGlvbnMgd2l0aG91dCB2aXN1YWwgcGluY2ggb3Igc3RyZXRjaC5cIiB9XG4gICAgXSxcbiAgICByZXN1bHRzOiBbXG4gICAgICB7IG1ldHJpYzogXCJPcmdhbmljIFNFTyBHYWluXCIsIHZhbDogXCIrMzQwJVwiLCBkZXNjOiBcIlNlYXJjaCB2aXNpYmlsaXR5IGxpZnQgb24gY29tcGV0aXRpdmUgcHJlbWl1bSBmYXNoaW9uIGtleXdvcmRzLlwiIH0sXG4gICAgICB7IG1ldHJpYzogXCJQYWdlIFNwZWVkIFJhdGVcIiwgdmFsOiBcIjAuMjhzXCIsIGRlc2M6IFwiRmlyc3QgY29udGVudGZ1bCBwYWludCAoRkNQKSByZW5kZXJpbmcgdGltZSBvbiBnbG9iYWwgZWRnZSBzZXJ2ZXJzLlwiIH0sXG4gICAgICB7IG1ldHJpYzogXCJDb252ZXJzaW9uIFJhdGVcIiwgdmFsOiBcIis4NCVcIiwgZGVzYzogXCJJbmNyZWFzZSBpbiBkaXJlY3QgZGlnaXRhbCBjaGVja291dCBjb21wbGV0aW9ucyBzaW5jZSBsYXVuY2guXCIgfVxuICAgIF0sXG4gICAgdGVzdGltb25pYWw6IHtcbiAgICAgIHF1b3RlOiBcIkphd3JhaCBQaXhlbCBkZWxpdmVyZWQgYW4gb3V0c3RhbmRpbmcsIGxpZ2h0bmluZy1mYXN0IHBsYXRmb3JtIHRoYXQgcGVyZmVjdGx5IGNhcHR1cmVzIG91ciBtaW5pbWFsIGx1eHVyeSBlc3NlbmNlLiBUaGUgc2VhcmNoIGVuZ2luZSBhdXRob3JpdHkgZ2FpbiBhbmQgY29udmVyc2lvbiBib29zdCBoYXZlIGJlZW4gcGhlbm9tZW5hbC5cIixcbiAgICAgIGF1dGhvcjogXCJBYmR1cnJhaG1hbiBTaGFmaWVcIixcbiAgICAgIHJvbGU6IFwiQ3JlYXRpdmUgRGlyZWN0b3JcIixcbiAgICAgIGF2YXRhcjogXCJBU1wiXG4gICAgfSxcbiAgICBtZXRhRGVzYzogXCJFeHBsb3JlIFplbnZvciBQcmVtaXVtIFN0cmVldHdlYXIncyBsdXh1cnkgZS1jb21tZXJjZSBhbmQgYm91dGlxdWUgd2Vic2l0ZSBkZXNpZ24gY2FzZSBzdHVkeSBieSBKYXdyYWggUGl4ZWwuXCJcbiAgfSxcbiAgJ2phd3JhaC1waXhlbCc6IHtcbiAgICByZWdpb246ICdsaycsXG4gICAgdGl0bGU6IFwiSmF3cmFoIFBpeGVsIE9TXCIsXG4gICAgc2x1ZzogXCJqYXdyYWgtcGl4ZWxcIixcbiAgICBjYXRlZ29yeTogXCJJbnRlcm5hbCBPcGVyYXRpb25zICYgQ2xpZW50IENSTVwiLFxuICAgIGluZHVzdHJ5OiBcIkRpZ2l0YWwgRW5naW5lZXJpbmcgJiBMdXh1cnkgQnJhbmRpbmdcIixcbiAgICBjbGllbnQ6IFwiSmF3cmFoIFBpeGVsIFNyaSBMYW5rYVwiLFxuICAgIHdlYnNpdGVVcmw6IFwiaHR0cHM6Ly9qYXdyYWhwaXhlbC5jb20vXCIsXG4gICAgZGVza3RvcEltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL2phd3JhaC1waXhlbC9kZXNrdG9wLnBuZ1wiLFxuICAgIG1vYmlsZUltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL2phd3JhaC1waXhlbC9tb2JpbGUucG5nXCIsXG4gICAgb3ZlcnZpZXc6IFwiT2ZmaWNpYWwgcHJlc2VuY2UgYW5kIG9wZXJhdGlvbmFsIGNvbW1hbmQgZGVzayBvZiBKYXdyYWggUGl4ZWwuIEluY29ycG9yYXRlcyBvdXIgYXV0b21hdGVkIGRpc2NvdmVyeSBib29ra2VlcGluZyBwb3J0YWxzLCBzZWN1cmUgY2xpZW50IHByb3Bvc2FsIHZhdWx0cywgYW5kIGNvbGxhYm9yYXRpdmUgYWdlbnQgbW9kdWxlcy5cIixcbiAgICBidWRnZXQ6IFwiTEtSIDIsNTAwLDAwMFwiLFxuICAgIGR1cmF0aW9uOiBcIjUgV2Vla3NcIixcbiAgICBnb2FsczogW1xuICAgICAgXCJCdWlsZCBhIHJvYnVzdCBmbGFnc2hpcCB3b3Jrc3BhY2UgY29ubmVjdGluZyBnbG9iYWwgY2xpZW50cyB0byBlbmdpbmVlcmluZyB0ZWFtIGxlYWRzLlwiLFxuICAgICAgXCJJbXBsZW1lbnQgZnVsbHkgc2VjdXJlIGNsaWVudCBwb3J0YWxzIGFuZCByZWFsLXRpbWUgcHJvamVjdCBtaWxlc3RvbmUgdHJhY2tpbmcgZ3JpZHMuXCIsXG4gICAgICBcIkFjaGlldmUgMTAwLzEwMCBMaWdodGhvdXNlIGJlbmNobWFyayBzcGVlZCBwZXJmb3JtYW5jZS5cIlxuICAgIF0sXG4gICAgY2hhbGxlbmdlczogW1xuICAgICAgXCJJbmVmZmljaWVudCBjbGllbnQgY29vcmRpbmF0aW9uIHRocm91Z2ggZ2VuZXJpYyBjaGF0IHBsYXRmb3JtcyBsZWQgdG8gYmxvYXRlZCBmZWVkYmFjayByb3VuZHMuXCIsXG4gICAgICBcIkRpZmZpY3VsdHkgZGlzcGxheWluZyBsaXZlIHByb2plY3QgcHJvZ3Jlc3MgbG9ncyBzZWN1cmVseS5cIixcbiAgICAgIFwiTmVlZCB0byBkZW1vbnN0cmF0ZSBhYnNvbHV0ZSBwZWFrIGVuZ2luZWVyaW5nIGNhcGFiaWxpdHkgdGhyb3VnaCBvdXIgb3duIGFnZW5jeSB3ZWJzaXRlLlwiXG4gICAgXSxcbiAgICBwcm9jZXNzU3RlcHM6IFtcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgMVwiLCB0aXRsZTogXCJQcm9kdWN0IEJsdWVwcmludFwiLCBkZXNjOiBcIkFuYWx5emluZyBtdWx0aS10aWVyIGRhc2hib2FyZCBzdHJ1Y3R1cmVzIGFuZCBSTFMgZGF0YWJhc2UgcmVxdWlyZW1lbnRzLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDJcIiwgdGl0bGU6IFwiQWVzdGhldGljIENvcmUgVUlcIiwgZGVzYzogXCJGb3JtdWxhdGluZyBzdGFuZGFyZCBwaXhlbC1jcmlzcCBmbGFnLXNoaXAgdGhlbWUgY29tcG9uZW50cyBhbmQgcHJlbWl1bSBsb2dvcy5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSAzXCIsIHRpdGxlOiBcIlN1cGFiYXNlIEludGVncmF0aW9uXCIsIGRlc2M6IFwiTWFwcGluZyBhY3RpdmUgY2xpZW50IHRhYmxlcywgdGlja2V0IHN0cnVjdHVyZXMsIGFuZCBzZWN1cmUgYXV0aGVudGljYXRpb24gbGluZXMuXCIgfVxuICAgIF0sXG4gICAgdGVjaG5vbG9naWVzOiBbXCJSZWFjdCBFbnRlcnByaXNlIFJvdXRlclwiLCBcIlRhaWx3aW5kIENTU1wiLCBcIlN1cGFiYXNlIENsaWVudFwiLCBcIkQzLmpzIExheW91dHNcIiwgXCJQb3N0Z3JlU1FMIFJMU1wiXSxcbiAgICBzb2x1dGlvbnM6IFtcbiAgICAgIFwiRnVsbHkgc2VjdXJlLCBtdWx0aS10aWVyIGFkbWluaXN0cmF0aW9uIHBhbmVsIGZvciBhZ2VudHMsIGFkbWlucywgYW5kIHZlcmlmaWVkIGN1c3RvbWVycy5cIixcbiAgICAgIFwiQ2xlYW4gdmlzdWFsIHRyYWNrZXIgZm9yIHByb2plY3QgdmVsb2NpdHkgYW5kIGN1c3RvbWl6ZWQgZGVsaXZlcmFibGUgbWlsZXN0b25lcy5cIixcbiAgICAgIFwiVW5pZmllZCBnbG9iYWwgY29udGFjdCBodWIgZmVhdHVyaW5nIG91ciBjdXN0b21pemVkIFNlY3VyZSBXaGF0c0FwcCByb3V0aW5nIGRlc2suXCJcbiAgICBdLFxuICAgIHBlcmZTY29yZXM6IHsgcGVyZjogOTksIHNlbzogMTAwLCBhY2Nlc3M6IDk4LCBiZXN0OiA5NyB9LFxuICAgIGRlc2t0b3BIaWdobGlnaHRzOiBbXG4gICAgICB7IHRpdGxlOiBcIkJlbnRvIEFuYWx5dGljcyBDb250cm9sXCIsIGRlc2M6IFwiQW4gb3BlcmF0aW9ucyBjZW50ZXIgY29tYmluaW5nIHRpY2tldGluZyBsaW5lcywgYnVkZ2V0cywgYW5kIG1pbGVzdG9uZXMuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiU2VjdXJlIFByb3Bvc2FsIFZhbGxleXNcIiwgZGVzYzogXCJFbmNyeXB0aW9uIHByb3RlY3RlZCBwcml2YXRlIHNlY3Rpb25zIHN0b3JpbmcgZGVzaWduIGRlbGl2ZXJhYmxlcyBhbmQgY29udHJhY3RzLlwiIH1cbiAgICBdLFxuICAgIG1vYmlsZUhpZ2hsaWdodHM6IFtcbiAgICAgIHsgdGl0bGU6IFwiQWdlbnQgRmFzdC1EZXNrXCIsIGRlc2M6IFwiQW4gb3B0aW1pemVkIGFkbWluaXN0cmF0aXZlIGNvbnRyb2wgY2VudGVyIHNpemVkIGNvbWZvcnRhYmx5IGZvciBtb2JpbGUgdmlld3BvcnQgc2l6ZXMuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiSW50ZXJhY3RpdmUgTWlsZXN0b25lIFN0YXR1c1wiLCBkZXNjOiBcIlN3aXBlIHRvIHZpZXcgYXBwcm92ZWQgbWlsZXN0b25lcyBhbmQgcmVtYWluaW5nIGRlc2lnbiBzcHJpbnQgZGVhZGxpbmVzLlwiIH1cbiAgICBdLFxuICAgIHJlc3VsdHM6IFtcbiAgICAgIHsgbWV0cmljOiBcIk9wZXJhdGlvbmFsIFZlbG9jaXR5XCIsIHZhbDogXCIrMTk1JVwiLCBkZXNjOiBcIkluY3JlYXNlIGluIGRlc2lnbi1zcHJpbnQgYXBwcm92YWwgY3ljbGVzLlwiIH0sXG4gICAgICB7IG1ldHJpYzogXCJDbGllbnQgUmV0ZW50aW9uIFJhdGVcIiwgdmFsOiBcIjk5LjIlXCIsIGRlc2M6IFwiVW5tYXRjaGVkIGN1c3RvbWVyIHBvcnRhbCBzYXRpc2ZhY3Rpb24gc2NvcmUuXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIk1vYmlsZSBTcGVlZCBSYXRpbmdcIiwgdmFsOiBcIjAuMjJzXCIsIGRlc2M6IFwiT3B0aW1pemVkIHRpbWUtdG8taW50ZXJhY3RpdmUgc2hvd2luZyB6ZXJvIHJlbmRlciBsYXlvdXQgc2hpZnQgKENMUykuXCIgfVxuICAgIF0sXG4gICAgdGVzdGltb25pYWw6IHtcbiAgICAgIHF1b3RlOiBcIk91ciBwcmVzZW5jZSBoYXMgc2NhbGVkIHRvIHNlcnZlIGludGVybmF0aW9uYWwgY2xpZW50cyBzZWN1cmVseS4gVGhlIGN1c3RvbWl6ZWQgY2xpZW50IHBvcnRhbCBoYXMgbWFkZSBjb2xsYWJvcmF0aW9uIGV4Y2VwdGlvbmFsbHkgdHJhbnNwYXJlbnQuXCIsXG4gICAgICBhdXRob3I6IFwiUHJhZ2VldGggRmVybmFuZG9cIixcbiAgICAgIHJvbGU6IFwiTGVhZCBTeXN0ZW1zIEFyY2hpdGVjdFwiLFxuICAgICAgYXZhdGFyOiBcIlBGXCJcbiAgICB9LFxuICAgIG1ldGFEZXNjOiBcIkRpc2NvdmVyIEphd3JhaCBQaXhlbCdzIGxlYWRpbmcgb3BlcmF0aW9uYWwgY2xpZW50IENSTSwgY3VzdG9tIGJlbnRvIGRhc2hib2FyZCwgYW5kIFN1cGFiYXNlIGRhdGFiYXNlIGFyY2hpdGVjdHVyZS5cIlxuICB9LFxuICAnYWVyb3Zpc3RhJzoge1xuICAgIHJlZ2lvbjogJ2ludCcsXG4gICAgdGl0bGU6IFwiQWVyb3Zpc3RhIEdsb2JhbCBMb2dpc3RpY3NcIixcbiAgICBzbHVnOiBcImFlcm92aXN0YVwiLFxuICAgIGNhdGVnb3J5OiBcIkVudGVycHJpc2UgU2FhUyAmIFN1cHBseSBDaGFpbiBEYXNoYm9hcmRcIixcbiAgICBpbmR1c3RyeTogXCJMb2dpc3RpY3MgJiBTdXBwbHkgQ2hhaW5cIixcbiAgICBjbGllbnQ6IFwiQWVyb3Zpc3RhIFNvbHV0aW9uc1wiLFxuICAgIHdlYnNpdGVVcmw6IFwiaHR0cHM6Ly9qYXdyYWhwaXhlbC5jb20vY2FzZS1zdHVkaWVzL2Flcm92aXN0YVwiLFxuICAgIGRlc2t0b3BJbWFnZTogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy9hZXJvdmlzdGEvZGVza3RvcC5wbmdcIixcbiAgICBtb2JpbGVJbWFnZTogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy9hZXJvdmlzdGEvbW9iaWxlLnBuZ1wiLFxuICAgIG92ZXJ2aWV3OiBcIkEgaGlnaC1maWRlbGl0eSBnbG9iYWwgbG9naXN0aWNzIGRhc2hib2FyZCBhcmNoaXRlY3RlZCBmb3IgQWVyb3Zpc3RhLiBUaGUgc3lzdGVtIGNlbnRyYWxpemVzIHJlYWwtdGltZSBmcmVpZ2h0IHRyYWNraW5nLCBhdXRvbWF0ZWQgY3VzdG9tIGNsZWFyYW5jZXMsIGFuZCBnbG9iYWwgZmxlZXQgbWFuYWdlbWVudCBpbnRvIGEgc2luZ2xlLCBzZWN1cmUgY29tbWFuZCBjZW50ZXIuXCIsXG4gICAgYnVkZ2V0OiBcIiQxMiw1MDBcIixcbiAgICBkdXJhdGlvbjogXCIxMCBXZWVrc1wiLFxuICAgIGdvYWxzOiBbXG4gICAgICBcIlVuaWZ5IGZyYWdtZW50ZWQgZGF0YSBzdHJlYW1zIGZyb20gbXVsdGlwbGUgaW50ZXJuYXRpb25hbCBjYXJyaWVycy5cIixcbiAgICAgIFwiUmVkdWNlIG1hbnVhbCBlbnRyeSBlcnJvcnMgdGhyb3VnaCBhdXRvbWF0ZWQgQVBJIHN5bmNocm9uaXphdGlvbi5cIixcbiAgICAgIFwiRGVsaXZlciBhIHN1Yi1zZWNvbmQgcmVzcG9uc2UgdGltZSBmb3IgbGFyZ2Utc2NhbGUgZGF0YSB2aXN1YWxpemF0aW9uLlwiXG4gICAgXSxcbiAgICBjaGFsbGVuZ2VzOiBbXG4gICAgICBcIkxlZ2FjeSBzeXN0ZW1zIHdlcmUgcnVubmluZyBvbiBvdXRkYXRlZCBQSFAgYXJjaGl0ZWN0dXJlcyB3aXRoIHNpZ25pZmljYW50IGRvd250aW1lLlwiLFxuICAgICAgXCJDb21wbGV4aXR5IGluIG1hcHBpbmcgZGl2ZXJzZSBpbnRlcm5hdGlvbmFsIHNoaXBwaW5nIHJlZ3VsYXRpb25zIGludG8gYSB1bmlmaWVkIFVJLlwiLFxuICAgICAgXCJIYW5kbGluZyByZWFsLXRpbWUgZ2VvbG9jYXRpb24gZGF0YSBmb3Igb3ZlciA1MDAgYWN0aXZlIGZsZWV0IHVuaXRzLlwiXG4gICAgXSxcbiAgICBwcm9jZXNzU3RlcHM6IFtcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgMVwiLCB0aXRsZTogXCJJbmZyYXN0cnVjdHVyZSBBdWRpdFwiLCBkZXNjOiBcIk1hcHBpbmcgbGVnYWN5IGRhdGEgc2lsb3MgYW5kIGRlZmluaW5nIHRoZSBuZXcgUmVhY3QtU3VwYWJhc2UgYnJpZGdlLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDJcIiwgdGl0bGU6IFwiVUkgQXJjaGl0ZWN0dXJlXCIsIGRlc2M6IFwiRGVzaWduaW5nIGhpZ2gtZGVuc2l0eSBkYXRhIGdyaWRzIHdpdGggemVybyB2aXN1YWwgY2x1dHRlci5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSAzXCIsIHRpdGxlOiBcIkdsb2JhbCBTeW5jXCIsIGRlc2M6IFwiSW1wbGVtZW50aW5nIGVkZ2UgZnVuY3Rpb25zIGZvciByZWFsLXRpbWUgdHJhY2tpbmcgdXBkYXRlcy5cIiB9XG4gICAgXSxcbiAgICB0ZWNobm9sb2dpZXM6IFtcIlJlYWN0XCIsIFwiTmV4dC5qc1wiLCBcIlN1cGFiYXNlXCIsIFwiTGVhZmxldC5qc1wiLCBcIlJlZGlzXCIsIFwiRWRnZSBGdW5jdGlvbnNcIl0sXG4gICAgc29sdXRpb25zOiBbXG4gICAgICBcIkJlc3Bva2UgcmVhbC10aW1lIHRyYWNraW5nIGVuZ2luZSB3aXRoIHN1Yi0xMDBtcyB1cGRhdGUgbGF0ZW5jeS5cIixcbiAgICAgIFwiQXV0b21hdGVkIGRvY3VtZW50YXRpb24gcGlwZWxpbmUgcmVkdWNpbmcgY2xlYXJhbmNlIHRpbWVzIGJ5IDQwJS5cIixcbiAgICAgIFwiU2VjdXJlIHJvbGUtYmFzZWQgYWNjZXNzIGNvbnRyb2wgKFJCQUMpIGZvciBnbG9iYWwgYnJhbmNoIG1hbmFnZXJzLlwiXG4gICAgXSxcbiAgICBwZXJmU2NvcmVzOiB7IHBlcmY6IDk4LCBzZW86IDk1LCBhY2Nlc3M6IDk5LCBiZXN0OiA5NiB9LFxuICAgIGRlc2t0b3BIaWdobGlnaHRzOiBbXG4gICAgICB7IHRpdGxlOiBcIkZsZWV0IENvbW1hbmQgQ2VudGVyXCIsIGRlc2M6IFwiUmVhbC10aW1lIGludGVyYWN0aXZlIG1hcCB3aXRoIGhlYWx0aCBtb25pdG9yaW5nIGZvciBhbGwgYWN0aXZlIGFzc2V0cy5cIiB9LFxuICAgICAgeyB0aXRsZTogXCJBdXRvbWF0ZWQgUmVwb3J0aW5nXCIsIGRlc2M6IFwiSW5zdGFudCBnZW5lcmF0aW9uIG9mIGludGVybmF0aW9uYWwgY29tcGxpYW5jZSBkb2N1bWVudHMuXCIgfVxuICAgIF0sXG4gICAgbW9iaWxlSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJPbi10aGUtZ28gVHJhY2tpbmdcIiwgZGVzYzogXCJDcml0aWNhbCBhbGVydHMgYW5kIHN0YXR1cyB1cGRhdGVzIGRlbGl2ZXJlZCB2aWEgcHVzaCBub3RpZmljYXRpb25zLlwiIH0sXG4gICAgICB7IHRpdGxlOiBcIkRyaXZlciBQb3J0YWxcIiwgZGVzYzogXCJTaW1wbGlmaWVkIGludGVyZmFjZSBmb3IgZmxlZXQgb3BlcmF0b3JzIHRvIGxvZyBzdGF0dXMgY2hhbmdlcy5cIiB9XG4gICAgXSxcbiAgICByZXN1bHRzOiBbXG4gICAgICB7IG1ldHJpYzogXCJPcGVyYXRpb25hbCBFZmZpY2llbmN5XCIsIHZhbDogXCIrNjUlXCIsIGRlc2M6IFwiUmVkdWN0aW9uIGluIHRpbWUgc3BlbnQgb24gbWFudWFsIGxvZ2lzdGljcyBjb29yZGluYXRpb24uXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIkRhdGEgQWNjdXJhY3lcIiwgdmFsOiBcIjk5LjklXCIsIGRlc2M6IFwiU2lnbmlmaWNhbnQgcmVkdWN0aW9uIGluIHNoaXBwaW5nIGRvY3VtZW50YXRpb24gZXJyb3JzLlwiIH0sXG4gICAgICB7IG1ldHJpYzogXCJTeXN0ZW0gVXB0aW1lXCIsIHZhbDogXCI5OS45OSVcIiwgZGVzYzogXCJGbGF3bGVzcyBwZXJmb3JtYW5jZSBzaW5jZSB0aGUgbWlncmF0aW9uIHRvIEphd3JhaCBPUy5cIiB9XG4gICAgXSxcbiAgICB0ZXN0aW1vbmlhbDoge1xuICAgICAgcXVvdGU6IFwiQWVyb3Zpc3RhJ3MgZ2xvYmFsIG9wZXJhdGlvbnMgYXJlIG5vdyBwb3dlcmVkIGJ5IGEgc3lzdGVtIHRoYXQgaXMgYXMgcmVsaWFibGUgYXMgaXQgaXMgZmFzdC4gSmF3cmFoIFBpeGVsJ3MgZW5naW5lZXJpbmcgaGFzIHNldCBhIG5ldyBzdGFuZGFyZCBmb3Igb3VyIGluZHVzdHJ5LlwiLFxuICAgICAgYXV0aG9yOiBcIkRhdmlkIENoZW5cIixcbiAgICAgIHJvbGU6IFwiQ1RPLCBBZXJvdmlzdGEgR2xvYmFsXCIsXG4gICAgICBhdmF0YXI6IFwiRENcIlxuICAgIH0sXG4gICAgbWV0YURlc2M6IFwiRGlzY292ZXIgaG93IEphd3JhaCBQaXhlbCB0cmFuc2Zvcm1lZCBBZXJvdmlzdGEncyBnbG9iYWwgbG9naXN0aWNzIHdpdGggYSBjdXN0b20gZW50ZXJwcmlzZSBTYWFTIGRhc2hib2FyZC5cIlxuICB9LFxuICAndmVsb3VyYS1jYWZlJzoge1xuICAgIHJlZ2lvbjogJ2ludCcsXG4gICAgdGl0bGU6IFwiVmVsb3VyYSBDYWZlICYgUm9hc3RlcnlcIixcbiAgICBzbHVnOiBcInZlbG91cmEtY2FmZVwiLFxuICAgIGNhdGVnb3J5OiBcIkx1eHVyeSBFLWNvbW1lcmNlICYgSG9zcGl0YWxpdHlcIixcbiAgICBpbmR1c3RyeTogXCJGb29kICYgQmV2ZXJhZ2UgLyBFLWNvbW1lcmNlXCIsXG4gICAgY2xpZW50OiBcIlZlbG91cmEgR3JvdXBcIixcbiAgICB3ZWJzaXRlVXJsOiBcImh0dHBzOi8vamF3cmFocGl4ZWwuY29tL2Nhc2Utc3R1ZGllcy92ZWxvdXJhLWNhZmVcIixcbiAgICBkZXNrdG9wSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvdmVsb3VyYS1jYWZlL2Rlc2t0b3AucG5nXCIsXG4gICAgbW9iaWxlSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvdmVsb3VyYS1jYWZlL21vYmlsZS5wbmdcIixcbiAgICBvdmVydmlldzogXCJBIGNpbmVtYXRpYyBkaWdpdGFsIHByZXNlbmNlIGZvciBWZWxvdXJhIENhZmUsIGJyaWRnaW5nIHRoZSBnYXAgYmV0d2VlbiB0aGVpciBwaHlzaWNhbCBsdXh1cnkgcm9hc3RlcnkgYW5kIGEgZ2xvYmFsIGF1ZGllbmNlLiBUaGUgcGxhdGZvcm0gZmVhdHVyZXMgYSBiZXNwb2tlIGNvZmZlZSBzdWJzY3JpcHRpb24gZW5naW5lIGFuZCBhIGhpZ2gtY29udmVydGluZyByZXRhaWwgYm91dGlxdWUuXCIsXG4gICAgYnVkZ2V0OiBcIiQ0LDgwMFwiLFxuICAgIGR1cmF0aW9uOiBcIjcgV2Vla3NcIixcbiAgICBnb2FsczogW1xuICAgICAgXCJUcmFuc2xhdGUgdGhlIHNlbnNvcnkgZXhwZXJpZW5jZSBvZiBhIGx1eHVyeSByb2FzdGVyeSBpbnRvIGEgZGlnaXRhbCBpbnRlcmZhY2UuXCIsXG4gICAgICBcIkxhdW5jaCBhIGN1c3RvbSBzdWJzY3JpcHRpb24gbW9kZWwgZm9yIHJlY3VycmluZyBjb2ZmZWUgYmVhbiBkZWxpdmVyaWVzLlwiLFxuICAgICAgXCJBY2hpZXZlIHByZW1pdW0gYnJhbmQgcG9zaXRpb25pbmcgaW4gdGhlIGNvbXBldGl0aXZlIHNwZWNpYWx0eSBjb2ZmZWUgbWFya2V0LlwiXG4gICAgXSxcbiAgICBjaGFsbGVuZ2VzOiBbXG4gICAgICBcIkV4aXN0aW5nIGUtY29tbWVyY2UgdGVtcGxhdGVzIGZhaWxlZCB0byBjYXB0dXJlIHRoZSAnbHV4dXJ5IGFydGlzYW5hbCcgYnJhbmQgdm9pY2UuXCIsXG4gICAgICBcIkNvbXBsZXggc3Vic2NyaXB0aW9uIGxvZ2ljIHJlcXVpcmVkIGN1c3RvbSBkZXZlbG9wbWVudCBiZXlvbmQgc3RhbmRhcmQgU2hvcGlmeSBmZWF0dXJlcy5cIixcbiAgICAgIFwiTmVlZCBmb3IgYXRtb3NwaGVyaWMgc3Rvcnl0ZWxsaW5nIHRvIGp1c3RpZnkgcHJlbWl1bSBwcmljZSBwb2ludHMuXCJcbiAgICBdLFxuICAgIHByb2Nlc3NTdGVwczogW1xuICAgICAgeyBwaGFzZTogXCJQaGFzZSAxXCIsIHRpdGxlOiBcIlZpc3VhbCBTdG9yeWJvYXJkaW5nXCIsIGRlc2M6IFwiRGVmaW5pbmcgdGhlICdHb2xkZW4gUm9hc3QnIGNvbG9yIHBhbGV0dGUgYW5kIGF0bW9zcGhlcmljIG1vdGlvbiBkZXNpZ24uXCIgfSxcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgMlwiLCB0aXRsZTogXCJTdWJzY3JpcHRpb24gRW5naW5lXCIsIGRlc2M6IFwiQXJjaGl0ZWN0aW5nIGEgY3VzdG9tIGJpbGxpbmcgYW5kIGRlbGl2ZXJ5IGZyZXF1ZW5jeSBsb2dpYy5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSAzXCIsIHRpdGxlOiBcIkNpbmVtYXRpYyBDb21tZXJjZVwiLCBkZXNjOiBcIkJ1aWxkaW5nIGhpZ2gtZmlkZWxpdHkgcHJvZHVjdCBwYWdlcyB3aXRoIGltbWVyc2l2ZSB2aWRlbyBiYWNrZ3JvdW5kcy5cIiB9XG4gICAgXSxcbiAgICB0ZWNobm9sb2dpZXM6IFtcIlJlYWN0XCIsIFwiVGFpbHdpbmQgQ1NTXCIsIFwiRnJhbWVyIE1vdGlvblwiLCBcIlN0cmlwZSBDb25uZWN0XCIsIFwiU3VwYWJhc2UgQXV0aFwiXSxcbiAgICBzb2x1dGlvbnM6IFtcbiAgICAgIFwiQmVzcG9rZSAnQnJldyBQcm9maWxlJyBzZWxlY3RvciB0byBoZWxwIGN1c3RvbWVycyBmaW5kIHRoZWlyIHBlcmZlY3Qgcm9hc3QuXCIsXG4gICAgICBcIkhpZ2gtY29udmVydGluZyBzdWJzY3JpcHRpb24gZW5naW5lIHdpdGggaW50ZWdyYXRlZCBjdXN0b21lciBwb3J0YWwuXCIsXG4gICAgICBcIkNpbmVtYXRpYyBwcm9kdWN0IGdhbGxlcmllcyB0aGF0IHNob3djYXNlIGFydGlzYW5hbCBkZXRhaWwuXCJcbiAgICBdLFxuICAgIHBlcmZTY29yZXM6IHsgcGVyZjogOTksIHNlbzogMTAwLCBhY2Nlc3M6IDk4LCBiZXN0OiA5OSB9LFxuICAgIGRlc2t0b3BIaWdobGlnaHRzOiBbXG4gICAgICB7IHRpdGxlOiBcIkltbWVyc2l2ZSBTdG9yeXRlbGxpbmdcIiwgZGVzYzogXCJGdWxsLWJsZWVkIHZpZGVvIGJhY2tncm91bmRzIGFuZCBwYXJhbGxleCBzY3JvbGxpbmcgZm9yIGJyYW5kIGltbWVyc2lvbi5cIiB9LFxuICAgICAgeyB0aXRsZTogXCJTdWJzY3JpcHRpb24gRGVza1wiLCBkZXNjOiBcIkludHVpdGl2ZSBtYW5hZ2VtZW50IHBvcnRhbCBmb3IgcmVjdXJyaW5nIGNvZmZlZSBvcmRlcnMuXCIgfVxuICAgIF0sXG4gICAgbW9iaWxlSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJJbnN0YW50IENoZWNrb3V0XCIsIGRlc2M6IFwiQXBwbGUgUGF5IGFuZCBHb29nbGUgUGF5IGludGVncmF0aW9uIGZvciBvbmUtdGFwIG1vYmlsZSBjb2ZmZWUgcHVyY2hhc2VzLlwiIH0sXG4gICAgICB7IHRpdGxlOiBcIlZpc3VhbCBUYXN0aW5nIE5vdGVzXCIsIGRlc2M6IFwiSWNvbi1kcml2ZW4gdGFzdGluZyBwcm9maWxlcyBvcHRpbWl6ZWQgZm9yIHF1aWNrIG1vYmlsZSBzY2FubmluZy5cIiB9XG4gICAgXSxcbiAgICByZXN1bHRzOiBbXG4gICAgICB7IG1ldHJpYzogXCJTdWJzY3JpcHRpb24gR3Jvd3RoXCIsIHZhbDogXCIrMjE1JVwiLCBkZXNjOiBcIkluY3JlYXNlIGluIG1vbnRobHkgcmVjdXJyaW5nIHJldmVudWUgc2luY2UgbGF1bmNoLlwiIH0sXG4gICAgICB7IG1ldHJpYzogXCJBdmVyYWdlIE9yZGVyIFZhbHVlXCIsIHZhbDogXCIrNDIlXCIsIGRlc2M6IFwiSGlnaGVyIGJhc2tldCB0b3RhbHMgZHVlIHRvIHByZW1pdW0gYnJhbmQgcG9zaXRpb25pbmcuXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIk1vYmlsZSBDb252ZXJzaW9uXCIsIHZhbDogXCI2LjglXCIsIGRlc2M6IFwiVW51c3VhbGx5IGhpZ2ggbW9iaWxlIHB1cmNoYXNlIHJhdGUgZm9yIHRoZSBsdXh1cnkgc2VjdG9yLlwiIH1cbiAgICBdLFxuICAgIHRlc3RpbW9uaWFsOiB7XG4gICAgICBxdW90ZTogXCJKYXdyYWggUGl4ZWwgZGlkbid0IGp1c3QgYnVpbGQgYSB3ZWJzaXRlOyB0aGV5IGJ1aWx0IGEgZGlnaXRhbCBmbGFnc2hpcCB0aGF0IHJlZmxlY3RzIG91ciBwYXNzaW9uIGZvciBjb2ZmZWUuIE91ciBzdWJzY3JpcHRpb24gbnVtYmVycyBoYXZlIGV4Y2VlZGVkIGFsbCBleHBlY3RhdGlvbnMuXCIsXG4gICAgICBhdXRob3I6IFwiRWxlbmEgUm9zc2lcIixcbiAgICAgIHJvbGU6IFwiQnJhbmQgRGlyZWN0b3JcIixcbiAgICAgIGF2YXRhcjogXCJFUlwiXG4gICAgfSxcbiAgICBtZXRhRGVzYzogXCJFeHBsb3JlIHRoZSBsdXh1cnkgZS1jb21tZXJjZSBhbmQgaG9zcGl0YWxpdHkgY2FzZSBzdHVkeSBmb3IgVmVsb3VyYSBDYWZlICYgUm9hc3RlcnkgYnkgSmF3cmFoIFBpeGVsLlwiXG4gIH0sXG4gICd2ZWxvcmEtZXN0YXRlcyc6IHtcbiAgICByZWdpb246ICdsaycsXG4gICAgdGl0bGU6IFwiVmVsb3JhIEVzdGF0ZXNcIixcbiAgICBzbHVnOiBcInZlbG9yYS1lc3RhdGVzXCIsXG4gICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IFJlYWwgRXN0YXRlIFBvcnRhbFwiLFxuICAgIGluZHVzdHJ5OiBcIlJlYWwgRXN0YXRlICYgUHJvcGVydHkgRGV2ZWxvcG1lbnRcIixcbiAgICBjbGllbnQ6IFwiVmVsb3JhIEdyb3VwXCIsXG4gICAgd2Vic2l0ZVVybDogXCJodHRwczovL2phd3JhaHBpeGVsLmNvbS9jYXNlLXN0dWRpZXMvdmVsb3JhLWVzdGF0ZXNcIixcbiAgICBkZXNrdG9wSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvdmVsb3JhL2Rlc2t0b3AucG5nXCIsXG4gICAgbW9iaWxlSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvdmVsb3JhL21vYmlsZS5wbmdcIixcbiAgICBvdmVydmlldzogXCJBIGZsYWdzaGlwIGRpZ2l0YWwgcG9ydGFsIGFyY2hpdGVjdGVkIGZvciBhIHByZW1pdW0gcmVhbCBlc3RhdGUgZ3JvdXAuIFRoZSBwbGF0Zm9ybSB0cmFuc2xhdGVzIGNvbXBsZXggcHJvcGVydHkgcG9ydGZvbGlvcyBpbnRvIGEgY2luZW1hdGljLCBoaWdoLXNwZWVkIGJyb3dzaW5nIGV4cGVyaWVuY2Ugd2l0aCBpbnRlZ3JhdGVkIGxlYWQgbWFuYWdlbWVudC5cIixcbiAgICBidWRnZXQ6IFwiTEtSIDMsMjAwLDAwMFwiLFxuICAgIGR1cmF0aW9uOiBcIjggV2Vla3NcIixcbiAgICBnb2FsczogW1xuICAgICAgXCJBcmNoaXRlY3QgYSBoaWdobHkgYXV0aG9yaXRhdGl2ZSByZWFsIGVzdGF0ZSBwb3J0YWwgd2l0aCB0b3AtdGllciBzZWFyY2ggdmlzaWJpbGl0eS5cIixcbiAgICAgIFwiSW50ZWdyYXRlIGhpZ2gtcmVzb2x1dGlvbiAzRCB2aXJ0dWFsIHRvdXIgZW1iZWRzIHdpdGhvdXQgc2FjcmlmaWNpbmcgcGVyZm9ybWFuY2UuXCIsXG4gICAgICBcIkFjaGlldmUgc2lnbmlmaWNhbnQgb3JnYW5pYyB2aXNpYmlsaXR5IGZvciBsdXh1cnkgcHJvcGVydHkgYW5kIHJlYWwgZXN0YXRlIGludmVzdG1lbnQgdGVybXMuXCJcbiAgICBdLFxuICAgIGNoYWxsZW5nZXM6IFtcbiAgICAgIFwiRXh0cmVtZWx5IGhpZ2gtcmVzb2x1dGlvbiBwcm9wZXJ0eSBwaG90b2dyYXBoeSB3YXMgYmxvYXRpbmcgcGFnZSB3ZWlnaHRzLlwiLFxuICAgICAgXCJDb21wbGV4IHByb3BlcnR5IGZpbHRlcmluZyByZXF1aXJlbWVudHMgbmVlZGVkIHRvIGJlIGluc3RhbnQgYW5kIGZyaWN0aW9ubGVzcyBvbiBtb2JpbGUuXCIsXG4gICAgICBcIkludGVncmF0aW9uIG9mIG11bHRpcGxlIGRhdGEgc3RyZWFtcyBmb3IgcmVhbC10aW1lIGF2YWlsYWJpbGl0eSB0cmFja2luZy5cIlxuICAgIF0sXG4gICAgcHJvY2Vzc1N0ZXBzOiBbXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDFcIiwgdGl0bGU6IFwiVmlzdWFsIEZvcm11bGF0aW9uXCIsIGRlc2M6IFwiRGVmaW5pbmcgaGlnaC1jb250cmFzdCBwcm9wZXJ0eSBsYXlvdXRzLCBwcmVtaXVtIHNlcmlmIGFjY2VudHMsIGFuZCBjaW5lbWF0aWMgcGFjaW5nLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDJcIiwgdGl0bGU6IFwiSW50ZXJhY3RpdmUgTGVhZCBEZXNrXCIsIGRlc2M6IFwiQnVpbGRpbmcgbW9kdWxhciBsZWFkIGNhcHR1cmUgZm9ybXMgYW5kIGF1dG9tYXRlZCBwcm9wZXJ0eSBhbGVydCBzeXN0ZW1zLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDNcIiwgdGl0bGU6IFwiUGVyZm9ybWFuY2UgVHVuaW5nXCIsIGRlc2M6IFwiT3B0aW1pemluZyBhc3NldCBkZWxpdmVyeSBhbmQgaW1wbGVtZW50aW5nIGludGVsbGlnZW50IHByb3BlcnR5IGRhdGEgY2FjaGluZy5cIiB9XG4gICAgXSxcbiAgICB0ZWNobm9sb2dpZXM6IFtcIlJlYWN0IE9TXCIsIFwiVml0ZVwiLCBcIlRhaWx3aW5kIENTUyB2NFwiLCBcIkZyYW1lciBNb3Rpb25cIiwgXCJTdXBhYmFzZVwiLCBcIkVkZ2UgQ0ROXCJdLFxuICAgIHNvbHV0aW9uczogW1xuICAgICAgXCJDdXN0b20gbGlnaHRuaW5nLWZhc3QgcmVhbCBlc3RhdGUgbGF5b3V0cyB3aXRoIDEwMCUgcmVzcG9uc2l2ZSByZWFkYWJpbGl0eS5cIixcbiAgICAgIFwiU2VjdXJlIGxlYWQgbWFuYWdlbWVudCBpbmZyYXN0cnVjdHVyZSBjb25uZWN0ZWQgdG8gdGhlIEFkbWluIGRhc2hib2FyZC5cIixcbiAgICAgIFwiRnVsbHkgc3RydWN0dXJlZCB0ZWNobmljYWwgU0VPIGFuZCBhcmNoaXRlY3R1cmFsIGxheW91dCBvcHRpbWl6YXRpb24uXCJcbiAgICBdLFxuICAgIHBlcmZTY29yZXM6IHsgcGVyZjogOTcsIHNlbzogOTksIGFjY2VzczogOTgsIGJlc3Q6IDk3IH0sXG4gICAgZGVza3RvcEhpZ2hsaWdodHM6IFtcbiAgICAgIHsgdGl0bGU6IFwiQ2luZW1hdGljIEludmVudG9yaWVzXCIsIGRlc2M6IFwiRnVsbC1ibGVlZCBhcmNoaXRlY3R1cmFsIHNwYW5zIGFuZCBpbnRlcmFjdGl2ZSBwcm9wZXJ0eSBnYWxsZXJpZXMuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiSW5zdGFudCBTZWFyY2ggRGVza1wiLCBkZXNjOiBcIkJlc3Bva2UgcHJvcGVydHkgZmlsdGVycyB0aGF0IHVwZGF0ZSB0aGUgZ2xvYmFsIGludmVudG9yeSBzdGF0ZSBpbiByZWFsLXRpbWUuXCIgfVxuICAgIF0sXG4gICAgbW9iaWxlSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJUaHVtYi1PcHRpbWFsIENhcmRzXCIsIGRlc2M6IFwiRnJpY3Rpb25sZXNzIHByb3BlcnR5IHNlbGVjdGlvbiBmbG93cyBzaXplZCBwZXJmZWN0bHkgZm9yIHF1aWNrIG1vYmlsZSBzd2lwZXMuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiRGlyZWN0IENvbm5lY3QgTm9kZXNcIiwgZGVzYzogXCJPbmUtdGFwIGJ1dHRvbiB0byBwYWNrYWdlIGFuZCB0cmFuc21pdCBwcm9wZXJ0eSBpbnF1aXJpZXMgdG8gdmVyaWZpZWQgYWdlbnRzLlwiIH1cbiAgICBdLFxuICAgIHJlc3VsdHM6IFtcbiAgICAgIHsgbWV0cmljOiBcIk9yZ2FuaWMgU0VPIEdhaW5cIiwgdmFsOiBcIisyODAlXCIsIGRlc2M6IFwiU2VhcmNoIHZpc2liaWxpdHkgbGlmdCBvbiBjb21wZXRpdGl2ZSBsdXh1cnkgcmVhbCBlc3RhdGUga2V5d29yZHMuXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIkxlYWQgQ29udmVyc2lvblwiLCB2YWw6IFwiKzk0JVwiLCBkZXNjOiBcIkluY3JlYXNlIGluIHZlcmlmaWVkIHByb3BlcnR5IGlucXVpcmllcyBzaW5jZSBwbGF0Zm9ybSBsYXVuY2guXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIk1vYmlsZSBTcGVlZCBSYXRlXCIsIHZhbDogXCIwLjMyc1wiLCBkZXNjOiBcIkZpcnN0IGNvbnRlbnRmdWwgcGFpbnQgKEZDUCkgcmVuZGVyaW5nIHRpbWUgb24gZ2xvYmFsIGVkZ2Ugc2VydmVycy5cIiB9XG4gICAgXSxcbiAgICB0ZXN0aW1vbmlhbDoge1xuICAgICAgcXVvdGU6IFwiVmVsb3JhIEVzdGF0ZXMgaGFzIGJlZW4gdHJhbnNmb3JtZWQuIE91ciBwcm9wZXJ0eSBwb3J0Zm9saW8gaXMgcHJlc2VudGVkIHdpdGggYWJzb2x1dGUgbHV4dXJ5IGFuZCB0aGUgc3BlZWQgaXMgdW5tYXRjaGVkIGluIHRoZSByZWFsIGVzdGF0ZSBzZWN0b3IuXCIsXG4gICAgICBhdXRob3I6IFwiU2FyYXRoIFdpamVzaW5naGVcIixcbiAgICAgIHJvbGU6IFwiQ0VPLCBWZWxvdXJhIEVzdGF0ZXNcIixcbiAgICAgIGF2YXRhcjogXCJTV1wiXG4gICAgfSxcbiAgICBtZXRhRGVzYzogXCJFeHBsb3JlIFZlbG9yYSBFc3RhdGVzJyBsdXh1cnkgcmVhbCBlc3RhdGUgcG9ydGFsIGRlc2lnbiBhbmQgZGV2ZWxvcG1lbnQgY2FzZSBzdHVkeSBieSBKYXdyYWggUGl4ZWwuXCJcbiAgfSxcbiAgJ3NoYWJuYW0tamV3ZWxsZXJzJzoge1xuICAgIHJlZ2lvbjogJ3BrJyxcbiAgICB0aXRsZTogXCJTaGFibmFtIEpld2VsbGVyc1wiLFxuICAgIHNsdWc6IFwic2hhYm5hbS1qZXdlbGxlcnNcIixcbiAgICBjYXRlZ29yeTogXCJCZXNwb2tlIEVjb21tZXJjZSAmIFVJIEJyYW5kaW5nXCIsXG4gICAgaW5kdXN0cnk6IFwiRmluZSBKZXdlbHJ5ICYgTHV4dXJ5IFJldGFpbFwiLFxuICAgIGNsaWVudDogXCJTaGFibmFtIEludGVybmF0aW9uYWwgTHRkLlwiLFxuICAgIHdlYnNpdGVVcmw6IFwiaHR0cHM6Ly9qYXdyYWhwaXhlbC5jb20vY2FzZS1zdHVkaWVzL3NoYWJuYW0tamV3ZWxsZXJzXCIsXG4gICAgZGVza3RvcEltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3NoYWJuYW0tamV3ZWxsZXJzL2Rlc2t0b3AucG5nXCIsXG4gICAgbW9iaWxlSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvc2hhYm5hbS1qZXdlbGxlcnMvbW9iaWxlLnBuZ1wiLFxuICAgIG92ZXJ2aWV3OiBcIkEgcHJlbWl1bSBkaWdpdGFsIGZsYWdzaGlwIGJvdXRpcXVlIGVuZ2luZWVyZWQgZm9yIG9uZSBvZiBQYWtpc3RhbidzIGVsaXRlIGx1eHVyeSBqZXdlbGxlcnkgaG91c2VzLiBUaGUgaGlnaC1wZXJmb3JtYW5jZSBleHBlcmllbmNlIHRyYW5zbGF0ZXMgZmluZSBoZXJpdGFnZSBnb2xkIGRlc2lnbnMgaW50byBoaWdobHkgY3VyYXRlZCwgcmVzcG9uc2l2ZSBkaWdpdGFsIGxheW91dHMuXCIsXG4gICAgYnVkZ2V0OiBcIlBLUiAyLDIwMCwwMDBcIixcbiAgICBkdXJhdGlvbjogXCI2IFdlZWtzXCIsXG4gICAgZ29hbHM6IFtcbiAgICAgIFwiRGVsaXZlciBhIGxpZ2h0bmluZy1mYXN0IHByZW1pdW0gZWNvbW1lcmNlIHNob3djYXNlIHRvIGRpc3BsYXkgaGlnaGx5IGRldGFpbGVkIGthcmF0cyBvZiBnb2xkIGFuZCBkaWFtb25kIHBob3RvZ3JhcGh5LlwiLFxuICAgICAgXCJJbmNvcnBvcmF0ZSBzZWN1cmUgY2hlY2tvdXQgc3VwcG9ydGluZyBiYW5rIHdpcmUsIEVhc3lwYWlzYSwgSmF6ekNhc2gsIGFuZCBkaXJlY3QgV2hhdHNBcHAgaW52b2ljZSByb3V0aW5nLlwiLFxuICAgICAgXCJNYWludGFpbiBhdmVyYWdlIHBhZ2UgbG9hZCB0aW1lcyB1bmRlciAwLjUgc2Vjb25kcyBnbG9iYWxseSB1c2luZyBlZGdlIHJlbmRlcmluZyBjYWNoZXJzLlwiXG4gICAgXSxcbiAgICBjaGFsbGVuZ2VzOiBbXG4gICAgICBcIkxlZ2FjeSB3ZWJzaXRlIG1lZGlhIGxvYWRzIHdlcmUgZXhjZWVkaW5nbHkgc2xvdywgbGVhZGluZyB0byBoaWdoIGFiYW5kb24gcmF0ZXMgb24gcHJlbWl1bSBjYXRhbG9nIHBhdGhzLlwiLFxuICAgICAgXCJIaWdoIGltYWdlIGNvdW50cyB3aXRoIGhlYXZ5IG1lZ2FwaXhlbCBmaWxlcyBmcm9tIHByb2Zlc3Npb25hbCBqZXdlbGxlcnkgcGhvdG8gc2hvb3RzIGRhbWFnZWQgY29yZSB3ZWIgdml0YWxzLlwiLFxuICAgICAgXCJJbmZsZXhpYmxlIGJhY2tlbmQgd29ya2Zsb3dzIHdoaWNoIGRpZG4ndCBhbGxvdyByZWFsLXRpbWUgcHJvZHVjdCBwcmljZSBhZGp1c3RtZW50cyBpbiByZXNwb25zZSB0byBnbG9iYWwgZ29sZCBtYXJrZXQgZmx1Y3R1YXRpb25zLlwiXG4gICAgXSxcbiAgICBwcm9jZXNzU3RlcHM6IFtcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgMSAtIERpc2NvdmVyeVwiLCB0aXRsZTogXCJMdXh1cnkgQnJhbmQgQmx1ZXByaW50aW5nXCIsIGRlc2M6IFwiSW50ZXJhY3RpdmUgbW9vZCBib2FyZHMsIGN1c3RvbSBsYXlvdXQgZ3JpZHMsIHNwYWNpbmcgcHJvcG9ydGlvbnMgZGVmaW5pdGlvbiwgdHlwb2dyYXBoeSBwYWlyaW5nLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDIgLSBEZXNpZ25cIiwgdGl0bGU6IFwiQ2luZW1hdGljIEhpZ2gtRmlkZWxpdHkgVUlcIiwgZGVzYzogXCJDcmFmdGluZyBmaW5lIGxheW91dCBtb2NrdXBzLCBtaWNyby1pbnRlcmFjdGlvbiBmbG93cywgbXVsdGktZGV2aWNlIHZpZXcgbW9kZWxzLCBnb2xkZW4gcmF0aW9zLlwiIH0sXG4gICAgICB7IHBoYXNlOiBcIlBoYXNlIDMgLSBBcmNoXCIsIHRpdGxlOiBcIkRhdGFiYXNlICYgQVBJIFNjaGVtYVwiLCBkZXNjOiBcIlN1cGFiYXNlIFBvc3RncmVzIGxheW91dCwgc2VjdXJlIFJvdyBMZXZlbCBTZWN1cml0eSAoUkxTKSBkZWZpbml0aW9ucywgbG9jYWwgcGF5bWVudCBnYXRld2F5IGhvb2tzLCBnb2xkIHByaWNlIHBhcnNlci5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSA0IC0gTGF1bmNoXCIsIHRpdGxlOiBcIkVkZ2UgQ2FjaGluZyBPcHRpbWl6YXRpb25zXCIsIGRlc2M6IFwiU2V0dGluZyB1cCBDRE4gZWRnZSBkaXN0cmlidXRpb24gbmV0d29yayBub2RlcywgbGF6eSBsb2FkaW5nIGFzc2V0cywgY29tcHJlc3Npb24gcmF0aW9zIHR1bmluZy5cIiB9XG4gICAgXSxcbiAgICB0ZWNobm9sb2dpZXM6IFtcIlJlYWN0IFJvdXRlci1ET01cIiwgXCJWaXRlXCIsIFwiVGFpbHdpbmQgQ1NTXCIsIFwiU3VwYWJhc2UgREJcIiwgXCJQb3N0Z3JlU1FMXCIsIFwiQWxmYVBheSBBUElcIiwgXCJGcmFtZXIgTW90aW9uXCIsIFwiVmVyY2VsIEVkZ2UgQ0ROXCJdLFxuICAgIHNvbHV0aW9uczogW1xuICAgICAgXCJOZXh0LWdlbiBsYXp5IGltYWdlIGxheW91dCB1dGlsaXppbmcgU1ZHIGNvbG9yIHBsYWNlaG9sZGVycyBhbmQgcmVzcG9uc2l2ZSByZXNvbHV0aW9uIHBpcGVsaW5lcy5cIixcbiAgICAgIFwiQXV0b3BpbG90IGdvbGQgcHJpY2UgQVBJIGNyYXdsZXIgdGhhdCBzeW5jaHJvbml6ZXMgaW5kaXZpZHVhbCByZXRhaWwgcGllY2UgYXBwcmFpc2FscyBpbnN0YW50bHkgZXZlcnkgaG91ci5cIixcbiAgICAgIFwiQSBzdHJlYW1saW5lZCBjaGVja291dCBmbG93IGZlYXR1cmluZyBzaW1wbGUgMy1zdGVwIHZhbGlkYXRpb24sIG1vYmlsZS13YWxsZXQgcGF5bWVudCBub2RlcywgYW5kIGRpcmVjdCBjbGllbnQgcmVsYXRpb25zaGlwIG1hbmFnZXIgc3VwcG9ydC5cIlxuICAgIF0sXG4gICAgcGVyZlNjb3JlczogeyBwZXJmOiA5OCwgc2VvOiA5NiwgYWNjZXNzOiA5OSwgYmVzdDogOTcgfSxcbiAgICBkZXNrdG9wSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJCZXNwb2tlIEdyaWQgTGF5b3V0XCIsIGRlc2M6IFwiRXhwYW5zaXZlIGxheW91dHMgd2l0aCBnZW9tZXRyaWMgZGl2aWRlcnMsIG5lYXItYmxhY2sgY2FyZHMsIGFuZCBsYXJnZSBsdXh1cnkgc3BhY2luZy5cIiB9LFxuICAgICAgeyB0aXRsZTogXCJEeW5hbWljIFByb2R1Y3QgQXBwcmFpc2VyXCIsIGRlc2M6IFwiSW50ZXJhY3RpdmUgd2VpZ2h0LXRvLWthcmF0IGNhbGN1bGF0b3JzIHNob3dpbmcgcmVhbC10aW1lIGFwcHJhaXNhbCBhbmQgaW1tZWRpYXRlIGNoZWNrb3V0IGFjdGlvbnMuXCIgfVxuICAgIF0sXG4gICAgbW9iaWxlSGlnaGxpZ2h0czogW1xuICAgICAgeyB0aXRsZTogXCJUaHVtYi1PcHRpbWFsIENoZWNrb3V0XCIsIGRlc2M6IFwiQWxsIG5hdmlnYXRpb24gdHJpZ2dlcnMgYW5kIHByaW1hcnkgY2FsbC10by1hY3Rpb25zIHBsYWNlZCBzYWZlbHkgd2l0aGluIHRodW1iLXJlYWNoIGJvdW5kYXJ5IGdyaWRzLlwiIH0sXG4gICAgICB7IHRpdGxlOiBcIldoYXRzQXBwIFF1aWNrIENvbm5lY3RcIiwgZGVzYzogXCJJbnN0YW50IGNoZWNrb3V0IHJvdXRpbmcgdGhhdCBwYWNrYWdlcyB0aGUgc2hvcHBpbmcgYmFnIGRldGFpbHMgZGlyZWN0bHkgaW50byBhIGJlYXV0aWZ1bCB0ZW1wbGF0ZSBhZ2VudCBpbnF1aXJ5LlwiIH1cbiAgICBdLFxuICAgIHJlc3VsdHM6IFtcbiAgICAgIHsgbWV0cmljOiBcIkNvbnZlcnNpb24gQm9vc3RcIiwgdmFsOiBcIisxNDglXCIsIGRlc2M6IFwiRGlyZWN0IGNsaWVudCBjb252ZXJzaW9ucyBvbiBoaWdobHkgYXBwcmFpc2VkIGdvbGQgc2V0cyBpbiB0aGUgZmlyc3QgMzAgZGF5cy5cIiB9LFxuICAgICAgeyBtZXRyaWM6IFwiUGFnZSBTcGVlZCBSYXRlXCIsIHZhbDogXCIwLjQ1c1wiLCBkZXNjOiBcIkF2ZXJhZ2UgdGltZSB0byBpbnRlcmFjdGl2ZSAoVFRJKSByZW5kZXJpbmcgYWNyb3NzIHN0YW5kYXJkIGRlc2t0b3AgZGV2aWNlcy5cIiB9LFxuICAgICAgeyBtZXRyaWM6IFwiT3JnYW5pYyBTRU8gR2FpblwiLCB2YWw6IFwiKzIxNSVcIiwgZGVzYzogXCJTZWFyY2ggdmlzaWJpbGl0eSBsaWZ0IG9uIGxvY2FsIGx1eHVyeSBrZXl3b3JkcyAnUGFraXN0YW5pIGN1c3RvbSBnb2xkJy5cIiB9XG4gICAgXSxcbiAgICB0ZXN0aW1vbmlhbDoge1xuICAgICAgcXVvdGU6IFwiSmF3cmFoIFBpeGVsIGRpZG4ndCBqdXN0IHJlYnVpbGQgb3VyIHdlYnNpdGU7IHRoZXkgY29kaWZpZWQgdGhlIHNvdWwgb2Ygb3VyIGZpbmUgaGVyaXRhZ2UgamV3ZWxsZXJ5LiBUaGUgd2Vic2l0ZSBpcyBtZXNtZXJpemluZywgdWx0cmEtZmFzdCwgYW5kIG91ciBzYWxlcyBpbnF1aXJpZXMgaGF2ZSBza3lyb2NrZXRlZC5cIixcbiAgICAgIGF1dGhvcjogXCJNLiBGYXJpcyBTaGFibmFtXCIsXG4gICAgICByb2xlOiBcIk1hbmFnaW5nIERpcmVjdG9yXCIsXG4gICAgICBhdmF0YXI6IFwiRlNcIlxuICAgIH0sXG4gICAgbWV0YURlc2M6IFwiRXhwbG9yZSBTaGFibmFtIEpld2VsbGVycycgZmxhZ3NoaXAgZGlnaXRhbCBlY29tbWVyY2UgYW5kIGN1c3RvbSBnb2xkIGFwcHJhaXNlciBjYXNlIHN0dWR5IGJ5IEphd3JhaCBQaXhlbC5cIlxuICB9LFxuICAnYWVyb3Zpc3RhLXRyYXZlbHMnOiB7XG4gICAgcmVnaW9uOiAncGsnLFxuICAgIHRpdGxlOiBcIkFlcm9WaXN0YSBUcmF2ZWxzXCIsXG4gICAgc2x1ZzogXCJhZXJvdmlzdGEtdHJhdmVsc1wiLFxuICAgIGNhdGVnb3J5OiBcIkx1eHVyeSBUcmF2ZWwgU3lzdGVtICYgQm9va2luZyBFbmdpbmVcIixcbiAgICBpbmR1c3RyeTogXCJIaWdoLVRpY2tldCBUb3VyaXNtICYgQ29ycG9yYXRlIFRyYXZlbFwiLFxuICAgIGNsaWVudDogXCJBZXJvVmlzdGEgUGFraXN0YW4gTHRkLlwiLFxuICAgIG92ZXJ2aWV3OiBcIkhpZ2hseSByZXNwb25zaXZlIGJvb2tpbmcgcGxhdGZvcm0gYW5kIHRyYXZlbCBzY2hlZHVsZXIgcHJvY2Vzc2luZyBjdXJhdGVkIGl0aW5lcmFyaWVzIHNhZmVseS4gQnVpbHQgd2l0aCBlbGl0ZSB0cmF2ZWwgQVBJIGN1c3RvbSBlZGdlLWNhY2hlcnMsIHJlZHVjaW5nIGJhY2tlbmQgcXVlcnkgbGF0ZW5jeSBieSA5MSUgZm9yIHJlZ2lvbmFsIGFuZCBpbnRlcm5hdGlvbmFsIHRyYXZlbGVycy5cIixcbiAgICBidWRnZXQ6IFwiUEtSIDEsOTUwLDAwMFwiLFxuICAgIGR1cmF0aW9uOiBcIjUgV2Vla3NcIixcbiAgICB3ZWJzaXRlVXJsOiBcImh0dHBzOi8vamF3cmFocGl4ZWwuY29tL2Nhc2Utc3R1ZGllcy9hZXJvdmlzdGFcIixcbiAgICBkZXNrdG9wSW1hZ2U6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvYWVyby12aXN0YS9kZXNrdG9wLnBuZ1wiLFxuICAgIG1vYmlsZUltYWdlOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL2Flcm8tdmlzdGEvbW9iaWxlLnBuZ1wiLFxuICAgIGdvYWxzOiBbXG4gICAgICBcIkRlbGl2ZXIgYSBzZWFtbGVzcyBtdWx0aS1jaXR5IGZsaWdodCBhbmQgbHV4dXJ5IGhvdGVsIGl0aW5lcmFyeSBwbGFubmVyLlwiLFxuICAgICAgXCJPcHRpbWl6ZSBoZWF2eSBuZXN0ZWQgZGF0YSBvYmplY3RzIGZyb20gZmxpZ2h0IEFQSXMgZm9yIGhpZ2ggc3BlZWQgb24gbW9iaWxlIG5ldHdvcmtzLlwiLFxuICAgICAgXCJCdWlsZCBkeW5hbWljIGl0aW5lcmFyeSB0cmFja2luZyBndWlkZXMgYWNjZXNzaWJsZSBvbiBhbmQgb2ZmbGluZS5cIlxuICAgIF0sXG4gICAgY2hhbGxlbmdlczogW1xuICAgICAgXCJVbm9wdGltaXplZCwgbXVsdGktbmVzdGVkIGZsaWdodCBkYXRhYmFzZSBxdWVyaWVzIHdlcmUgYmxvY2tpbmcgbW9iaWxlIHNlYXJjaCBvcGVyYXRpb25zLlwiLFxuICAgICAgXCJIaWdoIGxheW91dCBzaGlmdHMgb2NjdXJyZWQgd2hlbiBsaXZlIHRyYXZlbCBwcmljZSB2YXJpYWJsZXMgcmVmcmVzaGVkIGR5bmFtaWNhbGx5LlwiLFxuICAgICAgXCJQb29yIHVzZXIgcmV0ZW50aW9uIG9uIHRyYWRpdGlvbmFsIGJvb2tpbmcgZm9ybXMgb24gM0cgYW5kIDRHIG5ldHdvcmtzLlwiXG4gICAgXSxcbiAgICBwcm9jZXNzU3RlcHM6IFtcbiAgICAgIHsgcGhhc2U6IFwiUGhhc2UgMVwiLCB0aXRsZTogXCJBUEkgTWFwcGluZyBTcHJpbnRzXCIsIGRlc2M6IFwiUHJvdG90eXBpbmcgcGF5bG9hZCBjb21wcmVzc2lvbiwgcmVxdWVzdCB0aHJvdHRsaW5nLCBhbmQgY3VzdG9tIGNhY2hlIGludGVydmFscy5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSAyXCIsIHRpdGxlOiBcIkF0bW9zcGhlcmljIFVJIE1vY2t1cHNcIiwgZGVzYzogXCJDcmFmdGluZyBiZWF1dGlmdWwgY2luZW1hdGljIGxheW91dCBjYXJkcywgaW50ZXJhY3RpdmUgbWFwcywgYW5kIHJlc3BvbnNpdmUgc2xpZGVycy5cIiB9LFxuICAgICAgeyBwaGFzZTogXCJQaGFzZSAzXCIsIHRpdGxlOiBcIkNsaWVudCBQb3J0YWwgU3luY1wiLCBkZXNjOiBcIkRldmVsb3BpbmcgY29sbGFib3JhdGl2ZSBjdXN0b21lciBzZWN0aW9ucyB3aGVyZSBncm91cCBtZW1iZXJzIGFjY2VzcyBzaGFyZWQgZmlsZXMuXCIgfVxuICAgIF0sXG4gICAgdGVjaG5vbG9naWVzOiBbXCJSZWFjdCBSb3V0ZXIgSG9va3NcIiwgXCJWaXRlIEpTXCIsIFwiVGFpbHdpbmQgQ1NTXCIsIFwiUmVkaXMgRWRnZSBDYWNoZVwiLCBcIlN1cGFiYXNlIFBvc3RncmVTUUxcIiwgXCJBbWFkZXVzIEFQSSBMYXllclwiXSxcbiAgICBzb2x1dGlvbnM6IFtcbiAgICAgIFwiQ3VzdG9tIHNjaGVkdWxlciBkYXNoYm9hcmRzIGdyb3VwaW5nIHRpY2tldHMsIGhvdGVscywgYW5kIHRvdXJpc3QgZ3VpZGVzIGluIGludGVyYWN0aXZlIHRhYmxlcy5cIixcbiAgICAgIFwiQSBmYXN0IGFzeW5jaHJvbm91cyBwaXBlbGluZSB1dGlsaXppbmcgbWVtb3J5LWNhY2hlZCBnbG9iYWwgdHJhbnNpdCBkYXRhLlwiLFxuICAgICAgXCJEaXJlY3QgZGlnaXRhbCBub3RpZmljYXRpb24gbm9kZXMgc3luY2luZyBzY2hlZHVsZXMgd2l0aCBsb2NhbCBjb29yZGluYXRlIG9mZmljZXMuXCJcbiAgICBdLFxuICAgIHBlcmZTY29yZXM6IHsgcGVyZjogOTcsIHNlbzogOTUsIGFjY2VzczogOTgsIGJlc3Q6IDk2IH0sXG4gICAgZGVza3RvcEhpZ2hsaWdodHM6IFtcbiAgICAgIHsgdGl0bGU6IFwiQmVudG8gUGxhbm5lciBNYXBcIiwgZGVzYzogXCJTaWRlLWJ5LXNpZGUgc3BsaXQgc2NyZWVuIHNob3dpbmcgaW50ZXJhY3RpdmUgdHJhdmVsIGxlZ3MgaW50ZXJzZWN0aW5nIGdlb2dyYXBoaWMgY29vcmRpbmF0ZXMuXCIgfSxcbiAgICAgIHsgdGl0bGU6IFwiQ29ycG9yYXRlIFF1b3RlIEh1YlwiLCBkZXNjOiBcIkNvcnBvcmF0ZSBkYXNoYm9hcmQgcHJvY2Vzc2luZyBhdXRvbWF0ZWQgYnVsayB0cmF2ZWwgcmVxdWVzdHMgaW4gdW5kZXIgNjAgc2Vjb25kcy5cIiB9XG4gICAgXSxcbiAgICBtb2JpbGVIaWdobGlnaHRzOiBbXG4gICAgICB7IHRpdGxlOiBcIk9mZmxpbmUgSXRpbmVyYXJ5IFZpZXdlclwiLCBkZXNjOiBcIkNsaWVudCBQb3J0YWwgZGF0YSBjYWNoZSBzdG9yaW5nIGZsaWdodCBudW1iZXJzLCBzY2hlZHVsZXMsIGFuZCBQREYgY291cG9ucyBsb2NhbGx5LlwiIH0sXG4gICAgICB7IHRpdGxlOiBcIlRodW1iLVNpemVkIEdhdGUgQWN0aW9uc1wiLCBkZXNjOiBcIkNyaXRpY2FsIGFjdGlvbnMgc2FmZWx5IGxheW91dGVkIGZvciBlYXN5IGFjY2VzcyB1bmRlciBidW1weSB0cmFuc3BvcnQgc3RhdGVzLlwiIH1cbiAgICBdLFxuICAgIHJlc3VsdHM6IFtcbiAgICAgIHsgbWV0cmljOiBcIklucXVpcnkgTGF0ZW5jeSBSYXRlXCIsIHZhbDogXCItOTElXCIsIGRlc2M6IFwiUmVkdWN0aW9uIGluIHRyYXZlbCBkYXRhYmFzZSBzZWFyY2ggcmVzcG9uc2UgZHVyYXRpb24uXCIgfSxcbiAgICAgIHsgbWV0cmljOiBcIkFjdGl2ZSBCb29raW5nIFNhbGVzXCIsIHZhbDogXCIrODglXCIsIGRlc2M6IFwiRGlyZWN0IGNsaWVudCBpdGluZXJhcnkgY29uZmlndXJhdGlvbnMgY3JlYXRlZCBpbiB0aGUgZmlyc3QgNDUgZGF5cy5cIiB9LFxuICAgICAgeyBtZXRyaWM6IFwiTW9iaWxlIENvbnZlcnNpb25cIiwgdmFsOiBcIisxNjAlXCIsIGRlc2M6IFwiSW5jcmVhc2UgaW4gYm9va2luZyBmb3JtIGNvbXBsZXRpb25zIG9uIGNlbGx1bGFyIGNvbm5lY3Rpb24gbm9kZXMuXCIgfVxuICAgIF0sXG4gICAgdGVzdGltb25pYWw6IHtcbiAgICAgIHF1b3RlOiBcIk91ciBjbGllbnRzIGVuam95IGFuIGVmZm9ydGxlc3MgYm9va2luZyBwcm9jZXNzLiBUaGUgb2ZmbGluZSBpdGluZXJhcnkgdmF1bHQgaGFzIGRyYXN0aWNhbGx5IGltcHJvdmVkIHBhc3NlbmdlciBzYXRpc2ZhY3Rpb24gZHVyaW5nIHRyYW5zaXRzLlwiLFxuICAgICAgYXV0aG9yOiBcIlp1YmFpciBTaGFoXCIsXG4gICAgICByb2xlOiBcIk9wZXJhdGlvbnMgTWFuYWdlclwiLFxuICAgICAgYXZhdGFyOiBcIlpTXCJcbiAgICB9LFxuICAgIG1ldGFEZXNjOiBcIlJldmlldyBBZXJvVmlzdGEgVHJhdmVscyBjdXN0b20gaXRpbmVyYXJ5IHNjaGVkdWxlciBhbmQgQVBJIG9wdGltaXphdGlvbiBjYXNlIHN0dWR5LlwiXG4gIH1cbn07XG5cbmV4cG9ydCBjb25zdCBjYXNlU3R1ZGllc0xpc3Q6IFJlY29yZDxSZWdpb25Db2RlLCBDYXNlTGlzdEl0ZW1bXT4gPSB7XG4gIGxrOiBbXG4gICAge1xuICAgICAgdGl0bGU6IFwiWmVudm9yIFByZW1pdW1cIixcbiAgICAgIHNsdWc6IFwiemVudm9yXCIsXG4gICAgICBjYXRlZ29yeTogXCJMdXh1cnkgRS1jb21tZXJjZSBCb3V0aXF1ZVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQSBoaWdoLXBlcmZvcm1hbmNlIGZsYWdzaGlwIGRpZ2l0YWwgYm91dGlxdWUgZm9yIFplbnZvci4gVHJhbnNsYXRlcyBtaW5pbWFsIGx1eHVyeSBzaWxob3VldHRlcyBhbmQgaGVhdnl3ZWlnaHQgY290dG9uIGVzc2VudGlhbHMgaW50byBhIGNpbmVtYXRpYyBzaG9wcGluZyBleHBlcmllbmNlLlwiLFxuICAgICAgdGFnczogW1wiTHV4dXJ5IEUtY29tbWVyY2VcIiwgXCJNaW5pbWFsIERlc2lnblwiLCBcIkhpZ2ggUGVyZlwiLCBcIlN1cGFiYXNlXCJdLFxuICAgICAgcGVyZjogOTksXG4gICAgICBzZW86IDk4LFxuICAgICAgY2hhcjogXCJaXCIsXG4gICAgICB0aHVtYm5haWw6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvemVudm9yL2Rlc2t0b3AucG5nXCIsXG4gICAgICBjb2xvcjogXCJmcm9tLWJyYW5kLWN5YW4vMTAgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC1icmFuZC1jeWFuIGJvcmRlci1icmFuZC1jeWFuLzIwIGJnLWJyYW5kLWN5YW4vNVwiXG4gICAgfSxcbiAgICB7XG4gICAgICB0aXRsZTogXCJKYXdyYWggUGl4ZWwgT1NcIixcbiAgICAgIHNsdWc6IFwiamF3cmFoLXBpeGVsXCIsXG4gICAgICBjYXRlZ29yeTogXCJJbnRlcm5hbCBPcGVyYXRpb25zICYgQ2xpZW50IENSTVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiT2ZmaWNpYWwgcHJlc2VuY2UgYW5kIGNsaWVudCB3b3Jrc3BhY2UgY29tbWFuZCBzeXN0ZW1zLiBGZWF0dXJlcyBhY3RpdmUgbWlsZXN0b25lIG1vbml0b3JzLCBjb2xsYWJvcmF0aXZlIHRpY2tldHMsIGFuZCBzZWN1cmUgY29udHJhY3QgdmF1bHRzLlwiLFxuICAgICAgdGFnczogW1wiRDMuanMgQ2hhcnRzXCIsIFwiRGF0YWJhc2UgU2VjdXJpdHlcIiwgXCJTdXBhYmFzZSBSTFNcIl0sXG4gICAgICBwZXJmOiA5OSxcbiAgICAgIHNlbzogMTAwLFxuICAgICAgY2hhcjogXCJKXCIsXG4gICAgICB0aHVtYm5haWw6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvamF3cmFoLXBpeGVsL2Rlc2t0b3AucG5nXCIsXG4gICAgICBjb2xvcjogXCJmcm9tLXdoaXRlLzUgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC13aGl0ZSBib3JkZXItd2hpdGUvMTAgYmctd2hpdGUvNVwiXG4gICAgfSxcbiAgICB7XG4gICAgICB0aXRsZTogXCJWZWxvcmEgRXN0YXRlc1wiLFxuICAgICAgc2x1ZzogXCJ2ZWxvcmEtZXN0YXRlc1wiLFxuICAgICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IFJlYWwgRXN0YXRlIFBvcnRhbFwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQSBmbGFnc2hpcCBkaWdpdGFsIHBvcnRhbCBhcmNoaXRlY3RlZCBmb3IgVmVsb3JhLiBUcmFuc2xhdGVzIGNvbXBsZXggcHJvcGVydHkgcG9ydGZvbGlvcyBpbnRvIGEgY2luZW1hdGljLCBoaWdoLXNwZWVkIGJyb3dzaW5nIGV4cGVyaWVuY2UuXCIsXG4gICAgICB0YWdzOiBbXCJSZWFsIEVzdGF0ZVwiLCBcIjNEIFZpcnR1YWwgVG91cnNcIiwgXCJMZWFkIE1hbmFnZW1lbnRcIl0sXG4gICAgICBwZXJmOiA5NyxcbiAgICAgIHNlbzogOTksXG4gICAgICBjaGFyOiBcIlZcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy92ZWxvcmEvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20tYW1iZXItNjAwLzEwIHRvLXRyYW5zcGFyZW50XCIsXG4gICAgICBiYWRnZUNvbG9yOiBcInRleHQtYW1iZXItNTAwIGJvcmRlci1hbWJlci02MDAvMjAgYmctYW1iZXItNjAwLzVcIlxuICAgIH0sXG4gICAge1xuICAgICAgdGl0bGU6IFwiU2hhYm5hbSBKZXdlbGxlcnNcIixcbiAgICAgIHNsdWc6IFwic2hhYm5hbS1qZXdlbGxlcnNcIixcbiAgICAgIGNhdGVnb3J5OiBcIkJlc3Bva2UgRWNvbW1lcmNlICYgVUkgQnJhbmRpbmdcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkEgcHJlbWl1bSBkaWdpdGFsIGZsYWdzaGlwIGJvdXRpcXVlIHJlcHJlc2VudGluZyBmaW5lIGdvbGQgaGVyaXRhZ2Ugd2l0aCBhdXRvbWF0ZWQgYXBwcmFpc2FsIHN5c3RlbXMuXCIsXG4gICAgICB0YWdzOiBbXCJKZXdlbHJ5IFRlY2hcIiwgXCJHb2xkIEFwcHJhaXNlclwiLCBcIkxvY2FsIEdhdGV3YXlcIl0sXG4gICAgICBwZXJmOiA5OCxcbiAgICAgIHNlbzogOTYsXG4gICAgICBjaGFyOiBcIlNcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy9zaGFibmFtLWpld2VsbGVycy9kZXNrdG9wLnBuZ1wiLFxuICAgICAgY29sb3I6IFwiZnJvbS1hbWJlci01MDAvMTAgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC1hbWJlci00MDAgYm9yZGVyLWFtYmVyLTUwMC8yMCBiZy1hbWJlci01MDAvNVwiXG4gICAgfSxcbiAgICB7XG4gICAgICB0aXRsZTogXCJBZXJvVmlzdGEgVHJhdmVsc1wiLFxuICAgICAgc2x1ZzogXCJhZXJvdmlzdGEtdHJhdmVsc1wiLFxuICAgICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IFRyYXZlbCBTeXN0ZW1cIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkhpZ2hseSByZXNwb25zaXZlIGJvb2tpbmcgcGxhdGZvcm0gYW5kIHRyYXZlbCBzY2hlZHVsZXIgcHJvY2Vzc2luZyBjdXJhdGVkIGl0aW5lcmFyaWVzIHNhZmVseS4gRW5naW5lZXJlZCBmb3IgbWF4aW11bSB0cmF2ZWwgYXV0aG9yaXR5LlwiLFxuICAgICAgdGFnczogW1wiVHJhdmVsIFRlY2hcIiwgXCJBUEkgSW50ZWdyYXRpb25cIiwgXCJCb29raW5nIEVuZ2luZVwiXSxcbiAgICAgIHBlcmY6IDk3LFxuICAgICAgc2VvOiA5NSxcbiAgICAgIGNoYXI6IFwiQVwiLFxuICAgICAgdGh1bWJuYWlsOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL2Flcm8tdmlzdGEvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20tYmx1ZS02MDAvMTAgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC1ibHVlLTUwMCBib3JkZXItYmx1ZS02MDAvMjAgYmctYmx1ZS02MDAvNVwiXG4gICAgfVxuICBdLFxuICBwazogW1xuICAgIHtcbiAgICAgIHRpdGxlOiBcIlplbnZvciBQcmVtaXVtXCIsXG4gICAgICBzbHVnOiBcInplbnZvclwiLFxuICAgICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IEUtY29tbWVyY2UgQm91dGlxdWVcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkhpZ2gtcGVyZm9ybWFuY2UgZGlnaXRhbCBmbGFnc2hpcCBib3V0aXF1ZSBmb3IgWmVudm9yJ3MgcHJlbWl1bSBzdHJlZXR3ZWFyIGNvbGxlY3Rpb25zLiBFbmdpbmVlcmVkIGZvciBtaW5pbWFsIGx1eHVyeSBhbmQgbWF4aW11bSBzcGVlZC5cIixcbiAgICAgIHRhZ3M6IFtcIlJlYWN0IFNQQVwiLCBcIlN1cGFiYXNlXCIsIFwiTHV4dXJ5IGZhc2hpb25cIiwgXCJTRU8gQXVkaXRcIl0sXG4gICAgICBwZXJmOiA5OSxcbiAgICAgIHNlbzogOTgsXG4gICAgICBjaGFyOiBcIlpcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy96ZW52b3IvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20tYnJhbmQtY3lhbi8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWJyYW5kLWN5YW4gYm9yZGVyLWJyYW5kLWN5YW4vMjAgYmctYnJhbmQtY3lhbi81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIkphd3JhaCBQaXhlbCBPU1wiLFxuICAgICAgc2x1ZzogXCJqYXdyYWgtcGl4ZWxcIixcbiAgICAgIGNhdGVnb3J5OiBcIkludGVybmFsIE9wZXJhdGlvbnMgJiBDbGllbnQgQ1JNXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJPZmZpY2lhbCBwcmVzZW5jZSBhbmQgY2xpZW50IHdvcmtzcGFjZSBjb21tYW5kIHN5c3RlbXMuIEZlYXR1cmVzIGFjdGl2ZSBtaWxlc3RvbmUgbW9uaXRvcnMsIGNvbGxhYm9yYXRpdmUgdGlja2V0cywgYW5kIHNlY3VyZSBjb250cmFjdCB2YXVsdHMuXCIsXG4gICAgICB0YWdzOiBbXCJEMy5qcyBDaGFydHNcIiwgXCJEYXRhYmFzZSBTZWN1cml0eVwiLCBcIlN1cGFiYXNlIFJMU1wiXSxcbiAgICAgIHBlcmY6IDk5LFxuICAgICAgc2VvOiAxMDAsXG4gICAgICBjaGFyOiBcIkpcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy9qYXdyYWgtcGl4ZWwvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20td2hpdGUvNSB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LXdoaXRlIGJvcmRlci13aGl0ZS8xMCBiZy13aGl0ZS81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIlZlbG9yYSBFc3RhdGVzXCIsXG4gICAgICBzbHVnOiBcInZlbG9yYS1lc3RhdGVzXCIsXG4gICAgICBjYXRlZ29yeTogXCJMdXh1cnkgUmVhbCBFc3RhdGUgUG9ydGFsXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJBIGZsYWdzaGlwIGRpZ2l0YWwgcG9ydGFsIGFyY2hpdGVjdGVkIGZvciBWZWxvcmEuIFRyYW5zbGF0ZXMgY29tcGxleCBwcm9wZXJ0eSBwb3J0Zm9saW9zIGludG8gYSBjaW5lbWF0aWMsIGhpZ2gtc3BlZWQgYnJvd3NpbmcgZXhwZXJpZW5jZS5cIixcbiAgICAgIHRhZ3M6IFtcIlJlYWwgRXN0YXRlXCIsIFwiM0QgVmlydHVhbCBUb3Vyc1wiLCBcIkxlYWQgTWFuYWdlbWVudFwiXSxcbiAgICAgIHBlcmY6IDk3LFxuICAgICAgc2VvOiA5OSxcbiAgICAgIGNoYXI6IFwiVlwiLFxuICAgICAgdGh1bWJuYWlsOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3ZlbG9yYS9kZXNrdG9wLnBuZ1wiLFxuICAgICAgY29sb3I6IFwiZnJvbS1hbWJlci02MDAvMTAgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC1hbWJlci01MDAgYm9yZGVyLWFtYmVyLTYwMC8yMCBiZy1hbWJlci02MDAvNVwiXG4gICAgfSxcbiAgICB7XG4gICAgICB0aXRsZTogXCJTaGFibmFtIEpld2VsbGVyc1wiLFxuICAgICAgc2x1ZzogXCJzaGFibmFtLWpld2VsbGVyc1wiLFxuICAgICAgY2F0ZWdvcnk6IFwiQmVzcG9rZSBFY29tbWVyY2UgJiBVSSBCcmFuZGluZ1wiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQSBwcmVtaXVtIGRpZ2l0YWwgZmxhZ3NoaXAgYm91dGlxdWUgcmVwcmVzZW50aW5nIGZpbmUgZ29sZCBoZXJpdGFnZSB3aXRoIGF1dG9tYXRlZCBhcHByYWlzYWwgc3lzdGVtcy5cIixcbiAgICAgIHRhZ3M6IFtcIkpld2VscnkgVGVjaFwiLCBcIkdvbGQgQXBwcmFpc2VyXCIsIFwiTG9jYWwgR2F0ZXdheVwiXSxcbiAgICAgIHBlcmY6IDk4LFxuICAgICAgc2VvOiA5NixcbiAgICAgIGNoYXI6IFwiU1wiLFxuICAgICAgdGh1bWJuYWlsOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3NoYWJuYW0tamV3ZWxsZXJzL2Rlc2t0b3AucG5nXCIsXG4gICAgICBjb2xvcjogXCJmcm9tLWFtYmVyLTUwMC8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWFtYmVyLTQwMCBib3JkZXItYW1iZXItNTAwLzIwIGJnLWFtYmVyLTUwMC81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIkFlcm9WaXN0YSBUcmF2ZWxzXCIsXG4gICAgICBzbHVnOiBcImFlcm92aXN0YS10cmF2ZWxzXCIsXG4gICAgICBjYXRlZ29yeTogXCJMdXh1cnkgVHJhdmVsIFN5c3RlbVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiSGlnaGx5IHJlc3BvbnNpdmUgYm9va2luZyBwbGF0Zm9ybSBhbmQgdHJhdmVsIHNjaGVkdWxlciBwcm9jZXNzaW5nIGN1cmF0ZWQgaXRpbmVyYXJpZXMgc2FmZWx5LiBFbmdpbmVlcmVkIGZvciBtYXhpbXVtIHRyYXZlbCBhdXRob3JpdHkuXCIsXG4gICAgICB0YWdzOiBbXCJUcmF2ZWwgVGVjaFwiLCBcIkFQSSBJbnRlZ3JhdGlvblwiLCBcIkJvb2tpbmcgRW5naW5lXCJdLFxuICAgICAgcGVyZjogOTcsXG4gICAgICBzZW86IDk1LFxuICAgICAgY2hhcjogXCJBXCIsXG4gICAgICB0aHVtYm5haWw6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvYWVyby12aXN0YS9kZXNrdG9wLnBuZ1wiLFxuICAgICAgY29sb3I6IFwiZnJvbS1ibHVlLTYwMC8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWJsdWUtNTAwIGJvcmRlci1ibHVlLTYwMC8yMCBiZy1ibHVlLTYwMC81XCJcbiAgICB9XG4gIF0sXG4gIGludDogW1xuICAgIHtcbiAgICAgIHRpdGxlOiBcIlplbnZvciBQcmVtaXVtXCIsXG4gICAgICBzbHVnOiBcInplbnZvclwiLFxuICAgICAgY2F0ZWdvcnk6IFwiTHV4dXJ5IEUtY29tbWVyY2UgQm91dGlxdWVcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkhpZ2gtcGVyZm9ybWFuY2UgZGlnaXRhbCBmbGFnc2hpcCBib3V0aXF1ZSBmb3IgWmVudm9yJ3MgcHJlbWl1bSBzdHJlZXR3ZWFyIGNvbGxlY3Rpb25zLiBFbmdpbmVlcmVkIGZvciBtaW5pbWFsIGx1eHVyeSBhbmQgbWF4aW11bSBzcGVlZC5cIixcbiAgICAgIHRhZ3M6IFtcIlJlYWN0IFNQQVwiLCBcIlN1cGFiYXNlXCIsIFwiTHV4dXJ5IGZhc2hpb25cIiwgXCJTRU8gQXVkaXRcIl0sXG4gICAgICBwZXJmOiA5OSxcbiAgICAgIHNlbzogOTgsXG4gICAgICBjaGFyOiBcIlpcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy96ZW52b3IvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20tYnJhbmQtY3lhbi8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWJyYW5kLWN5YW4gYm9yZGVyLWJyYW5kLWN5YW4vMjAgYmctYnJhbmQtY3lhbi81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIkphd3JhaCBQaXhlbCBPU1wiLFxuICAgICAgc2x1ZzogXCJqYXdyYWgtcGl4ZWxcIixcbiAgICAgIGNhdGVnb3J5OiBcIkludGVybmFsIE9wZXJhdGlvbnMgJiBDbGllbnQgQ1JNXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJPZmZpY2lhbCBwcmVzZW5jZSBhbmQgY2xpZW50IHdvcmtzcGFjZSBjb21tYW5kIHN5c3RlbXMuIEZlYXR1cmVzIGFjdGl2ZSBtaWxlc3RvbmUgbW9uaXRvcnMsIGNvbGxhYm9yYXRpdmUgdGlja2V0cywgYW5kIHNlY3VyZSBjb250cmFjdCB2YXVsdHMuXCIsXG4gICAgICB0YWdzOiBbXCJEMy5qcyBDaGFydHNcIiwgXCJEYXRhYmFzZSBTZWN1cml0eVwiLCBcIlN1cGFiYXNlIFJMU1wiXSxcbiAgICAgIHBlcmY6IDk5LFxuICAgICAgc2VvOiAxMDAsXG4gICAgICBjaGFyOiBcIkpcIixcbiAgICAgIHRodW1ibmFpbDogXCIvYXNzZXRzL2Nhc2Utc3R1ZGllcy9qYXdyYWgtcGl4ZWwvZGVza3RvcC5wbmdcIixcbiAgICAgIGNvbG9yOiBcImZyb20td2hpdGUvNSB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LXdoaXRlIGJvcmRlci13aGl0ZS8xMCBiZy13aGl0ZS81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIlZlbG9yYSBFc3RhdGVzXCIsXG4gICAgICBzbHVnOiBcInZlbG9yYS1lc3RhdGVzXCIsXG4gICAgICBjYXRlZ29yeTogXCJMdXh1cnkgUmVhbCBFc3RhdGUgUG9ydGFsXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJBIGZsYWdzaGlwIGRpZ2l0YWwgcG9ydGFsIGFyY2hpdGVjdGVkIGZvciBWZWxvcmEuIFRyYW5zbGF0ZXMgY29tcGxleCBwcm9wZXJ0eSBwb3J0Zm9saW9zIGludG8gYSBjaW5lbWF0aWMsIGhpZ2gtc3BlZWQgYnJvd3NpbmcgZXhwZXJpZW5jZS5cIixcbiAgICAgIHRhZ3M6IFtcIlJlYWwgRXN0YXRlXCIsIFwiM0QgVmlydHVhbCBUb3Vyc1wiLCBcIkxlYWQgTWFuYWdlbWVudFwiXSxcbiAgICAgIHBlcmY6IDk3LFxuICAgICAgc2VvOiA5OSxcbiAgICAgIGNoYXI6IFwiVlwiLFxuICAgICAgdGh1bWJuYWlsOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3ZlbG9yYS9kZXNrdG9wLnBuZ1wiLFxuICAgICAgY29sb3I6IFwiZnJvbS1hbWJlci02MDAvMTAgdG8tdHJhbnNwYXJlbnRcIixcbiAgICAgIGJhZGdlQ29sb3I6IFwidGV4dC1hbWJlci01MDAgYm9yZGVyLWFtYmVyLTYwMC8yMCBiZy1hbWJlci02MDAvNVwiXG4gICAgfSxcbiAgICB7XG4gICAgICB0aXRsZTogXCJTaGFibmFtIEpld2VsbGVyc1wiLFxuICAgICAgc2x1ZzogXCJzaGFibmFtLWpld2VsbGVyc1wiLFxuICAgICAgY2F0ZWdvcnk6IFwiQmVzcG9rZSBFY29tbWVyY2UgJiBVSSBCcmFuZGluZ1wiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQSBwcmVtaXVtIGRpZ2l0YWwgZmxhZ3NoaXAgYm91dGlxdWUgcmVwcmVzZW50aW5nIGZpbmUgZ29sZCBoZXJpdGFnZSB3aXRoIGF1dG9tYXRlZCBhcHByYWlzYWwgc3lzdGVtcy5cIixcbiAgICAgIHRhZ3M6IFtcIkpld2VscnkgVGVjaFwiLCBcIkdvbGQgQXBwcmFpc2VyXCIsIFwiTG9jYWwgR2F0ZXdheVwiXSxcbiAgICAgIHBlcmY6IDk4LFxuICAgICAgc2VvOiA5NixcbiAgICAgIGNoYXI6IFwiU1wiLFxuICAgICAgdGh1bWJuYWlsOiBcIi9hc3NldHMvY2FzZS1zdHVkaWVzL3NoYWJuYW0tamV3ZWxsZXJzL2Rlc2t0b3AucG5nXCIsXG4gICAgICBjb2xvcjogXCJmcm9tLWFtYmVyLTUwMC8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWFtYmVyLTQwMCBib3JkZXItYW1iZXItNTAwLzIwIGJnLWFtYmVyLTUwMC81XCJcbiAgICB9LFxuICAgIHtcbiAgICAgIHRpdGxlOiBcIkFlcm9WaXN0YSBUcmF2ZWxzXCIsXG4gICAgICBzbHVnOiBcImFlcm92aXN0YS10cmF2ZWxzXCIsXG4gICAgICBjYXRlZ29yeTogXCJMdXh1cnkgVHJhdmVsIFN5c3RlbVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiSGlnaGx5IHJlc3BvbnNpdmUgYm9va2luZyBwbGF0Zm9ybSBhbmQgdHJhdmVsIHNjaGVkdWxlciBwcm9jZXNzaW5nIGN1cmF0ZWQgaXRpbmVyYXJpZXMgc2FmZWx5LiBFbmdpbmVlcmVkIGZvciBtYXhpbXVtIHRyYXZlbCBhdXRob3JpdHkuXCIsXG4gICAgICB0YWdzOiBbXCJUcmF2ZWwgVGVjaFwiLCBcIkFQSSBJbnRlZ3JhdGlvblwiLCBcIkJvb2tpbmcgRW5naW5lXCJdLFxuICAgICAgcGVyZjogOTcsXG4gICAgICBzZW86IDk1LFxuICAgICAgY2hhcjogXCJBXCIsXG4gICAgICB0aHVtYm5haWw6IFwiL2Fzc2V0cy9jYXNlLXN0dWRpZXMvYWVyby12aXN0YS9kZXNrdG9wLnBuZ1wiLFxuICAgICAgY29sb3I6IFwiZnJvbS1ibHVlLTYwMC8xMCB0by10cmFuc3BhcmVudFwiLFxuICAgICAgYmFkZ2VDb2xvcjogXCJ0ZXh0LWJsdWUtNTAwIGJvcmRlci1ibHVlLTYwMC8yMCBiZy1ibHVlLTYwMC81XCJcbiAgICB9XG4gIF1cbn07XG5cbmV4cG9ydCBmdW5jdGlvbiBnZXRDYXNlU3R1ZGllc0ZvclJlZ2lvbihyZWdpb246IFJlZ2lvbkNvZGUpOiBDYXNlTGlzdEl0ZW1bXSB7XG4gIHJldHVybiBjYXNlU3R1ZGllc0xpc3RbcmVnaW9uXSA/PyBjYXNlU3R1ZGllc0xpc3QubGs7XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBnZXRDYXNlU3R1ZHlEZXRhaWxzKHNsdWc6IHN0cmluZyk6IChDYXNlRGV0YWlscyAmIHsgcmVnaW9uOiBSZWdpb25Db2RlIH0pIHwgbnVsbCB7XG4gIHJldHVybiBBTExfQ0FTRV9TVFVESUVTW3NsdWddIHx8IG51bGw7XG59XG4iXSwibWFwcGluZ3MiOiJBQXlDTyxhQUFNLG1CQUF5RTtBQUFBLEVBQ3BGLFVBQVU7QUFBQSxJQUNSLFFBQVE7QUFBQSxJQUNSLE9BQU87QUFBQSxJQUNQLE1BQU07QUFBQSxJQUNOLFVBQVU7QUFBQSxJQUNWLFVBQVU7QUFBQSxJQUNW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

@@ -15,6 +15,7 @@ const corePaths = [
   '/book',
   '/partner',
   '/case-studies',
+  '/leadership',
   '/blog',
   '/faq',
 ];

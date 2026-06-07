@@ -29,6 +29,7 @@ const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
 const Process = lazy(() => import('./pages/Process'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
 const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
+const Leadership = lazy(() => import('./pages/Leadership'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Partner = lazy(() => import('./pages/Partner'));
 const AgentsRedirect = lazy(() => import('./pages/Agents'));
@@ -97,6 +98,7 @@ export default function App() {
               <Route path="/lk/pricing" element={<Services />} />
               <Route path="/lk/case-studies" element={<CaseStudies />} />
               <Route path="/lk/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/lk/leadership" element={<Leadership />} />
               <Route path="/lk/contact" element={<Contact />} />
               <Route path="/lk/partner" element={<Partner />} />
               <Route path="/lk/agents" element={<AgentsRedirect />} />
@@ -123,6 +125,7 @@ export default function App() {
               <Route path="/pk/pricing" element={<Services />} />
               <Route path="/pk/case-studies" element={<CaseStudies />} />
               <Route path="/pk/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/pk/leadership" element={<Leadership />} />
               <Route path="/pk/contact" element={<Contact />} />
               <Route path="/pk/partner" element={<Partner />} />
               <Route path="/pk/agents" element={<AgentsRedirect />} />
@@ -149,6 +152,7 @@ export default function App() {
               <Route path="/int/pricing" element={<Services />} />
               <Route path="/int/case-studies" element={<CaseStudies />} />
               <Route path="/int/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/int/leadership" element={<Leadership />} />
               <Route path="/int/contact" element={<Contact />} />
               <Route path="/int/partner" element={<Partner />} />
               <Route path="/int/agents" element={<AgentsRedirect />} />
@@ -175,6 +179,7 @@ export default function App() {
               <Route path="/process" element={<RegionalRedirect path="/process" />} />
               <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
               <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/leadership" element={<RegionalRedirect path="/leadership" />} />
               <Route path="/contact" element={<RegionalRedirect path="/contact" />} />
               <Route path="/partner" element={<RegionalRedirect path="/partner" />} />
               <Route path="/agents" element={<RegionalRedirect path="/partner" />} />

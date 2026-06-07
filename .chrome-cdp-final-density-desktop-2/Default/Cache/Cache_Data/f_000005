@@ -1,0 +1,1336 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/App.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=1428d913"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$(), _s2 = $RefreshSig$(), _s3 = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=1428d913"; const lazy = __vite__cjsImport1_react["lazy"]; const Suspense = __vite__cjsImport1_react["Suspense"]; const useEffect = __vite__cjsImport1_react["useEffect"];
+import { BrowserRouter, Routes, Route, Navigate, useParams, useLocation } from "/node_modules/.vite/deps/react-router-dom.js?v=1428d913";
+import { AuthProvider } from "/src/contexts/AuthContext.tsx";
+import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from "/src/components/layout/Layouts.tsx";
+import { ScrollToTop } from "/src/components/layout/ScrollToTop.tsx";
+import { SleekLoader } from "/src/components/ui/SleekLoader.tsx";
+import { RequireAuth } from "/src/components/auth/RequireAuth.tsx";
+import { useAuth } from "/src/contexts/AuthContext.tsx";
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from "/src/lib/region.ts";
+import { trackPageView } from "/src/lib/analytics.ts";
+function AnalyticsTracker() {
+  _s();
+  const location = useLocation();
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+  return null;
+}
+_s(AnalyticsTracker, "BXcZrDMM76mmm4zA8/QV5UbMNXE=", false, function() {
+  return [useLocation];
+});
+_c = AnalyticsTracker;
+const CountrySelection = lazy(_c2 = () => import("/src/pages/CountrySelection.tsx"));
+_c3 = CountrySelection;
+const Home = lazy(_c4 = () => import("/src/pages/Home.tsx"));
+_c5 = Home;
+const About = lazy(_c6 = () => import("/src/pages/About.tsx"));
+_c7 = About;
+const Services = lazy(_c8 = () => import("/src/pages/Services.tsx"));
+_c9 = Services;
+const ServiceLandingPage = lazy(_c0 = () => import("/src/pages/ServiceLandingPage.tsx"));
+_c1 = ServiceLandingPage;
+const Process = lazy(_c10 = () => import("/src/pages/Process.tsx"));
+_c11 = Process;
+const CaseStudies = lazy(_c12 = () => import("/src/pages/CaseStudies.tsx"));
+_c13 = CaseStudies;
+const CaseStudyDetail = lazy(_c14 = () => import("/src/pages/CaseStudyDetail.tsx"));
+_c15 = CaseStudyDetail;
+const Leadership = lazy(_c16 = () => import("/src/pages/Leadership.tsx?t=1780592380877"));
+_c17 = Leadership;
+const Contact = lazy(_c18 = () => import("/src/pages/Contact.tsx"));
+_c19 = Contact;
+const Partner = lazy(_c20 = () => import("/src/pages/Partner.tsx"));
+_c21 = Partner;
+const AgentsRedirect = lazy(_c22 = () => import("/src/pages/Agents.tsx"));
+_c23 = AgentsRedirect;
+const PrivacyPolicy = lazy(_c24 = () => import("/src/pages/PrivacyPolicy.tsx"));
+_c25 = PrivacyPolicy;
+const TermsAndConditions = lazy(_c26 = () => import("/src/pages/TermsAndConditions.tsx"));
+_c27 = TermsAndConditions;
+const RefundPolicy = lazy(_c28 = () => import("/src/pages/RefundPolicy.tsx"));
+_c29 = RefundPolicy;
+const Blog = lazy(_c30 = () => import("/src/pages/Blog.tsx"));
+_c31 = Blog;
+const BlogPostDetail = lazy(_c32 = () => import("/src/pages/BlogPostDetail.tsx"));
+_c33 = BlogPostDetail;
+const NotFoundPage = lazy(_c34 = () => import("/src/pages/NotFoundPage.tsx"));
+_c35 = NotFoundPage;
+const WhatIsJawrahPixel = lazy(_c36 = () => import("/src/pages/ai/WhatIsJawrahPixel.tsx"));
+_c37 = WhatIsJawrahPixel;
+const WhyJawrahPixel = lazy(_c38 = () => import("/src/pages/ai/WhyJawrahPixel.tsx"));
+_c39 = WhyJawrahPixel;
+const AboutFounder = lazy(_c40 = () => import("/src/pages/ai/AboutFounder.tsx"));
+_c41 = AboutFounder;
+const Login = lazy(_c42 = () => import("/src/pages/auth/Login.tsx"));
+_c43 = Login;
+const SignUp = lazy(_c44 = () => import("/src/pages/auth/SignUp.tsx"));
+_c45 = SignUp;
+const AdminDashboard = lazy(_c46 = () => import("/src/pages/admin/AdminDashboard.tsx"));
+_c47 = AdminDashboard;
+const ClientDashboard = lazy(_c48 = () => import("/src/pages/client/ClientDashboard.tsx"));
+_c49 = ClientDashboard;
+const AgentDashboard = lazy(_c50 = () => import("/src/pages/agent/AgentDashboard.tsx"));
+_c51 = AgentDashboard;
+const CheckoutPage = lazy(_c52 = () => import("/src/pages/checkout/CheckoutPage.tsx"));
+_c53 = CheckoutPage;
+const PaymentSuccessPage = lazy(_c54 = () => import("/src/pages/checkout/PaymentSuccessPage.tsx"));
+_c55 = PaymentSuccessPage;
+function CheckoutRedirect() {
+  _s2();
+  const { invoiceId } = useParams();
+  if (!invoiceId) return /* @__PURE__ */ jsxDEV(Navigate, { to: "/dashboard", replace: true }, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 61,
+    columnNumber: 26
+  }, this);
+  return /* @__PURE__ */ jsxDEV(Navigate, { to: `/dashboard/checkout/${invoiceId}`, replace: true }, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 62,
+    columnNumber: 10
+  }, this);
+}
+_s2(CheckoutRedirect, "DV2d8kqn3HgqoQDOtchTHNDVNZk=", false, function() {
+  return [useParams];
+});
+_c56 = CheckoutRedirect;
+function RegionalRedirect({ path = "/" }) {
+  _s3();
+  const { user, profile, loading } = useAuth();
+  if (loading) return /* @__PURE__ */ jsxDEV(SleekLoader, {}, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 68,
+    columnNumber: 23
+  }, this);
+  if (user && !profile) return /* @__PURE__ */ jsxDEV(SleekLoader, {}, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 69,
+    columnNumber: 32
+  }, this);
+  const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
+  const region = profile?.role === "admin" || profile?.role === "superadmin" ? getSavedAdminRegion() ?? profileRegion ?? getSavedRegion() : user && profileRegion ? profileRegion : getSavedRegion();
+  return /* @__PURE__ */ jsxDEV(Navigate, { to: region ? regionPath(region, path) : "/", replace: true }, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 75,
+    columnNumber: 10
+  }, this);
+}
+_s3(RegionalRedirect, "E0oBXK1aNnc3BFS+kYDIiVR+2po=", false, function() {
+  return [useAuth];
+});
+_c57 = RegionalRedirect;
+export default function App() {
+  return /* @__PURE__ */ jsxDEV(AuthProvider, { children: /* @__PURE__ */ jsxDEV(BrowserRouter, { children: [
+    /* @__PURE__ */ jsxDEV(AnalyticsTracker, {}, void 0, false, {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+      lineNumber: 82,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(ScrollToTop, {}, void 0, false, {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+      lineNumber: 83,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(SleekLoader, {}, void 0, false, {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+      lineNumber: 84,
+      columnNumber: 29
+    }, this), children: /* @__PURE__ */ jsxDEV(Routes, { children: [
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(RootLayout, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 87,
+        columnNumber: 29
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(CountrySelection, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 89,
+          columnNumber: 40
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 89,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk", element: /* @__PURE__ */ jsxDEV(Home, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 92,
+          columnNumber: 42
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 92,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/about", element: /* @__PURE__ */ jsxDEV(About, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 93,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 93,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/services", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 94,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 94,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/services/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 95,
+          columnNumber: 64
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 95,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 96,
+          columnNumber: 55
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 96,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/process", element: /* @__PURE__ */ jsxDEV(Process, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 97,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 97,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/pricing", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 98,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 98,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/case-studies", element: /* @__PURE__ */ jsxDEV(CaseStudies, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 99,
+          columnNumber: 55
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 99,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/case-studies/:slug", element: /* @__PURE__ */ jsxDEV(CaseStudyDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 100,
+          columnNumber: 61
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 100,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/leadership", element: /* @__PURE__ */ jsxDEV(Leadership, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 101,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 101,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/contact", element: /* @__PURE__ */ jsxDEV(Contact, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 102,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 102,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/partner", element: /* @__PURE__ */ jsxDEV(Partner, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 103,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 103,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/agents", element: /* @__PURE__ */ jsxDEV(AgentsRedirect, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 104,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 104,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/privacy-policy", element: /* @__PURE__ */ jsxDEV(PrivacyPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 105,
+          columnNumber: 57
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 105,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/terms-and-conditions", element: /* @__PURE__ */ jsxDEV(TermsAndConditions, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 106,
+          columnNumber: 63
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 106,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/refund-policy", element: /* @__PURE__ */ jsxDEV(RefundPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 107,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 107,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/privacy", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/lk/privacy-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 108,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 108,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/terms", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/lk/terms-and-conditions", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 109,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 109,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/refund", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/lk/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 110,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 110,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/refunds", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/lk/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 111,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 111,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/blog", element: /* @__PURE__ */ jsxDEV(Blog, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 112,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 112,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/blog/:slug", element: /* @__PURE__ */ jsxDEV(BlogPostDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 113,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 113,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/what-is-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhatIsJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 114,
+          columnNumber: 63
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 114,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/why-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhyJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 115,
+          columnNumber: 59
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 115,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/lk/about-founder", element: /* @__PURE__ */ jsxDEV(AboutFounder, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 116,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 116,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk", element: /* @__PURE__ */ jsxDEV(Home, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 119,
+          columnNumber: 42
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 119,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/about", element: /* @__PURE__ */ jsxDEV(About, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 120,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 120,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/services", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 121,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 121,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/services/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 122,
+          columnNumber: 64
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 122,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 123,
+          columnNumber: 55
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 123,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/process", element: /* @__PURE__ */ jsxDEV(Process, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 124,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 124,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/pricing", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 125,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 125,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/case-studies", element: /* @__PURE__ */ jsxDEV(CaseStudies, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 126,
+          columnNumber: 55
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 126,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/case-studies/:slug", element: /* @__PURE__ */ jsxDEV(CaseStudyDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 127,
+          columnNumber: 61
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 127,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/leadership", element: /* @__PURE__ */ jsxDEV(Leadership, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 128,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 128,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/contact", element: /* @__PURE__ */ jsxDEV(Contact, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 129,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 129,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/partner", element: /* @__PURE__ */ jsxDEV(Partner, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 130,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 130,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/agents", element: /* @__PURE__ */ jsxDEV(AgentsRedirect, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 131,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 131,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/privacy-policy", element: /* @__PURE__ */ jsxDEV(PrivacyPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 132,
+          columnNumber: 57
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 132,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/terms-and-conditions", element: /* @__PURE__ */ jsxDEV(TermsAndConditions, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 133,
+          columnNumber: 63
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 133,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/refund-policy", element: /* @__PURE__ */ jsxDEV(RefundPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 134,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 134,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/privacy", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/pk/privacy-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 135,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 135,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/terms", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/pk/terms-and-conditions", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 136,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 136,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/refund", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/pk/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 137,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 137,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/refunds", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/pk/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 138,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 138,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/blog", element: /* @__PURE__ */ jsxDEV(Blog, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 139,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 139,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/blog/:slug", element: /* @__PURE__ */ jsxDEV(BlogPostDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 140,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 140,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/what-is-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhatIsJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 141,
+          columnNumber: 63
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 141,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/why-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhyJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 142,
+          columnNumber: 59
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 142,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pk/about-founder", element: /* @__PURE__ */ jsxDEV(AboutFounder, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 143,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 143,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int", element: /* @__PURE__ */ jsxDEV(Home, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 146,
+          columnNumber: 43
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 146,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/about", element: /* @__PURE__ */ jsxDEV(About, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 147,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 147,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/services", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 148,
+          columnNumber: 52
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 148,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/services/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 149,
+          columnNumber: 65
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 149,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/:serviceSlug", element: /* @__PURE__ */ jsxDEV(ServiceLandingPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 150,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 150,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/process", element: /* @__PURE__ */ jsxDEV(Process, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 151,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 151,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/pricing", element: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 152,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 152,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/case-studies", element: /* @__PURE__ */ jsxDEV(CaseStudies, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 153,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 153,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/case-studies/:slug", element: /* @__PURE__ */ jsxDEV(CaseStudyDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 154,
+          columnNumber: 62
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 154,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/leadership", element: /* @__PURE__ */ jsxDEV(Leadership, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 155,
+          columnNumber: 54
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 155,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/contact", element: /* @__PURE__ */ jsxDEV(Contact, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 156,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 156,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/partner", element: /* @__PURE__ */ jsxDEV(Partner, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 157,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 157,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/agents", element: /* @__PURE__ */ jsxDEV(AgentsRedirect, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 158,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 158,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/privacy-policy", element: /* @__PURE__ */ jsxDEV(PrivacyPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 159,
+          columnNumber: 58
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 159,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/terms-and-conditions", element: /* @__PURE__ */ jsxDEV(TermsAndConditions, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 160,
+          columnNumber: 64
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 160,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/refund-policy", element: /* @__PURE__ */ jsxDEV(RefundPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 161,
+          columnNumber: 57
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 161,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/privacy", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/int/privacy-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 162,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 162,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/terms", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/int/terms-and-conditions", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 163,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 163,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/refund", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/int/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 164,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 164,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/refunds", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/int/refund-policy", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 165,
+          columnNumber: 51
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 165,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/blog", element: /* @__PURE__ */ jsxDEV(Blog, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 166,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 166,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/blog/:slug", element: /* @__PURE__ */ jsxDEV(BlogPostDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 167,
+          columnNumber: 54
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 167,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/what-is-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhatIsJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 168,
+          columnNumber: 64
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 168,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/why-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(WhyJawrahPixel, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 169,
+          columnNumber: 60
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 169,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/int/about-founder", element: /* @__PURE__ */ jsxDEV(AboutFounder, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 170,
+          columnNumber: 57
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 170,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/pricing", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/pricing" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 173,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 173,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/blog", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/blog" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 174,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 174,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/book", element: /* @__PURE__ */ jsxDEV(Contact, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 175,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 175,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/faq", element: /* @__PURE__ */ jsxDEV(Process, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 176,
+          columnNumber: 43
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 176,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/about", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/about" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 177,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 177,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/services", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/services" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 178,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 178,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/process", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/process" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 179,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 179,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/case-studies", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/case-studies" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 180,
+          columnNumber: 52
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 180,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/case-studies/:slug", element: /* @__PURE__ */ jsxDEV(CaseStudyDetail, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 181,
+          columnNumber: 58
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 181,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/leadership", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/leadership" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 182,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 182,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/contact", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/contact" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 183,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 183,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/partner", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/partner" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 184,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 184,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/agents", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/partner" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 185,
+          columnNumber: 46
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 185,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/privacy-policy", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/privacy-policy" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 186,
+          columnNumber: 54
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 186,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/cookie-policy", element: /* @__PURE__ */ jsxDEV(PrivacyPolicy, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 187,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 187,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/terms-and-conditions", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/terms-and-conditions" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 188,
+          columnNumber: 60
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 188,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/refund-policy", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/refund-policy" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 189,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 189,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/refund", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/refund-policy" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 190,
+          columnNumber: 46
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 190,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/refunds", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/refund-policy" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 191,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 191,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/privacy", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/privacy-policy" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 192,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 192,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/terms", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/terms-and-conditions" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 193,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 193,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/what-is-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/what-is-jawrah-pixel" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 194,
+          columnNumber: 60
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 194,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/why-jawrah-pixel", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/why-jawrah-pixel" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 195,
+          columnNumber: 56
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 195,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/about-founder", element: /* @__PURE__ */ jsxDEV(RegionalRedirect, { path: "/about-founder" }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 196,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 196,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/checkout", element: /* @__PURE__ */ jsxDEV(CheckoutPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 197,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 197,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "*", element: /* @__PURE__ */ jsxDEV(NotFoundPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 200,
+          columnNumber: 40
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 200,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 87,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/login", element: /* @__PURE__ */ jsxDEV(Login, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 204,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 204,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/signup", element: /* @__PURE__ */ jsxDEV(SignUp, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 205,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 205,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/auth/login", element: /* @__PURE__ */ jsxDEV(Login, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 206,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 206,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/auth/signup", element: /* @__PURE__ */ jsxDEV(SignUp, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 207,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 207,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(RequireAuth, { roles: ["admin", "superadmin"], children: /* @__PURE__ */ jsxDEV(AdminLayout, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 210,
+        columnNumber: 74
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 210,
+        columnNumber: 29
+      }, this), children: /* @__PURE__ */ jsxDEV(Route, { path: "/admin", element: /* @__PURE__ */ jsxDEV(AdminDashboard, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 211,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 211,
+        columnNumber: 15
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 210,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(RequireAuth, { roles: ["client", "admin"], children: /* @__PURE__ */ jsxDEV(ClientLayout, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 215,
+        columnNumber: 70
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 215,
+        columnNumber: 29
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { path: "/dashboard", element: /* @__PURE__ */ jsxDEV(ClientDashboard, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 216,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 216,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/dashboard/checkout/:invoiceId", element: /* @__PURE__ */ jsxDEV(CheckoutPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 217,
+          columnNumber: 69
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 217,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/dashboard/payment-success", element: /* @__PURE__ */ jsxDEV(PaymentSuccessPage, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 218,
+          columnNumber: 65
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 218,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 215,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        Route,
+        {
+          path: "/checkout/:invoiceId",
+          element: /* @__PURE__ */ jsxDEV(RequireAuth, { roles: ["client", "admin"], children: /* @__PURE__ */ jsxDEV(CheckoutRedirect, {}, void 0, false, {
+            fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+            lineNumber: 222,
+            columnNumber: 65
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+            lineNumber: 222,
+            columnNumber: 24
+          }, this)
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 220,
+          columnNumber: 13
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(RequireAuth, { roles: ["agent", "admin"], children: /* @__PURE__ */ jsxDEV(AgentLayout, {}, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 226,
+        columnNumber: 69
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 226,
+        columnNumber: 29
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { path: "/partner/dashboard", element: /* @__PURE__ */ jsxDEV(AgentDashboard, {}, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 227,
+          columnNumber: 57
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 227,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/agent", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/partner/dashboard", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 228,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 228,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/agent/dashboard", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/partner/dashboard", replace: true }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 229,
+          columnNumber: 55
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+          lineNumber: 229,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+        lineNumber: 226,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+      lineNumber: 85,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+      lineNumber: 84,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 81,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx",
+    lineNumber: 80,
+    columnNumber: 5
+  }, this);
+}
+_c58 = App;
+var _c, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c0, _c1, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21, _c22, _c23, _c24, _c25, _c26, _c27, _c28, _c29, _c30, _c31, _c32, _c33, _c34, _c35, _c36, _c37, _c38, _c39, _c40, _c41, _c42, _c43, _c44, _c45, _c46, _c47, _c48, _c49, _c50, _c51, _c52, _c53, _c54, _c55, _c56, _c57, _c58;
+$RefreshReg$(_c, "AnalyticsTracker");
+$RefreshReg$(_c2, "CountrySelection$lazy");
+$RefreshReg$(_c3, "CountrySelection");
+$RefreshReg$(_c4, "Home$lazy");
+$RefreshReg$(_c5, "Home");
+$RefreshReg$(_c6, "About$lazy");
+$RefreshReg$(_c7, "About");
+$RefreshReg$(_c8, "Services$lazy");
+$RefreshReg$(_c9, "Services");
+$RefreshReg$(_c0, "ServiceLandingPage$lazy");
+$RefreshReg$(_c1, "ServiceLandingPage");
+$RefreshReg$(_c10, "Process$lazy");
+$RefreshReg$(_c11, "Process");
+$RefreshReg$(_c12, "CaseStudies$lazy");
+$RefreshReg$(_c13, "CaseStudies");
+$RefreshReg$(_c14, "CaseStudyDetail$lazy");
+$RefreshReg$(_c15, "CaseStudyDetail");
+$RefreshReg$(_c16, "Leadership$lazy");
+$RefreshReg$(_c17, "Leadership");
+$RefreshReg$(_c18, "Contact$lazy");
+$RefreshReg$(_c19, "Contact");
+$RefreshReg$(_c20, "Partner$lazy");
+$RefreshReg$(_c21, "Partner");
+$RefreshReg$(_c22, "AgentsRedirect$lazy");
+$RefreshReg$(_c23, "AgentsRedirect");
+$RefreshReg$(_c24, "PrivacyPolicy$lazy");
+$RefreshReg$(_c25, "PrivacyPolicy");
+$RefreshReg$(_c26, "TermsAndConditions$lazy");
+$RefreshReg$(_c27, "TermsAndConditions");
+$RefreshReg$(_c28, "RefundPolicy$lazy");
+$RefreshReg$(_c29, "RefundPolicy");
+$RefreshReg$(_c30, "Blog$lazy");
+$RefreshReg$(_c31, "Blog");
+$RefreshReg$(_c32, "BlogPostDetail$lazy");
+$RefreshReg$(_c33, "BlogPostDetail");
+$RefreshReg$(_c34, "NotFoundPage$lazy");
+$RefreshReg$(_c35, "NotFoundPage");
+$RefreshReg$(_c36, "WhatIsJawrahPixel$lazy");
+$RefreshReg$(_c37, "WhatIsJawrahPixel");
+$RefreshReg$(_c38, "WhyJawrahPixel$lazy");
+$RefreshReg$(_c39, "WhyJawrahPixel");
+$RefreshReg$(_c40, "AboutFounder$lazy");
+$RefreshReg$(_c41, "AboutFounder");
+$RefreshReg$(_c42, "Login$lazy");
+$RefreshReg$(_c43, "Login");
+$RefreshReg$(_c44, "SignUp$lazy");
+$RefreshReg$(_c45, "SignUp");
+$RefreshReg$(_c46, "AdminDashboard$lazy");
+$RefreshReg$(_c47, "AdminDashboard");
+$RefreshReg$(_c48, "ClientDashboard$lazy");
+$RefreshReg$(_c49, "ClientDashboard");
+$RefreshReg$(_c50, "AgentDashboard$lazy");
+$RefreshReg$(_c51, "AgentDashboard");
+$RefreshReg$(_c52, "CheckoutPage$lazy");
+$RefreshReg$(_c53, "CheckoutPage");
+$RefreshReg$(_c54, "PaymentSuccessPage$lazy");
+$RefreshReg$(_c55, "PaymentSuccessPage");
+$RefreshReg$(_c56, "CheckoutRedirect");
+$RefreshReg$(_c57, "RegionalRedirect");
+$RefreshReg$(_c58, "App");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/admin/Desktop/jawrah-pixel-new/src/App.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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RyxJQUFBRSxJQUFBakcsS0FBQUMsS0FBQUUsS0FBQUMsS0FBQUUsS0FBQUMsS0FBQUUsS0FBQUMsS0FBQUUsS0FBQUMsS0FBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQUUsTUFBQUMsTUFBQWdCLE1BQUFDLE1BQUFIO0FBQUEsYUFBQUMsSUFBQTtBQUFBLGFBQUFqRyxLQUFBO0FBQUEsYUFBQUMsS0FBQTtBQUFBLGFBQUFFLEtBQUE7QUFBQSxhQUFBQyxLQUFBO0FBQUEsYUFBQUUsS0FBQTtBQUFBLGFBQUFDLEtBQUE7QUFBQSxhQUFBRSxLQUFBO0FBQUEsYUFBQUMsS0FBQTtBQUFBLGFBQUFFLEtBQUE7QUFBQSxhQUFBQyxLQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFnQixNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFILE1BQUEiLCJuYW1lcyI6WyJsYXp5IiwiU3VzcGVuc2UiLCJ1c2VFZmZlY3QiLCJCcm93c2VyUm91dGVyIiwiUm91dGVzIiwiUm91dGUiLCJOYXZpZ2F0ZSIsInVzZVBhcmFtcyIsInVzZUxvY2F0aW9uIiwiQXV0aFByb3ZpZGVyIiwiUm9vdExheW91dCIsIkFkbWluTGF5b3V0IiwiQ2xpZW50TGF5b3V0IiwiQWdlbnRMYXlvdXQiLCJTY3JvbGxUb1RvcCIsIlNsZWVrTG9hZGVyIiwiUmVxdWlyZUF1dGgiLCJ1c2VBdXRoIiwiZ2V0U2F2ZWRBZG1pblJlZ2lvbiIsImdldFNhdmVkUmVnaW9uIiwiaXNSZWdpb25Db2RlIiwicmVnaW9uUGF0aCIsInRyYWNrUGFnZVZpZXciLCJBbmFseXRpY3NUcmFja2VyIiwiX3MiLCJsb2NhdGlvbiIsInBhdGhuYW1lIiwic2VhcmNoIiwiQ291bnRyeVNlbGVjdGlvbiIsIl9jMiIsIl9jMyIsIkhvbWUiLCJfYzQiLCJfYzUiLCJBYm91dCIsIl9jNiIsIl9jNyIsIlNlcnZpY2VzIiwiX2M4IiwiX2M5IiwiU2VydmljZUxhbmRpbmdQYWdlIiwiX2MwIiwiX2MxIiwiUHJvY2VzcyIsIl9jMTAiLCJfYzExIiwiQ2FzZVN0dWRpZXMiLCJfYzEyIiwiX2MxMyIsIkNhc2VTdHVkeURldGFpbCIsIl9jMTQiLCJfYzE1IiwiTGVhZGVyc2hpcCIsIl9jMTYiLCJfYzE3IiwiQ29udGFjdCIsIl9jMTgiLCJfYzE5IiwiUGFydG5lciIsIl9jMjAiLCJfYzIxIiwiQWdlbnRzUmVkaXJlY3QiLCJfYzIyIiwiX2MyMyIsIlByaXZhY3lQb2xpY3kiLCJfYzI0IiwiX2MyNSIsIlRlcm1zQW5kQ29uZGl0aW9ucyIsIl9jMjYiLCJfYzI3IiwiUmVmdW5kUG9saWN5IiwiX2MyOCIsIl9jMjkiLCJCbG9nIiwiX2MzMCIsIl9jMzEiLCJCbG9nUG9zdERldGFpbCIsIl9jMzIiLCJfYzMzIiwiTm90Rm91bmRQYWdlIiwiX2MzNCIsIl9jMzUiLCJXaGF0SXNKYXdyYWhQaXhlbCIsIl9jMzYiLCJfYzM3IiwiV2h5SmF3cmFoUGl4ZWwiLCJfYzM4IiwiX2MzOSIsIkFib3V0Rm91bmRlciIsIl9jNDAiLCJfYzQxIiwiTG9naW4iLCJfYzQyIiwiX2M0MyIsIlNpZ25VcCIsIl9jNDQiLCJfYzQ1IiwiQWRtaW5EYXNoYm9hcmQiLCJfYzQ2IiwiX2M0NyIsIkNsaWVudERhc2hib2FyZCIsIl9jNDgiLCJfYzQ5IiwiQWdlbnREYXNoYm9hcmQiLCJfYzUwIiwiX2M1MSIsIkNoZWNrb3V0UGFnZSIsIl9jNTIiLCJfYzUzIiwiUGF5bWVudFN1Y2Nlc3NQYWdlIiwiX2M1NCIsIl9jNTUiLCJDaGVja291dFJlZGlyZWN0IiwiX3MyIiwiaW52b2ljZUlkIiwiUmVnaW9uYWxSZWRpcmVjdCIsInBhdGgiLCJfczMiLCJ1c2VyIiwicHJvZmlsZSIsImxvYWRpbmciLCJwcm9maWxlUmVnaW9uIiwicmVnaW9uIiwicm9sZSIsIkFwcCIsIl9jNTgiLCJfYyIsIl9jNTYiLCJfYzU3Il0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkFwcC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgbGF6eSwgU3VzcGVuc2UsIHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IEJyb3dzZXJSb3V0ZXIsIFJvdXRlcywgUm91dGUsIE5hdmlnYXRlLCB1c2VQYXJhbXMsIHVzZUxvY2F0aW9uIH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSc7XG5pbXBvcnQgeyBBdXRoUHJvdmlkZXIgfSBmcm9tICcuL2NvbnRleHRzL0F1dGhDb250ZXh0JztcbmltcG9ydCB7IFJvb3RMYXlvdXQsIEFkbWluTGF5b3V0LCBDbGllbnRMYXlvdXQsIEFnZW50TGF5b3V0IH0gZnJvbSAnLi9jb21wb25lbnRzL2xheW91dC9MYXlvdXRzJztcbmltcG9ydCB7IFNjcm9sbFRvVG9wIH0gZnJvbSAnLi9jb21wb25lbnRzL2xheW91dC9TY3JvbGxUb1RvcCc7XG5pbXBvcnQgeyBTbGVla0xvYWRlciB9IGZyb20gJy4vY29tcG9uZW50cy91aS9TbGVla0xvYWRlcic7XG5pbXBvcnQgeyBSZXF1aXJlQXV0aCB9IGZyb20gJy4vY29tcG9uZW50cy9hdXRoL1JlcXVpcmVBdXRoJztcbmltcG9ydCB7IHVzZUF1dGggfSBmcm9tICcuL2NvbnRleHRzL0F1dGhDb250ZXh0JztcbmltcG9ydCB7IGdldFNhdmVkQWRtaW5SZWdpb24sIGdldFNhdmVkUmVnaW9uLCBpc1JlZ2lvbkNvZGUsIHJlZ2lvblBhdGggfSBmcm9tICcuL2xpYi9yZWdpb24nO1xuaW1wb3J0IHsgdHJhY2tQYWdlVmlldyB9IGZyb20gJy4vbGliL2FuYWx5dGljcyc7XG5cbi8vIEFuYWx5dGljcyBUcmFja2VyIENvbXBvbmVudFxuZnVuY3Rpb24gQW5hbHl0aWNzVHJhY2tlcigpIHtcbiAgY29uc3QgbG9jYXRpb24gPSB1c2VMb2NhdGlvbigpO1xuXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgdHJhY2tQYWdlVmlldyhsb2NhdGlvbi5wYXRobmFtZSArIGxvY2F0aW9uLnNlYXJjaCk7XG4gIH0sIFtsb2NhdGlvbl0pO1xuXG4gIHJldHVybiBudWxsO1xufVxuXG4vLyBMYXp5IExvYWRlZCBQYWdlc1xuY29uc3QgQ291bnRyeVNlbGVjdGlvbiA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0NvdW50cnlTZWxlY3Rpb24nKSk7XG5jb25zdCBIb21lID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvSG9tZScpKTtcbmNvbnN0IEFib3V0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvQWJvdXQnKSk7XG5jb25zdCBTZXJ2aWNlcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NlcnZpY2VzJykpO1xuY29uc3QgU2VydmljZUxhbmRpbmdQYWdlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvU2VydmljZUxhbmRpbmdQYWdlJykpO1xuY29uc3QgUHJvY2VzcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2Nlc3MnKSk7XG5jb25zdCBDYXNlU3R1ZGllcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0Nhc2VTdHVkaWVzJykpO1xuY29uc3QgQ2FzZVN0dWR5RGV0YWlsID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvQ2FzZVN0dWR5RGV0YWlsJykpO1xuY29uc3QgTGVhZGVyc2hpcCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0xlYWRlcnNoaXAnKSk7XG5jb25zdCBDb250YWN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvQ29udGFjdCcpKTtcbmNvbnN0IFBhcnRuZXIgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QYXJ0bmVyJykpO1xuY29uc3QgQWdlbnRzUmVkaXJlY3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9BZ2VudHMnKSk7XG5jb25zdCBQcml2YWN5UG9saWN5ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJpdmFjeVBvbGljeScpKTtcbmNvbnN0IFRlcm1zQW5kQ29uZGl0aW9ucyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Rlcm1zQW5kQ29uZGl0aW9ucycpKTtcbmNvbnN0IFJlZnVuZFBvbGljeSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1JlZnVuZFBvbGljeScpKTtcbmNvbnN0IEJsb2cgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9CbG9nJykpO1xuY29uc3QgQmxvZ1Bvc3REZXRhaWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9CbG9nUG9zdERldGFpbCcpKTtcbmNvbnN0IE5vdEZvdW5kUGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL05vdEZvdW5kUGFnZScpKTtcblxuLy8gQUkgRW50aXR5IFBhZ2VzXG5jb25zdCBXaGF0SXNKYXdyYWhQaXhlbCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL2FpL1doYXRJc0phd3JhaFBpeGVsJykpO1xuY29uc3QgV2h5SmF3cmFoUGl4ZWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9haS9XaHlKYXdyYWhQaXhlbCcpKTtcbmNvbnN0IEFib3V0Rm91bmRlciA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL2FpL0Fib3V0Rm91bmRlcicpKTtcblxuLy8gQXV0aCBQYWdlc1xuY29uc3QgTG9naW4gPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9hdXRoL0xvZ2luJykpO1xuY29uc3QgU2lnblVwID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvYXV0aC9TaWduVXAnKSk7XG5cbi8vIERhc2hib2FyZHNcbmNvbnN0IEFkbWluRGFzaGJvYXJkID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvYWRtaW4vQWRtaW5EYXNoYm9hcmQnKSk7XG5jb25zdCBDbGllbnREYXNoYm9hcmQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9jbGllbnQvQ2xpZW50RGFzaGJvYXJkJykpO1xuY29uc3QgQWdlbnREYXNoYm9hcmQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9hZ2VudC9BZ2VudERhc2hib2FyZCcpKTtcbmNvbnN0IENoZWNrb3V0UGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL2NoZWNrb3V0L0NoZWNrb3V0UGFnZScpKTtcbmNvbnN0IFBheW1lbnRTdWNjZXNzUGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL2NoZWNrb3V0L1BheW1lbnRTdWNjZXNzUGFnZScpKTtcblxuZnVuY3Rpb24gQ2hlY2tvdXRSZWRpcmVjdCgpIHtcbiAgY29uc3QgeyBpbnZvaWNlSWQgfSA9IHVzZVBhcmFtczx7IGludm9pY2VJZDogc3RyaW5nIH0+KCk7XG4gIGlmICghaW52b2ljZUlkKSByZXR1cm4gPE5hdmlnYXRlIHRvPVwiL2Rhc2hib2FyZFwiIHJlcGxhY2UgLz47XG4gIHJldHVybiA8TmF2aWdhdGUgdG89e2AvZGFzaGJvYXJkL2NoZWNrb3V0LyR7aW52b2ljZUlkfWB9IHJlcGxhY2UgLz47XG59XG5cbmZ1bmN0aW9uIFJlZ2lvbmFsUmVkaXJlY3QoeyBwYXRoID0gJy8nIH06IHsgcGF0aD86IHN0cmluZyB9KSB7XG4gIGNvbnN0IHsgdXNlciwgcHJvZmlsZSwgbG9hZGluZyB9ID0gdXNlQXV0aCgpO1xuXG4gIGlmIChsb2FkaW5nKSByZXR1cm4gPFNsZWVrTG9hZGVyIC8+O1xuICBpZiAodXNlciAmJiAhcHJvZmlsZSkgcmV0dXJuIDxTbGVla0xvYWRlciAvPjtcblxuICBjb25zdCBwcm9maWxlUmVnaW9uID0gaXNSZWdpb25Db2RlKHByb2ZpbGU/LnJlZ2lvbikgPyBwcm9maWxlLnJlZ2lvbiA6IG51bGw7XG4gIGNvbnN0IHJlZ2lvbiA9IHByb2ZpbGU/LnJvbGUgPT09ICdhZG1pbicgfHwgcHJvZmlsZT8ucm9sZSA9PT0gJ3N1cGVyYWRtaW4nXG4gICAgPyBnZXRTYXZlZEFkbWluUmVnaW9uKCkgPz8gcHJvZmlsZVJlZ2lvbiA/PyBnZXRTYXZlZFJlZ2lvbigpXG4gICAgOiB1c2VyICYmIHByb2ZpbGVSZWdpb24gPyBwcm9maWxlUmVnaW9uIDogZ2V0U2F2ZWRSZWdpb24oKTtcbiAgcmV0dXJuIDxOYXZpZ2F0ZSB0bz17cmVnaW9uID8gcmVnaW9uUGF0aChyZWdpb24sIHBhdGgpIDogJy8nfSByZXBsYWNlIC8+O1xufVxuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBBcHAoKSB7XG4gIHJldHVybiAoXG4gICAgPEF1dGhQcm92aWRlcj5cbiAgICAgIDxCcm93c2VyUm91dGVyPlxuICAgICAgICA8QW5hbHl0aWNzVHJhY2tlciAvPlxuICAgICAgICA8U2Nyb2xsVG9Ub3AgLz5cbiAgICAgICAgPFN1c3BlbnNlIGZhbGxiYWNrPXs8U2xlZWtMb2FkZXIgLz59PlxuICAgICAgICAgIDxSb3V0ZXM+XG4gICAgICAgICAgICB7LyogTWFpbiBXZWJzaXRlICovfVxuICAgICAgICAgICAgPFJvdXRlIGVsZW1lbnQ9ezxSb290TGF5b3V0IC8+fT5cbiAgICAgICAgICAgICAgey8qIENvdW50cnkgU2VsZWN0b3IgKi99XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL1wiIGVsZW1lbnQ9ezxDb3VudHJ5U2VsZWN0aW9uIC8+fSAvPlxuXG4gICAgICAgICAgICAgIHsvKiBTcmkgTGFua2EgdmVyc2lvbiAqL31cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGtcIiBlbGVtZW50PXs8SG9tZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvYWJvdXRcIiBlbGVtZW50PXs8QWJvdXQgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3NlcnZpY2VzXCIgZWxlbWVudD17PFNlcnZpY2VzIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9zZXJ2aWNlcy86c2VydmljZVNsdWdcIiBlbGVtZW50PXs8U2VydmljZUxhbmRpbmdQYWdlIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say86c2VydmljZVNsdWdcIiBlbGVtZW50PXs8U2VydmljZUxhbmRpbmdQYWdlIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9wcm9jZXNzXCIgZWxlbWVudD17PFByb2Nlc3MgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3ByaWNpbmdcIiBlbGVtZW50PXs8U2VydmljZXMgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL2Nhc2Utc3R1ZGllc1wiIGVsZW1lbnQ9ezxDYXNlU3R1ZGllcyAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvY2FzZS1zdHVkaWVzLzpzbHVnXCIgZWxlbWVudD17PENhc2VTdHVkeURldGFpbCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvbGVhZGVyc2hpcFwiIGVsZW1lbnQ9ezxMZWFkZXJzaGlwIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9jb250YWN0XCIgZWxlbWVudD17PENvbnRhY3QgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3BhcnRuZXJcIiBlbGVtZW50PXs8UGFydG5lciAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvYWdlbnRzXCIgZWxlbWVudD17PEFnZW50c1JlZGlyZWN0IC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9wcml2YWN5LXBvbGljeVwiIGVsZW1lbnQ9ezxQcml2YWN5UG9saWN5IC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say90ZXJtcy1hbmQtY29uZGl0aW9uc1wiIGVsZW1lbnQ9ezxUZXJtc0FuZENvbmRpdGlvbnMgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3JlZnVuZC1wb2xpY3lcIiBlbGVtZW50PXs8UmVmdW5kUG9saWN5IC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9wcml2YWN5XCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2xrL3ByaXZhY3ktcG9saWN5XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvdGVybXNcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvbGsvdGVybXMtYW5kLWNvbmRpdGlvbnNcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9say9yZWZ1bmRcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvbGsvcmVmdW5kLXBvbGljeVwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3JlZnVuZHNcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvbGsvcmVmdW5kLXBvbGljeVwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL2Jsb2dcIiBlbGVtZW50PXs8QmxvZyAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvYmxvZy86c2x1Z1wiIGVsZW1lbnQ9ezxCbG9nUG9zdERldGFpbCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGsvd2hhdC1pcy1qYXdyYWgtcGl4ZWxcIiBlbGVtZW50PXs8V2hhdElzSmF3cmFoUGl4ZWwgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL3doeS1qYXdyYWgtcGl4ZWxcIiBlbGVtZW50PXs8V2h5SmF3cmFoUGl4ZWwgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xrL2Fib3V0LWZvdW5kZXJcIiBlbGVtZW50PXs8QWJvdXRGb3VuZGVyIC8+fSAvPlxuXG4gICAgICAgICAgICAgIHsvKiBQYWtpc3RhbiB2ZXJzaW9uICovfVxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9wa1wiIGVsZW1lbnQ9ezxIb21lIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way9hYm91dFwiIGVsZW1lbnQ9ezxBYm91dCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvc2VydmljZXNcIiBlbGVtZW50PXs8U2VydmljZXMgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3NlcnZpY2VzLzpzZXJ2aWNlU2x1Z1wiIGVsZW1lbnQ9ezxTZXJ2aWNlTGFuZGluZ1BhZ2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrLzpzZXJ2aWNlU2x1Z1wiIGVsZW1lbnQ9ezxTZXJ2aWNlTGFuZGluZ1BhZ2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3Byb2Nlc3NcIiBlbGVtZW50PXs8UHJvY2VzcyAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvcHJpY2luZ1wiIGVsZW1lbnQ9ezxTZXJ2aWNlcyAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvY2FzZS1zdHVkaWVzXCIgZWxlbWVudD17PENhc2VTdHVkaWVzIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way9jYXNlLXN0dWRpZXMvOnNsdWdcIiBlbGVtZW50PXs8Q2FzZVN0dWR5RGV0YWlsIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way9sZWFkZXJzaGlwXCIgZWxlbWVudD17PExlYWRlcnNoaXAgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL2NvbnRhY3RcIiBlbGVtZW50PXs8Q29udGFjdCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvcGFydG5lclwiIGVsZW1lbnQ9ezxQYXJ0bmVyIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way9hZ2VudHNcIiBlbGVtZW50PXs8QWdlbnRzUmVkaXJlY3QgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3ByaXZhY3ktcG9saWN5XCIgZWxlbWVudD17PFByaXZhY3lQb2xpY3kgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3Rlcm1zLWFuZC1jb25kaXRpb25zXCIgZWxlbWVudD17PFRlcm1zQW5kQ29uZGl0aW9ucyAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvcmVmdW5kLXBvbGljeVwiIGVsZW1lbnQ9ezxSZWZ1bmRQb2xpY3kgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3ByaXZhY3lcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvcGsvcHJpdmFjeS1wb2xpY3lcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way90ZXJtc1wiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9way90ZXJtcy1hbmQtY29uZGl0aW9uc1wiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3BrL3JlZnVuZFwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9way9yZWZ1bmQtcG9saWN5XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvcmVmdW5kc1wiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9way9yZWZ1bmQtcG9saWN5XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvYmxvZ1wiIGVsZW1lbnQ9ezxCbG9nIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way9ibG9nLzpzbHVnXCIgZWxlbWVudD17PEJsb2dQb3N0RGV0YWlsIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9way93aGF0LWlzLWphd3JhaC1waXhlbFwiIGVsZW1lbnQ9ezxXaGF0SXNKYXdyYWhQaXhlbCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvd2h5LWphd3JhaC1waXhlbFwiIGVsZW1lbnQ9ezxXaHlKYXdyYWhQaXhlbCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGsvYWJvdXQtZm91bmRlclwiIGVsZW1lbnQ9ezxBYm91dEZvdW5kZXIgLz59IC8+XG5cbiAgICAgICAgICAgICAgey8qIEludGVybmF0aW9uYWwgdmVyc2lvbiAqL31cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50XCIgZWxlbWVudD17PEhvbWUgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9hYm91dFwiIGVsZW1lbnQ9ezxBYm91dCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L3NlcnZpY2VzXCIgZWxlbWVudD17PFNlcnZpY2VzIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvc2VydmljZXMvOnNlcnZpY2VTbHVnXCIgZWxlbWVudD17PFNlcnZpY2VMYW5kaW5nUGFnZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50LzpzZXJ2aWNlU2x1Z1wiIGVsZW1lbnQ9ezxTZXJ2aWNlTGFuZGluZ1BhZ2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9wcm9jZXNzXCIgZWxlbWVudD17PFByb2Nlc3MgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9wcmljaW5nXCIgZWxlbWVudD17PFNlcnZpY2VzIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvY2FzZS1zdHVkaWVzXCIgZWxlbWVudD17PENhc2VTdHVkaWVzIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvY2FzZS1zdHVkaWVzLzpzbHVnXCIgZWxlbWVudD17PENhc2VTdHVkeURldGFpbCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L2xlYWRlcnNoaXBcIiBlbGVtZW50PXs8TGVhZGVyc2hpcCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L2NvbnRhY3RcIiBlbGVtZW50PXs8Q29udGFjdCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L3BhcnRuZXJcIiBlbGVtZW50PXs8UGFydG5lciAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L2FnZW50c1wiIGVsZW1lbnQ9ezxBZ2VudHNSZWRpcmVjdCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L3ByaXZhY3ktcG9saWN5XCIgZWxlbWVudD17PFByaXZhY3lQb2xpY3kgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC90ZXJtcy1hbmQtY29uZGl0aW9uc1wiIGVsZW1lbnQ9ezxUZXJtc0FuZENvbmRpdGlvbnMgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9yZWZ1bmQtcG9saWN5XCIgZWxlbWVudD17PFJlZnVuZFBvbGljeSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L3ByaXZhY3lcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvaW50L3ByaXZhY3ktcG9saWN5XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvaW50L3Rlcm1zXCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2ludC90ZXJtcy1hbmQtY29uZGl0aW9uc1wiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9yZWZ1bmRcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvaW50L3JlZnVuZC1wb2xpY3lcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvcmVmdW5kc1wiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9pbnQvcmVmdW5kLXBvbGljeVwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9ibG9nXCIgZWxlbWVudD17PEJsb2cgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC9ibG9nLzpzbHVnXCIgZWxlbWVudD17PEJsb2dQb3N0RGV0YWlsIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvd2hhdC1pcy1qYXdyYWgtcGl4ZWxcIiBlbGVtZW50PXs8V2hhdElzSmF3cmFoUGl4ZWwgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2ludC93aHktamF3cmFoLXBpeGVsXCIgZWxlbWVudD17PFdoeUphd3JhaFBpeGVsIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9pbnQvYWJvdXQtZm91bmRlclwiIGVsZW1lbnQ9ezxBYm91dEZvdW5kZXIgLz59IC8+XG5cbiAgICAgICAgICAgICAgey8qIEZhbGxiYWNrIHJvdXRlcyAqL31cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcHJpY2luZ1wiIGVsZW1lbnQ9ezxSZWdpb25hbFJlZGlyZWN0IHBhdGg9XCIvcHJpY2luZ1wiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9ibG9nXCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi9ibG9nXCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Jvb2tcIiBlbGVtZW50PXs8Q29udGFjdCAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvZmFxXCIgZWxlbWVudD17PFByb2Nlc3MgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Fib3V0XCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi9hYm91dFwiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9zZXJ2aWNlc1wiIGVsZW1lbnQ9ezxSZWdpb25hbFJlZGlyZWN0IHBhdGg9XCIvc2VydmljZXNcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcHJvY2Vzc1wiIGVsZW1lbnQ9ezxSZWdpb25hbFJlZGlyZWN0IHBhdGg9XCIvcHJvY2Vzc1wiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9jYXNlLXN0dWRpZXNcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL2Nhc2Utc3R1ZGllc1wiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9jYXNlLXN0dWRpZXMvOnNsdWdcIiBlbGVtZW50PXs8Q2FzZVN0dWR5RGV0YWlsIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9sZWFkZXJzaGlwXCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi9sZWFkZXJzaGlwXCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2NvbnRhY3RcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL2NvbnRhY3RcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGFydG5lclwiIGVsZW1lbnQ9ezxSZWdpb25hbFJlZGlyZWN0IHBhdGg9XCIvcGFydG5lclwiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9hZ2VudHNcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3BhcnRuZXJcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcHJpdmFjeS1wb2xpY3lcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3ByaXZhY3ktcG9saWN5XCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Nvb2tpZS1wb2xpY3lcIiBlbGVtZW50PXs8UHJpdmFjeVBvbGljeSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvdGVybXMtYW5kLWNvbmRpdGlvbnNcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3Rlcm1zLWFuZC1jb25kaXRpb25zXCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3JlZnVuZC1wb2xpY3lcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3JlZnVuZC1wb2xpY3lcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcmVmdW5kXCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi9yZWZ1bmQtcG9saWN5XCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3JlZnVuZHNcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3JlZnVuZC1wb2xpY3lcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcHJpdmFjeVwiIGVsZW1lbnQ9ezxSZWdpb25hbFJlZGlyZWN0IHBhdGg9XCIvcHJpdmFjeS1wb2xpY3lcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvdGVybXNcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL3Rlcm1zLWFuZC1jb25kaXRpb25zXCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3doYXQtaXMtamF3cmFoLXBpeGVsXCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi93aGF0LWlzLWphd3JhaC1waXhlbFwiIC8+fSAvPlxuICAgICAgICAgICAgICA8Um91dGUgcGF0aD1cIi93aHktamF3cmFoLXBpeGVsXCIgZWxlbWVudD17PFJlZ2lvbmFsUmVkaXJlY3QgcGF0aD1cIi93aHktamF3cmFoLXBpeGVsXCIgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Fib3V0LWZvdW5kZXJcIiBlbGVtZW50PXs8UmVnaW9uYWxSZWRpcmVjdCBwYXRoPVwiL2Fib3V0LWZvdW5kZXJcIiAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvY2hlY2tvdXRcIiBlbGVtZW50PXs8Q2hlY2tvdXRQYWdlIC8+fSAvPlxuICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgey8qIENhdGNoLWFsbCB0byA0MDQgKi99XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiKlwiIGVsZW1lbnQ9ezxOb3RGb3VuZFBhZ2UgLz59IC8+XG4gICAgICAgICAgICA8L1JvdXRlPlxuXG4gICAgICAgICAgICB7LyogQXV0aGVudGljYXRpb24gKi99XG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9sb2dpblwiIGVsZW1lbnQ9ezxMb2dpbiAvPn0gLz5cbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3NpZ251cFwiIGVsZW1lbnQ9ezxTaWduVXAgLz59IC8+XG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cIi9hdXRoL2xvZ2luXCIgZWxlbWVudD17PExvZ2luIC8+fSAvPlxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvYXV0aC9zaWdudXBcIiBlbGVtZW50PXs8U2lnblVwIC8+fSAvPlxuXG4gICAgICAgICAgICB7LyogQWRtaW4gUm91dGVzICovfVxuICAgICAgICAgICAgPFJvdXRlIGVsZW1lbnQ9ezxSZXF1aXJlQXV0aCByb2xlcz17WydhZG1pbicsICdzdXBlcmFkbWluJ119PjxBZG1pbkxheW91dCAvPjwvUmVxdWlyZUF1dGg+fT5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvYWRtaW5cIiBlbGVtZW50PXs8QWRtaW5EYXNoYm9hcmQgLz59IC8+XG4gICAgICAgICAgICA8L1JvdXRlPlxuXG4gICAgICAgICAgICB7LyogQ2xpZW50IFJvdXRlcyAqL31cbiAgICAgICAgICAgIDxSb3V0ZSBlbGVtZW50PXs8UmVxdWlyZUF1dGggcm9sZXM9e1snY2xpZW50JywgJ2FkbWluJ119PjxDbGllbnRMYXlvdXQgLz48L1JlcXVpcmVBdXRoPn0+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Rhc2hib2FyZFwiIGVsZW1lbnQ9ezxDbGllbnREYXNoYm9hcmQgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Rhc2hib2FyZC9jaGVja291dC86aW52b2ljZUlkXCIgZWxlbWVudD17PENoZWNrb3V0UGFnZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvZGFzaGJvYXJkL3BheW1lbnQtc3VjY2Vzc1wiIGVsZW1lbnQ9ezxQYXltZW50U3VjY2Vzc1BhZ2UgLz59IC8+XG4gICAgICAgICAgICA8L1JvdXRlPlxuICAgICAgICAgICAgPFJvdXRlXG4gICAgICAgICAgICAgIHBhdGg9XCIvY2hlY2tvdXQvOmludm9pY2VJZFwiXG4gICAgICAgICAgICAgIGVsZW1lbnQ9ezxSZXF1aXJlQXV0aCByb2xlcz17WydjbGllbnQnLCAnYWRtaW4nXX0+PENoZWNrb3V0UmVkaXJlY3QgLz48L1JlcXVpcmVBdXRoPn1cbiAgICAgICAgICAgIC8+XG5cbiAgICAgICAgICAgIHsvKiBQYXJ0bmVyIFJvdXRlcyAoYWdlbnQgcm9sZSBpbiBkYXRhYmFzZSkgKi99XG4gICAgICAgICAgICA8Um91dGUgZWxlbWVudD17PFJlcXVpcmVBdXRoIHJvbGVzPXtbJ2FnZW50JywgJ2FkbWluJ119PjxBZ2VudExheW91dCAvPjwvUmVxdWlyZUF1dGg+fT5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvcGFydG5lci9kYXNoYm9hcmRcIiBlbGVtZW50PXs8QWdlbnREYXNoYm9hcmQgLz59IC8+XG4gICAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL2FnZW50XCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3BhcnRuZXIvZGFzaGJvYXJkXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCIvYWdlbnQvZGFzaGJvYXJkXCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3BhcnRuZXIvZGFzaGJvYXJkXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgICAgIDwvUm91dGU+XG4gICAgICAgICAgPC9Sb3V0ZXM+XG4gICAgICAgIDwvU3VzcGVuc2U+XG4gICAgICA8L0Jyb3dzZXJSb3V0ZXI+XG4gICAgPC9BdXRoUHJvdmlkZXI+XG4gICk7XG59XG4iXSwiZmlsZSI6IkM6L1VzZXJzL2FkbWluL0Rlc2t0b3AvamF3cmFoLXBpeGVsLW5ldy9zcmMvQXBwLnRzeCJ9
