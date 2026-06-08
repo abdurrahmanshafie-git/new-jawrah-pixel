@@ -8,6 +8,7 @@ interface PartnerHeroProps {
   region: RegionCode;
   copy: RegionPartnerCopy;
   onApply: () => void;
+  onEarnings: () => void;
   onHowItWorks: () => void;
 }
 
@@ -18,7 +19,7 @@ const trustItems = [
   { label: 'Sri Lanka / Pakistan / Global', icon: Globe2 },
 ];
 
-export function PartnerHero({ region, copy, onApply, onHowItWorks }: PartnerHeroProps) {
+export function PartnerHero({ region, copy, onApply, onEarnings, onHowItWorks }: PartnerHeroProps) {
   return (
     <section className="relative min-h-[calc(100vh-5rem)] pt-28 pb-14 md:pt-36 md:pb-20 flex items-center overflow-hidden">
       <div className="absolute inset-0 premium-grid-overlay opacity-25" aria-hidden="true" />
@@ -84,8 +85,8 @@ export function PartnerHero({ region, copy, onApply, onHowItWorks }: PartnerHero
               Apply to Become a Partner
               <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="lg" onClick={onHowItWorks} className="w-full sm:w-auto">
-              See How It Works
+            <Button variant="outline" size="lg" onClick={onEarnings} className="w-full sm:w-auto">
+              See Earnings Potential
             </Button>
           </motion.div>
 
@@ -110,7 +111,7 @@ export function PartnerHero({ region, copy, onApply, onHowItWorks }: PartnerHero
 
           <div className="mt-10 h-px w-full max-w-4xl bg-gradient-to-r from-brand-cyan/40 via-white/10 to-transparent" />
           <p className="mt-6 text-xs font-mono uppercase tracking-[0.18em] text-zinc-600">
-            Active region: {region.toUpperCase()}
+            Active region: {region.toUpperCase()} | <button type="button" onClick={onHowItWorks} className="text-brand-cyan transition-colors hover:text-white">View partner process</button>
           </p>
         </div>
       </div>

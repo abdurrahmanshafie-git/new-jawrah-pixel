@@ -1,4 +1,4 @@
-import { Award, CheckCircle2, Crown, Rocket } from 'lucide-react';
+import { Award, CheckCircle2, Crown, Gem, Medal } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { ANALYTICS_EVENTS, trackEvent } from '@/lib/analytics';
 import { getPartnerTiers, type PartnerTier } from '@/data/partnerTiers';
@@ -9,8 +9,9 @@ interface PartnerTiersProps {
 }
 
 const tierIcons = {
-  starter: Rocket,
-  growth: Award,
+  bronze: Medal,
+  silver: Award,
+  gold: Gem,
   elite: Crown,
 };
 
@@ -32,7 +33,7 @@ export function PartnerTiers({ region }: PartnerTiersProps) {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 lg:grid-cols-4">
           {tiers.map((tier, index) => (
             <div key={tier.id}>
               <TierCard tier={tier} region={region} index={index} />
@@ -50,14 +51,14 @@ function TierCard({ tier, region, index }: { tier: PartnerTier; region: RegionCo
     trackEvent(ANALYTICS_EVENTS.TIER_VIEWED, {
       region,
       tier: tier.id,
-      commission_rate: tier.commissionRate,
+      commission_rate: tier.commissionRate ?? tier.commissionLabel,
     });
   };
 
   return (
     <Reveal delay={index * 0.05}>
       <div
-        className={`relative rounded-lg border p-6 transition-colors duration-300 ${
+        className={`relative h-full rounded-lg border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_80px_rgba(6,182,212,0.12)] ${
           tier.featured
             ? 'border-brand-cyan/45 bg-brand-cyan/[0.08]'
             : 'border-white/10 bg-black/70 hover:border-brand-cyan/30'
@@ -68,7 +69,7 @@ function TierCard({ tier, region, index }: { tier: PartnerTier; region: RegionCo
       >
       {tier.featured && (
         <div className="absolute right-4 top-4 rounded-md border border-brand-cyan/30 bg-brand-cyan/10 px-3 py-1 text-[9px] font-mono uppercase tracking-[0.18em] text-brand-cyan">
-          Common fit
+          Popular path
         </div>
       )}
 
@@ -79,19 +80,20 @@ function TierCard({ tier, region, index }: { tier: PartnerTier; region: RegionCo
       <h3 className="text-2xl font-display font-semibold uppercase tracking-normal text-white">
         {tier.name}
       </h3>
-      <p className="mt-3 min-h-[4.5rem] text-sm leading-6 text-zinc-500">{tier.bestFor}</p>
+      <p className="mt-3 min-h-[6rem] text-sm leading-6 text-zinc-500">{tier.bestFor}</p>
 
       <div className="mt-7 border-y border-white/10 py-5">
-        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-500">Commission rate</p>
-        <p className="mt-2 text-4xl font-display font-semibold text-white">{tier.commissionRate}%</p>
+        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-500">
+          {tier.completedReferrals}
+        </p>
+        <p className="mt-2 text-4xl font-display font-semibold text-white">{tier.commissionLabel}</p>
       </div>
 
-      <TierList title="Requirements" items={tier.requirements} />
       <TierList title="Benefits" items={tier.benefits} />
 
       <div className="mt-7 rounded-md border border-white/10 bg-white/[0.03] p-4">
-        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-brand-cyan">Upgrade condition</p>
-        <p className="mt-2 text-sm leading-6 text-zinc-400">{tier.upgradeCondition}</p>
+        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-brand-cyan">Progression</p>
+        <p className="mt-2 text-sm leading-6 text-zinc-400">{tier.progressionNote}</p>
       </div>
       </div>
     </Reveal>

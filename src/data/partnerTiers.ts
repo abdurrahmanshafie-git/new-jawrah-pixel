@@ -1,71 +1,77 @@
 import type { RegionCode } from '@/types';
 
 export interface PartnerTier {
-  id: 'starter' | 'growth' | 'elite';
+  id: 'bronze' | 'silver' | 'gold' | 'elite';
   name: string;
   bestFor: string;
-  commissionRate: number;
-  requirements: string[];
+  commissionRate?: number;
+  commissionLabel: string;
+  completedReferrals: string;
   benefits: string[];
-  upgradeCondition: string;
+  progressionNote: string;
   featured?: boolean;
 }
 
 const tiers: PartnerTier[] = [
   {
-    id: 'starter',
-    name: 'Starter Partner',
-    bestFor: 'New partners with a warm network and a few qualified business relationships.',
-    commissionRate: 8,
-    requirements: [
-      'Approved partner application',
-      'Verified email and WhatsApp contact',
-      'Ethical, accurate client introductions',
-    ],
+    id: 'bronze',
+    name: 'Bronze Partner',
+    bestFor: 'Newly approved partners starting with a few warm business introductions.',
+    commissionRate: 10,
+    commissionLabel: '10%',
+    completedReferrals: 'Up to 3 completed referrals',
     benefits: [
-      'Starter referral commission',
+      '10% commission on approved paid projects',
       'Partner onboarding guidance',
-      'Application and referral tracking',
-      'Access to core service positioning',
+      'Referral code and tracking setup',
+      'Core service positioning support',
     ],
-    upgradeCondition: 'Upgrade after 3 qualified referrals or 1 paid project.',
+    progressionNote: 'Build your first wins and move into Silver after consistent completed referrals.',
   },
   {
-    id: 'growth',
-    name: 'Growth Partner',
-    bestFor: 'Consultants, marketers, and connectors who can introduce clients every month.',
+    id: 'silver',
+    name: 'Silver Partner',
+    bestFor: 'Reliable partners with recurring client conversations and stronger referral quality.',
     commissionRate: 12,
-    requirements: [
-      'Consistent qualified referrals',
-      'Clear business communication',
-      'Positive client introduction quality',
-    ],
+    commissionLabel: '12%',
+    completedReferrals: '4-9 completed referrals',
     benefits: [
-      'Higher commission rate',
-      'Priority partner desk support',
+      '12% commission on approved paid projects',
+      'Priority referral review',
       'Referral pipeline visibility',
-      'Early access to new service offers',
+      'Early access to new offers',
     ],
-    upgradeCondition: 'Upgrade after 5 paid projects or strong monthly referral volume.',
+    progressionNote: 'Move toward Gold by proving repeatable qualified introductions.',
     featured: true,
+  },
+  {
+    id: 'gold',
+    name: 'Gold Partner',
+    bestFor: 'High-trust partners who regularly introduce premium businesses and decision makers.',
+    commissionRate: 15,
+    commissionLabel: '15%',
+    completedReferrals: '10-19 completed referrals',
+    benefits: [
+      '15% commission on approved paid projects',
+      'Strategic account collaboration',
+      'Priority support',
+      'Advanced payout reporting',
+    ],
+    progressionNote: 'Designed for partners turning relationships into a serious channel.',
   },
   {
     id: 'elite',
     name: 'Elite Partner',
-    bestFor: 'High-trust partners serving premium businesses, founders, and decision makers.',
-    commissionRate: 15,
-    requirements: [
-      'Proven paid referral history',
-      'Premium business network',
-      'Consistent communication quality',
-    ],
+    bestFor: 'Established channel partners, consultants, and agency owners with premium deal flow.',
+    commissionLabel: 'Custom rewards',
+    completedReferrals: '20+ completed referrals',
     benefits: [
-      'Top-tier commission potential',
-      'Strategic account collaboration',
-      'Custom partner support',
-      'Long-term commission and payout reporting',
+      'Custom rewards and bonus opportunities',
+      'Priority support',
+      'Strategic pipeline planning',
+      'Direct collaboration on larger accounts',
     ],
-    upgradeCondition: 'Invite or review based on paid project volume and partner quality.',
+    progressionNote: 'Reviewed individually based on volume, quality, and long-term partner fit.',
   },
 ];
 

@@ -5,38 +5,43 @@ export interface PartnerFaq {
 
 export const partnerFaqs: PartnerFaq[] = [
   {
-    question: 'Do I need coding knowledge?',
-    answer:
-      'No. Partners do not need to design or code. Your role is to identify qualified businesses and make a professional introduction. Jawrah Pixel handles strategy, design, development, deployment, SEO foundations, and support.',
-  },
-  {
     question: 'How do commissions work?',
     answer:
-      'Commission is calculated from the approved project value and the partner tier rate. The exact rate and payout rules are confirmed after approval so every partner has clear expectations before referring clients.',
+      'Commission is calculated from the approved project value and your partner tier. Bronze starts at 10%, Silver at 12%, Gold at 15%, and Elite partners can qualify for custom rewards.',
   },
   {
     question: 'When do I get paid?',
     answer:
-      'Commissions are paid after the referred client payment is confirmed and the referral is validated. Approved partners can track commission status and payout history through the partner workflow.',
+      'Commissions are paid after the referred client payment is confirmed, the project is validated, and the commission is approved in the partner workflow.',
   },
   {
-    question: 'What type of clients should I refer?',
+    question: 'Who can become a partner?',
     answer:
-      'Refer businesses that need serious websites, ecommerce systems, digital dashboards, SEO, branding, AI automation, or long-term digital growth support. Qualified decision makers are the best fit.',
+      'Salespeople, freelancers, marketers, consultants, agency owners, founders, and business connectors can apply if they can introduce qualified businesses professionally.',
   },
   {
-    question: 'Does Jawrah Pixel handle delivery?',
+    question: 'Is there a joining fee?',
     answer:
-      'Yes. Jawrah Pixel handles discovery, proposal preparation, UI and UX design, engineering, deployment, technical SEO foundations, and support communication.',
+      'No. There is no joining fee to apply or become an approved Jawrah Pixel partner.',
   },
   {
-    question: 'Can I join from outside Sri Lanka or Pakistan?',
+    question: 'Do I need experience?',
     answer:
-      'Yes. The Partner Network supports Sri Lanka, Pakistan, and international partners. Global partners can refer clients remotely and use USD-based commission estimates.',
+      'You do not need technical experience. Business communication, trust, and access to qualified relationships matter more than design or development knowledge.',
   },
   {
-    question: 'What happens after I apply?',
+    question: 'How are referrals tracked?',
     answer:
-      'Your application is reviewed for fit, region, communication quality, and referral potential. If approved, you receive partner next steps, tracking access, and guidance on how to introduce businesses properly.',
+      'Approved partners receive a unique referral code or tracked introduction path. Referrals are connected to your partner record so project and commission status can be reviewed.',
+  },
+  {
+    question: 'Can international partners apply?',
+    answer:
+      'Yes. Jawrah Pixel accepts early partners across Sri Lanka, Pakistan, and international markets, with regional payment methods depending on approval and availability.',
+  },
+  {
+    question: 'What project types qualify?',
+    answer:
+      'Premium websites, ecommerce systems, booking platforms, AI automation, business portals, SEO, and digital growth projects can qualify when they are approved and paid.',
   },
 ];

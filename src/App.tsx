@@ -93,6 +93,9 @@ export default function App() {
               <Route path="/lk/about" element={<About />} />
               <Route path="/lk/services" element={<Services />} />
               <Route path="/lk/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/lk/client" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/lk/admin" element={<Navigate to="/admin" replace />} />
+              <Route path="/lk/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/lk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/lk/process" element={<Process />} />
               <Route path="/lk/pricing" element={<Services />} />
@@ -120,6 +123,9 @@ export default function App() {
               <Route path="/pk/about" element={<About />} />
               <Route path="/pk/services" element={<Services />} />
               <Route path="/pk/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/pk/client" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/pk/admin" element={<Navigate to="/admin" replace />} />
+              <Route path="/pk/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/pk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/pk/process" element={<Process />} />
               <Route path="/pk/pricing" element={<Services />} />
@@ -147,6 +153,9 @@ export default function App() {
               <Route path="/int/about" element={<About />} />
               <Route path="/int/services" element={<Services />} />
               <Route path="/int/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/int/client" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/int/admin" element={<Navigate to="/admin" replace />} />
+              <Route path="/int/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/int/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/int/process" element={<Process />} />
               <Route path="/int/pricing" element={<Services />} />

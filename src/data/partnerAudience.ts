@@ -6,6 +6,12 @@ export interface PartnerAudienceItem {
 
 export const partnerAudience: PartnerAudienceItem[] = [
   {
+    icon: 'connector',
+    title: 'Sales Professionals',
+    description:
+      'Introduce qualified decision makers and let Jawrah Pixel handle proposal, delivery, technical scope, and support.',
+  },
+  {
     icon: 'consultant',
     title: 'Freelance Consultants',
     description:
@@ -19,14 +25,20 @@ export const partnerAudience: PartnerAudienceItem[] = [
   },
   {
     icon: 'connector',
-    title: 'Business Connectors',
+    title: 'Agency Owners',
     description:
-      'Turn your founder, retail, property, hospitality, or professional network into a serious referral channel.',
+      'Refer overflow or adjacent digital work without adding more internal production load to your agency.',
+  },
+  {
+    icon: 'consultant',
+    title: 'Business Consultants',
+    description:
+      'Bring premium digital execution into client conversations while keeping strategy and relationship trust intact.',
   },
   {
     icon: 'ambitious',
-    title: 'Ambitious Individuals',
+    title: 'Entrepreneurs',
     description:
-      'Build a practical income path by learning how to identify businesses that need premium digital execution.',
+      'Turn founder networks, local relationships, and market access into a practical long-term partner channel.',
   },
 ];

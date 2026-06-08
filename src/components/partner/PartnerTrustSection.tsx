@@ -11,6 +11,15 @@ interface PartnerTrustSectionProps {
   regionPath: (path: string) => string;
 }
 
+const referableServices = [
+  'Premium Websites',
+  'Ecommerce Systems',
+  'Booking Platforms',
+  'AI Automation',
+  'Business Portals',
+  'SEO & Digital Growth',
+] as const;
+
 export function PartnerTrustSection({ region, regionPath }: PartnerTrustSectionProps) {
   const caseStudies = getCaseStudiesForRegion(region).slice(0, 3);
   const services = getServicesForRegion(region).slice(0, 6);
@@ -18,6 +27,27 @@ export function PartnerTrustSection({ region, regionPath }: PartnerTrustSectionP
   return (
     <section id="trust-proof" className="scroll-mt-28 py-20 md:py-28">
       <div className="container mx-auto px-6">
+        <Reveal className="mb-10 rounded-lg border border-brand-cyan/20 bg-brand-cyan/[0.07] p-6 md:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-[10px] font-mono uppercase tracking-[0.28em] text-brand-cyan">
+                Built by Jawrah Pixel
+              </p>
+              <h2 className="mt-4 text-2xl font-display font-semibold uppercase tracking-normal text-white md:text-3xl">
+                Services partners can refer with confidence
+              </h2>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[34rem]">
+              {referableServices.map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-md border border-white/10 bg-black/45 p-4">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-brand-cyan" />
+                  <span className="text-sm font-medium text-white">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
         <div className="grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
           <Reveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.28em] text-brand-cyan">

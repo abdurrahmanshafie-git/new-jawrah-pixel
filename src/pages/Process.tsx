@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Zap, 
@@ -17,6 +17,58 @@ import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { cn } from '@/lib/utils';
 import { toAbsoluteUrl } from '@/lib/env';
 
+type ProcessStep = {
+  num: string;
+  title: string;
+  desc: string;
+  delivery: string;
+  timeline: string;
+};
+
+function ProcessStepCard({ step, align = 'left' }: { step: ProcessStep; align?: 'left' | 'right' }) {
+  const alignToCenter = align === 'right';
+
+  return (
+    <div
+      className={cn(
+        "group w-full border border-white/5 bg-white/[0.025] p-6 transition-all duration-500 hover:border-brand-blue/25 hover:bg-white/[0.05] md:p-8",
+        alignToCenter ? "md:text-right" : "md:text-left"
+      )}
+    >
+      <div
+        className={cn(
+          "mb-5 flex flex-wrap items-center gap-3",
+          alignToCenter ? "md:justify-end" : "md:justify-start"
+        )}
+      >
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-brand-blue/35 bg-brand-blue/10 font-mono text-sm font-semibold text-brand-blue md:hidden">
+          {step.num}
+        </span>
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-brand-blue">
+          {step.timeline}
+        </span>
+      </div>
+
+      <h4 className="mb-4 text-xl font-display font-medium uppercase tracking-tight text-white transition-colors group-hover:text-brand-blue md:text-2xl">
+        {step.title}
+      </h4>
+      <p className="text-sm font-light leading-relaxed text-zinc-500 transition-colors duration-500 group-hover:text-zinc-300">
+        {step.desc}
+      </p>
+
+      <div
+        className={cn(
+          "mt-7 flex items-center gap-3 border-t border-white/5 pt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500",
+          alignToCenter ? "md:justify-end" : "md:justify-start"
+        )}
+      >
+        <Check size={14} className="shrink-0 text-brand-blue" />
+        <span className="min-w-0 break-words leading-relaxed">{step.delivery}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Process() {
   const location = useLocation();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -27,7 +79,7 @@ export default function Process() {
     ? "Learn about Jawrah Pixel's remote-first global development process, USD monthly retainers, international payment support, and performance guarantees for premium global brands."
     : `Learn about Jawrah Pixel's elite development process, active monthly retainers, responsive ticketing FAQs, and performance guarantees for ${config.countryName} brands.`;
 
-  const steps = [
+  const steps: ProcessStep[] = [
     { 
       num: '01', 
       title: 'Discovery & Strategy', 
@@ -148,85 +200,32 @@ export default function Process() {
           </motion.p>
         </Reveal>
 
-        <div className="md:hidden max-w-6xl mx-auto mb-24">
-          <StaggerContainer className="grid grid-cols-2 gap-4">
-            {steps.map((step) => (
-              <StaggerItem
-                key={step.num}
-                className="h-full p-6 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 flex flex-col"
-              >
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">{step.timeline}</span>
-                  <span className="w-9 h-9 border border-brand-blue/30 flex items-center justify-center shrink-0 text-brand-blue font-mono text-sm">
-                    {step.num}
-                  </span>
-                </div>
-                <h4 className="text-sm font-display font-medium text-white uppercase tracking-tight leading-snug mb-3">
-                  {step.title}
-                </h4>
-                <p className="text-[11px] text-zinc-500 leading-relaxed font-light mb-5 line-clamp-4">
-                  {step.desc}
-                </p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
-                  <Check size={12} className="text-brand-blue" /> {step.delivery}
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
+        <div className="relative mx-auto mb-24 max-w-6xl md:mb-48">
+          <div className="pointer-events-none absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-brand-blue/35 to-transparent md:block" />
 
-        <div className="hidden md:block max-w-6xl mx-auto mb-24 md:mb-48 relative">
-          <div className="absolute left-[24px] md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-brand-blue via-brand-blue/20 to-transparent pointer-events-none"></div>
-
-          <div className="space-y-20 md:space-y-32">
+          <div className="space-y-6 md:space-y-10">
             {steps.map((step, i) => {
-              const isEven = i % 2 === 0;
+              const isLeft = i % 2 === 0;
               return (
                 <motion.div 
                   key={step.num}
-                  initial={{ opacity: 0, y: 35 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className={cn(
-                    "flex items-start md:items-center gap-10 md:gap-20 relative",
-                    isEven ? "md:flex-row-reverse" : "md:flex-row"
-                  )}
+                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+                  transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative md:grid md:grid-cols-[minmax(0,1fr)_5.5rem_minmax(0,1fr)] md:items-center md:gap-6"
                 >
-                  <div className="w-full md:w-1/2 hidden md:block">
-                    <div className={cn(
-                      "group p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700",
-                      isEven ? "text-right" : "text-left"
-                    )}>
-                      <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">{step.timeline}</span>
-                      <h4 className="text-2xl font-display font-medium text-white uppercase mt-4 mb-6 tracking-tight group-hover:text-brand-blue transition-colors">{step.title}</h4>
-                      <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">{step.desc}</p>
-                      <div className={cn(
-                        "pt-6 border-t border-white/5 mt-8 flex items-center gap-3 text-[10px] font-mono text-zinc-600 uppercase tracking-widest",
-                        isEven ? "justify-end" : "justify-start"
-                      )}>
-                        <Check size={14} className="text-brand-blue" /> {step.delivery}
-                      </div>
-                    </div>
+                  <div
+                    className={cn(
+                      "w-full",
+                      isLeft ? "md:col-start-1" : "md:col-start-3 md:row-start-1"
+                    )}
+                  >
+                    <ProcessStepCard step={step} align={isLeft ? 'right' : 'left'} />
                   </div>
 
-                  <div className="w-12 h-12 md:w-24 md:h-24 bg-brand-black border border-brand-blue/30 flex items-center justify-center shrink-0 z-10 relative">
-                    <span className="text-lg md:text-2xl font-display font-medium text-brand-blue font-mono">{step.num}</span>
-                    <div className="absolute -inset-2 border border-white/5 animate-spin-slow"></div>
-                  </div>
-
-                  <div className="w-full md:w-1/2">
-                    <div className={cn(
-                      "group p-10 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700",
-                      isEven ? "md:hidden" : "text-left"
-                    )}>
-                      <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">{step.timeline}</span>
-                      <h4 className="text-xl font-display font-medium text-white uppercase mt-4 mb-4 tracking-tight group-hover:text-brand-blue transition-colors">{step.title}</h4>
-                      <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">{step.desc}</p>
-                      <div className="pt-6 border-t border-white/5 mt-6 flex items-center justify-start gap-3 text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
-                        <Check size={14} className="text-brand-blue" /> {step.delivery}
-                      </div>
-                    </div>
+                  <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-brand-blue/35 bg-brand-black shadow-[0_0_0_8px_rgba(3,7,18,0.95)] md:flex">
+                    <span className="font-mono text-lg font-semibold text-brand-blue">{step.num}</span>
                   </div>
                 </motion.div>
               );
