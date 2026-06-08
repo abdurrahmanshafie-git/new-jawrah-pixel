@@ -80,4 +80,12 @@ export const ANALYTICS_EVENTS = {
   CHECKOUT_STARTED: 'begin_checkout',
   PAYMENT_SUBMITTED: 'payment_submitted',
   PROPOSAL_ACCEPTED: 'proposal_accepted',
+  PARTNER_PAGE_VIEW: 'partner_page_view',
+  PARTNER_CTA_CLICK: 'partner_cta_click',
+  CALCULATOR_USED: 'calculator_used',
+  TIER_VIEWED: 'tier_viewed',
+  APPLICATION_STARTED: 'application_started',
+  APPLICATION_SUBMITTED: 'application_submitted',
+  APPLICATION_FAILED: 'application_failed',
+  APPLICATION_SUCCESS: 'application_success',
 };

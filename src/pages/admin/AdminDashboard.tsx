@@ -724,7 +724,7 @@ export default function AdminDashboard() {
           (referral) => referral.region === regionFilter || visibleAgentIds.has(referral.agent_id),
         );
   const approvedAgents = visibleAgents.filter((agent) => agent.status === 'approved');
-  const pendingApplications = visibleAgents.filter((agent) => ['pending', 'interview'].includes(agent.status)).length;
+  const pendingApplications = visibleAgents.filter((agent) => ['pending', 'under_review', 'interview'].includes(agent.status)).length;
   const monthlyReferrals = visibleAgentReferrals.filter(
     (referral) => referral.created_at?.slice(0, 7) === new Date().toISOString().slice(0, 7),
   ).length;

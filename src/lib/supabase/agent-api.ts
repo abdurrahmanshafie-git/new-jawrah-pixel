@@ -33,7 +33,7 @@ async function currentUserId(): Promise<string> {
   return data.user.id;
 }
 
-export type AgentStatus = 'pending' | 'interview' | 'approved' | 'rejected' | 'suspended';
+export type AgentStatus = 'pending' | 'under_review' | 'interview' | 'approved' | 'rejected' | 'suspended';
 export type AgentLeadStatus =
   | 'submitted'
   | 'reviewing'
@@ -733,7 +733,7 @@ export async function adminUpdateAgentStatus(
       name: profile?.full_name ?? undefined,
       region: profile?.region ?? undefined,
     });
-  } else if (status === 'interview') {
+  } else if (status === 'interview' || status === 'under_review') {
     void sendAgentEmailNotification({
       emailType: 'agent_application_needs_info',
       email: profile?.email ?? undefined,

@@ -181,7 +181,7 @@ export function AdminAgentNetworkPanel({
       ? tierHistory
       : tierHistory.filter((entry) => scopedAgentIds.has(entry.agent_id));
 
-  const pendingApplications = agents.filter((agent) => ['pending', 'interview'].includes(agent.status)).length;
+  const pendingApplications = agents.filter((agent) => ['pending', 'under_review', 'interview'].includes(agent.status)).length;
   const monthlyReferrals = filteredReferrals.filter((referral) => isCurrentMonth(referral.created_at)).length;
   const commissionsDue = filteredCommissions
     .filter((commission) => commission.status === 'pending' || commission.status === 'approved')

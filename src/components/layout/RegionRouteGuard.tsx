@@ -41,7 +41,7 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
   if (user) {
     const activeRegion = isAdmin
       ? getSavedAdminRegion() ?? profileRegion ?? savedRegion
-      : lockedRegion ?? savedRegion;
+      : profileRegion ?? savedRegion;
     if (activeRegion) {
       if (isAdmin) {
         persistAdminRegion(activeRegion);

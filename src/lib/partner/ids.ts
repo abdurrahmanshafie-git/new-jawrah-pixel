@@ -27,6 +27,7 @@ export function normalizeReferralCode(code: string): string {
 
 export const PARTNER_STATUS_LABELS: Record<string, string> = {
   pending: 'Pending Review',
+  under_review: 'Under Review',
   interview: 'Needs More Information',
   approved: 'Approved',
   rejected: 'Rejected',
