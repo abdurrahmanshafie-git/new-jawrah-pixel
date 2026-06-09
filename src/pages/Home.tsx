@@ -11,6 +11,7 @@ import { Logo } from '@/components/layout/Logo';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { TrustSection } from '@/components/sections/TrustSection';
+import { GoogleReviews } from '@/components/sections/GoogleReviews';
 import Magnetic from '@/components/ui/Magnetic';
 
 const liveProjects = [
@@ -29,7 +30,7 @@ const liveProjects = [
     category: "Internal Operations & Client CRM",
     desc: "A secure agency operating layer for proposals, client workspaces, lead routing, and Supabase-backed delivery governance.",
     image: "/assets/case-studies/jawrah-pixel/desktop.png",
-    url: "https://jawrahpixel.com/",
+    url: "https://jawrah-pixel-itpe.vercel.app/",
     slug: "jawrah-pixel",
     glowColor: "rgba(255,255,255,0.08)",
     gradient: "from-white/10 to-transparent",
@@ -39,7 +40,7 @@ const liveProjects = [
     category: "Premium Real Estate Portal",
     desc: "A high-trust property acquisition portal built to present architectural inventory, qualify buyers, and protect luxury brand perception.",
     image: "/assets/case-studies/velora/desktop.png",
-    url: "https://jawrahpixel.com/case-studies/velora-estates",
+    url: "https://real-estate-jawrah-project.netlify.app/",
     slug: "velora-estates",
     glowColor: "rgba(245,158,11,0.12)",
     gradient: "from-amber-600/20 to-transparent",
@@ -49,7 +50,7 @@ const liveProjects = [
     category: "Bespoke Jewelry E-commerce",
     desc: "A heritage jewelry storefront shaped around product confidence, appraisal clarity, and premium mobile-first catalog discovery.",
     image: "/assets/case-studies/shabnam-jewellers/desktop.png",
-    url: "https://jawrahpixel.com/case-studies/shabnam-jewellers",
+    url: "https://shabnam-tau.vercel.app/",
     slug: "shabnam-jewellers",
     glowColor: "rgba(217,119,6,0.12)",
     gradient: "from-amber-600/15 to-transparent",
@@ -59,10 +60,40 @@ const liveProjects = [
     category: "Bespoke Tour Planner & Booking Engine",
     desc: "A travel planning system designed to move visitors from inspiration to itinerary confidence through structured booking flows.",
     image: "/assets/case-studies/aero-vista/desktop.png",
-    url: "https://jawrahpixel.com/case-studies/aerovista",
+    url: "https://aero-vista-jawrah-project.vercel.app/#home",
     slug: "aerovista-travels",
     glowColor: "rgba(59,130,246,0.15)",
     gradient: "from-blue-600/20 to-transparent",
+  },
+  {
+    title: "The Famous Clothing",
+    category: "Premium Fashion & E-commerce",
+    desc: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion and localized checkout flows.",
+    image: "/assets/case-studies/the-famous/desktop.png",
+    url: "https://the-famous-demo.netlify.app/",
+    slug: "the-famous",
+    glowColor: "rgba(255,255,255,0.08)",
+    gradient: "from-white/10 to-transparent",
+  },
+  {
+    title: "Amirah High Jewellery",
+    category: "Sovereign High Jewellery House",
+    desc: "A digital atelier for Sri Lanka's sovereign luxury jewelry house featuring unheated Ceylon sapphires and bespoke booking flows.",
+    image: "/assets/case-studies/amirah-jewellery/desktop.png",
+    url: "https://amira-preview-jawrah-pixel.netlify.app/",
+    slug: "amirah-jewellery",
+    glowColor: "rgba(34,211,238,0.15)",
+    gradient: "from-brand-cyan/20 to-brand-blue/5",
+  },
+  {
+    title: "New Kamal Jewellers",
+    category: "Handcrafted Heritage Jewelry",
+    desc: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold and bridal couture.",
+    image: "/assets/case-studies/kamal-jewellers/desktop.png",
+    url: "https://kamal-jewelers.vercel.app/",
+    slug: "kamal-jewellers",
+    glowColor: "rgba(245,158,11,0.12)",
+    gradient: "from-amber-600/20 to-transparent",
   }
 ];
 
@@ -291,6 +322,29 @@ export default function Home() {
                   </Button>
                 </Link>
               </Magnetic>
+            </motion.div>
+
+            {/* Google Review Shortcut */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              className="mt-8 flex justify-center"
+            >
+              <a 
+                href="https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID_HERE" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/5 hover:border-brand-cyan/30 hover:bg-white/[0.05] transition-all duration-300 group"
+              >
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={10} className="fill-brand-cyan text-brand-cyan" />
+                  ))}
+                </div>
+                <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">Review us on Google</span>
+                <ExternalLink size={10} className="text-zinc-500 group-hover:text-brand-cyan transition-colors" />
+              </a>
             </motion.div>
           </div>
         </div>
@@ -746,6 +800,9 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* Google Reviews */}
+      <GoogleReviews />
 
       {/* CTA */}
       <section className="py-20 md:py-32 relative overflow-hidden">

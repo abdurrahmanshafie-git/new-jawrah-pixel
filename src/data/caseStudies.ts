@@ -103,7 +103,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     category: "Internal Operations & Client CRM",
     industry: "Digital Engineering & Luxury Branding",
     client: "Jawrah Pixel Sri Lanka",
-    websiteUrl: "https://jawrahpixel.com/",
+    websiteUrl: "https://jawrah-pixel-itpe.vercel.app/",
     desktopImage: "/assets/case-studies/jawrah-pixel/desktop.png",
     mobileImage: "/assets/case-studies/jawrah-pixel/mobile.png",
     overview: "Official presence and operational command desk of Jawrah Pixel. Incorporates our automated discovery bookkeeping portals, secure client proposal vaults, and collaborative agent modules.",
@@ -271,7 +271,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     category: "Luxury Real Estate Portal",
     industry: "Real Estate & Property Development",
     client: "Velora Group",
-    websiteUrl: "https://jawrahpixel.com/case-studies/velora-estates",
+    websiteUrl: "https://real-estate-jawrah-project.netlify.app/",
     desktopImage: "/assets/case-studies/velora/desktop.png",
     mobileImage: "/assets/case-studies/velora/mobile.png",
     overview: "A flagship digital portal architected for a premium real estate group. The platform translates complex property portfolios into a cinematic, high-speed browsing experience with integrated lead management.",
@@ -327,7 +327,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     category: "Bespoke Ecommerce & UI Branding",
     industry: "Fine Jewelry & Luxury Retail",
     client: "Shabnam International Ltd.",
-    websiteUrl: "https://jawrahpixel.com/case-studies/shabnam-jewellers",
+    websiteUrl: "https://shabnam-tau.vercel.app/",
     desktopImage: "/assets/case-studies/shabnam-jewellers/desktop.png",
     mobileImage: "/assets/case-studies/shabnam-jewellers/mobile.png",
     overview: "A premium digital flagship boutique engineered for one of Pakistan's elite luxury jewellery houses. The high-performance experience translates fine heritage gold designs into highly curated, responsive digital layouts.",
@@ -387,7 +387,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     overview: "Highly responsive booking platform and travel scheduler processing curated itineraries safely. Built with elite travel API custom edge-cachers, reducing backend query latency by 91% for regional and international travelers.",
     budget: "PKR 1,950,000",
     duration: "5 Weeks",
-    websiteUrl: "https://jawrahpixel.com/case-studies/aerovista",
+    websiteUrl: "https://aero-vista-jawrah-project.vercel.app/#home",
     desktopImage: "/assets/case-studies/aero-vista/desktop.png",
     mobileImage: "/assets/case-studies/aero-vista/mobile.png",
     goals: [
@@ -432,6 +432,174 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
       avatar: "ZS"
     },
     metaDesc: "Review AeroVista Travels custom itinerary scheduler and API optimization case study."
+  },
+  'the-famous': {
+    region: 'int',
+    title: "The Famous Clothing",
+    slug: "the-famous",
+    category: "Premium Fashion & E-commerce",
+    industry: "Luxury Streetwear & Retail",
+    client: "The Famous Clothing Co.",
+    websiteUrl: "https://the-famous-demo.netlify.app/",
+    desktopImage: "/assets/case-studies/the-famous/desktop.png",
+    mobileImage: "/assets/case-studies/the-famous/mobile.png",
+    overview: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion. Features a bespoke inventory management system and localized checkout flows.",
+    budget: "$12,500",
+    duration: "4 Weeks",
+    goals: [
+      "Translate high-end fashion aesthetics into a high-performance digital storefront.",
+      "Implement cinematic collection reveals and lookbook transitions.",
+      "Optimize for ultra-fast mobile browsing on high-latency networks."
+    ],
+    challenges: [
+      "Balancing large, high-resolution campaign imagery with strict performance benchmarks.",
+      "Creating an intuitive navigation system for deep product catalogs.",
+      "Maintaining brand authority through minimal but high-impact UI elements."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Visual Direction", desc: "Establishing the brand's digital silhouette and typographic hierarchy." },
+      { phase: "Phase 2", title: "Storefront Engineering", desc: "Building the high-conversion product grid and cinematic collection pages." },
+      { phase: "Phase 3", title: "Inventory Sync", desc: "Integrating real-time stock management and localized payment nodes." }
+    ],
+    technologies: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Supabase", "Edge CDN"],
+    solutions: [
+      "Custom product discovery engine with sub-200ms response times.",
+      "Hardware-accelerated transitions for a native app-like experience.",
+      "Performance-first asset pipeline for high-resolution fashion media."
+    ],
+    perfScores: { perf: 98, seo: 96, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Cinematic Collections", desc: "Full-bleed lookbook spans with interactive product hotspots." },
+      { title: "Fluid Navigation", desc: "Architectural menu systems that prioritize collection discovery." }
+    ],
+    mobileHighlights: [
+      { title: "Native Browse Feel", desc: "Smooth swipe-to-view galleries and thumb-optimized checkout flows." },
+      { title: "Crisp Typography", desc: "Highly readable font scaling for mobile-first fashion consumers." }
+    ],
+    results: [
+      { metric: "Mobile Conversion", val: "+72%", desc: "Increase in mobile purchase completions since launch." },
+      { metric: "Page Speed Rate", val: "0.25s", desc: "First contentful paint (FCP) rendering time globally." },
+      { metric: "User Engagement", val: "+115%", desc: "Longer session durations on campaign lookbook pages." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel has redefined our digital presence. The site is as stylish as our collections and significantly faster than our previous platform.",
+      author: "A. Rahman",
+      role: "Founder",
+      avatar: "AR"
+    },
+    metaDesc: "Explore The Famous Clothing's premium fashion e-commerce and digital flagship case study by Jawrah Pixel."
+  },
+  'amirah-jewellery': {
+    region: 'lk',
+    title: "Amirah High Jewellery",
+    slug: "amirah-jewellery",
+    category: "Sovereign High Jewellery House",
+    industry: "Luxury Gemstones & Bespoke Jewelry",
+    client: "Amirah High Jewellery",
+    websiteUrl: "https://amira-preview-jawrah-pixel.netlify.app/",
+    desktopImage: "/assets/case-studies/amirah-jewellery/desktop.png",
+    mobileImage: "/assets/case-studies/amirah-jewellery/mobile.png",
+    overview: "A digital atelier for Sri Lanka's sovereign luxury jewelry house. Features a high-security private viewing booking system and a narrative-driven showcase of unheated Ceylon sapphires.",
+    budget: "LKR 3,500,000",
+    duration: "6 Weeks",
+    goals: [
+      "Digitize the exclusive showroom experience for an international elite audience.",
+      "Showcase rare unheated Ceylon sapphires with absolute visual fidelity.",
+      "Implement a secure, private booking system for high-net-worth consultations."
+    ],
+    challenges: [
+      "Communicating the 'untouched' beauty of rare gemstones through digital screens.",
+      "Maintaining extreme privacy and exclusivity while expanding digital reach.",
+      "Integrating traditional Sri Lankan craftsmanship stories into a modern UI."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Atelier Discovery", desc: "Mapping the bespoke jewelry journey and gemstone provenance stories." },
+      { phase: "Phase 2", title: "Digital Showroom", desc: "Designing high-fidelity collection exhibitions and private booking flows." },
+      { phase: "Phase 3", title: "Security Engineering", desc: "Implementing encrypted inquiry channels and secure client vaults." }
+    ],
+    technologies: ["React", "Framer Motion", "Supabase RLS", "Tailwind CSS v4", "PostgreSQL"],
+    solutions: [
+      "Interactive 'Atelier Commissions' flow for bespoke jewelry planning.",
+      "High-security private suite styling request system.",
+      "Narrative-driven gemstone heritage pages with certified trust signals."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 97 },
+    desktopHighlights: [
+      { title: "Exhibition Galleries", desc: "Museum-grade digital displays for certified GIA diamond collections." },
+      { title: "Bespoke Journey Map", desc: "Interactive visualization of the custom jewelry design process." }
+    ],
+    mobileHighlights: [
+      { title: "Private Advisor Node", desc: "Instant WhatsApp and secure call triggers for immediate specialist access." },
+      { title: "Visual Heritage", desc: "Optimized mobile stories showcasing Sri Lankan sapphire history." }
+    ],
+    results: [
+      { metric: "Private Bookings", val: "+140%", desc: "Increase in high-value consultation requests since launch." },
+      { metric: "International Traffic", val: "+85%", desc: "Growth in users from global luxury hubs (Dubai, London, NYC)." },
+      { metric: "Brand Authority", val: "100%", desc: "Perfect alignment with sovereign high jewelry positioning." }
+    ],
+    testimonial: {
+      quote: "Our digital atelier now matches the precision of our master smiths. The private booking system has revolutionized how we connect with global patrons.",
+      author: "Jaweriya H.",
+      role: "Managing Director",
+      avatar: "JH"
+    },
+    metaDesc: "Explore Amirah High Jewellery's luxury digital atelier and sovereign jewelry house case study by Jawrah Pixel."
+  },
+  'kamal-jewellers': {
+    region: 'lk',
+    title: "New Kamal Jewellers",
+    slug: "kamal-jewellers",
+    category: "Handcrafted Heritage Jewelry",
+    industry: "Traditional 22k Gold & Bridal Couture",
+    client: "New Kamal Jewellers",
+    websiteUrl: "https://kamal-jewelers.vercel.app/",
+    desktopImage: "/assets/case-studies/kamal-jewellers/desktop.png",
+    mobileImage: "/assets/case-studies/kamal-jewellers/mobile.png",
+    overview: "A digital legacy platform preserving 40+ years of handcrafted mastery. Designed to bridge traditional Akurana craftsmanship with modern bridal couture planning.",
+    budget: "LKR 2,800,000",
+    duration: "5 Weeks",
+    goals: [
+      "Modernize a 40-year family legacy without losing traditional trust.",
+      "Architect a dedicated 'Bridal Salon' digital booking experience.",
+      "Showcase complex 22k gold filigree work with high-resolution detail."
+    ],
+    challenges: [
+      "Bridging the gap between traditional Akurana roots and modern digital consumers.",
+      "Capturing the delicate wirework of gold filigree in compressed mobile assets.",
+      "Simplifying the complex bridal commission process into a clear digital flow."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Legacy Audit", desc: "Documenting generational craftsmanship and familial trust values." },
+      { phase: "Phase 2", title: "Couture Design", desc: "Building the 'Auspicious Ensembles' and 'Bridal Salon' interfaces." },
+      { phase: "Phase 3", title: "Platform Launch", desc: "Optimizing for regional Sri Lankan networks and mobile-first users." }
+    ],
+    technologies: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Supabase Auth", "Edge Assets"],
+    solutions: [
+      "Bespoke 'Bridal Salon' entry request system for private styling.",
+      "Digital index of signature collections with absolute material precision.",
+      "Heritage-focused storytelling integrated into every product interaction."
+    ],
+    perfScores: { perf: 98, seo: 97, access: 99, best: 96 },
+    desktopHighlights: [
+      { title: "Signature Collections", desc: "Curated indexes of beautiful weight, featuring traditional 22k masterpieces." },
+      { title: "Flagship Boutique", desc: "Immersive virtual showcase of the Akurana showroom experience." }
+    ],
+    mobileHighlights: [
+      { title: "Bridal Service Hub", desc: "Streamlined mobile access to private sacred custom commissions." },
+      { title: "Legacy Timeline", desc: "Touch-friendly history of familial devotion and handcrafted mastery." }
+    ],
+    results: [
+      { metric: "Bridal Inquiries", val: "+190%", desc: "Increase in wedding ensemble commissions since launch." },
+      { metric: "Mobile Engagement", val: "+65%", desc: "Longer dwell times on traditional heritage storytelling pages." },
+      { metric: "Legacy Preservation", val: "100%", desc: "Successful digital transition of a 40-year family brand." }
+    ],
+    testimonial: {
+      quote: "Jawrah Pixel captured our family legacy with absolute precision. Our traditional bridal services are now accessible to a whole new generation.",
+      author: "M. Kamal",
+      role: "Founder & Master Goldsmith",
+      avatar: "MK"
+    },
+    metaDesc: "Explore New Kamal Jewellers' traditional handcrafted heritage and bridal jewelry case study by Jawrah Pixel."
   }
 };
 
@@ -501,6 +669,45 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       thumbnail: "/assets/case-studies/aero-vista/desktop.png",
       color: "from-blue-600/10 to-transparent",
       badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Amirah High Jewellery",
+      slug: "amirah-jewellery",
+      category: "Sovereign High Jewellery",
+      description: "A digital atelier for Sri Lanka's sovereign luxury jewelry house, featuring unheated Ceylon sapphires.",
+      tags: ["Luxury", "High Jewellery", "Bespoke"],
+      perf: 99,
+      seo: 100,
+      char: "A",
+      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "New Kamal Jewellers",
+      slug: "kamal-jewellers",
+      category: "Handcrafted Heritage",
+      description: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold.",
+      tags: ["Heritage", "22k Gold", "Bridal"],
+      perf: 98,
+      seo: 97,
+      char: "K",
+      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "The Famous Clothing",
+      slug: "the-famous",
+      category: "Premium Fashion",
+      description: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion.",
+      tags: ["Fashion", "E-commerce", "Streetwear"],
+      perf: 98,
+      seo: 96,
+      char: "F",
+      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
     }
   ],
   pk: [
@@ -568,6 +775,45 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       thumbnail: "/assets/case-studies/aero-vista/desktop.png",
       color: "from-blue-600/10 to-transparent",
       badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Amirah High Jewellery",
+      slug: "amirah-jewellery",
+      category: "Sovereign High Jewellery",
+      description: "A digital atelier for Sri Lanka's sovereign luxury jewelry house, featuring unheated Ceylon sapphires.",
+      tags: ["Luxury", "High Jewellery", "Bespoke"],
+      perf: 99,
+      seo: 100,
+      char: "A",
+      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "New Kamal Jewellers",
+      slug: "kamal-jewellers",
+      category: "Handcrafted Heritage",
+      description: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold.",
+      tags: ["Heritage", "22k Gold", "Bridal"],
+      perf: 98,
+      seo: 97,
+      char: "K",
+      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "The Famous Clothing",
+      slug: "the-famous",
+      category: "Premium Fashion",
+      description: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion.",
+      tags: ["Fashion", "E-commerce", "Streetwear"],
+      perf: 98,
+      seo: 96,
+      char: "F",
+      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
     }
   ],
   int: [
@@ -635,6 +881,58 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       thumbnail: "/assets/case-studies/aero-vista/desktop.png",
       color: "from-blue-600/10 to-transparent",
       badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Veloura Cafe",
+      slug: "veloura-cafe",
+      category: "Luxury E-commerce & Hospitality",
+      description: "A cinematic digital presence for Veloura Cafe, featuring a bespoke coffee subscription engine and a high-converting retail boutique.",
+      tags: ["E-commerce", "Subscription", "Hospitality"],
+      perf: 99,
+      seo: 100,
+      char: "V",
+      thumbnail: "/assets/case-studies/veloura-cafe/desktop.png",
+      color: "from-amber-600/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
+    },
+    {
+      title: "Amirah High Jewellery",
+      slug: "amirah-jewellery",
+      category: "Sovereign High Jewellery",
+      description: "A digital atelier for Sri Lanka's sovereign luxury jewelry house, featuring unheated Ceylon sapphires.",
+      tags: ["Luxury", "High Jewellery", "Bespoke"],
+      perf: 99,
+      seo: 100,
+      char: "A",
+      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      color: "from-brand-cyan/10 to-transparent",
+      badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "New Kamal Jewellers",
+      slug: "kamal-jewellers",
+      category: "Handcrafted Heritage",
+      description: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold.",
+      tags: ["Heritage", "22k Gold", "Bridal"],
+      perf: 98,
+      seo: 97,
+      char: "K",
+      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
+    },
+    {
+      title: "The Famous Clothing",
+      slug: "the-famous",
+      category: "Premium Fashion",
+      description: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion.",
+      tags: ["Fashion", "E-commerce", "Streetwear"],
+      perf: 98,
+      seo: 96,
+      char: "F",
+      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      color: "from-white/5 to-transparent",
+      badgeColor: "text-white border-white/10 bg-white/5"
     }
   ]
 };

@@ -75,6 +75,13 @@ function RegionalRedirect({ path = '/' }: { path?: string }) {
   return <Navigate to={region ? regionPath(region, path) : '/'} replace />;
 }
 
+function RegionalCaseStudyRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+  const { profile } = useAuth();
+  const region = profile?.region ?? getSavedRegion() ?? 'lk';
+  return <Navigate to={`/${region}/case-studies/${slug}`} replace />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -203,6 +210,8 @@ export default function App() {
               <Route path="/what-is-jawrah-pixel" element={<RegionalRedirect path="/what-is-jawrah-pixel" />} />
               <Route path="/why-jawrah-pixel" element={<RegionalRedirect path="/why-jawrah-pixel" />} />
               <Route path="/about-founder" element={<RegionalRedirect path="/about-founder" />} />
+              <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
+              <Route path="/case-studies/:slug" element={<RegionalCaseStudyRedirect />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to 404 */}
