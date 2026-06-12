@@ -136,11 +136,10 @@ export function Footer() {
 
           {/* Bottom Bar */}
           <div className="pt-10 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+            <div className="flex flex-col lg:flex-row items-center gap-8">
               <p className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.3em]">
                 &copy; {currentYear} Jawrah Pixel. Engineered for excellence.
               </p>
-              <div className="h-px w-6 bg-white/5 hidden md:block" />
               <div className="flex items-center gap-6">
                 <span className="text-[8px] font-mono text-zinc-800 uppercase tracking-[0.4em]">Region</span>
                 <div className="flex items-center gap-4">
@@ -152,8 +151,8 @@ export function Footer() {
                         window.location.href = `/${opt.id}`;
                       }}
                       className={cn(
-                        "text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500",
-                        currentRegion === opt.id ? "text-brand-blue font-bold" : "text-zinc-700 hover:text-zinc-500"
+                        "text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500 px-3 py-1.5 border border-white/5 rounded-none",
+                        currentRegion === opt.id ? "text-brand-cyan border-brand-cyan/30 bg-brand-cyan/10 font-bold" : "text-zinc-700 hover:text-zinc-500 hover:border-white/10 hover:bg-white/[0.02]"
                       )}
                     >
                       {opt.id}

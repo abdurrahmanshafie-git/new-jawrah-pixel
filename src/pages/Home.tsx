@@ -332,7 +332,7 @@ export default function Home() {
               className="mt-8 flex justify-center"
             >
               <a 
-                href="https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID_HERE" 
+                href="https://g.page/r/Cf1UjMHotQuaEAI/review" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/5 hover:border-brand-cyan/30 hover:bg-white/[0.05] transition-all duration-300 group"

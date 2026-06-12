@@ -29,11 +29,11 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     services: {
       ...BASE,
       path: '/services',
-      title: 'Web Design, Ecommerce & SEO Services Sri Lanka | Jawrah Pixel',
-      description: 'Explore premium website design, ecommerce development, SEO, branding, UI/UX, dashboards and maintenance services for Sri Lankan companies.',
+      title: 'Digital Solutions & Services | Jawrah Pixel',
+      description: 'Explore premium digital solutions including websites, e-commerce platforms, business systems, UI/UX design, and custom software development by Jawrah Pixel.',
       schemaType: 'Service',
       schemaData: { name: 'Premium Digital Services Sri Lanka', areaServed: 'Sri Lanka' },
-      keywords: ['web design services Sri Lanka', 'ecommerce development Sri Lanka', 'technical SEO Sri Lanka'],
+      keywords: ['Digital Agency', 'Web Development Services', 'E-Commerce Development', 'Business Systems', 'Custom Software Development', 'UI UX Design'],
     },
     contact: {
       ...BASE,
@@ -62,8 +62,9 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     pricing: {
       ...BASE,
       path: '/pricing',
-      title: 'Pricing & Maintenance Plans Sri Lanka',
-      description: 'Transparent premium pricing and maintenance plans for Sri Lankan businesses.',
+      title: 'Pricing & Project Packages | Jawrah Pixel',
+      description: 'Explore transparent pricing for premium websites, e-commerce platforms, business systems, and custom digital solutions tailored to your business goals.',
+      keywords: ['Website Pricing', 'Web Development Packages', 'E-Commerce Pricing', 'Business System Pricing', 'Digital Agency Pricing'],
     },
     caseStudies: {
       ...BASE,
@@ -91,11 +92,11 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     services: {
       ...BASE,
       path: '/services',
-      title: 'Web Design, Ecommerce & SEO Services Pakistan | Jawrah Pixel',
-      description: 'Premium website design, ecommerce development, SEO, branding, dashboards and digital growth systems for businesses in Pakistan.',
+      title: 'Digital Solutions & Services | Jawrah Pixel',
+      description: 'Explore premium digital solutions including websites, e-commerce platforms, business systems, UI/UX design, and custom software development by Jawrah Pixel.',
       schemaType: 'Service',
       schemaData: { name: 'Premium Digital Services Pakistan', areaServed: 'Pakistan' },
-      keywords: ['web design services Pakistan', 'ecommerce development Pakistan', 'technical SEO Pakistan'],
+      keywords: ['Digital Agency', 'Web Development Services', 'E-Commerce Development', 'Business Systems', 'Custom Software Development', 'UI UX Design'],
     },
     contact: {
       ...BASE,
@@ -124,8 +125,9 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     pricing: {
       ...BASE,
       path: '/pricing',
-      title: 'Pricing & Maintenance Plans Pakistan',
-      description: 'Transparent premium pricing and maintenance plans for Pakistani businesses.',
+      title: 'Pricing & Project Packages | Jawrah Pixel',
+      description: 'Explore transparent pricing for premium websites, e-commerce platforms, business systems, and custom digital solutions tailored to your business goals.',
+      keywords: ['Website Pricing', 'Web Development Packages', 'E-Commerce Pricing', 'Business System Pricing', 'Digital Agency Pricing'],
     },
     caseStudies: {
       ...BASE,
@@ -153,11 +155,11 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     services: {
       ...BASE,
       path: '/services',
-      title: 'International Digital Services for Global Brands | Jawrah Pixel',
-      description: 'Premium global web design, ecommerce, SaaS interfaces, branding, SEO, and AI integrations.',
+      title: 'Digital Solutions & Services | Jawrah Pixel',
+      description: 'Explore premium digital solutions including websites, e-commerce platforms, business systems, UI/UX design, and custom software development by Jawrah Pixel.',
       schemaType: 'Service',
       schemaData: { name: 'International Premium Digital Services', areaServed: 'Worldwide' },
-      keywords: ['international digital services', 'global web design agency', 'premium ecommerce development'],
+      keywords: ['Digital Agency', 'Web Development Services', 'E-Commerce Development', 'Business Systems', 'Custom Software Development', 'UI UX Design'],
     },
     contact: {
       ...BASE,
@@ -186,8 +188,9 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     pricing: {
       ...BASE,
       path: '/pricing',
-      title: 'International Pricing | Jawrah Pixel',
-      description: 'Premium USD pricing and maintenance plans for international businesses.',
+      title: 'Pricing & Project Packages | Jawrah Pixel',
+      description: 'Explore transparent pricing for premium websites, e-commerce platforms, business systems, and custom digital solutions tailored to your business goals.',
+      keywords: ['Website Pricing', 'Web Development Packages', 'E-Commerce Pricing', 'Business System Pricing', 'Digital Agency Pricing'],
     },
     caseStudies: {
       ...BASE,

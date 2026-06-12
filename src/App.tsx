@@ -25,6 +25,7 @@ const CountrySelection = lazy(() => import('./pages/CountrySelection'));
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Services = lazy(() => import('./pages/Services'));
+const Pricing = lazy(() => import('./pages/Pricing'));
 const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
 const Process = lazy(() => import('./pages/Process'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
@@ -105,7 +106,7 @@ export default function App() {
               <Route path="/lk/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/lk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/lk/process" element={<Process />} />
-              <Route path="/lk/pricing" element={<Services />} />
+              <Route path="/lk/pricing" element={<Pricing />} />
               <Route path="/lk/case-studies" element={<CaseStudies />} />
               <Route path="/lk/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/lk/leadership" element={<Leadership />} />
@@ -135,7 +136,7 @@ export default function App() {
               <Route path="/pk/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/pk/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/pk/process" element={<Process />} />
-              <Route path="/pk/pricing" element={<Services />} />
+              <Route path="/pk/pricing" element={<Pricing />} />
               <Route path="/pk/case-studies" element={<CaseStudies />} />
               <Route path="/pk/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/pk/leadership" element={<Leadership />} />
@@ -165,7 +166,7 @@ export default function App() {
               <Route path="/int/agent" element={<Navigate to="/partner/dashboard" replace />} />
               <Route path="/int/:serviceSlug" element={<ServiceLandingPage />} />
               <Route path="/int/process" element={<Process />} />
-              <Route path="/int/pricing" element={<Services />} />
+              <Route path="/int/pricing" element={<Pricing />} />
               <Route path="/int/case-studies" element={<CaseStudies />} />
               <Route path="/int/case-studies/:slug" element={<CaseStudyDetail />} />
               <Route path="/int/leadership" element={<Leadership />} />
