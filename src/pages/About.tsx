@@ -153,9 +153,9 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-10 uppercase"
+              className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[1.1] mb-10 uppercase overflow-visible"
             >
-              Architecting <br /> <span className="premium-text-gradient italic">Digital Authority</span>
+              Architecting <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Digital Authority</span>
             </motion.h1>
             
             <motion.p 
@@ -191,8 +191,8 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
             <Reveal>
               <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Our DNA</span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
-                Beyond <br /> <span className="premium-text-gradient italic">Development</span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+                Beyond <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Development</span>
               </h2>
               <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12">
                 We don't just build websites. We architect digital monopolies. Our process combines deep technical engineering with cinematic design thinking to create assets that command attention and drive revenue.
@@ -286,8 +286,8 @@ export default function About() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initialize Partnership</span>
-            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto">
-              Ready to build your <span className="premium-text-gradient italic">digital legacy</span>?
+            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto overflow-visible">
+              Ready to build your <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">digital legacy</span>?
             </h2>
             <Link to={p('/contact')} className="relative z-10">
               <Button size="lg" className="min-w-full sm:min-w-[280px]">
