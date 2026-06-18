@@ -65,9 +65,8 @@ export function FAQSection({
           {faqs.map((item, index) => (
             <motion.details
               key={item.q}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: Math.min(index * 0.025, 0.25) }}
               className="group rounded-2xl border border-white/10 bg-white/[0.025] p-5 open:border-brand-cyan/25 open:bg-brand-cyan/[0.035] md:p-6"
             >

@@ -285,10 +285,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1] mb-8 uppercase font-display"
+              className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1.1] mb-8 uppercase font-display overflow-visible"
             >
               <span className="premium-text-gradient block mb-2">Architecting</span>
-              <span className="italic font-serif font-light text-zinc-500 lowercase opacity-70">Digital</span>
+              <span className="italic font-serif font-light text-zinc-500 lowercase opacity-70 inline-block px-2 py-1 overflow-visible">Digital</span>
               <span className="block text-white mt-2">Monopolies</span>
             </motion.h1>
 
@@ -384,8 +384,8 @@ export default function Home() {
             <span className="mb-6 block text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-cyan">
               Digital Craftsmanship
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1] tracking-tight text-white mb-8">
-              Global remote agency. <br /> Premium digital <span className="premium-text-gradient italic">engineering</span>.
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight text-white mb-8 overflow-visible">
+              Global remote agency. <br /> Premium digital <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">engineering</span>.
             </h2>
             <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl">
               We operate at the intersection of luxury aesthetics and high-performance technology, delivering unshakeable digital assets for brands that refuse to settle for average.
@@ -414,10 +414,9 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="text-left max-w-2xl">
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
                 className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.02]"
               >
                 <Globe className="w-3 h-3 text-brand-cyan opacity-60" />
@@ -427,13 +426,12 @@ export default function Home() {
               </motion.div>
               
               <motion.h2
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight uppercase leading-tight"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight uppercase leading-[1.1] overflow-visible"
               >
-                Explore <span className="premium-gradient-brand font-bold italic">Live</span> Projects
+                Explore <span className="premium-gradient-brand font-bold italic inline-block px-2 py-1 overflow-visible">Live</span> Projects
               </motion.h2>
             </div>
 
@@ -585,8 +583,8 @@ export default function Home() {
               <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">
                 Operational Excellence
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
-                Not a website. <br /> A scalable <span className="premium-text-gradient italic">ecosystem</span>.
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+                Not a website. <br /> A scalable <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">ecosystem</span>.
               </h2>
               <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12 max-w-md">
                 We connect premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, and automation-ready delivery paths.
@@ -630,8 +628,8 @@ export default function Home() {
               <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold block mb-6">
                 Strategic Investment
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1] mb-8">
-                International <span className="premium-text-gradient italic">Pricing</span>.
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+                International <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Pricing</span>.
               </h2>
               <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto">
                 Transparent starting ranges for global clients, with custom quotes for advanced AI systems, complex ecommerce, and enterprise-grade platforms.
@@ -744,8 +742,8 @@ export default function Home() {
               <span className="mb-6 block text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold">
                 Global Network
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1] tracking-tight text-white mb-8">
-                Worldwide remote <span className="premium-text-gradient italic">collaboration</span>.
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight text-white mb-8 overflow-visible">
+                Worldwide remote <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">collaboration</span>.
               </h2>
               <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl mb-10">
                 Jawrah Pixel serves clients internationally with flexible communication, remote-first workflows, and a delivery rhythm designed for global businesses.
@@ -809,10 +807,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-blue/10"></div>
         <div className="container mx-auto px-5 sm:px-6 md:px-8 text-center max-w-4xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
             <h2 className="text-xl sm:text-4xl md:text-6xl font-display font-medium tracking-tight mb-5 md:mb-8">Ready to elevate your digital presence?</h2>
             <p className="text-zinc-400 text-xs sm:text-xl mb-8 md:mb-12 max-w-2xl mx-auto font-light leading-relaxed">

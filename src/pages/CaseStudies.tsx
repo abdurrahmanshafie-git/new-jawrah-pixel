@@ -57,9 +57,9 @@ export default function CaseStudies() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-8 md:mb-10 uppercase"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[1.1] mb-8 md:mb-10 uppercase overflow-visible"
           >
-            Elite <br /> <span className="premium-text-gradient italic">Portfolio</span>
+            Elite <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Portfolio</span>
           </motion.h1>
 
           <motion.p 
@@ -83,9 +83,9 @@ export default function CaseStudies() {
                 <div className="absolute inset-0 z-0">
                   {project.thumbnail ? (
                     <motion.img 
-                      initial={{ scale: 1.1, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 1.2 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
                       src={project.thumbnail} 
                       alt={project.title}
                       className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-60 transition-all duration-1000 ease-out"
@@ -146,8 +146,8 @@ export default function CaseStudies() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6 md:mb-8 relative z-10">Initiate Transformation</span>
-            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-8 md:mb-10 uppercase leading-[1.1] relative z-10">
-              Ready to architect the <span className="premium-text-gradient italic">future</span> of your brand?
+            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-8 md:mb-10 uppercase leading-[1.1] relative z-10 overflow-visible">
+              Ready to architect the <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">future</span> of your brand?
             </h2>
             <p className="text-[15px] md:text-lg text-zinc-500 font-light max-w-xl mx-auto mb-10 md:mb-12 leading-relaxed relative z-10">
               We are currently accepting high-impact project concepts for the next quarter. Reach out now to secure your strategic briefing.

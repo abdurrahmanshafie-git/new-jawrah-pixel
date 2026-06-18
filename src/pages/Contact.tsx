@@ -539,9 +539,9 @@ export default function Contact() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[0.95] mb-8 md:mb-10"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 md:mb-10 overflow-visible"
           >
-            Initiate <br /> <span className="premium-text-gradient italic">Briefing</span>
+            Initiate <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Briefing</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

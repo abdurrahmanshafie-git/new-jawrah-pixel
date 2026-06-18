@@ -68,8 +68,8 @@ export default function CountrySelection() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[0.95] mb-10 uppercase">
-              Choose Your <br /> <span className="premium-text-gradient italic">Region</span>
+            <h1 className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[1.1] mb-10 uppercase overflow-visible">
+              Choose Your <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Region</span>
             </h1>
           </Reveal>
 

@@ -185,9 +185,9 @@ export default function Process() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase mb-10 tracking-tight leading-[0.95]"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase mb-10 tracking-tight leading-[1.1] overflow-visible"
           >
-            Product <br /> <span className="premium-text-gradient italic">Blueprint</span>
+            Product <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Blueprint</span>
           </motion.h1>
 
           <motion.p 
@@ -209,10 +209,9 @@ export default function Process() {
               return (
                 <motion.div 
                   key={step.num}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-                  transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
                   className="relative md:grid md:grid-cols-[minmax(0,1fr)_5.5rem_minmax(0,1fr)] md:items-center md:gap-6"
                 >
                   <div
@@ -360,8 +359,8 @@ export default function Process() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initiate Project</span>
-            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10">
-              Transform your digital <span className="premium-text-gradient italic">authority</span>.
+            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 overflow-visible">
+              Transform your digital <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">authority</span>.
             </h2>
             <Link to={p('/contact')} className="relative z-10">
               <Button size="lg" className="min-w-[280px]">

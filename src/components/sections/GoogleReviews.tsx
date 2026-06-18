@@ -31,9 +31,9 @@ export function GoogleReviews() {
                 <span>Google Reviews</span>
               </div>
               
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-6 leading-[0.95]">
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-6 leading-[1.1] overflow-visible">
                 Share Your <br />
-                <span className="premium-text-gradient italic text-brand-cyan">Experience</span>
+                <span className="premium-text-gradient italic text-brand-cyan inline-block px-2 py-1 overflow-visible">Experience</span>
               </h2>
               
               <p className="text-brand-gray text-lg font-light leading-relaxed mb-10 max-w-md">
