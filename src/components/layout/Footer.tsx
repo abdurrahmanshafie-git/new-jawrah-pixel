@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail, Lock } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, Lock, Linkedin } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal } from '@/components/ui/Reveal';
@@ -57,15 +57,17 @@ export function Footer() {
                 {[
                   { icon: <Mail size={16} />, href: `mailto:${config.contactEmail}`, label: 'Email' },
                   { icon: <MessageCircle size={16} />, href: config.whatsappLink, label: 'WhatsApp' },
-                  { icon: <Instagram size={16} />, href: config.instagramLink, label: 'Instagram' }
+                  { icon: <Instagram size={16} />, href: config.instagramLink, label: 'Instagram' },
+                  { icon: <Linkedin size={16} />, href: config.linkedinFounderLink, label: 'LinkedIn' }
                 ].map((social) => (
                   <a 
                     key={social.label}
                     href={social.href}
                     target="_blank" 
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="w-11 h-11 rounded-none border border-white/5 bg-white/[0.01] flex items-center justify-center text-zinc-600 hover:text-brand-blue hover:border-brand-blue/30 hover:bg-brand-blue/5 transition-all duration-700 group"
                     title={social.label}
+                    aria-label={social.label}
                   >
                     {social.icon}
                   </a>

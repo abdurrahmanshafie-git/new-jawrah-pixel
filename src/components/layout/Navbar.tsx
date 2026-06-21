@@ -56,6 +56,7 @@ export function Navbar() {
     { name: 'Process', path: p('/process') },
     { name: 'Pricing', path: p('/pricing') },
     { name: 'About', path: p('/about') },
+    { name: 'Leadership', path: p('/leadership') },
   ];
 
   const dashboardPath = user ? (isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard') : '/login';

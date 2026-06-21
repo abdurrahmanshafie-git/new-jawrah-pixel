@@ -151,13 +151,16 @@ export default function Home() {
       : currentRegion === 'pk'
         ? '/ecommerce-development-pakistan'
         : '/custom-software-development';
+    const seoPath = currentRegion === 'lk'
+      ? '/services/seo-services-sri-lanka'
+      : '/seo';
     const softwarePath = currentRegion === 'int' ? '/custom-software-development' : webPath;
 
     const paths: Record<string, string> = {
       'Premium Digital Experiences': webPath,
       'Enterprise Commerce': ecommercePath,
       'Strategic UI/UX Architecture': '/ui-ux-design',
-      'SEO & Performance Scaling': '/seo',
+      'SEO & Performance Scaling': seoPath,
       'SaaS & Systems Architecture': softwarePath,
       'Long-Term Digital Partnership': softwarePath,
     };

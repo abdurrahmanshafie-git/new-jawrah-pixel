@@ -123,10 +123,15 @@ const regionalServicePages = regionalPaths.flatMap((region) =>
 );
 
 const hiddenSeoLandingPages = [
+  '/lk/digital-agency-sri-lanka',
   '/lk/web-development-sri-lanka',
   '/lk/ecommerce-development-sri-lanka',
+  '/lk/services/web-design-sri-lanka',
+  '/lk/services/seo-services-sri-lanka',
+  '/pk/digital-agency-pakistan',
   '/pk/web-development-pakistan',
   '/pk/ecommerce-development-pakistan',
+  '/pk/services/web-design-pakistan',
   '/int/web-development-agency',
   '/int/custom-software-development',
 ];

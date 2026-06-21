@@ -35,6 +35,7 @@ export function buildOrganizationSchema(): JsonLdNode {
     '@type': 'Organization',
     '@id': `${appEnv.siteUrl}/#organization`,
     name: 'Jawrah Pixel',
+    alternateName: ['JawrahPixel', 'jawrahpixel'],
     url: appEnv.siteUrl,
     logo: {
       '@type': 'ImageObject',
@@ -47,9 +48,9 @@ export function buildOrganizationSchema(): JsonLdNode {
     telephone: appEnv.contactWhatsapp,
     sameAs: [
       'https://www.instagram.com/jawrahpixel',
-      'https://www.linkedin.com/company/jawrahpixel',
+      'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
     ],
-    areaServed: ['Sri Lanka', 'Pakistan', 'International'],
+    areaServed: ['Sri Lanka', 'Pakistan', 'Worldwide'],
     knowsAbout: [
       'Web Design',
       'Ecommerce Development',
@@ -58,9 +59,12 @@ export function buildOrganizationSchema(): JsonLdNode {
       'React Development',
       'Supabase Systems',
       'Conversion Optimization',
+      'Software Development',
+      'SaaS Development',
+      'UI/UX Design',
     ],
     description:
-      'Jawrah Pixel is a premium digital agency building conversion-focused websites, ecommerce systems, SEO architecture, brand experiences, and secure client portals.',
+      'Jawrah Pixel (JawrahPixel) is a premium digital agency building conversion-focused websites, ecommerce systems, SEO architecture, brand experiences, and secure client portals. Operating globally with dedicated teams in Sri Lanka and Pakistan.',
   };
 }
 
@@ -70,6 +74,7 @@ export function buildWebsiteSchema(): JsonLdNode {
     '@id': `${appEnv.siteUrl}/#website`,
     url: appEnv.siteUrl,
     name: 'Jawrah Pixel',
+    alternateName: 'JawrahPixel',
     inLanguage: ['en-LK', 'en-PK', 'en'],
     publisher: {
       '@id': `${appEnv.siteUrl}/#organization`,
@@ -89,6 +94,7 @@ export function buildLocalBusinessSchema(region: RegionCode): JsonLdNode {
     '@type': 'LocalBusiness',
     '@id': `${appEnv.siteUrl}/${region}#local-business`,
     name: `Jawrah Pixel ${area}`,
+    alternateName: 'JawrahPixel',
     url: `${appEnv.siteUrl}/${region}`,
     image: toAbsoluteUrl('/assets/logo.png'),
     logo: toAbsoluteUrl('/assets/logo.png'),

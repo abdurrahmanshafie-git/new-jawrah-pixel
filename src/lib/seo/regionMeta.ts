@@ -10,7 +10,7 @@ type RegionPageMeta = {
 };
 
 type RegionSeoMap = Record<
-  'home' | 'services' | 'contact' | 'agents' | 'about' | 'process' | 'pricing' | 'caseStudies' | 'blog',
+  'home' | 'services' | 'contact' | 'agents' | 'about' | 'leadership' | 'process' | 'pricing' | 'caseStudies' | 'blog',
   RegionPageMeta
 >;
 
@@ -21,10 +21,10 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Web Design Agency Sri Lanka | Jawrah Pixel',
-      description: 'Premium web design, branding, SEO, ecommerce development and digital solutions for Sri Lankan businesses.',
+      title: 'Digital Agency Sri Lanka | Web Development & SEO | Jawrah Pixel',
+      description: 'Top digital agency in Sri Lanka offering web development, SEO, and software development services for ambitious brands.',
       schemaType: 'Organization',
-      keywords: ['web design agency Sri Lanka', 'Sri Lanka ecommerce development', 'SEO services Sri Lanka', 'Jawrah Pixel'],
+      keywords: ['digital agency Sri Lanka', 'web development Sri Lanka', 'SEO agency Sri Lanka', 'software company Sri Lanka', 'web design Sri Lanka', 'Jawrah Pixel'],
     },
     services: {
       ...BASE,
@@ -52,6 +52,13 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
       path: '/about',
       title: 'About Jawrah Pixel Sri Lanka',
       description: 'Learn about Jawrah Pixel, a premium digital agency building luxury web experiences in Sri Lanka.',
+    },
+    leadership: {
+      ...BASE,
+      path: '/leadership',
+      title: 'Leadership Behind JawrahPixel | Sri Lanka',
+      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency Sri Lanka Pakistan'],
     },
     process: {
       ...BASE,
@@ -116,6 +123,13 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
       title: 'About Jawrah Pixel Pakistan',
       description: 'Learn about Jawrah Pixel, a premium digital agency building luxury web experiences in Pakistan.',
     },
+    leadership: {
+      ...BASE,
+      path: '/leadership',
+      title: 'Leadership Behind JawrahPixel | Pakistan',
+      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency Sri Lanka Pakistan'],
+    },
     process: {
       ...BASE,
       path: '/process',
@@ -178,6 +192,13 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
       path: '/about',
       title: 'About Jawrah Pixel International',
       description: 'Learn about Jawrah Pixel, a premium global digital agency for luxury brand experiences.',
+    },
+    leadership: {
+      ...BASE,
+      path: '/leadership',
+      title: 'Leadership Behind JawrahPixel | Global',
+      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'premium digital agency', 'web development company'],
     },
     process: {
       ...BASE,

@@ -11,6 +11,8 @@ export interface RegionConfig {
   whatsappLink: string;
   instagramLink: string;
   instagramHandle: string;
+  linkedinCompanyLink: string;
+  linkedinFounderLink: string;
   locations: string[];
   paymentDesc: string;
   paymentMethods: string[];
@@ -36,6 +38,9 @@ export const REGION_OPTIONS: Array<{
   { id: 'int', label: 'International', shortLabel: 'INT', path: '/int', caption: 'USD global portal' },
 ];
 
+const DEFAULT_LINKEDIN_COMPANY = "https://linkedin.com/company/jawrahpixel";
+const DEFAULT_LINKEDIN_FOUNDER = "https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/";
+
 export const regions: Record<RegionCode, RegionConfig> = {
   lk: {
     id: 'lk',
@@ -47,6 +52,8 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
+    linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['Sri Lanka Operations', 'Remote-First Agency'],
     paymentDesc: 'LKR Bank Transfer Verification',
     paymentMethods: ['Bank Transfer', 'Receipt Upload', 'Reference Verification', 'WhatsApp Confirmation'],
@@ -63,6 +70,8 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
+    linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['Pakistan Operations', 'Remote-First Agency'],
     paymentDesc: 'PKR Bank Transfer, Easypaisa & JazzCash',
     paymentMethods: ['Easypaisa', 'JazzCash', 'Bank Transfer', 'WhatsApp'],
@@ -79,6 +88,8 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
+    linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['International Operations', 'Remote-First Agency'],
     paymentDesc: 'USD PayPal, Wise, International Bank Transfer, Visa & Mastercard',
     paymentMethods: ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'],

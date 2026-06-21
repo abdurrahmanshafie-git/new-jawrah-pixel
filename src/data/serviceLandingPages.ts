@@ -175,6 +175,75 @@ function buildFaqs(seed: PageSeed): ServiceLandingPage['faqs'] {
 
 const seeds: PageSeed[] = [
   {
+    slug: 'digital-agency-sri-lanka',
+    region: 'lk',
+    title: 'Digital Agency Sri Lanka | Web Design & SEO | Jawrah Pixel',
+    h1: 'Digital Agency Sri Lanka',
+    description:
+      'Top digital agency in Sri Lanka offering web development, SEO, website design, and custom software solutions for ambitious local and export businesses.',
+    keywords: ['digital agency sri lanka', 'digital agency colombo', 'web design sri lanka', 'seo agency sri lanka', 'software company sri lanka', 'website development sri lanka'],
+    serviceName: 'Digital Agency Sri Lanka',
+    market: 'Sri Lanka',
+    audience: 'Sri Lankan founders, CEOs, marketing directors, retailers, exporters, hospitality groups, property developers, and premium service businesses',
+    priceSignal:
+      'Digital agency services in Sri Lanka are scoped in LKR around strategic goals, content depth, page architecture, integrations, and ongoing optimization needs.',
+    primaryOutcome: 'a dominant digital presence that drives organic leads, premium brand trust, and consistent conversion growth across Sri Lanka',
+    route: '/lk/digital-agency-sri-lanka',
+    relatedCaseSlug: 'zenvor',
+    positioning:
+      'Digital agency in Sri Lanka should combine premium design, technical SEO, and conversion strategy to drive measurable commercial results, not just pretty websites.',
+    buyerTriggers: ['new brand launch', 'digital transformation', 'SEO audit', 'conversion redesign', 'enterprise system rebuild'],
+    localSearchAngles: ['Colombo business discovery', 'Sri Lankan export marketing', 'WhatsApp lead paths', 'LKR pricing clarity', 'mobile-first commerce'],
+    technologyAngles: ['React architecture', 'TypeScript development', 'Supabase backend', 'structured schema', 'Core Web Vitals optimization', 'WhatsApp integration'],
+    deliverables: [
+      'Full digital agency strategy and execution for Sri Lankan brands',
+      'SEO-ready website architecture for local and export markets',
+      'Premium homepage, service, case study, process, and contact sections',
+      'Technical SEO, metadata, canonical tags, and structured schema',
+      'WhatsApp and form lead capture with analytics tracking',
+    ],
+    relatedServices: [
+      { label: 'Web Development Sri Lanka', path: '/web-development-sri-lanka' },
+      { label: 'Website Design Sri Lanka', path: '/services/web-design-sri-lanka' },
+      { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
+      { label: 'Case Studies', path: '/case-studies' },
+    ],
+  },
+  {
+    slug: 'digital-agency-pakistan',
+    region: 'pk',
+    title: 'Digital Agency Pakistan | Web Design & SEO | Jawrah Pixel',
+    h1: 'Digital Agency Pakistan',
+    description:
+      'Top digital agency in Pakistan offering web development, SEO, website design, and custom software solutions for ambitious Pakistani businesses.',
+    keywords: ['digital agency pakistan', 'digital agency karachi', 'digital agency lahore', 'web design pakistan', 'seo agency pakistan', 'software company pakistan', 'website development pakistan'],
+    serviceName: 'Digital Agency Pakistan',
+    market: 'Pakistan',
+    audience: 'Pakistani founders, startups, retailers, jewellery brands, exporters, consultants, and premium service businesses',
+    priceSignal:
+      'Digital agency services in Pakistan are scoped in PKR around strategic goals, content depth, page architecture, integrations, and ongoing optimization needs.',
+    primaryOutcome: 'a dominant digital presence that drives organic leads, premium brand trust, and consistent conversion growth across Pakistan',
+    route: '/pk/digital-agency-pakistan',
+    relatedCaseSlug: 'shabnam-jewellers',
+    positioning:
+      'Digital agency in Pakistan should combine premium design, technical SEO, and conversion strategy to drive measurable commercial results.',
+    buyerTriggers: ['new brand launch', 'digital transformation', 'SEO audit', 'conversion redesign', 'enterprise system rebuild'],
+    localSearchAngles: ['Karachi business discovery', 'Lahore business discovery', 'Islamabad business discovery', 'Pakistan export marketing', 'WhatsApp lead paths', 'PKR pricing clarity'],
+    technologyAngles: ['React architecture', 'TypeScript development', 'Supabase backend', 'structured schema', 'Core Web Vitals optimization', 'WhatsApp integration'],
+    deliverables: [
+      'Full digital agency strategy and execution for Pakistani brands',
+      'SEO-ready website architecture for local and export markets',
+      'Premium homepage, service, case study, process, and contact sections',
+      'Technical SEO, metadata, canonical tags, and structured schema',
+      'WhatsApp and form lead capture with analytics tracking',
+    ],
+    relatedServices: [
+      { label: 'Web Development Pakistan', path: '/web-development-pakistan' },
+      { label: 'Website Design Pakistan', path: '/services/web-design-pakistan' },
+      { label: 'Case Studies', path: '/case-studies' },
+    ],
+  },
+  {
     slug: 'web-development-sri-lanka',
     region: 'lk',
     title: 'Web Development Company Sri Lanka | Jawrah Pixel',
@@ -204,6 +273,7 @@ const seeds: PageSeed[] = [
       'Launch validation for sitemap inclusion, indexing readiness, and analytics events',
     ],
     relatedServices: [
+      { label: 'Digital Agency Sri Lanka', path: '/digital-agency-sri-lanka' },
       { label: 'Ecommerce Development Sri Lanka', path: '/ecommerce-development-sri-lanka' },
       { label: 'SEO Services Sri Lanka', path: '/services/seo-services-sri-lanka' },
       { label: 'Case Studies', path: '/case-studies' },

@@ -17,7 +17,9 @@ import {
   Code,
   Server,
   Plus,
-  CheckCircle
+  CheckCircle,
+  Linkedin,
+  User
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -46,7 +48,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
 }
 
 export default function About() {
-  const { config, p, isInternational } = useRegion();
+  const { config, p, isInternational, currentRegion } = useRegion();
   const seo = useRegionalSeo('about');
 
   const faqs = [
@@ -108,25 +110,7 @@ export default function About() {
         description={seo.description}
         canonicalUrl={getCanonicalUrl(seo.path)}
         keywords={['about Jawrah Pixel', `${seo.title}`, 'premium digital agency', 'web design agency Sri Lanka Pakistan international']}
-        schemaType="Organization"
-        schemaData={{
-          "@type": "Organization",
-          "name": "Jawrah Pixel",
-          "alternateName": "Jawrah Pixel Digital Agency",
-          "url": "https://www.jawrahpixel.com",
-          "logo": "https://www.jawrahpixel.com/assets/logo.png",
-          "sameAs": [
-            "https://www.instagram.com/jawrahpixel",
-            "https://linkedin.com/company/jawrahpixel"
-          ],
-          "description": "Premium Digital Agency & Client OS specializing in website development, e-commerce, and business automation.",
-          "founder": {
-            "@type": "Person",
-            "name": "Jawrah Pixel Team"
-          },
-          "areaServed": ["Sri Lanka", "Pakistan", "International"],
-          "knowsAbout": ["Web Development", "E-commerce", "AI Integration", "UI/UX Design", "SEO"]
-        }}
+        region={currentRegion}
       />
 
       {/* Atmospheric Background */}
@@ -247,6 +231,62 @@ export default function About() {
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </div>
+      </section>
+
+      {/* Founder Section */}
+      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+          <Reveal className="text-center mb-16 md:mb-24">
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Leadership</span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Meet Our Founder</h2>
+          </Reveal>
+
+          <Reveal>
+            <div className="max-w-4xl mx-auto bg-white/[0.02] border border-white/5 p-8 md:p-16 lg:p-20 relative overflow-hidden">
+              {/* Atmospheric background */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-blue/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-cyan/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center relative z-10">
+                {/* Avatar */}
+                <div className="lg:col-span-4 flex flex-col items-center">
+                  <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full border border-white/10 bg-white/[0.03] overflow-hidden group hover:bg-white/[0.05] hover:border-brand-blue/30 transition-all duration-700">
+                    <img 
+                      src="/assets/founder-image.png" 
+                      alt="Abdurrahman Shafie" 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="lg:col-span-8">
+                  <h3 className="text-2xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mb-4">
+                    Abdurrahman Shafie
+                  </h3>
+                  <p className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold mb-6 md:mb-8">
+                    Founder & Creative Director, JawrahPixel
+                  </p>
+                  <p className="text-base md:text-lg text-zinc-500 font-light leading-relaxed mb-8 md:mb-10">
+                    Full-Stack Developer, SEO Strategist, and Digital Growth Professional focused on building high-performance websites, SEO systems, and scalable digital solutions.
+                  </p>
+
+                  <a 
+                    href={config.linkedinFounderLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-6 py-3 border border-white/5 bg-white/[0.02] text-sm font-mono uppercase tracking-[0.2em] text-white hover:text-brand-blue hover:border-brand-blue/30 hover:bg-brand-blue/5 transition-all duration-700 group"
+                    aria-label="Visit Abdurrahman Shafie on LinkedIn"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    <span>Connect on LinkedIn</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
