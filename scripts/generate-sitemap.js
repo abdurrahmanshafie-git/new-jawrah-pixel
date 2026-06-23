@@ -87,7 +87,7 @@ const corePages = [
   '/blog',
   '/faq',
 ];
-const regionalPaths = ['/lk', '/pk', '/int'];
+const regionalPaths = ['/lk', '/pk', '/int', '/uk'];
 const regionalCorePages = regionalPaths.flatMap((region) => [
   `${region}/`,
   `${region}/about`,
@@ -105,6 +105,7 @@ const servicesPages = [
   '/lk/services',
   '/pk/services',
   '/int/services',
+  '/uk/services',
 ];
 
 const serviceSlugs = [
@@ -134,6 +135,10 @@ const hiddenSeoLandingPages = [
   '/pk/services/web-design-pakistan',
   '/int/web-development-agency',
   '/int/custom-software-development',
+  '/uk/digital-agency-uk',
+  '/uk/web-development-uk',
+  '/uk/services/seo-services-uk',
+  '/uk/services/monthly-maintenance-uk',
 ];
 
 // Pricing Sitemap
@@ -142,6 +147,7 @@ const pricingPages = [
   '/lk/pricing',
   '/pk/pricing',
   '/int/pricing',
+  '/uk/pricing',
 ];
 
 // Projects Sitemap (placeholder for future)

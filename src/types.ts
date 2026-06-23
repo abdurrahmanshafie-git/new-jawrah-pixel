@@ -1,5 +1,5 @@
 export type Role = 'client' | 'admin' | 'agent' | 'superadmin';
-export type RegionCode = 'lk' | 'pk' | 'int';
+export type RegionCode = 'lk' | 'pk' | 'int' | 'uk';
 
 export interface Profile {
   id: string;

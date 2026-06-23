@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles, CheckCircle2, Globe2, Building2, Star } from 'lucide-react';
+import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles, CheckCircle2, Globe2, Building2, Star, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
@@ -531,6 +531,87 @@ export default function Home() {
       </section>
 
       <TrustSection />
+
+      {/* UK & EU Regional Office Section */}
+      {currentRegion === 'uk' && (
+        <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-black">
+          <div className="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[1fr_1.2fr]">
+            <Reveal>
+              <span className="mb-6 block text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">
+                UK & EU Regional Presence
+              </span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight text-white mb-8 overflow-visible">
+                UK & EU Regional Office
+              </h2>
+              <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl mb-10">
+                A structured regional client handling system for UK and European businesses to ensure professional communication and enterprise-level service delivery.
+              </p>
+              
+              <div className="mb-8 p-6 bg-white/[0.01] border border-white/5 rounded-2xl">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                    <User className="w-7 h-7 text-brand-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-display font-bold text-white mb-1">Nafees Ahamed</h3>
+                    <p className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.2em]">UK & EU Regional Client Director</p>
+                  </div>
+                </div>
+                <p className="text-sm text-zinc-500 font-light leading-relaxed">
+                  Your dedicated point of contact for UK & EU client communication, project coordination, consultation support, requirement gathering, and proposal assistance.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  'Client Communication',
+                  'Project Coordination',
+                  'Consultation Support',
+                  'Requirement Gathering',
+                  'Proposal Assistance',
+                  'UK & EU Time-Zone Alignment'
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-xs text-zinc-300 font-light">
+                    <CheckCircle2 className="w-4 h-4 text-brand-blue" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1} className="relative min-h-[400px] flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-brand-blue/10 blur-[120px]" />
+              <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center rounded-2xl border border-white/5 bg-white/[0.01] backdrop-blur-3xl shadow-[inset_0_0_80px_rgba(59,130,246,0.05)]">
+                <div className="absolute inset-[10%] rounded-xl border border-white/[0.03]" />
+                <div className="absolute inset-[25%] rounded border border-white/[0.03]" />
+                <Building2 className="w-32 h-32 text-brand-blue/20" />
+                
+                {['London Operations', 'UK & EU Client Support', 'Enterprise Standards', 'Compliance First'].map((node, idx) => {
+                  const positions = [
+                    'left-[12%] top-[20%]',
+                    'right-[10%] top-[25%]',
+                    'left-[40%] bottom-[15%]',
+                    'right-[30%] bottom-[20%]'
+                  ];
+                  return (
+                    <motion.div
+                      key={node}
+                      className={`absolute ${positions[idx]} flex items-center gap-2`}
+                      animate={{ opacity: [0.4, 1, 0.4], scale: [0.95, 1.05, 0.95] }}
+                      transition={{ duration: 4 + idx, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_15px_rgba(59,130,246,0.8)]" />
+                      <span className="hidden sm:block text-[8px] font-mono font-bold text-zinc-500 uppercase tracking-widest bg-brand-black/50 px-2 py-1 rounded border border-white/5 backdrop-blur-sm">
+                        {node}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* Premium Services Grid */}
       <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-navy/30">

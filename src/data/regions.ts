@@ -35,6 +35,7 @@ export const REGION_OPTIONS: Array<{
 }> = [
   { id: 'lk', label: 'Sri Lanka', shortLabel: 'LK', path: '/lk', caption: 'LKR portal' },
   { id: 'pk', label: 'Pakistan', shortLabel: 'PK', path: '/pk', caption: 'PKR portal' },
+  { id: 'uk', label: 'UK & EU', shortLabel: 'UK/EU', path: '/uk', caption: 'GBP portal' },
   { id: 'int', label: 'International', shortLabel: 'INT', path: '/int', caption: 'USD global portal' },
 ];
 
@@ -95,12 +96,31 @@ export const regions: Record<RegionCode, RegionConfig> = {
     paymentMethods: ['PayPal', 'Wise', 'International Bank Transfer', 'Visa', 'Mastercard'],
     seoTitle: 'Jawrah Pixel International | Premium Web Design & Digital Solutions',
     seoDescription: 'Premium websites, ecommerce, branding, SEO, and digital systems for international clients.',
+  },
+  uk: {
+    id: 'uk',
+    countryName: 'United Kingdom & European Union',
+    currency: 'GBP',
+    currencySymbol: '£',
+    contactEmail: DEFAULT_EMAIL,
+    whatsappNumber: DEFAULT_WHATSAPP,
+    whatsappLink: DEFAULT_WHATSAPP_LINK,
+    instagramLink: DEFAULT_INSTA_LINK,
+    instagramHandle: DEFAULT_INSTA_HANDLE,
+    linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
+    linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
+    locations: ['London-Centric Operations', 'Remote-First Agency'],
+    paymentDesc: 'GBP Wise, PayPal, UK Bank Transfer, Visa & Mastercard',
+    paymentMethods: ['Wise', 'PayPal', 'UK Bank Transfer', 'Visa', 'Mastercard'],
+    seoTitle: 'Digital Agency UK | Web Development & SEO Services | Jawrah Pixel',
+    seoDescription: 'Premium digital performance agency delivering enterprise-grade websites, SEO systems, and conversion-focused experiences for UK and European businesses.',
   }
 };
 
 export function getRegionFromPathname(pathname: string): RegionCode {
   const firstSegment = pathname.split('/').filter(Boolean)[0];
   if (firstSegment === 'pk') return 'pk';
+  if (firstSegment === 'uk') return 'uk';
   if (firstSegment === 'int') return 'int';
   return 'lk';
 }

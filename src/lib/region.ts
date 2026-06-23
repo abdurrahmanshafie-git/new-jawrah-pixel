@@ -70,6 +70,6 @@ export function persistAdminRegion(region: RegionCode) {
 
 export function regionPath(region: RegionCode, pathname = '/') {
   const cleanPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  const strippedPath = cleanPath.replace(/^\/(lk|pk|int)(?=\/|$)/, '') || '/';
+  const strippedPath = cleanPath.replace(/^\/(lk|pk|int|uk)(?=\/|$)/, '') || '/';
   return `/${region}${strippedPath === '/' ? '' : strippedPath}`;
 }

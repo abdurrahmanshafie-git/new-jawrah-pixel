@@ -20,11 +20,13 @@ export function Footer() {
     { label: 'Ecommerce Development Sri Lanka', path: '/lk/ecommerce-development-sri-lanka' },
     { label: 'Web Development Pakistan', path: '/pk/web-development-pakistan' },
     { label: 'Ecommerce Development Pakistan', path: '/pk/ecommerce-development-pakistan' },
+    { label: 'Web Development UK', path: '/uk/web-development-uk' },
+    { label: 'SEO Services UK', path: '/uk/services/seo-services-uk' },
     { label: 'Web Development Agency', path: '/int/web-development-agency' },
     { label: 'Custom Software Development', path: '/int/custom-software-development' },
   ];
 
-  const resolveFooterPath = (path: string) => (/^\/(?:lk|pk|int)\//.test(path) ? path : p(path));
+  const resolveFooterPath = (path: string) => (/^\/(?:lk|pk|int|uk)\//.test(path) ? path : p(path));
 
   return (
     <footer className="relative bg-brand-black pt-20 md:pt-32 pb-12 md:pb-16 overflow-hidden">
@@ -49,7 +51,7 @@ export function Footer() {
               <div className="flex flex-col gap-6 mb-10 md:mb-12">
                 <div className="flex flex-col gap-2">
                   <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-[0.4em] font-bold">The Standard</p>
-                  <p className="text-xs text-zinc-500 font-light">Serving Sri Lanka, Pakistan & International brands.</p>
+                  <p className="text-xs text-zinc-500 font-light">Serving Sri Lanka, Pakistan, UK/EU & International brands.</p>
                 </div>
               </div>
 
@@ -156,7 +158,7 @@ export function Footer() {
                         currentRegion === opt.id ? "text-brand-cyan border-brand-cyan/30 bg-brand-cyan/10 font-bold" : "text-zinc-700 hover:text-zinc-500 hover:border-white/10 hover:bg-white/[0.02]"
                       )}
                     >
-                      {opt.id}
+                      {opt.shortLabel}
                     </button>
                   ))}
                 </div>

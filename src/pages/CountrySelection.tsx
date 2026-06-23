@@ -30,6 +30,13 @@ export default function CountrySelection() {
       };
     }
 
+    if (region === 'uk') {
+      return {
+        accent: 'text-brand-purple' || 'text-brand-blue',
+        glow: 'from-brand-purple/20 to-transparent' || 'from-brand-blue/20 to-transparent',
+      };
+    }
+
     return {
       accent: 'text-brand-blue',
       glow: 'from-brand-blue/20 to-transparent',

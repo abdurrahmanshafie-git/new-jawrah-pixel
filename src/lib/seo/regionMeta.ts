@@ -1,4 +1,4 @@
-export type RegionSeoKey = 'lk' | 'pk' | 'int';
+export type RegionSeoKey = 'lk' | 'pk' | 'int' | 'uk';
 
 type RegionPageMeta = {
   title: string;
@@ -224,6 +224,76 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
       path: '/blog',
       title: 'Global Digital Insights | Jawrah Pixel Blog',
       description: 'Premium strategy, design, and growth insights for international brands.',
+      schemaType: 'BlogPosting',
+    },
+  },
+  uk: {
+    home: {
+      ...BASE,
+      path: '',
+      title: 'Digital Agency UK | Web Development & SEO Services | Jawrah Pixel',
+      description: 'Premium digital performance agency delivering enterprise-grade websites, SEO systems, and conversion-focused digital experiences for UK and European businesses.',
+      schemaType: 'Organization',
+      keywords: ['web development agency UK', 'SEO agency UK', 'digital agency London', 'website design Europe', 'SEO services UK', 'web design UK'],
+    },
+    services: {
+      ...BASE,
+      path: '/services',
+      title: 'UK & EU Digital Services | Jawrah Pixel',
+      description: 'Premium website development, SEO, and monthly growth plans for UK & European businesses.',
+      schemaType: 'Service',
+      schemaData: { name: 'UK & EU Premium Digital Services', areaServed: 'United Kingdom & European Union' },
+      keywords: ['UK web development', 'EU SEO services', 'UK website maintenance', 'Jawrah Pixel UK', 'European digital agency'],
+    },
+    contact: {
+      ...BASE,
+      path: '/contact',
+      title: 'Contact Jawrah Pixel UK & EU',
+      description: 'Submit your project brief or book a UK-timezone consultation with Jawrah Pixel.',
+    },
+    agents: {
+      ...BASE,
+      path: '/partner',
+      title: 'Become a Jawrah Pixel Partner | UK & EU',
+      description: 'Join the Jawrah Pixel partner network in the UK & Europe and earn GBP commissions.',
+    },
+    about: {
+      ...BASE,
+      path: '/about',
+      title: 'About Jawrah Pixel UK & EU',
+      description: 'Learn about Jawrah Pixel, a premium global digital agency now serving UK & European businesses.',
+    },
+    leadership: {
+      ...BASE,
+      path: '/leadership',
+      title: 'Leadership Behind JawrahPixel | UK & EU',
+      description: 'Meet the founders building world-class digital solutions for UK & European brands.',
+      keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency UK', 'European web development'],
+    },
+    process: {
+      ...BASE,
+      path: '/process',
+      title: 'Our Process | Jawrah Pixel UK & EU',
+      description: 'Discover the Jawrah Pixel delivery process for premium websites in the UK & EU.',
+    },
+    pricing: {
+      ...BASE,
+      path: '/pricing',
+      title: 'UK & EU Pricing | Jawrah Pixel',
+      description: 'Transparent GBP pricing for premium web development, SEO, and monthly maintenance plans.',
+      keywords: ['UK website pricing', 'GBP web development packages', 'UK SEO pricing', 'European digital agency costs'],
+    },
+    caseStudies: {
+      ...BASE,
+      path: '/case-studies',
+      title: 'UK & EU Case Studies | Jawrah Pixel',
+      description: 'Explore premium digital case studies and results for UK & European brands.',
+    },
+    blog: {
+      ...BASE,
+      path: '/blog',
+      title: 'UK & EU Digital Insights | Jawrah Pixel Blog',
+      description: 'Premium digital strategy, SEO, and growth insights for UK & European businesses.',
       schemaType: 'BlogPosting',
     },
   },

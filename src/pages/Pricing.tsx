@@ -8,7 +8,7 @@ import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 
-type RegionCode = 'lk' | 'pk' | 'int';
+type RegionCode = 'lk' | 'pk' | 'int' | 'uk';
 
 interface PricingData {
   starter: string;
@@ -35,6 +35,12 @@ const pricingByRegion: Record<RegionCode, PricingData> = {
     business: '1,900 USD',
     enterprise: '3,200 USD',
     currency: 'USD'
+  },
+  uk: {
+    starter: '£850',
+    business: '£2,250 (best ROI)',
+    enterprise: '£5,500+ (custom)',
+    currency: 'GBP'
   }
 };
 
@@ -186,8 +192,18 @@ export default function Pricing() {
                   Best For New Businesses
                 </span>
                 <h3 className="text-2xl md:text-3xl font-display font-medium text-white mb-4 uppercase tracking-tight">Starter</h3>
-                <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl md:text-5xl font-display font-medium text-white">{pricing.starter}</span>
+                <div className="flex flex-col items-start mb-6">
+                  {(() => {
+                    const parts = pricing.starter.split(' (');
+                    return (
+                      <>
+                        <span className="text-4xl md:text-5xl font-display font-medium text-white">{parts[0]}</span>
+                        {parts[1] && (
+                          <span className="text-sm text-zinc-400 mt-1">({parts[1]}</span>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
                 <p className="text-sm text-zinc-500 leading-relaxed">
                   Ideal for startups, boutiques, personal brands, restaurants, service providers, and businesses seeking a premium online presence.
@@ -242,8 +258,18 @@ export default function Pricing() {
                   Scale Your Operations
                 </span>
                 <h3 className="text-2xl md:text-3xl font-display font-medium text-white mb-4 uppercase tracking-tight">Business</h3>
-                <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl md:text-5xl font-display font-medium text-white">{pricing.business}</span>
+                <div className="flex flex-col items-start mb-6">
+                  {(() => {
+                    const parts = pricing.business.split(' (');
+                    return (
+                      <>
+                        <span className="text-4xl md:text-5xl font-display font-medium text-white">{parts[0]}</span>
+                        {parts[1] && (
+                          <span className="text-sm text-zinc-400 mt-1">({parts[1]}</span>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
                 <p className="text-sm text-zinc-500 leading-relaxed">
                   Designed for businesses that require online sales, customer management, order processing, and operational automation.
@@ -294,8 +320,18 @@ export default function Pricing() {
                   Custom Digital Platforms
                 </span>
                 <h3 className="text-2xl md:text-3xl font-display font-medium text-white mb-4 uppercase tracking-tight">Enterprise</h3>
-                <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl md:text-5xl font-display font-medium text-white">{pricing.enterprise}</span>
+                <div className="flex flex-col items-start mb-6">
+                  {(() => {
+                    const parts = pricing.enterprise.split(' (');
+                    return (
+                      <>
+                        <span className="text-4xl md:text-5xl font-display font-medium text-white">{parts[0]}</span>
+                        {parts[1] && (
+                          <span className="text-sm text-zinc-400 mt-1">({parts[1]}</span>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
                 <p className="text-sm text-zinc-500 leading-relaxed">
                   For established companies requiring advanced platforms, marketplaces, booking systems, custom applications, and enterprise workflows.

@@ -186,6 +186,36 @@ export default function App() {
               <Route path="/int/why-jawrah-pixel" element={<WhyJawrahPixel />} />
               <Route path="/int/about-founder" element={<AboutFounder />} />
 
+              {/* UK & EU version */}
+              <Route path="/uk" element={<Home />} />
+              <Route path="/uk/about" element={<About />} />
+              <Route path="/uk/services" element={<Services />} />
+              <Route path="/uk/services/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/uk/client" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/uk/admin" element={<Navigate to="/admin" replace />} />
+              <Route path="/uk/agent" element={<Navigate to="/partner/dashboard" replace />} />
+              <Route path="/uk/:serviceSlug" element={<ServiceLandingPage />} />
+              <Route path="/uk/process" element={<Process />} />
+              <Route path="/uk/pricing" element={<Pricing />} />
+              <Route path="/uk/case-studies" element={<CaseStudies />} />
+              <Route path="/uk/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/uk/leadership" element={<Leadership />} />
+              <Route path="/uk/contact" element={<Contact />} />
+              <Route path="/uk/partner" element={<Partner />} />
+              <Route path="/uk/agents" element={<AgentsRedirect />} />
+              <Route path="/uk/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/uk/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/uk/refund-policy" element={<RefundPolicy />} />
+              <Route path="/uk/privacy" element={<Navigate to="/uk/privacy-policy" replace />} />
+              <Route path="/uk/terms" element={<Navigate to="/uk/terms-and-conditions" replace />} />
+              <Route path="/uk/refund" element={<Navigate to="/uk/refund-policy" replace />} />
+              <Route path="/uk/refunds" element={<Navigate to="/uk/refund-policy" replace />} />
+              <Route path="/uk/blog" element={<Blog />} />
+              <Route path="/uk/blog/:slug" element={<BlogPostDetail />} />
+              <Route path="/uk/what-is-jawrah-pixel" element={<WhatIsJawrahPixel />} />
+              <Route path="/uk/why-jawrah-pixel" element={<WhyJawrahPixel />} />
+              <Route path="/uk/about-founder" element={<AboutFounder />} />
+
               {/* Fallback routes */}
               <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
               <Route path="/blog" element={<RegionalRedirect path="/blog" />} />
