@@ -181,7 +181,76 @@ export default function Leadership() {
         </div>
       </section>
 
+      {/* Co-Founder Section */}
+      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+          <Reveal className="mb-12 md:mb-16 text-center">
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Co-Founder & Operations</span>
+          </Reveal>
 
+          <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
+            <div className="lg:col-span-7 space-y-10 order-2 lg:order-1">
+              <Reveal>
+                <h4 className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-4">
+                  Leadership Philosophy
+                </h4>
+                <p className="text-lg text-zinc-500 font-light leading-relaxed">
+                  Operations should be invisible when they work, foundational when they matter. Building systems that enable creativity, not constrain it.
+                </p>
+              </Reveal>
+
+              <Reveal>
+                <h4 className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-4">
+                  Vision
+                </h4>
+                <p className="text-lg text-zinc-500 font-light leading-relaxed">
+                  To create an environment where exceptional talent can do their best work. Scaling requires structure—but structure should serve creativity, not stifle it.
+                </p>
+              </Reveal>
+
+              <Reveal>
+                <h4 className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-4">
+                  Role & Contribution
+                </h4>
+                <p className="text-lg text-zinc-500 font-light leading-relaxed">
+                  Leads operations, client experience, and team development. Ensures every project delivers on the JawrahPixel standard—on time, on quality, on strategy.
+                </p>
+              </Reveal>
+
+              <Reveal>
+                <h4 className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-4">
+                  Core Strengths
+                </h4>
+                <ul className="space-y-3">
+                  {['Operations & process design', 'Client relationship management', 'Team development & culture', 'Quality assurance frameworks'].map((strength, i) => (
+                    <li key={i} className="flex items-center gap-3 text-zinc-500">
+                      <CheckCircle className="w-4 h-4 text-brand-blue shrink-0" />
+                      <span className="font-light">{strength}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+
+            <Reveal className="lg:col-span-5 order-1 lg:order-2">
+              <div className="sticky lg:top-32">
+                <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-brand-blue group hover:bg-white/[0.05] hover:border-brand-blue/30 transition-all duration-700 mb-8">
+                  <User className="w-20 h-20 md:w-28 md:h-28 group-hover:scale-110 transition-transform duration-500" />
+                </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-2xl md:text-3xl font-display font-medium text-white uppercase tracking-tight">
+                    Jaweria Hafeez
+                  </h3>
+                  <p className="text-brand-blue text-[13px] font-mono uppercase tracking-[0.3em]">
+                    Co-Founder & Operations Director
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
       {/* Company Philosophy Section */}
       <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
@@ -258,7 +327,7 @@ export default function Leadership() {
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <StaggerContainer className="grid md:grid-cols-4 gap-6 md:gap-8">
             <StaggerItem className="group p-8 md:p-10 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700">
               <h3 className="text-lg font-display font-medium text-white uppercase mb-3 tracking-tight">
                 Sri Lanka
@@ -280,6 +349,18 @@ export default function Leadership() {
               </p>
               <p className="text-zinc-500 font-light leading-relaxed text-sm">
                 High-performance commerce and technical systems for the growing digital economy.
+              </p>
+            </StaggerItem>
+
+            <StaggerItem className="group p-8 md:p-10 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700">
+              <h3 className="text-lg font-display font-medium text-white uppercase mb-3 tracking-tight">
+                UK/EU
+              </h3>
+              <p className="text-brand-blue text-[11px] font-mono uppercase tracking-[0.3em] mb-4">
+                GBP Operations
+              </p>
+              <p className="text-zinc-500 font-light leading-relaxed text-sm">
+                Premium digital solutions tailored for UK and European businesses with local expertise.
               </p>
             </StaggerItem>
 

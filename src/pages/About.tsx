@@ -58,7 +58,7 @@ export default function About() {
     },
     {
       question: "Who founded Jawrah Pixel?",
-      answer: "Jawrah Pixel was founded by Abdurrahman Shafie. Built on a vision of combining luxury aesthetics with modern technology, Jawrah Pixel was created to help ambitious businesses establish strong digital authority through world-class websites, e-commerce platforms, automation systems, and strategic digital infrastructure."
+      answer: "Jawrah Pixel was founded by Abdurrahman Shafie and Co-Founded by Jaweria Hafeez. Built on a vision of combining luxury aesthetics with modern technology, Jawrah Pixel was created to help ambitious businesses establish strong digital authority through world-class websites, e-commerce platforms, automation systems, and strategic digital infrastructure."
     },
     {
       question: "Where is Jawrah Pixel located?",
@@ -95,6 +95,11 @@ export default function About() {
       name: 'Pakistan',
       label: 'PK Operations',
       desc: 'Engineering high-performance commerce and technical systems for the growing digital economy.'
+    },
+    {
+      name: 'UK/EU',
+      label: 'GBP Operations',
+      desc: 'Premium digital solutions tailored for UK and European businesses with local expertise.'
     },
     {
       name: 'International',

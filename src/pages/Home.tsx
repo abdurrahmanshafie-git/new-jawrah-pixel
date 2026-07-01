@@ -130,6 +130,66 @@ const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operat
 export default function Home() {
   const { config, p, isInternational, currentRegion } = useRegion();
   const seo = useRegionalSeo('home');
+  const scrollTrackRef = React.useRef<HTMLDivElement>(null);
+  const animationRef = React.useRef<number | null>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Check if mobile
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Auto-scroll logic
+  React.useEffect(() => {
+    if (!isMobile || !scrollTrackRef.current) return;
+
+    let scrollPosition = 0;
+    const scrollSpeed = 0.5; // Adjust speed here (pixels per frame)
+
+    const animateScroll = () => {
+      if (!scrollTrackRef.current) return;
+      const maxScroll = scrollTrackRef.current.scrollWidth - scrollTrackRef.current.clientWidth;
+      
+      scrollPosition += scrollSpeed;
+      
+      if (scrollPosition >= maxScroll) {
+        scrollPosition = 0; // Reset to start
+      }
+      
+      scrollTrackRef.current.scrollLeft = scrollPosition;
+      animationRef.current = requestAnimationFrame(animateScroll);
+    };
+
+    // Start animation
+    animationRef.current = requestAnimationFrame(animateScroll);
+
+    // Pause on hover/interaction
+    const pauseScroll = () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+    const resumeScroll = () => {
+      animationRef.current = requestAnimationFrame(animateScroll);
+    };
+
+    scrollTrackRef.current.addEventListener('mouseenter', pauseScroll);
+    scrollTrackRef.current.addEventListener('mouseleave', resumeScroll);
+    scrollTrackRef.current.addEventListener('touchstart', pauseScroll);
+    scrollTrackRef.current.addEventListener('touchend', resumeScroll);
+
+    // Cleanup
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (scrollTrackRef.current) {
+        scrollTrackRef.current.removeEventListener('mouseenter', pauseScroll);
+        scrollTrackRef.current.removeEventListener('mouseleave', resumeScroll);
+        scrollTrackRef.current.removeEventListener('touchstart', pauseScroll);
+        scrollTrackRef.current.removeEventListener('touchend', resumeScroll);
+      }
+    };
+  }, [isMobile]);
 
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
@@ -455,7 +515,7 @@ export default function Home() {
         </div>
 
         {/* Horizontal Scroll Track - Manual Carousel */}
-        <div className="relative w-full overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory pb-12">
+        <div ref={scrollTrackRef} className="relative w-full overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory pb-12">
           <div className="flex gap-4 md:gap-12 px-6 md:px-[15vw] w-max">
             {liveProjects.map((project, idx) => (
               <div
