@@ -146,43 +146,68 @@ export default function Home() {
   React.useEffect(() => {
     if (!isMobile || !scrollTrackRef.current) return;
 
-    let scrollPosition = 0;
-    const scrollSpeed = 0.5; // Adjust speed here (pixels per frame)
+    let scrollPosition = scrollTrackRef.current.scrollLeft;
+    const scrollSpeed = 0.3; // Slower smoother speed
+    let isPaused = false;
+    let lastScrollTime = Date.now();
 
     const animateScroll = () => {
-      if (!scrollTrackRef.current) return;
-      const maxScroll = scrollTrackRef.current.scrollWidth - scrollTrackRef.current.clientWidth;
-      
-      scrollPosition += scrollSpeed;
-      
-      if (scrollPosition >= maxScroll) {
-        scrollPosition = 0; // Reset to start
+      if (!scrollTrackRef.current || isPaused) {
+        animationRef.current = requestAnimationFrame(animateScroll);
+        return;
+      }
+
+      const now = Date.now();
+      // Only auto-scroll if user hasn't scrolled manually in the last 1.5 seconds
+      if (now - lastScrollTime > 1500) {
+        const maxScroll = scrollTrackRef.current.scrollWidth - scrollTrackRef.current.clientWidth;
+        
+        scrollPosition += scrollSpeed;
+        
+        if (scrollPosition >= maxScroll) {
+          scrollPosition = 0; // Reset to start
+        }
+        
+        scrollTrackRef.current.scrollLeft = scrollPosition;
+      } else {
+        // Sync with user's scroll position
+        scrollPosition = scrollTrackRef.current.scrollLeft;
       }
       
-      scrollTrackRef.current.scrollLeft = scrollPosition;
       animationRef.current = requestAnimationFrame(animateScroll);
+    };
+
+    // Handle manual scroll
+    const handleScroll = () => {
+      lastScrollTime = Date.now();
+      if (scrollTrackRef.current) {
+        scrollPosition = scrollTrackRef.current.scrollLeft;
+      }
+    };
+
+    // Pause on hover/interaction
+    const pauseScroll = () => {
+      isPaused = true;
+    };
+    const resumeScroll = () => {
+      isPaused = false;
+      lastScrollTime = Date.now();
     };
 
     // Start animation
     animationRef.current = requestAnimationFrame(animateScroll);
 
-    // Pause on hover/interaction
-    const pauseScroll = () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-    const resumeScroll = () => {
-      animationRef.current = requestAnimationFrame(animateScroll);
-    };
-
+    scrollTrackRef.current.addEventListener('scroll', handleScroll, { passive: true });
     scrollTrackRef.current.addEventListener('mouseenter', pauseScroll);
     scrollTrackRef.current.addEventListener('mouseleave', resumeScroll);
-    scrollTrackRef.current.addEventListener('touchstart', pauseScroll);
+    scrollTrackRef.current.addEventListener('touchstart', pauseScroll, { passive: true });
     scrollTrackRef.current.addEventListener('touchend', resumeScroll);
 
     // Cleanup
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (scrollTrackRef.current) {
+        scrollTrackRef.current.removeEventListener('scroll', handleScroll);
         scrollTrackRef.current.removeEventListener('mouseenter', pauseScroll);
         scrollTrackRef.current.removeEventListener('mouseleave', resumeScroll);
         scrollTrackRef.current.removeEventListener('touchstart', pauseScroll);
