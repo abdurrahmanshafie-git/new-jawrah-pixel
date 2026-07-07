@@ -183,9 +183,9 @@ export function Navbar() {
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-60" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-6 h-full flex flex-col justify-center">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-12">
+      <div className="container relative z-10 mx-auto h-full flex flex-col justify-center px-4 sm:px-6">
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-12">
             <Link to={`/${currentRegion}`} className="flex items-center group shrink-0">
               <Logo asset="logo-navbar" size="xl" className="md:hidden transition-transform duration-500 group-hover:scale-105" />
               <Logo asset="logo-navbar" size="3xl" className="hidden md:flex transition-transform duration-500 group-hover:scale-105" />
@@ -260,7 +260,7 @@ export function Navbar() {
             )}
           </div>
 
-          <div className="md:hidden ml-auto flex items-center gap-2.5">
+          <div className="ml-auto flex shrink-0 items-center gap-2 md:hidden">
             <ThemeToggle />
             <Link 
               to={dashboardPath}
@@ -280,38 +280,6 @@ export function Navbar() {
             >
               <User size={18} />
             </Link>
-
-            {!user && (
-              <Link
-                to={p('/agents')}
-                className="h-11 px-3 rounded-lg flex items-center justify-center transition-all active:scale-95 shrink-0"
-                style={{
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)'}`,
-                  background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.72)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = isDark ? 'rgba(59,130,246,0.2)' : 'rgba(16,185,129,0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)';
-                }}
-              >
-                <span 
-                  className="text-[9px] font-mono font-bold uppercase tracking-[0.1em] transition-colors"
-                  style={{
-                    color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = isDark ? 'white' : 'rgb(15,23,42)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)';
-                  }}
-                >
-                  Agent
-                </span>
-              </Link>
-            )}
             
             <button
               onClick={() => setIsOpen(!isOpen)}
