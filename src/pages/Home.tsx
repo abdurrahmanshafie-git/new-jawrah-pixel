@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Layout, TrendingUp, MonitorSmartphone, Server, ShieldCheck, ShoppingCart, ExternalLink, Globe, Gauge, LockKeyhole, Workflow, Sparkles, CheckCircle2, Globe2, Building2, Star, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useRegion } from '@/hooks/useRegion';
 import { useRegionalSeo } from '@/hooks/useRegionalSeo';
 import { getCanonicalUrl } from '@/lib/seo/pageSeo';
@@ -128,6 +129,8 @@ const intPricingPackages = [
 const globalNodes = ['Europe Operations', 'Middle East Operations', 'Asia Operations', 'North America Operations', 'Remote-First Agency', 'Global Support'];
 
 export default function Home() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const { config, p, isInternational, currentRegion } = useRegion();
   const seo = useRegionalSeo('home');
   const scrollTrackRef = React.useRef<HTMLDivElement>(null);
@@ -292,7 +295,7 @@ export default function Home() {
           We Don't Build <br /> Websites.
         </>
       ),
-      titleClass: 'text-white',
+      titleClass: isDark ? 'text-white' : 'text-slate-950',
     },
     {
       eyebrow: '02 / The Asset',
@@ -305,22 +308,22 @@ export default function Home() {
           </span>
         </>
       ),
-      titleClass: 'text-white',
+      titleClass: isDark ? 'text-white' : 'text-slate-950',
     },
     {
       eyebrow: '03 / The Legacy',
-      eyebrowClass: 'text-white',
+      eyebrowClass: isDark ? 'text-white' : 'text-slate-500',
       title: (
         <>
           Your Competition Will <br /> Feel The Difference.
         </>
       ),
-      titleClass: 'text-white',
+      titleClass: isDark ? 'text-white' : 'text-slate-950',
     },
   ];
 
   return (
-    <div className="bg-brand-black">
+    <div className="home-light-page light-surface-page" style={{ backgroundColor: isDark ? 'var(--background)' : '#FFFFFF' }}>
       <SEO 
         title={seo.title}
         description={seo.description}
@@ -334,12 +337,26 @@ export default function Home() {
       <section className="relative z-0 min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-20 md:pt-32 pb-20 overflow-hidden isolate">
         {/* Atmospheric Background */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 premium-grid-overlay opacity-[0.15]" />
+          {isDark && <div className="absolute inset-0 premium-grid-overlay opacity-[0.15]" />}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div className="absolute top-[15%] left-[15%] cinematic-light opacity-30 blur-[120px] animate-pulse-slow" />
-            <div className="absolute bottom-[15%] right-[15%] cinematic-light opacity-20 blur-[100px] animate-glow" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.08), transparent 70%)' }} />
+            <div 
+              className={`absolute top-[15%] left-[15%] ${isDark ? 'cinematic-light opacity-30 blur-[120px] animate-pulse-slow' : 'opacity-40 blur-[120px]'}`} 
+              style={{ 
+                background: isDark 
+                  ? 'radial-gradient(circle, rgba(6,182,212,0.06), transparent)' 
+                  : 'radial-gradient(circle, rgba(16,185,129,0.08), transparent)' 
+              }}
+            />
+            <div 
+              className={`absolute bottom-[15%] right-[15%] ${isDark ? 'cinematic-light opacity-20 blur-[100px] animate-glow' : 'opacity-30 blur-[100px]'}`} 
+              style={{ 
+                background: isDark 
+                  ? 'radial-gradient(circle at center, rgba(6, 182, 212, 0.08), transparent 70%)' 
+                  : 'radial-gradient(circle at center, rgba(16,185,129,0.06), transparent 70%)' 
+              }} 
+            />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-transparent to-brand-black" />
+          {isDark && <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-transparent to-brand-black" />}
         </div>
 
         <div className="container relative z-20 mx-auto px-6">
@@ -348,13 +365,17 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-3 mb-6 md:mb-10 px-5 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-2xl"
+              className="inline-flex items-center gap-3 mb-6 md:mb-10 px-5 py-2 rounded-full border theme-border bg-white/[0.02] backdrop-blur-2xl"
+              style={{
+                background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(15,23,42,0.02)',
+                borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)'
+              }}
             >
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-40"></span>
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-blue"></span>
               </span>
-              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-zinc-500">
+              <span className="text-[9px] uppercase tracking-[0.5em] font-bold theme-text-muted">
                 Strategic Digital Architecture
               </span>
             </motion.div>
@@ -365,7 +386,9 @@ export default function Home() {
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-20 mb-5 sm:mb-6 md:mb-8 lg:mb-10 flex w-full justify-center pointer-events-none"
             >
-              <div className="absolute inset-0 blur-[100px] bg-white/[0.02] rounded-full scale-125 pointer-events-none" />
+              <div className="absolute inset-0 blur-[100px] bg-white/[0.02] rounded-full scale-125 pointer-events-none" style={{
+                background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(15,23,42,0.02)'
+              }} />
               <Logo size="xl" className="relative z-10 h-[clamp(160px,28vh,220px)] w-[min(82vw,320px)] max-w-[320px] shrink-0 opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)] sm:w-[min(76vw,420px)] sm:max-w-[420px] md:h-[min(34vh,300px)] md:w-[min(68vw,560px)] md:max-w-[560px] lg:h-[min(40vh,340px)] lg:w-[min(52vw,680px)] lg:max-w-[680px] xl:max-w-[720px] [&>img]:h-full [&>img]:max-h-full [&>img]:w-full [&>img]:object-contain" />
             </motion.div>
 
@@ -376,15 +399,15 @@ export default function Home() {
               className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1.1] mb-8 uppercase font-display overflow-visible"
             >
               <span className="premium-text-gradient block mb-2">Architecting</span>
-              <span className="italic font-serif font-light text-zinc-500 lowercase opacity-70 inline-block px-2 py-1 overflow-visible">Digital</span>
-              <span className="block text-white mt-2">Monopolies</span>
+              <span className="italic font-serif font-light theme-text-muted lowercase opacity-70 inline-block px-2 py-1 overflow-visible">Digital</span>
+              <span className="block theme-text-primary mt-2">Monopolies</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-30 text-base md:text-lg text-zinc-500 max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
+              className="relative z-30 text-base md:text-lg theme-text-muted max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
               We engineer high-trust digital ecosystems for ambitious brands ready to establish absolute market authority.
             </motion.p>
@@ -423,15 +446,19 @@ export default function Home() {
                 href="https://g.page/r/Cf1UjMHotQuaEAI/review" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/5 hover:border-brand-cyan/30 hover:bg-white/[0.05] transition-all duration-300 group"
+                className="flex items-center gap-2 px-4 py-2 rounded-full theme-bg-elevated theme-border hover:border-brand-cyan/30 hover:bg-white/[0.05] transition-all duration-300 group"
+                style={{
+                  background: isDark ? 'rgba(255,255,255,0.02)' : 'var(--theme-bg-card)',
+                  borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)'
+                }}
               >
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={10} className="fill-brand-cyan text-brand-cyan" />
                   ))}
                 </div>
-                <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">Review us on Google</span>
-                <ExternalLink size={10} className="text-zinc-500 group-hover:text-brand-cyan transition-colors" />
+                <span className="text-[9px] font-mono uppercase tracking-widest theme-text-muted group-hover:theme-text-primary transition-colors">Review us on Google</span>
+                <ExternalLink size={10} className="theme-text-muted group-hover:text-brand-cyan transition-colors" />
               </a>
             </motion.div>
           </div>
@@ -439,13 +466,13 @@ export default function Home() {
       </section>
 
       {/* Authority Metrics Strip */}
-      <section className="relative border-y border-white/[0.03] bg-brand-black overflow-hidden py-8 md:py-10">
+      <section className="relative border-y theme-border theme-bg overflow-hidden py-8 md:py-10">
         <div className="absolute inset-0 premium-grid-overlay opacity-10 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.03] border border-white/[0.03]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px theme-bg-tertiary border theme-border">
             {authorityMetrics.map((metric, idx) => (
-              <Reveal key={metric.label} delay={idx * 0.1} className="bg-brand-black p-6 sm:p-8 md:p-10 flex flex-col items-center text-center group">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold text-white tracking-tighter mb-3 md:mb-4 group-hover:scale-[1.05] transition-transform duration-700">
+              <Reveal key={metric.label} delay={idx * 0.1} className="theme-bg p-6 sm:p-8 md:p-10 flex flex-col items-center text-center group">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold theme-text-primary tracking-tighter mb-3 md:mb-4 group-hover:scale-[1.05] transition-transform duration-700">
                   <AnimatedCounter
                     value={metric.value}
                     suffix={metric.suffix}
@@ -455,7 +482,7 @@ export default function Home() {
                 <h3 className="text-[9px] font-mono uppercase tracking-[0.35em] sm:tracking-[0.4em] text-brand-blue mb-3 md:mb-4 font-bold opacity-60 group-hover:opacity-100 transition-opacity">
                   {metric.label}
                 </h3>
-                <p className="hidden sm:block text-[11px] text-zinc-600 leading-relaxed font-light max-w-[200px]">
+                <p className="hidden sm:block text-[11px] theme-text-caption leading-relaxed font-light max-w-[200px]">
                   {metric.caption}
                 </p>
               </Reveal>
@@ -465,17 +492,17 @@ export default function Home() {
       </section>
 
       {/* Brand Value Prop Section */}
-      <section className="relative overflow-hidden border-b border-white/5 bg-brand-black py-20 md:py-32">
+      <section className="relative overflow-hidden border-b theme-border theme-bg py-20 md:py-32">
         <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
         <div className="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:gap-20 px-6 md:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
             <span className="mb-6 block text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-cyan">
               Digital Craftsmanship
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight text-white mb-8 overflow-visible">
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight theme-text-primary mb-8 overflow-visible">
               Global remote agency. <br /> Premium digital <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">engineering</span>.
             </h2>
-            <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl">
+            <p className="text-lg theme-text-muted font-light leading-relaxed max-w-xl">
               We operate at the intersection of luxury aesthetics and high-performance technology, delivering unshakeable digital assets for brands that refuse to settle for average.
             </p>
           </Reveal>
@@ -486,9 +513,9 @@ export default function Home() {
               ['Performance Engineering', 'Speed, accessibility, and SEO are architected into the core from the first wireframe.'],
               ['UI/UX Obsession', 'Every interaction and content rhythm is tuned for trust, clarity, and absolute brand authority.'],
             ].map(([title, desc], idx) => (
-              <div key={title} className="p-8 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-brand-blue/20 transition-all duration-500 group">
-                <h3 className="mb-4 text-xs font-display font-bold uppercase tracking-widest text-white group-hover:text-brand-cyan transition-colors">{title}</h3>
-                <p className="text-[11px] leading-relaxed text-zinc-500 font-light group-hover:text-zinc-400 transition-colors">{desc}</p>
+              <div key={title} className="p-8 rounded-2xl border theme-border theme-card hover:border-brand-blue/20 transition-all duration-500 group">
+                <h3 className="mb-4 text-xs font-display font-bold uppercase tracking-widest theme-text-primary group-hover:text-brand-cyan transition-colors">{title}</h3>
+                <p className="text-[11px] leading-relaxed theme-text-muted font-light group-hover:theme-text-secondary transition-colors">{desc}</p>
               </div>
             ))}
           </Reveal>
@@ -497,7 +524,7 @@ export default function Home() {
 
 
       {/* Explore Live Projects Section - Manual Horizontal Carousel */}
-      <section className="py-24 md:py-32 bg-brand-black overflow-hidden relative border-t border-white/5">
+      <section className="py-24 md:py-32 theme-bg overflow-hidden relative border-t theme-border">
         <div className="container mx-auto px-5 sm:px-6 md:px-8 max-w-7xl relative z-20 mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="text-left max-w-2xl">
@@ -517,21 +544,21 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white tracking-tight uppercase leading-[1.1] overflow-visible"
+                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium theme-text-primary tracking-tight uppercase leading-[1.1] overflow-visible"
               >
                 Explore <span className="premium-gradient-brand font-bold italic inline-block px-2 py-1 overflow-visible">Live</span> Projects
               </motion.h2>
             </div>
 
             {/* Desktop Scroll Hint */}
-            <div className="hidden md:flex items-center gap-4 text-zinc-500 font-mono text-[10px] uppercase tracking-[0.3em]">
+            <div className="hidden md:flex items-center gap-4 theme-text-muted font-mono text-[10px] uppercase tracking-[0.3em]">
               <span>Scroll to explore</span>
-              <div className="w-12 h-px bg-zinc-800"></div>
+              <div className="w-12 h-px theme-border"></div>
               <ArrowRight className="w-3 h-3 animate-pulse" />
             </div>
 
             {/* Mobile Swipe Hint */}
-            <div className="flex md:hidden items-center gap-3 text-zinc-500 font-mono text-[9px] uppercase tracking-[0.2em]">
+            <div className="flex md:hidden items-center gap-3 theme-text-muted font-mono text-[9px] uppercase tracking-[0.2em]">
               <ArrowRight className="w-3 h-3 animate-pulse rotate-180" />
               <span>Swipe</span>
               <ArrowRight className="w-3 h-3 animate-pulse" />
@@ -546,7 +573,7 @@ export default function Home() {
               <div
                 key={project.slug}
                 data-cursor="premium"
-                className="relative h-[400px] md:h-[600px] w-[85vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden bg-brand-black border border-white/5"
+                className="relative h-[400px] md:h-[600px] w-[85vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden theme-bg border theme-border"
               >
                 {/* Background Image with Darker Overlay */}
                 <div className="absolute inset-0 z-0">
@@ -555,7 +582,11 @@ export default function Home() {
                     alt={project.title}
                     className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-50 transition-all duration-1000 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/80 to-brand-black/40 group-hover:via-brand-black/60 transition-colors duration-700" />
+                  <div className="absolute inset-0" style={{
+                    background: isDark 
+                      ? 'linear-gradient(to top, #000000, rgba(0,0,0,0.8), rgba(0,0,0,0.4))' 
+                      : 'linear-gradient(to top, #FFFFFF, rgba(255,255,255,0.86), rgba(255,255,255,0.48))'
+                  }}></div>
                 </div>
 
                 <div className="absolute inset-0 z-10 p-6 md:p-10 flex flex-col justify-end">
@@ -563,22 +594,22 @@ export default function Home() {
                     <span className="inline-block px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-[9px] font-mono text-brand-blue uppercase tracking-widest mb-4">
                       {idx === 0 ? "Featured Case Study" : "Client Transformation"}
                     </span>
-                    <h4 className="text-3xl md:text-4xl font-display font-medium text-white mb-2 leading-tight">
+                    <h4 className="text-3xl md:text-4xl font-display font-medium theme-text-primary mb-2 leading-tight">
                       {project.title}
                     </h4>
-                    <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] text-zinc-400 uppercase">
+                    <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] theme-text-secondary uppercase">
                       {project.category}
                     </span>
                   </div>
 
-                  <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
+                  <p className="theme-text-secondary text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
                     {project.desc}
                   </p>
 
                   {/* Agency Metrics / Tags */}
                   <div className="flex flex-wrap gap-2 mb-8">
                     {['Performance-ready', 'UX Audit', 'Conversion-led'].map(tag => (
-                      <span key={tag} className="text-[9px] font-mono text-zinc-500 border border-white/10 px-2 py-1">
+                      <span key={tag} className="text-[9px] font-mono theme-text-muted border theme-border px-2 py-1">
                         {tag}
                       </span>
                     ))}
@@ -607,8 +638,12 @@ export default function Home() {
                 </div>
 
                 {/* Hover Border Glow */}
-                <div className="absolute inset-0 border border-white/5 group-hover:border-brand-blue/30 transition-colors duration-700 pointer-events-none" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.1),transparent_70%)]" />
+                <div className="absolute inset-0 border theme-border group-hover:border-brand-blue/30 transition-colors duration-700 pointer-events-none" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" style={{
+                  background: isDark 
+                    ? 'radial-gradient(circle at 50% 0%, rgba(6,182,212,0.1), transparent 70%)' 
+                    : 'radial-gradient(circle at 50% 0%, rgba(16,185,129,0.1), transparent 70%)'
+                }} />
               </div>
             ))}
           </div>
@@ -619,30 +654,30 @@ export default function Home() {
 
       {/* UK & EU Regional Office Section */}
       {currentRegion === 'uk' && (
-        <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-black">
+        <section className="py-20 md:py-32 relative border-y theme-border theme-bg">
           <div className="container relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[1fr_1.2fr]">
             <Reveal>
               <span className="mb-6 block text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">
                 UK & EU Regional Presence
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight text-white mb-8 overflow-visible">
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase leading-[1.1] tracking-tight theme-text-primary mb-8 overflow-visible">
                 UK & EU Regional Office
               </h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-xl mb-10">
+              <p className="text-lg theme-text-muted font-light leading-relaxed max-w-xl mb-10">
                 A structured regional client handling system for UK and European businesses to ensure professional communication and enterprise-level service delivery.
               </p>
               
-              <div className="mb-8 p-6 bg-white/[0.01] border border-white/5 rounded-2xl">
+              <div className="mb-8 p-6 theme-card border theme-border rounded-2xl">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full theme-bg-tertiary border theme-border flex items-center justify-center">
                     <User className="w-7 h-7 text-brand-blue" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-display font-bold text-white mb-1">Nafees Ahamed</h3>
+                    <h3 className="text-lg font-display font-bold theme-text-primary mb-1">Nafees Ahamed</h3>
                     <p className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.2em]">UK & EU Regional Client Director</p>
                   </div>
                 </div>
-                <p className="text-sm text-zinc-500 font-light leading-relaxed">
+                <p className="text-sm theme-text-muted font-light leading-relaxed">
                   Your dedicated point of contact for UK & EU client communication, project coordination, consultation support, requirement gathering, and proposal assistance.
                 </p>
               </div>
@@ -656,7 +691,7 @@ export default function Home() {
                   'Proposal Assistance',
                   'UK & EU Time-Zone Alignment'
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 text-xs text-zinc-300 font-light">
+                  <div key={item} className="flex items-center gap-3 text-xs theme-text-secondary font-light">
                     <CheckCircle2 className="w-4 h-4 text-brand-blue" />
                     {item}
                   </div>
@@ -666,9 +701,13 @@ export default function Home() {
 
             <Reveal delay={0.1} className="relative min-h-[400px] flex items-center justify-center">
               <div className="absolute inset-0 rounded-full bg-brand-blue/10 blur-[120px]" />
-              <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center rounded-2xl border border-white/5 bg-white/[0.01] backdrop-blur-3xl shadow-[inset_0_0_80px_rgba(59,130,246,0.05)]">
-                <div className="absolute inset-[10%] rounded-xl border border-white/[0.03]" />
-                <div className="absolute inset-[25%] rounded border border-white/[0.03]" />
+              <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center rounded-2xl border theme-border theme-card backdrop-blur-3xl" style={{
+                boxShadow: isDark 
+                  ? 'inset 0 0 80px rgba(59,130,246,0.05)' 
+                  : 'inset 0 0 80px rgba(16,185,129,0.05)'
+              }}>
+                <div className="absolute inset-[10%] rounded-xl border theme-border opacity-40" />
+                <div className="absolute inset-[25%] rounded border theme-border opacity-30" />
                 <Building2 className="w-32 h-32 text-brand-blue/20" />
                 
                 {['London Operations', 'UK & EU Client Support', 'Enterprise Standards', 'Compliance First'].map((node, idx) => {
@@ -686,7 +725,9 @@ export default function Home() {
                       transition={{ duration: 4 + idx, repeat: Infinity, ease: 'easeInOut' }}
                     >
                       <div className="w-2 h-2 rounded-full bg-brand-blue shadow-[0_0_15px_rgba(59,130,246,0.8)]" />
-                      <span className="hidden sm:block text-[8px] font-mono font-bold text-zinc-500 uppercase tracking-widest bg-brand-black/50 px-2 py-1 rounded border border-white/5 backdrop-blur-sm">
+                      <span className="hidden sm:block text-[8px] font-mono font-bold theme-text-muted uppercase tracking-widest px-2 py-1 rounded border theme-border backdrop-blur-sm" style={{
+                        background: isDark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.74)'
+                      }}>
                         {node}
                       </span>
                     </motion.div>
@@ -699,14 +740,14 @@ export default function Home() {
       )}
 
       {/* Premium Services Grid */}
-      <section className="py-20 md:py-32 relative border-y border-white/5 bg-brand-navy/30">
+      <section className="py-20 md:py-32 relative border-y theme-border theme-bg-secondary">
         <div className="container mx-auto px-5 md:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8 text-center md:text-left">
             <div className="max-w-2xl">
               <h2 className="text-[9px] md:text-[10px] font-bold tracking-[0.4em] uppercase text-brand-blue mb-6">Core Capabilities</h2>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white tracking-tight leading-[1.1]">Engineering Growth Through <br className="hidden md:block" /> Strategic Architecture.</h3>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium theme-text-primary tracking-tight leading-[1.1]">Engineering Growth Through <br className="hidden md:block" /> Strategic Architecture.</h3>
             </div>
-            <p className="text-zinc-500 max-w-md text-base md:text-lg leading-relaxed font-light mx-auto md:mx-0">
+            <p className="theme-text-muted max-w-md text-base md:text-lg leading-relaxed font-light mx-auto md:mx-0">
               We leverage modern technology and luxury aesthetics to build digital assets that position your brand at the absolute pinnacle of your industry.
             </p>
           </div>
@@ -715,23 +756,23 @@ export default function Home() {
             {servicesList.map((service, i) => (
               <StaggerItem
                 key={i} 
-                className="group relative p-6 sm:p-8 md:p-12 bg-white/[0.01] border border-white/5 hover:bg-white/[0.02] hover:border-brand-blue/20 transition-all duration-700 overflow-hidden h-full"
+                className="group relative p-6 sm:p-8 md:p-12 theme-card border theme-border hover:theme-bg-tertiary hover:border-brand-blue/20 transition-all duration-700 overflow-hidden h-full"
               >
                 {/* Edge Highlight */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 
-                <div className="mb-6 sm:mb-8 text-zinc-500 group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
+                <div className="mb-6 sm:mb-8 theme-text-muted group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
                   {React.cloneElement(service.icon as React.ReactElement, { className: 'w-9 h-9 sm:w-10 sm:h-10' })}
                 </div>
-                <h4 className="text-[11px] sm:text-lg md:text-xl font-display font-medium mb-3 sm:mb-5 text-white uppercase tracking-tight leading-snug">
+                <h4 className="text-[11px] sm:text-lg md:text-xl font-display font-medium mb-3 sm:mb-5 theme-text-primary uppercase tracking-tight leading-snug">
                   {service.title}
                 </h4>
-                <p className="text-zinc-500 text-[10px] sm:text-sm leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500 line-clamp-3">
+                <p className="theme-text-muted text-[10px] sm:text-sm leading-relaxed font-light group-hover:theme-text-secondary transition-colors duration-500 line-clamp-3">
                   {service.desc}
                 </p>
                 <Link
                   to={p(getHomeServiceLandingPath(service.title))}
-                  className="mt-6 inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-brand-blue transition-colors hover:text-white sm:text-[10px]"
+                  className="mt-6 inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.22em] text-brand-blue transition-colors hover:theme-text-primary sm:text-[10px]"
                 >
                   Learn More
                   <ArrowRight className="h-3 w-3" />
@@ -745,17 +786,17 @@ export default function Home() {
 
 
       {/* Agency Operating System Layer */}
-      <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden">
+      <section className="py-20 md:py-32 relative theme-bg overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
             <Reveal className="lg:col-span-5 lg:sticky lg:top-32">
               <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">
                 Operational Excellence
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible theme-text-primary">
                 Not a website. <br /> A scalable <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">ecosystem</span>.
               </h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12 max-w-md">
+              <p className="text-lg theme-text-muted font-light leading-relaxed mb-12 max-w-md">
                 We connect premium storytelling with the operational structure serious brands expect: secure client workspaces, lead routing, and automation-ready delivery paths.
               </p>
               <Link to={p('/process')}>
@@ -769,15 +810,15 @@ export default function Home() {
             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
               {ecosystemLayers.map((layer, idx) => (
                 <Reveal key={layer.title} delay={idx * 0.1}>
-                  <div className="group p-10 bg-white/[0.01] border border-white/5 hover:border-brand-blue/20 transition-all duration-500 relative overflow-hidden">
+                  <div className="group p-10 theme-card border theme-border hover:border-brand-blue/20 transition-all duration-500 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="mb-8 text-zinc-500 group-hover:scale-110 group-hover:text-brand-cyan transition-transform duration-500">
+                    <div className="mb-8 theme-text-muted group-hover:scale-110 group-hover:text-brand-cyan transition-transform duration-500">
                       {React.cloneElement(layer.icon as React.ReactElement, { className: 'w-8 h-8' })}
                     </div>
-                    <h3 className="text-lg font-display font-bold uppercase tracking-wider text-white mb-4">
+                    <h3 className="text-lg font-display font-bold uppercase tracking-wider theme-text-primary mb-4">
                       {layer.title}
                     </h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-400 transition-colors duration-500">
+                    <p className="text-sm theme-text-muted leading-relaxed font-light group-hover:theme-text-secondary transition-colors duration-500">
                       {layer.desc}
                     </p>
                   </div>
@@ -790,17 +831,17 @@ export default function Home() {
 
       {/* International Pricing Section */}
       {isInternational && (
-        <section className="relative overflow-hidden border-y border-white/5 bg-brand-black py-24 md:py-32">
+        <section className="relative overflow-hidden border-y theme-border theme-bg py-24 md:py-32">
           <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
           <div className="container relative z-10 mx-auto max-w-7xl px-6">
             <div className="text-center mb-20">
               <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-[0.4em] font-bold block mb-6">
                 Strategic Investment
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible theme-text-primary">
                 International <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Pricing</span>.
               </h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto">
+              <p className="text-lg theme-text-muted font-light leading-relaxed max-w-2xl mx-auto">
                 Transparent starting ranges for global clients, with custom quotes for advanced AI systems, complex ecommerce, and enterprise-grade platforms.
               </p>
             </div>
@@ -809,8 +850,8 @@ export default function Home() {
               {intPricingPackages.map((plan) => (
                 <StaggerItem
                   key={plan.name}
-                  className={`relative p-10 bg-white/[0.01] border transition-all duration-500 flex flex-col h-full group ${
-                    plan.isRecommended ? 'border-brand-cyan/30 bg-brand-cyan/[0.02]' : 'border-white/5 hover:border-brand-blue/20'
+                  className={`relative p-10 theme-card border transition-all duration-500 flex flex-col h-full group ${
+                    plan.isRecommended ? 'border-brand-cyan/30 bg-brand-cyan/[0.02]' : 'theme-border hover:border-brand-blue/20'
                   }`}
                 >
                   {plan.isRecommended && (
@@ -820,12 +861,12 @@ export default function Home() {
                   )}
                   <div className="mb-8">
                     <h3 className="text-xs font-mono font-bold text-brand-blue uppercase tracking-widest mb-4">{plan.name}</h3>
-                    <div className="text-3xl font-display font-bold text-white mb-4">{plan.price}</div>
-                    <p className="text-xs text-zinc-500 font-light leading-relaxed">{plan.desc}</p>
+                    <div className="text-3xl font-display font-bold theme-text-primary mb-4">{plan.price}</div>
+                    <p className="text-xs theme-text-muted font-light leading-relaxed">{plan.desc}</p>
                   </div>
                   <ul className="space-y-4 mb-10 flex-1">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-[11px] text-zinc-400 font-light">
+                      <li key={feature} className="flex items-start gap-3 text-[11px] theme-text-secondary font-light">
                         <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0 mt-0.5" />
                         {feature}
                       </li>
@@ -840,16 +881,16 @@ export default function Home() {
               ))}
             </StaggerContainer>
 
-            <Reveal className="mt-16 p-8 bg-white/[0.01] border border-white/5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+            <Reveal className="mt-16 p-8 theme-card border theme-border rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="max-w-xl">
-                <h4 className="text-sm font-display font-bold uppercase tracking-widest text-white mb-2">International Payment Support</h4>
-                <p className="text-xs text-zinc-500 font-light leading-relaxed">
+                <h4 className="text-sm font-display font-bold uppercase tracking-widest theme-text-primary mb-2">International Payment Support</h4>
+                <p className="text-xs theme-text-muted font-light leading-relaxed">
                   We support USD invoices via PayPal, Wise, and International Bank Transfers, ensuring a seamless remote engagement for global teams.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 justify-center md:justify-end">
                 {['PayPal', 'Wise', 'Bank Transfer', 'Visa', 'Mastercard'].map(method => (
-                  <span key={method} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
+                  <span key={method} className="px-4 py-2 rounded-full bg-white/5 border theme-border text-[9px] font-mono font-bold theme-text-secondary uppercase tracking-widest">
                     {method}
                   </span>
                 ))}
@@ -860,13 +901,26 @@ export default function Home() {
       )}
 
       {/* Cinematic Storytelling Sequence */}
-      <section className="relative w-full max-w-full overflow-hidden bg-brand-black py-16 md:py-20 lg:py-24" data-story-section>
+      <section className="relative w-full max-w-full overflow-hidden theme-bg py-16 md:py-20 lg:py-24" data-story-section>
         {/* Dynamic Background */}
-        <div className="absolute inset-0 overflow-hidden bg-brand-black pointer-events-none">
-          <div className="absolute inset-0 premium-grid-overlay opacity-[0.12]" />
-          <div className="absolute left-1/2 top-1/2 h-[70vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-blue/[0.035] blur-[140px]" />
-          <div className="absolute bottom-[12%] right-[12%] h-[42vh] w-[42vh] rounded-full bg-brand-cyan/[0.025] blur-[110px]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-brand-black/90 to-brand-black" />
+        <div className="absolute inset-0 overflow-hidden theme-bg pointer-events-none">
+          <div className="absolute inset-0 premium-grid-overlay opacity-[0.08]" />
+          <div
+            className="absolute left-1/2 top-1/2 h-[70vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px]"
+            style={{ background: isDark ? 'rgba(59,130,246,0.035)' : 'rgba(16,185,129,0.055)' }}
+          />
+          <div
+            className="absolute bottom-[12%] right-[12%] h-[42vh] w-[42vh] rounded-full blur-[110px]"
+            style={{ background: isDark ? 'rgba(6,182,212,0.025)' : 'rgba(59,130,246,0.04)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isDark
+                ? 'linear-gradient(to bottom, #000000, rgba(0,0,0,0.9), #000000)'
+                : 'linear-gradient(to bottom, #FFFFFF, rgba(255,255,255,0.92), #FFFFFF)',
+            }}
+          />
         </div>
 
         <div

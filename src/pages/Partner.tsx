@@ -19,6 +19,7 @@ import { ANALYTICS_EVENTS, trackEvent } from '@/lib/analytics';
 import { toAbsoluteUrl } from '@/lib/env';
 import { partnerFaqs } from '@/data/partnerFaqs';
 import { partnerRegionCopy } from '@/data/partnerDefaults';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const sectionLinks = [
   { id: 'commission-calculator', label: 'Earnings' },
@@ -96,7 +97,7 @@ export default function Partner() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-brand-black text-white">
+    <main className="partner-light-page light-surface-page relative min-h-screen overflow-hidden" style={{ backgroundColor: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
       <SEO
         title={copy.seoTitle}
         description={copy.seoDescription}
@@ -151,8 +152,14 @@ export default function Partner() {
 }
 
 function SectionNav({ onSelect }: { onSelect: (id: string) => void }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
   return (
-    <nav className="sticky top-20 z-30 border-y border-white/10 bg-black/80 backdrop-blur-xl">
+    <nav className="sticky top-20 z-30 border-y backdrop-blur-xl" style={{
+      borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      backgroundColor: isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'
+    }}>
       <div className="container mx-auto px-6">
         <div className="scrollbar-hide flex gap-2 overflow-x-auto py-3">
           {sectionLinks.map((link) => (
@@ -160,7 +167,20 @@ function SectionNav({ onSelect }: { onSelect: (id: string) => void }) {
               key={link.id}
               type="button"
               onClick={() => onSelect(link.id)}
-              className="min-h-11 shrink-0 rounded-md border border-white/10 px-4 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:border-brand-cyan/40 hover:text-brand-cyan focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-cyan"
+              className="min-h-11 shrink-0 rounded-md border px-4 text-[10px] font-mono uppercase tracking-[0.18em] transition-colors focus-visible:outline-none focus-visible:ring-1"
+              style={{
+                borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                color: isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                '--tw-ring-color': 'var(--color-accent-brand)'
+              } as React.CSSProperties}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-accent-brand)';
+                e.currentTarget.style.color = 'var(--color-accent-brand)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                e.currentTarget.style.color = isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)';
+              }}
             >
               {link.label}
             </button>

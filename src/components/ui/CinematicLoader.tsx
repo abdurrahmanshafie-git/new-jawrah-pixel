@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from '@/components/layout/Logo';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export function CinematicLoader() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -28,7 +31,8 @@ export function CinematicLoader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[9999] bg-[#000000] flex items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
+          style={{ backgroundColor: isDark ? '#000000' : '#FFFFFF' }}
         >
           {/* Background Atmosphere */}
           <div className="absolute inset-0 z-0">
@@ -85,7 +89,10 @@ export function CinematicLoader() {
               transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="mb-5"
             >
-              <h1 className="text-white text-xs md:text-sm font-mono font-bold uppercase tracking-[0.8em] md:tracking-[1em]">
+              <h1
+                className="text-xs md:text-sm font-mono font-bold uppercase tracking-[0.8em] md:tracking-[1em]"
+                style={{ color: isDark ? '#FFFFFF' : 'var(--text-primary)' }}
+              >
                 Jawrah Pixel
               </h1>
             </motion.div>
@@ -96,7 +103,10 @@ export function CinematicLoader() {
               animate={{ opacity: 0.6 }}
               transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
             >
-              <p className="text-[10px] md:text-[11px] text-white font-light uppercase tracking-[0.4em]">
+              <p
+                className="text-[10px] md:text-[11px] font-light uppercase tracking-[0.4em]"
+                style={{ color: isDark ? '#FFFFFF' : 'var(--text-muted)' }}
+              >
                 Architecting Digital Monopolies
               </p>
             </motion.div>

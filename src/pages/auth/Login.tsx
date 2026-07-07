@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
+import { useTheme } from '@/contexts/ThemeContext';
 import { getOrCreateProfile } from '@/lib/supabase/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
@@ -11,8 +12,11 @@ import { SEO } from '@/components/layout/SEO';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion } from '@/lib/region';
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +27,19 @@ export default function Login() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user: authUser, profile: authProfile, loading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading && authUser) {
+      if (authProfile?.role === 'admin' || authProfile?.role === 'superadmin') {
+        navigate('/admin', { replace: true });
+      } else if (authProfile?.role === 'agent') {
+        navigate('/partner/dashboard', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [authLoading, navigate, authProfile?.role, authUser]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,7 +130,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-black p-0 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center theme-bg p-0 sm:p-4 relative overflow-hidden">
       <SEO
         title="Client Login | Jawrah Pixel"
         description="Secure Jawrah Pixel client login for project dashboards, invoices, milestones, files, and premium digital delivery updates."
@@ -141,8 +158,8 @@ export default function Login() {
               <Logo variant="icon" size="md" className="w-16 h-16 relative z-10" />
             </div>
           </Link>
-          <h1 className="text-3xl font-display font-bold text-white mb-3 uppercase tracking-tight">Access Terminal</h1>
-          <p className="text-brand-gray text-sm font-light">Secure gateway to your strategic workspace</p>
+          <h1 className="text-3xl font-display font-bold theme-text-primary mb-3 uppercase tracking-tight">Access Terminal</h1>
+          <p className="theme-text-muted text-sm font-light">Secure gateway to your strategic workspace</p>
         </div>
 
         {recoverySent && (

@@ -61,6 +61,14 @@ export function persistRegion(region: RegionCode) {
   document.cookie = `${REGION_COOKIE_NAME}=${region}; max-age=31536000; path=/; SameSite=Lax`;
 }
 
+export function clearSavedRegion() {
+  if (typeof window === 'undefined') return;
+
+  window.localStorage.removeItem(REGION_STORAGE_KEY);
+  // Clear cookie by expiring it
+  document.cookie = `${REGION_COOKIE_NAME}=; max-age=0; path=/; SameSite=Lax`;
+}
+
 export function persistAdminRegion(region: RegionCode) {
   if (typeof window === 'undefined') return;
 

@@ -30,7 +30,7 @@ export function MilestoneProgress({
             className="flex items-center justify-between gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02]"
           >
             <div className="flex items-center gap-3">
-              <Icon size={16} className={paid ? 'text-emerald-400' : 'text-brand-gray'} />
+              <Icon size={16} className={paid ? 'text-brand-blue' : 'text-brand-gray'} />
               <div>
                 <div className="text-xs font-semibold text-white uppercase tracking-wide">{m.label}</div>
                 <div className="text-[10px] text-brand-gray font-mono">{m.percentage}%</div>

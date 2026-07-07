@@ -6,6 +6,7 @@ import { useRegionalSeo } from '@/hooks/useRegionalSeo';
 import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   Globe, 
   Cpu, 
@@ -26,20 +27,32 @@ import { cn } from '@/lib/utils';
 
 // FAQ Component for the About page
 function FAQItem({ question, answer }: { question: string, answer: string }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-white/5 bg-white/[0.02] mb-4 overflow-hidden">
+    <div className="mb-4 overflow-hidden" style={{ 
+      backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+      borderColor: 'var(--border)',
+      borderWidth: '1px',
+      borderStyle: 'solid'
+    }}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-6 md:p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors group focus:outline-none"
+        className="w-full p-6 md:p-8 flex items-center justify-between text-left transition-colors group focus:outline-none"
+        style={{
+          backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(250,250,248,1)'
+        }}
       >
-        <h3 className="text-sm sm:text-lg font-display font-medium text-white uppercase tracking-tight group-hover:text-brand-blue transition-colors duration-300">
+        <h3 className="text-sm sm:text-lg font-display font-medium uppercase tracking-tight transition-colors duration-300" style={{ 
+          color: 'var(--text-primary)'
+        }}>
           {question}
         </h3>
-        <Plus className={`w-4 h-4 text-brand-blue transition-transform duration-500 ${isOpen ? 'rotate-45' : ''}`} />
+        <Plus className="w-4 h-4 transition-transform duration-500" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }} />
       </button>
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
-        <div className="px-6 pb-6 md:px-8 md:pb-8 text-zinc-500 text-sm md:text-base leading-relaxed font-light">
+        <div className="px-6 pb-6 md:px-8 md:pb-8 text-sm md:text-base leading-relaxed font-light" style={{ color: 'var(--text-muted)' }}>
           {answer}
         </div>
       </div>
@@ -49,6 +62,8 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
 
 export default function About() {
   const { config, p, isInternational, currentRegion } = useRegion();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const seo = useRegionalSeo('about');
 
   const faqs = [
@@ -109,7 +124,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-brand-black min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden" style={{ backgroundColor: 'var(--background)' }}>
       <SEO 
         title={seo.title}
         description={seo.description}
@@ -120,10 +135,10 @@ export default function About() {
 
       {/* Atmospheric Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />
+        {isDark && <div className="absolute inset-0 premium-grid-overlay opacity-20 pointer-events-none" />}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
-          <div className="absolute top-[10%] right-[10%] cinematic-light animate-pulse-slow opacity-30" />
-          <div className="absolute bottom-[20%] left-[10%] cinematic-light animate-glow opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' }} />
+          <div className="absolute top-[10%] right-[10%] opacity-30 blur-[100px]" style={{ background: isDark ? 'radial-gradient(circle, rgba(6,182,212,0.1), transparent 70%)' : 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)' }} />
+          <div className="absolute bottom-[20%] left-[10%] opacity-20 blur-[100px]" style={{ background: isDark ? 'radial-gradient(circle at center, rgba(6, 182, 212, 0.1), transparent 70%)' : 'radial-gradient(circle at center, rgba(16,185,129,0.06), transparent 70%)' }} />
         </div>
       </div>
 
@@ -132,8 +147,14 @@ export default function About() {
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             <Reveal>
-              <div className="inline-flex items-center gap-3 mb-8 md:mb-10 px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em]">
-                <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
+              <div className="inline-flex items-center gap-3 mb-8 md:mb-10 px-6 py-2 rounded-none text-[10px] font-mono uppercase tracking-[0.4em]" style={{
+                borderColor: 'var(--border)',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(15,23,42,0.02)',
+                color: isDark ? 'var(--brand-blue)' : 'var(--accent)'
+              }}>
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: isDark ? 'var(--brand-blue)' : 'var(--accent)' }} />
                 The Agency Identity
               </div>
             </Reveal>
@@ -142,7 +163,8 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-7xl lg:text-8xl font-display font-medium text-white tracking-tight leading-[1.1] mb-10 uppercase overflow-visible"
+              className="text-4xl md:text-7xl lg:text-8xl font-display font-medium tracking-tight leading-[1.1] mb-10 uppercase overflow-visible"
+              style={{ color: 'var(--text-primary)' }}
             >
               Architecting <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Digital Authority</span>
             </motion.h1>
@@ -151,7 +173,8 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[15px] md:text-xl text-zinc-500 max-w-2xl mx-auto mb-10 md:mb-16 leading-relaxed font-light"
+              className="text-[15px] md:text-xl max-w-2xl mx-auto mb-10 md:mb-16 leading-relaxed font-light"
+              style={{ color: 'var(--text-muted)' }}
             >
               Jawrah Pixel is a world-class digital agency engineering premium digital ecosystems for brands that demand excellence. We bridge the gap between technical complexity and luxury brand perception.
             </motion.p>
@@ -175,15 +198,15 @@ export default function About() {
       </section>
 
       {/* The Core Mission */}
-      <section className="py-20 md:py-32 relative bg-brand-black overflow-hidden border-t border-white/5">
+      <section className="py-20 md:py-32 relative overflow-hidden" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-start">
             <Reveal>
-              <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Our DNA</span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible">
+              <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Our DNA</span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 overflow-visible" style={{ color: 'var(--text-primary)' }}>
                 Beyond <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Development</span>
               </h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-12">
+              <p className="text-lg font-light leading-relaxed mb-12" style={{ color: 'var(--text-muted)' }}>
                 We don't just build websites. We architect digital monopolies. Our process combines deep technical engineering with cinematic design thinking to create assets that command attention and drive revenue.
               </p>
               <div className="space-y-6">
@@ -194,8 +217,8 @@ export default function About() {
                   'Performance-First Engineering'
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-4">
-                    <CheckCircle className="w-5 h-5 text-brand-blue shrink-0" />
-                    <span className="text-sm text-zinc-400 font-light uppercase tracking-widest">{item}</span>
+                    <CheckCircle className="w-5 h-5 shrink-0" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }} />
+                    <span className="text-sm font-light uppercase tracking-widest" style={{ color: 'var(--text-caption)' }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -204,11 +227,16 @@ export default function About() {
             <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {technologies.map((tech, idx) => (
                 <Reveal key={tech.name} delay={idx * 0.05}>
-                  <div className="h-full p-6 sm:p-8 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-500 group flex flex-col">
-                    <div className="mb-5 md:mb-6 text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                  <div className="h-full p-6 sm:p-8 transition-all duration-500 group flex flex-col" style={{ 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+                    borderColor: 'var(--border)',
+                    borderWidth: '1px',
+                    borderStyle: 'solid'
+                  }}>
+                    <div className="mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-500" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>
                       {tech.icon}
                     </div>
-                    <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">
+                    <h3 className="text-xs font-mono font-bold uppercase tracking-widest transition-colors" style={{ color: 'var(--text-caption)' }}>
                       {tech.name}
                     </h3>
                   </div>
@@ -220,19 +248,24 @@ export default function About() {
       </section>
 
       {/* Regional Operations */}
-      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+      <section className="py-20 md:py-32 relative" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <Reveal className="text-center mb-16 md:mb-24">
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Global Network</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Regional Presence</h2>
+            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Global Network</span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8" style={{ color: 'var(--text-primary)' }}>Regional Presence</h2>
           </Reveal>
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
             {regions.map((region, idx) => (
-              <StaggerItem key={idx} className="group p-8 md:p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 h-full">
-                <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6 md:mb-8">{region.label}</span>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-white uppercase mb-4 md:mb-6 tracking-tight group-hover:text-brand-blue transition-colors">{region.name}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">{region.desc}</p>
+              <StaggerItem key={idx} className="group p-8 md:p-12 transition-all duration-700 h-full" style={{ 
+                backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+                borderColor: 'var(--border)',
+                borderWidth: '1px',
+                borderStyle: 'solid'
+              }}>
+                <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6 md:mb-8" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>{region.label}</span>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-medium uppercase mb-4 md:mb-6 tracking-tight transition-colors" style={{ color: 'var(--text-primary)' }}>{region.name}</h3>
+                <p className="text-sm leading-relaxed font-light transition-colors duration-500" style={{ color: 'var(--text-muted)' }}>{region.desc}</p>
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -240,23 +273,33 @@ export default function About() {
       </section>
 
       {/* Founder Section */}
-      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+      <section className="py-20 md:py-32 relative" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <Reveal className="text-center mb-16 md:mb-24">
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Leadership</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Meet Our Founder</h2>
+            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Leadership</span>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8" style={{ color: 'var(--text-primary)' }}>Meet Our Founder</h2>
           </Reveal>
 
           <Reveal>
-            <div className="max-w-4xl mx-auto bg-white/[0.02] border border-white/5 p-8 md:p-16 lg:p-20 relative overflow-hidden">
+            <div className="max-w-4xl mx-auto p-8 md:p-16 lg:p-20 relative overflow-hidden" style={{ 
+              backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+              borderColor: 'var(--border)',
+              borderWidth: '1px',
+              borderStyle: 'solid'
+            }}>
               {/* Atmospheric background */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-blue/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-cyan/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" style={{ background: isDark ? 'rgba(59,130,246,0.1)' : 'rgba(16,185,129,0.1)' }} />
+              <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" style={{ background: isDark ? 'rgba(6,182,212,0.1)' : 'rgba(16,185,129,0.1)' }} />
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center relative z-10">
                 {/* Avatar */}
                 <div className="lg:col-span-4 flex flex-col items-center">
-                  <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full border border-white/10 bg-white/[0.03] overflow-hidden group hover:bg-white/[0.05] hover:border-brand-blue/30 transition-all duration-700">
+                  <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden group transition-all duration-700" style={{ 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(250,250,248,0.7)', 
+                    borderColor: 'var(--border)',
+                    borderWidth: '1px',
+                    borderStyle: 'solid'
+                  }}>
                     <img 
                       src="/assets/founder-image.png" 
                       alt="Abdurrahman Shafie" 
@@ -267,13 +310,13 @@ export default function About() {
 
                 {/* Content */}
                 <div className="lg:col-span-8">
-                  <h3 className="text-2xl md:text-4xl font-display font-medium text-white uppercase tracking-tight mb-4">
+                  <h3 className="text-2xl md:text-4xl font-display font-medium uppercase tracking-tight mb-4" style={{ color: 'var(--text-primary)' }}>
                     Abdurrahman Shafie
                   </h3>
-                  <p className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold mb-6 md:mb-8">
+                  <p className="text-[11px] font-mono uppercase tracking-[0.4em] font-bold mb-6 md:mb-8" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>
                     Founder & Creative Director, JawrahPixel
                   </p>
-                  <p className="text-base md:text-lg text-zinc-500 font-light leading-relaxed mb-8 md:mb-10">
+                  <p className="text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10" style={{ color: 'var(--text-muted)' }}>
                     Full-Stack Developer, SEO Strategist, and Digital Growth Professional focused on building high-performance websites, SEO systems, and scalable digital solutions.
                   </p>
 
@@ -281,7 +324,14 @@ export default function About() {
                     href={config.linkedinFounderLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-3 border border-white/5 bg-white/[0.02] text-sm font-mono uppercase tracking-[0.2em] text-white hover:text-brand-blue hover:border-brand-blue/30 hover:bg-brand-blue/5 transition-all duration-700 group"
+                    className="inline-flex items-center gap-3 px-6 py-3 text-sm font-mono uppercase tracking-[0.2em] transition-all duration-700 group"
+                    style={{ 
+                      backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+                      borderColor: 'var(--border)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      color: 'var(--text-primary)'
+                    }}
                     aria-label="Visit Abdurrahman Shafie on LinkedIn"
                   >
                     <Linkedin className="w-4 h-4" />
@@ -296,13 +346,13 @@ export default function About() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 md:py-32 relative bg-brand-black border-t border-white/5">
+      <section className="py-20 md:py-32 relative" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-20">
             <Reveal className="lg:col-span-5 lg:sticky lg:top-32 h-fit">
-              <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Transparency</span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Common Inquiries</h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed mb-8 md:mb-12">
+              <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Transparency</span>
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8" style={{ color: 'var(--text-primary)' }}>Common Inquiries</h2>
+              <p className="text-lg font-light leading-relaxed mb-8 md:mb-12" style={{ color: 'var(--text-muted)' }}>
                 Detailed insights into our methodology, operations, and commitment to excellence.
               </p>
               <Link to={p('/contact')}>
@@ -325,13 +375,18 @@ export default function About() {
       </section>
 
       {/* Global CTA */}
-      <Reveal className="py-24 md:py-48 border-t border-white/5">
+      <Reveal className="py-24 md:py-48" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 text-center">
-          <div className="relative p-8 md:p-24 bg-white/[0.02] border border-white/5 overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+          <div className="relative p-8 md:p-24 overflow-hidden" style={{ 
+            backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+            borderColor: 'var(--border)',
+            borderWidth: '1px',
+            borderStyle: 'solid'
+          }}>
+            <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" style={{ background: isDark ? 'rgba(59,130,246,0.1)' : 'rgba(16,185,129,0.1)' }} />
             
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initialize Partnership</span>
-            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto overflow-visible">
+            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-8 relative z-10" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Initialize Partnership</span>
+            <h2 className="text-2xl md:text-6xl font-display font-medium tracking-tight max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 mx-auto overflow-visible" style={{ color: 'var(--text-primary)' }}>
               Ready to build your <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">digital legacy</span>?
             </h2>
             <Link to={p('/contact')} className="relative z-10">

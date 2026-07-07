@@ -24,13 +24,14 @@ import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { SEO } from '@/components/layout/SEO';
 import { trackEvent, ANALYTICS_EVENTS, trackLead } from '@/lib/analytics';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
-import { 
-  CheckCircle, 
-  AlertCircle, 
-  Calendar, 
-  ChevronRight, 
-  ArrowLeft, 
-  Briefcase, 
+import { useTheme } from '@/contexts/ThemeContext';
+import {
+  CheckCircle,
+  AlertCircle,
+  Calendar,
+  ChevronRight,
+  ArrowLeft,
+  Briefcase,
   MessageSquare,
   Globe,
   Settings,
@@ -63,6 +64,8 @@ export default function Contact() {
   const seo = useRegionalSeo('contact');
   const canonicalPath = location.pathname === '/book' ? '/book' : seo.path;
   const { user } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useRHForm<FormData>({
     defaultValues: {
       project_type: '',
@@ -149,13 +152,13 @@ export default function Contact() {
 
   const projectTypeOptions = isInternational ? [
     { id: 'Web Design', title: 'Premium Global Web Experience', desc: 'World-class websites for international businesses' },
-    { id: 'Ecommerce', title: 'International E-commerce', desc: 'USD-ready storefronts, premium checkout, global conversion' },
+    { id: 'Ecommerce', title: 'International Ecommerce', desc: 'USD-ready storefronts, premium checkout, global conversion' },
     { id: 'Admin Dashboard', title: 'SaaS Interface / Custom CRM', desc: 'Scalable systems for remote-first global teams' },
     { id: 'Branding', title: 'Global Branding & Strategy', desc: 'Premium identity, positioning, and conversion copy' },
     { id: 'Other', title: 'Bespoke Technology Scope', desc: 'AI systems, integrations, and worldwide digital solutions' }
   ] : [
     { id: 'Web Design', title: 'Premium Web Design', desc: 'Custom, blazing fast corporate systems' },
-    { id: 'Ecommerce', title: 'Luxury E-commerce', desc: 'Secure checkout, appraisers, high conversions' },
+    { id: 'Ecommerce', title: 'Luxury Ecommerce', desc: 'Secure checkout, appraisers, high conversions' },
     { id: 'Admin Dashboard', title: 'Bento Dashboard / Custom CRM', desc: 'Secure management with full Supabase integration' },
     { id: 'Branding', title: 'Elite Branding & Strategy', desc: 'Strategic copy, identity, positioning' },
     { id: 'Other', title: 'Special Dev Scope', desc: 'Bespoke systems, custom integrations' }
@@ -510,7 +513,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-brand-black min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden relative">
+    <div className="min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden relative" style={{ backgroundColor: 'var(--color-bg-primary)' }}>
       <SEO 
         title={seo.title}
         description={seo.description}
@@ -532,14 +535,20 @@ export default function Contact() {
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-8 md:mb-10"
+            className="inline-flex gap-3 items-center px-6 py-2 border rounded-none text-[10px] font-mono uppercase tracking-[0.4em] mb-8 md:mb-10"
+            style={{ 
+              borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', 
+              backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+              color: 'var(--color-accent-brand)'
+            }}
           >
-            <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Agency Access
+            <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-accent-brand)' }} /> Agency Access
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-7xl lg:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] mb-8 md:mb-10 overflow-visible"
+            style={{ color: 'var(--color-text-primary)' }}
           >
             Initiate <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Briefing</span>
           </motion.h1>
@@ -547,7 +556,8 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-500 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto"
+            className="text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto"
+            style={{ color: 'var(--color-text-secondary)' }}
           >
             {contactIntro}
           </motion.p>
@@ -556,12 +566,17 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto">
           {/* FLOW SWITCHER */}
           <div className="flex justify-center mb-12 md:mb-24">
-            <div className="inline-flex p-2 bg-white/[0.02] border border-white/5 backdrop-blur-xl">
+            <div className="inline-flex p-2 border backdrop-blur-xl" style={{ 
+              backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.8)',
+              borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+            }}>
               <button
                 onClick={() => { setActiveTab('rfp'); setErrorMsg(''); }}
                 className={cn(
                   "px-8 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500",
-                  activeTab === 'rfp' ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                  activeTab === 'rfp' 
+                    ? (isDark ? "bg-white text-black" : "bg-black text-white") 
+                    : (isDark ? "text-zinc-500 hover:text-white" : "text-zinc-500 hover:text-black")
                 )}
               >
                 Project Brief
@@ -570,7 +585,9 @@ export default function Contact() {
                 onClick={() => { setActiveTab('calendar'); setErrorMsg(''); }}
                 className={cn(
                   "px-8 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all duration-500",
-                  activeTab === 'calendar' ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                  activeTab === 'calendar' 
+                    ? (isDark ? "bg-white text-black" : "bg-black text-white") 
+                    : (isDark ? "text-zinc-500 hover:text-white" : "text-zinc-500 hover:text-black")
                 )}
               >
                 Strategy Call
@@ -582,7 +599,7 @@ export default function Contact() {
             {/* LEFT SIDE: CONTEXT & TRUST */}
             <div className="lg:col-span-4 space-y-10 md:space-y-16">
               <Reveal>
-                <h2 className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-10">Commitment</h2>
+                <h2 className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-10" style={{ color: 'var(--color-accent-brand)' }}>Commitment</h2>
                 <div className="space-y-10">
                   {[
                     { icon: ShieldCheck, title: 'Secure Handling', desc: 'Enterprise-grade encryption for project data.' },
@@ -590,28 +607,35 @@ export default function Contact() {
                     { icon: Globe, title: 'Global Operations', desc: 'Serving brands across all time zones.' }
                   ].map((item, i) => (
                     <div key={i} className="flex gap-5 group">
-                      <div className="w-11 h-11 bg-white/[0.03] border border-white/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform duration-500">
+                      <div className="w-11 h-11 border flex items-center justify-center group-hover:scale-110 transition-transform duration-500" style={{ 
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                        borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                        color: 'var(--color-accent-brand)'
+                      }}>
                         <item.icon size={18} />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-2">{item.title}</h3>
-                        <p className="text-xs text-zinc-500 leading-relaxed font-light">{item.desc}</p>
+                        <h3 className="text-sm font-display font-medium uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-primary)' }}>{item.title}</h3>
+                        <p className="text-xs leading-relaxed font-light" style={{ color: 'var(--color-text-secondary)' }}>{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </Reveal>
 
-              <Reveal delay={0.2} className="p-6 md:p-10 bg-white/[0.02] border border-white/5">
-                <h3 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-6">Regional Access</h3>
+              <Reveal delay={0.2} className="p-6 md:p-10 border" style={{ 
+                backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.8)',
+                borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+              }}>
+                <h3 className="text-sm font-display font-medium uppercase tracking-widest mb-6" style={{ color: 'var(--color-text-primary)' }}>Regional Access</h3>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>
                     <span>Region</span>
-                    <span className="text-white">{config.countryName}</span>
+                    <span style={{ color: 'var(--color-text-primary)' }}>{config.countryName}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                  <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>
                     <span>Currency</span>
-                    <span className="text-white">{isInternational ? 'USD ($)' : config.id === 'lk' ? 'LKR (Rs)' : 'PKR (Rs)'}</span>
+                    <span style={{ color: 'var(--color-text-primary)' }}>{isInternational ? 'USD ($)' : config.id === 'lk' ? 'LKR (Rs)' : 'PKR (Rs)'}</span>
                   </div>
                 </div>
               </Reveal>
@@ -623,18 +647,21 @@ export default function Contact() {
                 className="h-full"
               >
                 {activeTab === 'rfp' ? (
-                  <div className="bg-white/[0.02] border border-white/5 p-6 md:p-16">
+                  <div className="border p-6 md:p-16" style={{ 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.9)',
+                    borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+                  }}>
                     {success ? (
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="text-center py-10 md:py-20"
                       >
-                        <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-10">
-                          <CheckCheck className="w-10 h-10 text-brand-blue" />
+                        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-10" style={{ backgroundColor: 'rgba(6, 182, 212, 0.1)' }}>
+                          <CheckCheck className="w-10 h-10" style={{ color: 'var(--color-accent-brand)' }} />
                         </div>
-                        <h2 className="text-3xl font-display font-medium text-white uppercase mb-6 tracking-tight">Brief Received</h2>
-                        <p className="text-zinc-500 mb-12 max-w-md mx-auto leading-relaxed">
+                        <h2 className="text-3xl font-display font-medium uppercase mb-6 tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Brief Received</h2>
+                        <p className="mb-12 max-w-md mx-auto leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                           Your strategic brief has been locked into our system. Our {successRegionLabel} will review the technical scope and contact you via WhatsApp shortly.
                         </p>
                         <PaymentSuccessActions 
@@ -651,10 +678,12 @@ export default function Contact() {
                           {[1, 2, 3].map((step) => (
                             <div 
                               key={step}
-                              className={cn(
-                                "h-1 flex-1 transition-all duration-700",
-                                rfpStep >= step ? "bg-brand-blue" : "bg-white/5"
-                              )}
+                              className="h-1 flex-1 transition-all duration-700"
+                              style={{ 
+                                backgroundColor: rfpStep >= step 
+                                  ? 'var(--color-accent-brand)' 
+                                  : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)')
+                              }}
                             />
                           ))}
                         </div>
@@ -666,8 +695,8 @@ export default function Contact() {
                             className="space-y-10"
                           >
                             <div className="space-y-4">
-                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 01</span>
-                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Select Strategic Scope</h3>
+                              <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-text-secondary)' }}>Step 01</span>
+                              <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Select Strategic Scope</h3>
                             </div>
                             <div className="grid grid-cols-1 gap-4">
                               {projectTypeOptions.map((opt) => (
@@ -675,21 +704,24 @@ export default function Contact() {
                                   key={opt.id}
                                   type="button"
                                   onClick={() => { setValue('project_type', opt.id); setErrorMsg(''); }}
-                                  className={cn(
-                                    "p-8 text-left transition-all duration-500 border group",
-                                    watchedProjectType === opt.id 
-                                      ? "bg-white border-white text-black" 
-                                      : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
-                                  )}
+                                  className="p-8 text-left transition-all duration-500 border group"
+                                  style={{
+                                    backgroundColor: watchedProjectType === opt.id 
+                                      ? (isDark ? '#fff' : '#000') 
+                                      : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
+                                    borderColor: watchedProjectType === opt.id 
+                                      ? (isDark ? '#fff' : '#000') 
+                                      : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                                    color: watchedProjectType === opt.id 
+                                      ? (isDark ? '#000' : '#fff') 
+                                      : 'var(--color-text-primary)'
+                                  }}
                                 >
                                   <div className="flex justify-between items-start mb-2">
                                     <h4 className="font-display font-medium uppercase tracking-widest">{opt.title}</h4>
                                     {watchedProjectType === opt.id && <CheckCircle size={16} />}
                                   </div>
-                                  <p className={cn(
-                                    "text-xs font-light leading-relaxed",
-                                    watchedProjectType === opt.id ? "text-black/60" : "text-zinc-500"
-                                  )}>
+                                  <p className="text-xs font-light leading-relaxed" style={{ color: watchedProjectType === opt.id ? (isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)') : 'var(--color-text-secondary)' }}>
                                     {opt.desc}
                                   </p>
                                 </button>
@@ -705,8 +737,8 @@ export default function Contact() {
                             className="space-y-10"
                           >
                             <div className="space-y-4">
-                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 02</span>
-                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Target Investment</h3>
+                              <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-text-secondary)' }}>Step 02</span>
+                              <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Target Investment</h3>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               {budgetOptions.map((opt) => (
@@ -714,12 +746,18 @@ export default function Contact() {
                                   key={opt.value}
                                   type="button"
                                   onClick={() => { setValue('budget', opt.value); setErrorMsg(''); }}
-                                  className={cn(
-                                    "p-8 text-center transition-all duration-500 border group",
-                                    watchedBudget === opt.value 
-                                      ? "bg-white border-white text-black" 
-                                      : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
-                                  )}
+                                  className="p-8 text-center transition-all duration-500 border group"
+                                  style={{
+                                    backgroundColor: watchedBudget === opt.value 
+                                      ? (isDark ? '#fff' : '#000') 
+                                      : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
+                                    borderColor: watchedBudget === opt.value 
+                                      ? (isDark ? '#fff' : '#000') 
+                                      : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                                    color: watchedBudget === opt.value 
+                                      ? (isDark ? '#000' : '#fff') 
+                                      : 'var(--color-text-primary)'
+                                  }}
                                 >
                                   <span className="text-xs font-mono font-bold uppercase tracking-widest">{opt.label}</span>
                                 </button>
@@ -735,55 +773,75 @@ export default function Contact() {
                             className="space-y-12"
                           >
                             <div className="space-y-4">
-                              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.4em] font-bold">Step 03</span>
-                              <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Technical Contact</h3>
+                              <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-text-secondary)' }}>Step 03</span>
+                              <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Technical Contact</h3>
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                               <div className="space-y-4">
-                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
+                                <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Full Name</label>
                                 <Input 
                                   {...register('name', { required: true })}
                                   placeholder="Architect Name"
-                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                  className="rounded-none h-14"
+                                  style={{
+                                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                  }}
                                 />
                               </div>
                               <div className="space-y-4">
-                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Business Email</label>
+                                <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Business Email</label>
                                 <Input 
                                   {...register('email', { required: true })}
                                   type="email"
                                   placeholder="name@domain.com"
-                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                  className="rounded-none h-14"
+                                  style={{
+                                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                  }}
                                 />
                               </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                               <div className="space-y-4">
-                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">WhatsApp / Signal</label>
+                                <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>WhatsApp / Signal</label>
                                 <Input 
                                   {...register('whatsapp')}
                                   placeholder="+1 234 567 890"
-                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                  className="rounded-none h-14"
+                                  style={{
+                                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                  }}
                                 />
                               </div>
                               <div className="space-y-4">
-                                <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Entity Name</label>
+                                <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Entity Name</label>
                                 <Input 
                                   {...register('business_name')}
                                   placeholder="Corporate Identity"
-                                  className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                  className="rounded-none h-14"
+                                  style={{
+                                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                  }}
                                 />
                               </div>
                             </div>
 
                             <div className="space-y-4">
-                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Project Requirements</label>
+                              <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Project Requirements</label>
                               <Textarea 
                                 {...register('message')}
                                 placeholder="Describe the technical scope and business goals..."
-                                className="bg-white/[0.03] border-white/10 rounded-none min-h-[150px]"
+                                className="rounded-none min-h-[150px]"
+                                style={{
+                                  backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                  borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                }}
                               />
                             </div>
 
@@ -803,17 +861,24 @@ export default function Contact() {
                         )}
 
                         {errorMsg && (
-                          <div className="p-6 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
+                          <div className="p-6 border text-[10px] font-mono uppercase tracking-widest flex items-center gap-3" style={{ 
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderColor: 'rgba(239, 68, 68, 0.2)',
+                            color: 'rgb(239, 68, 68)'
+                          }}>
                             <AlertCircle size={14} /> {errorMsg}
                           </div>
                         )}
 
-                        <div className="flex justify-between pt-10 border-t border-white/5">
+                        <div className="flex justify-between pt-10 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}>
                           {rfpStep > 1 ? (
                             <button
                               type="button"
                               onClick={handlePrevStep}
-                              className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 hover:text-white uppercase tracking-widest transition-colors"
+                              className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest transition-colors"
+                              style={{ color: 'var(--color-text-secondary)' }}
+                              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-text-primary)'}
+                              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-secondary)'}
                             >
                               <ArrowLeft size={14} /> Back
                             </button>
@@ -833,18 +898,21 @@ export default function Contact() {
                     )}
                   </div>
                 ) : (
-                  <div className="bg-white/[0.02] border border-white/5 p-10 md:p-16">
+                  <div className="border p-10 md:p-16" style={{ 
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.9)',
+                    borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+                  }}>
                     {bookingSuccess ? (
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="text-center py-20"
                       >
-                        <div className="w-20 h-20 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-10">
-                          <Calendar className="w-10 h-10 text-brand-blue" />
+                        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-10" style={{ backgroundColor: 'rgba(6, 182, 212, 0.1)' }}>
+                          <Calendar className="w-10 h-10" style={{ color: 'var(--color-accent-brand)' }} />
                         </div>
-                        <h2 className="text-3xl font-display font-medium text-white uppercase mb-6 tracking-tight">Session Reserved</h2>
-                        <p className="text-zinc-500 mb-12 max-w-md mx-auto leading-relaxed">
+                        <h2 className="text-3xl font-display font-medium uppercase mb-6 tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Session Reserved</h2>
+                        <p className="mb-12 max-w-md mx-auto leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                           Your strategy session has been tentatively reserved. Please complete the security advance below to finalize the booking.
                         </p>
                         <div className="flex flex-col gap-4 max-w-xs mx-auto">
@@ -861,8 +929,8 @@ export default function Contact() {
                         {/* CALENDAR SELECTION */}
                         <div className="space-y-10">
                           <div className="space-y-4">
-                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 01</span>
-                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Select Briefing Date</h3>
+                            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-accent-brand)' }}>Phase 01</span>
+                            <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Select Briefing Date</h3>
                           </div>
                           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                             {businessDaysList.map((day, i) => (
@@ -870,12 +938,18 @@ export default function Contact() {
                                 key={i}
                                 type="button"
                                 onClick={() => setSelectedDateIndex(i)}
-                                className={cn(
-                                  "p-6 flex flex-col items-center gap-2 border transition-all duration-500",
-                                  selectedDateIndex === i 
-                                    ? "bg-white border-white text-black" 
-                                    : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
-                                )}
+                                className="p-6 flex flex-col items-center gap-2 border transition-all duration-500"
+                                style={{
+                                  backgroundColor: selectedDateIndex === i 
+                                    ? (isDark ? '#fff' : '#000') 
+                                    : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
+                                  borderColor: selectedDateIndex === i 
+                                    ? (isDark ? '#fff' : '#000') 
+                                    : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                                  color: selectedDateIndex === i 
+                                    ? (isDark ? '#000' : '#fff') 
+                                    : 'var(--color-text-primary)'
+                                }}
                               >
                                 <span className="text-[10px] font-mono uppercase tracking-widest opacity-60">{day.dayName}</span>
                                 <span className="text-2xl font-display font-medium">{day.dayNum}</span>
@@ -888,8 +962,8 @@ export default function Contact() {
                         {/* TIME SELECTION */}
                         <div className="space-y-10">
                           <div className="space-y-4">
-                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 02</span>
-                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Preferred Window</h3>
+                            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-accent-brand)' }}>Phase 02</span>
+                            <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Preferred Window</h3>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {availableHoursList.map((slot) => (
@@ -897,12 +971,18 @@ export default function Contact() {
                                 key={slot.time}
                                 type="button"
                                 onClick={() => setSelectedTime(slot.time)}
-                                className={cn(
-                                  "p-6 text-center border transition-all duration-500",
-                                  selectedTime === slot.time 
-                                    ? "bg-white border-white text-black" 
-                                    : "bg-white/[0.03] border-white/5 hover:border-white/20 text-white"
-                                )}
+                                className="p-6 text-center border transition-all duration-500"
+                                style={{
+                                  backgroundColor: selectedTime === slot.time 
+                                    ? (isDark ? '#fff' : '#000') 
+                                    : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
+                                  borderColor: selectedTime === slot.time 
+                                    ? (isDark ? '#fff' : '#000') 
+                                    : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                                  color: selectedTime === slot.time 
+                                    ? (isDark ? '#000' : '#fff') 
+                                    : 'var(--color-text-primary)'
+                                }}
                               >
                                 <div className="text-sm font-display font-medium uppercase tracking-widest">{slot.time}</div>
                                 <div className="text-[10px] font-mono uppercase tracking-widest opacity-40">{slot.zone}</div>
@@ -914,64 +994,86 @@ export default function Contact() {
                         {/* BOOKING DETAILS */}
                         <div className="space-y-10">
                           <div className="space-y-4">
-                            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold">Phase 03</span>
-                            <h3 className="text-2xl font-display font-medium text-white uppercase tracking-tight">Client Credentials</h3>
+                            <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold" style={{ color: 'var(--color-accent-brand)' }}>Phase 03</span>
+                            <h3 className="text-2xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--color-text-primary)' }}>Client Credentials</h3>
                           </div>
                           
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                             <div className="space-y-4">
-                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Full Name</label>
+                              <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Full Name</label>
                               <Input 
                                 placeholder="Architect Name"
                                 value={bookingForm.name}
                                 onChange={e => setBookingForm({...bookingForm, name: e.target.value})}
-                                className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                className="rounded-none h-14"
+                                style={{
+                                  backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                  borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                }}
                               />
                             </div>
                             <div className="space-y-4">
-                              <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Business Email</label>
+                              <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Business Email</label>
                               <Input 
                                 type="email"
                                 placeholder="name@domain.com"
                                 value={bookingForm.email}
                                 onChange={e => setBookingForm({...bookingForm, email: e.target.value})}
-                                className="bg-white/[0.03] border-white/10 rounded-none h-14"
+                                className="rounded-none h-14"
+                                style={{
+                                  backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                  borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                                }}
                               />
                             </div>
                           </div>
 
                           <div className="space-y-4">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strategic Scope</label>
+                            <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Strategic Scope</label>
                             <select
                               value={bookingForm.project_category}
                               onChange={e => setBookingForm({...bookingForm, project_category: e.target.value})}
-                              className="w-full bg-white/[0.03] border border-white/10 rounded-none h-14 px-6 text-[10px] font-mono uppercase tracking-[0.2em] text-white outline-none focus:border-brand-blue"
+                              className="w-full border rounded-none h-14 px-6 text-[10px] font-mono uppercase tracking-[0.2em] outline-none"
+                              style={{
+                                backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                                color: 'var(--color-text-primary)'
+                              }}
+                              onFocus={(e) => e.currentTarget.style.borderColor = 'var(--color-accent-brand)'}
+                              onBlur={(e) => e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
                             >
                               {projectTypeOptions.map(opt => (
-                                <option key={opt.id} value={opt.id} className="bg-brand-black">{opt.title}</option>
+                                <option key={opt.id} value={opt.id} style={{ backgroundColor: 'var(--color-bg-primary)' }}>{opt.title}</option>
                               ))}
                             </select>
                           </div>
 
                           <div className="space-y-4">
-                            <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Briefing Notes</label>
+                            <label className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--color-text-secondary)' }}>Briefing Notes</label>
                             <Textarea 
                               placeholder="Any specific technical challenges to address..."
                               value={bookingForm.notes}
                               onChange={e => setBookingForm({...bookingForm, notes: e.target.value})}
-                              className="bg-white/[0.03] border-white/10 rounded-none min-h-[120px]"
+                              className="rounded-none min-h-[120px]"
+                              style={{
+                                backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                              }}
                             />
                           </div>
 
-                          <div className="p-10 bg-brand-blue/5 border border-brand-blue/20">
+                          <div className="p-10 border" style={{ 
+                            backgroundColor: 'rgba(6, 182, 212, 0.05)',
+                            borderColor: 'rgba(6, 182, 212, 0.2)'
+                          }}>
                             <div className="flex items-start gap-4">
-                              <Zap className="text-brand-blue shrink-0 mt-1" size={20} />
+                              <Zap className="shrink-0 mt-1" size={20} style={{ color: 'var(--color-accent-brand)' }} />
                               <div>
-                                <h4 className="text-sm font-display font-medium text-white uppercase tracking-widest mb-2">Advance Commitment</h4>
-                                <p className="text-xs text-zinc-500 leading-relaxed font-light mb-6">
+                                <h4 className="text-sm font-display font-medium uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-primary)' }}>Advance Commitment</h4>
+                                <p className="text-xs leading-relaxed font-light mb-6" style={{ color: 'var(--color-text-secondary)' }}>
                                   To secure elite architectural time, a 10% commitment advance is required. This is fully deductible from your final project investment.
                                 </p>
-                                <div className="text-2xl font-display font-medium text-white">
+                                <div className="text-2xl font-display font-medium" style={{ color: 'var(--color-text-primary)' }}>
                                   {formatMoney(bookingAdvance, currentRegion)}
                                 </div>
                               </div>
@@ -991,7 +1093,11 @@ export default function Contact() {
                         </div>
 
                         {errorMsg && (
-                          <div className="p-6 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
+                          <div className="p-6 border text-[10px] font-mono uppercase tracking-widest flex items-center gap-3" style={{ 
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderColor: 'rgba(239, 68, 68, 0.2)',
+                            color: 'rgb(239, 68, 68)'
+                          }}>
                             <AlertCircle size={14} /> {errorMsg}
                           </div>
                         )}

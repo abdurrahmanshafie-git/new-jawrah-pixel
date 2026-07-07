@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { getOrCreateProfile } from '@/lib/supabase/api';
-import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion } from '@/lib/region';
+import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion, clearSavedRegion } from '@/lib/region';
 import type { Profile } from '@/types';
 import type { User, Session } from '@supabase/supabase-js';
 
@@ -88,6 +88,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setAuthError(error.message);
       } else {
         setProfile(data);
+        // Ensure authenticated user's account region takes priority for the app-wide active region
+        if (isRegionCode(data?.region)) {
+          persistRegion(data.region);
+        }
+
         if ((data?.role === 'admin' || data?.role === 'superadmin') && !getSavedAdminRegion()) {
           const initialAdminRegion = isRegionCode(data.region) ? data.region : getSavedRegion();
           if (initialAdminRegion) {
@@ -114,6 +119,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setSession(null);
     setProfile(null);
+    // Clear any guest-saved region so the app behaves like a fresh visitor
+    clearSavedRegion();
+    // Return visitor to the region selection page
+    try {
+      window.location.href = '/';
+    } catch (e) {
+      // ignore
+    }
   };
 
   const clearAuthError = () => setAuthError(null);

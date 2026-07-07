@@ -90,7 +90,7 @@ export default function PaymentSuccessPage() {
         description="Secure Jawrah Pixel payment confirmation page for client invoices and project milestones."
         noIndex
       />
-      <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+      <div className="w-16 h-16 mx-auto rounded-full bg-brand-blue/10 border border-brand-blue/30 flex items-center justify-center text-brand-blue">
         <CheckCircle size={32} />
       </div>
       <h1 className="text-2xl font-display font-semibold text-white uppercase">

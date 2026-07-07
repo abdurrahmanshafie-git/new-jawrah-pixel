@@ -15,6 +15,7 @@ import { useRegion } from '@/hooks/useRegion';
 import { submitChatbotLead } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { FormAuthGate } from '@/components/auth/FormAuthGate';
 import { getClientPlatform } from '@/lib/email/platform';
 import { TurnstileCaptcha } from '@/components/ui/TurnstileCaptcha';
@@ -82,6 +83,8 @@ const BUDGET_OPTIONS_MAP: Record<string, string[]> = {
 export function JawrahBot() {
   const { config, currentRegion } = useRegion();
   const { user } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const regionKey = currentRegion === 'int' ? 'int' : currentRegion === 'pk' ? 'pk' : 'lk';
   
   const initialGreeting = regionKey === 'int'
@@ -376,7 +379,11 @@ export function JawrahBot() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(true)}
-              className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-brand-navy border border-brand-cyan/20 flex items-center justify-center text-brand-cyan shadow-[0_10px_30px_rgba(0,0,0,0.5)] group overflow-hidden"
+              className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-brand-cyan/20 flex items-center justify-center text-brand-cyan group overflow-hidden ${
+                isDark
+                  ? 'bg-brand-navy shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+                  : 'bg-white shadow-[0_16px_36px_rgba(15,23,42,0.14)]'
+              }`}
             >
               <div className="absolute inset-0 bg-brand-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               {unreadCount > 0 && (
@@ -406,7 +413,7 @@ export function JawrahBot() {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center">
                       <Bot className="text-brand-cyan" size={22} />
                     </div>
-                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-brand-navy"></div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-brand-blue rounded-full border-2 border-brand-navy"></div>
                   </div>
                   <div>
                     <h3 className="text-white text-sm sm:text-base font-display font-medium tracking-tight">Jawrah-Bot</h3>

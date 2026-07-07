@@ -60,7 +60,7 @@ function paymentWorkflowLabel(inv: any): string {
 }
 
 function paymentWorkflowClass(inv: any, isPaid: boolean): string {
-  if (isPaid) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
+  if (isPaid) return 'bg-brand-blue/10 border-brand-blue/20 text-brand-blue';
   if (inv.region === 'lk' && (inv.payment_status === 'manual_review' || inv.payment_status === 'awaiting_verification')) {
     return 'bg-blue-500/10 border-blue-500/20 text-blue-300';
   }
@@ -693,7 +693,7 @@ export function ClientInvoicesPanel({
                     <span className="text-xs font-semibold text-white">{latestProofStatusLabel(latestProof, inv)}</span>
                   </div>
                   {isPaid && (
-                    <span className="text-[10px] text-emerald-300 font-mono uppercase">
+                    <span className="text-[10px] text-blue-300 font-mono uppercase">
                       Your project will start within 24 hours.
                     </span>
                   )}

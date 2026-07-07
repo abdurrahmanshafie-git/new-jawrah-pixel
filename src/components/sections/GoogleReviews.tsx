@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Star, ExternalLink, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const GOOGLE_REVIEW_URL = "https://g.page/r/Cf1UjMHotQuaEAI/review";
 
@@ -13,11 +14,17 @@ const REAL_REVIEW = {
 };
 
 export function GoogleReviews() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
   return (
-    <section className="py-20 md:py-32 relative overflow-hidden bg-brand-black border-t border-white/5">
+    <section className="py-20 md:py-32 relative overflow-hidden theme-bg border-t theme-border">
       {/* Background Atmosphere */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-cyan/5 rounded-full blur-[120px] pointer-events-none" />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none"
+          style={{ background: isDark ? 'rgba(6,182,212,0.05)' : 'rgba(16,185,129,0.05)' }}
+        />
       </div>
 
       <div className="container mx-auto px-5 sm:px-6 relative z-10">
@@ -31,12 +38,12 @@ export function GoogleReviews() {
                 <span>Google Reviews</span>
               </div>
               
-              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-6 leading-[1.1] overflow-visible">
+              <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight theme-text-primary mb-6 leading-[1.1] overflow-visible">
                 Share Your <br />
                 <span className="premium-text-gradient italic text-brand-cyan inline-block px-2 py-1 overflow-visible">Experience</span>
               </h2>
               
-              <p className="text-brand-gray text-lg font-light leading-relaxed mb-10 max-w-md">
+              <p className="theme-text-muted text-lg font-light leading-relaxed mb-10 max-w-md">
                 Your feedback helps us improve and helps other clients discover the Jawrah Pixel standard of digital excellence.
               </p>
               
@@ -57,8 +64,15 @@ export function GoogleReviews() {
           {/* Real Review */}
           <div className="lg:col-span-7">
             <Reveal>
-              <div className="p-8 bg-white/[0.02] border border-white/5 hover:border-brand-cyan/20 transition-all duration-500 group relative">
-                <Quote className="absolute top-6 right-8 w-12 h-12 text-white/5 group-hover:text-brand-cyan/10 transition-colors" />
+              <div className="p-8 theme-card border theme-border hover:border-brand-cyan/20 transition-all duration-500 group relative">
+                <Quote 
+                  className="absolute top-6 right-8 w-12 h-12 transition-colors"
+                  style={{ color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.05)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(6,182,212,0.1)'; }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.05)';
+                  }}
+                />
                 
                 <div className="flex gap-1 mb-6">
                   {[...Array(REAL_REVIEW.rating)].map((_, i) => (
@@ -66,19 +80,19 @@ export function GoogleReviews() {
                   ))}
                 </div>
                 
-                <p className="text-brand-gray text-sm leading-relaxed font-light italic mb-8 relative z-10">
+                <p className="theme-text-muted text-sm leading-relaxed font-light italic mb-8 relative z-10">
                   "{REAL_REVIEW.text}"
                 </p>
                 
-                <div className="flex items-center gap-4 pt-6 border-t border-white/5">
+                <div className="flex items-center gap-4 pt-6 border-t theme-border">
                   <div className="w-10 h-10 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan font-display text-xs font-bold">
                     Z
                   </div>
                   <div>
-                    <div className="text-white font-display font-bold uppercase text-[10px] tracking-widest">
+                    <div className="theme-text-primary font-display font-bold uppercase text-[10px] tracking-widest">
                       {REAL_REVIEW.author}
                     </div>
-                    <div className="text-brand-gray text-[9px] font-mono uppercase">
+                    <div className="theme-text-caption text-[9px] font-mono uppercase">
                       {REAL_REVIEW.date}
                     </div>
                   </div>

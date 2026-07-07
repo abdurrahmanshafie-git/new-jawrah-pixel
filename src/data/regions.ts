@@ -39,7 +39,7 @@ export const REGION_OPTIONS: Array<{
   { id: 'int', label: 'International', shortLabel: 'INT', path: '/int', caption: 'USD global portal' },
 ];
 
-const DEFAULT_LINKEDIN_COMPANY = "https://linkedin.com/company/jawrahpixel";
+const DEFAULT_LINKEDIN_COMPANY = "https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/";
 const DEFAULT_LINKEDIN_FOUNDER = "https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/";
 
 export const regions: Record<RegionCode, RegionConfig> = {

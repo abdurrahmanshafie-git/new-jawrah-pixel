@@ -1,6 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import Magnetic from "./Magnetic"
+import { useTheme } from "@/contexts/ThemeContext"
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,18 +12,50 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", magnetic = true, ...props }, ref) => {
+    const { theme } = useTheme()
+    const isDark = theme === "dark"
+    
+    const styles = {
+      primary: `
+        ${isDark ? (
+          "bg-white text-black hover:bg-zinc-50 shadow-[0_4px_20px_rgba(255,255,255,0.05)]"
+        ) : (
+          "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-[0_20px_60px_rgba(16,185,129,0.25)]"
+        )}
+        before:absolute before:inset-0 before:bg-brand-blue/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500
+        after:absolute after:inset-0 after:ring-1 after:ring-brand-blue/0 hover:after:ring-brand-blue/30 after:transition-all after:duration-500
+      `,
+      secondary: `
+        ${isDark ? (
+          "bg-white/[0.03] text-white border border-white/5 backdrop-blur-md hover:bg-white/[0.06] hover:border-brand-blue/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+        ) : (
+          "bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] hover:bg-[var(--card-hover)]"
+        )}
+        transition-all duration-500
+      `,
+      outline: `
+        ${isDark ? (
+          "border border-white/5 bg-transparent hover:bg-white/[0.03] hover:border-white/20 text-white"
+        ) : (
+          "border border-[var(--border)] bg-transparent hover:bg-[var(--card-hover)] text-[var(--text-primary)]"
+        )}
+        transition-all duration-500
+      `,
+      ghost: `
+        ${isDark ? (
+          "hover:bg-white/[0.03] text-zinc-400 hover:text-white"
+        ) : (
+          "hover:bg-[var(--card-hover)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+        )}
+        transition-all duration-500
+      `,
+    }
+    
     const variants = {
-      primary: cn(
-        "bg-white text-black hover:bg-zinc-50 shadow-[0_4px_20px_rgba(255,255,255,0.05)]",
-        "before:absolute before:inset-0 before:bg-brand-blue/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
-        "after:absolute after:inset-0 after:ring-1 after:ring-brand-blue/0 hover:after:ring-brand-blue/30 after:transition-all after:duration-500"
-      ),
-      secondary: cn(
-        "bg-white/[0.03] text-white border border-white/5 backdrop-blur-md hover:bg-white/[0.06]",
-        "hover:border-brand-blue/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] transition-all duration-500"
-      ),
-      outline: "border border-white/5 bg-transparent hover:bg-white/[0.03] hover:border-white/20 text-white transition-all duration-500",
-      ghost: "hover:bg-white/[0.03] text-zinc-400 hover:text-white transition-all duration-500",
+      primary: cn(styles.primary),
+      secondary: cn(styles.secondary),
+      outline: cn(styles.outline),
+      ghost: cn(styles.ghost),
     }
     
     const sizes = {

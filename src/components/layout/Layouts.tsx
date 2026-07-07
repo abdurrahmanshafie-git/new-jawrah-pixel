@@ -73,7 +73,8 @@ export function RootLayout() {
         initial={{ opacity: 0 }}
         animate={{ opacity: initialLoad ? 0 : 1 }}
         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-brand-black min-h-screen"
+        className="min-h-screen"
+        style={{ backgroundColor: 'var(--background)' }}
       >
         {!isCountrySelection && <Navbar />}
         <main className="w-full">
@@ -168,7 +169,7 @@ export function AgentLayout() {
   const { region: siteRegion, pendingVerification } = resolvePortalRegion(profile?.region);
 
    return (
-    <div className="flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
+    <div className="agent-shell flex flex-col min-h-screen bg-brand-black overflow-x-hidden">
       {/* Agent header */}
       <header className="bg-brand-navy border-b border-white/5 py-3 sm:py-4 px-4 sm:px-6 flex flex-wrap justify-between items-center gap-3 z-10 relative min-w-0">
         <div className="flex items-center gap-2">

@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { Link, useLocation } from 'react-router-dom';
 import { SEO } from '@/components/layout/SEO';
 import { useRegion } from '@/hooks/useRegion';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { cn } from '@/lib/utils';
 import { toAbsoluteUrl } from '@/lib/env';
@@ -27,13 +28,25 @@ type ProcessStep = {
 
 function ProcessStepCard({ step, align = 'left' }: { step: ProcessStep; align?: 'left' | 'right' }) {
   const alignToCenter = align === 'right';
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <div
       className={cn(
-        "group w-full border border-white/5 bg-white/[0.025] p-6 transition-all duration-500 hover:border-brand-blue/25 hover:bg-white/[0.05] md:p-8",
+        "group w-full border p-6 transition-all duration-500 hover:border-brand-blue/25 md:p-8",
         alignToCenter ? "md:text-right" : "md:text-left"
       )}
+      style={{ 
+        borderColor: 'var(--border)', 
+        backgroundColor: 'var(--card-background)' 
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'var(--card-background)';
+      }}
     >
       <div
         className={cn(
@@ -49,18 +62,19 @@ function ProcessStepCard({ step, align = 'left' }: { step: ProcessStep; align?: 
         </span>
       </div>
 
-      <h4 className="mb-4 text-xl font-display font-medium uppercase tracking-tight text-white transition-colors group-hover:text-brand-blue md:text-2xl">
+      <h4 className="mb-4 text-xl font-display font-medium uppercase tracking-tight transition-colors group-hover:text-brand-blue md:text-2xl">
         {step.title}
       </h4>
-      <p className="text-sm font-light leading-relaxed text-zinc-500 transition-colors duration-500 group-hover:text-zinc-300">
+      <p className="text-sm font-light leading-relaxed transition-colors duration-500" style={{ color: 'var(--text-secondary)' }}>
         {step.desc}
       </p>
 
       <div
         className={cn(
-          "mt-7 flex items-center gap-3 border-t border-white/5 pt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500",
+          "mt-7 flex items-center gap-3 border-t pt-5 font-mono text-[10px] uppercase tracking-[0.22em]",
           alignToCenter ? "md:justify-end" : "md:justify-start"
         )}
+        style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
       >
         <Check size={14} className="shrink-0 text-brand-blue" />
         <span className="min-w-0 break-words leading-relaxed">{step.delivery}</span>
@@ -71,6 +85,8 @@ function ProcessStepCard({ step, align = 'left' }: { step: ProcessStep; align?: 
 
 export default function Process() {
   const location = useLocation();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { config, faqs, p, isInternational } = useRegion();
   const canonicalPath = location.pathname === '/faq' ? '/faq' : p('/process');
@@ -157,7 +173,10 @@ export default function Process() {
   ];
 
   return (
-    <div className="bg-brand-black text-white relative min-h-screen pt-32 pb-24 font-sans overflow-hidden">
+    <div 
+      className="relative min-h-screen pt-32 pb-24 font-sans overflow-hidden transition-colors duration-500"
+      style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
+    >
       <SEO 
         title={seoTitle}
         description={seoDescription}
@@ -177,7 +196,11 @@ export default function Process() {
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex gap-3 items-center px-6 py-2 border border-white/5 rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
+            className="inline-flex gap-3 items-center px-6 py-2 border rounded-none bg-white/[0.03] text-brand-blue text-[10px] font-mono uppercase tracking-[0.4em] mb-10"
+            style={{ 
+              borderColor: 'var(--border)', 
+              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)' 
+            }}
           >
             <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" /> Methodology
           </motion.div>
@@ -194,7 +217,8 @@ export default function Process() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
+            style={{ color: 'var(--text-secondary)' }}
           >
             Explore our world-class onboarding timeline, engineered for complete architectural transparency from design lock-in to final schema deploy.
           </motion.p>
@@ -251,13 +275,13 @@ export default function Process() {
                 desc: 'Rigorous performance benchmarks and security auditing on every build.'
               }
             ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.1} className="group p-6 md:p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-700 text-center h-full">
+              <Reveal key={i} delay={i * 0.1} className="group p-6 md:p-12 border transition-all duration-700 text-center h-full" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.03)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'; }}>
                 <div className="w-10 h-10 md:w-16 md:h-16 bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue mx-auto mb-6 md:mb-8 group-hover:scale-110 transition-transform duration-500">
                   <item.icon size={18} className="md:hidden" />
                   <item.icon size={24} className="hidden md:block" />
                 </div>
-                <h4 className="text-sm font-display font-medium uppercase tracking-[0.2em] text-white mb-4">{item.title}</h4>
-                <p className="text-[11px] md:text-sm text-zinc-500 leading-relaxed font-light group-hover:text-zinc-300 transition-colors duration-500">
+                <h4 className="text-sm font-display font-medium uppercase tracking-[0.2em] mb-4">{item.title}</h4>
+                <p className="text-[11px] md:text-sm leading-relaxed font-light transition-colors duration-500" style={{ color: 'var(--text-secondary)' }}>
                   {item.desc}
                 </p>
               </Reveal>
@@ -268,8 +292,8 @@ export default function Process() {
         <section className="mb-24 md:mb-48">
           <Reveal className="text-center mb-24 md:mb-32">
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Operations</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Technical Care</h2>
-            <p className="text-zinc-500 text-lg font-light max-w-2xl mx-auto leading-relaxed">
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8">Technical Care</h2>
+            <p className="text-lg font-light max-w-2xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Ongoing performance audits, database security integrations, and small changes allocated monthly.
             </p>
           </Reveal>
@@ -279,11 +303,15 @@ export default function Process() {
               <StaggerItem
                 key={plan.name}
                 className={cn(
-                  "relative p-12 bg-white/[0.02] border border-white/5 flex flex-col transition-all duration-700",
+                  "relative p-12 border flex flex-col transition-all duration-700",
                   plan.isRecommended 
-                    ? "bg-white/[0.04] border-brand-blue/30 shadow-2xl shadow-brand-blue/5" 
+                    ? "border-brand-blue/30 shadow-2xl shadow-brand-blue/5" 
                     : "hover:bg-white/[0.03]"
                 )}
+                style={{ 
+                  borderColor: plan.isRecommended ? undefined : 'var(--border)', 
+                  backgroundColor: plan.isRecommended ? (isDark ? 'rgba(255,255,255,0.04)' : 'rgba(251,191,36,0.05)') : (isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,0,0,0.02)') 
+                }}
               >
                 {plan.isRecommended && (
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-blue text-white text-[10px] font-bold px-6 py-2 tracking-[0.2em] uppercase">
@@ -291,21 +319,21 @@ export default function Process() {
                   </div>
                 )}
                 <div className="mb-12">
-                  <h3 className="text-xl font-display font-medium text-white mb-6 uppercase tracking-[0.2em]">{plan.name}</h3>
+                  <h3 className="text-xl font-display font-medium mb-6 uppercase tracking-[0.2em]">{plan.name}</h3>
                   <div className="flex flex-col gap-2">
-                    <span className="text-4xl font-display font-medium text-white tracking-tighter">{plan.price}</span>
-                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">{plan.period}</span>
+                    <span className="text-4xl font-display font-medium tracking-tighter">{plan.price}</span>
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>{plan.period}</span>
                   </div>
                 </div>
                 <ul className="space-y-6 mb-16 flex-1">
                   {plan.features.map((feat, fIdx) => (
-                    <li key={fIdx} className="flex gap-4 text-sm text-zinc-400 items-start leading-relaxed">
+                    <li key={fIdx} className="flex gap-4 text-sm items-start leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                       <Zap className={cn("w-4 h-4 shrink-0 mt-0.5", plan.isRecommended ? "text-brand-blue" : "text-zinc-600")} />
                       <span>{feat}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="pt-8 border-t border-white/5">
+                <div className="pt-8 border-t" style={{ borderColor: 'var(--border)' }}>
                   <Link to={p('/contact')}>
                     <Button variant={plan.isRecommended ? 'primary' : 'outline'} className="w-full h-14">
                       Activate Care Plan
@@ -320,19 +348,25 @@ export default function Process() {
         <section className="mb-24 md:mb-32">
           <Reveal className="text-center mb-16 md:mb-24">
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Inquiries</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight text-white mb-8">Common Questions</h2>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8">Common Questions</h2>
           </Reveal>
 
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, i) => (
               <Reveal key={i} delay={i * 0.05}>
-                <div className="border border-white/5 bg-white/[0.02] overflow-hidden">
+                <div className="border overflow-hidden" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,0,0,0.02)' }}>
                   <button 
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full p-6 md:p-8 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors"
+                    className="w-full p-6 md:p-8 flex items-center justify-between text-left transition-colors hover:bg-white/[0.03]"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
-                    <span className="text-sm md:text-lg font-display font-medium text-white uppercase tracking-tight">{faq.q}</span>
-                    <ChevronDown className={cn("w-5 h-5 text-zinc-500 transition-transform duration-500", openFaq === i && "rotate-180")} />
+                    <span className="text-sm md:text-lg font-display font-medium uppercase tracking-tight">{faq.q}</span>
+                    <ChevronDown className={cn("w-5 h-5 transition-transform duration-500", openFaq === i && "rotate-180")} style={{ color: 'var(--text-secondary)' }} />
                   </button>
                   <AnimatePresence>
                     {openFaq === i && (
@@ -342,7 +376,7 @@ export default function Process() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <div className="px-8 pb-8 text-sm md:text-base text-zinc-500 font-light leading-relaxed">
+                        <div className="px-8 pb-8 text-sm md:text-base font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                           {faq.a}
                         </div>
                       </motion.div>
@@ -355,11 +389,11 @@ export default function Process() {
         </section>
 
         <Reveal className="mt-32 md:mt-48 pb-20">
-          <div className="relative p-16 md:p-24 bg-white/[0.02] border border-white/5 text-center flex flex-col items-center overflow-hidden">
+          <div className="relative p-16 md:p-24 border text-center flex flex-col items-center overflow-hidden" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,0,0,0.02)' }}>
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             
             <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-8 relative z-10">Initiate Project</span>
-            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight text-white max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 overflow-visible">
+            <h2 className="text-3xl md:text-6xl font-display font-medium tracking-tight max-w-3xl mb-10 uppercase leading-[1.1] relative z-10 overflow-visible">
               Transform your digital <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">authority</span>.
             </h2>
             <Link to={p('/contact')} className="relative z-10">

@@ -58,9 +58,8 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
     return <>{children}</>;
   }
 
-  if (location.pathname === '/') {
-    return savedRegion ? <Navigate to={`/${savedRegion}`} replace /> : <>{children}</>;
-  }
-
+  // For unauthenticated users, do NOT auto-redirect to a saved region.
+  // Always render the children (e.g., the CountrySelection page) so
+  // the visitor must explicitly choose a region.
   return <>{children}</>;
 }

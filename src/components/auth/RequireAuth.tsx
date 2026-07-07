@@ -4,6 +4,7 @@ import { ShieldAlert } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Role } from '@/types';
 import { SleekLoader } from '@/components/ui/SleekLoader';
+import { getSavedRegion, getExplicitRegionFromPathname, regionPath } from '@/lib/region';
 
 interface RequireAuthProps {
   children: ReactNode;
@@ -23,6 +24,15 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
   if (loading) return <SleekLoader />;
 
   if (!user) {
+    // Determine best region to show the login page under:
+    const explicit = getExplicitRegionFromPathname(location.pathname);
+    const saved = getSavedRegion();
+    const active = explicit ?? saved;
+
+    if (active) {
+      return <Navigate to={regionPath(active, '/login')} replace state={{ from: `${location.pathname}${location.search}` }} />;
+    }
+
     return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}` }} />;
   }
 

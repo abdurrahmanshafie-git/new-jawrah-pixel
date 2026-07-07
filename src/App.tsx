@@ -83,6 +83,26 @@ function RegionalCaseStudyRedirect() {
   return <Navigate to={`/${region}/case-studies/${slug}`} replace />;
 }
 
+function AppEntryRedirect() {
+  const { user, profile, loading } = useAuth();
+
+  if (loading) return <SleekLoader />;
+
+  if (user) {
+    if (!profile) return <SleekLoader />;
+
+    const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
+    if (profileRegion) {
+      return <Navigate to={regionPath(profileRegion, '/')} replace />;
+    }
+
+    // If profile has no region, fallback to dashboard (avoid showing region selector to logged-in users)
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <CountrySelection />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -94,7 +114,7 @@ export default function App() {
             {/* Main Website */}
             <Route element={<RootLayout />}>
               {/* Country Selector */}
-              <Route path="/" element={<CountrySelection />} />
+              <Route path="/" element={<AppEntryRedirect />} />
 
               {/* Sri Lanka version */}
               <Route path="/lk" element={<Home />} />
@@ -252,6 +272,8 @@ export default function App() {
             {/* Authentication */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/:region/login" element={<Login />} />
+            <Route path="/:region/signup" element={<SignUp />} />
             <Route path="/forgot-password" element={<Login />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/signup" element={<SignUp />} />

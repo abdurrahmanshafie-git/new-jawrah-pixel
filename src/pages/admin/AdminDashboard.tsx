@@ -1087,7 +1087,7 @@ export default function AdminDashboard() {
                         { title: 'Total Leads', val: analytics?.totalLeads || 0, growth: '+12%', desc: 'Inquiries across regions', icon: FileText, color: 'text-brand-cyan' },
                         { title: 'Active Projects', val: analytics?.activeProjects || 0, growth: 'Stable', desc: 'Current dev operations', icon: Briefcase, color: 'text-brand-blue' },
                         { title: 'New Inquiries', val: analytics?.newInquiries || 0, growth: 'High', desc: 'Unprocessed opportunities', icon: MessageSquare, color: 'text-purple-400' },
-                        { title: 'Total Revenue', val: `${config.currencySymbol}${(Number(analytics?.paidRevenue ?? analytics?.contractedRevenue ?? 0)).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-emerald-400' }
+                        { title: 'Total Revenue', val: `${config.currencySymbol}${(Number(analytics?.paidRevenue ?? analytics?.contractedRevenue ?? 0)).toLocaleString()}`, growth: 'Live', desc: 'Contracted project value', icon: DollarSign, color: 'text-brand-blue' }
                       ].map((card, cIdx) => {
                         const Icon = card.icon;
                         return (
@@ -1326,7 +1326,7 @@ export default function AdminDashboard() {
                           </div>
                           <div className="flex items-center justify-between gap-2">
                             <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-mono uppercase ${
-                              proj.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                              proj.status === 'delivered' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
                               proj.status === 'development' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
                               'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                             }`}>
@@ -1378,7 +1378,7 @@ export default function AdminDashboard() {
                               </td>
                               <td className="p-4">
                                 <span className={`inline-block px-2.5 py-0.5 rounded text-[9px] font-mono uppercase ${
-                                  proj.status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                  proj.status === 'delivered' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
                                   proj.status === 'development' ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20' :
                                   'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                 }`}>

@@ -21,6 +21,7 @@ import { parsePriceAmount } from '@/lib/payments/amounts';
 import { currencyForRegion } from '@/lib/payments/config';
 import { useAuth } from '@/contexts/AuthContext';
 import { resolvePortalRegion } from '@/lib/region';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   Loader, 
   Activity, 
@@ -58,6 +59,8 @@ interface Toast {
 
 export default function ClientDashboard() {
   const { user, profile, loading: authLoading, signOut, refreshProfile } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const location = useLocation();
   const navigate = useNavigate();
   const { region: portalRegion, pendingVerification: regionPendingVerification } = resolvePortalRegion(profile?.region);
@@ -630,15 +633,15 @@ export default function ClientDashboard() {
 
   if (authLoading) {
     return (
-      <div className="pt-40 min-h-screen bg-brand-black text-center text-brand-cyan flex flex-col items-center justify-center gap-4">
+      <div className="pt-40 min-h-screen theme-bg text-center text-brand-cyan flex flex-col items-center justify-center gap-4">
         <Loader className="animate-spin" size={32} />
-        <span className="text-xs font-mono uppercase tracking-widest text-brand-gray">Retrieving account records...</span>
+        <span className="text-xs font-mono uppercase tracking-widest theme-text-muted">Retrieving account records...</span>
       </div>
     );
   }
 
   return (
-    <div className="pt-28 pb-20 min-h-screen bg-brand-black text-white relative font-sans overflow-x-hidden">
+    <div className="pt-28 pb-20 min-h-screen theme-bg theme-text-primary relative font-sans overflow-x-hidden">
       <SEO 
         title="Premium Project Workspace" 
         description="Dynamic client collaboration terminal. Track project milestones, submit revisions, download invoices, schedule meetings, and chat with design experts." 

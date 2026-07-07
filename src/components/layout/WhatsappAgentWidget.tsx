@@ -118,7 +118,7 @@ export function WhatsappAgentWidget() {
           className="relative group w-14 h-14 bg-brand-cyan hover:bg-white text-brand-black rounded-full flex items-center justify-center transition-all duration-300 shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.7)] hover:-translate-y-1 transform scale-100 active:scale-95 cursor-pointer"
         >
           {/* Active indicator dot */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-brand-black flex items-center justify-center animate-pulse">
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-blue rounded-full border-2 border-brand-black flex items-center justify-center animate-pulse">
             <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
           </span>
           <MessageSquare className="w-6 h-6 transition-transform group-hover:rotate-12" />
@@ -162,7 +162,7 @@ export function WhatsappAgentWidget() {
                     <span
                       className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-brand-black ${
                         agent.status === 'active'
-                          ? 'bg-green-500'
+                          ? 'bg-brand-blue'
                           : agent.status === 'busy'
                           ? 'bg-amber-500'
                           : 'bg-brand-gray'

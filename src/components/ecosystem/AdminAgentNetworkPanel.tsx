@@ -410,7 +410,7 @@ export function AdminAgentNetworkPanel({
                   <span
                     className={`px-2.5 py-0.5 rounded text-[9px] font-mono uppercase border self-start ${
                       referral.converted
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                        ? 'bg-brand-blue/10 text-brand-blue border border-brand-blue/20'
                         : 'bg-white/5 text-brand-gray border-white/5'
                     }`}
                   >
