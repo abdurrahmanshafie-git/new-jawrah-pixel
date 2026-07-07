@@ -1,6 +1,4 @@
-import React from 'react';
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/contexts/ThemeContext';
 
 interface LogoProps {
   className?: string;
@@ -10,40 +8,19 @@ interface LogoProps {
   asset?: 'logo-navbar';
 }
 
-// Explicit mapping: theme + asset → image path
-const LOGO_MAP = {
-  dark: {
-    default: '/assets/logo.png',
-    'logo-navbar': '/assets/logo-navbar.png',
+// Keep both theme variants mounted so theme changes never wait on a new image request.
+const LOGO_ASSETS = {
+  default: {
+    light: '/assets/logo-white.png',
+    dark: '/assets/logo.png',
   },
-  light: {
-    default: '/assets/logo-white.png',
-    'logo-navbar': '/assets/logo-navbar-white.png',
+  'logo-navbar': {
+    light: '/assets/logo-navbar-white.png',
+    dark: '/assets/logo-navbar.png',
   },
 } as const;
 
 export function Logo({ className, variant = 'full', size = 'md', asset }: LogoProps) {
-  const { theme } = useTheme();
-  
-  // Determine the correct logo path based on theme and asset
-  const getLogoPath = (currentTheme: 'dark' | 'light', assetType?: 'logo-navbar') => {
-    const assetKey = assetType || 'default';
-    return LOGO_MAP[currentTheme]?.[assetKey] || LOGO_MAP[currentTheme].default;
-  };
-
-  const [src, setSrc] = React.useState(() => getLogoPath(theme, asset));
-
-  // Update src when theme or asset changes
-  React.useEffect(() => {
-    setSrc(getLogoPath(theme, asset));
-  }, [theme, asset]);
-
-  const handleError = () => {
-    // Fallback to default logo
-    const fallback = LOGO_MAP[theme].default;
-    if (src !== fallback) setSrc(fallback);
-  };
-
   // Dimensions map
   const sizeMap = {
     sm: { box: 'h-8 w-8' },
@@ -55,15 +32,33 @@ export function Logo({ className, variant = 'full', size = 'md', asset }: LogoPr
   };
 
   const currentSize = sizeMap[size];
+  const sources = LOGO_ASSETS[asset || 'default'];
+  const imageClassName = "theme-logo-image pointer-events-none h-full max-h-full w-full max-w-full object-contain brightness-110";
 
   return (
-    <div className={cn("flex shrink-0 items-center justify-center overflow-hidden select-none group", currentSize.box, className)}>
-      <img 
-        src={src} 
-        alt="Jawrah Pixel Logo" 
-        className="h-full max-h-full w-full max-w-full object-contain brightness-110"
+    <div
+      className={cn("relative flex shrink-0 items-center justify-center overflow-hidden select-none group", currentSize.box, className)}
+      role="img"
+      aria-label="Jawrah Pixel Logo"
+    >
+      <img
+        src={sources.light}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        decoding="async"
+        className={cn(imageClassName, "opacity-100 dark:opacity-0")}
         style={{ height: '100%', width: '100%', objectFit: 'contain' }}
-        onError={handleError}
+        referrerPolicy="no-referrer"
+      />
+      <img
+        src={sources.dark}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        decoding="async"
+        className={cn(imageClassName, "absolute inset-0 opacity-0 dark:opacity-100")}
+        style={{ height: '100%', width: '100%', objectFit: 'contain' }}
         referrerPolicy="no-referrer"
       />
     </div>

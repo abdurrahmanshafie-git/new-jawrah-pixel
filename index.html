@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <title>Jawrah Pixel | Premium Digital Agency & Client OS</title>
     <link rel="icon" type="image/png" href="/assets/logo.png" />
@@ -12,17 +13,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
     <link rel="preload" href="/assets/logo.png" as="image" />
+    <link rel="preload" href="/assets/logo-white.png" as="image" />
+    <link rel="preload" href="/assets/logo-navbar.png" as="image" />
+    <link rel="preload" href="/assets/logo-navbar-white.png" as="image" />
     <!-- Prevent FOUC - Theme Initialization Script -->
     <script>
       (function() {
         try {
           const stored = localStorage.getItem('jawrah-theme');
-          const theme = stored || 'dark';
-          document.documentElement.classList.add(theme);
+          const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
+          const root = document.documentElement;
+          root.classList.remove('light', 'dark');
+          root.classList.add(theme);
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          window.__JAWRAH_INITIAL_THEME__ = theme;
           // Set initial meta theme-color
           document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#000000' : '#FFFFFF');
         } catch (e) {
           document.documentElement.classList.add('dark');
+          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.style.colorScheme = 'dark';
         }
       })();
     </script>
