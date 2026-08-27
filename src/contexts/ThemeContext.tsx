@@ -10,7 +10,6 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_STORAGE_KEY = 'jawrah-theme';
-const THEME_TRANSITION_MS = 420;
 
 const isTheme = (value: unknown): value is Theme => value === 'light' || value === 'dark';
 
@@ -32,23 +31,12 @@ const getInitialTheme = (): Theme => {
   }
 };
 
-const applyThemeToDom = (nextTheme: Theme, animate = false) => {
+const applyThemeToDom = (nextTheme: Theme) => {
   if (typeof window === 'undefined') {
     return;
   }
 
   const root = window.document.documentElement;
-  const previousTheme = root.dataset.theme;
-  const themeChanged = previousTheme !== nextTheme;
-  const transitionWindow = window as Window & { __jawrahThemeTransitionTimer?: number };
-
-  if (animate && themeChanged) {
-    root.classList.add('theme-switching');
-    window.clearTimeout(transitionWindow.__jawrahThemeTransitionTimer);
-    transitionWindow.__jawrahThemeTransitionTimer = window.setTimeout(() => {
-      root.classList.remove('theme-switching');
-    }, THEME_TRANSITION_MS);
-  }
 
   root.classList.toggle('light', nextTheme === 'light');
   root.classList.toggle('dark', nextTheme === 'dark');
@@ -72,7 +60,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const themeRef = React.useRef(themeState);
 
   useIsomorphicLayoutEffect(() => {
-    applyThemeToDom(themeRef.current, false);
+    applyThemeToDom(themeRef.current);
 
     const root = window.document.documentElement;
     const readyFrame = window.requestAnimationFrame(() => {
@@ -88,7 +76,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     themeRef.current = nextTheme;
-    applyThemeToDom(nextTheme, true);
+    applyThemeToDom(nextTheme);
     setThemeState(nextTheme);
   }, []);
 

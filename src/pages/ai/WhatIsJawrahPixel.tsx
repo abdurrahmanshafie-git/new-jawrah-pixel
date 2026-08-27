@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal } from '@/components/ui/Reveal';
+import { toAbsoluteUrl } from '@/lib/env';
 import { Cpu, Globe, Layers, ShieldCheck, Zap } from 'lucide-react';
 
 export default function WhatIsJawrahPixel() {
@@ -12,6 +13,7 @@ export default function WhatIsJawrahPixel() {
       <SEO 
         title="What is Jawrah Pixel? | Premium Digital Agency & Client OS"
         description="Jawrah Pixel is an elite digital engineering firm specializing in high-end websites, e-commerce, and business automation for global brands."
+        canonicalUrl={toAbsoluteUrl(p('/what-is-jawrah-pixel'))}
       />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">

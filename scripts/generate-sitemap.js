@@ -85,7 +85,9 @@ const corePages = [
   '/case-studies',
   '/leadership',
   '/blog',
-  '/faq',
+  '/what-is-jawrah-pixel',
+  '/why-jawrah-pixel',
+  '/about-founder',
 ];
 const regionalPaths = ['/lk', '/pk', '/int', '/uk'];
 const regionalCorePages = regionalPaths.flatMap((region) => [
@@ -97,7 +99,16 @@ const regionalCorePages = regionalPaths.flatMap((region) => [
   `${region}/case-studies`,
   `${region}/leadership`,
   `${region}/blog`,
+  `${region}/what-is-jawrah-pixel`,
+  `${region}/why-jawrah-pixel`,
+  `${region}/about-founder`,
 ]);
+
+const insightSlugs = [
+  'seo-architecture-for-premium-websites',
+  'regional-seo-for-sri-lanka-pakistan-global',
+  'core-web-vitals-for-agency-sites',
+];
 
 // Services Sitemap
 const servicesPages = [
@@ -150,18 +161,25 @@ const pricingPages = [
   '/uk/pricing',
 ];
 
-// Projects Sitemap (placeholder for future)
+// Projects Sitemap
+const caseStudySlugs = [
+  'zenvor',
+  'jawrah-pixel',
+  'aerovista',
+  'velora-estates',
+  'shabnam-jewellers',
+  'aerovista-travels',
+  'the-famous',
+  'amirah-jewellery',
+  'kamal-jewellers',
+  'elite-education',
+  'elite-elegant',
+  'miorah',
+  'zaza-clothing',
+];
 const caseStudyPages = [
-  '/case-studies/zenvor',
-  '/case-studies/shabnam-jewellers',
-  '/case-studies/aerovista',
-  '/case-studies/veloura-cafe',
-  ...regionalPaths.flatMap((region) => [
-    `${region}/case-studies/zenvor`,
-    `${region}/case-studies/shabnam-jewellers`,
-    `${region}/case-studies/aerovista`,
-    `${region}/case-studies/veloura-cafe`,
-  ]),
+  ...caseStudySlugs.map((slug) => `/case-studies/${slug}`),
+  ...regionalPaths.flatMap((region) => caseStudySlugs.map((slug) => `${region}/case-studies/${slug}`)),
 ];
 
 // Legal Pages
@@ -183,7 +201,13 @@ generateSitemapFile('sitemap-services.xml', [...servicesPages, ...regionalServic
 generateSitemapFile('sitemap-pricing.xml', pricingPages);
 generateSitemapFile('sitemap-projects.xml', caseStudyPages);
 // Placeholder sitemaps for future expansion
-generateSitemapFile('sitemap-blog.xml', ['/blog', ...regionalPaths.map((r) => `${r}/blog`)]);
+generateSitemapFile('sitemap-blog.xml', [
+  '/blog',
+  ...regionalPaths.flatMap((region) => [
+    `${region}/blog`,
+    ...insightSlugs.map((slug) => `${region}/blog/${slug}`),
+  ]),
+]);
 generateSitemapFile('sitemap-locations.xml', regionalPaths);
 
 // Generate master sitemap index

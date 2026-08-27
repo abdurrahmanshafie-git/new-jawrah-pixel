@@ -2,121 +2,391 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jawrahpixel.com/case-studies/zenvor</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/case-studies/shabnam-jewellers</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/case-studies/aerovista</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/case-studies/veloura-cafe</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/case-studies/velora-estates</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/aerovista-travels</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/the-famous</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/amirah-jewellery</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/kamal-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/elite-education</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/elite-elegant</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/miorah</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/case-studies/zaza-clothing</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/lk/case-studies/zenvor</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/lk/case-studies/shabnam-jewellers</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/lk/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/lk/case-studies/aerovista</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/lk/case-studies/veloura-cafe</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/lk/case-studies/velora-estates</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/aerovista-travels</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/the-famous</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/amirah-jewellery</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/kamal-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/elite-education</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/elite-elegant</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/miorah</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/lk/case-studies/zaza-clothing</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/pk/case-studies/zenvor</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/pk/case-studies/shabnam-jewellers</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/pk/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/pk/case-studies/aerovista</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/pk/case-studies/veloura-cafe</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/pk/case-studies/velora-estates</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/aerovista-travels</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/the-famous</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/amirah-jewellery</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/kamal-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/elite-education</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/elite-elegant</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/miorah</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/pk/case-studies/zaza-clothing</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/int/case-studies/zenvor</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/int/case-studies/shabnam-jewellers</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/int/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/int/case-studies/aerovista</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/int/case-studies/veloura-cafe</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/int/case-studies/velora-estates</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/aerovista-travels</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/the-famous</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/amirah-jewellery</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/kamal-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/elite-education</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/elite-elegant</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/miorah</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/int/case-studies/zaza-clothing</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/uk/case-studies/zenvor</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/uk/case-studies/shabnam-jewellers</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/uk/case-studies/jawrah-pixel</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://jawrahpixel.com/uk/case-studies/aerovista</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://jawrahpixel.com/uk/case-studies/veloura-cafe</loc>
-    <lastmod>2026-07-06</lastmod>
+    <loc>https://jawrahpixel.com/uk/case-studies/velora-estates</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/shabnam-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/aerovista-travels</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/the-famous</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/amirah-jewellery</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/kamal-jewellers</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/elite-education</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/elite-elegant</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/miorah</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://jawrahpixel.com/uk/case-studies/zaza-clothing</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>

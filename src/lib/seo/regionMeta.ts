@@ -21,8 +21,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Digital Agency Sri Lanka | Web Development & SEO | Jawrah Pixel',
-      description: 'Top digital agency in Sri Lanka offering web development, SEO, and software development services for ambitious brands.',
+      title: 'Jawrah Pixel — Premium Digital Agency in Sri Lanka',
+      description: 'Jawrah Pixel is a premium digital agency in Sri Lanka providing web development, web design, ecommerce, UI/UX, SEO, branding, and digital systems.',
       schemaType: 'Organization',
       keywords: ['digital agency Sri Lanka', 'web development Sri Lanka', 'SEO agency Sri Lanka', 'software company Sri Lanka', 'web design Sri Lanka', 'Jawrah Pixel'],
     },
@@ -56,8 +56,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     leadership: {
       ...BASE,
       path: '/leadership',
-      title: 'Leadership Behind JawrahPixel | Sri Lanka',
-      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      title: 'Leadership | Founder & Co-Founder | Jawrah Pixel',
+      description: 'Meet the people behind Jawrah Pixel — founder Abdurrahman Shafie and co-founder Jaweria Hafeez — building premium digital projects across Sri Lanka and global markets.',
       keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency Sri Lanka Pakistan'],
     },
     process: {
@@ -91,7 +91,7 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Web Design Agency Pakistan | Jawrah Pixel',
+      title: 'Jawrah Pixel — Digital Agency in Pakistan',
       description: 'Premium web design, ecommerce development, SEO, branding and digital systems for ambitious businesses in Pakistan.',
       schemaType: 'Organization',
       keywords: ['web design agency Pakistan', 'ecommerce development Pakistan', 'SEO services Pakistan', 'Jawrah Pixel'],
@@ -126,8 +126,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     leadership: {
       ...BASE,
       path: '/leadership',
-      title: 'Leadership Behind JawrahPixel | Pakistan',
-      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      title: 'Leadership | Founder & Co-Founder | Jawrah Pixel',
+      description: 'Meet the people behind Jawrah Pixel — founder Abdurrahman Shafie and co-founder Jaweria Hafeez — building premium digital projects across Pakistan and global markets.',
       keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency Sri Lanka Pakistan'],
     },
     process: {
@@ -161,7 +161,7 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Premium Digital Agency for Global Brands | Jawrah Pixel',
+      title: 'Jawrah Pixel — Digital Agency for Global Brands',
       description: 'Luxury websites, SaaS platforms, ecommerce, and AI-ready digital systems for global brands.',
       schemaType: 'Organization',
       keywords: ['premium digital agency', 'international web design agency', 'global ecommerce development', 'Jawrah Pixel'],
@@ -196,8 +196,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     leadership: {
       ...BASE,
       path: '/leadership',
-      title: 'Leadership Behind JawrahPixel | Global',
-      description: 'Meet the founders building a world-class digital agency across Sri Lanka, Pakistan, and global markets.',
+      title: 'Leadership | Founder & Co-Founder | Jawrah Pixel',
+      description: 'Meet the people behind Jawrah Pixel — founder Abdurrahman Shafie and co-founder Jaweria Hafeez — building premium digital projects for international and global brands.',
       keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'premium digital agency', 'web development company'],
     },
     process: {
@@ -231,7 +231,7 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Digital Agency UK | Web Development & SEO Services | Jawrah Pixel',
+      title: 'Jawrah Pixel — Digital Agency UK & EU',
       description: 'Premium digital performance agency delivering enterprise-grade websites, SEO systems, and conversion-focused digital experiences for UK and European businesses.',
       schemaType: 'Organization',
       keywords: ['web development agency UK', 'SEO agency UK', 'digital agency London', 'website design Europe', 'SEO services UK', 'web design UK'],
@@ -266,8 +266,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     leadership: {
       ...BASE,
       path: '/leadership',
-      title: 'Leadership Behind JawrahPixel | UK & EU',
-      description: 'Meet the founders building world-class digital solutions for UK & European brands.',
+      title: 'Leadership | Founder & Co-Founder | Jawrah Pixel',
+      description: 'Meet the people behind Jawrah Pixel — founder Abdurrahman Shafie and co-founder Jaweria Hafeez — building premium digital projects for UK & European brands.',
       keywords: ['JawrahPixel leadership', 'Jawrah Pixel founders', 'digital agency UK', 'European web development'],
     },
     process: {

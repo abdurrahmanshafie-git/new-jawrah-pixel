@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal } from '@/components/ui/Reveal';
+import { toAbsoluteUrl } from '@/lib/env';
 import { CheckCircle, Star, TrendingUp, Zap } from 'lucide-react';
 
 export default function WhyJawrahPixel() {
@@ -12,6 +13,7 @@ export default function WhyJawrahPixel() {
       <SEO 
         title="Why Choose Jawrah Pixel? | The Premium Advantage"
         description="Discover why leading brands choose Jawrah Pixel for their digital transformation. Premium design, enterprise security, and business-first engineering."
+        canonicalUrl={toAbsoluteUrl(p('/why-jawrah-pixel'))}
       />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">

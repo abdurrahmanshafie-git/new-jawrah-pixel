@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { useRegion } from '@/hooks/useRegion';
 import { useRegionalSeo } from '@/hooks/useRegionalSeo';
 import { getCanonicalUrl } from '@/lib/seo/pageSeo';
+import { toAbsoluteUrl } from '@/lib/env';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { Globe, Cpu, ShieldCheck, Zap, Layout, Sparkles, ArrowRight, Linkedin, User, CheckCircle } from 'lucide-react';
@@ -27,6 +28,36 @@ export default function Leadership() {
         canonicalUrl={getCanonicalUrl(seo.path)}
         keywords={seo.keywords}
         region={currentRegion}
+        schemaData={[
+          {
+            '@type': 'ProfilePage',
+            '@id': `${getCanonicalUrl(seo.path)}#profile`,
+            name: 'Leadership Behind Jawrah Pixel',
+            description: 'Founder and co-founder of Jawrah Pixel — Abdurrahman Shafie and Jaweria Hafeez.',
+            url: getCanonicalUrl(seo.path),
+            mainEntity: { '@id': 'https://jawrahpixel.com/#founder' },
+          },
+          {
+            '@type': 'Person',
+            '@id': 'https://jawrahpixel.com/#founder',
+            name: 'Abdurrahman Shafie',
+            jobTitle: 'Founder & Creative Director',
+            description: 'Abdurrahman Shafie is the Founder of Jawrah Pixel, overseeing creative direction, technical architecture, and strategic growth.',
+            url: getCanonicalUrl(seo.path),
+            image: toAbsoluteUrl('/assets/founder-image.png'),
+            worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
+            sameAs: config.linkedinFounderLink,
+          },
+          {
+            '@type': 'Person',
+            '@id': 'https://jawrahpixel.com/#co-founder',
+            name: 'Jaweria Hafeez',
+            jobTitle: 'Co-Founder & Operations Director',
+            description: 'Jaweria Hafeez is the Co-Founder of Jawrah Pixel, leading operations, client experience, and team development.',
+            url: getCanonicalUrl(seo.path),
+            worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
+          },
+        ]}
       />
 
       {/* Atmospheric Background */}
@@ -62,7 +93,7 @@ export default function Leadership() {
               className="text-4xl md:text-6xl lg:text-7xl font-display font-medium tracking-tight leading-[1.1] mb-10 uppercase overflow-visible"
               style={{ color: 'var(--text-primary)' }}
             >
-              Leadership Behind <span className="premium-text-gradient italic inline-block px-2 py-1">JawrahPixel</span>
+              Leadership Behind <span className="premium-text-gradient italic inline-block px-2 py-1">Jawrah Pixel</span>
             </motion.h1>
             
             <motion.p 
@@ -123,7 +154,7 @@ export default function Leadership() {
             <Reveal className="lg:col-span-5">
               <div className="sticky lg:top-32">
                 <div 
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border overflow-hidden group transition-all duration-700 mb-8"
+                  className="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full border overflow-hidden group transition-all duration-700 mb-8"
                   style={{ 
                     borderColor: 'var(--border)', 
                     backgroundColor: 'var(--card-background)' 
@@ -139,8 +170,8 @@ export default function Leadership() {
                 >
                   <img 
                     src="/assets/founder-image.png" 
-                    alt="Abdurrahman Shafie" 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    alt="Abdurrahman Shafie — Founder of Jawrah Pixel" 
+                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
                   />
                 </div>
                 
@@ -419,6 +450,11 @@ export default function Leadership() {
                 Start a Project
               </Button>
             </Link>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono uppercase tracking-[0.2em] text-[10px]" style={{ color: 'var(--text-secondary)' }}>
+              <Link to={p('/about')} className="transition-colors hover:text-brand-blue">About Jawrah Pixel</Link>
+              <Link to={p('/case-studies')} className="transition-colors hover:text-brand-blue">Our Work</Link>
+              <Link to={p('/services')} className="transition-colors hover:text-brand-blue">Services</Link>
+            </div>
           </div>
         </Reveal>
       </section>

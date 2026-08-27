@@ -65,7 +65,7 @@ A multi-region SEO system designed to rank in Google for Sri Lanka, Pakistan, an
 **Google Entity: Jawrah Pixel**
 - `name`: "Jawrah Pixel"
 - `alternateName`: ["JawrahPixel", "jawrahpixel"]
-- `sameAs`: [Instagram, LinkedIn, Founder Profile]
+- `sameAs`: [official organization profiles only]
 - `areaServed`: ["Sri Lanka", "Pakistan", "Worldwide"]
 - `knowsAbout`: ["Web Development", "SEO", "Ecommerce", "Software Development"]
 

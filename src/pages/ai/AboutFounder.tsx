@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { useRegion } from '@/hooks/useRegion';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal } from '@/components/ui/Reveal';
+import { toAbsoluteUrl } from '@/lib/env';
 import { Award, Code, Lightbulb, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -13,6 +14,23 @@ export default function AboutFounder() {
       <SEO 
         title="About the Founder | The Vision Behind Jawrah Pixel"
         description="Learn about the technical vision and leadership behind Jawrah Pixel. Engineering digital excellence for global brands."
+        canonicalUrl={toAbsoluteUrl(p('/about-founder'))}
+        schemaData={[
+          {
+            '@type': 'ProfilePage',
+            name: 'Founder of Jawrah Pixel',
+            mainEntity: { '@id': 'https://jawrahpixel.com/#founder' },
+          },
+          {
+            '@type': 'Person',
+            '@id': 'https://jawrahpixel.com/#founder',
+            name: 'Abdurrahman Shafie',
+            jobTitle: 'Founder & Creative Director',
+            worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
+            url: toAbsoluteUrl(p('/about-founder')),
+            sameAs: 'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
+          },
+        ]}
       />
 
       <div className="container mx-auto px-4 md:px-6 max-w-4xl">

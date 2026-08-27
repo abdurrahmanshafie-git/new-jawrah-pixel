@@ -9,8 +9,8 @@
 /* Light Theme (Default) */
 :root {
   color-scheme: light;
-  --theme-transition-duration: 360ms;
-  --theme-logo-transition-duration: 220ms;
+  --theme-transition-duration: 0ms;
+  --theme-logo-transition-duration: 0ms;
   --theme-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Background */
@@ -207,20 +207,16 @@ a:hover {
   border-color: var(--border);
 }
 
-:where(html.theme-ready body *:not(.theme-no-transition), html.theme-ready body *::before, html.theme-ready body *::after) {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow;
-  transition-duration: var(--theme-transition-duration);
-  transition-timing-function: var(--theme-transition-ease);
-}
-
 .theme-logo-image {
-  transition: opacity var(--theme-logo-transition-duration) var(--theme-transition-ease);
-  will-change: opacity;
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :where(html.theme-ready, html.theme-ready body, html.theme-ready body *:not(.theme-no-transition), html.theme-ready body *::before, html.theme-ready body *::after),
-  .theme-logo-image {
+  html,
+  body,
+  h1, h2, h3, h4, h5, h6,
+  p,
+  a {
     transition-duration: 1ms !important;
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;

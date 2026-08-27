@@ -32,10 +32,11 @@ export function getRegionLanguage(region?: RegionCode) {
 
 export function buildOrganizationSchema(): JsonLdNode {
   return {
-    '@type': 'Organization',
+        '@type': 'Organization',
     '@id': `${appEnv.siteUrl}/#organization`,
     name: 'Jawrah Pixel',
-    alternateName: ['JawrahPixel', 'jawrahpixel'],
+    legalName: 'Jawrah Pixel',
+    alternateName: ['JawrahPixel', 'jawrahpixel', 'Jawrah'],
     url: appEnv.siteUrl,
     logo: {
       '@type': 'ImageObject',
@@ -46,9 +47,16 @@ export function buildOrganizationSchema(): JsonLdNode {
     image: toAbsoluteUrl('/assets/logo.png'),
     email: appEnv.contactEmail,
     telephone: appEnv.contactWhatsapp,
+    founder: {
+      '@type': 'Person',
+      '@id': `${appEnv.siteUrl}/#founder`,
+      name: 'Abdurrahman Shafie',
+      jobTitle: 'Founder & Creative Director',
+      worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
+      sameAs: 'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
+    },
     sameAs: [
       'https://www.instagram.com/jawrahpixel',
-      'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
     ],
     areaServed: ['Sri Lanka', 'Pakistan', 'Worldwide'],
     knowsAbout: [
@@ -64,7 +72,7 @@ export function buildOrganizationSchema(): JsonLdNode {
       'UI/UX Design',
     ],
     description:
-      'Jawrah Pixel (JawrahPixel) is a premium digital agency building conversion-focused websites, ecommerce systems, SEO architecture, brand experiences, and secure client portals. Operating globally with dedicated teams in Sri Lanka and Pakistan.',
+      'Jawrah Pixel is a digital agency providing web development, web design, UI/UX design, SEO, ecommerce, branding, AI solutions, custom web applications, digital products, and client portals across Sri Lanka, Pakistan, and international markets.',
   };
 }
 
@@ -74,15 +82,10 @@ export function buildWebsiteSchema(): JsonLdNode {
     '@id': `${appEnv.siteUrl}/#website`,
     url: appEnv.siteUrl,
     name: 'Jawrah Pixel',
-    alternateName: 'JawrahPixel',
+    alternateName: ['JawrahPixel', 'Jawrah'],
     inLanguage: ['en-LK', 'en-PK', 'en'],
     publisher: {
       '@id': `${appEnv.siteUrl}/#organization`,
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${appEnv.siteUrl}/search?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
     },
   };
 }
@@ -94,7 +97,7 @@ export function buildLocalBusinessSchema(region: RegionCode): JsonLdNode {
     '@type': 'LocalBusiness',
     '@id': `${appEnv.siteUrl}/${region}#local-business`,
     name: `Jawrah Pixel ${area}`,
-    alternateName: 'JawrahPixel',
+    alternateName: ['JawrahPixel', 'Jawrah'],
     url: `${appEnv.siteUrl}/${region}`,
     image: toAbsoluteUrl('/assets/logo.png'),
     logo: toAbsoluteUrl('/assets/logo.png'),

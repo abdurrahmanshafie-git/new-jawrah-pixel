@@ -17,6 +17,16 @@ import Magnetic from '@/components/ui/Magnetic';
 
 const liveProjects = [
   {
+    title: "Elite Education",
+    category: "Education Platform",
+    desc: "A focused digital experience that makes education pathways easier to understand, explore, and act on.",
+    image: "/assets/case-studies/elite education/desktop.png",
+    url: "https://www.eliteeducation.lk/",
+    slug: "elite-education",
+    glowColor: "rgba(34,211,238,0.15)",
+    gradient: "from-brand-cyan/20 to-brand-blue/5",
+  },
+  {
     title: "Zenvor Streetwear",
     category: "Luxury E-commerce Boutique",
     desc: "A cinematic commerce flagship engineered to turn premium streetwear launches into fast, trusted, conversion-ready buying journeys.",
@@ -70,7 +80,7 @@ const liveProjects = [
     title: "The Famous Clothing",
     category: "Premium Fashion & E-commerce",
     desc: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion and localized checkout flows.",
-    image: "/assets/case-studies/the-famous/desktop.png",
+    image: "/assets/case-studies/the famous/desktop.png",
     url: "https://the-famous-demo.netlify.app/",
     slug: "the-famous",
     glowColor: "rgba(255,255,255,0.08)",
@@ -80,7 +90,7 @@ const liveProjects = [
     title: "Amirah High Jewellery",
     category: "Sovereign High Jewellery House",
     desc: "A digital atelier for Sri Lanka's sovereign luxury jewelry house featuring unheated Ceylon sapphires and bespoke booking flows.",
-    image: "/assets/case-studies/amirah-jewellery/desktop.png",
+    image: "/assets/case-studies/amirah jewellers/dektop.png",
     url: "https://amira-preview-jawrah-pixel.netlify.app/",
     slug: "amirah-jewellery",
     glowColor: "rgba(34,211,238,0.15)",
@@ -90,9 +100,49 @@ const liveProjects = [
     title: "New Kamal Jewellers",
     category: "Handcrafted Heritage Jewelry",
     desc: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold and bridal couture.",
-    image: "/assets/case-studies/kamal-jewellers/desktop.png",
+    image: "/assets/case-studies/kamal jewellers/desktop.png",
     url: "https://kamal-jewelers.vercel.app/",
     slug: "kamal-jewellers",
+    glowColor: "rgba(245,158,11,0.12)",
+    gradient: "from-amber-600/20 to-transparent",
+  },
+  {
+    title: "Elite Elegant",
+    category: "Premium Brand Experience",
+    desc: "A refined digital brand experience built to present a premium offer with clarity, restraint, and visual confidence.",
+    image: "/assets/case-studies/elite elegant/desktop.png",
+    url: "https://elite-elegent-jawrah-pixel.netlify.app/",
+    slug: "elite-elegant",
+    glowColor: "rgba(255,255,255,0.08)",
+    gradient: "from-white/10 to-transparent",
+  },
+  {
+    title: "Jawrah Client Portal",
+    category: "Client Portal & Workspace",
+    desc: "A private client workspace for keeping project communication, deliverables, and progress in one focused place.",
+    image: "/assets/case-studies/jawrah client portal/desktop.png",
+    url: "https://www.jawrahpixel.online/",
+    slug: "jawrah-client-portal",
+    glowColor: "rgba(59,130,246,0.15)",
+    gradient: "from-blue-600/20 to-transparent",
+  },
+  {
+    title: "Miorah",
+    category: "Digital Brand Experience",
+    desc: "A polished digital experience designed to give a premium retail identity a clear and memorable online presence.",
+    image: "/assets/case-studies/miorah/dektop.png",
+    url: "https://miorah-preview-jawrah-pixel.netlify.app/",
+    slug: "miorah",
+    glowColor: "rgba(34,211,238,0.15)",
+    gradient: "from-brand-cyan/20 to-brand-blue/5",
+  },
+  {
+    title: "Zaza Clothing",
+    category: "Fashion E-commerce",
+    desc: "A fashion-focused digital storefront designed to make collection discovery direct, visual, and easy to navigate.",
+    image: "/assets/case-studies/zaza clothing/desktop.png",
+    url: "https://zaza-clothing-jawrah-preview.netlify.app/",
+    slug: "zaza-clothing",
     glowColor: "rgba(245,158,11,0.12)",
     gradient: "from-amber-600/20 to-transparent",
   }
@@ -398,9 +448,10 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1.1] mb-8 uppercase font-display overflow-visible"
             >
-              <span className="premium-text-gradient block mb-2">Architecting</span>
+              <span className="block theme-text-primary mb-2">Jawrah Pixel</span>
+              <span className="premium-text-gradient block">Architecting</span>
               <span className="italic font-serif font-light theme-text-muted lowercase opacity-70 inline-block px-2 py-1 overflow-visible">Digital</span>
-              <span className="block theme-text-primary mt-2">Monopolies</span>
+              <span className="block theme-text-primary mt-2">Experiences</span>
             </motion.h1>
 
             <motion.p
@@ -409,7 +460,7 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-base md:text-lg theme-text-muted max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
-              We engineer high-trust digital ecosystems for ambitious brands ready to establish absolute market authority.
+              Jawrah Pixel is a digital agency providing web development, web design, UI/UX, SEO, ecommerce, branding, AI solutions, custom web applications, digital products, and client portals across Sri Lanka, Pakistan, and international markets.
             </motion.p>
 
             <motion.div
@@ -579,13 +630,19 @@ export default function Home() {
                 <div className="absolute inset-0 z-0">
                   <img
                     src={project.image}
+                    // Set explicit dimensions to prevent layout shift.
+                    // Aspect ratio is 1200/750 = 1.6
+                    width="1200"
+                    height="750"
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-50 transition-all duration-1000 ease-out"
+                    className="w-full h-full object-cover grayscale opacity-65 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-75 transition-all duration-1000 ease-out"
+                    loading={idx < 2 ? 'eager' : 'lazy'} // Eagerly load the first 2 images, lazy load the rest.
+                    decoding="async"
                   />
                   <div className="absolute inset-0" style={{
                     background: isDark 
-                      ? 'linear-gradient(to top, #000000, rgba(0,0,0,0.8), rgba(0,0,0,0.4))' 
-                      : 'linear-gradient(to top, #FFFFFF, rgba(255,255,255,0.86), rgba(255,255,255,0.48))'
+                      ? 'linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.5), rgba(0,0,0,0.15))' 
+                      : 'linear-gradient(to top, rgba(255,255,255,0.92), rgba(255,255,255,0.62), rgba(255,255,255,0.2))'
                   }}></div>
                 </div>
 
@@ -624,7 +681,7 @@ export default function Home() {
                         View Case Study
                       </Button>
                     </Link>
-                    <a
+                    {project.url && <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -633,7 +690,7 @@ export default function Home() {
                       <Button variant="secondary" size="sm" className="w-full sm:px-6 text-[10px] tracking-widest h-11">
                         Visit Live <ExternalLink className="ml-2 w-3 h-3" />
                       </Button>
-                    </a>
+                    </a>}
                   </div>
                 </div>
 
@@ -1043,6 +1100,20 @@ export default function Home() {
                 Request a Consultation
               </Button>
             </Link>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[10px] font-mono uppercase tracking-[0.2em] theme-text-caption">
+              <Link to={p('/about')} className="transition-colors hover:text-brand-blue">
+                About Jawrah Pixel
+              </Link>
+              <Link to={p('/case-studies')} className="transition-colors hover:text-brand-blue">
+                Our Work
+              </Link>
+              <Link to={p('/leadership')} className="transition-colors hover:text-brand-blue">
+                Leadership
+              </Link>
+              <Link to={p('/services')} className="transition-colors hover:text-brand-blue">
+                Services
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

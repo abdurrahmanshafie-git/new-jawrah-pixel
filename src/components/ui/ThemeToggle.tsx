@@ -28,9 +28,7 @@ export const ThemeToggle: React.FC = () => {
             : '0 4px 12px rgba(59, 130, 246, 0.3)',
         }}
         transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 25,
+          duration: 0,
         }}
       >
         <motion.span
@@ -40,6 +38,7 @@ export const ThemeToggle: React.FC = () => {
             scale: isDark ? 1 : 0.5,
             rotate: isDark ? 0 : -45,
           }}
+          transition={{ duration: 0 }}
           className="text-white text-xs"
         >
           ☾
@@ -51,6 +50,7 @@ export const ThemeToggle: React.FC = () => {
             scale: isDark ? 0.5 : 1,
             rotate: isDark ? 45 : 0,
           }}
+          transition={{ duration: 0 }}
           className="absolute text-white text-xs"
         >
           ☀

@@ -66,7 +66,6 @@ function CheckoutRedirect() {
 function RegionalRedirect({ path = '/' }: { path?: string }) {
   const { user, profile, loading } = useAuth();
 
-  if (loading) return <SleekLoader />;
   if (user && !profile) return <SleekLoader />;
 
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
@@ -85,8 +84,6 @@ function RegionalCaseStudyRedirect() {
 
 function AppEntryRedirect() {
   const { user, profile, loading } = useAuth();
-
-  if (loading) return <SleekLoader />;
 
   if (user) {
     if (!profile) return <SleekLoader />;

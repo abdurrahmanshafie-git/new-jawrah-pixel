@@ -131,6 +131,17 @@ export default function About() {
         canonicalUrl={getCanonicalUrl(seo.path)}
         keywords={['about Jawrah Pixel', `${seo.title}`, 'premium digital agency', 'web design agency Sri Lanka Pakistan international']}
         region={currentRegion}
+        schemaData={{
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer,
+            },
+          })),
+        }}
       />
 
       {/* Atmospheric Background */}
@@ -167,6 +178,7 @@ export default function About() {
               style={{ color: 'var(--text-primary)' }}
             >
               Architecting <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Digital Authority</span>
+              <span className="mt-6 block text-2xl md:text-4xl font-display font-medium tracking-tight uppercase theme-text-secondary">by Jawrah Pixel</span>
             </motion.h1>
             
             <motion.p 
@@ -294,7 +306,7 @@ export default function About() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center relative z-10">
                 {/* Avatar */}
                 <div className="lg:col-span-4 flex flex-col items-center">
-                  <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden group transition-all duration-700" style={{ 
+                  <div className="mx-auto w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden group transition-all duration-700" style={{ 
                     backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(250,250,248,0.7)', 
                     borderColor: 'var(--border)',
                     borderWidth: '1px',
@@ -303,7 +315,7 @@ export default function About() {
                     <img 
                       src="/assets/founder-image.png" 
                       alt="Abdurrahman Shafie" 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
                 </div>

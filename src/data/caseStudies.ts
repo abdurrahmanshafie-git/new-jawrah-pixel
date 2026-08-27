@@ -35,58 +35,63 @@ export interface CaseDetails {
   desktopHighlights: { title: string; desc: string }[];
   mobileHighlights: { title: string; desc: string }[];
   results: { metric: string; val: string; desc: string }[];
-  testimonial: { quote: string; author: string; role: string; avatar: string };
+  testimonial?: { quote: string; author: string; role: string; avatar: string };
   metaDesc: string;
+  projectStatus?: string;
+  projectYear?: string;
 }
 
 export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode }> = {
   'zenvor': {
     region: 'lk',
-    title: "Zenvor Premium Streetwear",
+    title: "ZENVOR - Premium Men's Fashion E-commerce Experience",
     slug: "zenvor",
-    category: "Luxury E-commerce & Brand boutique",
-    industry: "Fashion & Premium Apparel",
-    client: "Zenvor Streetwear",
+    category: "Premium Men's Fashion E-commerce",
+    industry: "Modern Streetwear & Luxury Essentials",
+    client: "ZENVOR",
+    projectStatus: "Live public storefront",
+    projectYear: "Not publicly specified",
     websiteUrl: "https://zenvor.lk",
     desktopImage: "/assets/case-studies/zenvor/desktop.png",
     mobileImage: "/assets/case-studies/zenvor/mobile.png",
-    overview: "A high-performance digital flagship boutique architected for one of the leading premium streetwear houses. The build translates architectural silhouettes and heavyweight cotton essentials into a cinematic, ultra-fast e-commerce experience.",
+    overview: "A premium modern streetwear storefront for ZENVOR, positioned around heavyweight cotton, architectural silhouettes, quiet structure, and cinematic restraint. The public experience combines collection storytelling with product discovery, visible pricing and sizing, delivery reassurance, support routes, and commerce policy navigation.",
     budget: "LKR 2,400,000",
     duration: "6 Weeks",
     goals: [
-      "Architect a highly authoritative luxury e-commerce portal with top-tier Lighthouse audit scores.",
-      "Integrate secure checkout channels and real-time inventory synchronization.",
-      "Achieve significant organic visibility for premium streetwear and minimal luxury design search terms."
+      "Translate ZENVOR's premium modern streetwear position into a distinctive public storefront.",
+      "Connect editorial brand storytelling with direct product and collection discovery.",
+      "Give shoppers clear routes to product information, support, delivery, returns, and purchase intent."
     ],
     challenges: [
-      "High-resolution professional photography was causing performance bottlenecks on mobile networks.",
-      "Need to represent the 'minimal luxury' brand aesthetic without sacrificing e-commerce conversion power.",
-      "Requirement for a seamless user experience across various high-end fashion browsing devices."
+      "Premium fashion imagery and a strong visual identity needed to work alongside clear shopping actions.",
+      "The storefront needed to make product names, fabric weights, fit, price, and sizes easy to find.",
+      "Delivery, fit exchange, support, and policy information needed to reassure Sri Lankan shoppers."
     ],
     processSteps: [
-      { phase: "Phase 1", title: "Brand Blueprinting", desc: "Defining minimal luxury layout grids, atmospheric typography pairing, and visual pacing." },
-      { phase: "Phase 2", title: "Cinematic UI Layout", desc: "Designing high-contrast product cards, hardware-accelerated transitions, and responsive lookbooks." },
-      { phase: "Phase 3", title: "System Engineering", desc: "Integrating Supabase for inventory, custom checkout flows, and edge asset routing." }
+      { phase: "Phase 1", title: "Brand Direction", desc: "Shaping the public experience around quiet luxury, heavyweight fabric, architectural silhouettes, and collection-led storytelling." },
+      { phase: "Phase 2", title: "Commerce Experience", desc: "Structuring routes from campaign and manifesto content into named products, collections, archive, lookbook, support, and policy destinations." },
+      { phase: "Phase 3", title: "Responsive Delivery", desc: "Delivering the visible storefront experience with direct product, support, and commerce-intent actions across screen sizes." }
     ],
-    technologies: ["React OS", "Vite", "Tailwind CSS v4", "Framer Motion", "Supabase", "Edge CDN"],
+    technologies: ["Public implementation details not verified"],
     solutions: [
-      "Custom lightning-fast e-commerce layouts with 100% responsive readability.",
-      "Secure checkout-ready infrastructure connected to the Admin dashboard.",
-      "Fully structured technical SEO and minimal aesthetic layout optimization."
+      "Editorial storefront direction aligned with premium modern streetwear positioning.",
+      "Product-led navigation across shop, collections, archive, studio, lookbook, and named product routes.",
+      "Visible commerce reassurance through delivery, secure checkout, WhatsApp support, fit guidance, and exchange messaging.",
+      "Policy and support navigation covering FAQ, shipping, returns, order tracking, privacy, and terms."
     ],
     perfScores: { perf: 99, seo: 98, access: 98, best: 99 },
     desktopHighlights: [
-      { title: "Atmospheric Lookbooks", desc: "Full-bleed cinematic photography layouts showing fine heavyweight cotton textiles clearly." },
-      { title: "Fluid Checkout Lane", desc: "Optimized e-commerce funnel that segments luxury prospects immediately." }
+      { title: "Collection-led entry", desc: "The Zenith Series and campaign language establish context before shoppers enter product discovery." },
+      { title: "Product confidence", desc: "Visible product names, LKR prices, fabric weights, fit descriptions, and S/M/L/XL choices support consideration." }
     ],
     mobileHighlights: [
-      { title: "Thumb-Optimal Browse", desc: "Instant product selection flows sized perfectly for quick mobile swipes and high-speed browsing." },
-      { title: "Crisp Material Details", desc: "Read highly detailed fabric specifications without visual pinch or stretch." }
+      { title: "Direct support routes", desc: "WhatsApp support and fit guidance are exposed alongside the shopping journey." },
+      { title: "Policy reassurance", desc: "Delivery, exchange, FAQ, shipping, returns, and tracking links give mobile shoppers clear next questions." }
     ],
     results: [
-      { metric: "Organic SEO Gain", val: "+340%", desc: "Search visibility lift on competitive premium fashion keywords." },
-      { metric: "Page Speed Rate", val: "0.28s", desc: "First contentful paint (FCP) rendering time on global edge servers." },
-      { metric: "Conversion Rate", val: "+84%", desc: "Increase in direct digital checkout completions since launch." }
+      { metric: "Public storefront", val: "Live", desc: "The Zenvor storefront is publicly available at zenvor.lk." },
+      { metric: "Visible product price", val: "LKR 4,500", desc: "The crawled Zenith Mountain Tee variants display this price." },
+      { metric: "Measured business results", val: "Not supplied", desc: "No sales, revenue, traffic, ranking, conversion, or performance results are claimed." }
     ],
     testimonial: {
       quote: "Jawrah Pixel delivered an outstanding, lightning-fast platform that perfectly captures our minimal luxury essence. The search engine authority gain and conversion boost have been phenomenal.",
@@ -94,7 +99,7 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
       role: "Creative Director",
       avatar: "AS"
     },
-    metaDesc: "Explore Zenvor Premium Streetwear's luxury e-commerce and boutique website design case study by Jawrah Pixel."
+    metaDesc: "Explore Jawrah Pixel's ZENVOR case study: a premium men's fashion e-commerce experience with collection storytelling, product discovery, and Sri Lankan commerce support routes."
   },
   'jawrah-pixel': {
     region: 'lk',
@@ -160,8 +165,8 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     industry: "Logistics & Supply Chain",
     client: "Aerovista Solutions",
     websiteUrl: "https://jawrahpixel.com/case-studies/aerovista",
-    desktopImage: "/assets/case-studies/aerovista/desktop.png",
-    mobileImage: "/assets/case-studies/aerovista/mobile.png",
+    desktopImage: "/assets/case-studies/aero-vista/desktop.png",
+    mobileImage: "/assets/case-studies/aero-vista/mobile.png",
     overview: "A high-fidelity global logistics dashboard architected for Aerovista. The system centralizes real-time freight tracking, automated custom clearances, and global fleet management into a single, secure command center.",
     budget: "$12,500",
     duration: "10 Weeks",
@@ -207,62 +212,6 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
       avatar: "DC"
     },
     metaDesc: "Discover how Jawrah Pixel transformed Aerovista's global logistics with a custom enterprise SaaS dashboard."
-  },
-  'veloura-cafe': {
-    region: 'int',
-    title: "Veloura Cafe & Roastery",
-    slug: "veloura-cafe",
-    category: "Luxury E-commerce & Hospitality",
-    industry: "Food & Beverage / E-commerce",
-    client: "Veloura Group",
-    websiteUrl: "https://jawrahpixel.com/case-studies/veloura-cafe",
-    desktopImage: "/assets/case-studies/veloura-cafe/desktop.png",
-    mobileImage: "/assets/case-studies/veloura-cafe/mobile.png",
-    overview: "A cinematic digital presence for Veloura Cafe, bridging the gap between their physical luxury roastery and a global audience. The platform features a bespoke coffee subscription engine and a high-converting retail boutique.",
-    budget: "$4,800",
-    duration: "7 Weeks",
-    goals: [
-      "Translate the sensory experience of a luxury roastery into a digital interface.",
-      "Launch a custom subscription model for recurring coffee bean deliveries.",
-      "Achieve premium brand positioning in the competitive specialty coffee market."
-    ],
-    challenges: [
-      "Existing e-commerce templates failed to capture the 'luxury artisanal' brand voice.",
-      "Complex subscription logic required custom development beyond standard Shopify features.",
-      "Need for atmospheric storytelling to justify premium price points."
-    ],
-    processSteps: [
-      { phase: "Phase 1", title: "Visual Storyboarding", desc: "Defining the 'Golden Roast' color palette and atmospheric motion design." },
-      { phase: "Phase 2", title: "Subscription Engine", desc: "Architecting a custom billing and delivery frequency logic." },
-      { phase: "Phase 3", title: "Cinematic Commerce", desc: "Building high-fidelity product pages with immersive video backgrounds." }
-    ],
-    technologies: ["React", "Tailwind CSS", "Framer Motion", "Stripe Connect", "Supabase Auth"],
-    solutions: [
-      "Bespoke 'Brew Profile' selector to help customers find their perfect roast.",
-      "High-converting subscription engine with integrated customer portal.",
-      "Cinematic product galleries that showcase artisanal detail."
-    ],
-    perfScores: { perf: 99, seo: 100, access: 98, best: 99 },
-    desktopHighlights: [
-      { title: "Immersive Storytelling", desc: "Full-bleed video backgrounds and parallex scrolling for brand immersion." },
-      { title: "Subscription Desk", desc: "Intuitive management portal for recurring coffee orders." }
-    ],
-    mobileHighlights: [
-      { title: "Instant Checkout", desc: "Apple Pay and Google Pay integration for one-tap mobile coffee purchases." },
-      { title: "Visual Tasting Notes", desc: "Icon-driven tasting profiles optimized for quick mobile scanning." }
-    ],
-    results: [
-      { metric: "Subscription Growth", val: "+215%", desc: "Increase in monthly recurring revenue since launch." },
-      { metric: "Average Order Value", val: "+42%", desc: "Higher basket totals due to premium brand positioning." },
-      { metric: "Mobile Conversion", val: "6.8%", desc: "Unusually high mobile purchase rate for the luxury sector." }
-    ],
-    testimonial: {
-      quote: "Jawrah Pixel didn't just build a website; they built a digital flagship that reflects our passion for coffee. Our subscription numbers have exceeded all expectations.",
-      author: "Elena Rossi",
-      role: "Brand Director",
-      avatar: "ER"
-    },
-    metaDesc: "Explore the luxury e-commerce and hospitality case study for Veloura Cafe & Roastery by Jawrah Pixel."
   },
   'velora-estates': {
     region: 'lk',
@@ -441,8 +390,8 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     industry: "Luxury Streetwear & Retail",
     client: "The Famous Clothing Co.",
     websiteUrl: "https://the-famous-demo.netlify.app/",
-    desktopImage: "/assets/case-studies/the-famous/desktop.png",
-    mobileImage: "/assets/case-studies/the-famous/mobile.png",
+    desktopImage: "/assets/case-studies/the famous/desktop.png",
+    mobileImage: "/assets/case-studies/the famous/mobile.png",
     overview: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion. Features a bespoke inventory management system and localized checkout flows.",
     budget: "$12,500",
     duration: "4 Weeks",
@@ -497,8 +446,8 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     industry: "Luxury Gemstones & Bespoke Jewelry",
     client: "Amirah High Jewellery",
     websiteUrl: "https://amira-preview-jawrah-pixel.netlify.app/",
-    desktopImage: "/assets/case-studies/amirah-jewellery/desktop.png",
-    mobileImage: "/assets/case-studies/amirah-jewellery/mobile.png",
+    desktopImage: "/assets/case-studies/amirah jewellers/dektop.png",
+    mobileImage: "/assets/case-studies/amirah jewellers/mobile.png",
     overview: "A digital atelier for Sri Lanka's sovereign luxury jewelry house. Features a high-security private viewing booking system and a narrative-driven showcase of unheated Ceylon sapphires.",
     budget: "LKR 3,500,000",
     duration: "6 Weeks",
@@ -553,8 +502,8 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     industry: "Traditional 22k Gold & Bridal Couture",
     client: "New Kamal Jewellers",
     websiteUrl: "https://kamal-jewelers.vercel.app/",
-    desktopImage: "/assets/case-studies/kamal-jewellers/desktop.png",
-    mobileImage: "/assets/case-studies/kamal-jewellers/mobile.png",
+    desktopImage: "/assets/case-studies/kamal jewellers/desktop.png",
+    mobileImage: "/assets/case-studies/kamal jewellers/mobile.png",
     overview: "A digital legacy platform preserving 40+ years of handcrafted mastery. Designed to bridge traditional Akurana craftsmanship with modern bridal couture planning.",
     budget: "LKR 2,800,000",
     duration: "5 Weeks",
@@ -602,6 +551,55 @@ export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
     metaDesc: "Explore New Kamal Jewellers' traditional handcrafted heritage and bridal jewelry case study by Jawrah Pixel."
   }
 };
+
+const ADDITIONAL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode }> = {
+  'elite-education': {
+    region: 'int', title: 'Elite Education Sri Lanka', slug: 'elite-education', category: 'Premium Education Website & Digital Education Platform', industry: 'International Education', client: 'Elite Education Sri Lanka', projectStatus: 'Live public website', projectYear: 'Not publicly specified',
+    overview: 'A Singapore-focused education consultancy website for Sri Lankan students and families. The experience brings destination guidance, a 385-qualification course catalog, a staged student journey, and direct counselling enquiries into one public digital platform.', budget: 'Project scope supplied separately', duration: 'Project scope supplied separately',
+    websiteUrl: 'https://www.eliteeducation.lk/',
+    desktopImage: '/assets/case-studies/elite education/desktop.png', mobileImage: '/assets/case-studies/elite education/mobile.png',
+    goals: ['Make Singapore education pathways easier to understand.', 'Give students a structured way to discover qualifications and courses.', 'Create a clear, responsive route to counselling enquiries.', 'Support trust through transparent guidance, contact details, journey stages, and accreditation references.'],
+    challenges: ['Students and families needed to understand an overseas education journey before enquiring.', 'A large qualification catalog needed discoverable categories and program-level actions.', 'The site needed to connect destination education content with course discovery and counselling.', 'Trust-sensitive admissions and visa information needed a clear, professional presentation.'],
+    processSteps: [{ phase: 'Phase 1', title: 'Journey Architecture', desc: 'Structuring destination guidance, course discovery, application intent, and contact routes around the student journey.' }, { phase: 'Phase 2', title: 'Trust-led Interface', desc: 'Presenting Singapore education information, support stages, course pathways, and credibility signals with a clear visual hierarchy.' }, { phase: 'Phase 3', title: 'Responsive Delivery', desc: 'Implementing the public experience across desktop and mobile contexts with direct enquiry actions.' }],
+    technologies: ['Public implementation details not verified'], solutions: ['Destination-led information architecture for Singapore education.', 'Structured catalog experience with filters, program details, and Apply actions.', 'Qualification-aware enquiry flow collecting study preference and target intake.', 'Clear contact, support-hours, and service-location information for follow-up.'], perfScores: { perf: 0, seo: 0, access: 0, best: 0 },
+    desktopHighlights: [{ title: 'Course discovery system', desc: 'A structured catalog presents 385 stated qualifications through categories, program cards, details, and Apply actions.' }, { title: 'Journey-led storytelling', desc: 'Discover, Select, Achieve, and Arrive explain the support model from first conversation to arrival.' }], mobileHighlights: [{ title: 'Direct enquiry access', desc: 'Students can reach counselling actions and WhatsApp support while researching on smaller screens.' }, { title: 'Readable pathway content', desc: 'Destination, admissions, visa, and arrival guidance is organized into scannable sections.' }], results: [{ metric: 'Verified delivery', val: 'Live', desc: 'The public website is live at eliteeducation.lk and credits Jawrah Pixel for design and development.' }, { metric: 'Catalog stated', val: '385', desc: 'The live Courses page states 385 qualifications across its catalog categories.' }, { metric: 'Measured business results', val: 'Not supplied', desc: 'No traffic, ranking, conversion, or Lighthouse results are claimed.' }], metaDesc: 'Explore how Jawrah Pixel designed and developed the Elite Education Sri Lanka website: a Singapore-focused education platform with course discovery, student journey guidance, and counselling enquiries.'
+  },
+  'elite-elegant': {
+    region: 'int', title: 'Elite Elegant', slug: 'elite-elegant', category: 'Premium Brand Experience', industry: 'Luxury Services', client: 'Elite Elegant',
+    overview: 'A refined digital brand experience built to present a premium offer with clarity, restraint, and a strong visual point of view.', budget: 'Project scope supplied separately', duration: 'Project scope supplied separately',
+    websiteUrl: 'https://elite-elegent-jawrah-pixel.netlify.app/',
+    desktopImage: '/assets/case-studies/elite elegant/desktop.png', mobileImage: '/assets/case-studies/elite elegant/mobile.png', goals: ['Strengthen premium positioning.', 'Present services with confidence.', 'Create a responsive brand foundation.'], challenges: ['A premium service needed a more considered digital expression.', 'Content needed to remain clear without losing atmosphere.'],
+    processSteps: [{ phase: 'Phase 1', title: 'Brand Framing', desc: 'Defining the visual hierarchy and tone of the digital experience.' }, { phase: 'Phase 2', title: 'Editorial Layout', desc: 'Shaping spacious layouts around the most important messages.' }, { phase: 'Phase 3', title: 'Responsive Delivery', desc: 'Translating the direction into a consistent multi-device experience.' }], technologies: ['React', 'Vite', 'Tailwind CSS'], solutions: ['Premium editorial presentation.', 'Clear service discovery and enquiry paths.', 'Responsive visual system for every viewport.'], perfScores: { perf: 0, seo: 0, access: 0, best: 0 }, desktopHighlights: [{ title: 'Editorial presentation', desc: 'A spacious visual system that gives the offer room to breathe.' }], mobileHighlights: [{ title: 'Focused mobile flow', desc: 'A compact experience that preserves the premium feel.' }], results: [{ metric: 'Project outcome', val: 'Delivered', desc: 'A more confident digital expression for the brand.' }], metaDesc: 'Explore the Elite Elegant premium brand experience case study by Jawrah Pixel.'
+  },
+  'jawrah-client-portal': {
+    region: 'int', title: 'Jawrah Client Portal', slug: 'jawrah-client-portal', category: 'Client Portal & Workspace', industry: 'Business Platform', client: 'Jawrah Pixel',
+    overview: 'A private client workspace concept for keeping project communication, deliverables, and progress in one focused place.', budget: 'Internal platform', duration: 'Ongoing system',
+    websiteUrl: 'https://www.jawrahpixel.online/',
+    desktopImage: '/assets/case-studies/jawrah client portal/desktop.png', mobileImage: '/assets/case-studies/jawrah client portal/mobile.png', goals: ['Centralize client communication.', 'Make project progress easier to follow.', 'Create a dependable delivery workspace.'], challenges: ['Project information was spread across disconnected channels.', 'Clients needed a clearer view of active work and next steps.'], processSteps: [{ phase: 'Phase 1', title: 'Workspace Mapping', desc: 'Organizing the core client and delivery journeys.' }, { phase: 'Phase 2', title: 'Portal Architecture', desc: 'Designing a focused workspace for updates, files, and milestones.' }, { phase: 'Phase 3', title: 'Secure Delivery', desc: 'Building the interface around authenticated project access.' }], technologies: ['React', 'Supabase', 'Tailwind CSS'], solutions: ['Central project workspace.', 'Clear milestone and deliverable visibility.', 'Secure client-oriented information architecture.'], perfScores: { perf: 0, seo: 0, access: 0, best: 0 }, desktopHighlights: [{ title: 'Project command view', desc: 'A clear desktop overview of active delivery work.' }], mobileHighlights: [{ title: 'Quick status checks', desc: 'A compact mobile view for updates while away from the desk.' }], results: [{ metric: 'Project outcome', val: 'Delivered', desc: 'A more organized foundation for client collaboration.' }], metaDesc: 'Explore the Jawrah Client Portal workspace case study by Jawrah Pixel.'
+  },
+  'miorah': {
+    region: 'int', title: 'Miorah', slug: 'miorah', category: 'Digital Brand Experience', industry: 'Luxury Retail', client: 'Miorah', overview: 'A polished digital experience designed to give a premium retail identity a clear and memorable online presence.', budget: 'Project scope supplied separately', duration: 'Project scope supplied separately', websiteUrl: 'https://miorah-preview-jawrah-pixel.netlify.app/', desktopImage: '/assets/case-studies/miorah/dektop.png', mobileImage: '/assets/case-studies/miorah/mobile.png', goals: ['Create a distinct digital identity.', 'Present the collection with clarity.', 'Support a responsive premium browsing experience.'], challenges: ['The visual identity needed to translate naturally to the web.', 'Product discovery needed to remain simple and intentional.'], processSteps: [{ phase: 'Phase 1', title: 'Visual Direction', desc: 'Establishing a distinctive digital language for the brand.' }, { phase: 'Phase 2', title: 'Collection Flow', desc: 'Designing a clear path through the brand and its offering.' }, { phase: 'Phase 3', title: 'Responsive Craft', desc: 'Building a stable experience across device sizes.' }], technologies: ['React', 'Vite', 'Tailwind CSS'], solutions: ['Distinctive premium visual direction.', 'Focused collection discovery.', 'Responsive layouts with stable presentation.'], perfScores: { perf: 0, seo: 0, access: 0, best: 0 }, desktopHighlights: [{ title: 'Collection focus', desc: 'A considered desktop presentation for the brand offering.' }], mobileHighlights: [{ title: 'Simple discovery', desc: 'An uncluttered mobile flow for browsing and enquiry.' }], results: [{ metric: 'Project outcome', val: 'Delivered', desc: 'A stronger digital presence for the retail identity.' }], metaDesc: 'Explore the Miorah digital brand experience case study by Jawrah Pixel.'
+  },
+  'zaza-clothing': {
+    region: 'int', title: 'Zaza Clothing', slug: 'zaza-clothing', category: 'Fashion E-commerce', industry: 'Fashion & Apparel', client: 'Zaza Clothing', overview: 'A fashion-focused digital storefront designed to make collection discovery feel direct, visual, and easy to navigate.', budget: 'Project scope supplied separately', duration: 'Project scope supplied separately', websiteUrl: 'https://zaza-clothing-jawrah-preview.netlify.app/', desktopImage: '/assets/case-studies/zaza clothing/desktop.png', mobileImage: '/assets/case-studies/zaza clothing/mobile.png', goals: ['Improve collection discovery.', 'Create a confident fashion presentation.', 'Support mobile-first browsing.'], challenges: ['A visual product offer needed stronger digital structure.', 'The shopping journey needed to stay focused on smaller screens.'], processSteps: [{ phase: 'Phase 1', title: 'Collection Mapping', desc: 'Organizing the fashion journey around the collection structure.' }, { phase: 'Phase 2', title: 'Storefront Direction', desc: 'Creating a visual system that lets the products lead.' }, { phase: 'Phase 3', title: 'Commerce Build', desc: 'Implementing responsive browsing and conversion-ready flows.' }], technologies: ['React', 'Vite', 'Tailwind CSS'], solutions: ['Visual collection-led storefront.', 'Clear product browsing hierarchy.', 'Responsive shopping experience for mobile visitors.'], perfScores: { perf: 0, seo: 0, access: 0, best: 0 }, desktopHighlights: [{ title: 'Collection storytelling', desc: 'A spacious storefront layout built around fashion imagery.' }], mobileHighlights: [{ title: 'Thumb-ready browsing', desc: 'A direct mobile path through collections and products.' }], results: [{ metric: 'Project outcome', val: 'Delivered', desc: 'A stronger foundation for digital fashion discovery.' }], metaDesc: 'Explore the Zaza Clothing fashion e-commerce case study by Jawrah Pixel.'
+  },
+};
+
+Object.assign(ALL_CASE_STUDIES, ADDITIONAL_CASE_STUDIES);
+
+const ADDITIONAL_CASE_LIST: CaseListItem[] = Object.values(ADDITIONAL_CASE_STUDIES).map((project) => ({
+  title: project.title,
+  slug: project.slug,
+  category: project.category,
+  description: project.overview,
+  tags: project.technologies.slice(0, 3),
+  perf: project.perfScores.perf,
+  seo: project.perfScores.seo,
+  char: project.title.charAt(0),
+  thumbnail: project.desktopImage,
+  color: 'from-brand-cyan/10 to-transparent',
+  badgeColor: 'text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5',
+}));
 
 export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
   lk: [
@@ -679,7 +677,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 99,
       seo: 100,
       char: "A",
-      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      thumbnail: "/assets/case-studies/amirah jewellers/dektop.png",
       color: "from-brand-cyan/10 to-transparent",
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
     },
@@ -692,7 +690,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 97,
       char: "K",
-      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      thumbnail: "/assets/case-studies/kamal jewellers/desktop.png",
       color: "from-amber-500/10 to-transparent",
       badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
     },
@@ -705,7 +703,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 96,
       char: "F",
-      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      thumbnail: "/assets/case-studies/the famous/desktop.png",
       color: "from-white/5 to-transparent",
       badgeColor: "text-white border-white/10 bg-white/5"
     }
@@ -785,7 +783,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 99,
       seo: 100,
       char: "A",
-      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      thumbnail: "/assets/case-studies/amirah jewellers/dektop.png",
       color: "from-brand-cyan/10 to-transparent",
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
     },
@@ -798,7 +796,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 97,
       char: "K",
-      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      thumbnail: "/assets/case-studies/kamal jewellers/desktop.png",
       color: "from-amber-500/10 to-transparent",
       badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
     },
@@ -811,7 +809,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 96,
       char: "F",
-      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      thumbnail: "/assets/case-studies/the famous/desktop.png",
       color: "from-white/5 to-transparent",
       badgeColor: "text-white border-white/10 bg-white/5"
     }
@@ -883,19 +881,6 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
     },
     {
-      title: "Veloura Cafe",
-      slug: "veloura-cafe",
-      category: "Luxury E-commerce & Hospitality",
-      description: "A cinematic digital presence for Veloura Cafe, featuring a bespoke coffee subscription engine and a high-converting retail boutique.",
-      tags: ["E-commerce", "Subscription", "Hospitality"],
-      perf: 99,
-      seo: 100,
-      char: "V",
-      thumbnail: "/assets/case-studies/veloura-cafe/desktop.png",
-      color: "from-amber-600/10 to-transparent",
-      badgeColor: "text-amber-500 border-amber-600/20 bg-amber-600/5"
-    },
-    {
       title: "Amirah High Jewellery",
       slug: "amirah-jewellery",
       category: "Sovereign High Jewellery",
@@ -904,7 +889,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 99,
       seo: 100,
       char: "A",
-      thumbnail: "/assets/case-studies/amirah-jewellery/desktop.png",
+      thumbnail: "/assets/case-studies/amirah jewellers/dektop.png",
       color: "from-brand-cyan/10 to-transparent",
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
     },
@@ -917,7 +902,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 97,
       char: "K",
-      thumbnail: "/assets/case-studies/kamal-jewellers/desktop.png",
+      thumbnail: "/assets/case-studies/kamal jewellers/desktop.png",
       color: "from-amber-500/10 to-transparent",
       badgeColor: "text-amber-400 border-amber-500/20 bg-amber-500/5"
     },
@@ -930,7 +915,7 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       perf: 98,
       seo: 96,
       char: "F",
-      thumbnail: "/assets/case-studies/the-famous/desktop.png",
+      thumbnail: "/assets/case-studies/the famous/desktop.png",
       color: "from-white/5 to-transparent",
       badgeColor: "text-white border-white/10 bg-white/5"
     }
@@ -938,9 +923,9 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
 };
 
 export function getCaseStudiesForRegion(region: RegionCode): CaseListItem[] {
-  return caseStudiesList[region] ?? caseStudiesList.lk;
+  return [...(caseStudiesList[region] ?? caseStudiesList.lk), ...ADDITIONAL_CASE_LIST];
 }
 
 export function getCaseStudyDetails(slug: string): (CaseDetails & { region: RegionCode }) | null {
-  return ALL_CASE_STUDIES[slug] || null;
+  return ALL_CASE_STUDIES[slug] || ADDITIONAL_CASE_STUDIES[slug] || null;
 }

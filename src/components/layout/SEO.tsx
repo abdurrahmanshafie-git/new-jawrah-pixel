@@ -58,7 +58,7 @@ function normalizeUrl(pathOrUrl: string) {
 }
 
 function formatTitle(title: string) {
-  return title.includes('Jawrah Pixel') ? title : `${title} | Jawrah Pixel`;
+  return title.includes('Jawrah Pixel') ? title : `${title} — Jawrah Pixel`;
 }
 
 function buildAutoAlternates(pathname: string): SeoAlternate[] {

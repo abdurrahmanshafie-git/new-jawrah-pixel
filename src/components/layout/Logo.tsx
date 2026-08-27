@@ -1,5 +1,7 @@
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/contexts/ThemeContext';
 
+// Note: The 'variant' prop is currently unused in the component logic.
 interface LogoProps {
   className?: string;
   variant?: 'full' | 'icon' | 'text';
@@ -8,7 +10,6 @@ interface LogoProps {
   asset?: 'logo-navbar';
 }
 
-// Keep both theme variants mounted so theme changes never wait on a new image request.
 const LOGO_ASSETS = {
   default: {
     light: '/assets/logo-white.png',
@@ -21,7 +22,7 @@ const LOGO_ASSETS = {
 } as const;
 
 export function Logo({ className, variant = 'full', size = 'md', asset }: LogoProps) {
-  // Dimensions map
+  const { theme } = useTheme();
   const sizeMap = {
     sm: { box: 'h-8 w-8' },
     md: { box: 'h-12 w-12' },
@@ -33,32 +34,22 @@ export function Logo({ className, variant = 'full', size = 'md', asset }: LogoPr
 
   const currentSize = sizeMap[size];
   const sources = LOGO_ASSETS[asset || 'default'];
-  const imageClassName = "theme-logo-image pointer-events-none h-full max-h-full w-full max-w-full object-contain brightness-110";
+  const isNavbar = asset === 'logo-navbar';
 
   return (
-    <div
-      className={cn("relative flex shrink-0 items-center justify-center overflow-hidden select-none group", currentSize.box, className)}
-      role="img"
-      aria-label="Jawrah Pixel Logo"
-    >
+    <div className={cn('shrink-0 select-none group', currentSize.box, className)}>
       <img
-        src={sources.light}
-        alt=""
-        aria-hidden="true"
-        loading="eager"
+        src={sources[theme]}
+        alt="Jawrah Pixel Logo"
+        // The navbar logo is critical for LCP, so it should be loaded eagerly.
+        // Other logos (e.g., in the footer) will use the browser's default loading (lazy).
+        loading={isNavbar ? 'eager' : 'lazy'}
         decoding="async"
-        className={cn(imageClassName, "opacity-100 dark:opacity-0")}
-        style={{ height: '100%', width: '100%', objectFit: 'contain' }}
-        referrerPolicy="no-referrer"
-      />
-      <img
-        src={sources.dark}
-        alt=""
-        aria-hidden="true"
-        loading="eager"
-        decoding="async"
-        className={cn(imageClassName, "absolute inset-0 opacity-0 dark:opacity-100")}
-        style={{ height: '100%', width: '100%', objectFit: 'contain' }}
+        // Set explicit dimensions to prevent layout shift.
+        // The actual display size is controlled by the parent's class.
+        width="560"
+        height="112"
+        className="pointer-events-none h-full w-full object-contain brightness-110"
         referrerPolicy="no-referrer"
       />
     </div>

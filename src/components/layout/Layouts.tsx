@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { Globe, Lock } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
@@ -11,7 +11,6 @@ import { resolvePortalRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { ReferralCapture } from '@/components/referral/ReferralCapture';
 import { Cursor } from '../ui/Cursor';
-import { CinematicLoader } from '../ui/CinematicLoader';
 import { REGION_OPTIONS, regions } from '@/data/regions';
 import type { RegionCode } from '@/types';
 
@@ -49,30 +48,14 @@ function DeferredJawrahBot() {
 export function RootLayout() {
   const location = useLocation();
   const isCountrySelection = location.pathname === '/';
-  const [initialLoad, setInitialLoad] = useState(true);
-
-  useEffect(() => {
-    // Hide initial loader after 3.5s (match CinematicLoader timeline)
-    const timer = setTimeout(() => {
-      setInitialLoad(false);
-    }, 3500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <RegionRouteGuard>
-      <AnimatePresence mode="wait">
-        {initialLoad && <CinematicLoader key="loader" />}
-      </AnimatePresence>
-      
       <ReferralCapture />
       <Cursor />
       <div className="noise-overlay" />
       
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: initialLoad ? 0 : 1 }}
-        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         className="min-h-screen"
         style={{ backgroundColor: 'var(--background)' }}
       >

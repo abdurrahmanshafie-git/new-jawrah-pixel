@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Globe, User, ArrowRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { cn } from '@/lib/utils';
@@ -22,33 +22,41 @@ export function Navbar() {
   const location = useLocation();
   const { user, profile } = useAuth();
   const { currentRegion, p, getSwitchUrl } = useRegion();
-  const { scrollYProgress } = useScroll();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
 
+  const lastScrollYRef = useRef(0);
+  const tickingRef = useRef(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Update scrolled state for styling
-      setScrolled(currentScrollY > 20);
 
-      // Smart navbar visibility logic
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down - hide navbar
-        setVisible(false);
-      } else {
-        // Scrolling up - show navbar
-        setVisible(true);
+      if (!tickingRef.current) {
+        tickingRef.current = true;
+        window.requestAnimationFrame(() => {
+          const isScrolled = currentScrollY > 20;
+          const shouldHide = currentScrollY > lastScrollYRef.current && currentScrollY > 100;
+          const shouldShow = !shouldHide;
+
+          if (isScrolled !== scrolled) {
+            setScrolled(isScrolled);
+          }
+
+          if (shouldShow !== visible) {
+            setVisible(shouldShow);
+          }
+
+          lastScrollYRef.current = currentScrollY;
+          tickingRef.current = false;
+        });
       }
-      
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, [scrolled, visible]);
 
   useEffect(() => {
     setIsOpen(false);
@@ -264,19 +272,13 @@ export function Navbar() {
             <ThemeToggle />
             <Link 
               to={dashboardPath}
-              className="w-11 h-11 rounded-full flex items-center justify-center transition-all active:scale-95 shrink-0"
+              className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 shrink-0 hover:text-white hover:brightness-110"
               style={{
                 border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)'}`,
                 background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.72)',
                 color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)'
               }}
               aria-label={user ? "Go to Dashboard" : "Login"}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = isDark ? 'white' : 'rgb(15,23,42)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)';
-              }}
             >
               <User size={18} />
             </Link>

@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'motion/react';
-import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { AlertCircle, Eye, EyeOff, Loader2, X } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { SEO } from '@/components/layout/SEO';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion } from '@/lib/region';
@@ -151,6 +151,15 @@ export default function Login() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md min-h-screen sm:min-h-0 glass-card p-8 sm:p-10 sm:rounded-3xl relative z-10 flex flex-col justify-center sm:block border-0 sm:border border-white/5"
       >
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="absolute right-5 top-5 inline-flex h-9 w-9 items-center justify-center rounded-full text-brand-gray transition-colors hover:bg-white/10 hover:text-brand-primary"
+          aria-label="Close login"
+        >
+          <X size={18} />
+        </button>
+
         <div className="text-center mb-10">
           <Link to="/" className="inline-flex items-center justify-center mb-8 group">
             <div className="relative">

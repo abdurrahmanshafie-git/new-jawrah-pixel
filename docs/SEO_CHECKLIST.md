@@ -32,9 +32,9 @@
 
 ### 5. Entity SEO ✅
 - [x] Unified brand: "Jawrah Pixel"
-- [x] Alternate names: ["JawrahPixel", "jawrahpixel"]
+- [x] Alternate names: ["JawrahPixel", "jawrahpixel", "Jawrah"]
 - [x] Area served: ["Sri Lanka", "Pakistan", "Worldwide"]
-- [x] Social profiles linked (sameAs)
+- [x] Official organization profile linked (sameAs)
 - [x] Founder schema in About page
 - [x] Consistent naming across all pages
 
