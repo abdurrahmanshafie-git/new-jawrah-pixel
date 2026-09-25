@@ -42,6 +42,112 @@ export interface CaseDetails {
 }
 
 export const ALL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode }> = {
+  'rankala-gold': {
+    region: 'lk',
+    title: "Rankala Gold — Factory Floor to B2B Sales Operations Platform",
+    slug: "rankala-gold",
+    category: "Custom Business Operations Platform",
+    industry: "Gold Manufacturing & B2B Jewellery",
+    client: "Rankala Gold",
+    projectStatus: "Verified Operational Platform",
+    projectYear: "2026",
+    websiteUrl: "https://rankala.lk",
+    desktopImage: "/assets/case-studies/rankala/desktop.jpeg",
+    mobileImage: "/assets/case-studies/rankala/mobile.jpeg",
+    overview: "A custom-built digital operations platform built by Jawrah Pixel to connect gold manufacturing, inventory control, ready-stock management, B2B sales, customer returns, payments, costing, and operational reporting into one controlled digital ecosystem.",
+    budget: "Enterprise Custom Architecture",
+    duration: "Delivered & Verified",
+    goals: [
+      "Connect gold manufacturing, inventory, sales, returns, payments, and costing in one controlled platform.",
+      "Enforce strict dual-balance separation between physical weight and 24K equivalent gold.",
+      "Eliminate manual spreadsheets and disconnected operational reconciliations."
+    ],
+    challenges: [
+      "Multi-stage factory gold tracking across workstations with zero weight loss ambiguity.",
+      "Reconciling disparate gold karats into canonical 24K equivalent weights.",
+      "Keeping gold obligations, cash settlements, and cheque clearing strictly isolated."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Operational Domain Mapping", desc: "Modeling the exact physical gold workflows from bullion casting to customer returns." },
+      { phase: "Phase 2", title: "Dual-Balance Accounting Architecture", desc: "Engineering milligram-precision 24K conversion algorithms and immutable ledger rules." },
+      { phase: "Phase 3", title: "Full-Stack Deployment & Hardening", desc: "Delivering responsive desktop and workshop interfaces with PostgreSQL RLS security." }
+    ],
+    technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "Supabase"],
+    solutions: [
+      "Daily factory workbook with immutable end-of-day finalization locks.",
+      "Canonical gold purity calculation engine preserving both physical and pure weights.",
+      "Multi-step return lifecycle preventing unverified stock inflation.",
+      "Isolated tripartite accounting matrix for gold, cash, and cheque lifecycles."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Factory Workbook Grid", desc: "High-density data entry optimized for workshop balance logging." },
+      { title: "B2B Sales Custody", desc: "Authoritative tracking of stock in transit with client obligations." }
+    ],
+    mobileHighlights: [
+      { title: "Workshop Tablet Desk", desc: "Touch-friendly stage sign-offs with immediate numeric validation." },
+      { title: "Sales Floor Access", desc: "Real-time stock availability and customer obligation ledgers on mobile." }
+    ],
+    results: [
+      { metric: "Operational Core", val: "100%", desc: "Centralized single source of truth across all operations." },
+      { metric: "Balance Precision", val: "0.001g", desc: "Milligram-level authoritative purity tracking." },
+      { metric: "Data Sync", val: "Real-time", desc: "Instant synchronization across factory and sales." }
+    ],
+    metaDesc: "Rankala Gold Operations Platform Case Study by Jawrah Pixel. Custom software engineering connecting gold manufacturing, ready stock, B2B sales, payments, and cost management."
+  },
+  'rankala': {
+    region: 'lk',
+    title: "Rankala Gold — Factory Floor to B2B Sales Operations Platform",
+    slug: "rankala",
+    category: "Custom Business Operations Platform",
+    industry: "Gold Manufacturing & B2B Jewellery",
+    client: "Rankala Gold",
+    projectStatus: "Verified Operational Platform",
+    projectYear: "2026",
+    websiteUrl: "https://rankala.lk",
+    desktopImage: "/assets/case-studies/rankala/desktop.jpeg",
+    mobileImage: "/assets/case-studies/rankala/mobile.jpeg",
+    overview: "A custom-built digital operations platform built by Jawrah Pixel to connect gold manufacturing, inventory control, ready-stock management, B2B sales, customer returns, payments, costing, and operational reporting into one controlled digital ecosystem.",
+    budget: "Enterprise Custom Architecture",
+    duration: "Delivered & Verified",
+    goals: [
+      "Connect gold manufacturing, inventory, sales, returns, payments, and costing in one controlled platform.",
+      "Enforce strict dual-balance separation between physical weight and 24K equivalent gold.",
+      "Eliminate manual spreadsheets and disconnected operational reconciliations."
+    ],
+    challenges: [
+      "Multi-stage factory gold tracking across workstations with zero weight loss ambiguity.",
+      "Reconciling disparate gold karats into canonical 24K equivalent weights.",
+      "Keeping gold obligations, cash settlements, and cheque clearing strictly isolated."
+    ],
+    processSteps: [
+      { phase: "Phase 1", title: "Operational Domain Mapping", desc: "Modeling the exact physical gold workflows from bullion casting to customer returns." },
+      { phase: "Phase 2", title: "Dual-Balance Accounting Architecture", desc: "Engineering milligram-precision 24K conversion algorithms and immutable ledger rules." },
+      { phase: "Phase 3", title: "Full-Stack Deployment & Hardening", desc: "Delivering responsive desktop and workshop interfaces with PostgreSQL RLS security." }
+    ],
+    technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "Supabase"],
+    solutions: [
+      "Daily factory workbook with immutable end-of-day finalization locks.",
+      "Canonical gold purity calculation engine preserving both physical and pure weights.",
+      "Multi-step return lifecycle preventing unverified stock inflation.",
+      "Isolated tripartite accounting matrix for gold, cash, and cheque lifecycles."
+    ],
+    perfScores: { perf: 99, seo: 100, access: 98, best: 99 },
+    desktopHighlights: [
+      { title: "Factory Workbook Grid", desc: "High-density data entry optimized for workshop balance logging." },
+      { title: "B2B Sales Custody", desc: "Authoritative tracking of stock in transit with client obligations." }
+    ],
+    mobileHighlights: [
+      { title: "Workshop Tablet Desk", desc: "Touch-friendly stage sign-offs with immediate numeric validation." },
+      { title: "Sales Floor Access", desc: "Real-time stock availability and customer obligation ledgers on mobile." }
+    ],
+    results: [
+      { metric: "Operational Core", val: "100%", desc: "Centralized single source of truth across all operations." },
+      { metric: "Balance Precision", val: "0.001g", desc: "Milligram-level authoritative purity tracking." },
+      { metric: "Data Sync", val: "Real-time", desc: "Instant synchronization across factory and sales." }
+    ],
+    metaDesc: "Rankala Gold Operations Platform Case Study by Jawrah Pixel. Custom software engineering connecting gold manufacturing, ready stock, B2B sales, payments, and cost management."
+  },
   'zenvor': {
     region: 'lk',
     title: "ZENVOR - Premium Men's Fashion E-commerce Experience",
@@ -587,19 +693,21 @@ const ADDITIONAL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
 
 Object.assign(ALL_CASE_STUDIES, ADDITIONAL_CASE_STUDIES);
 
-const ADDITIONAL_CASE_LIST: CaseListItem[] = Object.values(ADDITIONAL_CASE_STUDIES).map((project) => ({
-  title: project.title,
-  slug: project.slug,
-  category: project.category,
-  description: project.overview,
-  tags: project.technologies.slice(0, 3),
-  perf: project.perfScores.perf,
-  seo: project.perfScores.seo,
-  char: project.title.charAt(0),
-  thumbnail: project.desktopImage,
-  color: 'from-brand-cyan/10 to-transparent',
-  badgeColor: 'text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5',
-}));
+const ADDITIONAL_CASE_LIST: CaseListItem[] = Object.values(ADDITIONAL_CASE_STUDIES)
+  .filter((project) => project.slug !== 'elite-education')
+  .map((project) => ({
+    title: project.title,
+    slug: project.slug,
+    category: project.category,
+    description: project.overview,
+    tags: project.technologies.slice(0, 3),
+    perf: project.perfScores.perf,
+    seo: project.perfScores.seo,
+    char: project.title.charAt(0),
+    thumbnail: project.desktopImage,
+    color: 'from-brand-cyan/10 to-transparent',
+    badgeColor: 'text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5',
+  }));
 
 export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
   lk: [
@@ -615,6 +723,32 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       thumbnail: "/assets/case-studies/zenvor/desktop.png",
       color: "from-brand-cyan/10 to-transparent",
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
+    },
+    {
+      title: "Elite Education",
+      slug: "elite-education",
+      category: "Education Platform",
+      description: "A focused digital experience clarifying international study pathways, a 385-qualification course catalog, and student visa onboarding.",
+      tags: ["Course Catalog", "Education Tech", "SEO Structure"],
+      perf: 99,
+      seo: 100,
+      char: "E",
+      thumbnail: "/assets/case-studies/elite education/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Rankala Gold",
+      slug: "rankala-gold",
+      category: "Custom Business Operations Platform",
+      description: "A custom digital operations platform connecting gold manufacturing, inventory control, ready stock, B2B sales custody, customer returns, payments, costing, and reporting into one connected digital ecosystem.",
+      tags: ["Factory Ops", "PostgreSQL", "React", "Gold Accounting"],
+      perf: 99,
+      seo: 100,
+      char: "R",
+      thumbnail: "/assets/case-studies/rankala/desktop.jpeg",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-500/20 bg-amber-500/5"
     },
     {
       title: "Jawrah Pixel OS",
@@ -723,6 +857,32 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
     },
     {
+      title: "Elite Education",
+      slug: "elite-education",
+      category: "Education Platform",
+      description: "A focused digital experience clarifying international study pathways, a 385-qualification course catalog, and student visa onboarding.",
+      tags: ["Course Catalog", "Education Tech", "SEO Structure"],
+      perf: 99,
+      seo: 100,
+      char: "E",
+      thumbnail: "/assets/case-studies/elite education/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Rankala Gold",
+      slug: "rankala-gold",
+      category: "Custom Business Operations Platform",
+      description: "A custom digital operations platform connecting gold manufacturing, inventory control, ready stock, B2B sales custody, customer returns, payments, costing, and reporting into one connected digital ecosystem.",
+      tags: ["Factory Ops", "PostgreSQL", "React", "Gold Accounting"],
+      perf: 99,
+      seo: 100,
+      char: "R",
+      thumbnail: "/assets/case-studies/rankala/desktop.jpeg",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-500/20 bg-amber-500/5"
+    },
+    {
       title: "Jawrah Pixel OS",
       slug: "jawrah-pixel",
       category: "Internal Operations & Client CRM",
@@ -829,6 +989,32 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       badgeColor: "text-brand-cyan border-brand-cyan/20 bg-brand-cyan/5"
     },
     {
+      title: "Elite Education",
+      slug: "elite-education",
+      category: "Education Platform",
+      description: "A focused digital experience clarifying international study pathways, a 385-qualification course catalog, and student visa onboarding.",
+      tags: ["Course Catalog", "Education Tech", "SEO Structure"],
+      perf: 99,
+      seo: 100,
+      char: "E",
+      thumbnail: "/assets/case-studies/elite education/desktop.png",
+      color: "from-blue-600/10 to-transparent",
+      badgeColor: "text-blue-500 border-blue-600/20 bg-blue-600/5"
+    },
+    {
+      title: "Rankala Gold",
+      slug: "rankala-gold",
+      category: "Custom Business Operations Platform",
+      description: "A custom digital operations platform connecting gold manufacturing, inventory control, ready stock, B2B sales custody, customer returns, payments, costing, and reporting into one connected digital ecosystem.",
+      tags: ["Factory Ops", "PostgreSQL", "React", "Gold Accounting"],
+      perf: 99,
+      seo: 100,
+      char: "R",
+      thumbnail: "/assets/case-studies/rankala/desktop.jpeg",
+      color: "from-amber-500/10 to-transparent",
+      badgeColor: "text-amber-500 border-amber-500/20 bg-amber-500/5"
+    },
+    {
       title: "Jawrah Pixel OS",
       slug: "jawrah-pixel",
       category: "Internal Operations & Client CRM",
@@ -919,8 +1105,11 @@ export const caseStudiesList: Record<RegionCode, CaseListItem[]> = {
       color: "from-white/5 to-transparent",
       badgeColor: "text-white border-white/10 bg-white/5"
     }
-  ]
+  ],
+  uk: [] as CaseListItem[],
 };
+
+caseStudiesList.uk = caseStudiesList.int;
 
 export function getCaseStudiesForRegion(region: RegionCode): CaseListItem[] {
   return [...(caseStudiesList[region] ?? caseStudiesList.lk), ...ADDITIONAL_CASE_LIST];

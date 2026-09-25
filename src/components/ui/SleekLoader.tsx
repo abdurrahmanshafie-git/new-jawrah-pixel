@@ -1,29 +1,172 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Logo } from '@/components/layout/Logo';
+import { RefreshCw, Home, ArrowRight } from 'lucide-react';
 
-export function SleekLoader() {
+interface SleekLoaderProps {
+  fullScreen?: boolean;
+  compact?: boolean;
+  message?: string;
+  timeoutMs?: number;
+}
+
+export function SleekLoader({
+  fullScreen = true,
+  compact = false,
+  message,
+  timeoutMs = 3500,
+}: SleekLoaderProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [showFailsafe, setShowFailsafe] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowFailsafe(true);
+    }, timeoutMs);
+
+    return () => clearTimeout(timer);
+  }, [timeoutMs]);
+
+  const handleHardRefresh = () => {
+    try {
+      sessionStorage.clear();
+    } catch {
+      // Ignore storage errors
+    }
+    window.location.reload();
+  };
+
+  const containerClasses = compact
+    ? 'flex min-h-[50vh] w-full flex-col items-center justify-center py-16'
+    : 'fixed inset-0 z-50 flex min-h-screen w-full flex-col items-center justify-center';
 
   return (
     <div
-      className="flex min-h-screen w-full items-center justify-center"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading page content"
+      className={`${containerClasses} transition-opacity duration-300`}
       style={{
-        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.3)' : 'var(--color-bg-primary)',
-        backdropFilter: isDark ? 'blur(6px)' : undefined,
+        backgroundColor: compact
+          ? 'transparent'
+          : isDark
+          ? '#05070B'
+          : 'var(--background, #FFFFFF)',
       }}
     >
-      <div className="flex flex-col items-center justify-center">
-        <motion.div
-          initial={{ scale: 0.92, opacity: 0.85 }}
-          animate={{ scale: [0.98, 1.02, 0.98], opacity: [0.9, 1, 0.9] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-          className="rounded-full p-2"
-        >
-          <Logo size="xl" className="mx-auto" />
-        </motion.div>
+      {/* Top Ambient Progress Line */}
+      {!compact && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-[2.5px] overflow-hidden bg-brand-blue/10">
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.4,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+            className="h-full w-1/2 bg-gradient-to-r from-transparent via-brand-blue to-brand-cyan shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+          />
+        </div>
+      )}
+
+      {/* Atmospheric Radial Glow for Fullscreen Mode */}
+      {!compact && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40 transition-opacity duration-700"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle at 50% 48%, rgba(6, 182, 212, 0.12), transparent 60%)'
+              : 'radial-gradient(circle at 50% 48%, rgba(59, 130, 246, 0.08), transparent 60%)',
+          }}
+        />
+      )}
+
+      <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-md">
+        {/* Animated Brand Pulse */}
+        <div className="relative mb-6">
+          {/* Subtle Outer Halo */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{
+              scale: [0.9, 1.15, 0.9],
+              opacity: [0.2, 0.55, 0.2],
+            }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute -inset-4 rounded-full bg-gradient-to-tr from-brand-blue/30 to-brand-cyan/30 blur-lg"
+          />
+
+          {/* Logo Center */}
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0.9 }}
+            animate={{
+              scale: [0.97, 1.03, 0.97],
+              opacity: [0.92, 1, 0.92],
+            }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="relative p-2"
+          >
+            <Logo size={compact ? 'lg' : 'xl'} className="mx-auto" />
+          </motion.div>
+        </div>
+
+        {/* Dynamic Status Text */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-ping" />
+            <p
+              className="text-[11px] font-mono uppercase tracking-[0.28em]"
+              style={{ color: isDark ? '#94A3B8' : '#64748B' }}
+            >
+              {message || 'Initializing Experience'}
+            </p>
+          </div>
+        </div>
+
+        {/* Failsafe Quick Recovery Options */}
+        <AnimatePresence>
+          {showFailsafe && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="mt-8 flex flex-col items-center gap-3 pt-4 border-t border-white/10 w-full"
+            >
+              <p className="text-[11px] font-sans text-brand-gray/90 leading-relaxed">
+                Loading taking longer than expected?
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleHardRefresh}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-white/15 bg-white/5 hover:bg-white/10 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
+                >
+                  <RefreshCw size={12} className="text-brand-cyan" />
+                  Quick Refresh
+                </button>
+                <a
+                  href="/lk"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-brand-blue/30 bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-cyan transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
+                >
+                  <Home size={12} />
+                  Home
+                  <ArrowRight size={11} />
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

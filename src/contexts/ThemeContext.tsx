@@ -76,6 +76,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     themeRef.current = nextTheme;
+
+    // Apply immediately and synchronously to the root DOM element
     applyThemeToDom(nextTheme);
     setThemeState(nextTheme);
   }, []);

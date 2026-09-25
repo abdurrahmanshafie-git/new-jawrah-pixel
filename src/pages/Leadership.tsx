@@ -7,7 +7,7 @@ import { getCanonicalUrl } from '@/lib/seo/pageSeo';
 import { toAbsoluteUrl } from '@/lib/env';
 import { SEO } from '@/components/layout/SEO';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
-import { Globe, Cpu, ShieldCheck, Zap, Layout, Sparkles, ArrowRight, Linkedin, User, CheckCircle } from 'lucide-react';
+import { Globe, Cpu, ShieldCheck, Zap, Layout, Sparkles, ArrowRight, Linkedin, User, CheckCircle, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -52,8 +52,8 @@ export default function Leadership() {
             '@type': 'Person',
             '@id': 'https://jawrahpixel.com/#co-founder',
             name: 'Jaweria Hafeez',
-            jobTitle: 'Co-Founder & Operations Director',
-            description: 'Jaweria Hafeez is the Co-Founder of Jawrah Pixel, leading operations, client experience, and team development.',
+            jobTitle: 'Co-Founder & Frontend Developer',
+            description: 'Jaweria Hafeez is the Co-Founder and Frontend Developer at Jawrah Pixel, driving modern UI engineering, responsive design systems, and frontend architecture.',
             url: getCanonicalUrl(seo.path),
             worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
           },
@@ -262,17 +262,17 @@ export default function Leadership() {
       <section className="py-20 md:py-32 relative border-t" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <Reveal className="mb-12 md:mb-16 text-center">
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Co-Founder & Operations</span>
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Co-Founder & Frontend Developer</span>
           </Reveal>
 
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
             <div className="lg:col-span-7 space-y-10 order-2 lg:order-1">
               <Reveal>
                 <h4 className="text-[11px] font-mono text-brand-blue uppercase tracking-[0.3em] font-bold mb-4">
-                  Leadership Philosophy
+                  Engineering & Leadership Philosophy
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  Operations should be invisible when they work, foundational when they matter. Building systems that enable creativity, not constrain it.
+                  Frontend engineering is where brand intent meets human interaction. Exceptional user interfaces must be lightning-fast, visually immaculate, and architected with clean, modular components that scale effortlessly.
                 </p>
               </Reveal>
 
@@ -281,7 +281,7 @@ export default function Leadership() {
                   Vision
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  To create an environment where exceptional talent can do their best work. Scaling requires structure—but structure should serve creativity, not stifle it.
+                  To bridge high-fidelity design systems with scalable frontend architectures. Building client-facing web applications where speed, accessibility, and fluid micro-interactions set the industry standard.
                 </p>
               </Reveal>
 
@@ -290,7 +290,7 @@ export default function Leadership() {
                   Role & Contribution
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  Leads operations, client experience, and team development. Ensures every project delivers on the JawrahPixel standard—on time, on quality, on strategy.
+                  Co-leads the agency while directing frontend development and UI execution. Translates complex design systems into robust, modern React and TypeScript applications, ensuring pixel-perfect fidelity, rapid Core Web Vitals, and smooth cross-device experiences.
                 </p>
               </Reveal>
 
@@ -299,7 +299,13 @@ export default function Leadership() {
                   Core Strengths
                 </h4>
                 <ul className="space-y-3">
-                  {['Operations & process design', 'Client relationship management', 'Team development & culture', 'Quality assurance frameworks'].map((strength, i) => (
+                  {[
+                    'Modern Frontend Engineering (React, TypeScript, Next.js)',
+                    'UI/UX Component Architecture & Design Systems (Tailwind CSS)',
+                    'Performance Optimization, Core Web Vitals & Micro-Interactions',
+                    'Responsive, Mobile-First & Cross-Browser Precision',
+                    'Frontend Quality Assurance & Seamless Client Experience'
+                  ].map((strength, i) => (
                     <li key={i} className="flex items-center gap-3" style={{ color: 'var(--text-secondary)' }}>
                       <CheckCircle className="w-4 h-4 text-brand-blue shrink-0" />
                       <span className="font-light">{strength}</span>
@@ -312,7 +318,7 @@ export default function Leadership() {
             <Reveal className="lg:col-span-5 order-1 lg:order-2">
               <div className="sticky lg:top-32">
                 <div 
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border flex items-center justify-center text-brand-blue group transition-all duration-700 mb-8"
+                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border flex flex-col items-center justify-center text-brand-blue group transition-all duration-700 mb-8 mx-auto lg:mx-0 relative overflow-hidden"
                   style={{ 
                     borderColor: 'var(--border)', 
                     backgroundColor: 'var(--card-background)' 
@@ -326,15 +332,17 @@ export default function Leadership() {
                     e.currentTarget.style.borderColor = 'var(--border)';
                   }}
                 >
-                  <User className="w-20 h-20 md:w-28 md:h-28 group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-brand-cyan/5 to-transparent pointer-events-none" />
+                  <Code2 className="w-16 h-16 md:w-20 md:h-20 text-brand-blue group-hover:scale-110 transition-transform duration-500 mb-2" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-brand-blue/80 font-semibold">&lt;Frontend /&gt;</span>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-4 text-center lg:text-left">
                   <h3 className="text-2xl md:text-3xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--text-primary)' }}>
                     Jaweria Hafeez
                   </h3>
                   <p className="text-brand-blue text-[13px] font-mono uppercase tracking-[0.3em]">
-                    Co-Founder & Operations Director
+                    Co-Founder & Frontend Developer
                   </p>
                 </div>
               </div>

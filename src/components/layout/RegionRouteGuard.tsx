@@ -18,14 +18,11 @@ interface RegionRouteGuardProps {
 }
 
 export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
-  const { user, profile, loading } = useAuth();
+  const { user, profile } = useAuth();
   const location = useLocation();
 
   const pathRegion = getExplicitRegionFromPathname(location.pathname);
   const savedRegion = useMemo(() => getSavedRegion(), [location.pathname, user?.id, profile?.role, profile?.region]);
-
-  if (loading) return <SleekLoader />;
-  if (user && !profile) return <SleekLoader />;
 
   const isAdmin = user && (profile?.role === 'admin' || profile?.role === 'superadmin');
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
@@ -38,7 +35,7 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
     return <>{children}</>;
   }
 
-  if (user) {
+  if (user && profile) {
     const activeRegion = isAdmin
       ? getSavedAdminRegion() ?? profileRegion ?? savedRegion
       : profileRegion ?? savedRegion;
@@ -52,14 +49,13 @@ export function RegionRouteGuard({ children }: RegionRouteGuardProps) {
       if (location.pathname === '/') {
         return <Navigate to={`/${activeRegion}`} replace />;
       }
-
     }
 
     return <>{children}</>;
   }
 
   // For unauthenticated users, do NOT auto-redirect to a saved region.
-  // Always render the children (e.g., the CountrySelection page) so
-  // the visitor must explicitly choose a region.
+  // Always render the children (e.g., the CountrySelection page or active page) so
+  // the visitor is never blocked on a loading screen.
   return <>{children}</>;
 }

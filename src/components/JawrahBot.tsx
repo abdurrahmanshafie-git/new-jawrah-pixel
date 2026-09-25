@@ -323,10 +323,10 @@ export function JawrahBot() {
     } else {
       setIsTyping(true);
       try {
-        const history = messages
+        const history: { role: 'user' | 'model'; parts: string }[] = messages
           .filter(m => !m.isAction)
           .map(m => ({
-            role: m.sender === 'bot' ? 'model' : 'user' as const,
+            role: m.sender === 'bot' ? ('model' as const) : ('user' as const),
             parts: m.text
           }));
 

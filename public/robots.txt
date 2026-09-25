@@ -1,7 +1,10 @@
+# Jawrah Pixel Robots.txt
+# Public website is open for search indexing and legitimate search assistants
+
 User-agent: *
 Allow: /
 
-# Private dashboards and authenticated workspaces
+# Authenticated and private customer surfaces
 Disallow: /admin
 Disallow: /admin/
 Disallow: /dashboard
@@ -20,7 +23,7 @@ Disallow: /settings/private
 Disallow: /checkout
 Disallow: /checkout/
 
-# API, temporary, internal, and system surfaces
+# Internal APIs, staging, and temp paths
 Disallow: /api/
 Disallow: /tmp/
 Disallow: /temp/
@@ -30,4 +33,21 @@ Disallow: /system/
 Disallow: /_debug/
 Disallow: /dev/
 
+# Explicit search crawler permissions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Sitemap Index
 Sitemap: https://jawrahpixel.com/sitemap.xml

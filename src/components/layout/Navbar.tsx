@@ -62,6 +62,16 @@ export function Navbar() {
     setIsOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const navLinks = [
     { name: 'Services', path: p('/services') },
     { name: 'Case Studies', path: p('/case-studies') },
@@ -167,140 +177,165 @@ export function Navbar() {
     <>
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-[100] transition-all duration-1000',
+        'fixed top-0 left-0 right-0 z-[100] transition-all duration-500',
         scrolled
           ? cn(
-              'py-3 h-16 md:py-4 md:h-20 border-b',
+              'h-16 md:h-18 border-b',
               isDark 
-                ? 'bg-brand-black/80 backdrop-blur-[48px] border-white/[0.04] shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_60px_rgba(0,149,255,0.08)]'
-                : 'bg-white/80 backdrop-blur-[22px] border-[rgba(15,23,42,0.08)] shadow-[0_20px_60px_rgba(15,23,42,0.06)]'
+                ? 'bg-brand-black/85 backdrop-blur-2xl border-white/[0.06] shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_40px_rgba(59,130,246,0.05)]'
+                : 'bg-white/85 backdrop-blur-2xl border-slate-900/[0.06] shadow-[0_8px_30px_rgba(15,23,42,0.04)]'
             )
-          : 'bg-transparent py-5 h-20 md:py-8 md:h-28 border-b border-transparent',
+          : 'bg-transparent h-20 md:h-22 border-b border-transparent',
         !visible && !isOpen && '-translate-y-full'
       )}
     >
       {/* Premium Ambient Lighting System */}
       <div className={cn(
-        "absolute inset-0 z-0 transition-opacity duration-1000 pointer-events-none overflow-hidden",
+        "absolute inset-0 z-0 transition-opacity duration-700 pointer-events-none overflow-hidden",
         scrolled ? "opacity-100" : "opacity-0"
       )}>
         {/* Subtle Center Glow - Behind Nav Area */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150%] bg-brand-blue/[0.06] blur-[100px] rounded-[100%]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150%] bg-brand-blue/[0.05] blur-[100px] rounded-[100%]" />
         
         {/* Soft Bottom Edge Light Leak / Premium Divider */}
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-60" />
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-blue/25 to-transparent opacity-70" />
       </div>
 
-      <div className="container relative z-10 mx-auto h-full flex flex-col justify-center px-4 sm:px-6">
-        <div className="flex min-w-0 items-center justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-12">
-            <Link to={`/${currentRegion}`} className="flex items-center group shrink-0">
-              <Logo asset="logo-navbar" size="xl" className="md:hidden transition-transform duration-500 group-hover:scale-105" />
-              <Logo asset="logo-navbar" size="3xl" className="hidden md:flex transition-transform duration-500 group-hover:scale-105" />
-            </Link>
-            
-            <nav className="hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={cn(
-                    'text-[9px] font-bold uppercase tracking-[0.3em] transition-all duration-500 relative group py-2',
-                    location.pathname === link.path 
-                      ? (isDark ? 'text-white' : 'text-[#0F172A]') 
-                      : (isDark ? 'text-zinc-500' : 'text-[#64748B]')
-                  )}
-                >
-                  {link.name}
-                  <span className={cn(
-                    "absolute -bottom-0.5 left-0 w-full h-[2px] bg-brand-blue origin-left transition-transform duration-500",
-                    location.pathname === link.path 
-                      ? "scale-x-100 shadow-[0_0_10px_rgba(6,182,212,0.5)]" 
-                      : "scale-x-0 group-hover:scale-x-100"
-                  )} />
-                </Link>
-              ))}
-            </nav>
-          </div>
+      <div className="container relative z-10 mx-auto h-full flex items-center justify-between px-4 sm:px-6">
+        {/* Left: Brand Logo */}
+        <div className="flex items-center shrink-0">
+          <Link to={`/${currentRegion}`} className="flex items-center group shrink-0" aria-label="Jawrah Pixel">
+            <Logo asset="logo-navbar" size="xl" className="xl:hidden transition-transform duration-500 group-hover:scale-105 max-h-9 sm:max-h-10 w-auto" />
+            <Logo asset="logo-navbar" size="2xl" className="hidden xl:flex 2xl:hidden transition-transform duration-500 group-hover:scale-105 max-h-10 w-auto" />
+            <Logo asset="logo-navbar" size="3xl" className="hidden 2xl:flex transition-transform duration-500 group-hover:scale-105 max-h-11 w-auto" />
+          </Link>
+        </div>
 
-          <div className="hidden md:flex items-center gap-8">
-            <ThemeToggle />
-            {isAdmin && renderRegionSwitcher()}
-
-            {user ? (
-              <Link to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'}>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-9 px-5 rounded-none text-[9px] tracking-[0.2em]"
-                  style={{
-                    borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)',
-                    background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.72)',
-                    color: isDark ? 'rgb(161,161,170)' : 'rgb(30,41,59)'
-                  }}
-                >
-                  Workspace
-                </Button>
+        {/* Center: Centered Navigation Island */}
+        <nav className="hidden xl:flex items-center absolute left-1/2 -translate-x-1/2 gap-1 2xl:gap-1.5 px-2 py-1.5 rounded-full border border-black/[0.06] dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] backdrop-blur-md shadow-[0_2px_10px_rgba(0,0,0,0.02)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path;
+            return (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={cn(
+                  'text-[13px] font-medium tracking-normal transition-all duration-200 relative px-3.5 py-1.5 rounded-full whitespace-nowrap shrink-0',
+                  isActive 
+                    ? (isDark 
+                        ? 'text-white bg-white/[0.1] font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]' 
+                        : 'text-slate-950 bg-black/[0.06] font-semibold') 
+                    : (isDark 
+                        ? 'text-zinc-400 hover:text-white hover:bg-white/[0.05]' 
+                        : 'text-slate-600 hover:text-slate-950 hover:bg-black/[0.03]')
+                )}
+              >
+                {link.name}
               </Link>
-            ) : (
-              <div className="flex items-center gap-6">
-                <Link to="/login">
-                  <Button variant="ghost" size="sm" className="text-[9px] tracking-[0.2em] font-bold" style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(30,41,59)' }}>
-                    Login
-                  </Button>
-                </Link>
-                <Link to={p('/agents')} className="hidden lg:block">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-[9px] tracking-[0.2em] font-bold transition-colors"
-                    style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}
-                  >
-                    Apply as Agent
-                  </Button>
-                </Link>
-                <Link to={p('/contact')}>
-                  <Button size="sm" className="h-9 px-5 rounded-none text-[9px] tracking-[0.2em] font-bold shadow-none">
-                    Start Project
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
+            );
+          })}
+        </nav>
 
-          <div className="ml-auto flex shrink-0 items-center gap-2 md:hidden">
+        {/* Right: Actions */}
+        <div className="hidden xl:flex items-center gap-3.5 2xl:gap-5 shrink-0">
+          <ThemeToggle />
+          {isAdmin && renderRegionSwitcher()}
+
+          {user ? (
+            <Link to={isAdmin ? '/admin' : profile?.role === 'agent' ? '/partner/dashboard' : '/dashboard'} className="shrink-0 group">
+              <div className={cn(
+                "h-9 px-4 rounded-full text-[12px] font-medium tracking-normal whitespace-nowrap inline-flex items-center gap-2 transition-all duration-300 active:scale-[0.98]",
+                isDark
+                  ? "border border-white/10 bg-white/[0.04] text-zinc-200 hover:bg-white/[0.08] hover:border-white/20"
+                  : "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
+              )}>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Workspace</span>
+              </div>
+            </Link>
+          ) : (
+            <div className="flex items-center gap-3 2xl:gap-5 shrink-0">
+              <Link to="/login" className="shrink-0">
+                <span className={cn(
+                  "text-[13px] font-medium tracking-normal px-3 py-1.5 rounded-full transition-all duration-200 inline-block",
+                  isDark 
+                    ? "text-zinc-300 hover:text-white hover:bg-white/[0.06]" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                )}>
+                  Login
+                </span>
+              </Link>
+              <Link to={p('/agents')} className="hidden 2xl:inline-flex shrink-0">
+                <span className={cn(
+                  "text-[13px] font-medium tracking-normal px-3 py-1.5 rounded-full transition-all duration-200 inline-block",
+                  isDark 
+                    ? "text-zinc-400 hover:text-white hover:bg-white/[0.06]" 
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                )}>
+                  Apply as Agent
+                </span>
+              </Link>
+              <Link to={p('/contact')} className="shrink-0 group">
+                <div className={cn(
+                  "h-9 px-5 rounded-full text-[12px] font-semibold tracking-normal whitespace-nowrap inline-flex items-center gap-2 transition-all duration-300 active:scale-[0.98]",
+                  isDark
+                    ? "bg-white text-zinc-950 hover:bg-zinc-100 shadow-[0_2px_14px_rgba(255,255,255,0.18)] hover:shadow-[0_4px_22px_rgba(255,255,255,0.28)] border border-white/30"
+                    : "bg-slate-950 text-white hover:bg-slate-800 shadow-[0_2px_12px_rgba(15,23,42,0.16)] hover:shadow-[0_4px_20px_rgba(15,23,42,0.26)] border border-slate-900"
+                )}>
+                  <span>Start Project</span>
+                  <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </div>
+              </Link>
+            </div>
+          )}
+        </div>
+
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 xl:hidden">
+            <Link to={p('/contact')} className="hidden sm:inline-flex shrink-0 group">
+              <div className={cn(
+                "h-8.5 px-3.5 sm:px-4 rounded-full text-[10px] sm:text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap inline-flex items-center gap-1.5 transition-all duration-300 active:scale-[0.98]",
+                isDark
+                  ? "bg-white text-zinc-950 hover:bg-zinc-100 shadow-[0_2px_10px_rgba(255,255,255,0.15)] border border-white/30"
+                  : "bg-slate-950 text-white hover:bg-slate-800 shadow-[0_2px_10px_rgba(15,23,42,0.14)] border border-slate-900"
+              )}>
+                <span>Start Project</span>
+                <ArrowRight size={11} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+              </div>
+            </Link>
+
             <ThemeToggle />
             <Link 
               to={dashboardPath}
-              className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 shrink-0 hover:text-white hover:brightness-110"
-              style={{
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)'}`,
-                background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.72)',
-                color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)'
-              }}
+              className={cn(
+                "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 shrink-0",
+                isDark
+                  ? "border border-white/10 bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08]"
+                  : "border border-slate-200 bg-slate-100 text-slate-700 hover:text-slate-900 hover:bg-slate-200/70"
+              )}
               aria-label={user ? "Go to Dashboard" : "Login"}
             >
-              <User size={18} />
+              <User size={16} />
             </Link>
             
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 w-11 h-11 flex flex-col items-center justify-center gap-2 shrink-0"
+              className={cn(
+                "relative z-50 w-9 h-9 rounded-full flex flex-col items-center justify-center gap-1.5 shrink-0 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/50",
+                isDark
+                  ? "border border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
+                  : "border border-slate-200 bg-slate-100 hover:bg-slate-200/70"
+              )}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
             >
               <span 
-                className={cn("w-6 h-px transition-all duration-500", isOpen && "rotate-45 translate-y-2.5")} 
+                className={cn("w-4 h-px transition-all duration-300", isOpen && "rotate-45 translate-y-1")} 
                 style={{
                   backgroundColor: isDark ? 'white' : 'rgb(15,23,42)'
                 }} 
               />
               <span 
-                className={cn("w-4 h-px transition-all duration-500 ml-auto", isOpen && "opacity-0")} 
-                style={{
-                  backgroundColor: isDark ? 'white' : 'rgb(15,23,42)'
-                }} 
-              />
-              <span 
-                className={cn("w-6 h-px transition-all duration-500", isOpen && "-rotate-45 -translate-y-2.5")} 
+                className={cn("w-4 h-px transition-all duration-300", isOpen && "-rotate-45 -translate-y-1")} 
                 style={{
                   backgroundColor: isDark ? 'white' : 'rgb(15,23,42)'
                 }} 
@@ -308,8 +343,7 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
     <AnimatePresence>
       {isOpen && (
@@ -318,7 +352,7 @@ export function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-0 left-0 right-0 z-[90] h-auto max-h-[92vh] overflow-auto backdrop-blur-[64px] border-b flex flex-col p-6 pt-24 pb-10 md:hidden"
+          className="fixed top-0 left-0 right-0 z-[90] h-auto max-h-[92vh] overflow-auto backdrop-blur-[64px] border-b flex flex-col p-6 pt-24 pb-10 xl:hidden"
           style={{
             // Ensure the mobile menu always shows an opaque backdrop so items at the bottom
             // never reveal the underlying page background in light or dark mode.
@@ -417,15 +451,15 @@ export function Navbar() {
                   <Link
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center min-h-[44px] text-[18px] font-display font-medium uppercase tracking-tight transition-colors"
+                    className="flex items-center min-h-[44px] text-[17px] font-medium tracking-[-0.01em] transition-colors"
                     style={{
-                      color: isDark ? 'rgba(255,255,255,0.8)' : 'rgb(30,41,59)'
+                      color: isDark ? 'rgba(255,255,255,0.85)' : 'rgb(30,41,59)'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = isDark ? 'rgb(6,182,212)' : 'rgb(16,185,129)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = isDark ? 'rgba(255,255,255,0.8)' : 'rgb(30,41,59)';
+                      e.currentTarget.style.color = isDark ? 'rgba(255,255,255,0.85)' : 'rgb(30,41,59)';
                     }}
                   >
                     {link.name}
@@ -442,21 +476,51 @@ export function Navbar() {
                   <Link
                     to={p('/agents')}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center min-h-[44px] text-[18px] font-display font-medium uppercase tracking-tight transition-colors"
+                    className="flex items-center min-h-[44px] text-[17px] font-medium tracking-[-0.01em] transition-colors"
                     style={{
-                      color: isDark ? 'rgba(255,255,255,0.8)' : 'rgb(30,41,59)'
+                      color: isDark ? 'rgba(255,255,255,0.85)' : 'rgb(30,41,59)'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = isDark ? 'rgb(6,182,212)' : 'rgb(16,185,129)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = isDark ? 'rgba(255,255,255,0.8)' : 'rgb(30,41,59)';
+                      e.currentTarget.style.color = isDark ? 'rgba(255,255,255,0.85)' : 'rgb(30,41,59)';
                     }}
                   >
                     Apply as Agent
                   </Link>
                 </motion.div>
               )}
+
+              <motion.div
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + (navLinks.length + 1) * 0.04, duration: 0.3 }}
+                className="pt-4 mt-2 border-t border-white/[0.06] flex flex-col gap-3"
+              >
+                <Link
+                  to={p('/contact')}
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full group"
+                >
+                  <div className={cn(
+                    "w-full h-11 rounded-full text-[11px] uppercase tracking-[0.16em] font-semibold flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.98]",
+                    isDark
+                      ? "bg-white text-zinc-950 shadow-[0_2px_14px_rgba(255,255,255,0.18)] border border-white/30"
+                      : "bg-slate-950 text-white shadow-[0_2px_12px_rgba(15,23,42,0.16)] border border-slate-900"
+                  )}>
+                    <span>Start Project</span>
+                    <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+
+                {isAdmin && (
+                  <div className="pt-2">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-2">Region Preview</span>
+                    {renderRegionSwitcher(true)}
+                  </div>
+                )}
+              </motion.div>
             </div>
           </div>
         </motion.div>

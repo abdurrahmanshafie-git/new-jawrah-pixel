@@ -24,6 +24,13 @@ const BUDGET_ESTIMATES_INT: Record<string, number> = {
   '$10,000+': 12_000,
 };
 
+const BUDGET_ESTIMATES_UK: Record<string, number> = {
+  'Under £1,000': 1_000,
+  '£1,000 - £3,000': 2_000,
+  '£3,000 - £10,000': 6_500,
+  '£10,000+': 12_000,
+};
+
 const BOOKING_SERVICE_ESTIMATES: Record<RegionCode, Record<string, number>> = {
   lk: {
     'Web Design': 500_000,
@@ -46,6 +53,13 @@ const BOOKING_SERVICE_ESTIMATES: Record<RegionCode, Record<string, number>> = {
     Branding: 2_500,
     Other: 8_000,
   },
+  uk: {
+    'Web Design': 4_000,
+    Ecommerce: 10_000,
+    'Admin Dashboard': 12_000,
+    Branding: 2_000,
+    Other: 6_500,
+  },
 };
 
 export function parsePriceAmount(priceLabel: string): number {
@@ -60,14 +74,14 @@ export function parsePriceAmount(priceLabel: string): number {
 }
 
 export function estimateFromBudget(budgetRange: string | undefined, region: RegionCode): number {
-  const defaults: Record<RegionCode, number> = { lk: 350_000, pk: 275_000, int: 8_000 };
+  const defaults: Record<RegionCode, number> = { lk: 350_000, pk: 275_000, int: 8_000, uk: 6_500 };
   if (!budgetRange) return defaults[region];
-  const map = region === 'pk' ? BUDGET_ESTIMATES_PK : region === 'int' ? BUDGET_ESTIMATES_INT : BUDGET_ESTIMATES_LK;
+  const map = region === 'pk' ? BUDGET_ESTIMATES_PK : region === 'int' ? BUDGET_ESTIMATES_INT : region === 'uk' ? BUDGET_ESTIMATES_UK : BUDGET_ESTIMATES_LK;
   return map[budgetRange] ?? defaults[region];
 }
 
 export function estimateBookingService(projectType: string, region: RegionCode): number {
-  const defaults: Record<RegionCode, number> = { lk: 500_000, pk: 450_000, int: 8_000 };
+  const defaults: Record<RegionCode, number> = { lk: 500_000, pk: 450_000, int: 8_000, uk: 6_500 };
   return BOOKING_SERVICE_ESTIMATES[region][projectType] ?? defaults[region];
 }
 

@@ -49,14 +49,14 @@ export function FAQSection({
   if (!faqs.length) return null;
 
   return (
-    <section className="relative border-y border-white/5 bg-brand-black py-20 md:py-28">
+    <section className="relative border-y theme-border theme-bg-secondary py-20 md:py-28">
       <div className="container mx-auto max-w-5xl px-4 md:px-8">
         <div className="mb-10 text-center md:mb-14">
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-cyan/20 bg-brand-cyan/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-[0.24em] text-brand-cyan">
             <HelpCircle className="h-3.5 w-3.5" />
             {eyebrow}
           </span>
-          <h2 className="text-3xl font-display font-medium uppercase leading-tight tracking-tight text-white md:text-5xl">
+          <h2 className="text-3xl font-display font-medium uppercase leading-tight tracking-tight theme-text-primary md:text-5xl">
             {title}
           </h2>
         </div>
@@ -68,17 +68,17 @@ export function FAQSection({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: Math.min(index * 0.025, 0.25) }}
-              className="group rounded-2xl border border-white/10 bg-white/[0.025] p-5 open:border-brand-cyan/25 open:bg-brand-cyan/[0.035] md:p-6"
+              className="group rounded-2xl border theme-border theme-card p-5 open:border-brand-cyan/35 open:theme-bg-tertiary md:p-6 transition-all"
             >
-              <summary className="cursor-pointer list-none text-sm font-display font-semibold uppercase leading-snug tracking-tight text-white marker:hidden md:text-base">
+              <summary className="cursor-pointer list-none text-sm font-display font-semibold uppercase leading-snug tracking-tight theme-text-primary marker:hidden md:text-base">
                 <span className="flex items-start justify-between gap-4">
                   {item.q}
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-white/10 text-brand-cyan transition-transform group-open:rotate-45">
+                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border theme-border text-brand-cyan transition-transform group-open:rotate-45">
                     +
                   </span>
                 </span>
               </summary>
-              <p className="mt-4 text-sm font-light leading-relaxed text-brand-gray">
+              <p className="mt-4 text-sm font-light leading-relaxed theme-text-muted">
                 {item.a}
               </p>
             </motion.details>

@@ -12,18 +12,21 @@ const regionNames: Record<RegionCode, string> = {
   lk: 'Sri Lanka',
   pk: 'Pakistan',
   int: 'International',
+  uk: 'United Kingdom & Europe',
 };
 
 const regionLanguage: Record<RegionCode, string> = {
   lk: 'en-LK',
   pk: 'en-PK',
   int: 'en',
+  uk: 'en-GB',
 };
 
 const regionCountry: Record<RegionCode, string> = {
   lk: 'LK',
   pk: 'PK',
   int: '001',
+  uk: 'GB',
 };
 
 export function getRegionLanguage(region?: RegionCode) {
@@ -32,7 +35,7 @@ export function getRegionLanguage(region?: RegionCode) {
 
 export function buildOrganizationSchema(): JsonLdNode {
   return {
-        '@type': 'Organization',
+    '@type': 'Organization',
     '@id': `${appEnv.siteUrl}/#organization`,
     name: 'Jawrah Pixel',
     legalName: 'Jawrah Pixel',
@@ -55,21 +58,32 @@ export function buildOrganizationSchema(): JsonLdNode {
       worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
       sameAs: 'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
     },
+    member: [
+      {
+        '@type': 'Person',
+        name: 'Jaweria Hafeez',
+        jobTitle: 'Co-Founder & Frontend Developer',
+        worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
+      },
+    ],
     sameAs: [
       'https://www.instagram.com/jawrahpixel',
     ],
     areaServed: ['Sri Lanka', 'Pakistan', 'Worldwide'],
     knowsAbout: [
+      'Web Development',
       'Web Design',
-      'Ecommerce Development',
+      'UI/UX Design',
+      'AI Solutions',
       'Technical SEO',
+      'Ecommerce Development',
       'Branding',
       'React Development',
       'Supabase Systems',
       'Conversion Optimization',
-      'Software Development',
+      'Custom Software Development',
       'SaaS Development',
-      'UI/UX Design',
+      'Digital Systems',
     ],
     description:
       'Jawrah Pixel is a digital agency providing web development, web design, UI/UX design, SEO, ecommerce, branding, AI solutions, custom web applications, digital products, and client portals across Sri Lanka, Pakistan, and international markets.',

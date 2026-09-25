@@ -18,7 +18,7 @@ export type PaymentProviderId =
 export interface PaymentProviderConfig {
   id: PaymentProviderId;
   label: string;
-  currency: 'LKR' | 'PKR' | 'USD';
+  currency: 'LKR' | 'PKR' | 'USD' | 'GBP';
   envKeys: string[];
   publicEnvKeys?: string[];
 }
@@ -47,10 +47,11 @@ export const RECEIPT_UPLOAD_SETTINGS = {
   allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
 };
 
-export const REGION_CURRENCY: Record<PaymentRegion, 'LKR' | 'PKR' | 'USD'> = {
+export const REGION_CURRENCY: Record<PaymentRegion, 'LKR' | 'PKR' | 'USD' | 'GBP'> = {
   lk: 'LKR',
   pk: 'PKR',
   int: 'USD',
+  uk: 'GBP',
 };
 
 export const PAYMENT_PROVIDERS_BY_REGION: Record<PaymentRegion, PaymentProviderConfig[]> = {
@@ -69,14 +70,21 @@ export const PAYMENT_PROVIDERS_BY_REGION: Record<PaymentRegion, PaymentProviderC
     { id: 'visa', label: 'Card Payment', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
     { id: 'mastercard', label: 'Mastercard', currency: 'USD', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
   ],
+  uk: [
+    { id: 'wise', label: 'Wise', currency: 'GBP', envKeys: ['WISE_API_KEY'] },
+    { id: 'paypal', label: 'PayPal', currency: 'GBP', envKeys: ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET'] },
+    { id: 'bank_transfer', label: 'UK Bank Transfer', currency: 'GBP', envKeys: [] },
+    { id: 'visa', label: 'Card Payment', currency: 'GBP', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
+    { id: 'mastercard', label: 'Mastercard', currency: 'GBP', envKeys: ['STRIPE_SECRET_KEY'], publicEnvKeys: ['VITE_STRIPE_PUBLIC_KEY'] },
+  ],
 };
 
 export function resolvePaymentRegion(pathRegion?: string | null, profileRegion?: string | null): PaymentRegion {
-  if (pathRegion === 'lk' || pathRegion === 'pk' || pathRegion === 'int') return pathRegion;
-  if (profileRegion === 'lk' || profileRegion === 'pk' || profileRegion === 'int') return profileRegion;
+  if (pathRegion === 'lk' || pathRegion === 'pk' || pathRegion === 'int' || pathRegion === 'uk') return pathRegion;
+  if (profileRegion === 'lk' || profileRegion === 'pk' || profileRegion === 'int' || profileRegion === 'uk') return profileRegion;
   return 'int';
 }
 
-export function currencyForRegion(region: PaymentRegion): 'LKR' | 'PKR' | 'USD' {
+export function currencyForRegion(region: PaymentRegion): 'LKR' | 'PKR' | 'USD' | 'GBP' {
   return REGION_CURRENCY[region];
 }

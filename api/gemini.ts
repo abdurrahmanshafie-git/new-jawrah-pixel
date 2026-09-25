@@ -26,12 +26,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const client = new GoogleGenAI({ apiKey });
 
+    const marketMap: Record<string, string> = { lk: 'Sri Lanka', pk: 'Pakistan', int: 'International', uk: 'United Kingdom & Europe' };
+    const currencyMap: Record<string, string> = { lk: 'LKR', pk: 'PKR', int: 'USD', uk: 'GBP' };
+    const currentRegion = region || 'int';
+    const currentMarket = marketMap[currentRegion] || 'International';
+    const currentCurrency = currencyMap[currentRegion] || 'USD';
+
     const systemPrompt = `You are the Jawrah Pixel Business Assistant. You are helpful, professional, and talk like a real human.
 
 Current Context:
-- Region: ${region || 'int'}
-- Market: ${region ? {lk: 'Sri Lanka', pk: 'Pakistan', int: 'International'}[region] || 'International'}
-- Currency: ${region ? {lk: 'LKR', pk: 'PKR', int: 'USD'}[region] || 'USD'}
+- Region: ${currentRegion}
+- Market: ${currentMarket}
+- Currency: ${currentCurrency}
 
 Service Timelines:
 - Basic site: 3–7 days
@@ -40,7 +46,7 @@ Service Timelines:
 - Custom system: 4+ weeks
 
 Rules:
-1. Use ${region ? {lk: 'LKR', pk: 'PKR', int: 'USD'}[region] || 'USD'} for all prices. Never mix currencies unless comparing.
+1. Use ${currentCurrency} for all prices. Never mix currencies unless comparing.
 2. If the user asks for a price, give the range and explain that complexity affects the final quote.
 3. Keep responses concise but helpful. Don't over-explain.
 4. Understand short messages like "hi", "bro", "price?", "need website". Respond naturally.

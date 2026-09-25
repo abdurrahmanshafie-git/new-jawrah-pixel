@@ -93,13 +93,12 @@ export function ZenvorCaseStudy() {
         </Reveal>
         <StaggerContainer className="grid gap-px border theme-border sm:grid-cols-3">
           {[
-            [Sparkles, 'Premium streetwear', 'The brand positions itself around luxury essentials, heavyweight fabric, sharp proportion, and cinematic restraint.'],
-            [ShoppingBag, 'Product-led discovery', 'Named products, prices, fabric weights, fit descriptions, and size options are visible from the public storefront crawl.'],
-            [Image, 'Editorial commerce', 'Manifesto, studio, lookbook, collection, and archive routes let the brand story sit beside the shop journey.'],
-          ].map(([Icon, title, copy]) => {
-            const IconComponent = Icon as typeof Sparkles;
-            return <StaggerItem key={String(title)} className="theme-bg p-7 sm:p-9"><IconComponent className="mb-7 text-brand-blue" size={22} /><h3 className="text-xl font-display uppercase theme-text-primary">{title}</h3><p className="mt-4 text-sm leading-relaxed theme-text-muted">{copy}</p></StaggerItem>;
-          })}
+            { icon: Sparkles, title: 'Premium streetwear', copy: 'The brand positions itself around luxury essentials, heavyweight fabric, sharp proportion, and cinematic restraint.' },
+            { icon: ShoppingBag, title: 'Product-led discovery', copy: 'Named products, prices, fabric weights, fit descriptions, and size options are visible from the public storefront crawl.' },
+            { icon: Image, title: 'Editorial commerce', copy: 'Manifesto, studio, lookbook, collection, and archive routes let the brand story sit beside the shop journey.' },
+          ].map(({ icon: IconComponent, title, copy }) => (
+            <StaggerItem key={title} className="theme-bg p-7 sm:p-9"><IconComponent className="mb-7 text-brand-blue" size={22} /><h3 className="text-xl font-display uppercase theme-text-primary">{title}</h3><p className="mt-4 text-sm leading-relaxed theme-text-muted">{copy}</p></StaggerItem>
+          ))}
         </StaggerContainer>
       </section>
 

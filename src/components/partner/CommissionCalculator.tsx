@@ -18,18 +18,21 @@ const regionLabels: Record<RegionCode, string> = {
   lk: 'LK',
   pk: 'PK',
   int: 'INT',
+  uk: 'UK/EU',
 };
 
 const exampleValues: Record<RegionCode, number[]> = {
   lk: [100000, 250000, 500000],
   pk: [100000, 250000, 500000],
   int: [2000, 5000, 10000],
+  uk: [1500, 4000, 8000],
 };
 
 const defaultProjectValues: Record<RegionCode, number> = {
   lk: 250000,
   pk: 250000,
   int: 2000,
+  uk: 2000,
 };
 
 export function CommissionCalculator({ region, city, partnerType }: CommissionCalculatorProps) {

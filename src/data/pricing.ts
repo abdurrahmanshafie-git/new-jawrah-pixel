@@ -71,6 +71,27 @@ export const maintenancePlans: Record<RegionCode, MaintenancePlan[]> = {
       period: "/mo",
       features: ["Dedicated account manager", "Custom SLAs", "Advanced analytics", "International roadmap support"]
     }
+  ],
+  uk: [
+    {
+      name: "Standard Care",
+      price: "£350+",
+      period: "/mo",
+      features: ["Core updates", "Uptime monitoring", "Monthly backups"]
+    },
+    {
+      name: "Growth Retainer",
+      price: "£1,200+",
+      period: "/mo",
+      features: ["Everything in Standard Care", "Priority support", "Performance optimization", "Conversion updates"],
+      isRecommended: true
+    },
+    {
+      name: "Enterprise Partnership",
+      price: "Custom Quote",
+      period: "/mo",
+      features: ["Dedicated account manager", "Custom SLAs", "Advanced analytics", "Dedicated engineering roadmap"]
+    }
   ]
 };
 

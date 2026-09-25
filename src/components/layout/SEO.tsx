@@ -40,16 +40,17 @@ const regionLocales: Record<RegionCode, string> = {
   lk: 'en_LK',
   pk: 'en_PK',
   int: 'en',
+  uk: 'en_GB',
 };
 
 function getExplicitRegion(pathname: string): RegionCode | null {
   const segment = pathname.split('/').filter(Boolean)[0];
-  if (segment === 'lk' || segment === 'pk' || segment === 'int') return segment;
+  if (segment === 'lk' || segment === 'pk' || segment === 'int' || segment === 'uk') return segment;
   return null;
 }
 
 function stripRegionPrefix(pathname: string) {
-  return pathname.replace(/^\/(lk|pk|int)(?=\/|$)/, '') || '/';
+  return pathname.replace(/^\/(lk|pk|int|uk)(?=\/|$)/, '') || '/';
 }
 
 function normalizeUrl(pathOrUrl: string) {

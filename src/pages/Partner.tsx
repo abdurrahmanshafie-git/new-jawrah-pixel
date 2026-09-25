@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { ArrowRight, Calculator, Sparkles } from 'lucide-react';
 import { PartnerHero } from '@/components/partner/PartnerHero';
 import { PartnerValueGrid } from '@/components/partner/PartnerValueGrid';
@@ -172,7 +172,7 @@ function SectionNav({ onSelect }: { onSelect: (id: string) => void }) {
                 borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 color: isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
                 '--tw-ring-color': 'var(--color-accent-brand)'
-              } as React.CSSProperties}
+              } as CSSProperties}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--color-accent-brand)';
                 e.currentTarget.style.color = 'var(--color-accent-brand)';

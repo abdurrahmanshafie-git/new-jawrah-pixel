@@ -165,7 +165,7 @@ export function PaymentCTAGroup({ serviceName, priceLabel, compact, className }:
       <div className={cn('flex flex-col gap-2', className)}>
         <Button
           type="button"
-          variant="default"
+          variant="primary"
           className={cn('w-full font-bold luxury-glow', btnClass)}
           onClick={startProject}
         >

@@ -13,140 +13,8 @@ import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { TrustSection } from '@/components/sections/TrustSection';
 import { GoogleReviews } from '@/components/sections/GoogleReviews';
+import { SelectedWorkSection } from '@/components/sections/SelectedWorkSection';
 import Magnetic from '@/components/ui/Magnetic';
-
-const liveProjects = [
-  {
-    title: "Elite Education",
-    category: "Education Platform",
-    desc: "A focused digital experience that makes education pathways easier to understand, explore, and act on.",
-    image: "/assets/case-studies/elite education/desktop.png",
-    url: "https://www.eliteeducation.lk/",
-    slug: "elite-education",
-    glowColor: "rgba(34,211,238,0.15)",
-    gradient: "from-brand-cyan/20 to-brand-blue/5",
-  },
-  {
-    title: "Zenvor Streetwear",
-    category: "Luxury E-commerce Boutique",
-    desc: "A cinematic commerce flagship engineered to turn premium streetwear launches into fast, trusted, conversion-ready buying journeys.",
-    image: "/assets/case-studies/zenvor/desktop.png",
-    url: "https://zenvor.lk",
-    slug: "zenvor",
-    glowColor: "rgba(34,211,238,0.15)",
-    gradient: "from-brand-cyan/20 to-brand-blue/5",
-  },
-  {
-    title: "Jawrah Pixel OS",
-    category: "Internal Operations & Client CRM",
-    desc: "A secure agency operating layer for proposals, client workspaces, lead routing, and Supabase-backed delivery governance.",
-    image: "/assets/case-studies/jawrah-pixel/desktop.png",
-    url: "https://jawrah-pixel-itpe.vercel.app/",
-    slug: "jawrah-pixel",
-    glowColor: "rgba(255,255,255,0.08)",
-    gradient: "from-white/10 to-transparent",
-  },
-  {
-    title: "Velora Estates",
-    category: "Premium Real Estate Portal",
-    desc: "A high-trust property acquisition portal built to present architectural inventory, qualify buyers, and protect luxury brand perception.",
-    image: "/assets/case-studies/velora/desktop.png",
-    url: "https://real-estate-jawrah-project.netlify.app/",
-    slug: "velora-estates",
-    glowColor: "rgba(245,158,11,0.12)",
-    gradient: "from-amber-600/20 to-transparent",
-  },
-  {
-    title: "Shabnam Jewellers",
-    category: "Bespoke Jewelry E-commerce",
-    desc: "A heritage jewelry storefront shaped around product confidence, appraisal clarity, and premium mobile-first catalog discovery.",
-    image: "/assets/case-studies/shabnam-jewellers/desktop.png",
-    url: "https://shabnam-tau.vercel.app/",
-    slug: "shabnam-jewellers",
-    glowColor: "rgba(217,119,6,0.12)",
-    gradient: "from-amber-600/15 to-transparent",
-  },
-  {
-    title: "AeroVista Travels",
-    category: "Bespoke Tour Planner & Booking Engine",
-    desc: "A travel planning system designed to move visitors from inspiration to itinerary confidence through structured booking flows.",
-    image: "/assets/case-studies/aero-vista/desktop.png",
-    url: "https://aero-vista-jawrah-project.vercel.app/#home",
-    slug: "aerovista-travels",
-    glowColor: "rgba(59,130,246,0.15)",
-    gradient: "from-blue-600/20 to-transparent",
-  },
-  {
-    title: "The Famous Clothing",
-    category: "Premium Fashion & E-commerce",
-    desc: "A high-conversion fashion storefront designed to showcase seasonal collections with cinematic motion and localized checkout flows.",
-    image: "/assets/case-studies/the famous/desktop.png",
-    url: "https://the-famous-demo.netlify.app/",
-    slug: "the-famous",
-    glowColor: "rgba(255,255,255,0.08)",
-    gradient: "from-white/10 to-transparent",
-  },
-  {
-    title: "Amirah High Jewellery",
-    category: "Sovereign High Jewellery House",
-    desc: "A digital atelier for Sri Lanka's sovereign luxury jewelry house featuring unheated Ceylon sapphires and bespoke booking flows.",
-    image: "/assets/case-studies/amirah jewellers/dektop.png",
-    url: "https://amira-preview-jawrah-pixel.netlify.app/",
-    slug: "amirah-jewellery",
-    glowColor: "rgba(34,211,238,0.15)",
-    gradient: "from-brand-cyan/20 to-brand-blue/5",
-  },
-  {
-    title: "New Kamal Jewellers",
-    category: "Handcrafted Heritage Jewelry",
-    desc: "A digital legacy platform preserving 40+ years of handcrafted mastery in 22k gold and bridal couture.",
-    image: "/assets/case-studies/kamal jewellers/desktop.png",
-    url: "https://kamal-jewelers.vercel.app/",
-    slug: "kamal-jewellers",
-    glowColor: "rgba(245,158,11,0.12)",
-    gradient: "from-amber-600/20 to-transparent",
-  },
-  {
-    title: "Elite Elegant",
-    category: "Premium Brand Experience",
-    desc: "A refined digital brand experience built to present a premium offer with clarity, restraint, and visual confidence.",
-    image: "/assets/case-studies/elite elegant/desktop.png",
-    url: "https://elite-elegent-jawrah-pixel.netlify.app/",
-    slug: "elite-elegant",
-    glowColor: "rgba(255,255,255,0.08)",
-    gradient: "from-white/10 to-transparent",
-  },
-  {
-    title: "Jawrah Client Portal",
-    category: "Client Portal & Workspace",
-    desc: "A private client workspace for keeping project communication, deliverables, and progress in one focused place.",
-    image: "/assets/case-studies/jawrah client portal/desktop.png",
-    url: "https://www.jawrahpixel.online/",
-    slug: "jawrah-client-portal",
-    glowColor: "rgba(59,130,246,0.15)",
-    gradient: "from-blue-600/20 to-transparent",
-  },
-  {
-    title: "Miorah",
-    category: "Digital Brand Experience",
-    desc: "A polished digital experience designed to give a premium retail identity a clear and memorable online presence.",
-    image: "/assets/case-studies/miorah/dektop.png",
-    url: "https://miorah-preview-jawrah-pixel.netlify.app/",
-    slug: "miorah",
-    glowColor: "rgba(34,211,238,0.15)",
-    gradient: "from-brand-cyan/20 to-brand-blue/5",
-  },
-  {
-    title: "Zaza Clothing",
-    category: "Fashion E-commerce",
-    desc: "A fashion-focused digital storefront designed to make collection discovery direct, visual, and easy to navigate.",
-    image: "/assets/case-studies/zaza clothing/desktop.png",
-    url: "https://zaza-clothing-jawrah-preview.netlify.app/",
-    slug: "zaza-clothing",
-    glowColor: "rgba(245,158,11,0.12)",
-    gradient: "from-amber-600/20 to-transparent",
-  }
-];
 
 const intPricingPackages = [
   {
@@ -183,91 +51,6 @@ export default function Home() {
   const isDark = theme === 'dark';
   const { config, p, isInternational, currentRegion } = useRegion();
   const seo = useRegionalSeo('home');
-  const scrollTrackRef = React.useRef<HTMLDivElement>(null);
-  const animationRef = React.useRef<number | null>(null);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  // Check if mobile
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Auto-scroll logic
-  React.useEffect(() => {
-    if (!isMobile || !scrollTrackRef.current) return;
-
-    let scrollPosition = scrollTrackRef.current.scrollLeft;
-    const scrollSpeed = 0.3; // Slower smoother speed
-    let isPaused = false;
-    let lastScrollTime = Date.now();
-
-    const animateScroll = () => {
-      if (!scrollTrackRef.current || isPaused) {
-        animationRef.current = requestAnimationFrame(animateScroll);
-        return;
-      }
-
-      const now = Date.now();
-      // Only auto-scroll if user hasn't scrolled manually in the last 1.5 seconds
-      if (now - lastScrollTime > 1500) {
-        const maxScroll = scrollTrackRef.current.scrollWidth - scrollTrackRef.current.clientWidth;
-        
-        scrollPosition += scrollSpeed;
-        
-        if (scrollPosition >= maxScroll) {
-          scrollPosition = 0; // Reset to start
-        }
-        
-        scrollTrackRef.current.scrollLeft = scrollPosition;
-      } else {
-        // Sync with user's scroll position
-        scrollPosition = scrollTrackRef.current.scrollLeft;
-      }
-      
-      animationRef.current = requestAnimationFrame(animateScroll);
-    };
-
-    // Handle manual scroll
-    const handleScroll = () => {
-      lastScrollTime = Date.now();
-      if (scrollTrackRef.current) {
-        scrollPosition = scrollTrackRef.current.scrollLeft;
-      }
-    };
-
-    // Pause on hover/interaction
-    const pauseScroll = () => {
-      isPaused = true;
-    };
-    const resumeScroll = () => {
-      isPaused = false;
-      lastScrollTime = Date.now();
-    };
-
-    // Start animation
-    animationRef.current = requestAnimationFrame(animateScroll);
-
-    scrollTrackRef.current.addEventListener('scroll', handleScroll, { passive: true });
-    scrollTrackRef.current.addEventListener('mouseenter', pauseScroll);
-    scrollTrackRef.current.addEventListener('mouseleave', resumeScroll);
-    scrollTrackRef.current.addEventListener('touchstart', pauseScroll, { passive: true });
-    scrollTrackRef.current.addEventListener('touchend', resumeScroll);
-
-    // Cleanup
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      if (scrollTrackRef.current) {
-        scrollTrackRef.current.removeEventListener('scroll', handleScroll);
-        scrollTrackRef.current.removeEventListener('mouseenter', pauseScroll);
-        scrollTrackRef.current.removeEventListener('mouseleave', resumeScroll);
-        scrollTrackRef.current.removeEventListener('touchstart', pauseScroll);
-        scrollTrackRef.current.removeEventListener('touchend', resumeScroll);
-      }
-    };
-  }, [isMobile]);
 
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
@@ -446,21 +229,20 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-30 text-[clamp(2.4rem,9vw,3.25rem)] md:text-6xl lg:text-8xl font-medium tracking-tight leading-[1.1] mb-8 uppercase font-display overflow-visible"
+              className="relative z-30 text-[clamp(2.2rem,6.5vw,3.75rem)] md:text-6xl lg:text-7xl xl:text-8xl font-medium tracking-tight leading-[1.08] mb-8 uppercase font-display overflow-visible"
             >
-              <span className="block theme-text-primary mb-2">Jawrah Pixel</span>
-              <span className="premium-text-gradient block">Architecting</span>
-              <span className="italic font-serif font-light theme-text-muted lowercase opacity-70 inline-block px-2 py-1 overflow-visible">Digital</span>
-              <span className="block theme-text-primary mt-2">Experiences</span>
+              <span className="block theme-text-primary mb-2">We build digital products</span>
+              <span className="premium-text-gradient block">that move businesses</span>
+              <span className="block theme-text-primary mt-2">forward.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-30 text-base md:text-lg theme-text-muted max-w-xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
+              className="relative z-30 text-base md:text-lg theme-text-muted max-w-2xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
-              Jawrah Pixel is a digital agency providing web development, web design, UI/UX, SEO, ecommerce, branding, AI solutions, custom web applications, digital products, and client portals across Sri Lanka, Pakistan, and international markets.
+              Jawrah Pixel is a Sri Lankan digital agency building custom websites, software, ecommerce platforms, mobile apps and SEO strategies for ambitious businesses.
             </motion.p>
 
             <motion.div
@@ -574,138 +356,8 @@ export default function Home() {
       </section>
 
 
-      {/* Explore Live Projects Section - Manual Horizontal Carousel */}
-      <section className="py-24 md:py-32 theme-bg overflow-hidden relative border-t theme-border">
-        <div className="container mx-auto px-5 sm:px-6 md:px-8 max-w-7xl relative z-20 mb-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="text-left max-w-2xl">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-brand-cyan/20 bg-brand-cyan/[0.02]"
-              >
-                <Globe className="w-3 h-3 text-brand-cyan opacity-60" />
-                <span className="text-brand-cyan text-[9px] font-bold tracking-[0.4em] uppercase font-mono">
-                  Active Deployments
-                </span>
-              </motion.div>
-              
-              <motion.h2
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-6xl font-display font-medium theme-text-primary tracking-tight uppercase leading-[1.1] overflow-visible"
-              >
-                Explore <span className="premium-gradient-brand font-bold italic inline-block px-2 py-1 overflow-visible">Live</span> Projects
-              </motion.h2>
-            </div>
-
-            {/* Desktop Scroll Hint */}
-            <div className="hidden md:flex items-center gap-4 theme-text-muted font-mono text-[10px] uppercase tracking-[0.3em]">
-              <span>Scroll to explore</span>
-              <div className="w-12 h-px theme-border"></div>
-              <ArrowRight className="w-3 h-3 animate-pulse" />
-            </div>
-
-            {/* Mobile Swipe Hint */}
-            <div className="flex md:hidden items-center gap-3 theme-text-muted font-mono text-[9px] uppercase tracking-[0.2em]">
-              <ArrowRight className="w-3 h-3 animate-pulse rotate-180" />
-              <span>Swipe</span>
-              <ArrowRight className="w-3 h-3 animate-pulse" />
-            </div>
-          </div>
-        </div>
-
-        {/* Horizontal Scroll Track - Manual Carousel */}
-        <div ref={scrollTrackRef} className="relative w-full overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory pb-12">
-          <div className="flex gap-4 md:gap-12 px-6 md:px-[15vw] w-max">
-            {liveProjects.map((project, idx) => (
-              <div
-                key={project.slug}
-                data-cursor="premium"
-                className="relative h-[400px] md:h-[600px] w-[85vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0 snap-center group overflow-hidden theme-bg border theme-border"
-              >
-                {/* Background Image with Darker Overlay */}
-                <div className="absolute inset-0 z-0">
-                  <img
-                    src={project.image}
-                    // Set explicit dimensions to prevent layout shift.
-                    // Aspect ratio is 1200/750 = 1.6
-                    width="1200"
-                    height="750"
-                    alt={project.title}
-                    className="w-full h-full object-cover grayscale opacity-65 group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-75 transition-all duration-1000 ease-out"
-                    loading={idx < 2 ? 'eager' : 'lazy'} // Eagerly load the first 2 images, lazy load the rest.
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0" style={{
-                    background: isDark 
-                      ? 'linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.5), rgba(0,0,0,0.15))' 
-                      : 'linear-gradient(to top, rgba(255,255,255,0.92), rgba(255,255,255,0.62), rgba(255,255,255,0.2))'
-                  }}></div>
-                </div>
-
-                <div className="absolute inset-0 z-10 p-6 md:p-10 flex flex-col justify-end">
-                  <div className="mb-6">
-                    <span className="inline-block px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-[9px] font-mono text-brand-blue uppercase tracking-widest mb-4">
-                      {idx === 0 ? "Featured Case Study" : "Client Transformation"}
-                    </span>
-                    <h4 className="text-3xl md:text-4xl font-display font-medium theme-text-primary mb-2 leading-tight">
-                      {project.title}
-                    </h4>
-                    <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] theme-text-secondary uppercase">
-                      {project.category}
-                    </span>
-                  </div>
-
-                  <p className="theme-text-secondary text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
-                    {project.desc}
-                  </p>
-
-                  {/* Agency Metrics / Tags */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {['Performance-ready', 'UX Audit', 'Conversion-led'].map(tag => (
-                      <span key={tag} className="text-[9px] font-mono theme-text-muted border theme-border px-2 py-1">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                    <Link
-                      to={p(`/case-studies/${project.slug}`)}
-                      className="flex-1 sm:flex-none"
-                    >
-                      <Button size="sm" className="w-full sm:px-6 text-[10px] tracking-widest h-11">
-                        View Case Study
-                      </Button>
-                    </Link>
-                    {project.url && <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 sm:flex-none"
-                    >
-                      <Button variant="secondary" size="sm" className="w-full sm:px-6 text-[10px] tracking-widest h-11">
-                        Visit Live <ExternalLink className="ml-2 w-3 h-3" />
-                      </Button>
-                    </a>}
-                  </div>
-                </div>
-
-                {/* Hover Border Glow */}
-                <div className="absolute inset-0 border theme-border group-hover:border-brand-blue/30 transition-colors duration-700 pointer-events-none" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" style={{
-                  background: isDark 
-                    ? 'radial-gradient(circle at 50% 0%, rgba(6,182,212,0.1), transparent 70%)' 
-                    : 'radial-gradient(circle at 50% 0%, rgba(16,185,129,0.1), transparent 70%)'
-                }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Selected Work Section - Editorial Portfolio */}
+      <SelectedWorkSection />
 
       <TrustSection />
 
@@ -819,7 +471,7 @@ export default function Home() {
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 
                 <div className="mb-6 sm:mb-8 theme-text-muted group-hover:scale-110 group-hover:text-brand-blue transition-all duration-500">
-                  {React.cloneElement(service.icon as React.ReactElement, { className: 'w-9 h-9 sm:w-10 sm:h-10' })}
+                  {React.cloneElement(service.icon as any, { className: 'w-9 h-9 sm:w-10 sm:h-10' })}
                 </div>
                 <h4 className="text-[11px] sm:text-lg md:text-xl font-display font-medium mb-3 sm:mb-5 theme-text-primary uppercase tracking-tight leading-snug">
                   {service.title}
@@ -870,7 +522,7 @@ export default function Home() {
                   <div className="group p-10 theme-card border theme-border hover:border-brand-blue/20 transition-all duration-500 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="mb-8 theme-text-muted group-hover:scale-110 group-hover:text-brand-cyan transition-transform duration-500">
-                      {React.cloneElement(layer.icon as React.ReactElement, { className: 'w-8 h-8' })}
+                      {React.cloneElement(layer.icon as any, { className: 'w-8 h-8' })}
                     </div>
                     <h3 className="text-lg font-display font-bold uppercase tracking-wider theme-text-primary mb-4">
                       {layer.title}

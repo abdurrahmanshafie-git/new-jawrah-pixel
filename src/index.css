@@ -11,7 +11,7 @@
   color-scheme: light;
   --theme-transition-duration: 0ms;
   --theme-logo-transition-duration: 0ms;
-  --theme-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --theme-transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Background */
   --background: #FFFFFF;
@@ -207,8 +207,53 @@ a:hover {
   border-color: var(--border);
 }
 
-.theme-logo-image {
-  display: block;
+/* Theme Transition Activation when ready */
+:root.theme-ready,
+html.dark.theme-ready {
+  --theme-transition-duration: 220ms;
+  --theme-logo-transition-duration: 200ms;
+  --theme-transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Instant Zero-Latency Logo Switching (0ms switch, concurrent DOM textures) */
+.theme-logo-light {
+  display: block !important;
+}
+.theme-logo-dark {
+  display: none !important;
+}
+
+html.dark .theme-logo-light,
+:root.dark .theme-logo-light,
+[data-theme="dark"] .theme-logo-light {
+  display: none !important;
+}
+
+html.dark .theme-logo-dark,
+:root.dark .theme-logo-dark,
+[data-theme="dark"] .theme-logo-dark {
+  display: block !important;
+}
+
+/* Smooth transitions for theme surfaces when theme is ready */
+.theme-ready .theme-bg,
+.theme-ready .theme-bg-secondary,
+.theme-ready .theme-bg-tertiary,
+.theme-ready .theme-surface,
+.theme-ready .theme-surface-elevated,
+.theme-ready .theme-card,
+.theme-ready .theme-glass,
+.theme-ready header,
+.theme-ready nav,
+.theme-ready .theme-border {
+  transition: background-color var(--theme-transition-duration) var(--theme-transition-ease),
+              border-color var(--theme-transition-duration) var(--theme-transition-ease),
+              color var(--theme-transition-duration) var(--theme-transition-ease),
+              box-shadow var(--theme-transition-duration) var(--theme-transition-ease);
+}
+
+.theme-logo-wrapper {
+  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -244,7 +289,10 @@ a:hover {
   border: 1px solid var(--glass-border);
 }
 
-/* Light theme surface normalization for pages that were originally dark-only. */
+/* Universal Light Theme Normalization for ALL pages */
+html.light,
+html:not(.dark),
+[data-theme="light"],
 html.light .light-surface-page,
 html:not(.dark) .light-surface-page,
 html.light .agent-shell,
@@ -253,105 +301,131 @@ html:not(.dark) .agent-shell {
   color: var(--text-primary) !important;
 }
 
-html.light .light-surface-page section,
-html:not(.dark) .light-surface-page section {
+html.light main,
+html:not(.dark) main,
+html.light .theme-bg,
+html:not(.dark) .theme-bg {
   background-color: #FFFFFF !important;
-}
-
-html.light .home-light-page .theme-bg,
-html.light .home-light-page .theme-bg-secondary,
-html.light .home-light-page .theme-bg-tertiary,
-html:not(.dark) .home-light-page .theme-bg,
-html:not(.dark) .home-light-page .theme-bg-secondary,
-html:not(.dark) .home-light-page .theme-bg-tertiary {
-  background-color: #FFFFFF !important;
-}
-
-html.light .light-surface-page [class*="bg-white/"],
-html.light .light-surface-page [class*="bg-black"],
-html.light .light-surface-page [class*="bg-brand-black"],
-html.light .light-surface-page [class*="bg-brand-navy"],
-html.light .light-surface-page [class*="bg-zinc-"],
-html:not(.dark) .light-surface-page [class*="bg-white/"],
-html:not(.dark) .light-surface-page [class*="bg-black"],
-html:not(.dark) .light-surface-page [class*="bg-brand-black"],
-html:not(.dark) .light-surface-page [class*="bg-brand-navy"],
-html:not(.dark) .light-surface-page [class*="bg-zinc-"] {
-  background-color: #FFFFFF !important;
-}
-
-html.light .light-surface-page [class*="border-white/"],
-html.light .light-surface-page [class*="border-zinc-"],
-html.light .agent-shell [class*="border-white/"],
-html:not(.dark) .light-surface-page [class*="border-white/"],
-html:not(.dark) .light-surface-page [class*="border-zinc-"],
-html:not(.dark) .agent-shell [class*="border-white/"] {
-  border-color: var(--border) !important;
-}
-
-html.light .light-surface-page [class*="divide-white/"] > :not([hidden]) ~ :not([hidden]),
-html:not(.dark) .light-surface-page [class*="divide-white/"] > :not([hidden]) ~ :not([hidden]) {
-  border-color: var(--border) !important;
-}
-
-html.light .light-surface-page :where(h1,h2,h3,h4,h5,h6,div,p,span,li,label,code,a,select,input,textarea)[class~="text-white"],
-html.light .light-surface-page :where(h1,h2,h3,h4,h5,h6,div,p,span,li,label,code,a,select,input,textarea)[class~="text-zinc-200"],
-html.light .agent-shell :where(span,a,div)[class~="text-white"],
-html:not(.dark) .light-surface-page :where(h1,h2,h3,h4,h5,h6,div,p,span,li,label,code,a,select,input,textarea)[class~="text-white"],
-html:not(.dark) .light-surface-page :where(h1,h2,h3,h4,h5,h6,div,p,span,li,label,code,a,select,input,textarea)[class~="text-zinc-200"],
-html:not(.dark) .agent-shell :where(span,a,div)[class~="text-white"] {
   color: var(--text-primary) !important;
 }
 
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-300"],
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-400"],
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-500"],
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-600"],
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-brand-gray"],
-html.light .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-brand-silver"],
-html.light .agent-shell :where(span,a,div)[class~="text-brand-gray"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-300"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-400"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-500"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-zinc-600"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-brand-gray"],
-html:not(.dark) .light-surface-page :where(div,p,span,li,label,a,code)[class~="text-brand-silver"],
-html:not(.dark) .agent-shell :where(span,a,div)[class~="text-brand-gray"] {
+html.light .theme-card,
+html:not(.dark) .theme-card {
+  background-color: #FFFFFF !important;
+}
+
+html.light .theme-bg-secondary,
+html:not(.dark) .theme-bg-secondary,
+html.light .theme-bg-tertiary,
+html:not(.dark) .theme-bg-tertiary {
+  background-color: #F8FAFC !important;
+}
+
+html.light .bg-brand-black,
+html.light .bg-black,
+html.light .bg-brand-navy,
+html.light .bg-zinc-900,
+html.light .bg-zinc-950,
+html:not(.dark) .bg-brand-black,
+html:not(.dark) .bg-black,
+html:not(.dark) .bg-brand-navy,
+html:not(.dark) .bg-zinc-900,
+html:not(.dark) .bg-zinc-950 {
+  background-color: #FFFFFF !important;
+}
+
+html.light [class*="bg-white/"],
+html:not(.dark) [class*="bg-white/"] {
+  background-color: #F8FAFC !important;
+}
+
+/* Borders in light mode */
+html.light [class*="border-white/"],
+html.light [class*="border-zinc-800"],
+html.light [class*="border-zinc-900"],
+html:not(.dark) [class*="border-white/"],
+html:not(.dark) [class*="border-zinc-800"],
+html:not(.dark) [class*="border-zinc-900"] {
+  border-color: var(--border) !important;
+}
+
+html.light [class*="divide-white/"] > :not([hidden]) ~ :not([hidden]),
+html:not(.dark) [class*="divide-white/"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border) !important;
+}
+
+/* Headings & Text in light mode */
+html.light :where(h1,h2,h3,h4,h5,h6)[class*="text-white"],
+html:not(.dark) :where(h1,h2,h3,h4,h5,h6)[class*="text-white"] {
+  color: var(--text-primary) !important;
+}
+
+html.light :where(p,span,div,li,label,strong,a)[class*="text-white"]:not([class*="bg-brand"]):not([class*="bg-blue"]):not([class*="bg-cyan"]):not([class*="bg-emerald"]):not([class*="bg-red"]):not(button *):not([class*="badge-solid"]),
+html:not(.dark) :where(p,span,div,li,label,strong,a)[class*="text-white"]:not([class*="bg-brand"]):not([class*="bg-blue"]):not([class*="bg-cyan"]):not([class*="bg-emerald"]):not([class*="bg-red"]):not(button *):not([class*="badge-solid"]) {
+  color: var(--text-primary) !important;
+}
+
+html.light :where(p,span,div,li,label,code,a)[class*="text-zinc-400"],
+html.light :where(p,span,div,li,label,code,a)[class*="text-zinc-500"],
+html.light :where(p,span,div,li,label,code,a)[class*="text-zinc-600"],
+html.light :where(p,span,div,li,label,code,a)[class*="text-brand-gray"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-zinc-400"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-zinc-500"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-zinc-600"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-brand-gray"] {
   color: var(--text-muted) !important;
 }
 
-html.light .light-surface-page input,
-html.light .light-surface-page textarea,
-html.light .light-surface-page select,
-html:not(.dark) .light-surface-page input,
-html:not(.dark) .light-surface-page textarea,
-html:not(.dark) .light-surface-page select {
+html.light :where(p,span,div,li,label,code,a)[class*="text-zinc-200"],
+html.light :where(p,span,div,li,label,code,a)[class*="text-zinc-300"],
+html.light :where(p,span,div,li,label,code,a)[class*="text-brand-silver"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-zinc-200"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-zinc-300"],
+html:not(.dark) :where(p,span,div,li,label,code,a)[class*="text-brand-silver"] {
+  color: var(--text-secondary) !important;
+}
+
+/* Prose in light mode */
+html.light .prose-invert,
+html:not(.dark) .prose-invert {
+  color: #334155 !important;
+}
+html.light .prose-invert :where(h1,h2,h3,h4,h5,h6,strong),
+html:not(.dark) .prose-invert :where(h1,h2,h3,h4,h5,h6,strong) {
+  color: #0F172A !important;
+}
+html.light .prose-invert p,
+html:not(.dark) .prose-invert p {
+  color: #475569 !important;
+}
+html.light .prose-invert code,
+html:not(.dark) .prose-invert code {
+  color: #0F172A !important;
+  background-color: #F1F5F9 !important;
+}
+
+/* Form Controls in light mode */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html.light textarea,
+html.light select,
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) textarea,
+html:not(.dark) select {
   background-color: #FFFFFF !important;
   color: var(--text-primary) !important;
   border-color: var(--input-border) !important;
 }
 
-html.light .light-surface-page option,
-html:not(.dark) .light-surface-page option {
+html.light option,
+html:not(.dark) option {
   background-color: #FFFFFF !important;
   color: var(--text-primary) !important;
 }
 
-html.light .agent-shell > header,
-html:not(.dark) .agent-shell > header {
-  background-color: rgba(255, 255, 255, 0.92) !important;
+html.light header,
+html:not(.dark) header {
+  background-color: rgba(255, 255, 255, 0.88) !important;
   border-color: var(--border) !important;
-  color: var(--text-primary) !important;
-  box-shadow: var(--shadow-sm);
-}
-
-html.light .agent-shell [class*="bg-white/"],
-html.light .agent-shell [class*="bg-brand-black"],
-html.light .agent-shell [class*="bg-brand-navy"],
-html:not(.dark) .agent-shell [class*="bg-white/"],
-html:not(.dark) .agent-shell [class*="bg-brand-black"],
-html:not(.dark) .agent-shell [class*="bg-brand-navy"] {
-  background-color: #FFFFFF !important;
 }
 
 /* Custom Scrollbar */
@@ -436,6 +510,26 @@ html:not(.dark) .agent-shell [class*="bg-brand-navy"] {
 @keyframes story-marquee {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes project-infinite-loop {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.project-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: project-infinite-loop 48s linear infinite;
+  will-change: transform;
+}
+
+.project-marquee-container:hover .project-marquee-track {
+  animation-play-state: paused;
 }
 
 .story-marquee-track {

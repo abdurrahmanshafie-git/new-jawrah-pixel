@@ -37,6 +37,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
+    // Safety fallback: Never keep public pages in loading state for more than 2.5s
+    const safetyTimeout = setTimeout(() => {
+      if (mounted) {
+        setLoading(false);
+      }
+    }, 2500);
+
     const initSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
@@ -75,6 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => {
       mounted = false;
+      clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
   }, []);

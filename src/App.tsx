@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RootLayout, AdminLayout, ClientLayout, AgentLayout } from './components/layout/Layouts';
@@ -8,6 +8,7 @@ import { RequireAuth } from './components/auth/RequireAuth';
 import { useAuth } from './contexts/AuthContext';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from './lib/region';
 import { trackPageView } from './lib/analytics';
+import { lazyWithRetry, scheduleIdlePreload } from './lib/lazyWithRetry';
 
 // Analytics Tracker Component
 function AnalyticsTracker() {
@@ -20,42 +21,59 @@ function AnalyticsTracker() {
   return null;
 }
 
-// Lazy Loaded Pages
-const CountrySelection = lazy(() => import('./pages/CountrySelection'));
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Services = lazy(() => import('./pages/Services'));
-const Pricing = lazy(() => import('./pages/Pricing'));
-const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
-const Process = lazy(() => import('./pages/Process'));
-const CaseStudies = lazy(() => import('./pages/CaseStudies'));
-const CaseStudyDetail = lazy(() => import('./pages/CaseStudyDetail'));
-const Leadership = lazy(() => import('./pages/Leadership'));
-const Contact = lazy(() => import('./pages/Contact'));
-const Partner = lazy(() => import('./pages/Partner'));
-const AgentsRedirect = lazy(() => import('./pages/Agents'));
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
-const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
-const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
-const Blog = lazy(() => import('./pages/Blog'));
-const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+// Lazy Loaded Pages with Deployment Auto-Retry
+const CountrySelection = lazyWithRetry(() => import('./pages/CountrySelection'), 'CountrySelection');
+const Home = lazyWithRetry(() => import('./pages/Home'), 'Home');
+const About = lazyWithRetry(() => import('./pages/About'), 'About');
+const Services = lazyWithRetry(() => import('./pages/Services'), 'Services');
+const Pricing = lazyWithRetry(() => import('./pages/Pricing'), 'Pricing');
+const ServiceLandingPage = lazyWithRetry(() => import('./pages/ServiceLandingPage'), 'ServiceLandingPage');
+const Process = lazyWithRetry(() => import('./pages/Process'), 'Process');
+const CaseStudies = lazyWithRetry(() => import('./pages/CaseStudies'), 'CaseStudies');
+const CaseStudyDetail = lazyWithRetry(() => import('./pages/CaseStudyDetail'), 'CaseStudyDetail');
+const Leadership = lazyWithRetry(() => import('./pages/Leadership'), 'Leadership');
+const Contact = lazyWithRetry(() => import('./pages/Contact'), 'Contact');
+const Partner = lazyWithRetry(() => import('./pages/Partner'), 'Partner');
+const AgentsRedirect = lazyWithRetry(() => import('./pages/Agents'), 'Agents');
+const PrivacyPolicy = lazyWithRetry(() => import('./pages/PrivacyPolicy'), 'PrivacyPolicy');
+const TermsAndConditions = lazyWithRetry(() => import('./pages/TermsAndConditions'), 'TermsAndConditions');
+const RefundPolicy = lazyWithRetry(() => import('./pages/RefundPolicy'), 'RefundPolicy');
+const Blog = lazyWithRetry(() => import('./pages/Blog'), 'Blog');
+const BlogPostDetail = lazyWithRetry(() => import('./pages/BlogPostDetail'), 'BlogPostDetail');
+const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'), 'NotFoundPage');
 
 // AI Entity Pages
-const WhatIsJawrahPixel = lazy(() => import('./pages/ai/WhatIsJawrahPixel'));
-const WhyJawrahPixel = lazy(() => import('./pages/ai/WhyJawrahPixel'));
-const AboutFounder = lazy(() => import('./pages/ai/AboutFounder'));
+const WhatIsJawrahPixel = lazyWithRetry(() => import('./pages/ai/WhatIsJawrahPixel'), 'WhatIsJawrahPixel');
+const WhyJawrahPixel = lazyWithRetry(() => import('./pages/ai/WhyJawrahPixel'), 'WhyJawrahPixel');
+const AboutFounder = lazyWithRetry(() => import('./pages/ai/AboutFounder'), 'AboutFounder');
 
 // Auth Pages
-const Login = lazy(() => import('./pages/auth/Login'));
-const SignUp = lazy(() => import('./pages/auth/SignUp'));
+const Login = lazyWithRetry(() => import('./pages/auth/Login'), 'Login');
+const SignUp = lazyWithRetry(() => import('./pages/auth/SignUp'), 'SignUp');
 
 // Dashboards
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
-const ClientDashboard = lazy(() => import('./pages/client/ClientDashboard'));
-const AgentDashboard = lazy(() => import('./pages/agent/AgentDashboard'));
-const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage'));
-const PaymentSuccessPage = lazy(() => import('./pages/checkout/PaymentSuccessPage'));
+const AdminDashboard = lazyWithRetry(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
+const ClientDashboard = lazyWithRetry(() => import('./pages/client/ClientDashboard'), 'ClientDashboard');
+const AgentDashboard = lazyWithRetry(() => import('./pages/agent/AgentDashboard'), 'AgentDashboard');
+const CheckoutPage = lazyWithRetry(() => import('./pages/checkout/CheckoutPage'), 'CheckoutPage');
+const PaymentSuccessPage = lazyWithRetry(() => import('./pages/checkout/PaymentSuccessPage'), 'PaymentSuccessPage');
+
+// Route Preloader Component (runs on idle after initial render)
+function RoutePreloader() {
+  useEffect(() => {
+    scheduleIdlePreload([
+      Home.preload,
+      CountrySelection.preload,
+      Services.preload,
+      About.preload,
+      Contact.preload,
+      Pricing.preload,
+      Leadership.preload,
+    ]);
+  }, []);
+
+  return null;
+}
 
 function CheckoutRedirect() {
   const { invoiceId } = useParams<{ invoiceId: string }>();
@@ -64,9 +82,7 @@ function CheckoutRedirect() {
 }
 
 function RegionalRedirect({ path = '/' }: { path?: string }) {
-  const { user, profile, loading } = useAuth();
-
-  if (user && !profile) return <SleekLoader />;
+  const { user, profile } = useAuth();
 
   const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
   const region = profile?.role === 'admin' || profile?.role === 'superadmin'
@@ -83,17 +99,15 @@ function RegionalCaseStudyRedirect() {
 }
 
 function AppEntryRedirect() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile } = useAuth();
 
   if (user) {
-    if (!profile) return <SleekLoader />;
-
     const profileRegion = isRegionCode(profile?.region) ? profile.region : null;
     if (profileRegion) {
       return <Navigate to={regionPath(profileRegion, '/')} replace />;
     }
 
-    // If profile has no region, fallback to dashboard (avoid showing region selector to logged-in users)
+    // If profile has no explicit region, fallback to dashboard
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -105,6 +119,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <AnalyticsTracker />
+        <RoutePreloader />
         <ScrollToTop />
         <Suspense fallback={<SleekLoader />}>
           <Routes>
@@ -233,6 +248,45 @@ export default function App() {
               <Route path="/uk/why-jawrah-pixel" element={<WhyJawrahPixel />} />
               <Route path="/uk/about-founder" element={<AboutFounder />} />
 
+              {/* Clean Canonical Architecture & Route Aliases */}
+              <Route path="/work" element={<CaseStudies />} />
+              <Route path="/work/rankala" element={<Navigate to="/case-studies/rankala-gold" replace />} />
+              <Route path="/work/:slug" element={<CaseStudyDetail />} />
+              <Route path="/insights" element={<Blog />} />
+              <Route path="/insights/:slug" element={<BlogPostDetail />} />
+              <Route path="/services/web-development" element={<ServiceLandingPage />} />
+              <Route path="/services/software-development" element={<ServiceLandingPage />} />
+              <Route path="/services/ecommerce-development" element={<ServiceLandingPage />} />
+              <Route path="/services/mobile-app-development" element={<ServiceLandingPage />} />
+              <Route path="/services/seo" element={<ServiceLandingPage />} />
+              <Route path="/services/ui-ux" element={<ServiceLandingPage />} />
+
+              {/* Sri Lanka regional routes for core services */}
+              <Route path="/lk/work" element={<CaseStudies />} />
+              <Route path="/lk/work/rankala" element={<Navigate to="/lk/case-studies/rankala-gold" replace />} />
+              <Route path="/lk/work/:slug" element={<CaseStudyDetail />} />
+              <Route path="/lk/insights" element={<Blog />} />
+              <Route path="/lk/insights/:slug" element={<BlogPostDetail />} />
+              <Route path="/lk/services/web-development" element={<ServiceLandingPage />} />
+              <Route path="/lk/services/software-development" element={<ServiceLandingPage />} />
+              <Route path="/lk/services/ecommerce-development" element={<ServiceLandingPage />} />
+              <Route path="/lk/services/mobile-app-development" element={<ServiceLandingPage />} />
+              <Route path="/lk/services/seo" element={<ServiceLandingPage />} />
+              <Route path="/lk/services/ui-ux" element={<ServiceLandingPage />} />
+
+              {/* International regional routes for core services */}
+              <Route path="/int/work" element={<CaseStudies />} />
+              <Route path="/int/work/rankala" element={<Navigate to="/int/case-studies/rankala-gold" replace />} />
+              <Route path="/int/work/:slug" element={<CaseStudyDetail />} />
+              <Route path="/int/insights" element={<Blog />} />
+              <Route path="/int/insights/:slug" element={<BlogPostDetail />} />
+              <Route path="/int/services/web-development" element={<ServiceLandingPage />} />
+              <Route path="/int/services/software-development" element={<ServiceLandingPage />} />
+              <Route path="/int/services/ecommerce-development" element={<ServiceLandingPage />} />
+              <Route path="/int/services/mobile-app-development" element={<ServiceLandingPage />} />
+              <Route path="/int/services/seo" element={<ServiceLandingPage />} />
+              <Route path="/int/services/ui-ux" element={<ServiceLandingPage />} />
+
               {/* Fallback routes */}
               <Route path="/pricing" element={<RegionalRedirect path="/pricing" />} />
               <Route path="/blog" element={<RegionalRedirect path="/blog" />} />
@@ -258,8 +312,6 @@ export default function App() {
               <Route path="/what-is-jawrah-pixel" element={<RegionalRedirect path="/what-is-jawrah-pixel" />} />
               <Route path="/why-jawrah-pixel" element={<RegionalRedirect path="/why-jawrah-pixel" />} />
               <Route path="/about-founder" element={<RegionalRedirect path="/about-founder" />} />
-              <Route path="/case-studies" element={<RegionalRedirect path="/case-studies" />} />
-              <Route path="/case-studies/:slug" element={<RegionalCaseStudyRedirect />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               
               {/* Catch-all to 404 */}

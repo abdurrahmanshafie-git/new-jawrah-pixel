@@ -11,6 +11,7 @@ import { resolvePortalRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { ReferralCapture } from '@/components/referral/ReferralCapture';
 import { Cursor } from '../ui/Cursor';
+import { SleekLoader } from '../ui/SleekLoader';
 import { REGION_OPTIONS, regions } from '@/data/regions';
 import type { RegionCode } from '@/types';
 
@@ -61,7 +62,9 @@ export function RootLayout() {
       >
         {!isCountrySelection && <Navbar />}
         <main className="w-full">
-          <Outlet />
+          <Suspense fallback={<SleekLoader compact={true} />}>
+            <Outlet />
+          </Suspense>
         </main>
         {!isCountrySelection && <Footer />}
         {!isCountrySelection && <DeferredJawrahBot />}
@@ -86,7 +89,9 @@ export function AdminLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Outlet />
+        <Suspense fallback={<SleekLoader compact={true} />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
@@ -141,7 +146,9 @@ export function ClientLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Outlet />
+        <Suspense fallback={<SleekLoader compact={true} />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
@@ -165,7 +172,9 @@ export function AgentLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Outlet />
+        <Suspense fallback={<SleekLoader compact={true} />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

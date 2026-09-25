@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/contexts/ThemeContext';
 
-// Note: The 'variant' prop is currently unused in the component logic.
+// Note: The 'variant' prop is preserved for interface compatibility.
 interface LogoProps {
   className?: string;
   variant?: 'full' | 'icon' | 'text';
@@ -21,8 +20,7 @@ const LOGO_ASSETS = {
   },
 } as const;
 
-export function Logo({ className, variant = 'full', size = 'md', asset }: LogoProps) {
-  const { theme } = useTheme();
+export function Logo({ className, size = 'md', asset }: LogoProps) {
   const sizeMap = {
     sm: { box: 'h-8 w-8' },
     md: { box: 'h-12 w-12' },
@@ -37,19 +35,28 @@ export function Logo({ className, variant = 'full', size = 'md', asset }: LogoPr
   const isNavbar = asset === 'logo-navbar';
 
   return (
-    <div className={cn('shrink-0 select-none group', currentSize.box, className)}>
+    <div className={cn('theme-logo-wrapper relative shrink-0 select-none group', currentSize.box, className)}>
+      {/* Light Theme Logo: Switched instantaneously by CSS class */}
       <img
-        src={sources[theme]}
+        src={sources.light}
         alt="Jawrah Pixel Logo"
-        // The navbar logo is critical for LCP, so it should be loaded eagerly.
-        // Other logos (e.g., in the footer) will use the browser's default loading (lazy).
         loading={isNavbar ? 'eager' : 'lazy'}
-        decoding="async"
-        // Set explicit dimensions to prevent layout shift.
-        // The actual display size is controlled by the parent's class.
+        decoding="sync"
         width="560"
         height="112"
-        className="pointer-events-none h-full w-full object-contain brightness-110"
+        className="theme-logo-light pointer-events-none h-full w-full object-contain brightness-105"
+        referrerPolicy="no-referrer"
+      />
+
+      {/* Dark Theme Logo: Switched instantaneously by CSS class */}
+      <img
+        src={sources.dark}
+        alt="Jawrah Pixel Logo"
+        loading={isNavbar ? 'eager' : 'lazy'}
+        decoding="sync"
+        width="560"
+        height="112"
+        className="theme-logo-dark pointer-events-none h-full w-full object-contain brightness-110"
         referrerPolicy="no-referrer"
       />
     </div>

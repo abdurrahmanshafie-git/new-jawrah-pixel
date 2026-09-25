@@ -1,7 +1,7 @@
 import type { RegionCode } from '@/types';
 
 export interface CommissionDefault {
-  currency: 'LKR' | 'PKR' | 'USD';
+  currency: 'LKR' | 'PKR' | 'USD' | 'GBP';
   locale: string;
   projectValue: number;
   commissionPercent: number;
@@ -58,6 +58,18 @@ export const partnerRegionCopy: Record<RegionCode, RegionPartnerCopy> = {
       'Join the Jawrah Pixel international website referral program and earn commission by referring premium website, ecommerce, AI automation, and digital growth clients.',
     cityOptions: ['Global Remote', 'North America', 'Europe', 'Middle East', 'Asia Pacific', 'Africa', 'Other international region'],
   },
+  uk: {
+    eyebrow: 'UK & Europe Partner Network',
+    headline: 'Earn by referring UK & European businesses that need high-performance digital execution.',
+    subheadline:
+      'Earn commissions by connecting businesses with premium websites, e-commerce systems, AI automation, and digital growth solutions from Jawrah Pixel.',
+    regionLine:
+      'Built for consultants, agency owners, marketers, and business connectors across London, Manchester, Birmingham, and remote UK/Europe.',
+    seoTitle: 'Digital Agency Partner Program UK | Jawrah Pixel Partner Network',
+    seoDescription:
+      'Join the Jawrah Pixel website referral program in the UK and earn commission by referring premium website, ecommerce, and AI automation clients.',
+    cityOptions: ['London', 'Manchester', 'Birmingham', 'Edinburgh', 'Glasgow', 'Remote UK', 'Europe Remote', 'Other UK/Europe region'],
+  },
 };
 
 export const commissionDefaults: Record<RegionCode, CommissionDefault> = {
@@ -90,6 +102,16 @@ export const commissionDefaults: Record<RegionCode, CommissionDefault> = {
     minProjectValue: 500,
     maxProjectValue: 25000,
     projectStep: 250,
+  },
+  uk: {
+    currency: 'GBP',
+    locale: 'en-GB',
+    projectValue: 2200,
+    commissionPercent: 12,
+    clientsPerMonth: 2,
+    minProjectValue: 500,
+    maxProjectValue: 20000,
+    projectStep: 200,
   },
 };
 

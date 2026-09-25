@@ -90,13 +90,12 @@ export function EliteEducationCaseStudy() {
         </Reveal>
         <StaggerContainer className="grid gap-px border theme-border sm:grid-cols-3">
           {[
-            [Search, '385 qualifications', 'The live catalog states 385 qualifications across diploma, degree, postgraduate, master&apos;s, and PhD categories.'],
-            [Users, 'Four journey stages', 'Discover, Select, Achieve, and Arrive explain the support model from first conversation to arrival.'],
-            [Smartphone, 'Direct enquiry path', 'Students can submit study preferences and target intake details, with WhatsApp support presented alongside the form.'],
-          ].map(([Icon, title, copy]) => {
-            const IconComponent = Icon as typeof Search;
-            return <StaggerItem key={String(title)} className="theme-bg p-7 sm:p-9"><IconComponent className="mb-7 text-brand-blue" size={22} /><h3 className="text-xl font-display uppercase theme-text-primary">{title}</h3><p className="mt-4 text-sm leading-relaxed theme-text-muted">{copy}</p></StaggerItem>;
-          })}
+            { icon: Search, title: '385 qualifications', copy: 'The live catalog states 385 qualifications across diploma, degree, postgraduate, master&apos;s, and PhD categories.' },
+            { icon: Users, title: 'Four journey stages', copy: 'Discover, Select, Achieve, and Arrive explain the support model from first conversation to arrival.' },
+            { icon: Smartphone, title: 'Direct enquiry path', copy: 'Students can submit study preferences and target intake details, with WhatsApp support presented alongside the form.' },
+          ].map(({ icon: IconComponent, title, copy }) => (
+            <StaggerItem key={title} className="theme-bg p-7 sm:p-9"><IconComponent className="mb-7 text-brand-blue" size={22} /><h3 className="text-xl font-display uppercase theme-text-primary">{title}</h3><p className="mt-4 text-sm leading-relaxed theme-text-muted">{copy}</p></StaggerItem>
+          ))}
         </StaggerContainer>
       </section>
 

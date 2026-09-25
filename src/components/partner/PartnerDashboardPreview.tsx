@@ -11,6 +11,7 @@ const previewAmounts: Record<RegionCode, { estimated: number; paid: number; code
   lk: { estimated: 75000, paid: 25000, code: 'JP-LK-A47' },
   pk: { estimated: 85000, paid: 30000, code: 'JP-PK-K21' },
   int: { estimated: 950, paid: 300, code: 'JP-INT-G12' },
+  uk: { estimated: 850, paid: 250, code: 'JP-UK-L08' },
 };
 
 export function PartnerDashboardPreview({ region }: PartnerDashboardPreviewProps) {

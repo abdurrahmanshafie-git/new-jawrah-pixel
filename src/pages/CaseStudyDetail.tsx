@@ -29,6 +29,7 @@ import { cn } from '@/lib/utils';
 import { useTheme } from '@/contexts/ThemeContext';
 import { EliteEducationCaseStudy } from '@/components/sections/EliteEducationCaseStudy';
 import { ZenvorCaseStudy } from '@/components/sections/ZenvorCaseStudy';
+import { RankalaGoldCaseStudy } from '@/components/sections/RankalaGoldCaseStudy';
 import { VerifiedPortfolioCaseStudy } from '@/components/sections/VerifiedPortfolioCaseStudy';
 
 export default function CaseStudyDetail() {
@@ -79,7 +80,7 @@ export default function CaseStudyDetail() {
     );
   }
 
-  if (project.slug !== 'elite-education' && project.slug !== 'zenvor') {
+  if (project.slug !== 'elite-education' && project.slug !== 'zenvor' && project.slug !== 'rankala-gold' && project.slug !== 'rankala') {
     return <VerifiedPortfolioCaseStudy slug={project.slug} />;
   }
 
@@ -96,6 +97,30 @@ export default function CaseStudyDetail() {
     { label: 'Mobile', icon: <ShieldCheck size={20} />, copy: 'Optimized for high-intent mobile visitors.' },
   ];
   const caseStudyServiceLinks: Record<string, Array<{ label: string; path: string; copy: string }>> = {
+    'rankala-gold': [
+      {
+        label: 'Custom Software Development',
+        path: '/int/custom-software-development',
+        copy: 'Dual-balance gold accounting, factory stage logging, and secure operations platform engineering.',
+      },
+      {
+        label: 'Web Development Sri Lanka',
+        path: '/lk/web-development-sri-lanka',
+        copy: 'Production React and TypeScript systems with PostgreSQL Row-Level Security for Sri Lankan enterprises.',
+      },
+    ],
+    rankala: [
+      {
+        label: 'Custom Software Development',
+        path: '/int/custom-software-development',
+        copy: 'Dual-balance gold accounting, factory stage logging, and secure operations platform engineering.',
+      },
+      {
+        label: 'Web Development Sri Lanka',
+        path: '/lk/web-development-sri-lanka',
+        copy: 'Production React and TypeScript systems with PostgreSQL Row-Level Security for Sri Lankan enterprises.',
+      },
+    ],
     'elite-education': [
       {
         label: 'Web Development Sri Lanka',
@@ -188,11 +213,35 @@ export default function CaseStudyDetail() {
         <div className="h-full origin-left bg-brand-blue" style={{ transform: `scaleX(${scrollProgress / 100})` }} />
       </div>
       <SEO 
-        title={project.slug === 'elite-education' ? 'Elite Education Sri Lanka Case Study | Jawrah Pixel' : project.slug === 'zenvor' ? "ZENVOR Premium Men's Fashion E-commerce Case Study | Jawrah Pixel" : project.title} 
+        title={
+          project.slug === 'elite-education' 
+            ? 'Elite Education Sri Lanka Case Study | Jawrah Pixel' 
+            : project.slug === 'zenvor' 
+              ? "ZENVOR Premium Men's Fashion E-commerce Case Study | Jawrah Pixel" 
+              : project.slug === 'rankala-gold' || project.slug === 'rankala'
+                ? "Rankala Gold Operations Platform Case Study | Jawrah Pixel"
+                : project.title
+        } 
         description={project.metaDesc}
         ogImage={project.desktopImage}
-        ogTitle={project.slug === 'elite-education' ? 'Elite Education Sri Lanka Website Case Study' : project.slug === 'zenvor' ? "ZENVOR Premium Men's Fashion E-commerce Case Study" : undefined}
-        keywords={project.slug === 'elite-education' ? ['Elite Education Sri Lanka', 'Singapore education consultant website', 'education website development Sri Lanka', 'course catalog website', 'student enquiry website', 'Jawrah Pixel case study'] : project.slug === 'zenvor' ? ["ZENVOR men's fashion e-commerce", 'premium streetwear website', 'luxury essentials e-commerce', 'Sri Lanka fashion e-commerce', 'Jawrah Pixel case study'] : undefined}
+        ogTitle={
+          project.slug === 'elite-education' 
+            ? 'Elite Education Sri Lanka Website Case Study' 
+            : project.slug === 'zenvor' 
+              ? "ZENVOR Premium Men's Fashion E-commerce Case Study" 
+              : project.slug === 'rankala-gold' || project.slug === 'rankala'
+                ? "Rankala Gold Operations Platform Case Study"
+                : undefined
+        }
+        keywords={
+          project.slug === 'elite-education' 
+            ? ['Elite Education Sri Lanka', 'Singapore education consultant website', 'education website development Sri Lanka', 'course catalog website', 'student enquiry website', 'Jawrah Pixel case study'] 
+            : project.slug === 'zenvor' 
+              ? ["ZENVOR men's fashion e-commerce", 'premium streetwear website', 'luxury essentials e-commerce', 'Sri Lanka fashion e-commerce', 'Jawrah Pixel case study'] 
+              : project.slug === 'rankala-gold' || project.slug === 'rankala'
+                ? ['Rankala Gold', 'rankala.lk', 'gold manufacturing software', 'dual balance gold accounting', 'Sri Lanka custom software', 'Jawrah Pixel case study']
+                : undefined
+        }
         schemaData={[
           buildBreadcrumbSchema([
             { name: 'Home', url: toAbsoluteUrl(p('/')) },
@@ -287,6 +336,7 @@ export default function CaseStudyDetail() {
 
         {project.slug === 'elite-education' && <EliteEducationCaseStudy />}
         {project.slug === 'zenvor' && <ZenvorCaseStudy />}
+        {(project.slug === 'rankala-gold' || project.slug === 'rankala') && <RankalaGoldCaseStudy />}
 
         {/* TRANSFORMATION SNAPSHOT */}
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-32">

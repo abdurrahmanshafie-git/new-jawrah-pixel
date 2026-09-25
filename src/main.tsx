@@ -5,10 +5,22 @@ import App from './App';
 import './index.css';
 import { ThemeProvider } from './contexts/ThemeContext';
 
-class ErrorBoundary extends Component<{ children?: ReactNode }, { hasError: boolean; error?: any }> {
-  constructor(props: any) {
+interface ErrorBoundaryProps {
+  children?: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: any;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  props: ErrorBoundaryProps;
+  state: ErrorBoundaryState = { hasError: false };
+
+  constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false };
+    this.props = props;
   }
 
   static getDerivedStateFromError(error: any) {

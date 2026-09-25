@@ -1,7 +1,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type UserRole = 'client' | 'admin' | 'agent' | 'superadmin';
-export type RegionCode = 'lk' | 'pk' | 'int';
+export type RegionCode = 'lk' | 'pk' | 'int' | 'uk';
 
 export interface Database {
   public: {

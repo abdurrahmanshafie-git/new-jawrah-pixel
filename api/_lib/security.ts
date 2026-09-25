@@ -51,38 +51,42 @@ export async function verifyTurnstileToken(token?: string, ip?: string): Promise
  * For serverless functions, a memory store is per-instance, so Supabase is more reliable.
  */
 export async function checkRateLimit(key: string, limit: number, windowSeconds: number): Promise<{ allowed: boolean; remaining: number }> {
-  const admin = getSupabaseAdmin();
-  const now = new Date();
-  const windowStart = new Date(now.getTime() - windowSeconds * 1000);
+  try {
+    const admin = getSupabaseAdmin();
+    const now = new Date();
+    const windowStart = new Date(now.getTime() - windowSeconds * 1000);
 
-  // We use the public.audit_events or a dedicated rate_limits table if it exists.
-  // Since we have audit_events, we'll use that as a proxy for rate limiting.
-  const { count, error } = await admin
-    .from('audit_events')
-    .select('*', { count: 'exact', head: true })
-    .eq('action', 'rate_limit_hit')
-    .eq('entity_table', key)
-    .gt('created_at', windowStart.toISOString());
+    // We use the public.audit_events or a dedicated rate_limits table if it exists.
+    // Since we have audit_events, we'll use that as a proxy for rate limiting.
+    const { count, error } = await admin
+      .from('audit_events')
+      .select('*', { count: 'exact', head: true })
+      .eq('action', 'rate_limit_hit')
+      .eq('entity_table', key)
+      .gt('created_at', windowStart.toISOString());
 
-  if (error) {
-    console.error('[RateLimit] DB error:', error);
-    return { allowed: true, remaining: limit }; // Fail open if DB is down
+    if (error) {
+      console.error('[RateLimit] DB error:', error);
+      return { allowed: true, remaining: limit }; // Fail open if DB is down
+    }
+
+    const currentCount = count || 0;
+    
+    if (currentCount >= limit) {
+      return { allowed: false, remaining: 0 };
+    }
+
+    // Log the hit (async)
+    void admin.from('audit_events').insert({
+      action: 'rate_limit_hit',
+      entity_table: key,
+      metadata: { timestamp: now.toISOString() }
+    });
+
+    return { allowed: true, remaining: limit - currentCount - 1 };
+  } catch (_err) {
+    return { allowed: true, remaining: limit };
   }
-
-  const currentCount = count || 0;
-  
-  if (currentCount >= limit) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  // Log the hit (async)
-  void admin.from('audit_events').insert({
-    action: 'rate_limit_hit',
-    entity_table: key,
-    metadata: { timestamp: now.toISOString() }
-  });
-
-  return { allowed: true, remaining: limit - currentCount - 1 };
 }
 
 /**

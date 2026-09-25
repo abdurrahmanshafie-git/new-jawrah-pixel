@@ -394,8 +394,8 @@ const seeds: PageSeed[] = [
     title: 'Web Development Company Sri Lanka | Jawrah Pixel',
     h1: 'Web Development Sri Lanka',
     description:
-      'Premium web development services for ambitious Sri Lankan businesses that need fast, conversion-ready websites and scalable digital systems.',
-    keywords: ['web development Sri Lanka', 'web development company Sri Lanka', 'custom website development Sri Lanka', 'React development Sri Lanka'],
+      'Custom web development in Sri Lanka by Jawrah Pixel. We build fast, responsive, conversion-focused websites, web applications, and digital platforms.',
+    keywords: ['web development company Sri Lanka', 'web development Sri Lanka', 'custom website development Sri Lanka', 'React development Sri Lanka', 'Jawrah Pixel'],
     serviceName: 'Web Development Sri Lanka',
     market: 'Sri Lanka',
     audience: 'Sri Lankan founders, retailers, exporters, consultants, hospitality teams, property brands, and premium service businesses',
@@ -427,11 +427,11 @@ const seeds: PageSeed[] = [
   {
     slug: 'web-design-sri-lanka',
     region: 'lk',
-    title: 'Web Design Sri Lanka | Premium Website Design Agency | Jawrah Pixel',
+    title: 'Web Design Sri Lanka | Web Design Agency | Jawrah Pixel',
     h1: 'Web Design Sri Lanka',
     description:
-      'Premium web design in Sri Lanka for businesses that need fast, elegant, SEO-ready websites built to convert serious customers.',
-    keywords: ['web design Sri Lanka', 'website design Sri Lanka', 'web design agency Sri Lanka', 'premium websites Sri Lanka'],
+      'Custom web design in Sri Lanka by Jawrah Pixel. Modern, responsive, and conversion-optimized website design for ambitious businesses.',
+    keywords: ['web design Sri Lanka', 'website design Sri Lanka', 'web design agency Sri Lanka', 'premium websites Sri Lanka', 'Jawrah Pixel'],
     serviceName: 'Web Design Sri Lanka',
     market: 'Sri Lanka',
     audience: 'Sri Lankan companies, founders, exporters, property teams, retailers, consultants, and premium local brands',
@@ -751,6 +751,14 @@ const aliasServiceCatalog = [
     deliverables: ['Custom responsive website architecture', 'SEO-ready page structure', 'Conversion sections and contact paths', 'Performance-focused React implementation'],
   },
   {
+    slug: 'software-development',
+    name: 'Custom Software Development',
+    keywords: ['software development', 'custom software development', 'business software', 'operations platform'],
+    buyerTriggers: ['custom business software', 'operations platform', 'workflow automation', 'database architecture'],
+    technologyAngles: ['PostgreSQL architecture', 'Supabase backend', 'role-based access control', 'atomic transactions', 'React dashboards'],
+    deliverables: ['Custom operations platform architecture', 'Role-based access & RLS security', 'Relational database schema', 'Responsive workshop & manager dashboards'],
+  },
+  {
     slug: 'ecommerce-development',
     name: 'Ecommerce Development',
     keywords: ['ecommerce development', 'online store development', 'premium ecommerce website'],
@@ -776,11 +784,11 @@ const aliasServiceCatalog = [
   },
   {
     slug: 'seo',
-    name: 'SEO',
-    keywords: ['SEO', 'technical SEO', 'search engine optimization'],
-    buyerTriggers: ['low Google visibility', 'weak indexing', 'missing metadata', 'slow pages'],
-    technologyAngles: ['schema markup', 'canonical validation', 'sitemap generation', 'Core Web Vitals improvements'],
-    deliverables: ['Technical SEO audit and implementation', 'Metadata and canonical fixes', 'Schema and FAQ markup', 'Search Console readiness'],
+    name: 'SEO Services',
+    keywords: ['SEO', 'technical SEO', 'search engine optimization', 'SEO company'],
+    buyerTriggers: ['low Google visibility', 'weak indexing', 'missing metadata', 'slow pages', 'local search ranking'],
+    technologyAngles: ['schema markup', 'canonical validation', 'sitemap generation', 'Core Web Vitals improvements', 'AI search discoverability'],
+    deliverables: ['Technical SEO audit and implementation', 'Metadata and canonical fixes', 'Schema and FAQ markup', 'Search Console readiness', 'AI search optimization'],
   },
   {
     slug: 'mobile-app-development',
@@ -819,7 +827,7 @@ const aliasRegionMeta: Record<RegionCode, {
     market: 'Sri Lanka',
     audience: 'Sri Lankan founders, retailers, consultants, exporters, service teams, and premium local brands',
     currency: 'LKR',
-    relatedCaseSlug: 'zenvor',
+    relatedCaseSlug: 'rankala-gold',
     localSearchAngles: ['Sri Lankan buyer intent', 'Colombo and islandwide discovery', 'mobile-first traffic', 'WhatsApp inquiry behavior'],
   },
   pk: {
@@ -836,35 +844,83 @@ const aliasRegionMeta: Record<RegionCode, {
     relatedCaseSlug: 'aerovista',
     localSearchAngles: ['global search discovery', 'remote-first buyer trust', 'international conversion paths', 'multi-region SEO structure'],
   },
+  uk: {
+    market: 'United Kingdom',
+    audience: 'UK and European founders, agencies, retailers, consultants, and scale-ups',
+    currency: 'GBP',
+    relatedCaseSlug: 'aerovista',
+    localSearchAngles: ['UK search intent', 'London & regional discovery', 'high-trust conversion paths', 'UK & EU compliance architecture'],
+  },
 };
 
-const aliasSeeds: PageSeed[] = (['lk', 'pk', 'int'] as RegionCode[]).flatMap((region) => {
+const aliasSeeds: PageSeed[] = (['lk', 'pk', 'int', 'uk'] as RegionCode[]).flatMap((region) => {
   const meta = aliasRegionMeta[region];
-  return aliasServiceCatalog.map((service) => ({
-    slug: service.slug,
-    region,
-    title: `${service.name} ${meta.market} | Jawrah Pixel`,
-    h1: `${service.name} ${meta.market}`,
-    description: `Premium ${service.name.toLowerCase()} for ${meta.market} brands that need credible design, fast performance, search-ready structure, and conversion-focused execution.`,
-    keywords: service.keywords.map((keyword) => `${keyword} ${meta.market}`),
-    serviceName: `${service.name} ${meta.market}`,
-    market: meta.market,
-    audience: meta.audience,
-    priceSignal: `${service.name} investment is scoped in ${meta.currency} around strategy, content depth, integrations, page complexity, launch support, and long-term growth needs.`,
-    primaryOutcome: `a stronger ${service.name.toLowerCase()} asset that improves trust, visibility, and qualified inquiry quality for ${meta.market} buyers`,
-    route: `/${region}/${service.slug}`,
-    relatedCaseSlug: meta.relatedCaseSlug,
-    positioning: `${service.name} for ${meta.market} should work as a commercial system, not a generic page or isolated visual asset.`,
-    buyerTriggers: [...service.buyerTriggers],
-    localSearchAngles: meta.localSearchAngles,
-    technologyAngles: [...service.technologyAngles],
-    deliverables: [...service.deliverables],
-    relatedServices: [
-      { label: 'Services', path: '/services' },
-      { label: 'Process', path: '/process' },
-      { label: 'Contact', path: '/contact' },
-    ],
-  }));
+  return aliasServiceCatalog.map((service) => {
+    let customTitle = `${service.name} ${meta.market} | Jawrah Pixel`;
+    let customH1 = `${service.name} for Modern Businesses`;
+    let customDescription = `Premium ${service.name.toLowerCase()} for ${meta.market} brands that need credible design, fast performance, search-ready structure, and conversion-focused execution.`;
+    let customKeywords = service.keywords.map((keyword) => `${keyword} ${meta.market}`);
+
+    if (region === 'lk') {
+      if (service.slug === 'web-development') {
+        customTitle = 'Web Development Company in Sri Lanka | Jawrah Pixel';
+        customH1 = 'Custom Web Development for Modern Businesses';
+        customDescription = 'Jawrah Pixel is a web development company in Sri Lanka building fast, responsive, conversion-focused websites, web applications, and digital platforms.';
+        customKeywords = ['web development company Sri Lanka', 'web development Sri Lanka', 'custom website development Sri Lanka', 'React development Sri Lanka', 'Jawrah Pixel'];
+      } else if (service.slug === 'software-development') {
+        customTitle = 'Custom Software Development Company Sri Lanka | Jawrah Pixel';
+        customH1 = 'Custom Software Built Around Your Business';
+        customDescription = 'Custom software development company in Sri Lanka engineering business operations platforms, factory workflow systems, portals, and database architectures.';
+        customKeywords = ['software development company Sri Lanka', 'custom software development Sri Lanka', 'business software development', 'custom business software', 'web application development Sri Lanka'];
+      } else if (service.slug === 'ecommerce-development') {
+        customTitle = 'Ecommerce Development Company in Sri Lanka | Jawrah Pixel';
+        customH1 = 'Ecommerce Experiences Built to Sell';
+        customDescription = 'High-performance ecommerce development in Sri Lanka. Custom online stores, luxury catalogs, secure checkout flows, and payment gateway integrations.';
+        customKeywords = ['ecommerce development Sri Lanka', 'ecommerce website development Sri Lanka', 'online store development Sri Lanka', 'ecommerce website company Sri Lanka'];
+      } else if (service.slug === 'mobile-app-development') {
+        customTitle = 'Mobile App Development Sri Lanka | Jawrah Pixel';
+        customH1 = 'Mobile Apps Built Around Real User Needs';
+        customDescription = 'Custom mobile app development in Sri Lanka. Responsive mobile-first product interfaces, client portals, and operational apps for modern businesses.';
+        customKeywords = ['mobile app development Sri Lanka', 'mobile application development Sri Lanka', 'custom mobile app development', 'business app development Sri Lanka'];
+      } else if (service.slug === 'seo') {
+        customTitle = 'SEO Company in Sri Lanka | Jawrah Pixel';
+        customH1 = 'SEO That Builds Long-Term Search Visibility';
+        customDescription = 'Technical SEO company in Sri Lanka. Comprehensive search architecture, structured schema, crawlability, and sustainable organic search growth.';
+        customKeywords = ['SEO company Sri Lanka', 'SEO services Sri Lanka', 'search engine optimization Sri Lanka', 'technical SEO Sri Lanka', 'local SEO Sri Lanka'];
+      } else if (service.slug === 'ui-ux-design') {
+        customTitle = 'UI UX Design Sri Lanka | Digital Product Design | Jawrah Pixel';
+        customH1 = 'UI UX Design Sri Lanka';
+        customDescription = 'User interface and experience design in Sri Lanka. Jawrah Pixel designs intuitive, modern, high-converting digital products and web interfaces.';
+        customKeywords = ['UI UX design Sri Lanka', 'UI design Sri Lanka', 'UX design Sri Lanka', 'product design Sri Lanka', 'Jawrah Pixel'];
+      }
+    }
+
+    return {
+      slug: service.slug,
+      region,
+      title: customTitle,
+      h1: customH1,
+      description: customDescription,
+      keywords: customKeywords,
+      serviceName: `${service.name} ${meta.market}`,
+      market: meta.market,
+      audience: meta.audience,
+      priceSignal: `${service.name} investment is scoped in ${meta.currency} around strategy, content depth, integrations, page complexity, launch support, and long-term growth needs.`,
+      primaryOutcome: `a stronger ${service.name.toLowerCase()} asset that improves trust, visibility, and qualified inquiry quality for ${meta.market} buyers`,
+      route: `/${region}/${service.slug}`,
+      relatedCaseSlug: meta.relatedCaseSlug,
+      positioning: `${service.name} for ${meta.market} should work as a commercial system, not a generic page or isolated visual asset.`,
+      buyerTriggers: [...service.buyerTriggers],
+      localSearchAngles: meta.localSearchAngles,
+      technologyAngles: [...service.technologyAngles],
+      deliverables: [...service.deliverables],
+      relatedServices: [
+        { label: 'Services', path: '/services' },
+        { label: 'Process', path: '/process' },
+        { label: 'Contact', path: '/contact' },
+      ],
+    };
+  });
 });
 
 export const serviceLandingPages: ServiceLandingPage[] = [...seeds, ...aliasSeeds].map((seed) => ({
