@@ -44,7 +44,6 @@ export default function Leadership() {
             jobTitle: 'Founder & Creative Director',
             description: 'Abdurrahman Shafie is the Founder of Jawrah Pixel, overseeing creative direction, technical architecture, and strategic growth.',
             url: getCanonicalUrl(seo.path),
-            image: toAbsoluteUrl('/assets/founder-image.png'),
             worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
             sameAs: config.linkedinFounderLink,
           },
@@ -52,8 +51,8 @@ export default function Leadership() {
             '@type': 'Person',
             '@id': 'https://jawrahpixel.com/#co-founder',
             name: 'Jaweria Hafeez',
-            jobTitle: 'Co-Founder & Frontend Developer',
-            description: 'Jaweria Hafeez is the Co-Founder and Frontend Developer at Jawrah Pixel, driving modern UI engineering, responsive design systems, and frontend architecture.',
+            jobTitle: 'Co-Founder & Technical Lead',
+            description: 'Jaweria Hafeez is the Co-Founder and Technical Lead at Jawrah Pixel, driving technical architecture, product engineering, design systems, and operational delivery.',
             url: getCanonicalUrl(seo.path),
             worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
           },
@@ -154,7 +153,7 @@ export default function Leadership() {
             <Reveal className="lg:col-span-5">
               <div className="sticky lg:top-32">
                 <div 
-                  className="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full border overflow-hidden group transition-all duration-700 mb-8"
+                  className="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full border flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-700 mb-8"
                   style={{ 
                     borderColor: 'var(--border)', 
                     backgroundColor: 'var(--card-background)' 
@@ -168,14 +167,16 @@ export default function Leadership() {
                     e.currentTarget.style.borderColor = 'var(--border)';
                   }}
                 >
-                  <img 
-                    src="/assets/founder-image.png" 
-                    alt="Abdurrahman Shafie — Founder of Jawrah Pixel" 
-                    className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/15 via-transparent to-brand-cyan/20 opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+                  <span className="relative z-10 text-4xl md:text-5xl font-display font-medium tracking-tight text-brand-cyan group-hover:scale-105 transition-transform duration-500">
+                    AS
+                  </span>
+                  <span className="relative z-10 text-[9px] font-mono uppercase tracking-[0.3em] text-brand-blue/80 mt-2 font-semibold">
+                    Founder
+                  </span>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-4 text-center lg:text-left">
                   <h3 className="text-2xl md:text-3xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--text-primary)' }}>
                     Abdurrahman Shafie
                   </h3>
@@ -184,31 +185,33 @@ export default function Leadership() {
                   </p>
                 </div>
 
-                <a 
-                  href={config.linkedinFounderLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 mt-8 px-6 py-3 border text-sm font-mono uppercase tracking-[0.2em] transition-all duration-700 group"
-                  style={{ 
-                    borderColor: 'var(--border)', 
-                    backgroundColor: 'var(--card-background)',
-                    color: 'var(--text-primary)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#06b6d4';
-                    e.currentTarget.style.borderColor = 'rgba(6, 182, 212, 0.3)';
-                    e.currentTarget.style.backgroundColor = isDark ? 'rgba(6, 182, 212, 0.05)' : 'rgba(6, 182, 212, 0.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'var(--text-primary)';
-                    e.currentTarget.style.borderColor = 'var(--border)';
-                    e.currentTarget.style.backgroundColor = 'var(--card-background)';
-                  }}
-                >
-                  <Linkedin className="w-4 h-4" />
-                  <span>Connect on LinkedIn</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
-                </a>
+                <div className="flex justify-center lg:justify-start">
+                  <a 
+                    href={config.linkedinFounderLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 mt-8 px-6 py-3 border text-sm font-mono uppercase tracking-[0.2em] transition-all duration-700 group"
+                    style={{ 
+                      borderColor: 'var(--border)', 
+                      backgroundColor: 'var(--card-background)',
+                      color: 'var(--text-primary)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#06b6d4';
+                      e.currentTarget.style.borderColor = 'rgba(6, 182, 212, 0.3)';
+                      e.currentTarget.style.backgroundColor = isDark ? 'rgba(6, 182, 212, 0.05)' : 'rgba(6, 182, 212, 0.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'var(--text-primary)';
+                      e.currentTarget.style.borderColor = 'var(--border)';
+                      e.currentTarget.style.backgroundColor = 'var(--card-background)';
+                    }}
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    <span>Connect on LinkedIn</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
+                  </a>
+                </div>
               </div>
             </Reveal>
 
@@ -262,7 +265,7 @@ export default function Leadership() {
       <section className="py-20 md:py-32 relative border-t" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <Reveal className="mb-12 md:mb-16 text-center">
-            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Co-Founder & Frontend Developer</span>
+            <span className="text-[10px] font-mono text-brand-blue uppercase tracking-[0.4em] font-bold block mb-6">Co-Founder & Technical Lead</span>
           </Reveal>
 
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
@@ -272,7 +275,7 @@ export default function Leadership() {
                   Engineering & Leadership Philosophy
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  Frontend engineering is where brand intent meets human interaction. Exceptional user interfaces must be lightning-fast, visually immaculate, and architected with clean, modular components that scale effortlessly.
+                  Digital architecture is where strategy, aesthetics, and enterprise engineering converge. We build resilient, high-conversion systems designed to endure market shifts and deliver relentless operational value.
                 </p>
               </Reveal>
 
@@ -281,7 +284,7 @@ export default function Leadership() {
                   Vision
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  To bridge high-fidelity design systems with scalable frontend architectures. Building client-facing web applications where speed, accessibility, and fluid micro-interactions set the industry standard.
+                  To establish Jawrah Pixel as an uncompromising standard for digital execution globally. Engineering interfaces and product ecosystems where speed, accessibility, and architectural rigor set new industry precedents.
                 </p>
               </Reveal>
 
@@ -290,7 +293,7 @@ export default function Leadership() {
                   Role & Contribution
                 </h4>
                 <p className="text-lg font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  Co-leads the agency while directing frontend development and UI execution. Translates complex design systems into robust, modern React and TypeScript applications, ensuring pixel-perfect fidelity, rapid Core Web Vitals, and smooth cross-device experiences.
+                  Co-leads the agency's executive strategy, technical architecture, and product delivery. Directs engineering standards, modern application frameworks, scalable design systems, and seamless cross-platform client deployments.
                 </p>
               </Reveal>
 
@@ -300,11 +303,11 @@ export default function Leadership() {
                 </h4>
                 <ul className="space-y-3">
                   {[
-                    'Modern Frontend Engineering (React, TypeScript, Next.js)',
-                    'UI/UX Component Architecture & Design Systems (Tailwind CSS)',
-                    'Performance Optimization, Core Web Vitals & Micro-Interactions',
-                    'Responsive, Mobile-First & Cross-Browser Precision',
-                    'Frontend Quality Assurance & Seamless Client Experience'
+                    'Technical Architecture & Systems Engineering (React, TypeScript, Next.js)',
+                    'Product Strategy & Scalable Component Frameworks (Tailwind CSS, Radix UI)',
+                    'UI/UX Engineering & Multi-Region Design Systems',
+                    'Performance Optimization, Core Web Vitals & Real-Time Micro-Interactions',
+                    'Engineering Quality Governance, Code Audits & Client Delivery Standards'
                   ].map((strength, i) => (
                     <li key={i} className="flex items-center gap-3" style={{ color: 'var(--text-secondary)' }}>
                       <CheckCircle className="w-4 h-4 text-brand-blue shrink-0" />
@@ -318,7 +321,7 @@ export default function Leadership() {
             <Reveal className="lg:col-span-5 order-1 lg:order-2">
               <div className="sticky lg:top-32">
                 <div 
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border flex flex-col items-center justify-center text-brand-blue group transition-all duration-700 mb-8 mx-auto lg:mx-0 relative overflow-hidden"
+                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-700 mb-8 mx-auto lg:mx-0"
                   style={{ 
                     borderColor: 'var(--border)', 
                     backgroundColor: 'var(--card-background)' 
@@ -332,9 +335,13 @@ export default function Leadership() {
                     e.currentTarget.style.borderColor = 'var(--border)';
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-b from-brand-cyan/5 to-transparent pointer-events-none" />
-                  <Code2 className="w-16 h-16 md:w-20 md:h-20 text-brand-blue group-hover:scale-110 transition-transform duration-500 mb-2" />
-                  <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-brand-blue/80 font-semibold">&lt;Frontend /&gt;</span>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-brand-purple/15 via-transparent to-brand-cyan/20 opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
+                  <span className="relative z-10 text-4xl md:text-5xl font-display font-medium tracking-tight text-brand-cyan group-hover:scale-105 transition-transform duration-500">
+                    JH
+                  </span>
+                  <span className="relative z-10 text-[9px] font-mono uppercase tracking-[0.3em] text-brand-blue/80 mt-2 font-semibold">
+                    Co-Founder
+                  </span>
                 </div>
                 
                 <div className="space-y-4 text-center lg:text-left">
@@ -342,7 +349,7 @@ export default function Leadership() {
                     Jaweria Hafeez
                   </h3>
                   <p className="text-brand-blue text-[13px] font-mono uppercase tracking-[0.3em]">
-                    Co-Founder & Frontend Developer
+                    Co-Founder & Technical Lead
                   </p>
                 </div>
               </div>

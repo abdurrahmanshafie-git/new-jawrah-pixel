@@ -286,10 +286,10 @@ export function Navbar() {
                   "h-9 px-5 rounded-full text-[12px] font-semibold tracking-normal whitespace-nowrap inline-flex items-center gap-2 transition-all duration-300 active:scale-[0.98]",
                   isDark
                     ? "bg-white text-zinc-950 hover:bg-zinc-100 shadow-[0_2px_14px_rgba(255,255,255,0.18)] hover:shadow-[0_4px_22px_rgba(255,255,255,0.28)] border border-white/30"
-                    : "bg-slate-950 text-white hover:bg-slate-800 shadow-[0_2px_12px_rgba(15,23,42,0.16)] hover:shadow-[0_4px_20px_rgba(15,23,42,0.26)] border border-slate-900"
+                    : "bg-brand-blue text-white hover:bg-blue-600 shadow-[0_3px_14px_rgba(59,130,246,0.35)] hover:shadow-[0_6px_22px_rgba(59,130,246,0.45)] border border-blue-400/30"
                 )}>
-                  <span>Start Project</span>
-                  <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                  <span className={isDark ? "text-zinc-950" : "!text-white text-white"}>Start Project</span>
+                  <ArrowRight size={12} className={cn("transition-transform duration-300 group-hover:translate-x-0.5", isDark ? "text-zinc-950" : "!text-white text-white")} />
                 </div>
               </Link>
             </div>
@@ -302,10 +302,10 @@ export function Navbar() {
                 "h-8.5 px-3.5 sm:px-4 rounded-full text-[10px] sm:text-[11px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap inline-flex items-center gap-1.5 transition-all duration-300 active:scale-[0.98]",
                 isDark
                   ? "bg-white text-zinc-950 hover:bg-zinc-100 shadow-[0_2px_10px_rgba(255,255,255,0.15)] border border-white/30"
-                  : "bg-slate-950 text-white hover:bg-slate-800 shadow-[0_2px_10px_rgba(15,23,42,0.14)] border border-slate-900"
+                  : "bg-brand-blue text-white hover:bg-blue-600 shadow-[0_3px_12px_rgba(59,130,246,0.35)] border border-blue-400/30"
               )}>
-                <span>Start Project</span>
-                <ArrowRight size={11} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                <span className={isDark ? "text-zinc-950" : "!text-white text-white"}>Start Project</span>
+                <ArrowRight size={11} className={cn("transition-transform duration-300 group-hover:translate-x-0.5", isDark ? "text-zinc-950" : "!text-white text-white")} />
               </div>
             </Link>
 
@@ -506,10 +506,10 @@ export function Navbar() {
                     "w-full h-11 rounded-full text-[11px] uppercase tracking-[0.16em] font-semibold flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.98]",
                     isDark
                       ? "bg-white text-zinc-950 shadow-[0_2px_14px_rgba(255,255,255,0.18)] border border-white/30"
-                      : "bg-slate-950 text-white shadow-[0_2px_12px_rgba(15,23,42,0.16)] border border-slate-900"
+                      : "bg-brand-blue text-white hover:bg-blue-600 shadow-[0_3px_14px_rgba(59,130,246,0.35)] border border-blue-400/30"
                   )}>
-                    <span>Start Project</span>
-                    <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                    <span className={isDark ? "text-zinc-950" : "!text-white text-white"}>Start Project</span>
+                    <ArrowRight size={13} className={cn("transition-transform duration-300 group-hover:translate-x-0.5", isDark ? "text-zinc-950" : "!text-white text-white")} />
                   </div>
                 </Link>
 

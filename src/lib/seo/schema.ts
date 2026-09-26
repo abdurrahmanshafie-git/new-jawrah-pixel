@@ -62,7 +62,7 @@ export function buildOrganizationSchema(): JsonLdNode {
       {
         '@type': 'Person',
         name: 'Jaweria Hafeez',
-        jobTitle: 'Co-Founder & Frontend Developer',
+        jobTitle: 'Co-Founder & Technical Lead',
         worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
       },
     ],

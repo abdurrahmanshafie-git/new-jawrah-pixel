@@ -152,8 +152,9 @@ export function SEO({
       <html lang={getRegionLanguage(activeRegion)} />
       <title>{formattedTitle}</title>
       <meta name="description" content={description} />
-      {keywordContent && <meta name="keywords" content={keywordContent} />}
-      <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
+      <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+      {!noIndex && <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+      {!noIndex && <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
       <link rel="canonical" href={resolvedCanonical} />
       {resolvedAlternates.map((alternate) => (
         <link key={alternate.hrefLang} rel="alternate" hrefLang={alternate.hrefLang} href={alternate.href} />

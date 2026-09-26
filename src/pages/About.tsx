@@ -284,76 +284,161 @@ export default function About() {
         </div>
       </section>
 
-      {/* Founder Section */}
+      {/* Founder & Co-Founder Leadership Section */}
       <section className="py-20 md:py-32 relative" style={{ borderTopColor: 'var(--border)', borderTopWidth: '1px', borderTopStyle: 'solid' }}>
         <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <Reveal className="text-center mb-16 md:mb-24">
             <span className="text-[10px] font-mono uppercase tracking-[0.4em] font-bold block mb-6" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>Leadership</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-8" style={{ color: 'var(--text-primary)' }}>Meet Our Founder</h2>
+            <h2 className="text-4xl md:text-6xl font-display font-medium uppercase tracking-tight mb-6" style={{ color: 'var(--text-primary)' }}>Meet Our Founders</h2>
+            <p className="text-base md:text-lg font-light max-w-2xl mx-auto leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+              The architects and strategists driving technical excellence, luxury design systems, and digital authority.
+            </p>
           </Reveal>
 
-          <Reveal>
-            <div className="max-w-4xl mx-auto p-8 md:p-16 lg:p-20 relative overflow-hidden" style={{ 
-              backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
-              borderColor: 'var(--border)',
-              borderWidth: '1px',
-              borderStyle: 'solid'
-            }}>
-              {/* Atmospheric background */}
-              <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" style={{ background: isDark ? 'rgba(59,130,246,0.1)' : 'rgba(16,185,129,0.1)' }} />
-              <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" style={{ background: isDark ? 'rgba(6,182,212,0.1)' : 'rgba(16,185,129,0.1)' }} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 max-w-6xl mx-auto">
+            {/* Founder: Abdurrahman Shafie */}
+            <Reveal>
+              <div className="h-full p-8 md:p-12 relative overflow-hidden flex flex-col justify-between" style={{ 
+                backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+                borderColor: 'var(--border)',
+                borderWidth: '1px',
+                borderStyle: 'solid'
+              }}>
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" style={{ background: isDark ? 'rgba(59,130,246,0.12)' : 'rgba(16,185,129,0.08)' }} />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-6 mb-8">
+                    <div 
+                      className="w-20 h-20 md:w-24 md:h-24 rounded-full border shrink-0 flex flex-col items-center justify-center relative overflow-hidden"
+                      style={{ 
+                        borderColor: 'var(--border)',
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(250,250,248,0.9)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/15 to-brand-cyan/20" />
+                      <span className="relative z-10 text-2xl md:text-3xl font-display font-medium text-brand-cyan">
+                        AS
+                      </span>
+                      <span className="relative z-10 text-[8px] font-mono uppercase tracking-widest text-brand-blue/70">
+                        Founder
+                      </span>
+                    </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center relative z-10">
-                {/* Avatar */}
-                <div className="lg:col-span-4 flex flex-col items-center">
-                  <div className="mx-auto w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden group transition-all duration-700" style={{ 
-                    backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(250,250,248,0.7)', 
-                    borderColor: 'var(--border)',
-                    borderWidth: '1px',
-                    borderStyle: 'solid'
-                  }}>
-                    <img 
-                      src="/assets/founder-image.png" 
-                      alt="Abdurrahman Shafie" 
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                    />
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                        Abdurrahman Shafie
+                      </h3>
+                      <p className="text-[11px] font-mono uppercase tracking-[0.25em] font-semibold mt-1" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>
+                        Founder & Creative Director
+                      </p>
+                    </div>
                   </div>
+
+                  <p className="text-sm md:text-base font-light leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
+                    Oversees creative direction, core systems architecture, and strategic growth. Combines full-stack development expertise with enterprise SEO strategy to deliver digital platforms that rank, convert, and scale.
+                  </p>
+
+                  <ul className="space-y-2.5 mb-8">
+                    {[
+                      'Technical architecture & full-stack systems',
+                      'Enterprise SEO strategy & organic growth',
+                      'Luxury brand positioning & authority'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-center gap-2.5 text-xs font-light" style={{ color: 'var(--text-secondary)' }}>
+                        <CheckCircle className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                {/* Content */}
-                <div className="lg:col-span-8">
-                  <h3 className="text-2xl md:text-4xl font-display font-medium uppercase tracking-tight mb-4" style={{ color: 'var(--text-primary)' }}>
-                    Abdurrahman Shafie
-                  </h3>
-                  <p className="text-[11px] font-mono uppercase tracking-[0.4em] font-bold mb-6 md:mb-8" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>
-                    Founder & Creative Director, JawrahPixel
-                  </p>
-                  <p className="text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10" style={{ color: 'var(--text-muted)' }}>
-                    Full-Stack Developer, SEO Strategist, and Digital Growth Professional focused on building high-performance websites, SEO systems, and scalable digital solutions.
-                  </p>
-
+                <div className="relative z-10 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
                   <a 
                     href={config.linkedinFounderLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-3 text-sm font-mono uppercase tracking-[0.2em] transition-all duration-700 group"
-                    style={{ 
-                      backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
-                      borderColor: 'var(--border)',
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      color: 'var(--text-primary)'
-                    }}
+                    className="inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.2em] transition-all duration-300 hover:text-brand-cyan group"
+                    style={{ color: 'var(--text-primary)' }}
                     aria-label="Visit Abdurrahman Shafie on LinkedIn"
                   >
-                    <Linkedin className="w-4 h-4" />
+                    <Linkedin className="w-4 h-4 text-brand-cyan" />
                     <span>Connect on LinkedIn</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
                   </a>
                 </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+
+            {/* Co-Founder: Jaweria Hafeez */}
+            <Reveal delay={0.1}>
+              <div className="h-full p-8 md:p-12 relative overflow-hidden flex flex-col justify-between" style={{ 
+                backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.7)', 
+                borderColor: 'var(--border)',
+                borderWidth: '1px',
+                borderStyle: 'solid'
+              }}>
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" style={{ background: isDark ? 'rgba(168,85,247,0.12)' : 'rgba(14,165,233,0.08)' }} />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-6 mb-8">
+                    <div 
+                      className="w-20 h-20 md:w-24 md:h-24 rounded-full border shrink-0 flex flex-col items-center justify-center relative overflow-hidden"
+                      style={{ 
+                        borderColor: 'var(--border)',
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(250,250,248,0.9)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-tr from-brand-purple/15 to-brand-cyan/20" />
+                      <span className="relative z-10 text-2xl md:text-3xl font-display font-medium text-brand-cyan">
+                        JH
+                      </span>
+                      <span className="relative z-10 text-[8px] font-mono uppercase tracking-widest text-brand-blue/70">
+                        Co-Founder
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-display font-medium uppercase tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                        Jaweria Hafeez
+                      </h3>
+                      <p className="text-[11px] font-mono uppercase tracking-[0.25em] font-semibold mt-1" style={{ color: isDark ? 'var(--brand-blue)' : 'var(--accent)' }}>
+                        Co-Founder & Technical Lead
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-sm md:text-base font-light leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
+                    Co-leads company governance, engineering roadmaps, and technical delivery. Directs frontend infrastructure, high-fidelity UI systems, performance benchmarks, and cross-border project execution.
+                  </p>
+
+                  <ul className="space-y-2.5 mb-8">
+                    {[
+                      'Technical architecture & modern component systems',
+                      'Multi-region design systems & UI/UX engineering',
+                      'Performance optimization & Core Web Vitals'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-center gap-2.5 text-xs font-light" style={{ color: 'var(--text-secondary)' }}>
+                        <CheckCircle className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="relative z-10 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+                  <Link 
+                    to={p('/leadership')}
+                    className="inline-flex items-center gap-3 text-xs font-mono uppercase tracking-[0.2em] transition-all duration-300 hover:text-brand-cyan group"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    <User className="w-4 h-4 text-brand-cyan" />
+                    <span>View Leadership Profile</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 

@@ -1,10 +1,75 @@
 # Jawrah Pixel Robots.txt
-# Public website is open for search indexing and legitimate search assistants
+# Public website is 100% open for search indexing, AI crawlers, and intelligent assistants
+# All public pages, case studies, services, locations, and brand assets are crawlable and indexable.
 
 User-agent: *
 Allow: /
 
-# Authenticated and private customer surfaces
+# OpenAI Crawlers & Search Assistants (ChatGPT browsing, GPT analysis, search)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic Claude Crawlers & Web Browsing
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI Crawlers
+User-agent: PerplexityBot
+Allow: /
+
+# Google Crawlers & Gemini AI
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+# Microsoft Bing & Copilot
+User-agent: Bingbot
+Allow: /
+
+# Apple Intelligence & Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Other Major AI & Knowledge Crawlers
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Authenticated and private customer surfaces (not public content)
 Disallow: /admin
 Disallow: /admin/
 Disallow: /dashboard
@@ -33,21 +98,11 @@ Disallow: /system/
 Disallow: /_debug/
 Disallow: /dev/
 
-# Explicit search crawler permissions
-User-agent: Googlebot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-# Sitemap Index
+# Sitemaps
 Sitemap: https://jawrahpixel.com/sitemap.xml
+Sitemap: https://jawrahpixel.com/sitemap-pages.xml
+Sitemap: https://jawrahpixel.com/sitemap-services.xml
+Sitemap: https://jawrahpixel.com/sitemap-projects.xml
+Sitemap: https://jawrahpixel.com/sitemap-blog.xml
+Sitemap: https://jawrahpixel.com/sitemap-pricing.xml
+Sitemap: https://jawrahpixel.com/sitemap-locations.xml

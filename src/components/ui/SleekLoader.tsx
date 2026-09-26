@@ -142,7 +142,7 @@ export function SleekLoader({
             className="absolute -inset-5 rounded-full bg-gradient-to-tr from-brand-blue/30 to-brand-cyan/30 blur-xl"
           />
 
-          {/* Logo Center */}
+          {/* Original Logo Center */}
           <motion.div
             initial={{ scale: 0.96, opacity: 0.92 }}
             animate={{
@@ -154,12 +154,22 @@ export function SleekLoader({
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="relative p-2"
+            className="relative flex items-center justify-center p-2"
           >
-            <Logo
-              size={compact ? 'lg' : 'xl'}
-              forceTheme={isDark ? 'dark' : 'light'}
-              className="mx-auto"
+            <img
+              src="/assets/logo.png"
+              alt="Jawrah Pixel"
+              width="144"
+              height="144"
+              loading="eager"
+              decoding="sync"
+              className={`pointer-events-none object-contain mx-auto transition-all duration-300 ${
+                compact ? 'h-24 w-24' : 'h-32 w-32 sm:h-36 sm:w-36'
+              } ${
+                isDark
+                  ? 'brightness-110 drop-shadow-[0_0_24px_rgba(6,182,212,0.35)]'
+                  : 'brightness-100 drop-shadow-[0_4px_16px_rgba(0,0,0,0.08)]'
+              }`}
             />
           </motion.div>
         </div>
