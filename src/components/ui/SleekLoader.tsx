@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useTheme } from '@/contexts/ThemeContext';
 import { Logo } from '@/components/layout/Logo';
 import { RefreshCw, Home, ArrowRight } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface SleekLoaderProps {
   fullScreen?: boolean;
@@ -15,11 +15,17 @@ export function SleekLoader({
   fullScreen = true,
   compact = false,
   message,
-  timeoutMs = 3500,
+  timeoutMs = 4000,
 }: SleekLoaderProps) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [showFailsafe, setShowFailsafe] = useState(false);
+
+  let isDark = true;
+  try {
+    const themeContext = useTheme();
+    isDark = themeContext.theme === 'dark';
+  } catch {
+    isDark = typeof document !== 'undefined' && !document.documentElement.classList.contains('light');
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,9 +44,13 @@ export function SleekLoader({
     window.location.reload();
   };
 
-  const containerClasses = compact
-    ? 'flex min-h-[50vh] w-full flex-col items-center justify-center py-16'
-    : 'fixed inset-0 z-50 flex min-h-screen w-full flex-col items-center justify-center';
+  const isFull = fullScreen && !compact;
+
+  const containerClasses = isFull
+    ? `fixed inset-0 z-[99999] flex min-h-screen w-full flex-col items-center justify-center overflow-hidden transition-colors duration-300 ${
+        isDark ? 'bg-[#05070B] text-slate-200' : 'bg-[#FAFAFA] text-slate-800'
+      }`
+    : 'flex min-h-[50vh] w-full flex-col items-center justify-center py-16 bg-transparent';
 
   return (
     <div
@@ -49,16 +59,16 @@ export function SleekLoader({
       aria-label="Loading page content"
       className={`${containerClasses} transition-opacity duration-300`}
       style={{
-        backgroundColor: compact
-          ? 'transparent'
-          : isDark
-          ? '#05070B'
-          : 'var(--background, #FFFFFF)',
+        backgroundColor: isFull ? (isDark ? '#05070B' : '#FAFAFA') : 'transparent',
       }}
     >
       {/* Top Ambient Progress Line */}
-      {!compact && (
-        <div className="fixed top-0 left-0 right-0 z-50 h-[2.5px] overflow-hidden bg-brand-blue/10">
+      {isFull && (
+        <div
+          className={`fixed top-0 left-0 right-0 z-[100000] h-[2.5px] overflow-hidden ${
+            isDark ? 'bg-brand-blue/20' : 'bg-slate-200'
+          }`}
+        >
           <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
@@ -67,21 +77,51 @@ export function SleekLoader({
               duration: 1.4,
               ease: [0.4, 0, 0.2, 1],
             }}
-            className="h-full w-1/2 bg-gradient-to-r from-transparent via-brand-blue to-brand-cyan shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+            className="h-full w-1/2 bg-gradient-to-r from-transparent via-brand-blue to-brand-cyan shadow-[0_0_14px_rgba(6,182,212,0.8)]"
           />
         </div>
       )}
 
       {/* Atmospheric Radial Glow for Fullscreen Mode */}
-      {!compact && (
+      {isFull && (
         <div
-          className="pointer-events-none absolute inset-0 opacity-40 transition-opacity duration-700"
+          className="pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-700"
           style={{
             background: isDark
-              ? 'radial-gradient(circle at 50% 48%, rgba(6, 182, 212, 0.12), transparent 60%)'
-              : 'radial-gradient(circle at 50% 48%, rgba(59, 130, 246, 0.08), transparent 60%)',
+              ? 'radial-gradient(circle at 50% 48%, rgba(6, 182, 212, 0.16) 0%, rgba(59, 130, 246, 0.08) 35%, transparent 70%)'
+              : 'radial-gradient(circle at 50% 48%, rgba(6, 182, 212, 0.10) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%)',
           }}
         />
+      )}
+
+      {/* Subtle Digital Energy Atmosphere */}
+      {isFull && (
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{
+                opacity: 0,
+                x: (i % 2 === 0 ? 1 : -1) * (40 + i * 20),
+                y: (i % 3 === 0 ? 1 : -1) * (30 + i * 15),
+              }}
+              animate={{
+                opacity: isDark ? [0, 0.25, 0] : [0, 0.15, 0],
+                x: [0, (i % 2 === 0 ? 20 : -20)],
+                y: [0, (i % 3 === 0 ? -20 : 20)],
+              }}
+              transition={{
+                duration: 3 + i,
+                repeat: Infinity,
+                ease: 'linear',
+                delay: i * 0.4,
+              }}
+              className={`absolute top-1/2 left-1/2 w-1 h-1 rounded-full blur-[0.5px] ${
+                isDark ? 'bg-brand-cyan' : 'bg-brand-blue'
+              }`}
+            />
+          ))}
+        </div>
       )}
 
       <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-md">
@@ -91,44 +131,49 @@ export function SleekLoader({
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{
-              scale: [0.9, 1.15, 0.9],
-              opacity: [0.2, 0.55, 0.2],
+              scale: [0.9, 1.18, 0.9],
+              opacity: isDark ? [0.25, 0.65, 0.25] : [0.15, 0.45, 0.15],
             }}
             transition={{
-              duration: 2.4,
+              duration: 2.2,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute -inset-4 rounded-full bg-gradient-to-tr from-brand-blue/30 to-brand-cyan/30 blur-lg"
+            className="absolute -inset-5 rounded-full bg-gradient-to-tr from-brand-blue/30 to-brand-cyan/30 blur-xl"
           />
 
           {/* Logo Center */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0.9 }}
+            initial={{ scale: 0.96, opacity: 0.92 }}
             animate={{
               scale: [0.97, 1.03, 0.97],
-              opacity: [0.92, 1, 0.92],
+              opacity: [0.94, 1, 0.94],
             }}
             transition={{
-              duration: 2.4,
+              duration: 2.2,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
             className="relative p-2"
           >
-            <Logo size={compact ? 'lg' : 'xl'} className="mx-auto" />
+            <Logo
+              size={compact ? 'lg' : 'xl'}
+              forceTheme={isDark ? 'dark' : 'light'}
+              className="mx-auto"
+            />
           </motion.div>
         </div>
 
         {/* Dynamic Status Text */}
         <div className="space-y-2">
-          <div className="flex items-center justify-center gap-1.5">
+          <div className="flex items-center justify-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-ping" />
             <p
-              className="text-[11px] font-mono uppercase tracking-[0.28em]"
-              style={{ color: isDark ? '#94A3B8' : '#64748B' }}
+              className={`text-[11px] font-mono uppercase tracking-[0.28em] font-medium ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}
             >
-              {message || 'Initializing Experience'}
+              {message || 'INITIALIZING EXPERIENCE'}
             </p>
           </div>
         </div>
@@ -141,23 +186,37 @@ export function SleekLoader({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="mt-8 flex flex-col items-center gap-3 pt-4 border-t border-white/10 w-full"
+              className={`mt-8 flex flex-col items-center gap-3 pt-4 border-t w-full ${
+                isDark ? 'border-white/10' : 'border-slate-200'
+              }`}
             >
-              <p className="text-[11px] font-sans text-brand-gray/90 leading-relaxed">
+              <p
+                className={`text-[11px] font-sans leading-relaxed ${
+                  isDark ? 'text-brand-gray/90' : 'text-slate-600'
+                }`}
+              >
                 Loading taking longer than expected?
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <button
                   type="button"
                   onClick={handleHardRefresh}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-white/15 bg-white/5 hover:bg-white/10 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm ${
+                    isDark
+                      ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
+                      : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-800'
+                  }`}
                 >
                   <RefreshCw size={12} className="text-brand-cyan" />
                   Quick Refresh
                 </button>
                 <a
                   href="/lk"
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border border-brand-blue/30 bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-cyan transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono uppercase tracking-wider border transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm ${
+                    isDark
+                      ? 'border-brand-blue/30 bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-cyan'
+                      : 'border-brand-blue/30 bg-blue-50 hover:bg-blue-100 text-brand-blue'
+                  }`}
                 >
                   <Home size={12} />
                   Home

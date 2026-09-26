@@ -78,38 +78,56 @@ export default function CountrySelection() {
         </div>
       </div>
 
-      <header className="container mx-auto px-6 py-12 relative z-10">
-        <div className="relative">
+      <header className="w-full relative z-20 px-4 sm:px-8 py-5 sm:py-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Left spacer for optical center alignment */}
+          <div className="w-10 sm:w-12 shrink-0" aria-hidden="true" />
+
+          {/* Centered Logo */}
           <div className="flex items-center justify-center">
-            <Logo size="lg" className="scale-110 md:scale-125" />
+            <Logo size="lg" className="scale-100 sm:scale-110 md:scale-125" />
           </div>
-          <div className="absolute top-6 right-6">
+
+          {/* Right theme toggle pinned neatly to top right corner */}
+          <div className="w-10 sm:w-12 shrink-0 flex items-center justify-end">
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 flex flex-col items-center justify-center relative z-10">
-        <div className="max-w-4xl w-full text-center mb-10 sm:mb-14 md:mb-18">
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-12 flex-1 flex flex-col items-center justify-center relative z-10">
+        <div className="max-w-4xl w-full text-center mb-8 sm:mb-12 md:mb-16">
           <Reveal>
-            <div className="inline-flex items-center gap-3 mb-10 px-6 py-2 border rounded-none text-[10px] font-mono uppercase tracking-[0.4em]" style={{ 
-              borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
-              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
-              color: 'var(--color-accent-brand)'
-            }}>
-              <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-accent-brand)' }} />
-              Global Standards, Local Edge
+            <div
+              className={cn(
+                'inline-flex items-center gap-2.5 mb-6 sm:mb-10 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border text-[9px] sm:text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium transition-all duration-300 whitespace-nowrap shadow-sm backdrop-blur-md',
+                isDark
+                  ? 'border-white/10 bg-white/[0.04] text-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.12)]'
+                  : 'border-slate-200 bg-slate-900/[0.03] text-slate-800'
+              )}
+            >
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span
+                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                  style={{ backgroundColor: 'var(--color-accent-brand)' }}
+                />
+                <span
+                  className="relative inline-flex rounded-full h-2 w-2"
+                  style={{ backgroundColor: 'var(--color-accent-brand)' }}
+                />
+              </span>
+              <span>Global Standards, Local Edge</span>
             </div>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-medium tracking-tight leading-[1.1] mb-6 sm:mb-8 uppercase overflow-visible" style={{ color: 'var(--color-text-primary)' }}>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-medium tracking-tight leading-[1.1] mb-5 sm:mb-8 uppercase overflow-visible" style={{ color: 'var(--color-text-primary)' }}>
               Choose Your <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Region</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light" style={{ color: 'var(--color-text-secondary)' }}>
+            <p className="text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-light px-2" style={{ color: 'var(--color-text-secondary)' }}>
               Jawrah Pixel architects premium digital monopolies for ambitious businesses across the globe.
             </p>
           </Reveal>
@@ -175,12 +193,12 @@ export default function CountrySelection() {
         </StaggerContainer>
       </main>
 
-      <footer className="container mx-auto px-6 py-12 relative z-10 flex flex-col md:flex-row justify-between items-center gap-8 border-t" style={{ borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}>
-        <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)' }}>
+      <footer className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 relative z-10 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-8 border-t" style={{ borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-center md:text-left" style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)' }}>
           Jawrah Pixel &copy; {new Date().getFullYear()}. Digital excellence.
         </p>
-        <div className="flex items-center gap-8">
-          <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)' }}>Architecting digital monopolies</span>
+        <div className="flex items-center gap-6 sm:gap-8">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-center md:text-right" style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)' }}>Architecting digital monopolies</span>
         </div>
       </footer>
     </div>

@@ -62,7 +62,7 @@ export function RootLayout() {
       >
         {!isCountrySelection && <Navbar />}
         <main className="w-full">
-          <Suspense fallback={<SleekLoader compact={true} />}>
+          <Suspense fallback={<SleekLoader fullScreen={true} />}>
             <Outlet />
           </Suspense>
         </main>
@@ -89,7 +89,7 @@ export function AdminLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Suspense fallback={<SleekLoader compact={true} />}>
+        <Suspense fallback={<SleekLoader fullScreen={true} />}>
           <Outlet />
         </Suspense>
       </main>
@@ -146,7 +146,7 @@ export function ClientLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Suspense fallback={<SleekLoader compact={true} />}>
+        <Suspense fallback={<SleekLoader fullScreen={true} />}>
           <Outlet />
         </Suspense>
       </main>
@@ -172,7 +172,7 @@ export function AgentLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-x-hidden">
-        <Suspense fallback={<SleekLoader compact={true} />}>
+        <Suspense fallback={<SleekLoader fullScreen={true} />}>
           <Outlet />
         </Suspense>
       </main>

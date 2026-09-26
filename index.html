@@ -68,9 +68,10 @@
           z-index: 99999;
           transition: opacity 0.3s ease;
         }
-        html.light #initial-splash {
-          background-color: #FFFFFF;
-          color: #64748b;
+        html.light #initial-splash,
+        [data-theme="light"] #initial-splash {
+          background-color: #FAFAFA !important;
+          color: #475569 !important;
         }
         .splash-top-bar {
           position: fixed;
@@ -80,6 +81,10 @@
           height: 2.5px;
           background: rgba(59, 130, 246, 0.15);
           overflow: hidden;
+        }
+        html.light .splash-top-bar,
+        [data-theme="light"] .splash-top-bar {
+          background: rgba(203, 213, 225, 0.6) !important;
         }
         .splash-top-bar-inner {
           width: 50%;

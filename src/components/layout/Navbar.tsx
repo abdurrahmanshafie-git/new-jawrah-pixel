@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Globe, User, ArrowRight } from 'lucide-react';
+import { Globe, User, ArrowRight, Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/Button';
@@ -177,16 +177,22 @@ export function Navbar() {
     <>
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-[100] transition-all duration-500',
+        'fixed top-0 left-0 right-0 z-[100] transition-all duration-300',
         scrolled
           ? cn(
               'h-16 md:h-18 border-b',
               isDark 
-                ? 'bg-brand-black/85 backdrop-blur-2xl border-white/[0.06] shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_40px_rgba(59,130,246,0.05)]'
-                : 'bg-white/85 backdrop-blur-2xl border-slate-900/[0.06] shadow-[0_8px_30px_rgba(15,23,42,0.04)]'
+                ? 'bg-brand-black/90 backdrop-blur-2xl border-white/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_40px_rgba(59,130,246,0.05)]'
+                : 'bg-white/95 backdrop-blur-2xl border-slate-900/[0.08] shadow-[0_8px_30px_rgba(15,23,42,0.04)]'
             )
-          : 'bg-transparent h-20 md:h-22 border-b border-transparent',
-        !visible && !isOpen && '-translate-y-full'
+          : cn(
+              'h-16 sm:h-20 border-b',
+              isDark
+                ? 'bg-brand-black/85 xl:bg-transparent backdrop-blur-xl xl:backdrop-blur-none border-white/[0.06] xl:border-transparent'
+                : 'bg-white/95 xl:bg-transparent backdrop-blur-xl xl:backdrop-blur-none border-slate-900/[0.06] xl:border-transparent'
+            ),
+        // Keep navbar visible on mobile screens; only hide on desktop on downward scroll
+        !visible && !isOpen && 'xl:-translate-y-full'
       )}
     >
       {/* Premium Ambient Lighting System */}
@@ -205,9 +211,9 @@ export function Navbar() {
         {/* Left: Brand Logo */}
         <div className="flex items-center shrink-0">
           <Link to={`/${currentRegion}`} className="flex items-center group shrink-0" aria-label="Jawrah Pixel">
-            <Logo asset="logo-navbar" size="xl" className="xl:hidden transition-transform duration-500 group-hover:scale-105 max-h-9 sm:max-h-10 w-auto" />
-            <Logo asset="logo-navbar" size="2xl" className="hidden xl:flex 2xl:hidden transition-transform duration-500 group-hover:scale-105 max-h-10 w-auto" />
-            <Logo asset="logo-navbar" size="3xl" className="hidden 2xl:flex transition-transform duration-500 group-hover:scale-105 max-h-11 w-auto" />
+            <Logo asset="logo-navbar" size="xl" className="xl:hidden transition-transform duration-500 group-hover:scale-105" />
+            <Logo asset="logo-navbar" size="2xl" className="hidden xl:flex 2xl:hidden transition-transform duration-500 group-hover:scale-105" />
+            <Logo asset="logo-navbar" size="3xl" className="hidden 2xl:flex transition-transform duration-500 group-hover:scale-105" />
           </Link>
         </div>
 
@@ -309,8 +315,8 @@ export function Navbar() {
               className={cn(
                 "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 shrink-0",
                 isDark
-                  ? "border border-white/10 bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08]"
-                  : "border border-slate-200 bg-slate-100 text-slate-700 hover:text-slate-900 hover:bg-slate-200/70"
+                  ? "border border-white/15 bg-white/[0.06] text-zinc-200 hover:text-white hover:bg-white/[0.12]"
+                  : "border border-slate-300 bg-slate-100 text-slate-800 hover:text-slate-950 hover:bg-slate-200"
               )}
               aria-label={user ? "Go to Dashboard" : "Login"}
             >
@@ -320,26 +326,19 @@ export function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
-                "relative z-50 w-9 h-9 rounded-full flex flex-col items-center justify-center gap-1.5 shrink-0 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/50",
+                "relative z-50 w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/50 active:scale-95",
                 isDark
-                  ? "border border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
-                  : "border border-slate-200 bg-slate-100 hover:bg-slate-200/70"
+                  ? "border border-white/20 bg-white/10 text-white hover:bg-white/15 shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
+                  : "border border-slate-300 bg-slate-100 text-slate-900 hover:bg-slate-200 shadow-[0_1px_3px_rgba(15,23,42,0.06)]"
               )}
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
             >
-              <span 
-                className={cn("w-4 h-px transition-all duration-300", isOpen && "rotate-45 translate-y-1")} 
-                style={{
-                  backgroundColor: isDark ? 'white' : 'rgb(15,23,42)'
-                }} 
-              />
-              <span 
-                className={cn("w-4 h-px transition-all duration-300", isOpen && "-rotate-45 -translate-y-1")} 
-                style={{
-                  backgroundColor: isDark ? 'white' : 'rgb(15,23,42)'
-                }} 
-              />
+              {isOpen ? (
+                <X size={18} className="transition-transform duration-200" />
+              ) : (
+                <Menu size={18} className="transition-transform duration-200" />
+              )}
             </button>
           </div>
         </div>
@@ -351,13 +350,13 @@ export function Navbar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-0 left-0 right-0 z-[90] h-auto max-h-[92vh] overflow-auto backdrop-blur-[64px] border-b flex flex-col p-6 pt-24 pb-10 xl:hidden"
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-0 left-0 right-0 z-[95] h-auto max-h-[92vh] overflow-auto backdrop-blur-[64px] border-b flex flex-col p-6 pt-20 sm:pt-24 pb-10 xl:hidden"
           style={{
             // Ensure the mobile menu always shows an opaque backdrop so items at the bottom
             // never reveal the underlying page background in light or dark mode.
-            background: isDark ? 'rgba(0,0,0,0.95)' : 'rgba(255,255,255,0.98)',
-            borderBottomColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(15,23,42,0.08)',
+            background: isDark ? 'rgba(5, 5, 15, 0.98)' : 'rgba(255, 255, 255, 0.98)',
+            borderBottomColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.08)',
             boxShadow: isDark 
               ? '0 30px 60px rgba(0,0,0,1), 0 0 50px rgba(0,149,255,0.06)' 
               : '0 30px 60px rgba(15,23,42,0.06)'

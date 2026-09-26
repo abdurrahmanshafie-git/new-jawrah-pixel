@@ -7,6 +7,7 @@ interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   // Asset type: 'logo-navbar' for navbar version, undefined for default
   asset?: 'logo-navbar';
+  forceTheme?: 'light' | 'dark';
 }
 
 const LOGO_ASSETS = {
@@ -20,7 +21,7 @@ const LOGO_ASSETS = {
   },
 } as const;
 
-export function Logo({ className, size = 'md', asset }: LogoProps) {
+export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
   const sizeMap = {
     sm: { box: 'h-8 w-8' },
     md: { box: 'h-12 w-12' },
@@ -33,9 +34,44 @@ export function Logo({ className, size = 'md', asset }: LogoProps) {
   const currentSize = sizeMap[size];
   const sources = LOGO_ASSETS[asset || 'default'];
   const isNavbar = asset === 'logo-navbar';
+  const boxClass = isNavbar ? 'h-8 sm:h-9 md:h-10 w-32 sm:w-36 md:w-40 flex items-center' : currentSize.box;
+
+  if (forceTheme === 'dark') {
+    return (
+      <div className={cn('relative shrink-0 select-none group', boxClass, className)}>
+        <img
+          src={sources.dark}
+          alt="Jawrah Pixel Logo"
+          loading="eager"
+          decoding="sync"
+          width="560"
+          height="112"
+          className="pointer-events-none h-full w-auto max-w-full object-contain brightness-110"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    );
+  }
+
+  if (forceTheme === 'light') {
+    return (
+      <div className={cn('relative shrink-0 select-none group', boxClass, className)}>
+        <img
+          src={sources.light}
+          alt="Jawrah Pixel Logo"
+          loading="eager"
+          decoding="sync"
+          width="560"
+          height="112"
+          className="pointer-events-none h-full w-auto max-w-full object-contain brightness-105"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className={cn('theme-logo-wrapper relative shrink-0 select-none group', currentSize.box, className)}>
+    <div className={cn('theme-logo-wrapper relative shrink-0 select-none group', boxClass, className)}>
       {/* Light Theme Logo: Switched instantaneously by CSS class */}
       <img
         src={sources.light}
@@ -44,7 +80,7 @@ export function Logo({ className, size = 'md', asset }: LogoProps) {
         decoding="sync"
         width="560"
         height="112"
-        className="theme-logo-light pointer-events-none h-full w-full object-contain brightness-105"
+        className="theme-logo-light pointer-events-none h-full w-auto max-w-full object-contain brightness-105"
         referrerPolicy="no-referrer"
       />
 
@@ -56,7 +92,7 @@ export function Logo({ className, size = 'md', asset }: LogoProps) {
         decoding="sync"
         width="560"
         height="112"
-        className="theme-logo-dark pointer-events-none h-full w-full object-contain brightness-110"
+        className="theme-logo-dark pointer-events-none h-full w-auto max-w-full object-contain brightness-110"
         referrerPolicy="no-referrer"
       />
     </div>
