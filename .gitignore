@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Generated WebP logo assets are created during dev/build from source images.
+/public/assets/optimized/

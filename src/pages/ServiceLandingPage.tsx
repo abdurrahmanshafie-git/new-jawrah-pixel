@@ -113,7 +113,7 @@ export default function ServiceLandingPage() {
         schemaData={schema}
         region={page.region}
         alternates={serviceAlternates}
-        ogImage="/assets/logo.png"
+        ogImage="/assets/optimized/logo.webp"
       />
 
       <section className="relative overflow-hidden border-b theme-border pt-32 pb-16 md:pt-44 md:pb-28">

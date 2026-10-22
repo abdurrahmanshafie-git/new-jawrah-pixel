@@ -157,7 +157,7 @@ export function SleekLoader({
             className="relative flex items-center justify-center p-2"
           >
             <img
-              src="/assets/logo.png"
+              src="/assets/optimized/logo.webp"
               alt="Jawrah Pixel"
               width="144"
               height="144"
