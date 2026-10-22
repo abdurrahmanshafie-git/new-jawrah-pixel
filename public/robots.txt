@@ -99,10 +99,10 @@ Disallow: /_debug/
 Disallow: /dev/
 
 # Sitemaps
-Sitemap: https://jawrahpixel.com/sitemap.xml
-Sitemap: https://jawrahpixel.com/sitemap-pages.xml
-Sitemap: https://jawrahpixel.com/sitemap-services.xml
-Sitemap: https://jawrahpixel.com/sitemap-projects.xml
-Sitemap: https://jawrahpixel.com/sitemap-blog.xml
-Sitemap: https://jawrahpixel.com/sitemap-pricing.xml
-Sitemap: https://jawrahpixel.com/sitemap-locations.xml
+Sitemap: https://www.jawrahpixel.com/sitemap.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-pages.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-services.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-projects.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-blog.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-pricing.xml
+Sitemap: https://www.jawrahpixel.com/sitemap-locations.xml
