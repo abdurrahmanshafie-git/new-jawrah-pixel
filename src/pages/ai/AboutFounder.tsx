@@ -19,11 +19,11 @@ export default function AboutFounder() {
           {
             '@type': 'ProfilePage',
             name: 'Founders of Jawrah Pixel',
-            mainEntity: { '@id': 'https://jawrahpixel.com/#founder' },
+            mainEntity: { '@id': 'https://www.jawrahpixel.com/#founder' },
           },
           {
             '@type': 'Person',
-            '@id': 'https://jawrahpixel.com/#founder',
+            '@id': 'https://www.jawrahpixel.com/#founder',
             name: 'Abdurrahman Shafie',
             jobTitle: 'Founder & Creative Director',
             worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
