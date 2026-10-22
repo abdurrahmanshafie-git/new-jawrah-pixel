@@ -239,9 +239,9 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-[clamp(2.2rem,6.5vw,3.75rem)] md:text-6xl lg:text-7xl xl:text-8xl font-medium tracking-tight leading-[1.08] mb-8 uppercase font-display overflow-visible"
             >
-              <span className="block theme-text-primary mb-2">We build digital products</span>
-              <span className="premium-text-gradient block">that move businesses</span>
-              <span className="block theme-text-primary mt-2">forward.</span>
+              <span className="block theme-text-primary mb-2">A web design company</span>
+              <span className="premium-text-gradient block">for ambitious businesses</span>
+              <span className="block theme-text-primary mt-2">across Sri Lanka.</span>
             </motion.h1>
 
             <motion.p
@@ -250,7 +250,7 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-base md:text-lg theme-text-muted max-w-2xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
-              Jawrah Pixel is a Sri Lankan digital agency building custom websites, software, ecommerce platforms, mobile apps and SEO strategies for ambitious businesses.
+              Jawrah Pixel is a web design and development company in Sri Lanka creating premium business websites, ecommerce stores, jewellery websites, and custom web applications—with technical SEO built into the foundation.
             </motion.p>
 
             <motion.div
