@@ -93,7 +93,7 @@ export function SEO({
   canonicalUrl,
   canonical,
   ogType = 'website',
-  ogImage = '/assets/logo.png',
+  ogImage = '/assets/optimized/logo.webp',
   ogTitle,
   ogDescription,
   keywords,
