@@ -9,6 +9,7 @@ import { useAuth } from './contexts/AuthContext';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from './lib/region';
 import { trackPageView } from './lib/analytics';
 import { lazyWithRetry } from './lib/lazyWithRetry';
+import CountrySelection from './pages/CountrySelection';
 
 // Analytics Tracker Component
 function AnalyticsTracker() {
@@ -22,7 +23,6 @@ function AnalyticsTracker() {
 }
 
 // Lazy Loaded Pages with Deployment Auto-Retry
-import CountrySelection from './pages/CountrySelection';
 const Home = lazyWithRetry(() => import('./pages/Home'), 'Home');
 const About = lazyWithRetry(() => import('./pages/About'), 'About');
 const Services = lazyWithRetry(() => import('./pages/Services'), 'Services');
