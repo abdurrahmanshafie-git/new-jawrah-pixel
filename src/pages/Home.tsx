@@ -63,19 +63,23 @@ export default function Home() {
 
   const getHomeServiceLandingPath = (title: string) => {
     const webPath = currentRegion === 'lk'
-      ? '/web-development-sri-lanka'
+      ? '/web-design-company-sri-lanka'
       : currentRegion === 'pk'
         ? '/web-development-pakistan'
         : '/web-development-agency';
     const ecommercePath = currentRegion === 'lk'
-      ? '/ecommerce-development-sri-lanka'
+      ? '/ecommerce-website-development-sri-lanka'
       : currentRegion === 'pk'
         ? '/ecommerce-development-pakistan'
         : '/custom-software-development';
     const seoPath = currentRegion === 'lk'
       ? '/services/seo-services-sri-lanka'
       : '/seo';
-    const softwarePath = currentRegion === 'int' ? '/custom-software-development' : webPath;
+    const softwarePath = currentRegion === 'lk'
+      ? '/custom-web-application-development-sri-lanka'
+      : currentRegion === 'int'
+        ? '/custom-software-development'
+        : webPath;
 
     const paths: Record<string, string> = {
       'Premium Digital Experiences': webPath,
