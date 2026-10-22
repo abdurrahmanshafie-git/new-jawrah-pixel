@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase } from '@/lib/supabase/client';
-import { getOrCreateProfile } from '@/lib/supabase/api';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, persistAdminRegion, persistRegion, clearSavedRegion } from '@/lib/region';
 import type { Profile } from '@/types';
 import type { User, Session } from '@supabase/supabase-js';
@@ -36,16 +34,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    let authSubscription: { unsubscribe: () => void } | null = null;
+    let idleHandle: number | ReturnType<typeof setTimeout> | null = null;
+    let idleUsesRequestIdleCallback = false;
 
-    // Safety fallback: Never keep public pages in loading state for more than 2.5s
-    const safetyTimeout = setTimeout(() => {
-      if (mounted) {
-        setLoading(false);
-      }
-    }, 2500);
-
-    const initSession = async () => {
+    // The public region chooser does not need authentication to render.
+    // Defer loading Supabase there so its JavaScript/network work does not
+    // compete with the first meaningful paint. Protected and regional routes
+    // continue to initialize authentication immediately.
+    const initializeAuth = async () => {
       try {
+        const { supabase } = await import('@/lib/supabase/client');
+        if (!mounted) return;
+
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+          if (!mounted) return;
+          setSession(nextSession);
+          setUser(nextSession?.user ?? null);
+          if (nextSession?.user) {
+            void fetchProfile(nextSession.user);
+          } else {
+            setProfile(null);
+            setLoading(false);
+          }
+        });
+        authSubscription = subscription;
+
         const { data, error } = await supabase.auth.getSession();
         if (error) throw error;
         if (!mounted) return;
@@ -65,30 +81,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    void initSession();
+    const startAuth = () => {
+      idleHandle = null;
+      void initializeAuth();
+    };
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-      setUser(nextSession?.user ?? null);
-      if (nextSession?.user) {
-        void fetchProfile(nextSession.user);
-      } else {
-        setProfile(null);
-        setLoading(false);
-      }
-    });
+    if (window.location.pathname === '/' && 'requestIdleCallback' in window) {
+      idleUsesRequestIdleCallback = true;
+      idleHandle = window.requestIdleCallback(startAuth, { timeout: 1800 });
+    } else if (window.location.pathname === '/') {
+      idleHandle = setTimeout(startAuth, 700);
+    } else {
+      startAuth();
+    }
+
+    // Safety fallback: Never keep protected pages in a loading state indefinitely.
+    const safetyTimeout = setTimeout(() => {
+      if (mounted) setLoading(false);
+    }, 4000);
 
     return () => {
       mounted = false;
       clearTimeout(safetyTimeout);
-      subscription.unsubscribe();
+      if (idleHandle !== null) {
+        if (idleUsesRequestIdleCallback && 'cancelIdleCallback' in window) {
+          window.cancelIdleCallback(idleHandle as number);
+        } else {
+          clearTimeout(idleHandle as ReturnType<typeof setTimeout>);
+        }
+      }
+      authSubscription?.unsubscribe();
     };
   }, []);
 
   const fetchProfile = async (nextUser: User) => {
     try {
+      const { getOrCreateProfile } = await import('@/lib/supabase/api');
       const { data, error } = await getOrCreateProfile(nextUser);
         
       if (error) {
@@ -123,6 +151,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     setAuthError(null);
+    const { supabase } = await import('@/lib/supabase/client');
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
