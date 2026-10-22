@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const SITE_URL = 'https://jawrahpixel.com';
+const SITE_URL = 'https://www.jawrahpixel.com';
 const LAST_MOD = new Date().toISOString().slice(0, 10);
 const FORBIDDEN_HOST_PATTERN = /(?:localhost|127\.0\.0\.1|\.vercel\.app|\.netlify\.app)/i;
 
@@ -78,21 +78,13 @@ function generateSitemapIndex(sitemaps) {
 // Pages Sitemap
 const corePages = [
   { path: '/', priority: '1.0' },
-  '/about',
-  '/contact',
-  '/process',
-  '/partner',
-  '/case-studies',
-  '/leadership',
-  '/blog',
-  '/what-is-jawrah-pixel',
-  '/why-jawrah-pixel',
-  '/about-founder',
+  '/insights',
 ];
 const regionalPaths = ['/lk', '/pk', '/int', '/uk'];
 const regionalCorePages = regionalPaths.flatMap((region) => [
   `${region}/`,
   `${region}/about`,
+  `${region}/services`,
   `${region}/contact`,
   `${region}/process`,
   `${region}/partner`,
@@ -102,6 +94,10 @@ const regionalCorePages = regionalPaths.flatMap((region) => [
   `${region}/what-is-jawrah-pixel`,
   `${region}/why-jawrah-pixel`,
   `${region}/about-founder`,
+  `${region}/pricing`,
+  `${region}/privacy-policy`,
+  `${region}/terms-and-conditions`,
+  `${region}/refund-policy`,
 ]);
 
 const insightSlugs = [
@@ -111,55 +107,21 @@ const insightSlugs = [
 ];
 
 // Services Sitemap
-const servicesPages = [
-  { path: '/services', priority: '0.9' },
-  '/lk/services',
-  '/pk/services',
-  '/int/services',
-  '/uk/services',
-];
-
 const serviceSlugs = [
   'web-development',
+  'software-development',
   'ecommerce-development',
-  'ui-ux-design',
-  'branding',
-  'seo',
   'mobile-app-development',
-  'digital-marketing',
-  'ai-solutions',
+  'seo',
+  'ui-ux',
 ];
 
 const regionalServicePages = regionalPaths.flatMap((region) =>
-  serviceSlugs.map((slug) => `${region}/${slug}`),
+  serviceSlugs.map((slug) => ({ path: `${region}/services/${slug}`, priority: '0.85' })),
 );
 
-const hiddenSeoLandingPages = [
-  '/lk/digital-agency-sri-lanka',
-  '/lk/web-development-sri-lanka',
-  '/lk/ecommerce-development-sri-lanka',
-  '/lk/services/web-design-sri-lanka',
-  '/lk/services/seo-services-sri-lanka',
-  '/pk/digital-agency-pakistan',
-  '/pk/web-development-pakistan',
-  '/pk/ecommerce-development-pakistan',
-  '/pk/services/web-design-pakistan',
-  '/int/web-development-agency',
-  '/int/custom-software-development',
-  '/uk/digital-agency-uk',
-  '/uk/web-development-uk',
-  '/uk/services/seo-services-uk',
-  '/uk/services/monthly-maintenance-uk',
-];
-
 // Pricing Sitemap
-const pricingPages = [
-  { path: '/pricing', priority: '0.9' },
-  '/lk/pricing',
-  '/pk/pricing',
-  '/int/pricing',
-  '/uk/pricing',
-];
+const pricingPages = regionalPaths.map((region) => ({ path: `${region}/pricing`, priority: '0.85' }));
 
 // Projects Sitemap
 const caseStudySlugs = [
@@ -196,13 +158,12 @@ const legalPages = [
 ];
 
 // Generate all sitemaps
-generateSitemapFile('sitemap-pages.xml', [...corePages, ...regionalCorePages, ...legalPages]);
-generateSitemapFile('sitemap-services.xml', [...servicesPages, ...regionalServicePages, ...hiddenSeoLandingPages]);
+generateSitemapFile('sitemap-pages.xml', [...corePages, ...regionalCorePages]);
+generateSitemapFile('sitemap-services.xml', regionalServicePages);
 generateSitemapFile('sitemap-pricing.xml', pricingPages);
 generateSitemapFile('sitemap-projects.xml', caseStudyPages);
 // Placeholder sitemaps for future expansion
 generateSitemapFile('sitemap-blog.xml', [
-  '/blog',
   ...regionalPaths.flatMap((region) => [
     `${region}/blog`,
     ...insightSlugs.map((slug) => `${region}/blog/${slug}`),
