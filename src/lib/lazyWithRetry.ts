@@ -34,11 +34,25 @@ export function lazyWithRetry<T extends ComponentType<any>>(
       }
 
       // Check if error is a chunk loading error (common after new production builds)
+      const errorMessage = [
+        error?.message,
+        error?.cause?.message,
+        String(error ?? ''),
+      ]
+        .filter(Boolean)
+        .join(' ');
+
       const isChunkError =
         error?.name === 'ChunkLoadError' ||
-        error?.message?.includes('Failed to fetch dynamically imported module') ||
-        error?.message?.includes('error loading dynamically imported module') ||
-        error?.message?.includes('Loading chunk');
+        errorMessage.includes('Failed to fetch dynamically imported module') ||
+        errorMessage.includes('error loading dynamically imported module') ||
+        errorMessage.includes('Loading chunk') ||
+        // Chromium can report the root cause directly instead of wrapping it
+        // in "Failed to fetch dynamically imported module". This commonly
+        // happens when a stale tab requests a chunk from the previous deploy
+        // and the SPA fallback responds with index.html.
+        /not a valid JavaScript MIME type/i.test(errorMessage) ||
+        /MIME type.{0,80}text\/html|text\/html.{0,80}MIME type/i.test(errorMessage);
 
       if (typeof window !== 'undefined') {
         const hasRetried = sessionStorage.getItem(retryKey);
