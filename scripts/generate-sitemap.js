@@ -1,140 +1,121 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const SITE_URL = 'https://jawrahpixel.com';
 const LAST_MOD = new Date().toISOString().slice(0, 10);
 const FORBIDDEN_HOST_PATTERN = /(?:localhost|127\.0\.0\.1|\.vercel\.app|\.netlify\.app)/i;
+const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const SOURCE_DIR = path.join(process.cwd(), 'src');
 
 function escapeXml(value) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
 function absoluteUrl(pagePath) {
+  if (/^https?:\/\//i.test(pagePath)) return pagePath;
   if (pagePath === '/') return `${SITE_URL}/`;
-  return `${SITE_URL}${pagePath}`;
+  return `${SITE_URL}${pagePath.startsWith('/') ? pagePath : `/${pagePath}`}`;
 }
 
 function urlEntry(pagePath, priority = '0.80') {
   const loc = absoluteUrl(pagePath);
-  if (FORBIDDEN_HOST_PATTERN.test(loc) || !loc.startsWith(`${SITE_URL}/`)) {
-    throw new Error(`Refusing to write invalid sitemap URL: ${loc}`);
-  }
-
-  return [
-    '  <url>',
-    `    <loc>${escapeXml(loc)}</loc>`,
-    `    <lastmod>${LAST_MOD}</lastmod>`,
-    '    <changefreq>monthly</changefreq>',
-    `    <priority>${priority}</priority>`,
-    '  </url>',
-  ].join('\n');
+  if (FORBIDDEN_HOST_PATTERN.test(loc) || !loc.startsWith(`${SITE_URL}/`)) throw new Error(`Refusing to write invalid sitemap URL: ${loc}`);
+  return ['  <url>', `    <loc>${escapeXml(loc)}</loc>`, `    <lastmod>${LAST_MOD}</lastmod>`, '  </url>'].join('\n');
 }
 
 function sitemapEntry(pagePath) {
-  const loc = absoluteUrl(pagePath);
-  return [
-    '  <sitemap>',
-    `    <loc>${escapeXml(loc)}</loc>`,
-    `    <lastmod>${LAST_MOD}</lastmod>`,
-    '  </sitemap>',
-  ].join('\n');
+  return ['  <sitemap>', `    <loc>${escapeXml(absoluteUrl(pagePath))}</loc>`, `    <lastmod>${LAST_MOD}</lastmod>`, '  </sitemap>'].join('\n');
 }
 
-function generateSitemapFile(filename, paths, defaultPriority = '0.80') {
-  const uniquePaths = [...new Set(paths)];
+function generateSitemapFile(filename, entries) {
+  const uniqueEntries = [...new Map(entries.map((entry) => {
+    const value = typeof entry === 'string' ? { path: entry } : entry;
+    return [value.path, value];
+  })).values()];
+  const xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...uniqueEntries.map((entry) => urlEntry(entry.path, entry.priority || '0.80')), '</urlset>', ''].join('\n');
+  fs.writeFileSync(path.join(PUBLIC_DIR, filename), xml);
+  console.log(`${filename} URL count: ${uniqueEntries.length}`);
+}
+
+function generateImageSitemap(entries) {
+  const uniqueEntries = [...new Map(entries.map((entry) => [`${entry.page}|${entry.image}`, entry])).values()];
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...uniquePaths.map((p) => urlEntry(p.path || p, p.priority || defaultPriority)),
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+    ...uniqueEntries.map(({ page, image }) => ['  <url>', `    <loc>${escapeXml(absoluteUrl(page))}</loc>`, `    <image:image><image:loc>${escapeXml(absoluteUrl(image))}</image:loc></image:image>`, '  </url>'].join('\n')),
     '</urlset>',
     '',
   ].join('\n');
-
-  const outputPath = path.join(process.cwd(), 'public', filename);
-  fs.writeFileSync(outputPath, xml);
-  console.log(`${filename} generated at ${outputPath}`);
-  console.log(`${filename} URL count: ${uniquePaths.length}`);
+  fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap-images.xml'), xml);
+  console.log(`sitemap-images.xml image associations: ${uniqueEntries.length}`);
 }
 
 function generateSitemapIndex(sitemaps) {
-  const xml = [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...sitemaps.map(sitemapEntry),
-    '</sitemapindex>',
-    '',
-  ].join('\n');
-
-  const outputPath = path.join(process.cwd(), 'public', 'sitemap.xml');
-  fs.writeFileSync(outputPath, xml);
-  console.log(`Master sitemap index generated at ${outputPath}`);
+  const xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...sitemaps.map(sitemapEntry), '</sitemapindex>', ''].join('\n');
+  fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap.xml'), xml);
 }
 
-// Pages Sitemap
+// Read the project's source-of-truth content data so new fallback posts and
+// portfolio entries are automatically included in sitemaps at build time.
+function readBlogRecords() {
+  const file = path.join(SOURCE_DIR, 'data', 'blogPosts.ts');
+  if (!fs.existsSync(file)) return [];
+  return fs.readFileSync(file, 'utf8').split(/^  \{$/m).slice(1).map((part) => part.split(/^  \},?$/m)[0]).map((block) => ({
+    slug: block.match(/^\s*slug:\s*['"]([^'"]+)['"]/m)?.[1],
+    region: block.match(/^\s*region:\s*['"]([^'"]+)['"]/m)?.[1] || 'global',
+    image: block.match(/^\s*featured_image:\s*['"]([^'"]+)['"]/m)?.[1],
+  })).filter((record) => record.slug);
+}
+
+function readCaseStudyRecords() {
+  const file = path.join(SOURCE_DIR, 'data', 'caseStudies.ts');
+  if (!fs.existsSync(file)) return [];
+  const parts = fs.readFileSync(file, 'utf8').split(/^  '([^']+)': \{$/m).slice(1);
+  const records = [];
+  for (let i = 0; i + 1 < parts.length; i += 2) {
+    const key = parts[i];
+    const block = parts[i + 1].split(/^  },?$/m)[0];
+    const slug = block.match(/^\s*slug:\s*['"]([^'"]+)['"]/m)?.[1] || key;
+    const region = block.match(/^\s*region:\s*['"]([^'"]+)['"]/m)?.[1] || 'global';
+    const images = [
+      block.match(/^\s*desktopImage:\s*['"]([^'"]+)['"]/m)?.[1],
+      block.match(/^\s*mobileImage:\s*['"]([^'"]+)['"]/m)?.[1],
+    ].filter((image) => image && image.startsWith('/assets/'));
+    records.push({ slug, region, images });
+  }
+  return records;
+}
+
+const regions = ['lk', 'pk', 'int', 'uk'];
 const corePages = [
-  { path: '/', priority: '1.0' },
-  '/about',
-  '/contact',
-  '/process',
-  '/partner',
-  '/case-studies',
-  '/leadership',
-  '/blog',
-  '/what-is-jawrah-pixel',
-  '/why-jawrah-pixel',
-  '/about-founder',
+  { path: '/', priority: '1.0' }, '/about', '/contact', '/process', '/partner',
+  '/case-studies', '/leadership', '/blog', '/what-is-jawrah-pixel',
+  '/why-jawrah-pixel', '/about-founder', '/services', '/pricing',
+  '/services/web-development', '/services/software-development',
+  '/services/ecommerce-development', '/services/mobile-app-development',
+  '/services/seo', '/services/ui-ux', '/privacy-policy',
+  '/terms-and-conditions', '/refund-policy', '/cookie-policy',
 ];
 const regionalPaths = ['/lk', '/pk', '/int', '/uk'];
-const regionalCorePages = regionalPaths.flatMap((region) => [
-  `${region}/`,
-  `${region}/about`,
-  `${region}/contact`,
-  `${region}/process`,
-  `${region}/partner`,
-  `${region}/case-studies`,
-  `${region}/leadership`,
-  `${region}/blog`,
-  `${region}/what-is-jawrah-pixel`,
-  `${region}/why-jawrah-pixel`,
-  `${region}/about-founder`,
+const regionalCoreSlugs = [
+  'about', 'contact', 'process', 'partner', 'case-studies', 'leadership',
+  'blog', 'what-is-jawrah-pixel', 'why-jawrah-pixel', 'about-founder',
+  'privacy-policy', 'terms-and-conditions', 'refund-policy',
+];
+const regionalServiceSlugs = [
+  'web-development', 'ecommerce-development', 'ui-ux-design', 'branding',
+  'seo', 'mobile-app-development', 'digital-marketing', 'ai-solutions',
+];
+const regionalCorePages = regions.flatMap((region) => [
+  `/${region}`,
+  ...regionalCoreSlugs.map((slug) => `/${region}/${slug}`),
+  `/${region}/services`,
+  `/${region}/pricing`,
+  ...regionalServiceSlugs.map((slug) => `/${region}/${slug}`),
+  ...regionalServiceSlugs.map((slug) => `/${region}/services/${slug}`),
 ]);
 
-const insightSlugs = [
-  'seo-architecture-for-premium-websites',
-  'regional-seo-for-sri-lanka-pakistan-global',
-  'core-web-vitals-for-agency-sites',
-];
-
-// Services Sitemap
-const servicesPages = [
-  { path: '/services', priority: '0.9' },
-  '/lk/services',
-  '/pk/services',
-  '/int/services',
-  '/uk/services',
-];
-
-const serviceSlugs = [
-  'web-development',
-  'ecommerce-development',
-  'ui-ux-design',
-  'branding',
-  'seo',
-  'mobile-app-development',
-  'digital-marketing',
-  'ai-solutions',
-];
-
-const regionalServicePages = regionalPaths.flatMap((region) =>
-  serviceSlugs.map((slug) => `${region}/${slug}`),
-);
-
-const hiddenSeoLandingPages = [
+const targetedSeoPages = [
   '/lk/digital-agency-sri-lanka',
   '/lk/web-development-sri-lanka',
   '/lk/ecommerce-development-sri-lanka',
@@ -145,82 +126,56 @@ const hiddenSeoLandingPages = [
   '/lk/ecommerce-website-development-sri-lanka',
   '/lk/jewellery-website-design-sri-lanka',
   '/lk/custom-web-application-development-sri-lanka',
-  '/pk/digital-agency-pakistan',
-  '/pk/web-development-pakistan',
-  '/pk/ecommerce-development-pakistan',
-  '/pk/services/web-design-pakistan',
-  '/int/web-development-agency',
-  '/int/custom-software-development',
-  '/uk/digital-agency-uk',
-  '/uk/web-development-uk',
-  '/uk/services/seo-services-uk',
-  '/uk/services/monthly-maintenance-uk',
+  '/pk/digital-agency-pakistan', '/pk/web-development-pakistan',
+  '/pk/ecommerce-development-pakistan', '/pk/services/web-design-pakistan',
+  '/int/web-development-agency', '/int/custom-software-development',
+  '/uk/digital-agency-uk', '/uk/web-development-uk',
+  '/uk/services/seo-services-uk', '/uk/services/monthly-maintenance-uk',
 ];
 
-// Pricing Sitemap
-const pricingPages = [
-  { path: '/pricing', priority: '0.9' },
-  '/lk/pricing',
-  '/pk/pricing',
-  '/int/pricing',
-  '/uk/pricing',
-];
+const blogRecords = readBlogRecords();
+const blogPages = ['/blog', ...regions.map((region) => `/${region}/blog`)];
+const blogImages = [];
+for (const post of blogRecords) {
+  for (const region of regions) {
+    if (post.region === 'global' || post.region === region || region === 'int') {
+      blogPages.push(`/${region}/blog/${post.slug}`);
+      if (post.image?.startsWith('/assets/')) blogImages.push({ page: `/${region}/blog/${post.slug}`, image: post.image });
+    }
+  }
+}
 
-// Projects Sitemap
-const caseStudySlugs = [
-  'zenvor',
-  'jawrah-pixel',
-  'aerovista',
-  'velora-estates',
-  'shabnam-jewellers',
-  'aerovista-travels',
-  'the-famous',
-  'amirah-jewellery',
-  'kamal-jewellers',
-  'elite-education',
-  'elite-elegant',
-  'miorah',
-  'zaza-clothing',
-];
-const caseStudyPages = [
-  ...caseStudySlugs.map((slug) => `/case-studies/${slug}`),
-  ...regionalPaths.flatMap((region) => caseStudySlugs.map((slug) => `${region}/case-studies/${slug}`)),
-];
+const caseRecords = readCaseStudyRecords();
+const projectPages = ['/case-studies', ...regions.map((region) => `/${region}/case-studies`)];
+const projectImages = [];
+for (const project of caseRecords) {
+  const matchingRegions = project.region === 'global' ? regions : [project.region];
+  for (const region of matchingRegions) {
+    projectPages.push(`/${region}/case-studies/${project.slug}`);
+    for (const image of project.images) projectImages.push({ page: `/${region}/case-studies/${project.slug}`, image });
+  }
+  if (project.region === 'global') projectPages.push(`/case-studies/${project.slug}`);
+}
 
-// Legal Pages
-const legalPages = [
-  '/privacy-policy',
-  '/terms-and-conditions',
-  '/refund-policy',
-  '/cookie-policy',
-  ...regionalPaths.flatMap((region) => [
-    `${region}/privacy-policy`,
-    `${region}/terms-and-conditions`,
-    `${region}/refund-policy`,
-  ]),
-];
-
-// Generate all sitemaps
-generateSitemapFile('sitemap-pages.xml', [...corePages, ...regionalCorePages, ...legalPages]);
-generateSitemapFile('sitemap-services.xml', [...servicesPages, ...regionalServicePages, ...hiddenSeoLandingPages]);
-generateSitemapFile('sitemap-pricing.xml', pricingPages);
-generateSitemapFile('sitemap-projects.xml', caseStudyPages);
-// Placeholder sitemaps for future expansion
-generateSitemapFile('sitemap-blog.xml', [
-  '/blog',
-  ...regionalPaths.flatMap((region) => [
-    `${region}/blog`,
-    ...insightSlugs.map((slug) => `${region}/blog/${slug}`),
-  ]),
+generateSitemapFile('sitemap-pages.xml', [...corePages, ...regionalCorePages, ...regions.flatMap((region) => ['/privacy-policy', '/terms-and-conditions', '/refund-policy'].map((slug) => `/${region}${slug}`))]);
+generateSitemapFile('sitemap-services.xml', [
+  '/services', '/lk/services', '/pk/services', '/int/services', '/uk/services',
+  ...regionalPaths.flatMap((region) => regionalServiceSlugs.map((slug) => `${region}/${slug}`)),
+  ...targetedSeoPages,
 ]);
-generateSitemapFile('sitemap-locations.xml', regionalPaths);
-
-// Generate master sitemap index
+generateSitemapFile('sitemap-pricing.xml', ['/pricing', ...regions.map((region) => `/${region}/pricing`)]);
+generateSitemapFile('sitemap-projects.xml', projectPages);
+generateSitemapFile('sitemap-blog.xml', blogPages);
+generateSitemapFile('sitemap-locations.xml', regions.map((region) => `/${region}`));
+generateImageSitemap([
+  { page: '/lk', image: '/assets/hero_bg.png' },
+  { page: '/lk', image: '/assets/optimized/logo.webp' },
+  { page: '/', image: '/assets/optimized/logo.webp' },
+  ...blogImages,
+  ...projectImages,
+]);
 generateSitemapIndex([
-  '/sitemap-pages.xml',
-  '/sitemap-services.xml',
-  '/sitemap-pricing.xml',
-  '/sitemap-projects.xml',
-  '/sitemap-blog.xml',
-  '/sitemap-locations.xml',
+  '/sitemap-pages.xml', '/sitemap-services.xml', '/sitemap-pricing.xml',
+  '/sitemap-projects.xml', '/sitemap-blog.xml', '/sitemap-locations.xml',
+  '/sitemap-images.xml',
 ]);
