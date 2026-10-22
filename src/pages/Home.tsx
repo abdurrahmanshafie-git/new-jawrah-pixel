@@ -55,6 +55,7 @@ export default function Home() {
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
     { icon: <ShoppingCart className="text-brand-cyan" />, title: "Enterprise Commerce", desc: `High-performance, scalable commerce architectures designed exclusively for luxury retail, jewellery, and lifestyle brands.` },
+    { icon: <Sparkles className="text-brand-cyan" />, title: "Jewellery & Luxury Commerce", desc: "Premium digital showrooms and ecommerce experiences for jewellers, gold businesses, and high-value product brands." },
     { icon: <MonitorSmartphone className="text-brand-blue" />, title: "Strategic UI/UX Architecture", desc: "Data-driven user journeys combined with cinematic motion design to maximize retention, engagement, and conversion rates." },
     { icon: <TrendingUp className="text-brand-cyan" />, title: "SEO & Performance Scaling", desc: "Technical edge-optimization and intelligent search strategies to dominate your market share and outperform competitors." },
     { icon: <Server className="text-brand-blue" />, title: "SaaS & Systems Architecture", desc: "Bespoke internal tools, robust admin dashboards, and scalable database systems built on modern Supabase and React infrastructure." },
@@ -84,6 +85,9 @@ export default function Home() {
     const paths: Record<string, string> = {
       'Premium Digital Experiences': webPath,
       'Enterprise Commerce': ecommercePath,
+      'Jewellery & Luxury Commerce': currentRegion === 'lk'
+        ? '/jewellery-website-design-sri-lanka'
+        : ecommercePath,
       'Strategic UI/UX Architecture': '/ui-ux-design',
       'SEO & Performance Scaling': seoPath,
       'SaaS & Systems Architecture': softwarePath,
