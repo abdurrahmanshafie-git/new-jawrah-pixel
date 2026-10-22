@@ -16,8 +16,8 @@ async function main() {
     const destinationPath = path.join(outputRoot, fileName.replace(/\.png$/i, '.webp'));
     const original = await fs.stat(sourcePath);
     await sharp(sourcePath, { failOn: 'none' })
-      .resize({ width: 1200, withoutEnlargement: true })
-      .webp({ quality: 84, alphaQuality: 90, effort: 5, smartSubsample: true })
+      .resize({ width: 560, withoutEnlargement: true })
+      .webp({ quality: 80, alphaQuality: 88, effort: 6, smartSubsample: true })
       .toFile(destinationPath);
     const optimized = await fs.stat(destinationPath);
     originalBytes += original.size;
@@ -27,7 +27,7 @@ async function main() {
 
   const faviconPath = path.join(outputRoot, 'logo-icon.png');
   await sharp(path.join(assetsRoot, 'logo.png'), { failOn: 'none' })
-    .resize({ width: 280, withoutEnlargement: true })
+    .resize({ width: 192, withoutEnlargement: true })
     .png({ compressionLevel: 9, adaptiveFiltering: true })
     .toFile(faviconPath);
 
