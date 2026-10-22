@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Globe, Lock } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
@@ -56,10 +55,7 @@ export function RootLayout() {
       <Cursor />
       <div className="noise-overlay" />
       
-      <motion.div 
-        className="min-h-screen"
-        style={{ backgroundColor: 'var(--background)' }}
-      >
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
         {!isCountrySelection && <Navbar />}
         <main className="w-full">
           <Suspense fallback={<SleekLoader fullScreen={true} />}>
@@ -68,7 +64,7 @@ export function RootLayout() {
         </main>
         {!isCountrySelection && <Footer />}
         {!isCountrySelection && <DeferredJawrahBot />}
-      </motion.div>
+      </div>
     </RegionRouteGuard>
   );
 }
