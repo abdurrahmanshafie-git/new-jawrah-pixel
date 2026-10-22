@@ -43,11 +43,11 @@ export function buildOrganizationSchema(): JsonLdNode {
     url: appEnv.siteUrl,
     logo: {
       '@type': 'ImageObject',
-      url: toAbsoluteUrl('/assets/logo.png'),
+      url: toAbsoluteUrl('/assets/optimized/logo.webp'),
       width: 512,
       height: 512,
     },
-    image: toAbsoluteUrl('/assets/logo.png'),
+    image: toAbsoluteUrl('/assets/optimized/logo.webp'),
     email: appEnv.contactEmail,
     telephone: appEnv.contactWhatsapp,
     founder: {
@@ -113,8 +113,8 @@ export function buildLocalBusinessSchema(region: RegionCode): JsonLdNode {
     name: `Jawrah Pixel ${area}`,
     alternateName: ['JawrahPixel', 'Jawrah'],
     url: `${appEnv.siteUrl}/${region}`,
-    image: toAbsoluteUrl('/assets/logo.png'),
-    logo: toAbsoluteUrl('/assets/logo.png'),
+    image: toAbsoluteUrl('/assets/optimized/logo.webp'),
+    logo: toAbsoluteUrl('/assets/optimized/logo.webp'),
     email: appEnv.contactEmail,
     telephone: appEnv.contactWhatsapp,
     priceRange: '$$',
@@ -248,7 +248,7 @@ export function buildCaseStudySchema({
     headline: title,
     description,
     about: industry,
-    image: image ? toAbsoluteUrl(image) : toAbsoluteUrl('/assets/logo.png'),
+    image: image ? toAbsoluteUrl(image) : toAbsoluteUrl('/assets/optimized/logo.webp'),
     creator: {
       '@id': `${appEnv.siteUrl}/#organization`,
     },
