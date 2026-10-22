@@ -12,12 +12,12 @@ interface LogoProps {
 
 const LOGO_ASSETS = {
   default: {
-    light: '/assets/logo-white.png',
-    dark: '/assets/logo.png',
+    light: '/assets/optimized/logo-white.webp',
+    dark: '/assets/optimized/logo.webp',
   },
   'logo-navbar': {
-    light: '/assets/logo-navbar-white.png',
-    dark: '/assets/logo-navbar.png',
+    light: '/assets/optimized/logo-navbar-white.webp',
+    dark: '/assets/optimized/logo-navbar.webp',
   },
 } as const;
 
@@ -43,7 +43,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
           src={sources.dark}
           alt="Jawrah Pixel Logo"
           loading="eager"
-          decoding="sync"
+          decoding="async"
           width="560"
           height="112"
           className="pointer-events-none h-full w-auto max-w-full object-contain brightness-110"
@@ -60,7 +60,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
           src={sources.light}
           alt="Jawrah Pixel Logo"
           loading="eager"
-          decoding="sync"
+          decoding="async"
           width="560"
           height="112"
           className="pointer-events-none h-full w-auto max-w-full object-contain brightness-105"
@@ -77,7 +77,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
         src={sources.light}
         alt="Jawrah Pixel Logo"
         loading={isNavbar ? 'eager' : 'lazy'}
-        decoding="sync"
+        decoding="async"
         width="560"
         height="112"
         className="theme-logo-light pointer-events-none h-full w-auto max-w-full object-contain brightness-105"
@@ -89,7 +89,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
         src={sources.dark}
         alt="Jawrah Pixel Logo"
         loading={isNavbar ? 'eager' : 'lazy'}
-        decoding="sync"
+        decoding="async"
         width="560"
         height="112"
         className="theme-logo-dark pointer-events-none h-full w-auto max-w-full object-contain brightness-110"
