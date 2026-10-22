@@ -144,19 +144,6 @@ const caseStudyPages = [
   ...regionalPaths.flatMap((region) => caseStudySlugs.map((slug) => `${region}/case-studies/${slug}`)),
 ];
 
-// Legal Pages
-const legalPages = [
-  '/privacy-policy',
-  '/terms-and-conditions',
-  '/refund-policy',
-  '/cookie-policy',
-  ...regionalPaths.flatMap((region) => [
-    `${region}/privacy-policy`,
-    `${region}/terms-and-conditions`,
-    `${region}/refund-policy`,
-  ]),
-];
-
 // Generate all sitemaps
 generateSitemapFile('sitemap-pages.xml', [...corePages, ...regionalCorePages]);
 generateSitemapFile('sitemap-services.xml', regionalServicePages);
