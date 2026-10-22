@@ -55,6 +55,7 @@ export default function Home() {
   const servicesList = [
     { icon: <Layout className="text-brand-blue" />, title: "Premium Digital Experiences", desc: "We craft immersive, award-winning interfaces engineered to elevate brand perception, improve customer trust, and increase conversions." },
     { icon: <ShoppingCart className="text-brand-cyan" />, title: "Enterprise Commerce", desc: `High-performance, scalable commerce architectures designed exclusively for luxury retail, jewellery, and lifestyle brands.` },
+    { icon: <Sparkles className="text-brand-cyan" />, title: "Jewellery & Luxury Commerce", desc: "Premium digital showrooms and ecommerce experiences for jewellers, gold businesses, and high-value product brands." },
     { icon: <MonitorSmartphone className="text-brand-blue" />, title: "Strategic UI/UX Architecture", desc: "Data-driven user journeys combined with cinematic motion design to maximize retention, engagement, and conversion rates." },
     { icon: <TrendingUp className="text-brand-cyan" />, title: "SEO & Performance Scaling", desc: "Technical edge-optimization and intelligent search strategies to dominate your market share and outperform competitors." },
     { icon: <Server className="text-brand-blue" />, title: "SaaS & Systems Architecture", desc: "Bespoke internal tools, robust admin dashboards, and scalable database systems built on modern Supabase and React infrastructure." },
@@ -63,23 +64,30 @@ export default function Home() {
 
   const getHomeServiceLandingPath = (title: string) => {
     const webPath = currentRegion === 'lk'
-      ? '/web-development-sri-lanka'
+      ? '/web-design-company-sri-lanka'
       : currentRegion === 'pk'
         ? '/web-development-pakistan'
         : '/web-development-agency';
     const ecommercePath = currentRegion === 'lk'
-      ? '/ecommerce-development-sri-lanka'
+      ? '/ecommerce-website-development-sri-lanka'
       : currentRegion === 'pk'
         ? '/ecommerce-development-pakistan'
         : '/custom-software-development';
     const seoPath = currentRegion === 'lk'
       ? '/services/seo-services-sri-lanka'
       : '/seo';
-    const softwarePath = currentRegion === 'int' ? '/custom-software-development' : webPath;
+    const softwarePath = currentRegion === 'lk'
+      ? '/custom-web-application-development-sri-lanka'
+      : currentRegion === 'int'
+        ? '/custom-software-development'
+        : webPath;
 
     const paths: Record<string, string> = {
       'Premium Digital Experiences': webPath,
       'Enterprise Commerce': ecommercePath,
+      'Jewellery & Luxury Commerce': currentRegion === 'lk'
+        ? '/jewellery-website-design-sri-lanka'
+        : ecommercePath,
       'Strategic UI/UX Architecture': '/ui-ux-design',
       'SEO & Performance Scaling': seoPath,
       'SaaS & Systems Architecture': softwarePath,
@@ -231,9 +239,9 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-[clamp(2.2rem,6.5vw,3.75rem)] md:text-6xl lg:text-7xl xl:text-8xl font-medium tracking-tight leading-[1.08] mb-8 uppercase font-display overflow-visible"
             >
-              <span className="block theme-text-primary mb-2">We build digital products</span>
-              <span className="premium-text-gradient block">that move businesses</span>
-              <span className="block theme-text-primary mt-2">forward.</span>
+              <span className="block theme-text-primary mb-2">A web design company</span>
+              <span className="premium-text-gradient block">for ambitious businesses</span>
+              <span className="block theme-text-primary mt-2">across Sri Lanka.</span>
             </motion.h1>
 
             <motion.p
@@ -242,7 +250,7 @@ export default function Home() {
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-30 text-base md:text-lg theme-text-muted max-w-2xl mb-12 leading-relaxed font-light mx-auto px-4 sm:px-0"
             >
-              Jawrah Pixel is a Sri Lankan digital agency building custom websites, software, ecommerce platforms, mobile apps and SEO strategies for ambitious businesses.
+              Jawrah Pixel is a web design and development company in Sri Lanka creating premium business websites, ecommerce stores, jewellery websites, and custom web applications—with technical SEO built into the foundation.
             </motion.p>
 
             <motion.div
