@@ -1,4 +1,4 @@
-const PRODUCTION_SITE_URL = 'https://jawrahpixel.com';
+const PRODUCTION_SITE_URL = 'https://www.jawrahpixel.com';
 const rawSiteUrl = import.meta.env.VITE_APP_URL || import.meta.env.VITE_SITE_URL || PRODUCTION_SITE_URL;
 const rawSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const rawSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';

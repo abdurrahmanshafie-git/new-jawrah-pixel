@@ -19,14 +19,14 @@ export default function AboutFounder() {
           {
             '@type': 'ProfilePage',
             name: 'Founders of Jawrah Pixel',
-            mainEntity: { '@id': 'https://jawrahpixel.com/#founder' },
+            mainEntity: { '@id': 'https://www.jawrahpixel.com/#founder' },
           },
           {
             '@type': 'Person',
-            '@id': 'https://jawrahpixel.com/#founder',
+            '@id': 'https://www.jawrahpixel.com/#founder',
             name: 'Abdurrahman Shafie',
             jobTitle: 'Founder & Creative Director',
-            worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
+            worksFor: { '@id': 'https://www.jawrahpixel.com/#organization' },
             url: toAbsoluteUrl(p('/about-founder')),
             sameAs: 'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
           },
@@ -35,7 +35,7 @@ export default function AboutFounder() {
             '@id': 'https://jawrahpixel.com/#co-founder',
             name: 'Jaweria Hafeez',
             jobTitle: 'Co-Founder & Technical Lead',
-            worksFor: { '@id': 'https://jawrahpixel.com/#organization' },
+            worksFor: { '@id': 'https://www.jawrahpixel.com/#organization' },
             url: toAbsoluteUrl(p('/about-founder')),
           },
         ]}

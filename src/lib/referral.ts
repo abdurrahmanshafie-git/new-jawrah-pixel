@@ -54,7 +54,7 @@ export function clearStoredReferral() {
 }
 
 export function buildAgentReferralLink(agentCode: string, region?: string): string {
-  const base = 'https://jawrahpixel.com';
+  const base = 'https://www.jawrahpixel.com';
   if (region && ['lk', 'pk', 'int'].includes(region)) {
     return `${base}/${region}?ref=${encodeURIComponent(agentCode)}`;
   }

@@ -45,7 +45,7 @@ export default function Blog() {
           "name": seoTitle,
           "description": seoDescription,
           "publisher": {
-            "@id": "https://jawrahpixel.com/#organization"
+            "@id": "https://www.jawrahpixel.com/#organization"
           }
         }}
       />

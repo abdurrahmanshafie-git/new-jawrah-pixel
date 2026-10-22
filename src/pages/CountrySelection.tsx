@@ -63,9 +63,9 @@ export default function CountrySelection() {
   return (
     <div className="min-h-screen relative flex flex-col justify-between overflow-hidden font-sans" style={{ backgroundColor: 'var(--color-bg-primary)', color: 'var(--color-text-primary)' }}>
       <SEO
-                title="Jawrah Pixel — Premium Digital Agency in Sri Lanka"
+                title="Jawrah Pixel | Premium Web Design & Digital Agency in Sri Lanka"
         description="Jawrah Pixel is a premium digital agency providing web development, web design, UI/UX design, SEO, ecommerce, branding, and digital systems across Sri Lanka, Pakistan, and international markets."
-        canonicalUrl="https://jawrahpixel.com/"
+        canonicalUrl="https://www.jawrahpixel.com/"
         keywords={['Jawrah Pixel', 'web design agency', 'digital agency Sri Lanka', 'digital agency Pakistan', 'international digital agency']}
       />
 

@@ -122,7 +122,7 @@ export default function SignUp() {
       <SEO
         title="Client Signup | Jawrah Pixel"
         description="Create a Jawrah Pixel client account for secure project collaboration, regional onboarding, invoices, milestones, and digital delivery support."
-        canonicalUrl="https://jawrahpixel.com/auth/signup"
+        canonicalUrl="https://www.jawrahpixel.com/auth/signup"
         keywords={['Jawrah Pixel signup', 'client portal signup', 'digital agency client account']}
         disableAutoHreflang
       />

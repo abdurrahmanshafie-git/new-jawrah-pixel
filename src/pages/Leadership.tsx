@@ -35,11 +35,11 @@ export default function Leadership() {
             name: 'Leadership Behind Jawrah Pixel',
             description: 'Founder and co-founder of Jawrah Pixel — Abdurrahman Shafie and Jaweria Hafeez.',
             url: getCanonicalUrl(seo.path),
-            mainEntity: { '@id': 'https://jawrahpixel.com/#founder' },
+            mainEntity: { '@id': 'https://www.jawrahpixel.com/#founder' },
           },
           {
             '@type': 'Person',
-            '@id': 'https://jawrahpixel.com/#founder',
+            '@id': 'https://www.jawrahpixel.com/#founder',
             name: 'Abdurrahman Shafie',
             jobTitle: 'Founder & Creative Director',
             description: 'Abdurrahman Shafie is the Founder of Jawrah Pixel, overseeing creative direction, technical architecture, and strategic growth.',
