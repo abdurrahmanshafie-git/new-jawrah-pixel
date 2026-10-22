@@ -96,7 +96,7 @@ export function buildWebsiteSchema(): JsonLdNode {
     '@id': `${appEnv.siteUrl}/#website`,
     url: appEnv.siteUrl,
     name: 'Jawrah Pixel',
-    alternateName: ['JawrahPixel', 'Jawrah'],
+    alternateName: ['JawrahPixel', 'Jawrah Pixel', 'jawrahpixel.com', 'Jawrah'],
     inLanguage: ['en-LK', 'en-PK', 'en'],
     publisher: {
       '@id': `${appEnv.siteUrl}/#organization`,
