@@ -5,7 +5,6 @@ import { SEO } from '@/components/layout/SEO';
 import { getSavedRegion, persistRegion, regionPath } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
-import { StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -133,13 +132,13 @@ export default function CountrySelection() {
           </div>
         </div>
 
-        <StaggerContainer className="grid w-full max-w-6xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="grid w-full max-w-6xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {REGION_OPTIONS.map((region) => {
             const styles = getRegionStyles(region.id);
             const isActive = selectedRegion === region.id;
 
             return (
-              <StaggerItem
+              <div
                 key={region.id}
                 className="group relative"
               >
@@ -187,10 +186,10 @@ export default function CountrySelection() {
 
                   <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
                 </Link>
-              </StaggerItem>
+              </div>
             );
           })}
-        </StaggerContainer>
+        </div>
       </main>
 
       <footer className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 relative z-10 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-8 border-t" style={{ borderColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }}>
