@@ -5,7 +5,7 @@ import { SEO } from '@/components/layout/SEO';
 import { getSavedRegion, persistRegion, regionPath } from '@/lib/region';
 import { REGION_OPTIONS } from '@/data/regions';
 import type { RegionCode } from '@/types';
-import { Reveal, StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
+import { StaggerContainer, StaggerItem } from '@/components/ui/Reveal';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -97,7 +97,7 @@ export default function CountrySelection() {
 
       <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-12 flex-1 flex flex-col items-center justify-center relative z-10">
         <div className="max-w-4xl w-full text-center mb-8 sm:mb-12 md:mb-16">
-          <Reveal>
+          <div>
             <div
               className={cn(
                 'inline-flex items-center gap-2.5 mb-6 sm:mb-10 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border text-[9px] sm:text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium transition-all duration-300 whitespace-nowrap shadow-sm backdrop-blur-md',
@@ -118,19 +118,19 @@ export default function CountrySelection() {
               </span>
               <span>Global Standards, Local Edge</span>
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1}>
+          <div>
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-medium tracking-tight leading-[1.1] mb-5 sm:mb-8 uppercase overflow-visible" style={{ color: 'var(--color-text-primary)' }}>
               Choose Your <br /> <span className="premium-text-gradient italic inline-block px-2 py-1 overflow-visible">Region</span>
             </h1>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.2}>
+          <div>
             <p className="text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-light px-2" style={{ color: 'var(--color-text-secondary)' }}>
               Jawrah Pixel architects premium digital monopolies for ambitious businesses across the globe.
             </p>
-          </Reveal>
+          </div>
         </div>
 
         <StaggerContainer className="grid w-full max-w-6xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
