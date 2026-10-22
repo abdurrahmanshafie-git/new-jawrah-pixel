@@ -67,6 +67,15 @@ function readBlogRecords() {
   })).filter((record) => record.slug);
 }
 
+function listImageFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) return listImageFiles(fullPath);
+    return /\.(png|jpe?g|webp|avif|gif|svg)$/i.test(entry.name) ? [fullPath] : [];
+  });
+}
+
 function readCaseStudyRecords() {
   const file = path.join(SOURCE_DIR, 'data', 'caseStudies.ts');
   if (!fs.existsSync(file)) return [];
@@ -167,12 +176,49 @@ generateSitemapFile('sitemap-pricing.xml', ['/pricing', ...regions.map((region) 
 generateSitemapFile('sitemap-projects.xml', projectPages);
 generateSitemapFile('sitemap-blog.xml', blogPages);
 generateSitemapFile('sitemap-locations.xml', regions.map((region) => `/${region}`));
+const projectSlugByAssetFolder = {
+  'aero-vista': 'aerovista',
+  'amirah jewellers': 'amirah-jewellery',
+  'elite education': 'elite-education',
+  'elite elegant': 'elite-elegant',
+  'jawrah client portal': 'jawrah-pixel',
+  'jawrah-pixel': 'jawrah-pixel',
+  'kamal jewellers': 'kamal-jewellers',
+  miorah: 'miorah',
+  rankala: 'rankala-gold',
+  'shabnam-jewellers': 'shabnam-jewellers',
+  'the famous': 'the-famous',
+  velora: 'velora-estates',
+  'zaza clothing': 'zaza-clothing',
+  zenvor: 'zenvor',
+};
+const allPublicImageAssociations = [];
+for (const file of listImageFiles(path.join(PUBLIC_DIR, 'assets'))) {
+  const image = `/${path.relative(PUBLIC_DIR, file).split(path.sep).join('/')}`;
+  const relativeAssetPath = path.relative(path.join(PUBLIC_DIR, 'assets'), file).split(path.sep).join('/');
+  const caseStudyMatch = relativeAssetPath.match(/^case-studies\/([^/]+)\//i);
+  if (caseStudyMatch) {
+    const projectSlug = projectSlugByAssetFolder[caseStudyMatch[1].toLowerCase()];
+    const project = caseRecords.find((record) => record.slug === projectSlug);
+    if (project) {
+      const projectRegions = project.region === 'global' ? regions : [project.region];
+      for (const region of projectRegions) allPublicImageAssociations.push({ page: `/${region}/case-studies/${project.slug}`, image });
+    }
+    continue;
+  }
+  if (/^founder-image\./i.test(path.basename(file))) {
+    allPublicImageAssociations.push({ page: '/lk/about-founder', image }, { page: '/int/about-founder', image });
+  } else if (/^hero_bg\./i.test(path.basename(file))) {
+    for (const region of regions) allPublicImageAssociations.push({ page: `/${region}`, image });
+  } else if (/^(logo|logo-white|logo-navbar|logo-navbar-white)\./i.test(path.basename(file)) || relativeAssetPath.startsWith('optimized/')) {
+    allPublicImageAssociations.push({ page: '/lk', image }, { page: '/', image });
+  }
+}
+
 generateImageSitemap([
-  { page: '/lk', image: '/assets/hero_bg.png' },
-  { page: '/lk', image: '/assets/optimized/logo.webp' },
-  { page: '/', image: '/assets/optimized/logo.webp' },
   ...blogImages,
   ...projectImages,
+  ...allPublicImageAssociations,
 ]);
 generateSitemapIndex([
   '/sitemap-pages.xml', '/sitemap-services.xml', '/sitemap-pricing.xml',
