@@ -8,7 +8,8 @@ import { RequireAuth } from './components/auth/RequireAuth';
 import { useAuth } from './contexts/AuthContext';
 import { getSavedAdminRegion, getSavedRegion, isRegionCode, regionPath } from './lib/region';
 import { trackPageView } from './lib/analytics';
-import { lazyWithRetry, scheduleIdlePreload } from './lib/lazyWithRetry';
+import { lazyWithRetry } from './lib/lazyWithRetry';
+import CountrySelection from './pages/CountrySelection';
 
 // Analytics Tracker Component
 function AnalyticsTracker() {
@@ -22,7 +23,6 @@ function AnalyticsTracker() {
 }
 
 // Lazy Loaded Pages with Deployment Auto-Retry
-const CountrySelection = lazyWithRetry(() => import('./pages/CountrySelection'), 'CountrySelection');
 const Home = lazyWithRetry(() => import('./pages/Home'), 'Home');
 const About = lazyWithRetry(() => import('./pages/About'), 'About');
 const Services = lazyWithRetry(() => import('./pages/Services'), 'Services');
@@ -57,23 +57,6 @@ const ClientDashboard = lazyWithRetry(() => import('./pages/client/ClientDashboa
 const AgentDashboard = lazyWithRetry(() => import('./pages/agent/AgentDashboard'), 'AgentDashboard');
 const CheckoutPage = lazyWithRetry(() => import('./pages/checkout/CheckoutPage'), 'CheckoutPage');
 const PaymentSuccessPage = lazyWithRetry(() => import('./pages/checkout/PaymentSuccessPage'), 'PaymentSuccessPage');
-
-// Route Preloader Component (runs on idle after initial render)
-function RoutePreloader() {
-  useEffect(() => {
-    scheduleIdlePreload([
-      Home.preload,
-      CountrySelection.preload,
-      Services.preload,
-      About.preload,
-      Contact.preload,
-      Pricing.preload,
-      Leadership.preload,
-    ]);
-  }, []);
-
-  return null;
-}
 
 function CheckoutRedirect() {
   const { invoiceId } = useParams<{ invoiceId: string }>();
@@ -119,7 +102,6 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <AnalyticsTracker />
-        <RoutePreloader />
         <ScrollToTop />
         <Suspense fallback={<SleekLoader />}>
           <Routes>

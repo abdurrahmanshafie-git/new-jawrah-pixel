@@ -1,19 +1,19 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Globe, Lock } from 'lucide-react';
-import { Navbar } from './Navbar';
-import { Footer } from './Footer';
 import { Logo } from './Logo';
 import { RegionRouteGuard } from './RegionRouteGuard';
 import { useAuth } from '@/contexts/AuthContext';
 import { resolvePortalRegion, regionPath } from '@/lib/region';
 import { useRegion } from '@/hooks/useRegion';
 import { ReferralCapture } from '@/components/referral/ReferralCapture';
-import { Cursor } from '../ui/Cursor';
 import { SleekLoader } from '../ui/SleekLoader';
 import { REGION_OPTIONS, regions } from '@/data/regions';
 import type { RegionCode } from '@/types';
+
+const Navbar = lazy(() => import('./Navbar').then((module) => ({ default: module.Navbar })));
+const Footer = lazy(() => import('./Footer').then((module) => ({ default: module.Footer })));
+const Cursor = lazy(() => import('../ui/Cursor').then((module) => ({ default: module.Cursor })));
 
 const JawrahBot = lazy(() => import('../JawrahBot').then((module) => ({ default: module.JawrahBot })));
 
@@ -53,22 +53,27 @@ export function RootLayout() {
   return (
     <RegionRouteGuard>
       <ReferralCapture />
-      <Cursor />
       <div className="noise-overlay" />
       
-      <motion.div 
-        className="min-h-screen"
-        style={{ backgroundColor: 'var(--background)' }}
-      >
-        {!isCountrySelection && <Navbar />}
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+        {!isCountrySelection && (
+          <Suspense fallback={<div className="h-[72px] sm:h-[88px]" aria-hidden="true" />}>
+            <Navbar />
+          </Suspense>
+        )}
         <main className="w-full">
           <Suspense fallback={<SleekLoader fullScreen={true} />}>
             <Outlet />
           </Suspense>
         </main>
-        {!isCountrySelection && <Footer />}
+        {!isCountrySelection && (
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+        )}
+        {!isCountrySelection && <Suspense fallback={null}><Cursor /></Suspense>}
         {!isCountrySelection && <DeferredJawrahBot />}
-      </motion.div>
+      </div>
     </RegionRouteGuard>
   );
 }
