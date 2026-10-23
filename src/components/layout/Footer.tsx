@@ -326,6 +326,28 @@ export function Footer() {
               </Link>
             </div>
           </div>
+
+          {/* Oversized closing wordmark — Scrolltide Portfolio Close-inspired */}
+          <Link
+            to={p('/')}
+            aria-label="Jawrah Pixel home"
+            className="group mt-10 block w-full overflow-hidden border-t pt-5 sm:mt-14 sm:pt-7 md:mt-16"
+            style={{ borderTopColor: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(15,23,42,0.10)' }}
+          >
+            <span
+              aria-hidden="true"
+              className="block whitespace-nowrap text-center font-black uppercase leading-[0.72] tracking-[-0.085em] transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+              style={{
+                fontSize: 'clamp(3.2rem, 14.8vw, 13.5rem)',
+                color: isDark ? 'rgba(255,255,255,0.94)' : 'rgba(15,23,42,0.92)',
+                marginLeft: '-0.035em',
+                marginRight: '-0.035em',
+              }}
+            >
+              JAWRAH PIXEL
+            </span>
+            <span className="sr-only">Jawrah Pixel — digital experiences engineered for excellence.</span>
+          </Link>
         </Reveal>
       </div>
       
