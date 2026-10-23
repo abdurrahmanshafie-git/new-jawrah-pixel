@@ -176,58 +176,6 @@ export default function Home() {
 
       {/* Cinematic Hero Section */}
       <section className="relative z-0 min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-20 md:pt-32 pb-20 overflow-hidden isolate">
-        {/* Animated Noir Mesh-inspired monochrome background */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <div
-            className="absolute inset-0"
-            style={{
-              background: isDark
-                ? 'linear-gradient(180deg, #050505 0%, #111214 42%, #050505 100%)'
-                : 'linear-gradient(180deg, #fafaf8 0%, #f0f0ed 48%, #fafaf8 100%)',
-            }}
-          />
-          <motion.div
-            className="absolute -inset-[14%] opacity-100 mix-blend-screen"
-            animate={{ x: ['-12%', '12%', '-8%'], y: ['-8%', '10%', '-8%'], rotate: [0, 8, 0] }}
-            transition={{ duration: 18, ease: 'easeInOut', repeat: Infinity }}
-            style={{
-              background: isDark
-                ? 'radial-gradient(ellipse at 22% 35%, rgba(245,245,245,0.26) 0%, transparent 38%), radial-gradient(ellipse at 72% 58%, rgba(155,160,168,0.30) 0%, transparent 42%), radial-gradient(ellipse at 48% 82%, rgba(255,255,255,0.16) 0%, transparent 32%)'
-                : 'radial-gradient(ellipse at 22% 35%, rgba(35,38,42,0.16) 0%, transparent 38%), radial-gradient(ellipse at 72% 58%, rgba(115,120,126,0.20) 0%, transparent 42%), radial-gradient(ellipse at 48% 82%, rgba(255,255,255,0.98) 0%, transparent 32%)',
-              filter: 'blur(30px)',
-              willChange: 'transform',
-            }}
-          />
-          <motion.div
-            className="absolute -inset-[12%] opacity-90 mix-blend-screen"
-            animate={{ x: ['10%', '-12%', '10%'], y: ['8%', '-8%', '8%'], scale: [0.88, 1.16, 0.88] }}
-            transition={{ duration: 23, ease: 'easeInOut', repeat: Infinity }}
-            style={{
-              background: isDark
-                ? 'radial-gradient(ellipse at 62% 24%, rgba(255,255,255,0.22) 0%, transparent 34%), radial-gradient(ellipse at 28% 72%, rgba(120,124,132,0.24) 0%, transparent 36%)'
-                : 'radial-gradient(ellipse at 62% 24%, rgba(255,255,255,1) 0%, transparent 34%), radial-gradient(ellipse at 28% 72%, rgba(75,80,86,0.12) 0%, transparent 36%)',
-              filter: 'blur(38px)',
-              willChange: 'transform',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              opacity: isDark ? 0.20 : 0.12,
-              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%270 0 180 180%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27 x=%270%25%27 y=%270%25%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.85%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27 opacity=%270.35%27/%3E%3C/svg%3E")',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: isDark
-                ? 'linear-gradient(180deg, rgba(5,5,5,0.12), transparent 24%, transparent 72%, #050505 100%)'
-                : 'linear-gradient(180deg, rgba(250,250,248,0.15), transparent 24%, transparent 72%, #fafaf8 100%)',
-            }}
-          />
-        </div>
-
         <div className="container relative z-20 mx-auto px-6">
           <div className="flex flex-col items-center text-center">
             <motion.div
