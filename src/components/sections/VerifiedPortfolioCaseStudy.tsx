@@ -309,6 +309,32 @@ const dossier = (slug: string): ProjectDossier | null => {
       faq: [['What is Miorah?', 'Miorah is presented as a Sri Lankan gemstone and jewellery concept focused on private sourcing and collector inquiry.'], ['Which gemstones are shown?', 'The preview presents blue sapphire, Padparadscha sapphire, teal sapphire, spinel, and tourmaline themes.'], ['Can visitors submit sourcing specifications?', 'Yes. The inquiry surface asks for mineral class and specifications such as carat, budget, and cut.'], ['Is there a retail checkout?', 'The preview describes private inquiries and explicitly presents itself as a concept; retail checkout is not claimed.'], ['Can certification claims be used in SEO?', 'Only when the underlying certificates and claims are real, current, and available for the relevant stone.'], ['What is the strongest SEO opportunity?', 'Detailed, accurate gemstone pages combining origin, treatment, cut, clarity, imagery, sourcing context, and inquiry links.']],
       links: [['Branding', '/branding'], ['UI/UX Design', '/ui-ux-design'], ['Custom Software Development', '/int/custom-software-development']],
     },
+    'meraki-motors': {
+      title: 'Meraki Motors',
+      descriptor: 'Premium Japanese vehicle sourcing and export website',
+      industry: 'Automotive & Vehicle Export',
+      audience: 'International customers sourcing vehicles from Japanese auctions',
+      status: 'Live public website',
+      url: 'https://www.merakimotors.jp/',
+      image: '/assets/case-studies/meraki-motors/homepage-desktop.png',
+      overview: 'A responsive automotive website for Meraki Motors, presenting Japanese auction sourcing, featured vehicle inventory, inspection information, bidding guidance, and worldwide export coordination.',
+      challenge: ['Help international buyers understand a complex Japanese auction and export process.', 'Present vehicle specifications and inspection information clearly.', 'Make inventory discovery and enquiries easy across desktop and mobile.'],
+      objectives: ['Build trust through a clear explanation of sourcing and export steps.', 'Make featured vehicles and key specifications easy to compare.', 'Provide direct paths for customers looking for a specific car.'],
+      role: ['UX architecture for vehicle discovery and export journey.', 'Responsive interface design for the homepage and vehicle catalogue.', 'Content structure for vehicle specifications, auction details, and enquiry actions.'],
+      features: [
+        { title: 'Vehicle Discovery', detail: 'Featured listings present model details, mileage, drivetrain, transmission, auction grade, and estimated auction price.', benefit: 'Buyers can compare available options with less friction.', seo: 'Vehicle-specific content supports relevant automotive search intent.' },
+        { title: 'Auction Transparency', detail: 'The site explains translated inspection sheets, auction grades, and bidding limits.', benefit: 'Sets clearer expectations before a customer commits to a bid.', seo: 'Structured service content explains the specialist export process.' },
+        { title: 'Export Journey', detail: 'A step-by-step overview covers requirements, vehicle sourcing, bidding advance, auction participation, and shipping.', benefit: 'Makes a complicated international purchase easier to understand.', seo: 'Useful explanatory content for Japanese vehicle export queries.' }
+      ],
+      journey: [['Tell us what you need', 'Customers share their preferred make, model, budget, and destination.'], ['Find suitable vehicles', 'The team searches Japanese auction options and shares matching choices.'], ['Approve the bid', 'Customers set a maximum bidding amount before auction participation.'], ['Export the vehicle', 'The team coordinates export paperwork and shipping after a successful purchase.']],
+      mobile: 'The responsive experience keeps the service proposition, featured vehicle discovery, and enquiry routes accessible on mobile.',
+      seo: ['The public site covers Japanese vehicle sourcing, auction inspection information, bidding, and worldwide export shipping.', 'Vehicle-specific metadata and descriptive image alt text can support discoverability.'],
+      technology: 'Project-specific implementation technologies were not independently verified.',
+      security: 'No project-specific security implementation claims are made beyond publicly visible site functionality.',
+      results: [['Public website', 'Live', 'The site is publicly accessible at merakimotors.jp.'], ['Catalogue', 'Featured vehicles', 'The homepage presents vehicle listings with specifications and auction details.'], ['Business impact', 'Not measured', 'Traffic, sales, conversion, and ranking outcomes were not supplied.']],
+      faq: [['What does Meraki Motors do?', 'The public website presents Japanese vehicle sourcing, auction bidding, and export coordination.'], ['Can customers request a specific vehicle?', 'Yes. The site provides a Find My Car enquiry route.'], ['Are performance or sales improvements verified?', 'No measured performance, sales, or conversion results were supplied.']],
+      links: [['Web Development Agency', '/int/web-development-agency'], ['SEO Services UK', '/uk/services/seo-services-uk'], ['Case Studies', '/case-studies']]
+    },
     'zaza-clothing': {
       ...common,
       title: 'Zaza Clothing', descriptor: 'Premium streetwear collection and concierge commerce experience', industry: 'Fashion and clothing e-commerce', audience: 'Sri Lankan streetwear shoppers, creators, and customers seeking heavyweight everyday garments', url: 'https://zaza-clothing-jawrah-preview.netlify.app/', image: '/assets/case-studies/zaza clothing/desktop.png',
