@@ -689,7 +689,7 @@ const ADDITIONAL_CASE_STUDIES: Record<string, CaseDetails & { region: RegionCode
   'meraki-motors': {
     region: 'int', title: 'Meraki Motors', slug: 'meraki-motors', category: 'Automotive Website & Vehicle Catalogue', industry: 'Japanese Vehicle Sourcing & Export', client: 'Meraki Motors', projectStatus: 'Live public website', projectYear: '2026',
     websiteUrl: 'https://www.merakimotors.jp/',
-    desktopImage: '/assets/case-studies/meraki-motors/homepage-desktop.png', mobileImage: '/assets/case-studies/meraki-motors/homepage-mobile.png',
+    desktopImage: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/DESKTOP%201.png', mobileImage: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/MOBILE%20.png',
     overview: 'A premium digital experience for Meraki Motors, a Japan-based vehicle sourcing and export business. The public website introduces direct Japanese auction access, verified vehicle listings, inspection information, transparent bidding, and worldwide export coordination.',
     budget: 'Project scope supplied separately', duration: 'Project scope supplied separately',
     goals: ['Present Meraki Motors as a trusted Japanese vehicle sourcing and export partner.', 'Make featured inventory and vehicle details easy to explore.', 'Explain the sourcing, bidding, payment, and export journey clearly.', 'Give customers direct routes to request a specific vehicle and contact the team.'],
