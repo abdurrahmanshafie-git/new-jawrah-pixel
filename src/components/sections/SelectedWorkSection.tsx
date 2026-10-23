@@ -142,24 +142,35 @@ export function SelectedWorkSection() {
   const { currentRegion } = useRegion();
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeCardRef = useRef<HTMLElement | null>(null);
-  const hasMountedRef = useRef(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   const caseStudyPath = (slug: string) => `/${currentRegion}/case-studies/${slug}`;
   const allWorkPath = `/${currentRegion}/case-studies`;
   const activeProject = SELECTED_PROJECTS[activeIndex];
 
   useEffect(() => {
-    if (!hasMountedRef.current) {
-      hasMountedRef.current = true;
-      return;
-    }
-    activeCardRef.current?.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'nearest',
-      inline: 'nearest',
-    });
-  }, [activeIndex, prefersReducedMotion]);
+    const section = sectionRef.current;
+    if (!section) return;
+    let frame = 0;
+    const updateFromScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        const distance = Math.max(1, section.offsetHeight - window.innerHeight);
+        const progress = Math.min(0.999999, Math.max(0, (window.scrollY - sectionTop) / distance));
+        const nextIndex = Math.min(SELECTED_PROJECTS.length - 1, Math.floor(progress * SELECTED_PROJECTS.length));
+        setActiveIndex((current) => current === nextIndex ? current : nextIndex);
+      });
+    };
+    updateFromScroll();
+    window.addEventListener('scroll', updateFromScroll, { passive: true });
+    window.addEventListener('resize', updateFromScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', updateFromScroll);
+      window.removeEventListener('resize', updateFromScroll);
+    };
+  }, []);
 
   const moveSelection = (direction: -1 | 1) => {
     setActiveIndex((current) => (current + direction + SELECTED_PROJECTS.length) % SELECTED_PROJECTS.length);
@@ -167,13 +178,16 @@ export function SelectedWorkSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="selected-work"
       aria-label="Selected Work by Jawrah Pixel"
-      className="relative isolate overflow-hidden border-t py-20 sm:py-24 md:py-32 lg:py-36 theme-bg transition-colors duration-300"
+      className="relative isolate overflow-hidden border-t theme-bg transition-colors duration-300"
       style={{
+        minHeight: `${SELECTED_PROJECTS.length * 100}svh`,
         borderColor: isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(15, 23, 42, 0.08)',
       }}
     >
+      <div className="sticky top-0 flex h-[100svh] min-h-[620px] flex-col justify-center overflow-hidden py-5 sm:py-7 lg:py-8">
       <div className="pointer-events-none absolute inset-0 premium-grid-overlay opacity-[0.12]" />
       <div aria-hidden="true" className="pointer-events-none absolute -top-48 left-1/2 h-[32rem] w-[52rem] -translate-x-1/2 rounded-full blur-[110px]" style={{ background: isDark ? 'radial-gradient(ellipse, rgba(73,155,255,0.12), rgba(92,70,190,0.055) 42%, transparent 72%)' : 'radial-gradient(ellipse, rgba(30,125,220,0.09), transparent 68%)' }} />
       <div aria-hidden="true" className="pointer-events-none absolute right-[-12rem] top-[38%] h-[24rem] w-[24rem] rounded-full blur-[100px]" style={{ background: isDark ? 'rgba(26,112,166,0.07)' : 'rgba(26,112,166,0.045)' }} />
@@ -252,7 +266,6 @@ export function SelectedWorkSection() {
               <motion.article
                 key={project.id}
                 layout
-                ref={(node) => { if (isActive) activeCardRef.current = node; }}
                 initial={false}
                 animate={{ width: isActive ? 'min(78vw, 760px)' : 'clamp(64px, 7.2vw, 100px)' }}
                 transition={prefersReducedMotion ? { duration: 0 } : { width: { type: 'spring', stiffness: 155, damping: 25, mass: 0.9 }, layout: { type: 'spring', stiffness: 155, damping: 25 } }}
@@ -373,6 +386,7 @@ export function SelectedWorkSection() {
           Explore All Work
           <ExternalLink size={13} />
         </Link>
+      </div>
       </div>
     </section>
   );
