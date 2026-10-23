@@ -36,9 +36,7 @@ export function Footer() {
       className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
         backgroundColor: isDark ? '#08090b' : '#ffffff',
-        backgroundImage: isDark
-          ? 'radial-gradient(ellipse at 0% 0%, rgba(255,255,255,0.055), transparent 38%), radial-gradient(ellipse at 82% 48%, rgba(59,130,246,0.055), transparent 44%)'
-          : 'radial-gradient(ellipse at 0% 0%, rgba(15,23,42,0.045), transparent 36%)',
+        backgroundImage: 'none',
       }}
     >
       {/* Minimal studio-style accent line */}
