@@ -324,7 +324,7 @@ export default function Pricing() {
             </StaggerItem>
 
             {/* Enterprise Package */}
-            <StaggerItem className="group relative p-6 sm:p-8 md:p-10 border transition-all duration-500 flex flex-col h-full" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'; }}>
+            <StaggerItem className="group relative isolate overflow-hidden rounded-[26px] border p-6 sm:p-8 md:p-9 transition-all duration-500 flex flex-col h-full hover:-translate-y-1 hover:shadow-[0_24px_70px_-35px_rgba(6,182,212,0.24)]" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.025)' : 'rgba(255,255,255,0.78)', backdropFilter: 'blur(18px)' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'; }}>
               <div className="mb-6">
                 <span className="inline-block px-3 py-1 border text-[10px] font-mono uppercase tracking-[0.2em] mb-4" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', color: 'var(--text-secondary)' }}>
                   Custom Digital Platforms
@@ -379,7 +379,7 @@ export default function Pricing() {
                 </div>
                 <Link
                   to={p('/contact')}
-                  className="inline-flex w-full items-center justify-center border px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:border-brand-cyan/30"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full border px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-all duration-300 hover:border-brand-cyan/50 hover:bg-brand-cyan/[0.06]"
                   style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }}
                 >
                   Discuss Project
