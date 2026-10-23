@@ -176,28 +176,56 @@ export default function Home() {
 
       {/* Cinematic Hero Section */}
       <section className="relative z-0 min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-20 md:pt-32 pb-20 overflow-hidden isolate">
-        {/* Atmospheric Background */}
-        <div className="absolute inset-0 z-0">
-          {isDark && <div className="absolute inset-0 premium-grid-overlay opacity-[0.15]" />}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div 
-              className={`absolute top-[15%] left-[15%] ${isDark ? 'cinematic-light opacity-30 blur-[120px] animate-pulse-slow' : 'opacity-40 blur-[120px]'}`} 
-              style={{ 
-                background: isDark 
-                  ? 'radial-gradient(circle, rgba(6,182,212,0.06), transparent)' 
-                  : 'radial-gradient(circle, rgba(16,185,129,0.08), transparent)' 
-              }}
-            />
-            <div 
-              className={`absolute bottom-[15%] right-[15%] ${isDark ? 'cinematic-light opacity-20 blur-[100px] animate-glow' : 'opacity-30 blur-[100px]'}`} 
-              style={{ 
-                background: isDark 
-                  ? 'radial-gradient(circle at center, rgba(6, 182, 212, 0.08), transparent 70%)' 
-                  : 'radial-gradient(circle at center, rgba(16,185,129,0.06), transparent 70%)' 
-              }} 
-            />
-          </div>
-          {isDark && <div className="absolute inset-0 bg-gradient-to-b from-brand-black via-transparent to-brand-black" />}
+        {/* Animated Noir Mesh-inspired monochrome background */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isDark
+                ? 'linear-gradient(180deg, #050505 0%, #111214 42%, #050505 100%)'
+                : 'linear-gradient(180deg, #fafaf8 0%, #f0f0ed 48%, #fafaf8 100%)',
+            }}
+          />
+          <motion.div
+            className="absolute -inset-[22%] opacity-70"
+            animate={{ x: ['-3%', '3%', '-2%'], y: ['-2%', '2%', '-2%'], rotate: [0, 4, 0] }}
+            transition={{ duration: 24, ease: 'easeInOut', repeat: Infinity }}
+            style={{
+              background: isDark
+                ? 'radial-gradient(ellipse at 22% 35%, rgba(245,245,245,0.12) 0%, transparent 34%), radial-gradient(ellipse at 72% 58%, rgba(155,160,168,0.15) 0%, transparent 38%), radial-gradient(ellipse at 48% 82%, rgba(255,255,255,0.07) 0%, transparent 32%)'
+                : 'radial-gradient(ellipse at 22% 35%, rgba(35,38,42,0.08) 0%, transparent 34%), radial-gradient(ellipse at 72% 58%, rgba(115,120,126,0.10) 0%, transparent 38%), radial-gradient(ellipse at 48% 82%, rgba(255,255,255,0.9) 0%, transparent 32%)',
+              filter: 'blur(42px)',
+              willChange: 'transform',
+            }}
+          />
+          <motion.div
+            className="absolute -inset-[18%] opacity-60"
+            animate={{ x: ['2%', '-3%', '2%'], y: ['2%', '-1%', '2%'], scale: [1, 1.08, 1] }}
+            transition={{ duration: 31, ease: 'easeInOut', repeat: Infinity }}
+            style={{
+              background: isDark
+                ? 'radial-gradient(ellipse at 62% 24%, rgba(255,255,255,0.09) 0%, transparent 30%), radial-gradient(ellipse at 28% 72%, rgba(120,124,132,0.14) 0%, transparent 36%)'
+                : 'radial-gradient(ellipse at 62% 24%, rgba(255,255,255,0.95) 0%, transparent 30%), radial-gradient(ellipse at 28% 72%, rgba(75,80,86,0.06) 0%, transparent 36%)',
+              filter: 'blur(55px)',
+              willChange: 'transform',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: isDark ? 0.14 : 0.08,
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%270 0 180 180%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27 x=%270%25%27 y=%270%25%27 width=%27100%25%27 height=%27100%25%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.85%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27 opacity=%270.35%27/%3E%3C/svg%3E")',
+              mixBlendMode: isDark ? 'screen' : 'multiply',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isDark
+                ? 'linear-gradient(180deg, rgba(5,5,5,0.12), transparent 24%, transparent 72%, #050505 100%)'
+                : 'linear-gradient(180deg, rgba(250,250,248,0.15), transparent 24%, transparent 72%, #fafaf8 100%)',
+            }}
+          />
         </div>
 
         <div className="container relative z-20 mx-auto px-6">
