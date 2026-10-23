@@ -35,33 +35,14 @@ export function Footer() {
     <footer 
       className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
-        backgroundColor: isDark ? '#050505' : '#fafaf8',
+        backgroundColor: isDark ? '#08090b' : '#ffffff',
         backgroundImage: isDark
-          ? 'radial-gradient(ellipse at 18% 8%, rgba(59,130,246,0.13), transparent 38%), radial-gradient(ellipse at 82% 55%, rgba(99,102,241,0.09), transparent 42%)'
-          : 'radial-gradient(ellipse at 18% 8%, rgba(16,185,129,0.10), transparent 38%), radial-gradient(ellipse at 82% 55%, rgba(59,130,246,0.07), transparent 42%)',
+          ? 'radial-gradient(ellipse at 0% 0%, rgba(255,255,255,0.055), transparent 38%), radial-gradient(ellipse at 82% 48%, rgba(59,130,246,0.055), transparent 44%)'
+          : 'radial-gradient(ellipse at 0% 0%, rgba(15,23,42,0.045), transparent 36%)',
       }}
     >
-      {/* Ambient light effects: image-free, subtle and theme-aware */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent" />
-        <div
-          className="absolute -top-28 left-[8%] h-72 w-72 rounded-full blur-3xl opacity-60 animate-pulse"
-          style={{ background: isDark ? 'rgba(59,130,246,0.13)' : 'rgba(16,185,129,0.10)' }}
-        />
-        <div
-          className="absolute top-[38%] -right-24 h-80 w-80 rounded-full blur-3xl opacity-50 animate-pulse"
-          style={{ background: isDark ? 'rgba(99,102,241,0.11)' : 'rgba(59,130,246,0.08)', animationDelay: '1.4s' }}
-        />
-        <div
-          className="absolute bottom-0 left-1/3 h-56 w-2/3 -translate-x-1/4"
-          style={{
-            background: isDark
-              ? 'linear-gradient(90deg, transparent, rgba(59,130,246,0.07), transparent)'
-              : 'linear-gradient(90deg, transparent, rgba(16,185,129,0.06), transparent)',
-            filter: 'blur(36px)',
-          }}
-        />
-      </div>
+      {/* Minimal studio-style accent line */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.10)' }} />
 
       <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-[1440px]">
         <Reveal>
@@ -74,7 +55,7 @@ export function Footer() {
                 </div>
               </Link>
               <p 
-                className="text-base md:text-lg leading-relaxed mb-8 md:mb-10 max-w-md font-light"
+                className="text-[15px] md:text-base leading-[1.9] mb-8 md:mb-10 max-w-md font-normal"
                 style={{
                   color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)'
                 }}
@@ -350,8 +331,8 @@ export function Footer() {
               aria-hidden="true"
               className="block whitespace-nowrap text-center font-black uppercase leading-[0.72] tracking-[-0.085em] transition-transform duration-700 ease-out group-hover:scale-[1.015]"
               style={{
-                fontSize: 'clamp(3.2rem, 14.8vw, 13.5rem)',
-                color: isDark ? 'rgba(255,255,255,0.94)' : 'rgba(15,23,42,0.92)',
+                fontSize: 'clamp(3rem, 14.4vw, 13.5rem)',
+                color: isDark ? 'rgba(255,255,255,0.96)' : '#090a0c',
                 marginLeft: '-0.035em',
                 marginRight: '-0.035em',
               }}
