@@ -195,12 +195,12 @@ export default function Pricing() {
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto items-stretch">
             
             {/* Starter Package */}
-            <StaggerItem className="group relative p-6 sm:p-8 md:p-10 border transition-all duration-500 flex flex-col h-full" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'; }}>
+            <StaggerItem className="group relative isolate overflow-hidden rounded-[26px] border p-6 sm:p-8 md:p-9 transition-all duration-500 flex flex-col h-full hover:-translate-y-1 hover:shadow-[0_24px_70px_-35px_rgba(6,182,212,0.24)]" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.025)' : 'rgba(255,255,255,0.78)', backdropFilter: 'blur(18px)' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'; }}>
               <div className="mb-6">
-                <span className="inline-block px-3 py-1 border text-[10px] font-mono uppercase tracking-[0.2em] mb-4" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', color: 'var(--text-secondary)' }}>
+                <span className="inline-flex rounded-full px-3 py-1.5 border text-[9px] font-mono uppercase tracking-[0.16em] mb-4" style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', color: 'var(--text-secondary)' }}>
                   Best For New Businesses
                 </span>
-                <h3 className="text-2xl md:text-3xl font-display font-medium mb-4 uppercase tracking-tight">Starter</h3>
+                <h3 className="text-2xl md:text-[1.7rem] font-display font-medium mb-4 uppercase tracking-tight">Starter</h3>
                 <div className="flex flex-col items-start mb-6">
                   {(() => {
                     const parts = pricing.starter.split(' (');
@@ -249,7 +249,7 @@ export default function Pricing() {
                 </div>
                 <Link
                   to={p('/contact')}
-                  className="inline-flex w-full items-center justify-center border px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:border-brand-cyan/30"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full border px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.16em] transition-all duration-300 hover:border-brand-cyan/50 hover:bg-brand-cyan/[0.06]"
                   style={{ borderColor: 'var(--border)', backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }}
                 >
                   Request Proposal
@@ -258,13 +258,13 @@ export default function Pricing() {
             </StaggerItem>
 
             {/* Business Package - Featured */}
-            <StaggerItem className="group relative p-6 sm:p-8 md:p-10 border border-brand-cyan/30 shadow-2xl shadow-brand-cyan/5 transition-all duration-500 flex flex-col h-full lg:-mt-4 lg:-mb-4" style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(37,99,235,0.05)' }}>
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-cyan text-black text-[10px] font-bold px-6 py-2 tracking-[0.2em] uppercase">
+            <StaggerItem className="group relative isolate overflow-hidden rounded-[26px] border border-brand-cyan/40 p-6 sm:p-8 md:p-9 shadow-[0_24px_80px_-32px_rgba(6,182,212,0.26)] transition-all duration-500 flex flex-col h-full hover:-translate-y-1 lg:-mt-4 lg:-mb-4" style={{ background: isDark ? 'linear-gradient(145deg, rgba(6,182,212,0.10), rgba(255,255,255,0.035) 48%, rgba(255,255,255,0.015))' : 'linear-gradient(145deg, rgba(6,182,212,0.09), rgba(255,255,255,0.96) 58%)', backdropFilter: 'blur(18px)' }}>
+              <div className="absolute right-5 top-5 rounded-full border border-brand-cyan/30 bg-brand-cyan/10 px-3 py-1.5 text-[9px] font-mono font-bold tracking-[0.16em] text-brand-cyan uppercase sm:right-7 sm:top-7">
                 Most Popular
               </div>
               
               <div className="mb-6">
-                <span className="inline-block px-3 py-1 bg-brand-cyan/10 border border-brand-cyan/20 text-[10px] font-mono uppercase tracking-[0.2em] text-brand-cyan mb-4">
+                <span className="inline-flex rounded-full px-3 py-1.5 bg-brand-cyan/10 border border-brand-cyan/20 text-[9px] font-mono uppercase tracking-[0.16em] text-brand-cyan mb-4">
                   Scale Your Operations
                 </span>
                 <h3 className="text-2xl md:text-3xl font-display font-medium mb-4 uppercase tracking-tight">Business</h3>
@@ -316,7 +316,7 @@ export default function Pricing() {
                 </div>
                 <Link
                   to={p('/contact')}
-                  className="inline-flex w-full items-center justify-center bg-brand-cyan text-black px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-brand-cyan/90"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-cyan px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.16em] text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300"
                 >
                   Request Proposal
                 </Link>
