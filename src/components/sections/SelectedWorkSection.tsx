@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRegion } from '@/hooks/useRegion';
-import { Reveal } from '@/components/ui/Reveal';
 
 export interface SelectedProject {
   id: string;
@@ -140,69 +138,47 @@ export function SelectedWorkSection() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const { currentRegion } = useRegion();
-  const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
 
   const caseStudyPath = (slug: string) => `/${currentRegion}/case-studies/${slug}`;
   const allWorkPath = `/${currentRegion}/case-studies`;
   const activeProject = SELECTED_PROJECTS[activeIndex];
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    let frame = 0;
-    const updateFromScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const distance = Math.max(1, section.offsetHeight - window.innerHeight);
-        const progress = Math.min(0.999999, Math.max(0, (window.scrollY - sectionTop) / distance));
-        const nextIndex = Math.min(SELECTED_PROJECTS.length - 1, Math.floor(progress * SELECTED_PROJECTS.length));
-        setActiveIndex((current) => current === nextIndex ? current : nextIndex);
-      });
-    };
-    updateFromScroll();
-    window.addEventListener('scroll', updateFromScroll, { passive: true });
-    window.addEventListener('resize', updateFromScroll);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', updateFromScroll);
-      window.removeEventListener('resize', updateFromScroll);
-    };
-  }, []);
+  const selectProject = (index: number) => {
+    setActiveIndex(index);
+    requestAnimationFrame(() => {
+      const card = carouselRef.current?.querySelector<HTMLElement>(`[data-project-index="${index}"]`);
+      card?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+    });
+  };
+
 
   const moveSelection = (direction: -1 | 1) => {
-    setActiveIndex((current) => (current + direction + SELECTED_PROJECTS.length) % SELECTED_PROJECTS.length);
+    selectProject((activeIndex + direction + SELECTED_PROJECTS.length) % SELECTED_PROJECTS.length);
   };
 
   return (
     <section
-      ref={sectionRef}
       id="selected-work"
       aria-label="Selected Work by Jawrah Pixel"
-      className="relative isolate overflow-hidden border-t theme-bg transition-colors duration-300"
-      style={{
-        minHeight: `${SELECTED_PROJECTS.length * 100}svh`,
-        borderColor: isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(15, 23, 42, 0.08)',
-      }}
+      className="relative isolate overflow-hidden border-t theme-bg" style={{ borderColor: isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(15, 23, 42, 0.08)' }}
     >
-      <div className="sticky top-0 flex h-[100svh] min-h-[620px] flex-col justify-center overflow-hidden py-5 sm:py-7 lg:py-8">
-      <div className="pointer-events-none absolute inset-0 premium-grid-overlay opacity-[0.12]" />
+      <div className="relative flex flex-col justify-center overflow-hidden py-12 sm:py-16 lg:py-20">
+      <div className="pointer-events-none absolute inset-0 premium-grid-overlay opacity-[0.06]" />
       <div aria-hidden="true" className="pointer-events-none absolute -top-48 left-1/2 h-[32rem] w-[52rem] -translate-x-1/2 rounded-full blur-[110px]" style={{ background: isDark ? 'radial-gradient(ellipse, rgba(73,155,255,0.12), rgba(92,70,190,0.055) 42%, transparent 72%)' : 'radial-gradient(ellipse, rgba(30,125,220,0.09), transparent 68%)' }} />
       <div aria-hidden="true" className="pointer-events-none absolute right-[-12rem] top-[38%] h-[24rem] w-[24rem] rounded-full blur-[100px]" style={{ background: isDark ? 'rgba(26,112,166,0.07)' : 'rgba(26,112,166,0.045)' }} />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: isDark ? 'linear-gradient(90deg, transparent, rgba(126,190,255,0.28), transparent)' : 'linear-gradient(90deg, transparent, rgba(20,90,150,0.2), transparent)' }} />
 
-      <div className="container relative z-10 mx-auto mb-9 max-w-7xl px-5 sm:mb-14 sm:px-8">
+      <div className="container relative z-10 mx-auto mb-8 max-w-7xl px-5 sm:mb-10 sm:px-8">
         <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
           <div className="max-w-3xl">
-            <Reveal>
-              <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.65 }} className="mb-4 inline-flex items-center gap-2.5">
-                <span className="h-2 w-2 rounded-full bg-brand-cyan animate-pulse" />
+            <div className="mb-4 inline-flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-brand-cyan " />
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.35em] text-brand-cyan">
                   Selected Work / 2026
                 </span>
-              </motion.div>
+              </div>
               <h2 className="text-3xl font-display font-medium uppercase leading-[1.02] tracking-[-0.045em] theme-text-primary sm:text-4xl md:text-5xl lg:text-[4.25rem]">
                 Digital Experiences
                 <br />
@@ -211,7 +187,7 @@ export function SelectedWorkSection() {
               <p className="mt-5 max-w-xl text-sm font-light leading-[1.8] theme-text-muted sm:text-base md:text-lg">
                 An evolving collection of websites, commerce experiences, and custom digital systems crafted by Jawrah Pixel.
               </p>
-            </Reveal>
+            
           </div>
 
           <div className="flex items-center justify-between gap-5 md:justify-end">
@@ -248,7 +224,7 @@ export function SelectedWorkSection() {
       </div>
 
       <div
-        className="relative w-full overflow-x-auto overflow-y-hidden px-5 pb-5 scrollbar-hide sm:px-8 lg:px-10"
+        ref={carouselRef} className="relative z-10 w-full overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-4 sm:px-8 lg:px-10"
         role="region"
         aria-roledescription="carousel"
         aria-label="Jawrah Pixel selected projects. Choose a card to explore each project."
@@ -258,19 +234,16 @@ export function SelectedWorkSection() {
           if (event.key === 'ArrowLeft') { event.preventDefault(); moveSelection(-1); }
         }}
       >
-        <div className="mx-auto flex min-h-[450px] w-max max-w-none items-stretch gap-2.5 sm:min-h-[520px] sm:gap-3 lg:min-h-[590px]">
+        <div className="mx-auto flex min-h-[340px] w-max max-w-none items-stretch gap-2 sm:min-h-[400px] sm:gap-3 lg:min-h-[460px]">
           {SELECTED_PROJECTS.map((project, index) => {
             const isActive = index === activeIndex;
 
             return (
-              <motion.article
+              <article
                 key={project.id}
-                layout
-                initial={false}
-                animate={{ width: isActive ? 'min(78vw, 760px)' : 'clamp(64px, 7.2vw, 100px)' }}
-                transition={prefersReducedMotion ? { duration: 0 } : { width: { type: 'spring', stiffness: 155, damping: 25, mass: 0.9 }, layout: { type: 'spring', stiffness: 155, damping: 25 } }}
-                whileHover={prefersReducedMotion ? undefined : { y: -2 }}
-                className={`group relative h-[450px] shrink-0 overflow-hidden rounded-[22px] border sm:h-[520px] sm:rounded-[28px] lg:h-[590px] ${isActive ? 'z-[1] shadow-[0_28px_100px_-35px_rgba(0,0,0,0.75)]' : 'opacity-[0.88]'}`}
+                data-project-index={index}
+                className={`group relative h-[340px] shrink-0 overflow-hidden rounded-2xl border sm:h-[400px] sm:rounded-[22px] lg:h-[460px] ${isActive ? 'z-[1]' : 'opacity-85'}`}
+                style={{ width: isActive ? 'min(76vw, 720px)' : 'clamp(58px, 6.5vw, 88px)', transition: 'width 180ms ease-out' }}
                 style={{
                   borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
@@ -284,7 +257,7 @@ export function SelectedWorkSection() {
                   loading={index < 2 ? 'eager' : 'lazy'}
                   decoding="async"
                   draggable={false}
-                  className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,transform] duration-1000 ease-out ${isActive ? 'scale-100' : 'scale-[1.07] grayscale-[28%]'} group-hover:scale-[1.035]`}
+                  className={`absolute inset-0 h-full w-full object-cover object-top ${isActive ? '' : 'grayscale-[20%]'}`}
                   onError={(event) => {
                     event.currentTarget.style.opacity = '0';
                   }}
@@ -299,7 +272,7 @@ export function SelectedWorkSection() {
                 />
 
                 {isActive ? (
-                  <motion.div key={project.id} initial={prefersReducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.38, delay: 0.08 }} className="absolute inset-0">
+                  <div className="absolute inset-0">
                     <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3 sm:left-6 sm:right-6 sm:top-6">
                       <span className="inline-flex max-w-[75%] items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.16em] text-white backdrop-blur-xl sm:text-[10px] sm:tracking-[0.2em]">
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
@@ -310,7 +283,7 @@ export function SelectedWorkSection() {
                       </span>
                     </div>
 
-                    <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: prefersReducedMotion ? 0 : 0.12, ease: [0.22, 1, 0.36, 1] }} className="absolute bottom-0 left-0 right-0 p-5 text-white sm:p-7 md:p-9">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white sm:p-6 md:p-8">
                       <div className="mb-3 flex items-center gap-3 text-[9px] font-mono uppercase tracking-[0.2em] text-white/75 sm:text-[10px] sm:tracking-[0.25em]">
                         <span>{project.category}</span>
                         <span className="h-px w-6 bg-white/40" />
@@ -343,12 +316,12 @@ export function SelectedWorkSection() {
                           </a>
                         )}
                       </div>
-                    </motion.div>
-                  </motion.div>
+                    </div>
+                  </div>
                 ) : (
                   <button
                     type="button"
-                    onClick={() => setActiveIndex(index)}
+                    onClick={() => selectProject(index)
                     aria-label={`Spotlight ${project.title}`}
                     aria-pressed={isActive}
                     className="absolute inset-0 flex h-full w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
@@ -365,13 +338,13 @@ export function SelectedWorkSection() {
                     <span className="sr-only">Select {project.title}</span>
                   </button>
                 )}
-              </motion.article>
+              </article>
             );
           })}
         </div>
       </div>
 
-      <div className="container relative z-10 mx-auto mt-5 flex max-w-7xl flex-col gap-4 px-5 sm:mt-7 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <div className="container relative z-10 mx-auto mt-4 flex max-w-7xl flex-col gap-4 px-5 sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-mono uppercase tracking-[0.16em] theme-text-muted sm:text-[11px] sm:tracking-[0.2em]">
           <span className="text-brand-cyan">{activeProject.title}</span>
           <span className="opacity-40">/</span>
@@ -386,7 +359,6 @@ export function SelectedWorkSection() {
           Explore All Work
           <ExternalLink size={13} />
         </Link>
-      </div>
       </div>
     </section>
   );
