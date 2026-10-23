@@ -143,12 +143,17 @@ export function SelectedWorkSection() {
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCardRef = useRef<HTMLElement | null>(null);
+  const hasMountedRef = useRef(false);
 
   const caseStudyPath = (slug: string) => `/${currentRegion}/case-studies/${slug}`;
   const allWorkPath = `/${currentRegion}/case-studies`;
   const activeProject = SELECTED_PROJECTS[activeIndex];
 
   useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
     activeCardRef.current?.scrollIntoView({
       behavior: prefersReducedMotion ? 'auto' : 'smooth',
       block: 'nearest',
@@ -239,9 +244,8 @@ export function SelectedWorkSection() {
                 layout
                 ref={isActive ? activeCardRef : undefined}
                 initial={false}
-                animate={{ width: isActive ? 'min(78vw, 720px)' : 'clamp(68px, 7.5vw, 104px)' }}
                 transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 180, damping: 26, mass: 0.9 }}
-                className="group relative h-[440px] shrink-0 overflow-hidden rounded-[22px] border sm:h-[500px] sm:rounded-[28px] lg:h-[550px]"
+                className={`group relative h-[440px] shrink-0 overflow-hidden rounded-[22px] border sm:h-[500px] sm:rounded-[28px] lg:h-[550px] ${isActive ? 'w-[min(78vw,720px)]' : 'w-[clamp(68px,7.5vw,104px)]'}`}
                 style={{
                   borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
