@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import './index.css';
+import './dark-pure-black.css';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 interface ErrorBoundaryProps {
@@ -28,7 +29,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: any, info: any) {
-    // Log error to console (or to analytics)
+    // Log to console for diagnosis.
     // eslint-disable-next-line no-console
     console.error('Unhandled render error:', error, info);
   }
