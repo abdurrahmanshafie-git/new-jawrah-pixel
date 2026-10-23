@@ -324,23 +324,67 @@ const dossier = (slug: string): ProjectDossier | null => {
         { src: '/assets/case-studies/meraki-motors/mobile.png', alt: 'Meraki Motors responsive mobile website', label: 'Mobile experience' },
         { src: '/assets/case-studies/meraki-motors/additional.png', alt: 'Meraki Motors additional website screenshot', label: 'Additional view' },
       ],
-      overview: 'A responsive automotive website for Meraki Motors, presenting Japanese auction sourcing, featured vehicle inventory, inspection information, bidding guidance, and worldwide export coordination.',
-      challenge: ['Help international buyers understand a complex Japanese auction and export process.', 'Present vehicle specifications and inspection information clearly.', 'Make inventory discovery and enquiries easy across desktop and mobile.'],
-      objectives: ['Build trust through a clear explanation of sourcing and export steps.', 'Make featured vehicles and key specifications easy to compare.', 'Provide direct paths for customers looking for a specific car.'],
-      role: ['UX architecture for vehicle discovery and export journey.', 'Responsive interface design for the homepage and vehicle catalogue.', 'Content structure for vehicle specifications, auction details, and enquiry actions.'],
-      features: [
-        { title: 'Vehicle Discovery', detail: 'Featured listings present model details, mileage, drivetrain, transmission, auction grade, and estimated auction price.', benefit: 'Buyers can compare available options with less friction.', seo: 'Vehicle-specific content supports relevant automotive search intent.' },
-        { title: 'Auction Transparency', detail: 'The site explains translated inspection sheets, auction grades, and bidding limits.', benefit: 'Sets clearer expectations before a customer commits to a bid.', seo: 'Structured service content explains the specialist export process.' },
-        { title: 'Export Journey', detail: 'A step-by-step overview covers requirements, vehicle sourcing, bidding advance, auction participation, and shipping.', benefit: 'Makes a complicated international purchase easier to understand.', seo: 'Useful explanatory content for Japanese vehicle export queries.' }
+      overview: 'Jawrah Pixel designed and developed the public-facing digital experience for Meraki Motors, a Japan-based vehicle sourcing and export business. The site has to do more than display cars: it needs to explain how Japanese auction sourcing works, make technical vehicle information understandable to overseas buyers, set expectations about bidding and payment, and make it straightforward to request a vehicle. The experience brings the service proposition, featured inventory, inspection-sheet explanation, export steps, and enquiry paths into one customer journey.',
+      challenge: [
+        'International buyers may be unfamiliar with Japanese auction houses, auction grades, translated inspection sheets, and the practical differences between viewing a listing and purchasing through an auction.',
+        'Vehicle listings contain many decision-making details—model year, mileage, engine, drivetrain, auction grade, price, and image count—which need to be presented in a scannable hierarchy rather than as a dense block of text.',
+        'The sourcing process has several stages, including requirements gathering, vehicle search, bid-limit approval, auction participation, payment, paperwork, and shipping. Customers need a clear explanation before they make contact.',
+        'The experience must work for visitors arriving from search, social links, or direct referrals on both wide desktop screens and small mobile devices.',
       ],
-      journey: [['Tell us what you need', 'Customers share their preferred make, model, budget, and destination.'], ['Find suitable vehicles', 'The team searches Japanese auction options and shares matching choices.'], ['Approve the bid', 'Customers set a maximum bidding amount before auction participation.'], ['Export the vehicle', 'The team coordinates export paperwork and shipping after a successful purchase.']],
-      mobile: 'The responsive experience keeps the service proposition, featured vehicle discovery, and enquiry routes accessible on mobile.',
-      seo: ['The public site covers Japanese vehicle sourcing, auction inspection information, bidding, and worldwide export shipping.', 'Vehicle-specific metadata and descriptive image alt text can support discoverability.'],
-      technology: 'Project-specific implementation technologies were not independently verified.',
-      security: 'No project-specific security implementation claims are made beyond publicly visible site functionality.',
-      results: [['Public website', 'Live', 'The site is publicly accessible at merakimotors.jp.'], ['Catalogue', 'Featured vehicles', 'The homepage presents vehicle listings with specifications and auction details.'], ['Business impact', 'Not measured', 'Traffic, sales, conversion, and ranking outcomes were not supplied.']],
-      faq: [['What does Meraki Motors do?', 'The public website presents Japanese vehicle sourcing, auction bidding, and export coordination.'], ['Can customers request a specific vehicle?', 'Yes. The site provides a Find My Car enquiry route.'], ['Are performance or sales improvements verified?', 'No measured performance, sales, or conversion results were supplied.']],
-      links: [['Web Development Agency', '/int/web-development-agency'], ['SEO Services UK', '/uk/services/seo-services-uk'], ['Case Studies', '/case-studies']]
+      objectives: [
+        'Establish a clear first impression around direct Japanese auction access and export coordination.',
+        'Help prospective buyers understand the service and the steps involved before they submit an enquiry.',
+        'Make featured inventory easier to scan using consistent vehicle imagery and concise specifications.',
+        'Create obvious paths for visitors who already know what vehicle they want through the Find My Car and contact actions.',
+        'Keep the core proposition, inventory discovery, and enquiry actions usable on mobile as well as desktop.',
+      ],
+      role: [
+        'Information architecture: organized the experience around the service proposition, featured vehicles, how-it-works guidance, and direct enquiry routes.',
+        'UX and conversion flow: aligned the primary Find My Car action with visitors who have a specific vehicle requirement and a secondary How It Works action for visitors who need more context.',
+        'Automotive visual direction: used prominent vehicle photography, a restrained dark interface, and a high-contrast accent to create a focused automotive presentation.',
+        'Inventory presentation: structured listing cards to surface relevant vehicle specifications and auction information without requiring users to open every listing first.',
+        'Responsive experience: planned content hierarchy and actions so the headline, navigation, vehicle details, and enquiry routes remain practical across screen sizes.',
+        'Content and on-page SEO structure: made the Japanese auction sourcing and export service explicit in page headings and explanatory copy. Search performance itself has not been measured in the evidence supplied.',
+      ],
+      features: [
+        { title: 'Vehicle Discovery & Listing Cards', detail: 'Featured vehicle cards surface model identity, year, mileage, engine or drivetrain information, auction grade, image count, and indicative auction pricing where available. The layout supports quick scanning before a visitor opens a vehicle for closer inspection.', benefit: 'Prospective buyers can compare key details faster and identify vehicles worth enquiring about.', seo: 'Descriptive vehicle content and meaningful image alternative text can help search engines understand the inventory. Indexability of individual inventory pages should be checked separately.' },
+        { title: 'Japanese Auction Access', detail: 'The homepage explains access to Japanese auction networks and names auction venues used by the service. It frames auction sourcing as a specialist service rather than making the website feel like a generic used-car listing board.', benefit: 'Visitors get context about where vehicles are sourced and why specialist support matters.', seo: 'Clear service language can align the page with relevant Japanese car auction sourcing and vehicle export queries without keyword stuffing.' },
+        { title: 'Inspection & Condition Information', detail: 'The content explains translated inspection sheets and auction grades so buyers know that condition information is part of the evaluation process.', benefit: 'Helps set expectations around reviewing a vehicle before approving a bid.', seo: 'Helpful explanatory copy answers buyer questions and gives the page more subject depth than a headline-only landing page.' },
+        { title: 'Bidding & Payment Expectations', detail: 'The journey describes agreeing on a maximum bid, paying an advance for auction participation, and the next steps after a successful purchase. The public website explains the advance as refundable if the auction is not won.', benefit: 'Makes the commercial process easier to follow and reduces uncertainty before a customer submits an enquiry.', seo: 'A clearly written process section supports long-tail informational searches from first-time import buyers.' },
+        { title: 'Find My Car Enquiry', detail: 'A dedicated route lets customers describe a desired vehicle instead of forcing every visitor to start with the currently featured inventory.', benefit: 'Supports high-intent visitors whose exact make, model, year, or budget may not appear on the homepage.', seo: 'A clear conversion route helps turn organic visits into enquiries; conversion rate improvements are not claimed without analytics.' },
+        { title: 'Worldwide Export Journey', detail: 'The website connects vehicle selection and auction participation with export documentation and shipping coordination, giving international customers a more complete picture of the service.', benefit: 'Visitors can understand the service beyond the moment a vehicle is selected.', seo: 'Destination-specific service content could expand future search coverage when supported by accurate shipping and market information.' },
+      ],
+      journey: [
+        ['01 — Share the requirement', 'The visitor explains the preferred make, model, year range, budget, and destination through the Find My Car enquiry route.'],
+        ['02 — Explore suitable options', 'The service searches Japanese auction options and presents relevant vehicles with available specifications and inspection information.'],
+        ['03 — Review the vehicle', 'The customer reviews the listing and translated inspection information, asks questions, and decides whether the vehicle fits their requirements.'],
+        ['04 — Agree the bid limit', 'The customer approves the maximum bid and the advance-payment arrangement before auction participation.'],
+        ['05 — Auction participation', 'The vehicle is bid on within the agreed limit. The website states that the advance is refundable if the auction is not won.'],
+        ['06 — Export coordination', 'After a successful purchase, the remaining payment, export paperwork, and shipping steps are coordinated with the customer.'],
+      ],
+      mobile: 'The mobile experience prioritizes the core service promise, short supporting copy, clear primary actions, and readable vehicle information. The mobile screenshot gallery documents the actual layout, but no device-lab or real-user performance results have been supplied. Mobile QA should still test navigation, horizontal overflow, tap-target spacing, enquiry validation, and image loading on common viewport widths.',
+      seo: [
+        'Primary topic: Japanese vehicle sourcing and export from Japan. Related natural-language themes include Japanese car auctions, vehicle inspection sheets, auction bidding support, vehicle sourcing requests, and international vehicle shipping.',
+        'On-page content opportunity: keep one clear H1, descriptive section headings, unique title and meta description, and useful copy explaining auction grades, payment steps, and export coordination.',
+        'Image SEO: use descriptive alt text that identifies the actual screenshot or vehicle without repeating keywords unnaturally; keep screenshot files crawlable and compressed.',
+        'Technical checks required: confirm the preferred canonical URL, server-rendered or reliably rendered page content, sitemap inclusion, internal links, image status codes, and Search Console indexing.',
+        'Evidence boundary: no Search Console data, keyword rankings, organic clicks, Core Web Vitals, or conversion analytics were supplied, so no SEO gains or ranking outcomes are claimed.',
+      ],
+      technology: 'The public-facing website was reviewed for visible content and interactions, but the project-specific source stack has not been independently confirmed. This case study therefore does not attribute unverified frameworks, hosting services, databases, or integrations to the build.',
+      security: 'The public site exposes service information and enquiry routes. No independent security audit or private implementation review was supplied, so this case study makes no claims about backend controls, payment security, or security certification.',
+      results: [
+        ['Public website', 'Live', 'The public website is accessible at merakimotors.jp.'],
+        ['Customer journey', 'Documented', 'The website explains sourcing, bid approval, auction participation, and export coordination.'],
+        ['Inventory presentation', 'Featured listings', 'The homepage displays vehicle cards with available specifications and auction information.'],
+        ['Measured business impact', 'Not supplied', 'Traffic, leads, sales, conversion rate, keyword rankings, and speed measurements have not been provided.'],
+      ],
+      faq: [
+        ['What kind of website did Jawrah Pixel create for Meraki Motors?', 'A public-facing automotive website focused on Japanese vehicle sourcing, featured inventory, auction-process guidance, and export enquiries.'],
+        ['How does the website help a buyer understand Japanese auctions?', 'It explains auction access, translated inspection sheets, auction grades, bid-limit approval, and the steps after a successful bid.'],
+        ['Can a customer request a vehicle that is not featured?', 'Yes. The website provides a Find My Car enquiry route for customers with a specific requirement.'],
+        ['Does this case study prove SEO ranking improvements?', 'No. It documents the visible site structure and SEO opportunities. Search Console data, ranking reports, traffic, and conversion analytics were not supplied.'],
+      ],
+      links: [['Web Development Agency', '/int/web-development-agency'], ['SEO Services', '/services/seo'], ['Web Design Company Sri Lanka', '/lk/web-design-company-sri-lanka'], ['Case Studies', '/case-studies']]
     },
     'zaza-clothing': {
       ...common,
@@ -375,7 +419,46 @@ export function VerifiedPortfolioCaseStudy({ slug }: { slug: string }) {
 
   return (
     <main className="relative min-h-screen overflow-hidden theme-bg font-sans">
-      <SEO title={`${project.title} Case Study | Jawrah Pixel`} description={`${project.descriptor}. Explore the verified Jawrah Pixel case study, UX approach, SEO structure, and project scope.`} canonicalUrl={toAbsoluteUrl(p(`/case-studies/${slug}`))} ogImage={project.image} keywords={[project.title, project.industry, `${project.industry} website`, 'Jawrah Pixel case study']} schemaData={{ '@type': 'CreativeWork', name: project.title, headline: project.title, description: project.overview, url: toAbsoluteUrl(p(`/case-studies/${slug}`)), image: toAbsoluteUrl(project.image), creator: { '@type': 'Organization', name: 'Jawrah Pixel' } }} />
+      <SEO
+        title={slug === 'meraki-motors' ? 'Meraki Motors Website Case Study | Jawrah Pixel' : `${project.title} Case Study | Jawrah Pixel`}
+        description={slug === 'meraki-motors' ? 'Explore the Meraki Motors website case study by Jawrah Pixel: Japanese vehicle sourcing, auction listings, inspection guidance, mobile UX, and export enquiry journeys.' : `${project.descriptor}. Explore the ${project.industry.toLowerCase()} case study by Jawrah Pixel, including project challenges, UX decisions, features, mobile experience, and evidence-led SEO considerations.`}
+        canonicalUrl={toAbsoluteUrl(p(`/case-studies/${slug}`))}
+        ogImage={project.image}
+        keywords={[project.title, project.industry, `${project.industry} website`, 'web design case study', 'web development case study', 'Jawrah Pixel', ...project.seo.slice(0, 2)]}
+        schemaData={[
+          {
+            '@type': 'CreativeWork',
+            '@id': `${toAbsoluteUrl(p(`/case-studies/${slug}`))}#case-study`,
+            name: `${project.title} Website Case Study`,
+            headline: `${project.title} — ${project.descriptor}`,
+            description: project.overview,
+            url: toAbsoluteUrl(p(`/case-studies/${slug}`)),
+            image: toAbsoluteUrl(project.image),
+            about: project.industry,
+            keywords: [project.title, project.industry, 'web design', 'web development', 'SEO', 'Jawrah Pixel'],
+            creator: { '@type': 'Organization', '@id': 'https://jawrahpixel.com/#organization', name: 'Jawrah Pixel', url: 'https://jawrahpixel.com/' },
+            publisher: { '@type': 'Organization', '@id': 'https://jawrahpixel.com/#organization', name: 'Jawrah Pixel' },
+            inLanguage: 'en',
+            isPartOf: { '@type': 'WebSite', '@id': 'https://jawrahpixel.com/#website', name: 'Jawrah Pixel', url: 'https://jawrahpixel.com/' }
+          },
+          {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jawrahpixel.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Case Studies', item: 'https://jawrahpixel.com/case-studies' },
+              { '@type': 'ListItem', position: 3, name: project.title, item: toAbsoluteUrl(p(`/case-studies/${slug}`)) }
+            ]
+          },
+          {
+            '@type': 'FAQPage',
+            mainEntity: project.faq.map(([question, answer]) => ({
+              '@type': 'Question',
+              name: question,
+              acceptedAnswer: { '@type': 'Answer', text: answer }
+            }))
+          }
+        ]}
+      />
       <div className="container relative z-10 mx-auto px-5 pb-24 pt-32 sm:px-6 lg:pt-44">
         <Link to={p('/case-studies')} className="group inline-flex items-center gap-3 text-[10px] font-mono font-bold uppercase tracking-[0.3em] theme-text-muted hover:text-brand-blue"><ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" /> Back to case studies</Link>
         <section className="mt-16 grid gap-12 border-b theme-border pb-20 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-20">
