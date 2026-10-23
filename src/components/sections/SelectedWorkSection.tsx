@@ -149,7 +149,7 @@ export function SelectedWorkSection() {
     setActiveIndex(index);
     requestAnimationFrame(() => {
       const card = carouselRef.current?.querySelector<HTMLElement>(`[data-project-index="${index}"]`);
-      card?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
+      card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   };
 
@@ -224,7 +224,7 @@ export function SelectedWorkSection() {
       </div>
 
       <div
-        ref={carouselRef} className="relative z-10 w-full overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-4 sm:px-8 lg:px-10"
+        ref={carouselRef} className="relative z-10 w-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-4 sm:px-8 lg:px-10"
         role="region"
         aria-roledescription="carousel"
         aria-label="Jawrah Pixel selected projects. Choose a card to explore each project."
@@ -234,7 +234,7 @@ export function SelectedWorkSection() {
           if (event.key === 'ArrowLeft') { event.preventDefault(); moveSelection(-1); }
         }}
       >
-        <div className="mx-auto flex min-h-[340px] w-max max-w-none items-stretch gap-2 sm:min-h-[400px] sm:gap-3 lg:min-h-[460px]">
+        <div className="mx-auto flex min-h-[280px] w-max max-w-none items-stretch gap-3 sm:min-h-[340px] sm:gap-4 lg:min-h-[400px]">
           {SELECTED_PROJECTS.map((project, index) => {
             const isActive = index === activeIndex;
 
@@ -242,10 +242,10 @@ export function SelectedWorkSection() {
               <article
                 key={project.id}
                 data-project-index={index}
-                className={`group relative h-[340px] shrink-0 overflow-hidden rounded-2xl border sm:h-[400px] sm:rounded-[22px] lg:h-[460px] ${isActive ? 'z-[1]' : 'opacity-85'}`}
+                className={`group relative h-[280px] snap-center shrink-0 overflow-hidden rounded-2xl border sm:h-[340px] sm:rounded-[22px] lg:h-[400px] ${isActive ? 'z-[1]' : 'opacity-85'}`}
                 style={{
-                  width: isActive ? 'min(76vw, 720px)' : 'clamp(58px, 6.5vw, 88px)',
-                  transition: 'width 180ms ease-out',
+                  width: isActive ? 'min(76vw, 720px)' : 'clamp(76px, 8vw, 112px)',
+                  transition: 'width 320ms ease-in-out',
                   borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
                   flexShrink: 0,
@@ -263,85 +263,35 @@ export function SelectedWorkSection() {
                     event.currentTarget.style.opacity = '0';
                   }}
                 />
-                <div
-                  className="absolute inset-0 pointer-events-none transition-opacity duration-500"
-                  style={{
-                    background: isActive
-                      ? 'linear-gradient(180deg, rgba(3,7,12,0.02) 8%, rgba(3,7,12,0.04) 35%, rgba(3,7,12,0.40) 63%, rgba(3,7,12,0.94) 100%)'
-                      : 'linear-gradient(180deg, rgba(3,7,12,0.16), rgba(3,7,12,0.72))',
-                  }}
-                />
-
-                {isActive ? (
-                  <div className="absolute inset-0">
-                    <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3 sm:left-6 sm:right-6 sm:top-6">
-                      <span className="inline-flex max-w-[75%] items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.16em] text-white backdrop-blur-xl sm:text-[10px] sm:tracking-[0.2em]">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                        {project.domainLabel}
-                      </span>
-                      <span className="shrink-0 rounded-full border border-white/20 bg-black/30 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.15em] text-white/90 backdrop-blur-xl sm:text-[10px]">
-                        {statusLabels[project.status]}
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white sm:p-6 md:p-8">
-                      <div className="mb-3 flex items-center gap-3 text-[9px] font-mono uppercase tracking-[0.2em] text-white/75 sm:text-[10px] sm:tracking-[0.25em]">
-                        <span>{project.category}</span>
-                        <span className="h-px w-6 bg-white/40" />
-                        <span>{project.year}</span>
-                      </div>
-                      <h3 className="max-w-[15ch] text-2xl font-display font-medium uppercase leading-[1.02] tracking-[-0.035em] text-white sm:text-3xl md:text-4xl lg:text-5xl">
-                        {project.title}
-                      </h3>
-                      <p className="mt-3 max-w-xl text-xs font-light leading-relaxed text-white/80 sm:mt-4 sm:text-sm md:text-base">
-                        {project.description}
-                      </p>
-
-                      <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-6 sm:gap-3">
-                        <Link
-                          to={caseStudyPath(project.slug)}
-                          className="group/cta inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-white px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-950 shadow-[0_8px_32px_-12px_rgba(255,255,255,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-50 hover:shadow-[0_12px_38px_-12px_rgba(255,255,255,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:px-6 sm:text-[11px]"
-                        >
-                          View Case Study
-                          <ArrowRight size={14} className="transition-transform duration-300 group-hover/cta:translate-x-0.5" />
-                        </Link>
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/30 bg-black/25 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-white backdrop-blur-md transition-colors hover:border-white/70 hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:px-5 sm:text-[11px]"
-                          >
-                            Visit Live
-                            <ArrowUpRight size={14} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => selectProject(index)}
-                    aria-label={`Spotlight ${project.title}`}
-                    aria-pressed={isActive}
-                    className="absolute inset-0 flex h-full w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
-                  >
-                    <span className="absolute left-1/2 top-5 -translate-x-1/2 rounded-full border border-white/25 bg-black/35 px-2.5 py-1.5 text-[9px] font-mono text-white/90 backdrop-blur-md">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span
-                      className="absolute bottom-5 left-1/2 max-h-[68%] -translate-x-1/2 text-center text-[10px] font-mono font-semibold uppercase leading-tight tracking-[0.16em] text-white sm:text-[11px]"
-                      style={{ writingMode: 'vertical-rl', transform: 'translateX(-50%) rotate(180deg)' }}
-                    >
-                      {project.title}
-                    </span>
-                    <span className="sr-only">Select {project.title}</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => selectProject(index)}
+                  aria-label={`Select ${project.title}`}
+                  aria-pressed={isActive}
+                  className="absolute inset-0 z-[2] h-full w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
+                >
+                  <span className="sr-only">Select {project.title}</span>
+                </button>
               </article>
             );
           })}
+        </div>
+      </div>
+
+      <div className="container relative z-10 mx-auto mt-5 max-w-7xl px-5 sm:mt-7 sm:px-8">
+        <div className="grid gap-5 border-t pt-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:gap-8 sm:pt-7" style={{ borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)' }}>
+          <div className="min-w-0">
+            <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] font-mono uppercase tracking-[0.16em] theme-text-muted sm:text-[11px] sm:tracking-[0.2em]">
+              <span className="text-brand-cyan">{activeProject.domainLabel}</span><span className="opacity-40">/</span><span>{activeProject.category}</span><span className="opacity-40">/</span><span>{activeProject.year}</span>
+              <span className="rounded-full border px-2.5 py-1" style={{ borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.18)' }}>{statusLabels[activeProject.status]}</span>
+            </div>
+            <h3 className="text-2xl font-display font-medium uppercase leading-tight tracking-[-0.035em] theme-text-primary sm:text-3xl md:text-4xl">{activeProject.title}</h3>
+            <p className="mt-2 max-w-2xl text-sm leading-6 theme-text-muted sm:text-base">{activeProject.description}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+            <Link to={caseStudyPath(activeProject.slug)} className="inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-brand-cyan px-5 py-3 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-950 transition-colors hover:bg-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:px-6 sm:text-[11px]">View Case Study <ArrowRight size={15} /></Link>
+            {activeProject.liveUrl && <a href={activeProject.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full border px-5 py-3 text-[10px] font-bold uppercase tracking-[0.13em] theme-text-primary transition-colors hover:border-brand-cyan hover:text-brand-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:px-6 sm:text-[11px]" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.2)' }}>Visit Live <ArrowUpRight size={15} /></a>}
+          </div>
         </div>
       </div>
 
