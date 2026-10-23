@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import footerDark from '../../../footers/footer-dark.jpg';
+import footerLight from '../../../footers/footer-light.jpg';
 import { Instagram, MessageCircle, Mail, Lock, Linkedin } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
@@ -37,8 +39,8 @@ export function Footer() {
       style={{
         backgroundColor: isDark ? 'rgb(0,0,0)' : 'rgb(250,250,248)',
         backgroundImage: isDark
-          ? "linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0.62) 100%), url('/footers/footer-dark.jpg')"
-          : "linear-gradient(180deg, rgba(250,250,248,0.14) 0%, rgba(250,250,248,0.28) 52%, rgba(250,250,248,0.42) 100%), url('/footers/footer-light.jpg')",
+          ? `linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0.62) 100%), url(${footerDark})`
+          : `linear-gradient(180deg, rgba(250,250,248,0.14) 0%, rgba(250,250,248,0.28) 52%, rgba(250,250,248,0.42) 100%), url(${footerLight})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
