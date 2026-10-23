@@ -236,6 +236,15 @@ export function SelectedWorkSection() {
           if (event.key === 'ArrowRight') { event.preventDefault(); moveSelection(1); }
           if (event.key === 'ArrowLeft') { event.preventDefault(); moveSelection(-1); }
         }}
+        onMouseMove={(event) => {
+          // Respond only to real pointer movement. Width animation must not make
+          // neighbouring cards under a stationary cursor retrigger selection.
+          if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          const card = (event.target as HTMLElement).closest<HTMLElement>('[data-project-index]');
+          if (!card) return;
+          const index = Number(card.dataset.projectIndex);
+          if (Number.isInteger(index) && index !== activeIndex) selectProject(index, false);
+        }}
       >
         <div className="mx-auto flex min-h-[360px] w-max max-w-none items-stretch gap-2.5 sm:min-h-[440px] sm:gap-3 lg:min-h-[500px] lg:gap-4">
           {SELECTED_PROJECTS.map((project, index) => {
@@ -245,9 +254,6 @@ export function SelectedWorkSection() {
               <article
                 key={project.id}
                 data-project-index={index}
-                onMouseEnter={() => {
-                  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) selectProject(index, false);
-                }}
                 className={`group relative h-[320px] snap-center shrink-0 overflow-hidden rounded-xl border sm:h-[440px] sm:rounded-2xl lg:h-[500px] ${isActive ? 'z-[1] w-[82vw] md:w-[min(64vw,780px)]' : 'w-[82vw] md:w-[clamp(56px,6vw,88px)] md:opacity-80 md:hover:opacity-100'}`}
                 style={{
                   transition: 'width 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease, border-color 200ms ease',
@@ -275,7 +281,7 @@ export function SelectedWorkSection() {
                     rel="noopener noreferrer"
                     aria-label={`Visit ${project.title} live website`}
                     onClick={(event) => event.stopPropagation()}
-                    className="absolute bottom-4 right-4 z-[4] inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/25 bg-black/75 px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-lg backdrop-blur-md transition-colors hover:border-cyan-300 hover:bg-black/90 hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:bottom-5 sm:right-5 sm:px-6"
+                    className={`absolute bottom-4 right-4 z-[4] inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] shadow-lg backdrop-blur-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 sm:bottom-5 sm:right-5 sm:px-6 ${isDark ? 'border-white/25 bg-black/80 text-white hover:border-cyan-300 hover:bg-black/95 hover:text-cyan-200' : 'border-slate-900/15 bg-white/95 text-slate-900 shadow-black/15 hover:border-cyan-600 hover:bg-white hover:text-cyan-800'}`}
                   >
                     Visit Live <ArrowUpRight size={14} />
                   </a>
