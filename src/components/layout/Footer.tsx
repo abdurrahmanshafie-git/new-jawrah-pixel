@@ -274,23 +274,37 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Oversized brand wordmark — inspired by the reference footer */}
-          <Link
-            to={p('/')}
-            aria-label="Jawrah Pixel home"
-            className="group block overflow-hidden border-b pb-5 sm:pb-7 md:pb-9 mb-8 md:mb-10"
-            style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.12)' }}
-          >
-            <span
-              className="block whitespace-nowrap text-center font-display font-semibold uppercase leading-[0.76] tracking-[-0.085em] transition-colors duration-200 group-hover:text-brand-cyan"
-              style={{
-                fontSize: 'clamp(4.5rem, 19.2vw, 17rem)',
-                color: isDark ? 'rgba(255,255,255,0.94)' : 'rgba(15,23,42,0.92)',
-              }}
-            >
-              JAWRAH
-            </span>
-          </Link>
+          {/* Oversized background wordmark anchors the closing footer */}
+          <div className="relative isolate mb-8 mt-2 overflow-hidden border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.12)' }}>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center select-none overflow-hidden">
+              <span className="block whitespace-nowrap text-center font-display font-semibold uppercase leading-[0.72] tracking-[-0.09em]"
+                style={{ fontSize: 'clamp(5.5rem, 22vw, 20rem)', color: isDark ? 'rgba(255,255,255,0.055)' : 'rgba(15,23,42,0.055)' }}>
+                JAWRAH
+              </span>
+            </div>
+            <div className="relative z-10 grid gap-7 py-9 sm:py-12 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10 md:py-14">
+              <div className="max-w-3xl">
+                <p className="mb-4 text-[9px] font-mono font-semibold uppercase tracking-[0.3em] sm:text-[10px]" style={{ color: isDark ? 'rgb(103,232,249)' : 'rgb(5,150,105)' }}>
+                  Independent digital studio · Sri Lanka & beyond
+                </p>
+                <h2 className="max-w-3xl text-3xl font-medium leading-[1.02] tracking-[-0.055em] sm:text-4xl md:text-5xl lg:text-6xl" style={{ color: isDark ? 'rgb(250,250,250)' : 'rgb(15,23,42)' }}>
+                  Let’s build something
+                  <span className="block mt-1.5" style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}>worth remembering.</span>
+                </h2>
+                <p className="mt-5 max-w-2xl text-sm leading-7 sm:text-base sm:leading-8" style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(71,85,105)' }}>
+                  Tell us where you want to go. We’ll turn your next big idea into a considered digital experience designed to move your business forward.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row md:items-stretch">
+                <Link to={p('/contact')} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-brand-cyan px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.15em] text-black transition-colors hover:bg-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:px-7">
+                  Start a project <span aria-hidden="true">↗</span>
+                </Link>
+                <Link to={p('/case-studies')} className="inline-flex min-h-12 items-center justify-center rounded-full border px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.15em] transition-colors hover:border-brand-cyan/50 hover:text-brand-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:px-7" style={{ borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.18)', color: isDark ? 'rgb(228,228,231)' : 'rgb(30,41,59)' }}>
+                  Explore our work
+                </Link>
+              </div>
+            </div>
+          </div>
 
           {/* Bottom Bar */}
           <div 
