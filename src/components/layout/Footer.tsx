@@ -35,7 +35,13 @@ export function Footer() {
     <footer 
       className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
-        background: isDark ? 'rgb(0,0,0)' : 'rgb(250,250,248)'
+        backgroundColor: isDark ? 'rgb(0,0,0)' : 'rgb(250,250,248)',
+        backgroundImage: isDark
+          ? "linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0.62) 100%), url('/footers/footer-dark.jpg')"
+          : "linear-gradient(180deg, rgba(250,250,248,0.14) 0%, rgba(250,250,248,0.28) 52%, rgba(250,250,248,0.42) 100%), url('/footers/footer-light.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       {/* Premium Glass Background */}
