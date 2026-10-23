@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRegion } from '@/hooks/useRegion';
 import { Reveal } from '@/components/ui/Reveal';
