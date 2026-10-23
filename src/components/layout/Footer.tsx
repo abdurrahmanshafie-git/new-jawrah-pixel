@@ -51,69 +51,7 @@ export function Footer() {
         />
       </div>
 
-      <style>{`
-        @keyframes jp-type { 0%, 34% { transform:translateY(0) rotate(0); } 38%, 44% { transform:translateY(2px) rotate(-1.5deg); } 48%, 52% { transform:translateY(0) rotate(1deg); } 56%, 100% { transform:translateY(0) rotate(0); } }
-        @keyframes jp-sleep { 0%, 48% { opacity:0; transform:translate(0,5px) scale(.8); } 58%, 82% { opacity:1; transform:translate(0,0) scale(1); } 90%, 100% { opacity:0; transform:translate(4px,-5px) scale(1.04); } }
-        @keyframes jp-screen { 0%, 34%, 56%, 100% { opacity:.3; } 38%, 50% { opacity:1; } }
-        @keyframes jp-breathe { 0%, 48%, 100% { transform:translateY(0); } 65%, 82% { transform:translateY(4px); } }
-        @keyframes jp-eyes-sleep { 0%, 48%, 100% { opacity:0; } 54%, 88% { opacity:1; } }
-        .jp-footer-scene { isolation:isolate; position:relative; overflow:hidden; border-radius:24px; min-height:290px; margin-bottom:48px; background:linear-gradient(118deg,#eee8de 0%,#e4dbcf 54%,#d7ccbd 100%); color:#24231f; box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 24px 70px rgba(0,0,0,.13); }
-        .jp-footer-scene:before { content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 80% 45%,rgba(255,255,255,.45),transparent 45%),linear-gradient(90deg,rgba(255,255,255,.12),transparent 55%); }
-        .jp-footer-character { animation:jp-breathe 7s cubic-bezier(.4,0,.2,1) infinite; transform-origin:bottom center; }
-        .jp-footer-typing { animation:jp-type 7s ease-in-out infinite; transform-origin:center; }
-        .jp-footer-z { animation:jp-sleep 7s ease-in-out infinite; transform-origin:center; }
-        .jp-footer-eyes-sleep { animation:jp-eyes-sleep 7s ease-in-out infinite; }
-        .jp-footer-screen { animation:jp-screen 7s ease-in-out infinite; }
-        @media (prefers-reduced-motion: reduce) { .jp-footer-character,.jp-footer-typing,.jp-footer-z,.jp-footer-eyes-sleep,.jp-footer-screen { animation:none !important; } }
-      `}</style>
       <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-[1440px]">
-        <div className="jp-footer-scene grid grid-cols-1 md:grid-cols-[.9fr_1.1fr] items-center px-6 sm:px-10 md:px-14 lg:px-[5.5rem] py-9 md:py-10">
-          <div className="relative z-10 max-w-md">
-            <span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.24em] text-black/55 mb-6"><span className="h-1.5 w-1.5 rounded-full bg-emerald-700/70" /> JAWRAH PIXEL · THE STUDIO</span>
-            <h2 className="text-[2.35rem] sm:text-5xl lg:text-[3.65rem] font-medium tracking-[-.065em] leading-[.99] text-[#24231f]">Good work takes focus.<br/><span className="font-normal italic text-[#777064]">Even time to pause.</span></h2>
-            <p className="mt-5 max-w-sm text-sm sm:text-[15px] leading-7 text-[#625e56]">We create digital experiences with intention, detail, and a little room to recharge.</p>
-          </div>
-          <div className="relative flex items-center justify-center min-h-[230px] md:min-h-[290px]" aria-label="Animated studio character alternates between typing and sleeping" role="img">
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[70%] h-6 rounded-[50%] bg-[#655b4e]/15 blur-xl" />
-            <svg viewBox="0 0 360 260" className="relative z-10 w-full max-w-[420px] h-auto drop-shadow-[0_16px_18px_rgba(61,49,34,0.08)]" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="183" cy="224" rx="117" ry="13" fill="#786D60" opacity=".18"/>
-              <g className="jp-footer-character">
-                <path d="M94 194c-8-34 8-64 42-75 34-11 82-2 101 26 18 27 6 61-18 74H126c-16-4-27-12-32-25Z" fill="#64748B"/>
-                <path d="M113 177c-15-18-35-16-46-3-12 15 2 38 26 42l35-4" fill="#526477"/>
-                <path d="M132 190c-5 17-1 28 14 31h26l8-17-19-16" fill="#D7C5A5"/>
-                <path d="M194 190c1 17 12 29 28 31l22-5-5-17-21-16" fill="#D7C5A5"/>
-                <path d="M148 214l-7 11 31 3 10-8-8-7" fill="#B48A42"/>
-                <path d="M218 213l-1 12 30-2 5-8-10-7" fill="#B48A42"/>
-                <g className="jp-footer-typing">
-                  <rect x="128" y="82" width="80" height="83" rx="25" fill="#D6A640"/>
-                  <rect x="138" y="91" width="60" height="65" rx="18" fill="#F0C35C"/>
-                  <g className="jp-footer-eyes-awake"><rect x="148" y="118" width="8" height="13" rx="4" fill="#29251F"/><rect x="180" y="118" width="8" height="13" rx="4" fill="#29251F"/></g>
-                  <g className="jp-footer-eyes-sleep" stroke="#29251F" strokeWidth="3" strokeLinecap="round"><path d="M147 125q5 4 10 0"/><path d="M179 125q5 4 10 0"/></g>
-                  <path d="M156 141c7 5 15 5 22 0" stroke="#29251F" strokeWidth="3" strokeLinecap="round"/>
-                  <path d="M125 106c-17-7-20-28-6-40 12-11 30-7 36 6" stroke="#40566B" strokeWidth="12" strokeLinecap="round"/>
-                  <path d="M205 107c17-7 20-28 6-40-12-11-30-7-36 6" stroke="#40566B" strokeWidth="12" strokeLinecap="round"/>
-                  <rect x="113" y="65" width="23" height="29" rx="10" fill="#526477"/>
-                  <rect x="198" y="65" width="23" height="29" rx="10" fill="#526477"/>
-                  <path d="M183 164l37 18" stroke="#64748B" strokeWidth="16" strokeLinecap="round"/>
-                  <path d="M147 165l-25 19" stroke="#64748B" strokeWidth="16" strokeLinecap="round"/>
-                </g>
-                <g>
-                  <path d="M174 176h91l-15 44h-91l15-44Z" fill="#777B7D"/>
-                  <path d="M174 176h91l-15 44h-91l15-44Z" fill="#C5C7C5"/>
-                  <path d="M181 181h76l-12 33h-76l12-33Z" fill="#69757D"/>
-                  <path className="jp-footer-screen" d="M190 190h48M187 197h37M185 204h42" stroke="#C5D4D9" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M158 221h92l10 5h-107l5-5Z" fill="#8B8D8B"/>
-                </g>
-              </g>
-              <g className="jp-footer-z" fill="#61564A" fontFamily="Georgia,serif" fontWeight="700">
-                <text x="240" y="72" fontSize="25">Z</text><text x="265" y="49" fontSize="19">z</text><text x="284" y="30" fontSize="14">z</text>
-              </g>
-              <path d="M72 72c-8-7-4-19 6-20 7-1 11 5 10 11-1 7-8 12-16 9Z" fill="#A5A58A" opacity=".65"/>
-              <path d="M61 91c-5-5-2-13 5-13 5 0 8 4 7 8-1 5-6 8-12 5Z" fill="#A5A58A" opacity=".45"/>
-            </svg>
-            <span className="absolute bottom-2 right-1 sm:right-2 text-[9px] font-medium uppercase tracking-[.18em] text-black/35">In the zone · Then recharging</span>
-          </div>
-        </div>
         <Reveal>
           <div className="mb-10 grid grid-cols-1 gap-9 sm:gap-10 md:mb-16 md:grid-cols-2 md:gap-14 lg:grid-cols-12 lg:gap-20">
             {/* Brand Section */}
