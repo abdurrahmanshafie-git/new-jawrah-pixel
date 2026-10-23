@@ -174,46 +174,8 @@ export default function Home() {
         schemaData={seo.schemaData}
       />
 
-      {/* Cinematic Jawrah Pixel Hero — digital systems, not space imagery */}
+      {/* Cinematic Hero Section */}
       <section className="relative z-0 min-h-[90vh] md:min-h-[95vh] flex flex-col items-center pt-20 md:pt-32 pb-20 overflow-hidden isolate">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <div className={`absolute inset-0 ${isDark ? 'opacity-100' : 'opacity-70'}`} style={{ background: isDark ? 'radial-gradient(ellipse at 50% 30%, rgba(37,99,235,0.15), transparent 42%), radial-gradient(ellipse at 50% 68%, rgba(6,182,212,0.08), transparent 48%)' : 'radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.10), transparent 42%), radial-gradient(ellipse at 50% 68%, rgba(6,182,212,0.06), transparent 48%)' }} />
-          <div className="absolute inset-x-0 top-[8%] mx-auto h-[34rem] w-[34rem] max-w-[92vw] rounded-full border border-brand-blue/10" />
-          <div className="absolute inset-x-0 top-[12%] mx-auto h-[28rem] w-[28rem] max-w-[80vw] rounded-full border border-brand-cyan/10" />
-          <motion.div
-            className="absolute left-1/2 top-[13%] h-64 w-64 -translate-x-1/2 sm:top-[10%] sm:h-80 sm:w-80 md:top-[8%] md:h-[26rem] md:w-[26rem]"
-            animate={{ rotate: [0, 8, 0, -8, 0], y: [0, -8, 0] }}
-            transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <svg viewBox="0 0 400 400" className="h-full w-full" fill="none">
-              <defs>
-                <linearGradient id="jp-core-line" x1="55" y1="55" x2="340" y2="350" gradientUnits="userSpaceOnUse"><stop stopColor="#60A5FA" stopOpacity=".75" /><stop offset="1" stopColor="#22D3EE" stopOpacity=".18" /></linearGradient>
-                <radialGradient id="jp-core-fill"><stop stopColor="#2563EB" stopOpacity=".22" /><stop offset="1" stopColor="#06B6D4" stopOpacity="0" /></radialGradient>
-              </defs>
-              <circle cx="200" cy="200" r="150" fill="url(#jp-core-fill)" />
-              <g stroke="url(#jp-core-line)" strokeWidth="1.1">
-                <path d="M200 55 325 127 325 273 200 345 75 273 75 127Z" />
-                <path d="M200 92 292 145 292 255 200 308 108 255 108 145Z" />
-                <path d="M200 55V345M75 127 325 273M325 127 75 273M75 127 200 200 325 127M75 273 200 200 325 273M108 145 200 200 292 145M108 255 200 200 292 255" />
-              </g>
-              <g fill="#60A5FA">
-                <rect x="191" y="46" width="18" height="18" rx="3" /><rect x="316" y="118" width="18" height="18" rx="3" /><rect x="316" y="264" width="18" height="18" rx="3" /><rect x="191" y="336" width="18" height="18" rx="3" /><rect x="66" y="118" width="18" height="18" rx="3" /><rect x="66" y="264" width="18" height="18" rx="3" />
-              </g>
-              <g fill="#22D3EE"><rect x="187" y="187" width="26" height="26" rx="5" /><rect x="143" y="96" width="9" height="9" rx="2" /><rect x="250" y="292" width="9" height="9" rx="2" /><rect x="292" y="194" width="9" height="9" rx="2" /><rect x="100" y="194" width="9" height="9" rx="2" /></g>
-            </svg>
-          </motion.div>
-          <motion.div className="absolute left-[7%] top-[37%] hidden w-48 rounded-xl border border-brand-blue/20 bg-slate-950/70 p-4 text-left shadow-2xl backdrop-blur-xl md:block" animate={{ y: [0, -9, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}>
-            <div className="mb-3 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" /><span className="font-mono text-[9px] uppercase tracking-[0.24em] text-slate-400">Digital experience</span></div>
-            <div className="mb-2 h-2 w-3/4 rounded-full bg-white/20" /><div className="mb-4 h-1.5 w-1/2 rounded-full bg-white/10" /><div className="grid grid-cols-3 gap-1.5">{[0,1,2,3,4,5].map(n => <span key={n} className={`h-7 rounded-sm ${n === 1 || n === 4 ? 'bg-brand-cyan/35' : 'bg-white/[0.07]'}`} />)}</div>
-          </motion.div>
-          <motion.div className="absolute right-[7%] top-[40%] hidden w-48 rounded-xl border border-brand-cyan/20 bg-slate-950/70 p-4 text-left shadow-2xl backdrop-blur-xl md:block" animate={{ y: [0, 8, 0] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}>
-            <div className="mb-4 flex items-center justify-between"><span className="font-mono text-[9px] uppercase tracking-[0.24em] text-slate-400">System status</span><span className="rounded-full bg-emerald-400/10 px-2 py-1 font-mono text-[8px] text-emerald-300">READY</span></div>
-            <div className="flex h-10 items-end gap-1.5">{[30,48,38,68,52,82,61,94,72,100,78,88].map((height,n)=><span key={n} className="flex-1 rounded-t-sm bg-gradient-to-t from-brand-blue/40 to-brand-cyan/80" style={{height: `${height}%`}} />)}</div>
-            <div className="mt-3 flex justify-between font-mono text-[8px] uppercase tracking-wider text-slate-500"><span>Build</span><span>Deploy</span><span>Scale</span></div>
-          </motion.div>
-          <div className="absolute bottom-[9%] left-1/2 h-px w-[min(80vw,900px)] -translate-x-1/2 bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent" />
-          <div className="absolute bottom-[9%] left-1/2 h-24 w-[min(80vw,900px)] -translate-x-1/2 bg-gradient-to-t from-brand-blue/[0.06] to-transparent blur-2xl" />
-        </div>
         <div className="container relative z-20 mx-auto px-6">
           <div className="flex flex-col items-center text-center">
             <motion.div
