@@ -185,6 +185,7 @@ const projectSlugByAssetFolder = {
   'jawrah-pixel': 'jawrah-pixel',
   'kamal jewellers': 'kamal-jewellers',
   miorah: 'miorah',
+  'meraki motors': 'meraki-motors',
   rankala: 'rankala-gold',
   'shabnam-jewellers': 'shabnam-jewellers',
   'the famous': 'the-famous',
