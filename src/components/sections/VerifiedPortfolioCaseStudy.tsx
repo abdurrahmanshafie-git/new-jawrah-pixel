@@ -14,6 +14,7 @@ type ProjectDossier = {
   status: string;
   url: string;
   image: string;
+  gallery?: Array<{ src: string; alt: string; label: string }>;
   overview: string;
   challenge: string[];
   objectives: string[];
@@ -316,7 +317,13 @@ const dossier = (slug: string): ProjectDossier | null => {
       audience: 'International customers sourcing vehicles from Japanese auctions',
       status: 'Live public website',
       url: 'https://www.merakimotors.jp/',
-      image: '/assets/case-studies/meraki-motors/homepage-desktop.png',
+      image: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/DESKTOP%201.png',
+      gallery: [
+        { src: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/DESKTOP%201.png', alt: 'Meraki Motors homepage desktop design', label: 'Homepage · Desktop' },
+        { src: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/DESKTOP%202.png', alt: 'Meraki Motors vehicle catalogue desktop design', label: 'Vehicle catalogue · Desktop' },
+        { src: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/MOBILE%20.png', alt: 'Meraki Motors responsive mobile website', label: 'Mobile experience' },
+        { src: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/image.png', alt: 'Meraki Motors additional website screenshot', label: 'Additional view' },
+      ],
       overview: 'A responsive automotive website for Meraki Motors, presenting Japanese auction sourcing, featured vehicle inventory, inspection information, bidding guidance, and worldwide export coordination.',
       challenge: ['Help international buyers understand a complex Japanese auction and export process.', 'Present vehicle specifications and inspection information clearly.', 'Make inventory discovery and enquiries easy across desktop and mobile.'],
       objectives: ['Build trust through a clear explanation of sourcing and export steps.', 'Make featured vehicles and key specifications easy to compare.', 'Provide direct paths for customers looking for a specific car.'],
@@ -375,6 +382,29 @@ export function VerifiedPortfolioCaseStudy({ slug }: { slug: string }) {
           <Reveal><span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-blue">{project.industry}</span><h1 className="mt-6 max-w-5xl text-5xl font-display font-medium uppercase leading-[0.9] tracking-tight theme-text-primary sm:text-7xl lg:text-8xl">{project.title}</h1><p className="mt-8 max-w-3xl text-lg font-light leading-relaxed theme-text-muted">{project.descriptor}. {project.overview}</p><div className="mt-10 flex flex-wrap gap-4"><a href={project.url} target="_blank" rel="noreferrer"><Button size="lg">View live project <ArrowUpRight size={17} className="ml-2" /></Button></a><span className="inline-flex items-center border theme-border px-5 py-3 text-[10px] font-mono uppercase tracking-[0.2em] theme-text-caption">{project.status}</span></div></Reveal>
           <Reveal delay={0.1} className="border theme-border theme-card p-7 sm:p-9"><img src={project.image} alt={`${project.title} project preview`} className="aspect-[16/10] w-full object-cover" /><div className="mt-7 grid gap-5 text-[10px] font-mono uppercase tracking-[0.18em] theme-text-caption"><span><b className="mb-2 block text-brand-blue">Audience</b>{project.audience}</span><span><b className="mb-2 block text-brand-blue">Project type</b>{project.descriptor}</span></div></Reveal>
         </section>
+
+        {project.gallery?.length ? (
+          <section className="my-20 sm:my-24" aria-label={`${project.title} website screenshots`}>
+            <Reveal className="mb-8 sm:mb-10">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-blue">Website gallery / 04 views</span>
+              <h2 className="mt-5 text-3xl font-display uppercase leading-tight tracking-tight theme-text-primary sm:text-5xl">The experience, on every screen.</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed theme-text-muted sm:text-base">Real screenshots from the Meraki Motors website, with the desktop homepage featured first.</p>
+            </Reveal>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+              {project.gallery.map((shot, index) => (
+                <Reveal key={shot.label} delay={index * 0.04} className={`overflow-hidden border theme-border theme-card ${index === 0 ? 'sm:col-span-2' : ''}`}>
+                  <div className="flex items-center justify-between gap-3 border-b theme-border px-4 py-3 sm:px-5">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] theme-text-primary">{shot.label}</span>
+                    <span className="text-[10px] font-mono theme-text-caption">0{index + 1} / 04</span>
+                  </div>
+                  <div className={`bg-black/5 ${index === 2 || index === 3 ? 'mx-auto max-w-[360px] p-3 sm:p-5' : 'p-2 sm:p-4'}`}>
+                    <img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" className={`h-auto w-full rounded-sm object-contain ${index === 0 ? 'max-h-[760px]' : ''}`} />
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="my-24 grid gap-14 border-b theme-border pb-24 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24"><Reveal><span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-brand-blue">01 / Project overview</span><h2 className="mt-5 text-4xl font-display uppercase leading-none tracking-tight theme-text-primary sm:text-6xl">The work behind the experience.</h2></Reveal><div className="space-y-8"><p className="text-lg font-light leading-relaxed theme-text-secondary">{project.overview}</p><div className="grid gap-4 sm:grid-cols-2"><div className="border theme-border theme-bg-tertiary p-6"><Users className="mb-6 text-brand-blue" size={21} /><h3 className="font-display uppercase theme-text-primary">Target audience</h3><p className="mt-3 text-sm leading-relaxed theme-text-muted">{project.audience}</p></div><div className="border theme-border theme-bg-tertiary p-6"><Target className="mb-6 text-brand-blue" size={21} /><h3 className="font-display uppercase theme-text-primary">Project status</h3><p className="mt-3 text-sm leading-relaxed theme-text-muted">{project.status}. Year and delivery timeline were not publicly specified.</p></div></div></div></section>
 
