@@ -145,8 +145,11 @@ export function SelectedWorkSection() {
   const allWorkPath = `/${currentRegion}/case-studies`;
   const activeProject = SELECTED_PROJECTS[activeIndex];
 
-  const selectProject = (index: number) => {
+  const selectProject = (index: number, shouldScroll = true) => {
     setActiveIndex(index);
+    // Hover changes the expanded card only. Scrolling on every mouse-enter makes
+    // the rail chase the cursor and can skip several cards at once.
+    if (!shouldScroll) return;
     requestAnimationFrame(() => {
       const card = carouselRef.current?.querySelector<HTMLElement>(`[data-project-index="${index}"]`);
       card?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -243,11 +246,11 @@ export function SelectedWorkSection() {
                 key={project.id}
                 data-project-index={index}
                 onMouseEnter={() => {
-                  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) selectProject(index);
+                  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) selectProject(index, false);
                 }}
-                className={`group relative h-[360px] snap-center shrink-0 overflow-hidden rounded-xl border sm:h-[440px] sm:rounded-2xl lg:h-[500px] ${isActive ? 'z-[1] w-[78vw] md:w-[min(64vw,780px)]' : 'w-[44px] sm:w-[clamp(56px,6vw,88px)] opacity-80 hover:opacity-100'}`}
+                className={`group relative h-[320px] snap-center shrink-0 overflow-hidden rounded-xl border sm:h-[440px] sm:rounded-2xl lg:h-[500px] ${isActive ? 'z-[1] w-[82vw] md:w-[min(64vw,780px)]' : 'w-[82vw] md:w-[clamp(56px,6vw,88px)] md:opacity-80 md:hover:opacity-100'}`}
                 style={{
-                  transition: 'width 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 250ms ease, border-color 250ms ease',
+                  transition: 'width 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease, border-color 200ms ease',
                   borderColor: isActive ? (isDark ? 'rgba(103,232,249,0.5)' : 'rgba(8,145,178,0.45)') : (isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)'),
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
                   flexShrink: 0,
