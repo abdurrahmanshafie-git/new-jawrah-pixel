@@ -243,8 +243,9 @@ export function SelectedWorkSection() {
                 key={project.id}
                 data-project-index={index}
                 className={`group relative h-[340px] shrink-0 overflow-hidden rounded-2xl border sm:h-[400px] sm:rounded-[22px] lg:h-[460px] ${isActive ? 'z-[1]' : 'opacity-85'}`}
-                style={{ width: isActive ? 'min(76vw, 720px)' : 'clamp(58px, 6.5vw, 88px)', transition: 'width 180ms ease-out' }}
                 style={{
+                  width: isActive ? 'min(76vw, 720px)' : 'clamp(58px, 6.5vw, 88px)',
+                  transition: 'width 180ms ease-out',
                   borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
                   flexShrink: 0,
@@ -321,7 +322,7 @@ export function SelectedWorkSection() {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => selectProject(index)
+                    onClick={() => selectProject(index)}
                     aria-label={`Spotlight ${project.title}`}
                     aria-pressed={isActive}
                     className="absolute inset-0 flex h-full w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
@@ -359,6 +360,7 @@ export function SelectedWorkSection() {
           Explore All Work
           <ExternalLink size={13} />
         </Link>
+      </div>
       </div>
     </section>
   );
