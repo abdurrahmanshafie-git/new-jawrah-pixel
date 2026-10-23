@@ -224,7 +224,7 @@ export function SelectedWorkSection() {
       </div>
 
       <div
-        ref={carouselRef} className="relative z-10 w-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-4 sm:px-8 lg:px-10"
+        ref={carouselRef} className="relative z-10 w-full snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-4 sm:px-8 lg:px-10"
         role="region"
         aria-roledescription="carousel"
         aria-label="Jawrah Pixel selected projects. Choose a card to explore each project."
@@ -234,7 +234,7 @@ export function SelectedWorkSection() {
           if (event.key === 'ArrowLeft') { event.preventDefault(); moveSelection(-1); }
         }}
       >
-        <div className="mx-auto flex min-h-[280px] w-max max-w-none items-stretch gap-3 sm:min-h-[340px] sm:gap-4 lg:min-h-[400px]">
+        <div className="mx-auto flex min-h-[360px] w-max max-w-none items-stretch gap-2.5 sm:min-h-[440px] sm:gap-3 lg:min-h-[500px] lg:gap-4">
           {SELECTED_PROJECTS.map((project, index) => {
             const isActive = index === activeIndex;
 
@@ -242,11 +242,13 @@ export function SelectedWorkSection() {
               <article
                 key={project.id}
                 data-project-index={index}
-                className={`group relative h-[280px] snap-center shrink-0 overflow-hidden rounded-2xl border sm:h-[340px] sm:rounded-[22px] lg:h-[400px] ${isActive ? 'z-[1]' : 'opacity-85'}`}
+                onMouseEnter={() => {
+                  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) selectProject(index);
+                }}
+                className={`group relative h-[360px] snap-center shrink-0 overflow-hidden rounded-xl border sm:h-[440px] sm:rounded-2xl lg:h-[500px] ${isActive ? 'z-[1] w-[78vw] md:w-[min(64vw,780px)]' : 'w-[44px] sm:w-[clamp(56px,6vw,88px)] opacity-80 hover:opacity-100'}`}
                 style={{
-                  width: isActive ? 'min(76vw, 720px)' : 'clamp(76px, 8vw, 112px)',
-                  transition: 'width 320ms ease-in-out',
-                  borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)',
+                  transition: 'width 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 250ms ease, border-color 250ms ease',
+                  borderColor: isActive ? (isDark ? 'rgba(103,232,249,0.5)' : 'rgba(8,145,178,0.45)') : (isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)'),
                   backgroundColor: isDark ? '#090D14' : '#F1F3F5',
                   flexShrink: 0,
                 }}
