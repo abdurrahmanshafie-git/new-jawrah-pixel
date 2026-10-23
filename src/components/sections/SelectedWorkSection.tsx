@@ -263,6 +263,18 @@ export function SelectedWorkSection() {
                     event.currentTarget.style.opacity = '0';
                   }}
                 />
+                {isActive && project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit ${project.title} live website`}
+                    onClick={(event) => event.stopPropagation()}
+                    className="absolute bottom-4 right-4 z-[4] inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/25 bg-black/75 px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-lg backdrop-blur-md transition-colors hover:border-cyan-300 hover:bg-black/90 hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:bottom-5 sm:right-5 sm:px-6"
+                  >
+                    Visit Live <ArrowUpRight size={14} />
+                  </a>
+                )}
                 <button
                   type="button"
                   onClick={() => selectProject(index)}
