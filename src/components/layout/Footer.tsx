@@ -51,7 +51,66 @@ export function Footer() {
         />
       </div>
 
+      <style>{`
+        @keyframes jp-type { 0%, 38% { transform: translateY(0) rotate(0deg); } 44%, 58% { transform: translateY(3px) rotate(-2deg); } 64%, 100% { transform: translateY(0) rotate(0deg); } }
+        @keyframes jp-sleep { 0%, 56%, 100% { opacity: 0; transform: translateY(5px) scale(.8); } 62%, 82% { opacity: 1; transform: translateY(0) scale(1); } 90% { opacity: 0; transform: translateY(-4px) scale(1.08); } }
+        @keyframes jp-screen { 0%, 36%, 64%, 100% { opacity: .35; } 42%, 58% { opacity: 1; } }
+        @keyframes jp-breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        .jp-footer-scene { isolation:isolate; position:relative; overflow:hidden; border-radius:28px; min-height:250px; margin-bottom:44px; background:linear-gradient(145deg,#e9e1d3 0%,#d7cbbb 58%,#bdb5aa 100%); color:#26221f; }
+        .jp-footer-character { animation:jp-breathe 4s ease-in-out infinite; transform-origin:bottom center; }
+        .jp-footer-typing { animation:jp-type 7s ease-in-out infinite; transform-origin:center; }
+        .jp-footer-z { animation:jp-sleep 7s ease-in-out infinite; transform-origin:center; }
+        .jp-footer-screen { animation:jp-screen 7s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .jp-footer-character,.jp-footer-typing,.jp-footer-z,.jp-footer-screen { animation:none !important; } }
+      `}</style>
       <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-[1440px]">
+        <div className="jp-footer-scene grid grid-cols-1 md:grid-cols-[1fr_1fr] items-center px-6 sm:px-10 md:px-14 py-8 md:py-10">
+          <div className="relative z-10 max-w-md">
+            <span className="inline-flex rounded-full border border-black/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[.18em] mb-5">A little less ordinary</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-[-.055em] leading-[1.05]">We build while the world <span className="italic font-normal">takes a breather.</span></h2>
+            <p className="mt-4 max-w-sm text-sm sm:text-base leading-relaxed text-black/60">Thoughtful digital experiences, crafted with care — even when our little studio bot needs a nap.</p>
+          </div>
+          <div className="relative flex items-center justify-center min-h-[210px] md:min-h-[260px]" aria-label="Animated studio character alternates between typing and sleeping" role="img">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[82%] h-5 rounded-[50%] bg-black/10 blur-xl" />
+            <svg viewBox="0 0 360 260" className="relative z-10 w-full max-w-[390px] h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="183" cy="224" rx="117" ry="13" fill="#786D60" opacity=".18"/>
+              <g className="jp-footer-character">
+                <path d="M94 194c-8-34 8-64 42-75 34-11 82-2 101 26 18 27 6 61-18 74H126c-16-4-27-12-32-25Z" fill="#64748B"/>
+                <path d="M113 177c-15-18-35-16-46-3-12 15 2 38 26 42l35-4" fill="#526477"/>
+                <path d="M132 190c-5 17-1 28 14 31h26l8-17-19-16" fill="#D7C5A5"/>
+                <path d="M194 190c1 17 12 29 28 31l22-5-5-17-21-16" fill="#D7C5A5"/>
+                <path d="M148 214l-7 11 31 3 10-8-8-7" fill="#B48A42"/>
+                <path d="M218 213l-1 12 30-2 5-8-10-7" fill="#B48A42"/>
+                <g className="jp-footer-typing">
+                  <rect x="128" y="82" width="80" height="83" rx="25" fill="#D6A640"/>
+                  <rect x="138" y="91" width="60" height="65" rx="18" fill="#F0C35C"/>
+                  <rect x="148" y="118" width="8" height="13" rx="4" fill="#29251F"/>
+                  <rect x="180" y="118" width="8" height="13" rx="4" fill="#29251F"/>
+                  <path d="M156 141c7 5 15 5 22 0" stroke="#29251F" strokeWidth="3" strokeLinecap="round"/>
+                  <path d="M125 106c-17-7-20-28-6-40 12-11 30-7 36 6" stroke="#40566B" strokeWidth="12" strokeLinecap="round"/>
+                  <path d="M205 107c17-7 20-28 6-40-12-11-30-7-36 6" stroke="#40566B" strokeWidth="12" strokeLinecap="round"/>
+                  <rect x="113" y="65" width="23" height="29" rx="10" fill="#526477"/>
+                  <rect x="198" y="65" width="23" height="29" rx="10" fill="#526477"/>
+                  <path d="M183 164l37 18" stroke="#64748B" strokeWidth="16" strokeLinecap="round"/>
+                  <path d="M147 165l-25 19" stroke="#64748B" strokeWidth="16" strokeLinecap="round"/>
+                </g>
+                <g>
+                  <path d="M174 176h91l-15 44h-91l15-44Z" fill="#777B7D"/>
+                  <path d="M174 176h91l-15 44h-91l15-44Z" fill="#C5C7C5"/>
+                  <path d="M181 181h76l-12 33h-76l12-33Z" fill="#69757D"/>
+                  <path className="jp-footer-screen" d="M190 190h48M187 197h37M185 204h42" stroke="#C5D4D9" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M158 221h92l10 5h-107l5-5Z" fill="#8B8D8B"/>
+                </g>
+              </g>
+              <g className="jp-footer-z" fill="#61564A" fontFamily="Georgia,serif" fontWeight="700">
+                <text x="240" y="72" fontSize="25">Z</text><text x="265" y="49" fontSize="19">z</text><text x="284" y="30" fontSize="14">z</text>
+              </g>
+              <path d="M72 72c-8-7-4-19 6-20 7-1 11 5 10 11-1 7-8 12-16 9Z" fill="#A5A58A" opacity=".65"/>
+              <path d="M61 91c-5-5-2-13 5-13 5 0 8 4 7 8-1 5-6 8-12 5Z" fill="#A5A58A" opacity=".45"/>
+            </svg>
+            <span className="absolute bottom-1 right-2 sm:right-5 text-[9px] uppercase tracking-[.18em] text-black/35">currently: coding / recharging</span>
+          </div>
+        </div>
         <Reveal>
           <div className="mb-10 grid grid-cols-1 gap-9 sm:gap-10 md:mb-16 md:grid-cols-2 md:gap-14 lg:grid-cols-12 lg:gap-20">
             {/* Brand Section */}
