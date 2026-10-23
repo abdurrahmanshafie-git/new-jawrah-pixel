@@ -103,6 +103,18 @@ const SELECTED_PROJECTS: SelectedProject[] = [
     domainLabel: 'jawrahpixel.online',
   },
   {
+    id: 'meraki-motors',
+    slug: 'meraki-motors',
+    title: 'Meraki Motors',
+    category: 'Automotive Website & Vehicle Catalogue',
+    description: 'A responsive vehicle-sourcing experience presenting Japanese auction inventory, inspection details, and worldwide export enquiries.',
+    image: '/assets/case-studies/meraki-motors/homepage-desktop.png',
+    liveUrl: 'https://www.merakimotors.jp/',
+    year: '2026',
+    status: 'LIVE',
+    domainLabel: 'merakimotors.jp',
+  },
+  {
     id: 'the-famous',
     slug: 'the-famous',
     title: 'The Famous Clothing',
