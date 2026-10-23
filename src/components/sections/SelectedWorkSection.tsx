@@ -108,7 +108,7 @@ const SELECTED_PROJECTS: SelectedProject[] = [
     title: 'Meraki Motors',
     category: 'Automotive Website & Vehicle Catalogue',
     description: 'A responsive vehicle-sourcing experience presenting Japanese auction inventory, inspection details, and worldwide export enquiries.',
-    image: 'https://raw.githubusercontent.com/abdurrahmanshafie-git/new-jawrah-pixel/main/meraki%20motors/DESKTOP%201.png',
+    image: '/assets/case-studies/meraki-motors/desktop-1.png',
     liveUrl: 'https://www.merakimotors.jp/',
     year: '2026',
     status: 'LIVE',
