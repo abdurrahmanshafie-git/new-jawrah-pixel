@@ -274,6 +274,24 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Oversized brand wordmark — inspired by the reference footer */}
+          <Link
+            to={p('/')}
+            aria-label="Jawrah Pixel home"
+            className="group block overflow-hidden border-b pb-5 sm:pb-7 md:pb-9 mb-8 md:mb-10"
+            style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.12)' }}
+          >
+            <span
+              className="block whitespace-nowrap text-center font-display font-semibold uppercase leading-[0.76] tracking-[-0.085em] transition-colors duration-200 group-hover:text-brand-cyan"
+              style={{
+                fontSize: 'clamp(4.5rem, 19.2vw, 17rem)',
+                color: isDark ? 'rgba(255,255,255,0.94)' : 'rgba(15,23,42,0.92)',
+              }}
+            >
+              JAWRAH
+            </span>
+          </Link>
+
           {/* Bottom Bar */}
           <div 
             className="pt-10 md:pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8"
