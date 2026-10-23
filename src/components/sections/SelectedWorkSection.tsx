@@ -242,7 +242,7 @@ export function SelectedWorkSection() {
               <motion.article
                 key={project.id}
                 layout
-                ref={isActive ? activeCardRef : undefined}
+                ref={(node) => { if (isActive) activeCardRef.current = node; }}
                 initial={false}
                 transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 180, damping: 26, mass: 0.9 }}
                 className={`group relative h-[440px] shrink-0 overflow-hidden rounded-[22px] border sm:h-[500px] sm:rounded-[28px] lg:h-[550px] ${isActive ? 'w-[min(78vw,720px)]' : 'w-[clamp(68px,7.5vw,104px)]'}`}
