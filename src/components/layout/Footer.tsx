@@ -33,7 +33,7 @@ export function Footer() {
 
   return (
     <footer 
-      className="relative pt-20 md:pt-32 pb-12 md:pb-16 overflow-hidden"
+      className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
         background: isDark ? 'rgb(0,0,0)' : 'rgb(250,250,248)'
       }}
@@ -51,12 +51,46 @@ export function Footer() {
         />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-[1440px]">
         <Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-16 lg:gap-24 mb-16 md:mb-24">
+          {/* Closing call to action — inspired by Scrolltide's editorial footer */}
+          <div className="relative mb-16 md:mb-24 overflow-hidden rounded-[28px] border px-6 py-12 text-center sm:px-10 sm:py-16 md:py-20"
+            style={{
+              borderColor: isDark ? 'rgba(255,255,255,0.09)' : 'rgba(15,23,42,0.10)',
+              background: isDark
+                ? 'radial-gradient(ellipse at 50% 120%, rgba(6,182,212,0.13), transparent 58%), linear-gradient(145deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008))'
+                : 'radial-gradient(ellipse at 50% 120%, rgba(16,185,129,0.10), transparent 58%), linear-gradient(145deg, rgba(255,255,255,0.96), rgba(248,250,252,0.78))'
+            }}
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-cyan/60 to-transparent" />
+            <p className="mb-5 text-[9px] font-mono uppercase tracking-[0.32em] sm:text-[10px]"
+              style={{ color: isDark ? 'rgb(6,182,212)' : 'rgb(5,150,105)' }}>
+              Independent digital studio · Sri Lanka & beyond
+            </p>
+            <h2 className="mx-auto max-w-4xl text-4xl font-medium leading-[0.98] tracking-[-0.055em] sm:text-5xl md:text-6xl lg:text-7xl">
+              Let’s build something
+              <span className="block mt-2" style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}>worth remembering.</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-sm leading-7 sm:text-base"
+              style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}>
+              Tell us where you want to go. We’ll help turn your next big idea into a digital experience built to move your business forward.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row">
+              <Link to={p('/contact')}
+                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-brand-cyan px-7 py-3.5 text-[10px] font-bold uppercase tracking-[0.17em] text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300">
+                Start a project <span aria-hidden="true">↗</span>
+              </Link>
+              <Link to={p('/case-studies')}
+                className="inline-flex min-h-12 items-center justify-center rounded-full border px-7 py-3.5 text-[10px] font-bold uppercase tracking-[0.17em] transition-all duration-300 hover:border-brand-cyan/40 hover:bg-brand-cyan/[0.05]"
+                style={{ borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.12)' }}>
+                Explore our work
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-14 lg:gap-20 mb-12 md:mb-16">
             {/* Brand Section */}
             <div className="lg:col-span-5 flex flex-col items-start">
-              <Link to={p('/')} className="mb-8 md:mb-10 group inline-flex items-center transition-transform hover:scale-[1.01] duration-700">
+              <Link to={p('/')} className="mb-6 md:mb-7 group inline-flex items-center transition-transform hover:scale-[1.01] duration-500">
                 <div className="flex items-center">
                   <Logo asset="logo-navbar" variant="full" size="2xl" />
                 </div>
@@ -91,7 +125,7 @@ export function Footer() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2.5">
                 {[
                   { icon: <Mail size={16} />, href: `mailto:${config.contactEmail}`, label: 'Email' },
                   { icon: <MessageCircle size={16} />, href: config.whatsappLink, label: 'WhatsApp' },
@@ -103,7 +137,7 @@ export function Footer() {
                     href={social.href}
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-none border flex items-center justify-center transition-all duration-700 group"
+                    className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 group hover:-translate-y-0.5"
                     style={{
                       borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.08)',
                       background: isDark ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.72)',
@@ -132,19 +166,19 @@ export function Footer() {
             <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-10 md:gap-16">
               <div className="flex flex-col items-start">
                 <h4 
-                  className="text-[9px] font-bold uppercase tracking-[0.4em] mb-10"
+                  className="text-[9px] font-bold uppercase tracking-[0.28em] mb-6"
                   style={{
                     color: isDark ? 'rgb(59,130,246)' : 'rgb(16,185,129)'
                   }}
                 >
                   Services
                 </h4>
-                <ul className="space-y-5">
+                <ul className="space-y-3.5">
                   {serviceLinks.slice(0, 6).map((item) => (
                     <li key={item.label}>
                       <Link 
                         to={resolveFooterPath(item.path)} 
-                        className="text-[13px] font-light transition-colors duration-500"
+                        className="text-[13px] font-light transition-colors duration-300 hover:translate-x-0.5 inline-block"
                         style={{
                           color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)'
                         }}
@@ -171,7 +205,7 @@ export function Footer() {
                 >
                   Agency
                 </h4>
-                <ul className="space-y-5">
+                <ul className="space-y-3.5">
                   {[
                     { label: 'About', path: '/about' },
                     { label: 'Case Studies', path: '/case-studies' },
@@ -211,7 +245,7 @@ export function Footer() {
                 >
                   Legal
                 </h4>
-                <ul className="space-y-5">
+                <ul className="space-y-3.5">
                   {[
                     { label: 'Privacy Policy', path: '/privacy-policy' },
                     { label: 'Terms of Service', path: '/terms-and-conditions' },
@@ -249,7 +283,7 @@ export function Footer() {
           >
             <div className="flex flex-col lg:flex-row items-center gap-8">
               <p 
-                className="text-[9px] font-mono uppercase tracking-[0.3em]"
+                className="text-[9px] font-mono uppercase tracking-[0.2em]"
                 style={{
                   color: isDark ? 'rgb(63,63,70)' : 'rgb(156,163,175)'
                 }}
@@ -258,7 +292,7 @@ export function Footer() {
               </p>
               <div className="flex items-center gap-6">
                 <span 
-                  className="text-[8px] font-mono uppercase tracking-[0.4em]"
+                  className="text-[8px] font-mono uppercase tracking-[0.25em]"
                   style={{
                     color: isDark ? 'rgb(39,39,42)' : 'rgb(156,163,175)'
                   }}
@@ -273,7 +307,7 @@ export function Footer() {
                         persistRegion(opt.id);
                         window.location.href = `/${opt.id}`;
                       }}
-                      className="text-[9px] font-mono uppercase tracking-[0.2em] transition-all duration-500 px-3 py-1.5 border rounded-none"
+                      className="text-[9px] font-mono uppercase tracking-[0.15em] transition-all duration-300 px-3 py-1.5 border rounded-full"
                       style={{
                         borderColor: currentRegion === opt.id 
                           ? (isDark ? 'rgba(6,182,212,0.3)' : 'rgba(16,185,129,0.3)') 
