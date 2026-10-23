@@ -203,9 +203,6 @@ export default function Home() {
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-20 mb-5 sm:mb-6 md:mb-8 lg:mb-10 flex w-full justify-center pointer-events-none"
             >
-              <div className="absolute inset-0 blur-[100px] bg-white/[0.02] rounded-full scale-125 pointer-events-none" style={{
-                background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(15,23,42,0.02)'
-              }} />
               <Logo size="xl" className="relative z-10 h-[clamp(160px,28vh,220px)] w-[min(82vw,320px)] max-w-[320px] shrink-0 opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(255,255,255,0.05)] sm:w-[min(76vw,420px)] sm:max-w-[420px] md:h-[min(34vh,300px)] md:w-[min(68vw,560px)] md:max-w-[560px] lg:h-[min(40vh,340px)] lg:w-[min(52vw,680px)] lg:max-w-[680px] xl:max-w-[720px] [&>img]:h-full [&>img]:max-h-full [&>img]:w-full [&>img]:object-contain" />
             </motion.div>
 
@@ -595,27 +592,6 @@ export default function Home() {
 
       {/* Cinematic Storytelling Sequence */}
       <section className="relative w-full max-w-full overflow-hidden theme-bg py-16 md:py-20 lg:py-24" data-story-section>
-        {/* Dynamic Background */}
-        <div className="absolute inset-0 overflow-hidden theme-bg pointer-events-none">
-          <div className="absolute inset-0 premium-grid-overlay opacity-[0.08]" />
-          <div
-            className="absolute left-1/2 top-1/2 h-[70vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px]"
-            style={{ background: isDark ? 'rgba(59,130,246,0.035)' : 'rgba(16,185,129,0.055)' }}
-          />
-          <div
-            className="absolute bottom-[12%] right-[12%] h-[42vh] w-[42vh] rounded-full blur-[110px]"
-            style={{ background: isDark ? 'rgba(6,182,212,0.025)' : 'rgba(59,130,246,0.04)' }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: isDark
-                ? 'linear-gradient(to bottom, #000000, rgba(0,0,0,0.9), #000000)'
-                : 'linear-gradient(to bottom, #FFFFFF, rgba(255,255,255,0.92), #FFFFFF)',
-            }}
-          />
-        </div>
-
         <div
           className="story-marquee relative z-10 w-full max-w-full overflow-hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-brand-cyan/50"
           tabIndex={0}
