@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import footerDark from '../../../footers/footer-dark.jpg';
-import footerLight from '../../../footers/footer-light.jpg';
 import { Instagram, MessageCircle, Mail, Lock, Linkedin } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
@@ -37,24 +35,30 @@ export function Footer() {
     <footer 
       className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
-        backgroundColor: isDark ? 'rgb(0,0,0)' : 'rgb(250,250,248)',
+        backgroundColor: isDark ? '#050505' : '#fafaf8',
         backgroundImage: isDark
-          ? `linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0.62) 100%), url(${footerDark})`
-          : `linear-gradient(180deg, rgba(250,250,248,0.14) 0%, rgba(250,250,248,0.28) 52%, rgba(250,250,248,0.42) 100%), url(${footerLight})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
+          ? 'radial-gradient(ellipse at 18% 8%, rgba(59,130,246,0.13), transparent 38%), radial-gradient(ellipse at 82% 55%, rgba(99,102,241,0.09), transparent 42%)'
+          : 'radial-gradient(ellipse at 18% 8%, rgba(16,185,129,0.10), transparent 38%), radial-gradient(ellipse at 82% 55%, rgba(59,130,246,0.07), transparent 42%)',
       }}
     >
-      {/* Premium Glass Background */}
-      <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent" 
+      {/* Ambient light effects: image-free, subtle and theme-aware */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent" />
+        <div
+          className="absolute -top-28 left-[8%] h-72 w-72 rounded-full blur-3xl opacity-60 animate-pulse"
+          style={{ background: isDark ? 'rgba(59,130,246,0.13)' : 'rgba(16,185,129,0.10)' }}
         />
-        <div 
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] blur-[160px] rounded-full pointer-events-none opacity-40" 
+        <div
+          className="absolute top-[38%] -right-24 h-80 w-80 rounded-full blur-3xl opacity-50 animate-pulse"
+          style={{ background: isDark ? 'rgba(99,102,241,0.11)' : 'rgba(59,130,246,0.08)', animationDelay: '1.4s' }}
+        />
+        <div
+          className="absolute bottom-0 left-1/3 h-56 w-2/3 -translate-x-1/4"
           style={{
-            background: isDark ? 'rgba(59,130,246,0.05)' : 'rgba(16,185,129,0.05)'
+            background: isDark
+              ? 'linear-gradient(90deg, transparent, rgba(59,130,246,0.07), transparent)'
+              : 'linear-gradient(90deg, transparent, rgba(16,185,129,0.06), transparent)',
+            filter: 'blur(36px)',
           }}
         />
       </div>
