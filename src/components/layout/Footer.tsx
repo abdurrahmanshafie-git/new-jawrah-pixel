@@ -35,12 +35,12 @@ export function Footer() {
     <footer 
       className="relative pt-12 sm:pt-16 md:pt-20 pb-8 md:pb-10 overflow-hidden"
       style={{
-        backgroundColor: isDark ? '#08090b' : '#ffffff',
+        backgroundColor: isDark ? '#000000' : '#ffffff',
         backgroundImage: 'none',
       }}
     >
       {/* Minimal studio-style accent line */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px" style={{ background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.10)' }} />
+      {!isDark && <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px" style={{ background: 'rgba(15,23,42,0.10)' }} />}
 
       <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-[1440px]">
         <Reveal>
