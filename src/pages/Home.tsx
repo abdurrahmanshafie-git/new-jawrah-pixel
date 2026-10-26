@@ -590,7 +590,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* Jawrah Pixel — Card Folder-inspired brand philosophy */}
+      {/* Jawrah Pixel — animated Card Folder philosophy */}
       <section
         className="relative w-full overflow-hidden border-y theme-border"
         style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
@@ -607,54 +607,65 @@ export default function Home() {
               </h2>
             </div>
             <span className="text-[9px] font-mono uppercase tracking-[0.24em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-              Strategy. Precision. Legacy.
+              Hover to reveal / Strategy. Precision. Legacy.
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-5">
             {storySteps.map((step, idx) => (
               <motion.article
                 key={step.eyebrow}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -7 }}
-                className="group relative min-h-[340px] overflow-hidden border p-6 sm:min-h-[390px] sm:p-8 lg:min-h-[460px] lg:p-9"
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.7, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                className="jp-folder-card group relative flex min-h-[470px] flex-col overflow-hidden border p-5 sm:min-h-[510px] sm:p-7 lg:min-h-[560px] lg:p-8"
+                tabIndex={0}
+                aria-label={step.eyebrow}
                 style={{
-                  backgroundColor: isDark ? '#050505' : '#ffffff',
-                  borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.16)',
+                  backgroundColor: isDark ? '#030303' : '#ffffff',
+                  borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)',
                   boxShadow: 'none',
                 }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
-                    {step.eyebrow}
-                  </span>
-                  <span className="font-display text-sm tabular-nums" style={{ color: isDark ? '#52525b' : '#a1a1aa' }}>
-                    0{idx + 1}
-                  </span>
+                <div className="jp-folder-scene" aria-hidden="true">
+                  <div className="jp-folder-back" />
+                  <div className="jp-folder-art">
+                    <span className="jp-folder-monogram">JP</span>
+                    <span className="jp-folder-art-caption">JAWRAH PIXEL · DIGITAL ARCHITECTURE</span>
+                  </div>
+                  <div className="jp-folder-tab"><span>{step.eyebrow}</span><span>↗</span></div>
+                  <div className="jp-folder-front" />
                 </div>
 
-                <div className="mt-14 sm:mt-16 lg:mt-20">
-                  <div className="mb-6 h-px w-10 transition-all duration-500 group-hover:w-20" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
+                <div className="relative z-10 flex items-start justify-between gap-4">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                    {step.eyebrow}
+                  </span>
+                  <span className="font-display text-sm tabular-nums" style={{ color: isDark ? '#52525b' : '#a1a1aa' }}>0{idx + 1}</span>
+                </div>
+
+                <div className="relative z-10 mt-auto pt-16">
+                  <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-20 group-focus-visible:w-20" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
                   <h3
-                    className="max-w-[14ch] font-display text-[clamp(2.1rem,3.8vw,4rem)] font-medium uppercase leading-[0.98] tracking-[-0.055em]"
+                    className="max-w-[14ch] font-display text-[clamp(2.05rem,3.5vw,3.8rem)] font-medium uppercase leading-[0.96] tracking-[-0.055em]"
                     style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
                   >
                     {idx === 0 ? <>We don’t build<br />websites.</> : idx === 1 ? <>We architect<br /><span style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>digital monopolies.</span></> : <>Your competition<br />will feel the<br />difference.</>}
                   </h3>
-                </div>
-
-                <div className="mt-10 flex items-end justify-between gap-4 border-t pt-5" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
-                  <span className="max-w-[20ch] text-[9px] font-mono uppercase leading-relaxed tracking-[0.18em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-                    {idx === 0 ? 'The standard is the starting point.' : idx === 1 ? 'Digital presence, engineered as an asset.' : 'Designed to leave a lasting mark.'}
-                  </span>
-                  <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border text-lg transition-all duration-500 group-hover:translate-x-1 group-hover:border-current" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                  <div className="mt-7 flex items-end justify-between gap-4 border-t pt-4" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+                    <span className="max-w-[20ch] text-[9px] font-mono uppercase leading-relaxed tracking-[0.16em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
+                      {idx === 0 ? 'The standard is the starting point.' : idx === 1 ? 'Digital presence, engineered as an asset.' : 'Designed to leave a lasting mark.'}
+                    </span>
+                    <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border text-lg transition-all duration-500 group-hover:translate-x-1 group-focus-visible:translate-x-1" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                  </div>
                 </div>
               </motion.article>
             ))}
           </div>
+          <p className="mt-5 text-center text-[9px] font-mono uppercase tracking-[0.2em] md:hidden" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
+            Tap a folder to reveal its detail
+          </p>
         </div>
       </section>
 
