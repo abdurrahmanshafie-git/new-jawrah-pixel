@@ -645,7 +645,6 @@ export default function Home() {
                       <span className="jp-folder-art-caption">JAWRAH PIXEL · DIGITAL ARCHITECTURE</span>
                     </div>
                     <div className="jp-folder-tab"><span>{step.eyebrow}</span><span aria-hidden="true">↗</span></div>
-                    <div className="jp-folder-front" />
                   </div>
 
                   <div className="relative z-10 flex items-center justify-between gap-3">
