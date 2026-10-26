@@ -594,77 +594,90 @@ export default function Home() {
       <section
         className="relative w-full overflow-hidden border-y theme-border"
         style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
-        aria-label="The Jawrah Pixel standard"
+        aria-labelledby="jp-philosophy-heading"
       >
         <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <div className="mb-10 flex flex-col gap-5 border-b pb-7 sm:mb-14 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
-            <div>
-              <p className="mb-3 text-[9px] font-mono uppercase tracking-[0.36em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
-                JAWRAH PIXEL / OUR PHILOSOPHY
+          <div className="mb-9 flex flex-col gap-4 border-b pb-7 sm:mb-12 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+            <div className="max-w-2xl">
+              <p className="mb-3 text-[10px] font-mono uppercase tracking-[0.22em] sm:tracking-[0.3em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                JAWRAH PIXEL <span aria-hidden="true">/</span> OUR PHILOSOPHY
               </p>
-              <h2 className="font-display text-2xl font-medium uppercase tracking-[-0.04em] sm:text-3xl" style={{ color: isDark ? '#ffffff' : '#09090b' }}>
+              <h2 id="jp-philosophy-heading" className="font-display text-3xl font-medium tracking-[-0.045em] sm:text-4xl lg:text-5xl" style={{ color: isDark ? '#ffffff' : '#09090b' }}>
                 Built beyond the expected.
               </h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 sm:text-base sm:leading-7" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>
+                We turn thoughtful design and solid engineering into digital experiences your business can grow with.
+              </p>
             </div>
-            <span className="text-[9px] font-mono uppercase tracking-[0.24em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-              Hover to reveal / Strategy. Precision. Legacy.
-            </span>
+            <p className="max-w-xs text-[10px] font-mono uppercase leading-5 tracking-[0.14em] sm:text-right sm:tracking-[0.18em]" style={{ color: isDark ? '#71717a' : '#71717a' }}>
+              Explore our approach <span className="hidden sm:inline">·</span><br className="hidden sm:block" /> Strategy. Precision. Legacy.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-5">
-            {storySteps.map((step, idx) => (
-              <motion.article
-                key={step.eyebrow}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.7, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                className="jp-folder-card group relative flex min-h-[470px] flex-col overflow-hidden border p-5 sm:min-h-[510px] sm:p-7 lg:min-h-[560px] lg:p-8"
-                tabIndex={0}
-                aria-label={step.eyebrow}
-                style={{
-                  backgroundColor: isDark ? '#030303' : '#ffffff',
-                  borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)',
-                  boxShadow: 'none',
-                }}
-              >
-                <div className="jp-folder-scene" aria-hidden="true">
-                  <div className="jp-folder-back" />
-                  <div className="jp-folder-art">
-                    <span className="jp-folder-monogram">JP</span>
-                    <span className="jp-folder-art-caption">JAWRAH PIXEL · DIGITAL ARCHITECTURE</span>
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3">
+            {storySteps.map((step, idx) => {
+              const cardContent = [
+                { label: 'THE STANDARD', title: <>We don’t build<br />websites.</>, description: 'The standard is the starting point.' },
+                { label: 'THE ASSET', title: <>We architect<br /><span style={{ color: isDark ? '#c4c4c9' : '#52525b' }}>digital monopolies.</span></>, description: 'Digital presence, engineered as an asset.' },
+                { label: 'THE LEGACY', title: <>Your competition<br />will feel the<br className="hidden sm:block md:hidden lg:block" /> difference.</>, description: 'Designed to leave a lasting mark.' },
+              ][idx];
+
+              return (
+                <motion.article
+                  key={step.eyebrow}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.12 }}
+                  transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="jp-folder-card group relative flex min-h-[430px] flex-col overflow-hidden border p-5 sm:min-h-[470px] sm:p-6 lg:min-h-[510px] lg:p-7"
+                  tabIndex={0}
+                  aria-label={`${cardContent.label}: ${cardContent.description}`}
+                  style={{
+                    backgroundColor: isDark ? '#030303' : '#ffffff',
+                    borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)',
+                    boxShadow: 'none',
+                  }}
+                >
+                  <div className="jp-folder-scene" aria-hidden="true">
+                    <div className="jp-folder-back" />
+                    <div className="jp-folder-art">
+                      <span className="jp-folder-monogram">JP</span>
+                      <span className="jp-folder-art-caption">JAWRAH PIXEL · DIGITAL ARCHITECTURE</span>
+                    </div>
+                    <div className="jp-folder-tab"><span>{step.eyebrow}</span><span aria-hidden="true">↗</span></div>
+                    <div className="jp-folder-front" />
                   </div>
-                  <div className="jp-folder-tab"><span>{step.eyebrow}</span><span>↗</span></div>
-                  <div className="jp-folder-front" />
-                </div>
 
-                <div className="relative z-10 flex items-start justify-between gap-4">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
-                    {step.eyebrow}
-                  </span>
-                  <span className="font-display text-sm tabular-nums" style={{ color: isDark ? '#52525b' : '#a1a1aa' }}>0{idx + 1}</span>
-                </div>
-
-                <div className="relative z-10 mt-auto pt-16">
-                  <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-20 group-focus-visible:w-20" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
-                  <h3
-                    className="max-w-[14ch] font-display text-[clamp(2.05rem,3.5vw,3.8rem)] font-medium uppercase leading-[0.96] tracking-[-0.055em]"
-                    style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
-                  >
-                    {idx === 0 ? <>We don’t build<br />websites.</> : idx === 1 ? <>We architect<br /><span style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>digital monopolies.</span></> : <>Your competition<br />will feel the<br />difference.</>}
-                  </h3>
-                  <div className="mt-7 flex items-end justify-between gap-4 border-t pt-4" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
-                    <span className="max-w-[20ch] text-[9px] font-mono uppercase leading-relaxed tracking-[0.16em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-                      {idx === 0 ? 'The standard is the starting point.' : idx === 1 ? 'Digital presence, engineered as an asset.' : 'Designed to leave a lasting mark.'}
+                  <div className="relative z-10 flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-mono uppercase tracking-[0.18em] sm:tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                      {cardContent.label}
                     </span>
-                    <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border text-lg transition-all duration-500 group-hover:translate-x-1 group-focus-visible:translate-x-1" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                    <span className="font-mono text-xs tabular-nums" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
+                      {String(idx + 1).padStart(2, '0')} <span aria-hidden="true">/ 03</span>
+                    </span>
                   </div>
-                </div>
-              </motion.article>
-            ))}
+
+                  <div className="relative z-10 mt-auto pt-16 sm:pt-20">
+                    <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-16 group-focus-visible:w-16" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
+                    <h3
+                      className="max-w-[15ch] font-display text-[clamp(2rem,3vw,3.3rem)] font-medium leading-[0.98] tracking-[-0.055em]"
+                      style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
+                    >
+                      {cardContent.title}
+                    </h3>
+                    <div className="mt-6 flex items-end justify-between gap-3 border-t pt-4 sm:mt-7" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+                      <p className="max-w-[25ch] text-sm leading-6" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>
+                        {cardContent.description}
+                      </p>
+                      <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-base transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" style={{ borderColor: isDark ? 'rgba(255,255,255,0.24)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
-          <p className="mt-5 text-center text-[9px] font-mono uppercase tracking-[0.2em] md:hidden" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-            Tap a folder to reveal its detail
+          <p className="mt-5 text-center text-[10px] leading-5 sm:hidden" style={{ color: isDark ? '#71717a' : '#71717a' }}>
+            Tap a card to explore the folder animation. The key message stays visible.
           </p>
         </div>
       </section>
