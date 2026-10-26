@@ -367,7 +367,6 @@ export function Navbar() {
           <div className="flex flex-col gap-5 relative z-10">
             {/* Existing account access remains available when signed in; hidden for public visitors for now. */}
             {user && (
-            {/* Mobile Account Shortcut */}
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
