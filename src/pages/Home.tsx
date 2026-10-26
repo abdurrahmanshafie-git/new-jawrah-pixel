@@ -590,53 +590,61 @@ export default function Home() {
         </section>
       )}
 
-      {/* Jawrah Pixel — clean editorial philosophy, no cards or overlays */}
+      {/* Jawrah Pixel — premium editorial philosophy */}
       <section
-        className="relative w-full overflow-hidden border-y theme-border"
+        className="relative w-full overflow-hidden"
         style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
         aria-labelledby="jp-philosophy-heading"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <div className="mb-10 flex flex-col gap-4 border-b pb-7 sm:mb-14 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
-            <div className="max-w-2xl">
-              <p className="mb-3 text-[10px] font-mono uppercase tracking-[0.22em] sm:tracking-[0.3em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
-                JAWRAH PIXEL <span aria-hidden="true">/</span> OUR PHILOSOPHY
-              </p>
-              <h2 id="jp-philosophy-heading" className="font-display text-3xl font-medium tracking-[-0.045em] sm:text-4xl lg:text-5xl" style={{ color: isDark ? '#ffffff' : '#09090b' }}>
-                Built beyond the expected.
+        <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+          <div className="grid grid-cols-1 gap-10 border-b pb-10 sm:pb-14 lg:grid-cols-[1.3fr_0.7fr] lg:items-end lg:gap-16" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.18)' }}>
+            <div>
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-8" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
+                <p className="text-[10px] font-mono uppercase tracking-[0.28em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                  JAWRAH PIXEL <span aria-hidden="true">/</span> OUR PHILOSOPHY
+                </p>
+              </div>
+              <h2 id="jp-philosophy-heading" className="max-w-4xl font-display text-[clamp(2.7rem,7.2vw,7.1rem)] font-medium leading-[0.91] tracking-[-0.075em]" style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}>
+                Built beyond<br className="hidden sm:block" /> the expected<span style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>.</span>
               </h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 sm:text-base sm:leading-7" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>
+            </div>
+            <div className="flex flex-col gap-5 lg:pb-2">
+              <p className="max-w-lg text-base leading-7 sm:text-lg sm:leading-8" style={{ color: isDark ? '#b4b4bc' : '#52525b' }}>
                 We turn thoughtful design and solid engineering into digital experiences your business can grow with.
               </p>
+              <p className="text-[10px] font-mono uppercase leading-5 tracking-[0.2em]" style={{ color: isDark ? '#71717a' : '#71717a' }}>
+                Strategy. Precision. Legacy.
+              </p>
             </div>
-            <p className="max-w-xs text-[10px] font-mono uppercase leading-5 tracking-[0.14em] sm:text-right sm:tracking-[0.18em]" style={{ color: isDark ? '#71717a' : '#71717a' }}>
-              Explore our approach <span className="hidden sm:inline">·</span><br className="hidden sm:block" /> Strategy. Precision. Legacy.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-9 sm:gap-10 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3">
             {[
-              { label: 'THE STANDARD', title: <>We don’t build<br />websites.</>, description: 'The standard is the starting point.' },
-              { label: 'THE ASSET', title: <>We architect<br /><span style={{ color: isDark ? '#c4c4c9' : '#52525b' }}>digital monopolies.</span></>, description: 'Digital presence, engineered as an asset.' },
-              { label: 'THE LEGACY', title: <>Your competition<br />will feel the<br className="hidden sm:block md:hidden lg:block" /> difference.</>, description: 'Designed to leave a lasting mark.' },
+              { label: 'THE STANDARD', title: <>We don’t build<br />websites<span style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>.</span></>, description: 'The standard is the starting point.' },
+              { label: 'THE ASSET', title: <>We architect<br /><span style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>digital monopolies.</span></>, description: 'Digital presence, engineered as an asset.' },
+              { label: 'THE LEGACY', title: <>Your competition<br />will feel the<br className="hidden sm:block md:hidden lg:block" /> difference<span style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>.</span></>, description: 'Designed to leave a lasting mark.' },
             ].map((item, idx) => (
               <motion.article
                 key={item.label}
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative flex min-h-[250px] flex-col border-t pt-5 sm:min-h-[275px] sm:pt-6"
-                style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)' }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative flex flex-col border-b py-8 sm:py-10 md:min-h-[340px] md:border-b-0 md:border-r md:px-7 md:py-9 md:first:pl-0 md:last:border-r-0 md:last:pr-0 lg:min-h-[390px] lg:py-12"
+                style={{ borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.16)' }}
               >
-                <div className="mb-8 flex items-center justify-between gap-3">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.18em] sm:tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>{item.label}</span>
-                  <span className="font-mono text-xs tabular-nums" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>{String(idx + 1).padStart(2, '0')}</span>
+                <div className="mb-10 flex items-center justify-between gap-4 md:mb-16">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>{item.label}</span>
+                  <span className="font-display text-4xl font-light leading-none tracking-[-0.08em] transition-colors duration-500 group-hover:text-white/80" style={{ color: isDark ? '#3f3f46' : '#d4d4d8' }}>{String(idx + 1).padStart(2, '0')}</span>
                 </div>
-                <h3 className="max-w-[15ch] font-display text-[clamp(2rem,3vw,3.3rem)] font-medium leading-[0.98] tracking-[-0.055em]" style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}>
+                <h3 className="max-w-[14ch] font-display text-[clamp(2.1rem,3.5vw,4rem)] font-medium leading-[0.98] tracking-[-0.065em]" style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}>
                   {item.title}
                 </h3>
-                <p className="mt-5 text-sm leading-6" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>{item.description}</p>
+                <div className="mt-auto pt-7 sm:pt-9">
+                  <span className="mb-4 block h-px w-8 transition-all duration-500 group-hover:w-14" style={{ backgroundColor: isDark ? '#71717a' : '#a1a1aa' }} />
+                  <p className="max-w-[24ch] text-sm leading-6 sm:text-[15px]" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>{item.description}</p>
+                </div>
               </motion.article>
             ))}
           </div>
