@@ -5,7 +5,6 @@ import { submitBooking, submitInquiry } from '@/lib/supabase/api';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 import { PaymentSuccessActions } from '@/components/payments/PaymentSuccessActions';
 import { PaymentModal, type PaymentModalOpenPayload } from '@/components/payments/PaymentModal';
-import { FormAuthGate } from '@/components/auth/FormAuthGate';
 import { useAuth } from '@/contexts/AuthContext';
 import { clearFormDraft, loadFormDraft, saveFormDraft } from '@/lib/email/formDrafts';
 import { getClientPlatform } from '@/lib/email/platform';
@@ -208,10 +207,6 @@ export default function Contact() {
   const bookingAdvance = calculateDeposit(bookingEstimate, 10);
 
   const openBookingPayment = async () => {
-    if (!user) {
-      setErrorMsg('Please login to continue.');
-      return;
-    }
     if (isSubmittingForm) return;
     if (!bookingForm.name.trim() || !bookingForm.email.trim()) {
       setErrorMsg('Enter your name and email before booking with deposit.');
@@ -261,7 +256,7 @@ export default function Contact() {
         notes: bookingForm.notes,
         source: 'Strategy booking deposit flow',
         formType: 'Strategy Call Booking',
-        userId: user.id,
+        userId: user?.id ?? null,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
         captcha_token: captchaToken,
@@ -643,9 +638,7 @@ export default function Contact() {
 
             {/* RIGHT SIDE: FORMS */}
             <div className="lg:col-span-8">
-              <FormAuthGate 
-                className="h-full"
-              >
+              <div className="h-full">
                 {activeTab === 'rfp' ? (
                   <div className="border p-6 md:p-16" style={{ 
                     backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.9)',
@@ -1105,7 +1098,7 @@ export default function Contact() {
                     )}
                   </div>
                 )}
-              </FormAuthGate>
+              </div>
             </div>
           </div>
         </div>
