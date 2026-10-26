@@ -261,16 +261,6 @@ export function Navbar() {
             </Link>
           ) : (
             <div className="flex items-center gap-3 2xl:gap-5 shrink-0">
-              <Link to="/login" className="shrink-0">
-                <span className={cn(
-                  "text-[13px] font-medium tracking-normal px-3 py-1.5 rounded-full transition-all duration-200 inline-block",
-                  isDark 
-                    ? "text-zinc-300 hover:text-white hover:bg-white/[0.06]" 
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                )}>
-                  Login
-                </span>
-              </Link>
               <Link to={p('/agents')} className="hidden 2xl:inline-flex shrink-0">
                 <span className={cn(
                   "text-[13px] font-medium tracking-normal px-3 py-1.5 rounded-full transition-all duration-200 inline-block",
@@ -373,6 +363,8 @@ export function Navbar() {
           <div className="absolute inset-0 premium-grid-overlay opacity-5 pointer-events-none" />
           
           <div className="flex flex-col gap-5 relative z-10">
+            {/* Existing account access remains available when signed in; hidden for public visitors for now. */}
+            {user && (
             {/* Mobile Account Shortcut */}
             <motion.div
               initial={{ opacity: 0, y: -5 }}
@@ -438,6 +430,7 @@ export function Navbar() {
                 />
               </Link>
             </motion.div>
+            )}
 
             <div className="flex flex-col gap-3.5">
               {navLinks.map((link, i) => (
