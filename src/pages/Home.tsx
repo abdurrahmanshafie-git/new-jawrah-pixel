@@ -590,14 +590,14 @@ export default function Home() {
         </section>
       )}
 
-      {/* Jawrah Pixel — brand philosophy */}
+      {/* Jawrah Pixel — Card Folder-inspired brand philosophy */}
       <section
         className="relative w-full overflow-hidden border-y theme-border"
         style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
         aria-label="The Jawrah Pixel standard"
       >
-        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col gap-5 border-b py-8 sm:flex-row sm:items-end sm:justify-between sm:py-10" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+        <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+          <div className="mb-10 flex flex-col gap-5 border-b pb-7 sm:mb-14 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
             <div>
               <p className="mb-3 text-[9px] font-mono uppercase tracking-[0.36em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
                 JAWRAH PIXEL / OUR PHILOSOPHY
@@ -611,14 +611,20 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
             {storySteps.map((step, idx) => (
-              <article
+              <motion.article
                 key={step.eyebrow}
-                className="group relative flex min-h-[330px] flex-col justify-between border-b px-1 py-8 sm:min-h-[370px] sm:py-10 md:min-h-[440px] md:border-b-0 md:px-6 md:py-12 lg:min-h-[500px] lg:px-9 lg:py-14 first:md:pl-0 last:md:pr-0"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -7 }}
+                className="group relative min-h-[340px] overflow-hidden border p-6 sm:min-h-[390px] sm:p-8 lg:min-h-[460px] lg:p-9"
                 style={{
-                  borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)',
-                  borderRight: idx < storySteps.length - 1 ? ('1px solid ' + (isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)')) : 'none',
+                  backgroundColor: isDark ? '#050505' : '#ffffff',
+                  borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.16)',
+                  boxShadow: 'none',
                 }}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -630,23 +636,23 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="mt-14 sm:mt-16 md:mt-20">
-                  <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-16" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
+                <div className="mt-14 sm:mt-16 lg:mt-20">
+                  <div className="mb-6 h-px w-10 transition-all duration-500 group-hover:w-20" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
                   <h3
-                    className="max-w-[14ch] font-display text-[clamp(2rem,4.2vw,4.6rem)] font-medium uppercase leading-[0.98] tracking-[-0.055em] sm:text-[clamp(2.25rem,3.8vw,4.6rem)]"
+                    className="max-w-[14ch] font-display text-[clamp(2.1rem,3.8vw,4rem)] font-medium uppercase leading-[0.98] tracking-[-0.055em]"
                     style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
                   >
                     {idx === 0 ? <>We don’t build<br />websites.</> : idx === 1 ? <>We architect<br /><span style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>digital monopolies.</span></> : <>Your competition<br />will feel the<br />difference.</>}
                   </h3>
                 </div>
 
-                <div className="mt-10 flex items-end justify-between gap-4 border-t pt-4" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+                <div className="mt-10 flex items-end justify-between gap-4 border-t pt-5" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
                   <span className="max-w-[20ch] text-[9px] font-mono uppercase leading-relaxed tracking-[0.18em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
                     {idx === 0 ? 'The standard is the starting point.' : idx === 1 ? 'Digital presence, engineered as an asset.' : 'Designed to leave a lasting mark.'}
                   </span>
-                  <span aria-hidden="true" className="text-lg transition-transform duration-500 group-hover:translate-x-1" style={{ color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                  <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center border text-lg transition-all duration-500 group-hover:translate-x-1 group-hover:border-current" style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
         </div>
