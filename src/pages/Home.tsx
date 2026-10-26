@@ -590,36 +590,63 @@ export default function Home() {
         </section>
       )}
 
-      {/* Cinematic Storytelling Sequence */}
-      <section className="relative w-full max-w-full overflow-hidden theme-bg py-16 md:py-20 lg:py-24" data-story-section>
-        <div
-          className="story-marquee relative z-10 w-full max-w-full overflow-hidden focus-visible:outline focus-visible:outline-1 focus-visible:outline-brand-cyan/50"
-          tabIndex={0}
-          aria-label="Jawrah Pixel story carousel"
-        >
-          <div className="story-marquee-track flex w-max max-w-none" data-story-track>
-            {[0, 1].map((groupIndex) => (
-              <div
-                key={groupIndex}
-                className="flex shrink-0 gap-4 pr-4 md:gap-6 md:pr-6"
-                aria-hidden={groupIndex === 1}
+      {/* Jawrah Pixel — brand philosophy */}
+      <section
+        className="relative w-full overflow-hidden border-y theme-border"
+        style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
+        aria-label="The Jawrah Pixel standard"
+      >
+        <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12">
+          <div className="flex flex-col gap-5 border-b py-8 sm:flex-row sm:items-end sm:justify-between sm:py-10" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+            <div>
+              <p className="mb-3 text-[9px] font-mono uppercase tracking-[0.36em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                JAWRAH PIXEL / OUR PHILOSOPHY
+              </p>
+              <h2 className="font-display text-2xl font-medium uppercase tracking-[-0.04em] sm:text-3xl" style={{ color: isDark ? '#ffffff' : '#09090b' }}>
+                Built beyond the expected.
+              </h2>
+            </div>
+            <span className="text-[9px] font-mono uppercase tracking-[0.24em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
+              Strategy. Precision. Legacy.
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3">
+            {storySteps.map((step, idx) => (
+              <article
+                key={step.eyebrow}
+                className="group relative flex min-h-[330px] flex-col justify-between border-b px-1 py-8 sm:min-h-[370px] sm:py-10 md:min-h-[440px] md:border-b-0 md:px-6 md:py-12 lg:min-h-[500px] lg:px-9 lg:py-14 first:md:pl-0 last:md:pr-0"
+                style={{
+                  borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)',
+                  borderRight: idx < storySteps.length - 1 ? ('1px solid ' + (isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)')) : 'none',
+                }}
               >
-                {storySteps.map((step, idx) => (
-                  <div
-                    key={`${groupIndex}-${idx}`}
-                    className="flex min-h-[240px] w-[86vw] max-w-[760px] flex-none flex-col items-center justify-center px-6 py-8 text-center sm:w-[82vw] sm:min-h-[280px] md:w-[78vw] md:min-h-[320px] md:px-10 lg:w-[86vw] lg:max-w-[1280px] lg:min-h-[360px] xl:w-[82vw]"
+                <div className="flex items-start justify-between gap-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
+                    {step.eyebrow}
+                  </span>
+                  <span className="font-display text-sm tabular-nums" style={{ color: isDark ? '#52525b' : '#a1a1aa' }}>
+                    0{idx + 1}
+                  </span>
+                </div>
+
+                <div className="mt-14 sm:mt-16 md:mt-20">
+                  <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-16" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
+                  <h3
+                    className="max-w-[14ch] font-display text-[clamp(2rem,4.2vw,4.6rem)] font-medium uppercase leading-[0.98] tracking-[-0.055em] sm:text-[clamp(2.25rem,3.8vw,4.6rem)]"
+                    style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
                   >
-                    <div className="mx-auto max-w-4xl">
-                      <span className={`block text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] mb-6 font-bold ${step.eyebrowClass}`}>
-                        {step.eyebrow}
-                      </span>
-                      <h2 className={`text-[clamp(1.8rem,8vw,4.5rem)] md:text-7xl xl:text-8xl font-display font-medium uppercase tracking-tight leading-[1.1] md:leading-[1.02] ${step.titleClass}`}>
-                        {step.title}
-                      </h2>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    {idx === 0 ? <>We don’t build<br />websites.</> : idx === 1 ? <>We architect<br /><span style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>digital monopolies.</span></> : <>Your competition<br />will feel the<br />difference.</>}
+                  </h3>
+                </div>
+
+                <div className="mt-10 flex items-end justify-between gap-4 border-t pt-4" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+                  <span className="max-w-[20ch] text-[9px] font-mono uppercase leading-relaxed tracking-[0.18em]" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
+                    {idx === 0 ? 'The standard is the starting point.' : idx === 1 ? 'Digital presence, engineered as an asset.' : 'Designed to leave a lasting mark.'}
+                  </span>
+                  <span aria-hidden="true" className="text-lg transition-transform duration-500 group-hover:translate-x-1" style={{ color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
+                </div>
+              </article>
             ))}
           </div>
         </div>
