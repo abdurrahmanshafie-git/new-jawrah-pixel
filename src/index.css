@@ -683,3 +683,161 @@ button, [role="button"], input[type="button"], input[type="submit"] {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Jawrah Pixel philosophy — interactive folder-card reveal.
+   Kept self-contained and monochrome so the page stays true black. */
+.jp-folder-card {
+  isolation: isolate;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 420ms ease, transform 650ms cubic-bezier(.22,1,.36,1);
+}
+.jp-folder-card:hover,
+.jp-folder-card:focus-visible,
+.jp-folder-card:focus-within {
+  transform: translateY(-5px);
+  border-color: rgba(255,255,255,.42) !important;
+}
+.jp-folder-scene {
+  position: absolute;
+  inset: 54px 18px auto;
+  height: 205px;
+  perspective: 900px;
+  pointer-events: none;
+}
+.jp-folder-back {
+  position: absolute;
+  inset: 18px 7% 0;
+  border: 1px solid rgba(255,255,255,.18);
+  background: #0b0b0b;
+  clip-path: polygon(0 0, 38% 0, 45% 9%, 100% 9%, 100% 100%, 0 100%);
+}
+.jp-folder-art {
+  position: absolute;
+  inset: 36px 12% 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  color: #050505;
+  background: linear-gradient(125deg, #e8e8e8 0%, #b9b9b9 24%, #f8f8f8 42%, #8c8c8c 63%, #dedede 80%, #a3a3a3 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transform: translateY(24px) scale(.94);
+  opacity: 0;
+  transition: transform 650ms cubic-bezier(.16,1,.3,1), opacity 400ms ease;
+}
+.jp-folder-art::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(110deg, transparent 38%, rgba(255,255,255,.82) 48%, transparent 58%);
+  transform: translateX(-65%) rotate(8deg);
+  transition: transform 900ms cubic-bezier(.16,1,.3,1);
+}
+.jp-folder-monogram {
+  position: relative;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.12em;
+  transform: translateY(28px) scale(.82);
+  opacity: 0;
+  transition: transform 700ms cubic-bezier(.16,1,.3,1) 80ms, opacity 420ms ease 80ms;
+}
+.jp-folder-art-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  font: 8px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .18em;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 350ms ease 220ms, transform 450ms ease 220ms;
+}
+.jp-folder-tab {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 7%;
+  right: 7%;
+  height: 55px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-bottom: 0;
+  color: #ededed;
+  background: #171717;
+  font: 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  transform-origin: top center;
+  transition: transform 620ms cubic-bezier(.16,1,.3,1), background-color 420ms ease;
+}
+.jp-folder-front {
+  position: absolute;
+  z-index: 2;
+  inset: 53px 0 0;
+  border: 1px solid rgba(255,255,255,.2);
+  background: #080808;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transform-origin: top center;
+  transition: transform 680ms cubic-bezier(.16,1,.3,1), opacity 450ms ease;
+}
+.jp-folder-card:hover .jp-folder-tab,
+.jp-folder-card:focus-visible .jp-folder-tab,
+.jp-folder-card:focus-within .jp-folder-tab {
+  transform: translateY(32px) rotateX(-18deg);
+  background: #202020;
+}
+.jp-folder-card:hover .jp-folder-front,
+.jp-folder-card:focus-visible .jp-folder-front,
+.jp-folder-card:focus-within .jp-folder-front {
+  transform: perspective(600px) rotateX(-14deg) translateY(32px);
+  opacity: .22;
+}
+.jp-folder-card:hover .jp-folder-art,
+.jp-folder-card:focus-visible .jp-folder-art,
+.jp-folder-card:focus-within .jp-folder-art {
+  transform: translateY(-2px) scale(1);
+  opacity: 1;
+}
+.jp-folder-card:hover .jp-folder-art::before,
+.jp-folder-card:focus-visible .jp-folder-art::before,
+.jp-folder-card:focus-within .jp-folder-art::before {
+  transform: translateX(65%) rotate(8deg);
+}
+.jp-folder-card:hover .jp-folder-monogram,
+.jp-folder-card:focus-visible .jp-folder-monogram,
+.jp-folder-card:focus-within .jp-folder-monogram {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.jp-folder-card:hover .jp-folder-art-caption,
+.jp-folder-card:focus-visible .jp-folder-art-caption,
+.jp-folder-card:focus-within .jp-folder-art-caption {
+  opacity: .78;
+  transform: translateY(0);
+}
+@media (max-width: 767px) {
+  .jp-folder-scene { inset: 54px 16px auto; height: 190px; }
+  .jp-folder-art { inset-inline: 9%; }
+  .jp-folder-monogram { font-size: 5rem; }
+  .jp-folder-tab { min-height: 55px; }
+  .jp-folder-card:active .jp-folder-tab { transform: translateY(32px) rotateX(-18deg); }
+  .jp-folder-card:active .jp-folder-art { transform: translateY(-2px) scale(1); opacity: 1; }
+  .jp-folder-card:active .jp-folder-monogram { transform: translateY(0) scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jp-folder-card, .jp-folder-card *, .jp-folder-card::before, .jp-folder-card::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
