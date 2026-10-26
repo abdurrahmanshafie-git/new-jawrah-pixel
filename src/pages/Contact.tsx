@@ -308,10 +308,6 @@ export default function Contact() {
   };
 
   const onRfpSubmit = async (data: FormData) => {
-    if (!user) {
-      setErrorMsg('Please login to continue.');
-      return;
-    }
     if (!captchaToken) {
       setErrorMsg('Please complete the security verification.');
       return;
@@ -360,7 +356,7 @@ export default function Contact() {
         notes: businessName ? `Business Name: ${businessName}. Preferred Contact: ${data.preferred_contact}` : `Preferred Contact: ${data.preferred_contact}`,
         source: currentRegion,
         formType: 'Project Brief Form',
-        userId: user.id,
+        userId: user?.id ?? null,
         platform: getClientPlatform(),
         requirements: [data.goals, data.message].filter(Boolean).join('\n\n') || undefined,
         captcha_token: captchaToken,
@@ -402,10 +398,6 @@ export default function Contact() {
 
   const handleCalendarSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) {
-      setErrorMsg('Please login to continue.');
-      return;
-    }
     if (!captchaToken) {
       setErrorMsg('Please complete the security verification.');
       return;
@@ -465,7 +457,7 @@ export default function Contact() {
         notes: `Business Name: ${bookingForm.business_name || 'Not stated'}. ${bookingForm.notes || ''}`.trim(),
         source: currentRegion,
         formType: 'Strategy Call Booking',
-        userId: user.id,
+        userId: user?.id ?? null,
         platform: getClientPlatform(),
         requirements: bookingForm.notes || undefined,
         captcha_token: captchaToken,
