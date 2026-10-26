@@ -590,14 +590,14 @@ export default function Home() {
         </section>
       )}
 
-      {/* Jawrah Pixel — animated Card Folder philosophy */}
+      {/* Jawrah Pixel — clean editorial philosophy, no cards or overlays */}
       <section
         className="relative w-full overflow-hidden border-y theme-border"
         style={{ backgroundColor: isDark ? '#000000' : '#ffffff', backgroundImage: 'none' }}
         aria-labelledby="jp-philosophy-heading"
       >
         <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <div className="mb-9 flex flex-col gap-4 border-b pb-7 sm:mb-12 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
+          <div className="mb-10 flex flex-col gap-4 border-b pb-7 sm:mb-14 sm:flex-row sm:items-end sm:justify-between" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
             <div className="max-w-2xl">
               <p className="mb-3 text-[10px] font-mono uppercase tracking-[0.22em] sm:tracking-[0.3em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
                 JAWRAH PIXEL <span aria-hidden="true">/</span> OUR PHILOSOPHY
@@ -614,70 +614,32 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3">
-            {storySteps.map((step, idx) => {
-              const cardContent = [
-                { label: 'THE STANDARD', title: <>We don’t build<br />websites.</>, description: 'The standard is the starting point.' },
-                { label: 'THE ASSET', title: <>We architect<br /><span style={{ color: isDark ? '#c4c4c9' : '#52525b' }}>digital monopolies.</span></>, description: 'Digital presence, engineered as an asset.' },
-                { label: 'THE LEGACY', title: <>Your competition<br />will feel the<br className="hidden sm:block md:hidden lg:block" /> difference.</>, description: 'Designed to leave a lasting mark.' },
-              ][idx];
-
-              return (
-                <motion.article
-                  key={step.eyebrow}
-                  initial={{ opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.12 }}
-                  transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="jp-folder-card group relative flex min-h-[430px] flex-col overflow-hidden border p-5 sm:min-h-[470px] sm:p-6 lg:min-h-[510px] lg:p-7"
-                  tabIndex={0}
-                  aria-label={`${cardContent.label}: ${cardContent.description}`}
-                  style={{
-                    backgroundColor: isDark ? '#030303' : '#ffffff',
-                    borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)',
-                    boxShadow: 'none',
-                  }}
-                >
-                  <div className="jp-folder-scene" aria-hidden="true">
-                    <div className="jp-folder-back" />
-                    <div className="jp-folder-art">
-                      <span className="jp-folder-monogram">JP</span>
-                      <span className="jp-folder-art-caption">JAWRAH PIXEL · DIGITAL ARCHITECTURE</span>
-                    </div>
-                    <div className="jp-folder-tab"><span>{step.eyebrow}</span><span aria-hidden="true">↗</span></div>
-                  </div>
-
-                  <div className="relative z-10 flex items-center justify-between gap-3">
-                    <span className="text-[10px] font-mono uppercase tracking-[0.18em] sm:tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>
-                      {cardContent.label}
-                    </span>
-                    <span className="font-mono text-xs tabular-nums" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>
-                      {String(idx + 1).padStart(2, '0')} <span aria-hidden="true">/ 03</span>
-                    </span>
-                  </div>
-
-                  <div className="relative z-10 mt-auto pt-16 sm:pt-20">
-                    <div className="mb-5 h-px w-10 transition-all duration-500 group-hover:w-16 group-focus-visible:w-16" style={{ backgroundColor: isDark ? '#ffffff' : '#09090b' }} />
-                    <h3
-                      className="max-w-[15ch] font-display text-[clamp(2rem,3vw,3.3rem)] font-medium leading-[0.98] tracking-[-0.055em]"
-                      style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}
-                    >
-                      {cardContent.title}
-                    </h3>
-                    <div className="mt-6 flex items-end justify-between gap-3 border-t pt-4 sm:mt-7" style={{ borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)' }}>
-                      <p className="max-w-[25ch] text-sm leading-6" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>
-                        {cardContent.description}
-                      </p>
-                      <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-base transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" style={{ borderColor: isDark ? 'rgba(255,255,255,0.24)' : 'rgba(15,23,42,0.18)', color: isDark ? '#ffffff' : '#09090b' }}>↗</span>
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-9 sm:gap-10 md:grid-cols-3 md:gap-8">
+            {[
+              { label: 'THE STANDARD', title: <>We don’t build<br />websites.</>, description: 'The standard is the starting point.' },
+              { label: 'THE ASSET', title: <>We architect<br /><span style={{ color: isDark ? '#c4c4c9' : '#52525b' }}>digital monopolies.</span></>, description: 'Digital presence, engineered as an asset.' },
+              { label: 'THE LEGACY', title: <>Your competition<br />will feel the<br className="hidden sm:block md:hidden lg:block" /> difference.</>, description: 'Designed to leave a lasting mark.' },
+            ].map((item, idx) => (
+              <motion.article
+                key={item.label}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.55, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative flex min-h-[250px] flex-col border-t pt-5 sm:min-h-[275px] sm:pt-6"
+                style={{ borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.16)' }}
+              >
+                <div className="mb-8 flex items-center justify-between gap-3">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.18em] sm:tracking-[0.22em]" style={{ color: isDark ? '#a1a1aa' : '#71717a' }}>{item.label}</span>
+                  <span className="font-mono text-xs tabular-nums" style={{ color: isDark ? '#71717a' : '#a1a1aa' }}>{String(idx + 1).padStart(2, '0')}</span>
+                </div>
+                <h3 className="max-w-[15ch] font-display text-[clamp(2rem,3vw,3.3rem)] font-medium leading-[0.98] tracking-[-0.055em]" style={{ color: isDark ? '#ffffff' : '#09090b', textWrap: 'balance' }}>
+                  {item.title}
+                </h3>
+                <p className="mt-5 text-sm leading-6" style={{ color: isDark ? '#a1a1aa' : '#52525b' }}>{item.description}</p>
+              </motion.article>
+            ))}
           </div>
-          <p className="mt-5 text-center text-[10px] leading-5 sm:hidden" style={{ color: isDark ? '#71717a' : '#71717a' }}>
-            Tap a card to explore the folder animation. The key message stays visible.
-          </p>
         </div>
       </section>
 
