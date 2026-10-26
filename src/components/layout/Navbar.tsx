@@ -300,6 +300,7 @@ export function Navbar() {
             </Link>
 
             <ThemeToggle />
+            {user && (
             <Link 
               to={dashboardPath}
               className={cn(
@@ -312,6 +313,7 @@ export function Navbar() {
             >
               <User size={16} />
             </Link>
+            )}
             
             <button
               onClick={() => setIsOpen(!isOpen)}
