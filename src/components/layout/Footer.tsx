@@ -252,13 +252,14 @@ export function Footer() {
                   className="text-sm leading-6"
                   style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}
                 >
-                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.com</strong> is our primary official website.
-                  <span> jawrahpixel.online is also an official Jawrah Pixel domain.</span>
-                  {' '}Both domains represent Jawrah Pixel.
+                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.com</strong> is the primary official website of Jawrah Pixel.
+                  <span> jawrahpixel.online is an official Jawrah Pixel domain, and </span>
+                  <a href="https://portal.jawrahpixel.online/" className="underline underline-offset-4 hover:opacity-80" target="_blank" rel="noopener noreferrer">portal.jawrahpixel.online</a>
+                  <span> is our official client portal for authorised client access, proposals, and project documents.</span>
                 </p>
               </div>
               <a
-                href="https://jawrahpixel.online"
+                href="https://portal.jawrahpixel.online/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border px-4 py-2 text-xs font-medium transition-colors hover:opacity-80"
@@ -267,14 +268,14 @@ export function Footer() {
                   color: isDark ? '#ffffff' : '#090a0c',
                 }}
               >
-                Visit official .online domain
+                Open official client portal
               </a>
             </div>
             <p
               className="mt-3 text-[11px] leading-5"
               style={{ color: isDark ? 'rgb(113,113,122)' : 'rgb(113,113,122)' }}
             >
-              Need to verify a website claiming to represent us? Start at jawrahpixel.com and contact us through the details published here.
+              For authenticity checks, start at jawrahpixel.com. We identify portal.jawrahpixel.online as the official Jawrah Pixel client portal; never share credentials outside the official portal.
             </p>
           </section>
 
