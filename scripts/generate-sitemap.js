@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const SITE_URL = 'https://www.jawrahpixel.com';
-const LAST_MOD = new Date().toISOString().slice(0, 10);
 const FORBIDDEN_HOST_PATTERN = /(?:localhost|127\.0\.0\.1|\.vercel\.app|\.netlify\.app)/i;
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const SOURCE_DIR = path.join(process.cwd(), 'src');
@@ -20,11 +19,11 @@ function absoluteUrl(pagePath) {
 function urlEntry(pagePath, priority = '0.80') {
   const loc = absoluteUrl(pagePath);
   if (FORBIDDEN_HOST_PATTERN.test(loc) || !loc.startsWith(`${SITE_URL}/`)) throw new Error(`Refusing to write invalid sitemap URL: ${loc}`);
-  return ['  <url>', `    <loc>${escapeXml(loc)}</loc>`, `    <lastmod>${LAST_MOD}</lastmod>`, '  </url>'].join('\n');
+  return ['  <url>', `    <loc>${escapeXml(loc)}</loc>`, '  </url>'].join('\n');
 }
 
 function sitemapEntry(pagePath) {
-  return ['  <sitemap>', `    <loc>${escapeXml(absoluteUrl(pagePath))}</loc>`, `    <lastmod>${LAST_MOD}</lastmod>`, '  </sitemap>'].join('\n');
+  return ['  <sitemap>', `    <loc>${escapeXml(absoluteUrl(pagePath))}</loc>`, '  </sitemap>'].join('\n');
 }
 
 function generateSitemapFile(filename, entries) {
