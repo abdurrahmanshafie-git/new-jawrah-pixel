@@ -436,16 +436,16 @@ export function VerifiedPortfolioCaseStudy({ slug }: { slug: string }) {
             image: toAbsoluteUrl(project.image),
             about: project.industry,
             keywords: [project.title, project.industry, 'web design', 'web development', 'SEO', 'Jawrah Pixel'],
-            creator: { '@type': 'Organization', '@id': 'https://jawrahpixel.com/#organization', name: 'Jawrah Pixel', url: 'https://jawrahpixel.com/' },
-            publisher: { '@type': 'Organization', '@id': 'https://jawrahpixel.com/#organization', name: 'Jawrah Pixel' },
+            creator: { '@type': 'Organization', '@id': 'https://www.jawrahpixel.com/#organization', name: 'Jawrah Pixel', url: 'https://www.jawrahpixel.com/' },
+            publisher: { '@type': 'Organization', '@id': 'https://www.jawrahpixel.com/#organization', name: 'Jawrah Pixel' },
             inLanguage: 'en',
-            isPartOf: { '@type': 'WebSite', '@id': 'https://jawrahpixel.com/#website', name: 'Jawrah Pixel', url: 'https://jawrahpixel.com/' }
+            isPartOf: { '@type': 'WebSite', '@id': 'https://www.jawrahpixel.com/#website', name: 'Jawrah Pixel', url: 'https://www.jawrahpixel.com/' }
           },
           {
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jawrahpixel.com/' },
-              { '@type': 'ListItem', position: 2, name: 'Case Studies', item: 'https://jawrahpixel.com/case-studies' },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.jawrahpixel.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Case Studies', item: 'https://www.jawrahpixel.com/case-studies' },
               { '@type': 'ListItem', position: 3, name: project.title, item: toAbsoluteUrl(p(`/case-studies/${slug}`)) }
             ]
           },
