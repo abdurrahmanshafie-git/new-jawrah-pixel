@@ -249,8 +249,8 @@ export function Footer() {
                   Official domain & client portal
                 </p>
                 <p className="text-sm leading-6" style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}>
-                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.com</strong> is the primary official website of Jawrah Pixel.
-                  <span> jawrahpixel.online is also an official Jawrah Pixel domain. </span>
+                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.online</strong> is the primary official website of Jawrah Pixel.
+                  <span> jawrahpixel.com is also an official Jawrah Pixel domain. </span>
                   <a href="https://portal.jawrahpixel.online/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:opacity-80">
                     portal.jawrahpixel.online
                   </a>
@@ -271,7 +271,7 @@ export function Footer() {
               </a>
             </div>
             <p className="mt-3 text-[11px] leading-5" style={{ color: 'rgb(113,113,122)' }}>
-              To verify a website claiming to represent Jawrah Pixel, start at jawrahpixel.com and use the contact details published there.
+              To verify a website claiming to represent Jawrah Pixel, start at jawrahpixel.online and use the contact details published there.
             </p>
           </section>
 
