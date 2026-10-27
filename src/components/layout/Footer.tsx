@@ -231,6 +231,53 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Official domain trust notice */}
+          <section
+            aria-label="Official Jawrah Pixel domains"
+            className="mb-8 rounded-2xl border px-5 py-5 sm:px-6 sm:py-6"
+            style={{
+              borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.10)',
+              backgroundColor: isDark ? '#050505' : '#fafafa',
+            }}
+          >
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="max-w-2xl">
+                <p
+                  className="mb-2 text-[9px] font-mono font-bold uppercase tracking-[0.28em]"
+                  style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}
+                >
+                  Official domain notice
+                </p>
+                <p
+                  className="text-sm leading-6"
+                  style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}
+                >
+                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.com</strong> is our primary official website.
+                  <span> jawrahpixel.online is also an official Jawrah Pixel domain.</span>
+                  {' '}Both domains represent Jawrah Pixel.
+                </p>
+              </div>
+              <a
+                href="https://jawrahpixel.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border px-4 py-2 text-xs font-medium transition-colors hover:opacity-80"
+                style={{
+                  borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)',
+                  color: isDark ? '#ffffff' : '#090a0c',
+                }}
+              >
+                Visit official .online domain
+              </a>
+            </div>
+            <p
+              className="mt-3 text-[11px] leading-5"
+              style={{ color: isDark ? 'rgb(113,113,122)' : 'rgb(113,113,122)' }}
+            >
+              Need to verify a website claiming to represent us? Start at jawrahpixel.com and contact us through the details published here.
+            </p>
+          </section>
+
           {/* Bottom Bar */}
           <div 
             className="flex flex-col items-center justify-between gap-6 border-t pt-7 sm:pt-10 md:flex-row md:gap-8 md:pt-12"
