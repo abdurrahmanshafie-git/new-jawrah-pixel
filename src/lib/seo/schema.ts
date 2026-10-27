@@ -86,13 +86,7 @@ export function buildOrganizationSchema(): JsonLdNode {
       'Digital Systems',
     ],
     description:
-      'Jawrah Pixel is a digital agency providing web development, web design, UI/UX design, SEO, ecommerce, branding, AI solutions, custom web applications, and digital products. jawrahpixel.com is the primary official website; portal.jawrahpixel.online is the official Jawrah Pixel client portal for authorised client access, proposals, and project documents.',
-    subjectOf: {
-      '@type': 'WebSite',
-      name: 'Jawrah Pixel Official Client Portal',
-      url: 'https://portal.jawrahpixel.online/',
-      description: 'Official client portal operated by Jawrah Pixel for authorised client access, proposals, and project documents.',
-    },
+      'Jawrah Pixel is a digital agency providing web development, luxury web design, UI/UX design, SEO, ecommerce, branding, AI solutions, custom web applications, and digital products for Sri Lankan and international clients. The primary website is https://www.jawrahpixel.com/; https://jawrahpixel.online/ is also an official Jawrah Pixel website domain.',
   };
 }
 
@@ -102,7 +96,7 @@ export function buildWebsiteSchema(): JsonLdNode {
     '@id': `${appEnv.siteUrl}/#website`,
     url: appEnv.siteUrl,
     name: 'Jawrah Pixel',
-    alternateName: ['JawrahPixel', 'Jawrah Pixel Official Client Portal'],
+    alternateName: ['JawrahPixel'],
     inLanguage: ['en-LK', 'en-PK', 'en'],
     publisher: {
       '@id': `${appEnv.siteUrl}/#organization`,
