@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const SITE_URL = 'https://jawrahpixel.com';
+const SITE_URL = 'https://www.jawrahpixel.com';
 const LAST_MOD = new Date().toISOString().slice(0, 10);
 const FORBIDDEN_HOST_PATTERN = /(?:localhost|127\.0\.0\.1|\.vercel\.app|\.netlify\.app)/i;
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
