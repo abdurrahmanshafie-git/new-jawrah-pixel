@@ -231,47 +231,30 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Official domain and client portal verification notice */}
+          {/* Official domain notice */}
           <section
-            aria-label="Official Jawrah Pixel domains and client portal"
+            aria-label="Official Jawrah Pixel domain"
             className="mb-8 rounded-2xl border px-5 py-5 sm:px-6 sm:py-6"
             style={{
               borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.10)',
               backgroundColor: isDark ? '#050505' : '#fafafa',
             }}
           >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="max-w-2xl">
-                <p
-                  className="mb-2 text-[9px] font-mono font-bold uppercase tracking-[0.28em]"
-                  style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}
-                >
-                  Official domain & client portal
-                </p>
-                <p className="text-sm leading-6" style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}>
-                  <strong style={{ color: isDark ? '#ffffff' : '#090a0c' }}>jawrahpixel.online</strong> is the primary official website of Jawrah Pixel.
-                  <span> jawrahpixel.com is also an official Jawrah Pixel domain. </span>
-                  <a href="https://portal.jawrahpixel.online/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:opacity-80">
-                    portal.jawrahpixel.online
-                  </a>
-                  <span> is our official client portal for authorised client access, proposals, and project documents.</span>
-                </p>
-              </div>
+            <p
+              className="mb-2 text-[9px] font-mono font-bold uppercase tracking-[0.28em]"
+              style={{ color: isDark ? 'rgb(161,161,170)' : 'rgb(100,116,139)' }}
+            >
+              Official Website
+            </p>
+            <p className="text-sm leading-6" style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}>
               <a
-                href="https://portal.jawrahpixel.online/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border px-4 py-2 text-xs font-medium transition-colors hover:opacity-80"
-                style={{
-                  borderColor: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.14)',
-                  color: isDark ? '#ffffff' : '#090a0c',
-                }}
+                href="https://jawrahpixel.online/"
+                className="font-semibold underline underline-offset-4 hover:opacity-80"
+                style={{ color: isDark ? '#ffffff' : '#090a0c' }}
               >
-                Open official client portal
+                jawrahpixel.online
               </a>
-            </div>
-            <p className="mt-3 text-[11px] leading-5" style={{ color: 'rgb(113,113,122)' }}>
-              To verify a website claiming to represent Jawrah Pixel, start at jawrahpixel.online and use the contact details published there.
+              <span> is the official website of Jawrah Pixel. To verify our identity, start here and use the contact details published on this website.</span>
             </p>
           </section>
 
