@@ -134,8 +134,9 @@ export default function Login() {
       <SEO
         title="Client Login | Jawrah Pixel"
         description="Secure Jawrah Pixel client login for project dashboards, invoices, milestones, files, and premium digital delivery updates."
-        canonicalUrl="https://jawrahpixel.com/auth/login"
+        canonicalUrl="https://www.jawrahpixel.com/auth/login"
         keywords={['Jawrah Pixel login', 'client portal login', 'Jawrah Pixel dashboard']}
+        noIndex
         disableAutoHreflang
       />
 
