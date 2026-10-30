@@ -56,7 +56,7 @@ export function buildOrganizationSchema(): JsonLdNode {
       name: 'Abdurrahman Shafie',
       jobTitle: 'Founder & Creative Director',
       worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
-      sameAs: 'https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/',
+      sameAs: ['https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/'],
     },
     member: [
       {
