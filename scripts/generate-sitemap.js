@@ -225,3 +225,12 @@ generateSitemapIndex([
   '/sitemap-projects.xml', '/sitemap-blog.xml', '/sitemap-locations.xml',
   '/sitemap-images.xml',
 ]);
+
+
+// Keep robots sitemap discovery aligned with the generated canonical host.
+const robotsPath = path.join(PUBLIC_DIR, 'robots.txt');
+const existingRobots = fs.readFileSync(robotsPath, 'utf8');
+const sitemapNames = ['sitemap.xml', 'sitemap-pages.xml', 'sitemap-services.xml', 'sitemap-pricing.xml', 'sitemap-projects.xml', 'sitemap-blog.xml', 'sitemap-locations.xml', 'sitemap-images.xml'];
+const canonicalRobots = existingRobots.replace(/^Sitemap:.*(?:\r?\n|$)/gm, '').trimEnd() + '\n\n# Canonical sitemap URLs\n' + sitemapNames.map(name => 'Sitemap: ' + SITE_URL + '/' + name).join('\n') + '\n';
+fs.writeFileSync(robotsPath, canonicalRobots, 'utf8');
+console.log('robots.txt sitemap URLs aligned with ' + SITE_URL);
