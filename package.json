@@ -8,6 +8,7 @@
     "predev": "node scripts/optimize-images.js",
     "prebuild": "node scripts/optimize-images.js && node scripts/generate-sitemap.js",
     "build": "vite build",
+    "postbuild": "node scripts/check-seo.js",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
