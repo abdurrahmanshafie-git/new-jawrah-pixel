@@ -10,11 +10,13 @@ for (const file of files) {
   const filepath = path.join(root, file);
   if (!fs.existsSync(filepath)) { errors.push('Missing ' + file); continue; }
   const xml = fs.readFileSync(filepath, 'utf8');
+  const fileUrls = new Set();
   for (const match of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
     const url = match[1].replaceAll('&amp;', '&');
     if (!url.startsWith(host + '/')) errors.push(file + ': noncanonical URL ' + url);
     if (file !== 'sitemap.xml' && file !== 'sitemap-images.xml') {
-      if (urls.has(url)) errors.push('Duplicate page URL: ' + url);
+      if (fileUrls.has(url)) errors.push('Duplicate URL within ' + file + ': ' + url);
+      fileUrls.add(url);
       urls.add(url);
     }
   }
