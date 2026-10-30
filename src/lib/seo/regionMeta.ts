@@ -21,8 +21,8 @@ export const REGION_SEO: Record<RegionSeoKey, RegionSeoMap> = {
     home: {
       ...BASE,
       path: '',
-      title: 'Web Design Company Sri Lanka | Premium Websites | Jawrah Pixel',
-      description: 'Jawrah Pixel is a web design and development company in Sri Lanka creating premium business websites, ecommerce stores, jewellery websites, and custom web applications with technical SEO foundations.',
+      title: 'Jawrah Pixel | Web Design & Digital Solutions Sri Lanka',
+      description: 'Jawrah Pixel is a Sri Lankan web design and digital solutions company creating premium business websites, ecommerce stores, jewellery websites, and custom web applications with technical SEO foundations.',
       schemaType: 'Organization',
       keywords: [
         'web design company Sri Lanka',
