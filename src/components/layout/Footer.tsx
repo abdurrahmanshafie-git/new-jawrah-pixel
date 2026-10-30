@@ -248,13 +248,21 @@ export function Footer() {
             </p>
             <p className="text-sm leading-6" style={{ color: isDark ? 'rgb(212,212,216)' : 'rgb(63,63,70)' }}>
               <a
+                href="https://www.jawrahpixel.com/"
+                className="font-semibold underline underline-offset-4 hover:opacity-80"
+                style={{ color: isDark ? '#ffffff' : '#090a0c' }}
+              >
+                jawrahpixel.com
+              </a>
+              <span> is the primary official website of Jawrah Pixel. </span>
+              <a
                 href="https://jawrahpixel.online/"
                 className="font-semibold underline underline-offset-4 hover:opacity-80"
                 style={{ color: isDark ? '#ffffff' : '#090a0c' }}
               >
                 jawrahpixel.online
               </a>
-              <span> is the official website of Jawrah Pixel. To verify our identity, start here and use the contact details published on this website.</span>
+              <span> is also an official Jawrah Pixel domain. Use the contact details published on our primary website to verify our identity.</span>
             </p>
           </section>
 
