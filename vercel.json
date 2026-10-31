@@ -8,18 +8,114 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" }
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        }
       ]
     }
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/lk",
+      "destination": "/lk/index.html"
+    },
+    {
+      "source": "/lk/about",
+      "destination": "/lk/about/index.html"
+    },
+    {
+      "source": "/lk/leadership",
+      "destination": "/lk/leadership/index.html"
+    },
+    {
+      "source": "/lk/about-founder",
+      "destination": "/lk/about-founder/index.html"
+    },
+    {
+      "source": "/pk",
+      "destination": "/pk/index.html"
+    },
+    {
+      "source": "/pk/about",
+      "destination": "/pk/about/index.html"
+    },
+    {
+      "source": "/pk/leadership",
+      "destination": "/pk/leadership/index.html"
+    },
+    {
+      "source": "/pk/about-founder",
+      "destination": "/pk/about-founder/index.html"
+    },
+    {
+      "source": "/int",
+      "destination": "/int/index.html"
+    },
+    {
+      "source": "/int/about",
+      "destination": "/int/about/index.html"
+    },
+    {
+      "source": "/int/leadership",
+      "destination": "/int/leadership/index.html"
+    },
+    {
+      "source": "/int/about-founder",
+      "destination": "/int/about-founder/index.html"
+    },
+    {
+      "source": "/uk",
+      "destination": "/uk/index.html"
+    },
+    {
+      "source": "/uk/about",
+      "destination": "/uk/about/index.html"
+    },
+    {
+      "source": "/uk/leadership",
+      "destination": "/uk/leadership/index.html"
+    },
+    {
+      "source": "/uk/about-founder",
+      "destination": "/uk/about-founder/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/spa.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "jawrahpixel.com"
+        }
+      ],
+      "destination": "https://www.jawrahpixel.com/:path*",
+      "permanent": true
     }
   ]
 }

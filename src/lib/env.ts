@@ -1,27 +1,18 @@
 const PRODUCTION_SITE_URL = 'https://www.jawrahpixel.com';
-const rawSiteUrl = import.meta.env.VITE_APP_URL || import.meta.env.VITE_SITE_URL || PRODUCTION_SITE_URL;
-const rawSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const rawSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const rawSupabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
+const rawSupabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
 
 export const appEnv = {
-  siteUrl: normalizePublicSiteUrl(rawSiteUrl),
+  siteUrl: PRODUCTION_SITE_URL,
   supabaseUrl: rawSupabaseUrl || 'https://placeholder-project.supabase.co',
   supabaseAnonKey: rawSupabaseAnonKey || 'placeholder-key',
   hasSupabaseConfig: Boolean(rawSupabaseUrl && rawSupabaseAnonKey),
-  contactEmail: import.meta.env.VITE_ADMIN_EMAIL || import.meta.env.VITE_CONTACT_EMAIL || 'jawrahpixel@gmail.com',
-  contactWhatsapp: import.meta.env.VITE_BRAND_WHATSAPP || import.meta.env.VITE_CONTACT_WHATSAPP || '+94 76 273 7411',
-  brandInstagram: import.meta.env.VITE_BRAND_INSTAGRAM || import.meta.env.VITE_CONTACT_INSTA || '@jawrahpixel',
-  geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
-  turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITE_KEY || '',
+  contactEmail: import.meta.env?.VITE_ADMIN_EMAIL || import.meta.env?.VITE_CONTACT_EMAIL || 'jawrahpixel@gmail.com',
+  contactWhatsapp: import.meta.env?.VITE_BRAND_WHATSAPP || import.meta.env?.VITE_CONTACT_WHATSAPP || '+94 76 273 7411',
+  brandInstagram: import.meta.env?.VITE_BRAND_INSTAGRAM || import.meta.env?.VITE_CONTACT_INSTA || '@jawrahpixel',
+  geminiApiKey: import.meta.env?.VITE_GEMINI_API_KEY || '',
+  turnstileSiteKey: import.meta.env?.VITE_TURNSTILE_SITE_KEY || '',
 };
-
-function normalizePublicSiteUrl(value: string) {
-  const cleanValue = value.replace(/\/$/, '');
-  if (/localhost|127\.0\.0\.1|\.vercel\.app|\.netlify\.app/i.test(cleanValue)) {
-    return PRODUCTION_SITE_URL;
-  }
-  return cleanValue || PRODUCTION_SITE_URL;
-}
 
 export function toAbsoluteUrl(pathOrUrl: string) {
   if (/^https?:\/\//i.test(pathOrUrl)) {
