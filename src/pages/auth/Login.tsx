@@ -137,7 +137,6 @@ export default function Login() {
         canonicalUrl="https://www.jawrahpixel.com/auth/login"
         noIndex
         keywords={['Jawrah Pixel login', 'client portal login', 'Jawrah Pixel dashboard']}
-        noIndex
         disableAutoHreflang
       />
 
