@@ -76,7 +76,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
       <img
         src={sources.light}
         alt="Jawrah Pixel Logo"
-        loading={isNavbar ? 'eager' : 'lazy'}
+        loading={isNavbar || (size === 'xl' && typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) ? 'eager' : 'lazy'}
         decoding="async"
         width="560"
         height="112"
@@ -88,7 +88,7 @@ export function Logo({ className, size = 'md', asset, forceTheme }: LogoProps) {
       <img
         src={sources.dark}
         alt="Jawrah Pixel Logo"
-        loading={isNavbar ? 'eager' : 'lazy'}
+        loading={isNavbar || (size === 'xl' && typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches) ? 'eager' : 'lazy'}
         decoding="async"
         width="560"
         height="112"
