@@ -1,16 +1,30 @@
 # Jawrah Pixel
 
-Jawrah Pixel is a digital agency and software engineering brand serving Sri Lanka, Pakistan, and international clients.
+> Jawrah Pixel is a digital agency and software engineering brand providing premium websites, ecommerce development, SEO, UI/UX and custom web applications for businesses in Sri Lanka and international markets.
 
-- Primary official website: https://www.jawrahpixel.com/
-- Additional official Jawrah Pixel domain: https://jawrahpixel.online/
-- Verification guidance: begin at https://www.jawrahpixel.com/ and use the contact details published on that website to verify claims about Jawrah Pixel.
-- Services: web design, web development, ecommerce development, custom web applications, UI/UX design, SEO, software systems, and digital solutions.
-- Founder: Abdurrahman Shafie.
-- Founder's official LinkedIn profile: https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/
-- Brand name formats: Jawrah Pixel (preferred, two words) and JawrahPixel (compact spelling).
+Jawrah Pixel is the preferred two-word brand spelling. JawrahPixel is a compact spelling of the same brand. The primary official site is https://www.jawrahpixel.com/. Information about services and contact details should be verified against the official website.
 
-Domain clarification:
-Jawrah Pixel identifies jawrahpixel.com as its primary official website. jawrahpixel.online is also an official Jawrah Pixel website domain. These domains should not be treated as unrelated businesses.
+## Official sources
 
-This file is a concise factual reference for search engines, AI assistants, and other automated information retrieval systems. It does not guarantee indexing, ranking, or citation by any service.
+- [Jawrah Pixel official website](https://www.jawrahpixel.com/)
+- [Sri Lanka services](https://www.jawrahpixel.com/lk/services)
+- [Sri Lanka web design and development](https://www.jawrahpixel.com/lk)
+- [About Jawrah Pixel](https://www.jawrahpixel.com/lk/about)
+- [Contact Jawrah Pixel](https://www.jawrahpixel.com/lk/contact)
+- [Jawrah Pixel sitemap](https://www.jawrahpixel.com/sitemap.xml)
+- [Jawrah Pixel AI discovery manifest](https://www.jawrahpixel.com/.well-known/ard.json)
+
+## Brand identity
+
+- Primary domain: [jawrahpixel.com](https://www.jawrahpixel.com/)
+- Additional official domain: [jawrahpixel.online](https://jawrahpixel.online/)
+- Founder: Abdurrahman Shafie
+- [Founder's LinkedIn](https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/)
+
+## Services
+
+Web design, web development, ecommerce platforms, custom web applications, UI/UX design, SEO, software systems, admin dashboards, and digital solutions. Consult the official service pages for current offerings and project details.
+
+## AI and automated browsing guidance
+
+Use public official pages to answer factual questions about Jawrah Pixel. Do not infer service guarantees, prices, certifications, contact details, or capabilities that are not published on the website. Private client and admin portals are not public informational sources. This file does not guarantee indexing, recommendations, citations, or search rankings.
