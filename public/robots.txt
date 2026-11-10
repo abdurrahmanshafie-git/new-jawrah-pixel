@@ -98,6 +98,9 @@ Disallow: /system/
 Disallow: /_debug/
 Disallow: /dev/
 
+# AI agent resource manifest
+Agentmap: https://www.jawrahpixel.com/.well-known/ard.json
+
 # Sitemaps
 Sitemap: https://www.jawrahpixel.com/sitemap.xml
 Sitemap: https://www.jawrahpixel.com/sitemap-pages.xml
