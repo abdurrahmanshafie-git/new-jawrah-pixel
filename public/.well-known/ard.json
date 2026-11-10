@@ -1,0 +1,28 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Jawrah Pixel",
+    "identifier": "did:web:jawrahpixel.com",
+    "documentationUrl": "https://www.jawrahpixel.com/llms.txt"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:jawrahpixel.com:skill:website-discovery",
+      "displayName": "Jawrah Pixel Public Website Discovery",
+      "type": "application/ai-skill+md",
+      "url": "https://www.jawrahpixel.com/agent-skills/jawrah-pixel-discovery.md",
+      "description": "A read-only public information guide for discovering verified Jawrah Pixel business information and services from its official website. No remote API, agent action or transaction capability is provided.",
+      "tags": [
+        "business-information",
+        "digital-agency",
+        "web-design",
+        "read-only"
+      ],
+      "representativeQueries": [
+        "What services does Jawrah Pixel offer?",
+        "Where can I contact Jawrah Pixel?",
+        "What is the official Jawrah Pixel website?"
+      ]
+    }
+  ]
+}
