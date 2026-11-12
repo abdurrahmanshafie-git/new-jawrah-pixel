@@ -66,9 +66,19 @@ export function buildOrganizationSchema(): JsonLdNode {
         worksFor: { '@id': `${appEnv.siteUrl}/#organization` },
       },
     ],
+    // Entity identity links must refer to the organization, not an individual founder.
     sameAs: [
-      'https://www.instagram.com/jawrahpixel',
+      `https://www.instagram.com/${appEnv.brandInstagram.replace(/^@/, '')}/`,
+      ...(appEnv.brandFacebookUrl ? [appEnv.brandFacebookUrl] : []),
+      ...(appEnv.brandLinkedinCompanyUrl ? [appEnv.brandLinkedinCompanyUrl] : []),
     ],
+    contactPoint: [{
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      telephone: appEnv.contactWhatsapp,
+      url: `https://wa.me/${appEnv.contactWhatsapp.replace(/[^0-9]/g, '')}`,
+      availableLanguage: ['English'],
+    }],
     areaServed: ['Sri Lanka', 'Pakistan', 'Worldwide'],
     knowsAbout: [
       'Web Development',
