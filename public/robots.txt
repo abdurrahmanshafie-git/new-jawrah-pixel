@@ -5,6 +5,36 @@
 User-agent: *
 Allow: /
 
+# Authenticated and private customer surfaces (not public content)
+Disallow: /admin
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /client
+Disallow: /client/
+Disallow: /partner/dashboard
+Disallow: /partner/dashboard/
+Disallow: /agent
+Disallow: /agent/
+Disallow: /crm
+Disallow: /workspace
+Disallow: /messages
+Disallow: /invoices
+Disallow: /settings/private
+Disallow: /checkout
+Disallow: /checkout/
+
+# Internal APIs, staging, and temp paths
+Disallow: /api/
+Disallow: /tmp/
+Disallow: /temp/
+Disallow: /preview/
+Disallow: /internal/
+Disallow: /system/
+Disallow: /_debug/
+Disallow: /dev/
+
+
 # OpenAI Crawlers & Search Assistants (ChatGPT browsing, GPT analysis, search)
 User-agent: GPTBot
 Allow: /
@@ -68,35 +98,6 @@ Allow: /
 
 User-agent: CCBot
 Allow: /
-
-# Authenticated and private customer surfaces (not public content)
-Disallow: /admin
-Disallow: /admin/
-Disallow: /dashboard
-Disallow: /dashboard/
-Disallow: /client
-Disallow: /client/
-Disallow: /partner/dashboard
-Disallow: /partner/dashboard/
-Disallow: /agent
-Disallow: /agent/
-Disallow: /crm
-Disallow: /workspace
-Disallow: /messages
-Disallow: /invoices
-Disallow: /settings/private
-Disallow: /checkout
-Disallow: /checkout/
-
-# Internal APIs, staging, and temp paths
-Disallow: /api/
-Disallow: /tmp/
-Disallow: /temp/
-Disallow: /preview/
-Disallow: /internal/
-Disallow: /system/
-Disallow: /_debug/
-Disallow: /dev/
 
 # AI agent resource manifest
 Agentmap: https://www.jawrahpixel.com/.well-known/ard.json
