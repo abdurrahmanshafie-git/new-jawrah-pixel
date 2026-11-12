@@ -47,7 +47,7 @@ function render(pathname, page, region) {
     : region && !pathname.slice(1).includes('/') ? 'Web Design ' + regions[region].label + ' | Jawrah Pixel'
     : page.title;
   const heading = country ? page.heading + ' — ' + regions[region].label : page.heading;
-  const description = country ? page.description.replace(/\.$/, '') + '. For businesses in ' + country + '.' : page.description;
+  const description = country ? page.description.replace(/\.$/, '') + (region === 'int' ? '. For international clients.' : '. Serving ' + country + '.') : page.description;
   const prefix = region ? '/' + region : '/lk';
   const links = page.links || [prefix, prefix + '/services', prefix + '/case-studies', prefix + '/blog', prefix + '/contact'];
   const nav = links.map(link => '<a href="' + esc(link) + '">' + esc(link === prefix ? 'Home' : link.split('/').pop().replace(/-/g,' ')) + '</a>').join(' ');
@@ -88,7 +88,9 @@ function render(pathname, page, region) {
     'case-studies': [
       ['What our work demonstrates', 'Jawrah Pixel works across business websites, ecommerce experiences, brand-focused interfaces and custom digital products. Portfolio projects help explain the kinds of problems the design and development process addresses.'],
       ['How to evaluate a project', 'Look for the business goal, the intended audience, the page structure, the user experience and the decisions made around mobile usage, content and performance.'],
-      ['Explore our services', 'If you are planning a similar website or digital product, review our design, ecommerce and software services and contact the team with your requirements.']
+      ['Explore our services', 'If you are planning a similar website or digital product, review our design, ecommerce and software services and contact the team with your requirements.'],
+      ['Project planning and experience design', 'Different products require different discovery and design decisions. A business website needs clear service descriptions and navigation. Ecommerce experiences need helpful product information, a usable buying journey and support for business processes. Custom software needs well-defined user roles, workflows and maintainable interfaces. These considerations shape how Jawrah Pixel approaches each engagement.'],
+      ['From portfolio to your own brief', 'A portfolio is a starting point for discussing possibilities, not a promise that every project needs the same technology or visual style. When considering a new website, bring information about your audience, existing content, important integrations and business goals. Use those requirements to evaluate the kind of experience that would best serve your customers.']
     ]
   };
   const sections = (editorial[pathname.split('/').filter(Boolean).at(-1)] || editorial['']).map(([name, body]) => '<section><h2>' + esc(name) + '</h2><p>' + esc(body) + '</p></section>').join('');
