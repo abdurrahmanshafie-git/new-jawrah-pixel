@@ -69,7 +69,8 @@ export function buildOrganizationSchema(): JsonLdNode {
     // Entity identity links must refer to the organization, not an individual founder.
     sameAs: [
       `https://www.instagram.com/${appEnv.brandInstagram.replace(/^@/, '')}/`,
-      ...(appEnv.brandFacebookUrl ? [appEnv.brandFacebookUrl] : []),
+      // Facebook share links are navigational, not stable entity IDs for sameAs.
+      ...(appEnv.brandFacebookUrl && !/facebook\.com\/share\//i.test(appEnv.brandFacebookUrl) ? [appEnv.brandFacebookUrl] : []),
       ...(appEnv.brandLinkedinCompanyUrl ? [appEnv.brandLinkedinCompanyUrl] : []),
     ],
     contactPoint: [{
