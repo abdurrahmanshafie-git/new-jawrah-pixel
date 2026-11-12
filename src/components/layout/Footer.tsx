@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail, Lock, Linkedin } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, Lock, Linkedin, Facebook } from 'lucide-react';
 import { Logo } from './Logo';
 import { useRegion } from '@/hooks/useRegion';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -87,7 +87,9 @@ export function Footer() {
                   { icon: <Mail size={16} />, href: `mailto:${config.contactEmail}`, label: 'Email' },
                   { icon: <MessageCircle size={16} />, href: config.whatsappLink, label: 'WhatsApp' },
                   { icon: <Instagram size={16} />, href: config.instagramLink, label: 'Instagram' },
-                  { icon: <Linkedin size={16} />, href: config.linkedinFounderLink, label: 'LinkedIn' }
+                  ...(config.facebookLink ? [{ icon: <Facebook size={16} />, href: config.facebookLink, label: 'Facebook' }] : []),
+                  ...(config.linkedinCompanyLink ? [{ icon: <Linkedin size={16} />, href: config.linkedinCompanyLink, label: 'LinkedIn — Jawrah Pixel' }] : []),
+                  { icon: <Linkedin size={16} />, href: config.linkedinFounderLink, label: 'LinkedIn — Founder' }
                 ].map((social) => (
                   <a 
                     key={social.label}
