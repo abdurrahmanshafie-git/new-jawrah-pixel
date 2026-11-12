@@ -37,13 +37,62 @@ const setTag = (html, re, replacement) => re.test(html) ? html.replace(re, repla
 function render(pathname, page, region) {
   const url = origin + (pathname || '/');
   const country = region ? regions[region].country : null;
-  const title = country ? page.title.replace(' | Jawrah Pixel', ' in ' + country + ' | Jawrah Pixel') : page.title;
+  const titlesByRegion = {
+    lk: 'Digital Insights Sri Lanka | Jawrah Pixel',
+    pk: 'Digital Insights Pakistan | Jawrah Pixel',
+    int: 'Web Design & SEO Insights | Jawrah Pixel',
+    uk: 'Digital Insights UK | Jawrah Pixel'
+  };
+  const title = region && pathname.endsWith('/blog') ? titlesByRegion[region]
+    : region && !pathname.slice(1).includes('/') ? 'Web Design ' + regions[region].label + ' | Jawrah Pixel'
+    : page.title;
   const heading = country ? page.heading + ' — ' + regions[region].label : page.heading;
-  const description = country ? page.description.replace(/\.$/, '') + ' Serving ' + country + '.' : page.description;
+  const description = country ? page.description.replace(/\.$/, '') + '. For businesses in ' + country + '.' : page.description;
   const prefix = region ? '/' + region : '/lk';
   const links = page.links || [prefix, prefix + '/services', prefix + '/case-studies', prefix + '/blog', prefix + '/contact'];
   const nav = links.map(link => '<a href="' + esc(link) + '">' + esc(link === prefix ? 'Home' : link.split('/').pop().replace(/-/g,' ')) + '</a>').join(' ');
-  const content = '<main id="seo-pre-rendered-content" style="max-width:1100px;margin:0 auto;padding:8rem 1.5rem;color:inherit;font:16px/1.7 system-ui,sans-serif"><h1>' + esc(heading) + '</h1><p>' + esc(page.intro) + '</p><p>' + esc(description) + '</p><nav aria-label="Explore Jawrah Pixel">' + nav + '</nav></main>';
+  const editorial = {
+    '': [
+      ['Web design and development', 'Jawrah Pixel plans, designs and builds responsive websites for businesses that need clear messaging, fast loading experiences and dependable navigation. Every project starts with the needs of its customers, the content they are looking for and the actions they should be able to take.'],
+      ['Ecommerce and digital products', 'Our work covers ecommerce storefronts, jewellery and luxury retail experiences, interactive user interfaces and custom web applications. The goal is to help businesses present their products clearly, guide visitors through their services and support useful customer journeys.'],
+      ['Search and performance', 'We approach technical SEO alongside design and development. Important pages need descriptive titles, clear headings, useful internal links, accessible content and consistent canonical URLs. We also pay attention to mobile performance, accessibility, structured information and maintainability.'],
+      ['Explore the right regional website', 'Choose a regional site to explore services, work, pricing, insights and ways to contact Jawrah Pixel. Our website includes dedicated information for Sri Lanka, Pakistan, the United Kingdom and international clients.']
+    ],
+    about: [
+      ['What we do', 'Jawrah Pixel combines creative website design, front-end development, ecommerce implementation and technical SEO. Our work focuses on useful customer experiences rather than visual decoration alone.'],
+      ['How we approach projects', 'We begin by understanding the audience, the business goals and the information visitors need. Design, page structure, mobile usability and content clarity inform each implementation decision.'],
+      ['Long-term thinking', 'Business websites need room to evolve. We consider maintainable interfaces, navigation, accessibility, performance and clear ownership of content when building for continued growth.']
+    ],
+    services: [
+      ['Websites and ecommerce', 'We develop responsive business websites, service landing pages, product catalogues and ecommerce storefronts. Good navigation, helpful product detail and clear calls to action make the experience easier to use.'],
+      ['UI/UX and custom applications', 'Our design and development work includes interfaces for tailored business software, dashboards and digital products. We focus on structure, usability, readable content and predictable interactions.'],
+      ['SEO and performance', 'Technical search optimization includes crawlable page content, descriptive metadata, canonical control, internal linking, structured data where appropriate and mobile performance checks.'],
+      ['Project discovery', 'Contact Jawrah Pixel with your goals, intended audience, required functionality and preferred launch scope to discuss a suitable project direction.']
+    ],
+    blog: [
+      ['Web design and interface thinking', 'Our insights explore the decisions behind effective websites: useful page structure, mobile-friendly layouts, clear copy, accessible navigation and interactions that help visitors understand a business.'],
+      ['Technical SEO and performance', 'Topics include page titles, structured data, canonical URLs, search crawlability, page speed, image optimization and how modern front-end technology affects visibility in search engines.'],
+      ['Ecommerce and digital products', 'We discuss ecommerce experiences, product presentation, conversion journeys, custom web applications and the challenges that come with building polished digital products.'],
+      ['Practical context', 'These articles are written to help business owners and digital teams better understand design and development choices. Explore the latest posts on this page when the interactive website loads.']
+    ],
+    contact: [
+      ['Discuss a new website', 'Share what your organization does, who your customers are, and what you want visitors to accomplish. Helpful details include your existing website, required pages and the features that matter most.'],
+      ['Ecommerce and software enquiries', 'For an online shop, describe your product range, ordering needs and preferred workflows. For custom software, outline the users, tasks and integrations you need to support.'],
+      ['SEO and website improvements', 'For an existing site, tell us the problems you want to solve, such as slow pages, unclear navigation, inconsistent metadata or difficulties with search visibility.']
+    ],
+    pricing: [
+      ['What affects project scope', 'Website and software budgets depend on page count, visual design needs, content preparation, ecommerce functionality, integrations, administration tools, testing and long-term support.'],
+      ['Start with your requirements', 'A focused landing page is different from a full ecommerce storefront or a complex web application. Clear goals and a list of essential features help determine an appropriate approach.'],
+      ['Review services and contact us', 'Explore the service pages for more context, then explain the scope of your project to request a tailored discussion.']
+    ],
+    'case-studies': [
+      ['What our work demonstrates', 'Jawrah Pixel works across business websites, ecommerce experiences, brand-focused interfaces and custom digital products. Portfolio projects help explain the kinds of problems the design and development process addresses.'],
+      ['How to evaluate a project', 'Look for the business goal, the intended audience, the page structure, the user experience and the decisions made around mobile usage, content and performance.'],
+      ['Explore our services', 'If you are planning a similar website or digital product, review our design, ecommerce and software services and contact the team with your requirements.']
+    ]
+  };
+  const sections = (editorial[pathname.split('/').filter(Boolean).at(-1)] || editorial['']).map(([name, body]) => '<section><h2>' + esc(name) + '</h2><p>' + esc(body) + '</p></section>').join('');
+  const content = '<main id="seo-pre-rendered-content" style="max-width:1100px;margin:0 auto;padding:8rem 1.5rem;color:inherit;font:16px/1.7 system-ui,sans-serif"><h1>' + esc(heading) + '</h1><p>' + esc(page.intro) + '</p><p>' + esc(description) + '</p>' + sections + '<nav aria-label="Explore Jawrah Pixel">' + nav + '</nav></main>';
   let html = original;
   html = setTag(html, /<title>[\s\S]*?<\/title>/, '<title>' + esc(title) + '</title>');
   html = setTag(html, /<meta name="description"[^>]*>/, '<meta name="description" content="' + esc(description) + '" />');
