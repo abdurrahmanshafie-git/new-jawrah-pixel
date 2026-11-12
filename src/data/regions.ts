@@ -11,6 +11,7 @@ export interface RegionConfig {
   whatsappLink: string;
   instagramLink: string;
   instagramHandle: string;
+  facebookLink: string;
   linkedinCompanyLink: string;
   linkedinFounderLink: string;
   locations: string[];
@@ -39,7 +40,8 @@ export const REGION_OPTIONS: Array<{
   { id: 'int', label: 'International', shortLabel: 'INT', path: '/int', caption: 'USD global portal' },
 ];
 
-const DEFAULT_LINKEDIN_COMPANY = "https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/";
+const DEFAULT_LINKEDIN_COMPANY = appEnv.brandLinkedinCompanyUrl;
+const DEFAULT_FACEBOOK = appEnv.brandFacebookUrl;
 const DEFAULT_LINKEDIN_FOUNDER = "https://www.linkedin.com/in/abdurrahman-shafie-5a16923a3/";
 
 export const regions: Record<RegionCode, RegionConfig> = {
@@ -53,6 +55,7 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    facebookLink: DEFAULT_FACEBOOK,
     linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
     linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['Sri Lanka Operations', 'Remote-First Agency'],
@@ -71,6 +74,7 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    facebookLink: DEFAULT_FACEBOOK,
     linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
     linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['Pakistan Operations', 'Remote-First Agency'],
@@ -89,6 +93,7 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    facebookLink: DEFAULT_FACEBOOK,
     linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
     linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['International Operations', 'Remote-First Agency'],
@@ -107,6 +112,7 @@ export const regions: Record<RegionCode, RegionConfig> = {
     whatsappLink: DEFAULT_WHATSAPP_LINK,
     instagramLink: DEFAULT_INSTA_LINK,
     instagramHandle: DEFAULT_INSTA_HANDLE,
+    facebookLink: DEFAULT_FACEBOOK,
     linkedinCompanyLink: DEFAULT_LINKEDIN_COMPANY,
     linkedinFounderLink: DEFAULT_LINKEDIN_FOUNDER,
     locations: ['London-Centric Operations', 'Remote-First Agency'],
