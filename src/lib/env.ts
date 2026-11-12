@@ -12,7 +12,7 @@ export const appEnv = {
   contactWhatsapp: import.meta.env.VITE_BRAND_WHATSAPP || import.meta.env.VITE_CONTACT_WHATSAPP || '+94 76 273 7411',
   brandInstagram: import.meta.env.VITE_BRAND_INSTAGRAM || import.meta.env.VITE_CONTACT_INSTA || '@jawrahpixel',
   // Only set these to verified, official business profile URLs. Unset profiles are never displayed.
-  brandFacebookUrl: import.meta.env.VITE_BRAND_FACEBOOK_URL || '',
+  brandFacebookUrl: import.meta.env.VITE_BRAND_FACEBOOK_URL || 'https://www.facebook.com/share/1FW8yZTWzD/',
   brandLinkedinCompanyUrl: import.meta.env.VITE_BRAND_LINKEDIN_COMPANY_URL || '',
   geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
   turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITE_KEY || '',
